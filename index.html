@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>シニアデジタル支援事業 採算シミュレーター</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap');
+
+  :root {
+    --ink: #1b222b;
+    --ink-soft: #4d5763;
+    --ink-mute: #7b8590;
+    --paper: #f4f1ea;
+    --paper-2: #efebe1;
+    --card: #ffffff;
+    --line: #e5e0d4;
+    --line-soft: #eee9de;
+    --teal: #2f6d68;
+    --teal-deep: #245450;
+    --teal-soft: #e4efed;
+    --amber: #c1811f;
+    --amber-soft: #f7efe0;
+    --rose: #b0473f;
+    --rose-soft: #faece7;
+    --box-a: #2f6d68;
+    --box-b: #9a7526;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 1px 2px rgba(27,34,43,.04), 0 10px 30px rgba(27,34,43,.07);
+    --shadow-sm: 0 1px 2px rgba(27,34,43,.05), 0 4px 14px rgba(27,34,43,.05);
+    --ease: cubic-bezier(.4,.14,.3,1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    background:
+      radial-gradient(1200px 480px at 50% -220px, #ffffff 0%, rgba(255,255,255,0) 70%),
+      var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    padding: 0 0 72px;
+  }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  header {
+    border-bottom: 1px solid var(--line);
+    padding: 52px 0 30px;
+    margin-bottom: 34px;
+  }
+  .eyebrow {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .18em;
+    color: var(--teal);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: clamp(26px, 4.5vw, 40px);
+    font-weight: 900;
+    letter-spacing: -.01em;
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+  h1 .thin { font-weight: 500; color: var(--ink-soft); }
+  .sub {
+    color: var(--ink-soft);
+    font-size: 15px;
+    max-width: 640px;
+  }
+
+  .layout { display: grid; grid-template-columns: 1fr; gap: 28px; }
+  @media (min-width: 900px) {
+    .layout { grid-template-columns: 384px 1fr; align-items: start; gap: 32px; }
+    .controls { position: sticky; top: 24px; }
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 26px 24px;
+  }
+  .card + .card { margin-top: 20px; }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 4px;
+  }
+  .card-title .num {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: #fff;
+    background: linear-gradient(150deg, var(--teal) 0%, var(--teal-deep) 100%);
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(47,109,104,.35);
+  }
+  .card-note { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 20px; }
+
+  .field { margin-bottom: 22px; }
+  .field:last-child { margin-bottom: 0; }
+  .field-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 9px;
+  }
+  .field label { font-size: 13.5px; font-weight: 500; color: var(--ink-soft); }
+  .field .val {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--teal);
+    background: var(--teal-soft);
+    padding: 2px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: background .2s var(--ease), color .2s var(--ease);
+  }
+  .field.amber-field .val { color: #8f5f16; background: var(--amber-soft); }
+  .field .hint { font-size: 11.5px; color: var(--ink-mute); margin-top: 7px; }
+
+  input[type=range] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 6px;
+    background: linear-gradient(var(--teal), var(--teal)) 0/var(--p,20%) 100% no-repeat, var(--line);
+    border-radius: 999px;
+    outline: none;
+    cursor: pointer;
+    transition: background-size .12s linear;
+  }
+  input[type=range].amber {
+    background: linear-gradient(var(--amber), var(--amber)) 0/var(--p,20%) 100% no-repeat, var(--line);
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--teal);
+    border: 4px solid #fff;
+    box-shadow: 0 1px 5px rgba(27,34,43,.28);
+    cursor: pointer;
+    transition: transform .12s var(--ease), box-shadow .12s var(--ease);
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--teal);
+    border: 4px solid #fff;
+    box-shadow: 0 1px 5px rgba(27,34,43,.28);
+    cursor: pointer;
+    transition: transform .12s var(--ease), box-shadow .12s var(--ease);
+  }
+  input[type=range]:hover::-webkit-slider-thumb { transform: scale(1.12); }
+  input[type=range]:active::-webkit-slider-thumb { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(47,109,104,.14); }
+  input[type=range]:hover::-moz-range-thumb { transform: scale(1.12); }
+  input[type=range]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 6px rgba(47,109,104,.2); }
+  input[type=range].amber::-webkit-slider-thumb { background: var(--amber); }
+  input[type=range].amber::-moz-range-thumb { background: var(--amber); }
+  input[type=range].amber:active::-webkit-slider-thumb { box-shadow: 0 0 0 6px rgba(193,129,31,.16); }
+
+  /* Results */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .compare { grid-template-columns: 1fr; } }
+
+  .scenario {
+    border-radius: var(--radius);
+    padding: 24px 22px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+  }
+  .scenario::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+  .scenario.a::before { background: linear-gradient(90deg, var(--box-a), #3d857f); }
+  .scenario.b::before { background: linear-gradient(90deg, var(--box-b), #b48d38); }
+  .scenario h3 {
+    font-size: 15.5px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .scenario .tag { font-size: 12px; color: var(--ink-mute); margin-bottom: 18px; }
+
+  .bottomline {
+    font-family: 'Roboto Mono', monospace;
+    font-weight: 500;
+    font-size: clamp(28px, 6.5vw, 32px);
+    letter-spacing: -.02em;
+    line-height: 1.05;
+    transition: color .2s var(--ease);
+  }
+  .bottomline .yen { font-size: 17px; margin-right: 2px; opacity: .8; }
+  .bl-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    color: var(--ink-mute);
+    margin-bottom: 5px;
+  }
+  .positive { color: var(--teal); }
+  .negative { color: var(--rose); }
+
+  .breakdown { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 14px; }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 13px;
+    padding: 5px 0;
+  }
+  .row .k { color: var(--ink-soft); }
+  .row .v { font-family: 'Roboto Mono', monospace; font-weight: 500; }
+  .row.rev .v { color: var(--teal); }
+  .row.cost .v { color: var(--rose); }
+  .row.sum { border-top: 1px dashed var(--line); margin-top: 6px; padding-top: 10px; font-weight: 700; }
+  .row.sum .k { color: var(--ink); font-weight: 700; }
+
+  .verdict {
+    margin-top: 16px;
+    font-size: 12.5px;
+    padding: 11px 13px;
+    border-radius: var(--radius-sm);
+    line-height: 1.6;
+    border: 1px solid transparent;
+  }
+  .verdict.ok { background: var(--teal-soft); border-color: #cfe4e0; color: #1f5450; }
+  .verdict.warn { background: var(--rose-soft); border-color: #f0d5cd; color: #8a3a32; }
+
+  .breakeven {
+    margin-top: 20px;
+    background: linear-gradient(180deg, #fcfaf5, #f9f6ef);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    font-size: 13.5px;
+    line-height: 1.75;
+  }
+  .breakeven strong { display: inline-block; margin-bottom: 4px; }
+  .breakeven b { color: var(--teal); font-family: 'Roboto Mono', monospace; }
+
+  .assump {
+    margin-top: 24px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+  .assump summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 13px;
+    padding: 6px 0;
+  }
+  .assump ul { margin: 8px 0 0 18px; }
+  .assump li { margin-bottom: 6px; }
+
+  .split-toggle {
+    display: flex;
+    gap: 4px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    padding: 4px;
+    margin-bottom: 18px;
+  }
+  .split-toggle button {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 9px 4px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background .18s var(--ease), color .18s var(--ease), box-shadow .18s var(--ease);
+  }
+  .split-toggle button:hover { color: var(--ink); }
+  .split-toggle button.active {
+    background: #fff;
+    color: var(--teal-deep);
+    font-weight: 700;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* ---- Mobile optimization ---- */
+  @media (max-width: 640px) {
+    body { padding-bottom: 48px; }
+    .wrap { padding: 0 16px; }
+    header { padding: 32px 0 22px; margin-bottom: 24px; }
+    .sub { font-size: 14px; }
+    .layout { gap: 22px; }
+    .card { padding: 20px 17px; border-radius: 14px; }
+    .card + .card { margin-top: 16px; }
+    .field { margin-bottom: 24px; }         /* more room so thumbs are easy to grab */
+    .field label { font-size: 14px; }
+    .field .val { font-size: 14.5px; }
+    /* bigger touch target for sliders */
+    input[type=range] { height: 8px; }
+    input[type=range]::-webkit-slider-thumb { width: 26px; height: 26px; }
+    input[type=range]::-moz-range-thumb { width: 26px; height: 26px; }
+    .scenario { padding: 20px 18px; }
+    .split-toggle button { padding: 12px 4px; font-size: 13px; }
+    .breakeven { padding: 18px; }
+    .card[style] { margin-top: 16px !important; }
+  }
+
+  /* keep the two result cards side-by-side on small phones would be cramped:
+     stack them, but tighten the gap */
+  @media (max-width: 560px) {
+    .compare { gap: 12px; }
+    .bottomline { font-size: 30px; }
+  }
+
+  @media (hover: none) {
+    /* on touch devices, keep the resting thumb a touch larger and skip hover scaling */
+    input[type=range]::-webkit-slider-thumb { box-shadow: 0 1px 6px rgba(27,34,43,.3); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Feasibility Simulator</div>
+    <h1>シニアデジタル支援事業<br><span class="thin">採算シミュレーター</span></h1>
+    <p class="sub">「必要なものだけを、正直に」を貫いた場合の採算を、控えめな数字で検証します。左の数値を動かすと、<strong>箱なし</strong>（公民館・出張）と<strong>箱あり</strong>（カフェ等併設）の月次収支がリアルタイムで比較されます。</p>
+  </header>
+
+  <div class="layout">
+    <!-- CONTROLS -->
+    <div class="controls">
+      <div class="card">
+        <div class="card-title"><span class="num">1</span>集客と接点</div>
+        <div class="card-note">看板集客を失った前提で、控えめに置いています。</div>
+
+        <div class="field">
+          <div class="field-head"><label>月間の教室・相談 接点数</label><span class="val" id="v_reach">12人</span></div>
+          <input type="range" id="reach" min="0" max="60" value="12" step="1">
+          <div class="hint">チラシ＋低価格お試しで現実的に会えるシニアの人数</div>
+        </div>
+
+        <div class="field">
+          <div class="field-head"><label>教室お試し参加費</label><span class="val" id="v_fee">1,000円</span></div>
+          <input type="range" id="fee" min="0" max="3000" value="1000" step="100">
+          <div class="hint">フロント。信頼構築が目的なので低価格</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="num">2</span>バックエンド（良心的商材）</div>
+        <div class="card-note">「必要な人だけ」なので成約率は低めが誠実。</div>
+
+        <div class="field">
+          <div class="field-head"><label>商材紹介の成約率</label><span class="val" id="v_conv">20%</span></div>
+          <input type="range" id="conv" class="amber" min="0" max="60" value="20" step="1">
+          <div class="hint">接点のうち、本当に必要で成約する割合</div>
+        </div>
+
+        <div class="field">
+          <div class="field-head"><label>1件あたり報酬（初回）</label><span class="val" id="v_shot">3,000円</span></div>
+          <input type="range" id="shot" class="amber" min="0" max="15000" value="3000" step="500">
+          <div class="hint">モバイル保険・独立系商材の取次一時報酬の目安</div>
+        </div>
+
+        <div class="field">
+          <div class="field-head"><label>1件あたり継続報酬（月額）</label><span class="val" id="v_stock">300円</span></div>
+          <input type="range" id="stock" class="amber" min="0" max="1500" value="300" step="50">
+          <div class="hint">契約が続く限り毎月積み上がるストック収益</div>
+        </div>
+
+        <div class="field">
+          <div class="field-head"><label>継続サポート月額会員 転換率</label><span class="val" id="v_subrate">10%</span></div>
+          <input type="range" id="subrate" class="amber" min="0" max="50" value="10" step="1">
+          <div class="hint">接点のうち月額サポート会員になる割合</div>
+        </div>
+        <div class="field">
+          <div class="field-head"><label>サポート会員 月会費</label><span class="val" id="v_subfee">2,000円</span></div>
+          <input type="range" id="subfee" class="amber" min="0" max="5000" value="2000" step="500">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span class="num">3</span>時間の経過</div>
+        <div class="field">
+          <div class="field-head"><label>継続分が積み上がった月数</label><span class="val" id="v_month">6ヶ月目</span></div>
+          <input type="range" id="month" min="1" max="24" value="6" step="1">
+          <div class="hint">ストック収益・会員は毎月積み上がる想定（解約は下の前提参照）</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results">
+      <div class="split-toggle">
+        <button id="tab_a" class="active">箱なし固定費で比較</button>
+        <button id="tab_b">箱あり固定費で比較</button>
+      </div>
+
+      <div class="compare">
+        <!-- Scenario A: box-less -->
+        <div class="scenario a">
+          <h3>箱なし</h3>
+          <div class="tag">公民館・提携場所・出張</div>
+          <div class="bl-label">月次の営業利益</div>
+          <div class="bottomline" id="profitA"><span class="yen">¥</span>0</div>
+          <div class="breakdown" id="breakA"></div>
+          <div class="verdict" id="verdictA"></div>
+        </div>
+
+        <!-- Scenario B: with box -->
+        <div class="scenario b">
+          <h3>箱あり</h3>
+          <div class="tag">カフェ・修理併設など拠点</div>
+          <div class="bl-label">月次の営業利益</div>
+          <div class="bottomline" id="profitB"><span class="yen">¥</span>0</div>
+          <div class="breakdown" id="breakB"></div>
+          <div class="verdict" id="verdictB"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px;">
+        <div class="card-title">固定費の前提（切替可）</div>
+        <div class="card-note">「箱あり」で追加する月次固定費。カフェ売上は本シミュレーターでは相殺せず、純粋な負担として置いています（本業を薄めるリスクを可視化するため）。</div>
+        <div class="field">
+          <div class="field-head"><label>箱なしの月次固定費</label><span class="val" id="v_fixA">10,000円</span></div>
+          <input type="range" id="fixA" min="0" max="80000" value="10000" step="5000">
+          <div class="hint">会場時間借り・チラシ・通信・雑費など</div>
+        </div>
+        <div class="field">
+          <div class="field-head"><label>箱ありの月次固定費（家賃・光熱・什器等）</label><span class="val" id="v_fixB">220,000円</span></div>
+          <input type="range" id="fixB" min="50000" max="500000" value="220000" step="10000">
+          <div class="hint">小規模店舗の家賃＋光熱＋初期償却の月割など</div>
+        </div>
+      </div>
+
+      <div class="breakeven" id="breakeven"></div>
+
+      <details class="assump">
+        <summary>試算の前提と注意（必ずお読みください）</summary>
+        <ul>
+          <li>本ツールは<strong>意思決定の当たりをつけるための概算</strong>で、確定的な予測ではありません。実際の契約条件・報酬は各社への資料請求で確認してください。</li>
+          <li>収益は「2人（松田さん＋パートナー）の合算」ではなく<strong>事業全体の月次</strong>として表示しています。役員報酬・人件費は営業利益の下（＝ここから2人で分ける原資）に位置します。</li>
+          <li>継続報酬・月額会員は「経過月数」に比例して単純に積み上がる楽観前提です。<strong>実際は解約が発生する</strong>ため、6ヶ月目以降は解約率を別途見込む必要があります（コミュニティ型なら解約は抑えやすい、が本事業の仮説）。</li>
+          <li>「箱あり」のカフェ・修理の<strong>売上は意図的に含めていません</strong>。箱は「固定費という重し」として最も厳しく評価し、それでも支援事業が回るかを見るためです。カフェ単体で黒字化できる自信がある場合は別途上乗せして考えてください。</li>
+          <li>成約率は「必要な人だけに勧める」思想を反映し、低め（初期値20%）を推奨初期値としています。オプション大量付帯をすれば数字は上がりますが、それは本事業の否定です。</li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const yen = n => Math.round(n).toLocaleString('ja-JP');
+
+  const ids = ['reach','fee','conv','shot','stock','subrate','subfee','month','fixA','fixB'];
+  ids.forEach(id => $(id).addEventListener('input', render));
+
+  // amber slider fields get amber value-pill styling
+  ['conv','shot','stock','subrate','subfee'].forEach(id => {
+    const f = $(id).closest('.field');
+    if (f) f.classList.add('amber-field');
+  });
+
+  // paint the filled portion of each slider track
+  function paintTracks() {
+    ids.forEach(id => {
+      const el = $(id);
+      const min = +el.min, max = +el.max, v = +el.value;
+      const pct = max > min ? ((v - min) / (max - min)) * 100 : 0;
+      el.style.setProperty('--p', pct + '%');
+    });
+  }
+
+  let boxMode = 'A'; // which fixed cost highlighted in breakeven
+  $('tab_a').addEventListener('click', () => { boxMode='A'; $('tab_a').classList.add('active'); $('tab_b').classList.remove('active'); render(); });
+  $('tab_b').addEventListener('click', () => { boxMode='B'; $('tab_b').classList.add('active'); $('tab_a').classList.remove('active'); render(); });
+
+  function calc() {
+    const reach = +$('reach').value;
+    const fee = +$('fee').value;
+    const conv = +$('conv').value / 100;
+    const shot = +$('shot').value;
+    const stock = +$('stock').value;
+    const subrate = +$('subrate').value / 100;
+    const subfee = +$('subfee').value;
+    const month = +$('month').value;
+    const fixA = +$('fixA').value;
+    const fixB = +$('fixB').value;
+
+    // Monthly new conversions
+    const newDeals = reach * conv;          // 新規商材成約/月
+    const newSubs = reach * subrate;        // 新規会員/月
+
+    // Revenue streams (this month)
+    const feeRev = reach * fee;                       // 教室参加費
+    const shotRev = newDeals * shot;                  // 初回報酬（当月新規分）
+    const stockRev = newDeals * stock * month;        // 継続報酬（積み上がり）
+    const subRev = newSubs * subfee * month;          // 月額会員（積み上がり）
+
+    const revenue = feeRev + shotRev + stockRev + subRev;
+
+    return { reach, fee, conv, shot, stock, subrate, subfee, month,
+             fixA, fixB, newDeals, newSubs,
+             feeRev, shotRev, stockRev, subRev, revenue };
+  }
+
+  function breakdownHTML(d, fixed) {
+    const profit = d.revenue - fixed;
+    return `
+      <div class="row rev"><span class="k">教室参加費 (${d.reach}人)</span><span class="v">¥${yen(d.feeRev)}</span></div>
+      <div class="row rev"><span class="k">初回報酬 (${d.newDeals.toFixed(1)}件/月)</span><span class="v">¥${yen(d.shotRev)}</span></div>
+      <div class="row rev"><span class="k">継続報酬 (${d.month}ヶ月分)</span><span class="v">¥${yen(d.stockRev)}</span></div>
+      <div class="row rev"><span class="k">月額会員 (累計${(d.newSubs*d.month).toFixed(0)}人)</span><span class="v">¥${yen(d.subRev)}</span></div>
+      <div class="row cost"><span class="k">固定費</span><span class="v">−¥${yen(fixed)}</span></div>
+      <div class="row sum"><span class="k">営業利益</span><span class="v ${profit>=0?'positive':'negative'}">¥${yen(profit)}</span></div>
+    `;
+  }
+
+  function verdictHTML(profit, fixed, d) {
+    if (profit >= fixed * 0.5 && profit > 80000) {
+      return `<div class="verdict ok">2人で分ける原資として月 ¥${yen(profit)}。副業〜準本業として成立が見えます。解約率を織り込んでも耐えるか、経過月数を増やして確認を。</div>`;
+    } else if (profit >= 0) {
+      return `<div class="verdict ok">黒字だが薄利（月 ¥${yen(profit)}）。2人で分けると各自の取り分は小さい。接点数・単価・継続の積み上げで厚みを出す設計が要ります。</div>`;
+    } else {
+      return `<div class="verdict warn">赤字（月 ¥${yen(profit)}）。この固定費水準では、現状の集客・成約前提だと持ちません。固定費を下げるか、接点数を増やす前提が必要です。</div>`;
+    }
+  }
+
+  function render() {
+    paintTracks();
+    // update labels
+    $('v_reach').textContent = $('reach').value + '人';
+    $('v_fee').textContent = (+$('fee').value).toLocaleString() + '円';
+    $('v_conv').textContent = $('conv').value + '%';
+    $('v_shot').textContent = (+$('shot').value).toLocaleString() + '円';
+    $('v_stock').textContent = (+$('stock').value).toLocaleString() + '円';
+    $('v_subrate').textContent = $('subrate').value + '%';
+    $('v_subfee').textContent = (+$('subfee').value).toLocaleString() + '円';
+    $('v_month').textContent = $('month').value + 'ヶ月目';
+    $('v_fixA').textContent = (+$('fixA').value).toLocaleString() + '円';
+    $('v_fixB').textContent = (+$('fixB').value).toLocaleString() + '円';
+
+    const d = calc();
+    const profitA = d.revenue - d.fixA;
+    const profitB = d.revenue - d.fixB;
+
+    $('profitA').innerHTML = `<span class="yen">¥</span>${yen(profitA)}`;
+    $('profitA').className = 'bottomline ' + (profitA>=0?'positive':'negative');
+    $('profitB').innerHTML = `<span class="yen">¥</span>${yen(profitB)}`;
+    $('profitB').className = 'bottomline ' + (profitB>=0?'positive':'negative');
+
+    $('breakA').innerHTML = breakdownHTML(d, d.fixA);
+    $('breakB').innerHTML = breakdownHTML(d, d.fixB);
+    $('verdictA').outerHTML = verdictHTML(profitA, d.fixA, d).replace('class="verdict', 'id="verdictA" class="verdict');
+    $('verdictB').outerHTML = verdictHTML(profitB, d.fixB, d).replace('class="verdict', 'id="verdictB" class="verdict');
+
+    // Break-even: how many reach needed to cover chosen fixed cost
+    const fixed = boxMode==='A' ? d.fixA : d.fixB;
+    const perReach = d.reach>0 ? d.revenue / d.reach : 0;
+    let beText;
+    if (perReach <= 0) {
+      beText = '接点1人あたりの収益がゼロのため、損益分岐は算出できません。';
+    } else {
+      const need = Math.ceil(fixed / perReach);
+      const label = boxMode==='A' ? '箱なし' : '箱あり';
+      beText = `いまの単価・成約・経過月数の前提だと、<b>${label}</b>の固定費（¥${yen(fixed)}）を回収する損益分岐点は、月 <b>${need}人</b>の接点です（現在 ${d.reach}人）。接点1人あたり収益は約 <b>¥${yen(perReach)}</b>。`;
+    }
+    $('breakeven').innerHTML = `<strong>損益分岐点</strong><br>${beText}`;
+  }
+
+  render();
+</script>
+</body>
+</html>
