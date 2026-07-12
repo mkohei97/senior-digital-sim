@@ -222,14 +222,14 @@
         <div class="card-title"><span class="num">1</span>中古端末（主力）</div>
         <div class="card-note">買い取って、直して、売る。在庫は客が持ってきてくれる。</div>
         <div class="field">
-          <div class="field-head"><label>月間の販売台数</label><span class="val" id="v_dev">15台</span></div>
-          <input type="range" id="dev" min="0" max="120" value="15" step="1">
-          <div class="hint">中古スマホ市場は7年連続で過去最高。追い風の側にいる</div>
+          <div class="field-head"><label>月間の販売台数</label><span class="val" id="v_dev">10台</span></div>
+          <input type="range" id="dev" min="0" max="120" value="10" step="1">
+          <div class="hint">市場は7年連続で過去最高。ただし個人が1人で回せるのは月25〜47台が実感値の上限</div>
         </div>
         <div class="field">
-          <div class="field-head"><label>1台あたり粗利</label><span class="val" id="v_devm">10,000円</span></div>
-          <input type="range" id="devm" min="0" max="30000" value="10000" step="1000">
-          <div class="hint">買取価格と再販価格の差。相場は5,000〜20,000円が目安</div>
+          <div class="field-head"><label>1台あたり粗利</label><span class="val" id="v_devm">8,000円</span></div>
+          <input type="range" id="devm" min="0" max="30000" value="8000" step="500">
+          <div class="hint">実勢：店頭買取なら8,000〜12,000円。<strong>保守的には5,000〜10,000円</strong>で組むのが安全（業者仕入だと3,000〜8,000円まで落ちる）</div>
         </div>
       </div>
 
@@ -237,13 +237,14 @@
         <div class="card-title"><span class="num">2</span>修理・役務・物販</div>
         <div class="card-note">人の手が要る仕事。AIが進んでも消えない領域。</div>
         <div class="field amber-field">
-          <div class="field-head"><label>月間の修理件数</label><span class="val" id="v_rep">10件</span></div>
-          <input type="range" id="rep" class="amber" min="0" max="100" value="10" step="1">
-          <div class="hint">画面割れ・バッテリー交換など</div>
+          <div class="field-head"><label>月間の修理件数</label><span class="val" id="v_rep">25件</span></div>
+          <input type="range" id="rep" class="amber" min="0" max="200" value="25" step="1">
+          <div class="hint">小規模個人店の実勢は1日2〜5件＝<strong>月50〜120件</strong>。律速は技術でなく来店数</div>
         </div>
         <div class="field amber-field">
-          <div class="field-head"><label>修理1件あたり粗利</label><span class="val" id="v_repm">8,000円</span></div>
-          <input type="range" id="repm" class="amber" min="0" max="25000" value="8000" step="500">
+          <div class="field-head"><label>修理1件あたり粗利</label><span class="val" id="v_repm">6,000円</span></div>
+          <input type="range" id="repm" class="amber" min="0" max="25000" value="6000" step="500">
+          <div class="hint">実勢：画面(互換)5,000〜14,000円／バッテリー3,000〜8,000円／充電口8,000〜12,000円。平均6,000円が堅い</div>
         </div>
         <div class="field amber-field">
           <div class="field-head"><label>月間の相談・設定代行 件数</label><span class="val" id="v_svc">12件</span></div>
@@ -311,19 +312,19 @@
           <div class="hint">出張・間借り・通信・チラシ・雑費</div>
         </div>
         <div class="field amber-field">
-          <div class="field-head"><label>店舗ありの月次固定費</label><span class="val" id="v_fixB">250,000円</span></div>
-          <input type="range" id="fixB" class="amber" min="50000" max="800000" value="250000" step="10000">
-          <div class="hint">家賃＋光熱＋通信＋雑費（関西・小規模想定）</div>
+          <div class="field-head"><label>店舗ありの月次固定費</label><span class="val" id="v_fixB">200,000円</span></div>
+          <input type="range" id="fixB" class="amber" min="50000" max="800000" value="200000" step="10000">
+          <div class="hint">実勢：関西の商店街・住宅地の路面12〜15坪なら<strong>家賃13〜18万円</strong>（坪1万円前後）＋光熱通信雑費。梅田・難波は坪2.5万超で過剰</div>
         </div>
         <div class="field amber-field">
-          <div class="field-head"><label>店舗による集客の増加</label><span class="val" id="v_boost">+40%</span></div>
-          <input type="range" id="boost" class="amber" min="0" max="300" value="40" step="5">
-          <div class="hint">路面店の飛び込み・認知でどれだけ件数が増えるか</div>
+          <div class="field-head"><label>店舗による集客の増加</label><span class="val" id="v_boost">+120%</span></div>
+          <input type="range" id="boost" class="amber" min="0" max="400" value="120" step="10">
+          <div class="hint"><strong>ここが最重要。</strong>修理業はGoogle広告が出せない（規約で不可）ため、集客は立地・MEO・口コミのみ。＝店舗の集客力が事業の生命線</div>
         </div>
         <div class="field amber-field">
-          <div class="field-head"><label>店舗の初期投資</label><span class="val" id="v_init">2,500,000円</span></div>
-          <input type="range" id="init" class="amber" min="0" max="10000000" value="2500000" step="100000">
-          <div class="hint">保証金・内装・什器・修理工具・初期在庫・開業費</div>
+          <div class="field-head"><label>店舗の初期投資</label><span class="val" id="v_init">4,500,000円</span></div>
+          <input type="range" id="init" class="amber" min="0" max="15000000" value="4500000" step="100000">
+          <div class="hint">実勢（商店街・居抜き）：物件取得120〜165万＋内装什器120〜200万＋看板POS防犯50〜80万＋修理機材30〜50万＋初期在庫50〜150万＝<strong>約370〜645万円</strong>。許認可（古物商1.9万）含む</div>
         </div>
       </div>
 
@@ -372,6 +373,8 @@
         <div class="stat"><div class="lab">会員数（現時点）</div><div class="num" id="memb">0人</div></div>
       </div>
 
+      <div class="verdict" id="capacity" style="margin-top:16px;"></div>
+
       <div class="card cash" style="margin-top:20px;">
         <div class="cash-head">
           <h4>店舗ありの累積キャッシュ（初期投資を含む・36ヶ月）</h4>
@@ -393,6 +396,9 @@
           <li><strong>サポート会員は解約率を織り込んで</strong>積み上げています（毎月：前月×(1−解約率)＋新規）。解約率を0にすると非現実的に楽観的な数字になります。</li>
           <li><strong>回線紹介の報酬は7ヶ月目から</strong>計上しています（mineoは6ヶ月継続＋累計3,000円以上で確定するため）。立ち上げ期の資金繰りは、即金の物販・修理・役務で回す前提です。</li>
           <li>「店舗あり」は、すべての件数に<strong>集客の増加率</strong>を掛けています。店舗は固定費を増やす代わりに客も増やす、という前提を明示するためです。</li>
+          <li><strong>スマホ修理はGoogle広告を出せません</strong>（Google広告ポリシーで第三者のハードウェア修理サービスの広告は不許可）。＝広告費で集客を買えないため、<strong>立地・MEO・口コミが集客の全て</strong>。店舗の場所選びが事業の成否をほぼ決めます。</li>
+          <li><strong>必要な許認可</strong>：中古端末の買取をするなら<strong>古物商許可</strong>（約19,000円・審査40日前後・警察署）が必須。修理の「登録修理業者」登録は<strong>任意</strong>（手数料10万円強＋機種ごと変更登録）で、個人開業は無登録スタートが現実解。回線の取次に踏み込むなら総務省の届出（電子申請・無料）。</li>
+          <li><strong>在庫リスク</strong>：中古端末は月1〜3%値落ちし、毎年9月の新型iPhone発表で相場が一段下がります。<strong>30〜45日で売り切る</strong>のが鉄則で、90日超は不良在庫です。</li>
           <li><strong>成約率を無理に上げない</strong>のがこの事業の思想です。オプション大量付帯をすれば数字は上がりますが、それは事業の否定です。</li>
         </ul>
       </details>
@@ -538,6 +544,23 @@
     // Break-even monthly gross for store
     $('bep').textContent = '¥' + yen(d.fixB);
     $('memb').textContent = gB.memb.toFixed(0) + '人';
+
+    // Capacity check: can 2 people actually handle this volume?
+    // 修理1件・端末1台・相談1件 ≒ それぞれ実質1時間（受付/診断/作業/動作確認/接客込み）
+    const CAP = 2 * 8 * 22;                    // 2人 × 8時間 × 22日 = 352時間/月
+    const need = (d.rep + d.dev + d.svc) * kB; // 店舗シナリオの必要工数（時間）
+    const util = (need / CAP) * 100;
+    const capEl = $('capacity');
+    if (util > 100) {
+      capEl.className = 'verdict warn';
+      capEl.innerHTML = `<strong>2人では回りません。</strong>店舗シナリオの件数（修理${Math.round(d.rep*kB)}件＋端末${Math.round(d.dev*kB)}台＋相談${Math.round(d.svc*kB)}件）に必要な工数は月<strong>${Math.round(need)}時間</strong>で、2人の稼働上限（月${CAP}時間）の<strong>${util.toFixed(0)}%</strong>。件数を下げるか、人を雇う前提（＝人件費が固定費に乗る）が要ります。`;
+    } else if (util > 80) {
+      capEl.className = 'verdict warn';
+      capEl.innerHTML = `<strong>2人の限界に近いです（稼働率${util.toFixed(0)}%）。</strong>必要工数 月${Math.round(need)}時間／上限${CAP}時間。繁忙期や講座・集客の時間を考えると、この水準は続きません。`;
+    } else {
+      capEl.className = 'verdict ok';
+      capEl.innerHTML = `2人の稼働率は<strong>${util.toFixed(0)}%</strong>（必要工数 月${Math.round(need)}時間／上限${CAP}時間）。まだ受け入れる余地があります。※修理1件・端末1台・相談1件を、それぞれ実質1時間（受付〜動作確認・接客込み）として計算。`;
+    }
 
     // Cash flow for store scenario over 36 months (incl. initial investment)
     let cum = -d.init;
