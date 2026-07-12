@@ -8,208 +8,266 @@
   @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap');
 
   :root {
-    --ink: #1b222b;
-    --ink-soft: #4d5763;
-    --ink-mute: #7b8590;
-    --paper: #f4f1ea;
-    --paper-2: #efebe1;
-    --card: #ffffff;
-    --line: #e5e0d4;
-    --teal: #2f6d68;
-    --teal-deep: #245450;
-    --teal-soft: #e4efed;
-    --amber: #c1811f;
-    --amber-soft: #f7efe0;
-    --rose: #b0473f;
-    --rose-soft: #faece7;
-    --box-a: #2f6d68;
-    --box-b: #9a7526;
-    --radius: 16px;
-    --radius-sm: 10px;
-    --shadow-sm: 0 1px 2px rgba(27,34,43,.05), 0 4px 14px rgba(27,34,43,.05);
-    --ease: cubic-bezier(.4,.14,.3,1);
+    --ink: #16202b;
+    --ink-soft: #4a5866;
+    --ink-mute: #7e8b98;
+    --teal: #16867c;
+    --teal-deep: #0e6a62;
+    --amber: #c58122;
+    --amber-deep: #9a5f12;
+    --rose: #c0483f;
+    --radius: 22px;
+    --radius-sm: 14px;
+    --ease: cubic-bezier(.32,.72,0,1);
+
+    /* Liquid Glass tokens */
+    --glass: rgba(255,255,255,.55);
+    --glass-strong: rgba(255,255,255,.72);
+    --glass-soft: rgba(255,255,255,.38);
+    --glass-edge: rgba(255,255,255,.85);
+    --glass-line: rgba(255,255,255,.45);
+    --blur: saturate(180%) blur(24px);
+    --shadow: 0 1px 1px rgba(255,255,255,.6) inset,
+              0 8px 32px rgba(22,32,43,.10),
+              0 2px 8px rgba(22,32,43,.05);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
     font-family: 'Zen Kaku Gothic New', sans-serif;
-    background:
-      radial-gradient(1200px 480px at 50% -220px, #ffffff 0%, rgba(255,255,255,0) 70%),
-      var(--paper);
     color: var(--ink);
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
-    padding: 0 0 72px;
+    padding: 0 0 80px;
+    background: #eef2f4;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
   }
 
-  .wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+  /* --- Aurora backdrop: gives the glass something to refract --- */
+  .aurora { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: linear-gradient(170deg, #f3f7f8 0%, #e9eff1 55%, #eceae4 100%); }
+  .aurora span { position: absolute; display: block; border-radius: 50%; filter: blur(70px); opacity: .55; }
+  .b1 { width: 46vw; height: 46vw; left: -8vw;  top: -10vw;  background: radial-gradient(circle at 30% 30%, #7fd6c8, #22867c 70%); animation: drift1 22s var(--ease) infinite alternate; }
+  .b2 { width: 40vw; height: 40vw; right: -6vw; top: 4vw;    background: radial-gradient(circle at 60% 40%, #f6d79a, #d99a34 70%); opacity: .42; animation: drift2 26s var(--ease) infinite alternate; }
+  .b3 { width: 38vw; height: 38vw; left: 26vw;  bottom: -14vw; background: radial-gradient(circle at 50% 50%, #a9c8e8, #5b86b5 70%); opacity: .38; animation: drift3 30s var(--ease) infinite alternate; }
+  .b4 { width: 26vw; height: 26vw; right: 14vw; bottom: 6vw;  background: radial-gradient(circle at 50% 50%, #f0b8ab, #c0483f 75%); opacity: .22; animation: drift2 24s var(--ease) infinite alternate-reverse; }
+  @keyframes drift1 { to { transform: translate3d(6vw, 5vh, 0) scale(1.12); } }
+  @keyframes drift2 { to { transform: translate3d(-7vw, 7vh, 0) scale(1.08); } }
+  @keyframes drift3 { to { transform: translate3d(5vw, -6vh, 0) scale(1.15); } }
+  @media (prefers-reduced-motion: reduce) { .aurora span { animation: none; } }
 
-  header { border-bottom: 1px solid var(--line); padding: 52px 0 30px; margin-bottom: 34px; }
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+
+  /* --- Header --- */
+  header { padding: 56px 0 30px; margin-bottom: 30px; }
   .eyebrow {
+    display: inline-block;
     font-family: 'Roboto Mono', monospace;
-    font-size: 12px; letter-spacing: .18em;
-    color: var(--teal); text-transform: uppercase; margin-bottom: 12px;
+    font-size: 11.5px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--teal-deep);
+    background: var(--glass-soft);
+    -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+    border: 1px solid var(--glass-line);
+    padding: 5px 12px; border-radius: 999px; margin-bottom: 16px;
+    box-shadow: 0 1px 1px rgba(255,255,255,.7) inset;
   }
-  h1 { font-size: clamp(26px, 4.5vw, 40px); font-weight: 900; letter-spacing: -.01em; line-height: 1.25; margin-bottom: 10px; }
+  h1 { font-size: clamp(28px, 4.6vw, 42px); font-weight: 900; letter-spacing: -.02em; line-height: 1.22; margin-bottom: 12px; }
   h1 .thin { font-weight: 500; color: var(--ink-soft); }
-  .sub { color: var(--ink-soft); font-size: 15px; max-width: 700px; }
+  .sub { color: var(--ink-soft); font-size: 15px; max-width: 720px; }
 
-  .layout { display: grid; grid-template-columns: 1fr; gap: 28px; }
+  .layout { display: grid; grid-template-columns: 1fr; gap: 24px; }
   @media (min-width: 940px) {
-    .layout { grid-template-columns: 396px 1fr; align-items: start; gap: 32px; }
-    .controls { position: sticky; top: 24px; max-height: calc(100vh - 48px); overflow-y: auto; padding-right: 4px; }
+    .layout { grid-template-columns: 400px 1fr; align-items: start; gap: 28px; }
+    .controls { position: sticky; top: 20px; max-height: calc(100vh - 40px); overflow-y: auto; padding: 2px 6px 2px 2px; }
+    .controls::-webkit-scrollbar { width: 6px; }
+    .controls::-webkit-scrollbar-thumb { background: rgba(22,32,43,.16); border-radius: 99px; }
   }
 
-  .card {
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 26px 24px;
+  /* --- Glass surfaces --- */
+  .glass {
+    background: var(--glass);
+    -webkit-backdrop-filter: var(--blur);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--glass-line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
   }
-  .card + .card { margin-top: 20px; }
-  .card-title {
-    font-size: 13px; font-weight: 700; letter-spacing: .04em;
-    display: flex; align-items: center; gap: 9px; margin-bottom: 4px;
+  /* specular highlight along the top edge */
+  .glass::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,0) 42%);
+    mix-blend-mode: overlay;
   }
+
+  .card { padding: 24px 22px; }
+  .card + .card { margin-top: 16px; }
+
+  .card-title { font-size: 13px; font-weight: 700; letter-spacing: .04em; display: flex; align-items: center; gap: 10px; margin-bottom: 4px; position: relative; z-index: 1; }
   .card-title .num {
     font-family: 'Roboto Mono', monospace; font-size: 11px; font-weight: 500; color: #fff;
-    background: linear-gradient(150deg, var(--teal) 0%, var(--teal-deep) 100%);
-    width: 22px; height: 22px; border-radius: 6px;
+    background: linear-gradient(155deg, #2ba396, var(--teal-deep));
+    width: 24px; height: 24px; border-radius: 8px;
     display: inline-flex; align-items: center; justify-content: center;
-    box-shadow: 0 1px 3px rgba(47,109,104,.35);
+    box-shadow: 0 2px 8px rgba(22,134,124,.4), 0 1px 0 rgba(255,255,255,.5) inset;
   }
-  .card-note { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 20px; }
+  .card-note { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 20px; position: relative; z-index: 1; }
 
-  .field { margin-bottom: 22px; }
+  .field { margin-bottom: 22px; position: relative; z-index: 1; }
   .field:last-child { margin-bottom: 0; }
-  .field-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 9px; }
+  .field-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 10px; }
   .field label { font-size: 13.5px; font-weight: 500; color: var(--ink-soft); }
   .field .val {
     font-family: 'Roboto Mono', monospace; font-size: 14px; font-weight: 500;
-    color: var(--teal); background: var(--teal-soft);
-    padding: 2px 8px; border-radius: 6px; white-space: nowrap;
+    color: var(--teal-deep);
+    background: rgba(255,255,255,.6);
+    border: 1px solid rgba(255,255,255,.75);
+    padding: 3px 10px; border-radius: 999px; white-space: nowrap;
+    box-shadow: 0 1px 4px rgba(22,32,43,.06), 0 1px 0 rgba(255,255,255,.8) inset;
   }
-  .field.amber-field .val { color: #8f5f16; background: var(--amber-soft); }
-  .field .hint { font-size: 11.5px; color: var(--ink-mute); margin-top: 7px; }
+  .field.amber-field .val { color: var(--amber-deep); }
+  .field .hint { font-size: 11.5px; color: var(--ink-mute); margin-top: 8px; line-height: 1.6; }
+  .field .hint strong { color: var(--ink-soft); }
 
+  /* --- Glass sliders --- */
   input[type=range] {
     -webkit-appearance: none; appearance: none;
-    width: 100%; height: 6px;
-    background: linear-gradient(var(--teal), var(--teal)) 0/var(--p,20%) 100% no-repeat, var(--line);
+    width: 100%; height: 12px;
     border-radius: 999px; outline: none; cursor: pointer;
+    background:
+      linear-gradient(90deg, rgba(43,163,150,.9), rgba(14,106,98,.9)) 0/var(--p,20%) 100% no-repeat,
+      rgba(255,255,255,.45);
+    border: 1px solid rgba(255,255,255,.6);
+    box-shadow: 0 1px 3px rgba(22,32,43,.10) inset, 0 1px 0 rgba(255,255,255,.7);
   }
-  input[type=range].amber { background: linear-gradient(var(--amber), var(--amber)) 0/var(--p,20%) 100% no-repeat, var(--line); }
+  input[type=range].amber {
+    background:
+      linear-gradient(90deg, rgba(224,164,66,.95), rgba(154,95,18,.9)) 0/var(--p,20%) 100% no-repeat,
+      rgba(255,255,255,.45);
+  }
   input[type=range]::-webkit-slider-thumb {
     -webkit-appearance: none; appearance: none;
-    width: 22px; height: 22px; border-radius: 50%;
-    background: var(--teal); border: 4px solid #fff;
-    box-shadow: 0 1px 5px rgba(27,34,43,.28); cursor: pointer;
-    transition: transform .12s var(--ease);
+    width: 26px; height: 26px; border-radius: 50%;
+    background: linear-gradient(160deg, rgba(255,255,255,.98), rgba(240,246,247,.9));
+    border: 1px solid rgba(255,255,255,.9);
+    box-shadow: 0 3px 10px rgba(22,32,43,.22), 0 1px 0 rgba(255,255,255,1) inset, 0 -1px 2px rgba(22,32,43,.06) inset;
+    cursor: pointer;
+    transition: transform .16s var(--ease), box-shadow .16s var(--ease);
   }
-  input[type=range]:hover::-webkit-slider-thumb { transform: scale(1.12); }
-  input[type=range].amber::-webkit-slider-thumb { background: var(--amber); }
+  input[type=range]:hover::-webkit-slider-thumb { transform: scale(1.1); }
+  input[type=range]:active::-webkit-slider-thumb { transform: scale(1.04); box-shadow: 0 3px 12px rgba(22,32,43,.26), 0 0 0 7px rgba(22,134,124,.14); }
+  input[type=range].amber:active::-webkit-slider-thumb { box-shadow: 0 3px 12px rgba(22,32,43,.26), 0 0 0 7px rgba(197,129,34,.16); }
   input[type=range]::-moz-range-thumb {
-    width: 22px; height: 22px; border-radius: 50%;
-    background: var(--teal); border: 4px solid #fff;
-    box-shadow: 0 1px 5px rgba(27,34,43,.28); cursor: pointer;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: #fff; border: 1px solid rgba(255,255,255,.9);
+    box-shadow: 0 3px 10px rgba(22,32,43,.22); cursor: pointer;
   }
-  input[type=range].amber::-moz-range-thumb { background: var(--amber); }
 
+  /* --- Scenario cards --- */
   .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   @media (max-width: 620px) { .compare { grid-template-columns: 1fr; gap: 12px; } }
 
-  .scenario {
-    border-radius: var(--radius); padding: 24px 22px;
-    border: 1px solid var(--line); background: var(--card);
-    box-shadow: var(--shadow-sm); position: relative; overflow: hidden;
-  }
-  .scenario::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; }
-  .scenario.a::before { background: linear-gradient(90deg, var(--box-a), #3d857f); }
-  .scenario.b::before { background: linear-gradient(90deg, var(--box-b), #b48d38); }
-  .scenario h3 { font-size: 15.5px; font-weight: 700; margin-bottom: 3px; }
-  .scenario .tag { font-size: 12px; color: var(--ink-mute); margin-bottom: 18px; }
+  .scenario { padding: 24px 22px; }
+  .scenario .rail { position: absolute; top: 0; left: 0; right: 0; height: 4px; z-index: 2; }
+  .scenario.a .rail { background: linear-gradient(90deg, #2ba396, #7fd6c8); }
+  .scenario.b .rail { background: linear-gradient(90deg, #c58122, #f0c983); }
+  .scenario h3 { font-size: 16px; font-weight: 700; margin-bottom: 3px; position: relative; z-index: 1; }
+  .scenario .tag { font-size: 12px; color: var(--ink-mute); margin-bottom: 18px; position: relative; z-index: 1; }
 
+  .bl-label { font-size: 11px; font-weight: 500; letter-spacing: .05em; color: var(--ink-mute); margin-bottom: 5px; position: relative; z-index: 1; }
   .bottomline {
     font-family: 'Roboto Mono', monospace; font-weight: 500;
-    font-size: clamp(28px, 6.5vw, 32px); letter-spacing: -.02em; line-height: 1.05;
+    font-size: clamp(29px, 6.5vw, 34px); letter-spacing: -.025em; line-height: 1.05;
+    position: relative; z-index: 1;
+    transition: color .25s var(--ease);
   }
-  .bottomline .yen { font-size: 17px; margin-right: 2px; opacity: .8; }
-  .bl-label { font-size: 11px; font-weight: 500; letter-spacing: .04em; color: var(--ink-mute); margin-bottom: 5px; }
+  .bottomline .yen { font-size: 17px; margin-right: 2px; opacity: .75; }
   .positive { color: var(--teal); }
   .negative { color: var(--rose); }
 
-  .breakdown { margin-top: 18px; border-top: 1px solid var(--line); padding-top: 14px; }
+  .breakdown { margin-top: 18px; border-top: 1px solid rgba(255,255,255,.6); padding-top: 14px; position: relative; z-index: 1; }
   .row { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; padding: 5px 0; }
   .row .k { color: var(--ink-soft); }
   .row .v { font-family: 'Roboto Mono', monospace; font-weight: 500; }
   .row.rev .v { color: var(--teal); }
   .row.cost .v { color: var(--rose); }
-  .row.sum { border-top: 1px dashed var(--line); margin-top: 6px; padding-top: 10px; font-weight: 700; }
+  .row.sum { border-top: 1px dashed rgba(22,32,43,.16); margin-top: 6px; padding-top: 10px; font-weight: 700; }
   .row.sum .k { color: var(--ink); font-weight: 700; }
 
   .verdict {
-    margin-top: 16px; font-size: 12.5px; padding: 11px 13px;
-    border-radius: var(--radius-sm); line-height: 1.6; border: 1px solid transparent;
+    margin-top: 16px; font-size: 12.5px; padding: 12px 14px;
+    border-radius: var(--radius-sm); line-height: 1.65;
+    position: relative; z-index: 1;
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.6);
   }
-  .verdict.ok { background: var(--teal-soft); border-color: #cfe4e0; color: #1f5450; }
-  .verdict.warn { background: var(--rose-soft); border-color: #f0d5cd; color: #8a3a32; }
+  .verdict.ok   { background: rgba(126,214,200,.26); color: #0d5750; }
+  .verdict.warn { background: rgba(224,140,124,.24); color: #8a3128; }
 
-  /* Highlight: the decisive metric */
-  .keybox {
-    margin-top: 20px;
-    background: linear-gradient(180deg, #fcfaf5, #f9f6ef);
-    border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 22px;
-  }
-  .keybox h4 { font-size: 13px; font-weight: 700; letter-spacing: .04em; margin-bottom: 6px; }
+  /* --- Key metric --- */
+  .keybox { padding: 26px; margin-top: 18px; }
+  .keybox h4 { font-size: 13px; font-weight: 700; letter-spacing: .04em; margin-bottom: 8px; position: relative; z-index: 1; }
   .keybox .big {
     font-family: 'Roboto Mono', monospace; font-weight: 500;
-    font-size: 30px; letter-spacing: -.02em; color: var(--amber); line-height: 1.2;
+    font-size: 38px; letter-spacing: -.03em; line-height: 1.15;
+    background: linear-gradient(120deg, var(--amber), var(--amber-deep));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    position: relative; z-index: 1;
   }
-  .keybox p { font-size: 13px; color: var(--ink-soft); margin-top: 8px; line-height: 1.7; }
+  .keybox p { font-size: 13px; color: var(--ink-soft); margin-top: 10px; line-height: 1.75; position: relative; z-index: 1; }
 
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 20px; }
-  .stat { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 14px 16px; }
-  .stat .lab { font-size: 11px; color: var(--ink-mute); margin-bottom: 4px; }
-  .stat .num { font-family: 'Roboto Mono', monospace; font-weight: 500; font-size: 19px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(152px, 1fr)); gap: 12px; margin-top: 16px; }
+  .stat { padding: 16px 18px; }
+  .stat .lab { font-size: 11px; color: var(--ink-mute); margin-bottom: 5px; position: relative; z-index: 1; }
+  .stat .num { font-family: 'Roboto Mono', monospace; font-weight: 500; font-size: 20px; letter-spacing: -.01em; position: relative; z-index: 1; }
 
-  /* cash trough bars */
-  .cash { margin-top: 20px; }
-  .cash-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  /* --- Cash bars --- */
+  .cash { padding: 24px 22px; margin-top: 16px; }
+  .cash-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; gap: 10px; position: relative; z-index: 1; }
   .cash-head h4 { font-size: 13px; font-weight: 700; letter-spacing: .04em; }
-  .cash-head .legend { font-size: 11.5px; color: var(--ink-mute); }
-  .bars { display: flex; align-items: stretch; gap: 2px; height: 110px; position: relative; border-bottom: 1px solid var(--line); }
-  .bars .zero { position: absolute; left: 0; right: 0; border-top: 1px dashed #c9c2b2; z-index: 1; }
+  .cash-head .legend { font-size: 11.5px; color: var(--ink-mute); white-space: nowrap; }
+  .bars { display: flex; align-items: stretch; gap: 2px; height: 120px; position: relative; z-index: 1; }
+  .bars .zero { position: absolute; left: 0; right: 0; top: 50%; border-top: 1px dashed rgba(22,32,43,.22); z-index: 2; }
   .bar { flex: 1; position: relative; min-width: 0; height: 100%; }
-  .bar i { position: absolute; left: 0; right: 0; display: block; border-radius: 2px; }
-  .bar i.pos { background: var(--teal); }
-  .bar i.neg { background: var(--rose); opacity: .75; }
-  .bar-x { display: flex; gap: 2px; margin-top: 6px; }
+  .bar i { position: absolute; left: 0; right: 0; display: block; border-radius: 3px; }
+  .bar i.pos { background: linear-gradient(180deg, rgba(43,163,150,.95), rgba(14,106,98,.75)); box-shadow: 0 0 10px rgba(22,134,124,.3); }
+  .bar i.neg { background: linear-gradient(180deg, rgba(192,72,63,.72), rgba(192,72,63,.5)); }
+  .bar-x { display: flex; gap: 2px; margin-top: 8px; position: relative; z-index: 1; }
   .bar-x span { flex: 1; text-align: center; font-size: 9.5px; color: var(--ink-mute); font-family: 'Roboto Mono', monospace; }
+  .cash p { font-size: 12.5px; color: var(--ink-soft); margin-top: 14px; line-height: 1.7; position: relative; z-index: 1; }
 
-  .assump { margin-top: 24px; font-size: 12.5px; color: var(--ink-soft); line-height: 1.65; }
-  .assump summary { cursor: pointer; font-weight: 700; color: var(--ink); font-size: 13px; padding: 6px 0; }
-  .assump ul { margin: 8px 0 0 18px; }
-  .assump li { margin-bottom: 6px; }
+  .assump { margin-top: 18px; padding: 20px 22px; font-size: 12.5px; color: var(--ink-soft); line-height: 1.7; }
+  .assump summary { cursor: pointer; font-weight: 700; color: var(--ink); font-size: 13px; position: relative; z-index: 1; }
+  .assump ul { margin: 12px 0 0 18px; position: relative; z-index: 1; }
+  .assump li { margin-bottom: 8px; }
 
   @media (max-width: 640px) {
-    .wrap { padding: 0 16px; }
-    header { padding: 32px 0 22px; margin-bottom: 24px; }
-    .card { padding: 20px 17px; border-radius: 14px; }
+    .wrap { padding: 0 15px; }
+    header { padding: 34px 0 20px; margin-bottom: 20px; }
+    .card, .scenario, .keybox, .cash, .assump { padding: 19px 17px; }
     .field { margin-bottom: 24px; }
     .field label { font-size: 14px; }
-    input[type=range] { height: 8px; }
-    input[type=range]::-webkit-slider-thumb { width: 26px; height: 26px; }
-    input[type=range]::-moz-range-thumb { width: 26px; height: 26px; }
-    .scenario { padding: 20px 18px; }
-    .bars { height: 90px; }
+    input[type=range] { height: 14px; }
+    input[type=range]::-webkit-slider-thumb { width: 30px; height: 30px; }
+    .keybox .big { font-size: 32px; }
+    .bars { height: 96px; }
     .bar-x span { font-size: 8.5px; }
+    .aurora span { filter: blur(50px); }
   }
 </style>
 </head>
 <body>
+<div class="aurora"><span class="b1"></span><span class="b2"></span><span class="b3"></span><span class="b4"></span></div>
+
 <div class="wrap">
   <header>
-    <div class="eyebrow">Feasibility Simulator v2</div>
+    <div class="eyebrow">Feasibility Simulator</div>
     <h1>独立系スマホ屋（関西）<br><span class="thin">採算シミュレーター</span></h1>
     <p class="sub">中古端末の販売・買取・修理・相談・サポート会員で成り立つか、店舗を持つ価値があるかを、控えめな数字で検証します。左の数値を動かすと、<strong>無店舗</strong>（出張・間借り）と<strong>店舗あり</strong>（関西・小規模）がリアルタイムで比較されます。</p>
   </header>
@@ -218,7 +276,7 @@
     <!-- CONTROLS -->
     <div class="controls">
 
-      <div class="card">
+      <div class="card glass">
         <div class="card-title"><span class="num">1</span>中古端末（主力）</div>
         <div class="card-note">買い取って、直して、売る。在庫は客が持ってきてくれる。</div>
         <div class="field">
@@ -229,11 +287,11 @@
         <div class="field">
           <div class="field-head"><label>1台あたり粗利</label><span class="val" id="v_devm">8,000円</span></div>
           <input type="range" id="devm" min="0" max="30000" value="8000" step="500">
-          <div class="hint">実勢：店頭買取なら8,000〜12,000円。<strong>保守的には5,000〜10,000円</strong>で組むのが安全（業者仕入だと3,000〜8,000円まで落ちる）</div>
+          <div class="hint">実勢：店頭買取なら8,000〜12,000円。<strong>保守的には5,000〜10,000円</strong>で組むのが安全</div>
         </div>
       </div>
 
-      <div class="card">
+      <div class="card glass">
         <div class="card-title"><span class="num">2</span>修理・役務・物販</div>
         <div class="card-note">人の手が要る仕事。AIが進んでも消えない領域。</div>
         <div class="field amber-field">
@@ -244,7 +302,7 @@
         <div class="field amber-field">
           <div class="field-head"><label>修理1件あたり粗利</label><span class="val" id="v_repm">6,000円</span></div>
           <input type="range" id="repm" class="amber" min="0" max="25000" value="6000" step="500">
-          <div class="hint">実勢：画面(互換)5,000〜14,000円／バッテリー3,000〜8,000円／充電口8,000〜12,000円。平均6,000円が堅い</div>
+          <div class="hint">実勢：バッテリー交換6,500円(粗利率84%)／画面(互換)7,200〜12,100円。平均6,000円が堅い</div>
         </div>
         <div class="field amber-field">
           <div class="field-head"><label>月間の相談・設定代行 件数</label><span class="val" id="v_svc">12件</span></div>
@@ -258,11 +316,11 @@
         <div class="field amber-field">
           <div class="field-head"><label>周辺機器の月間粗利</label><span class="val" id="v_acc">20,000円</span></div>
           <input type="range" id="acc" class="amber" min="0" max="200000" value="20000" step="5000">
-          <div class="hint">ケース・フィルム・タッチペン等の積み上げ</div>
+          <div class="hint">ケース・フィルム・タッチペン・防犯電話機等の積み上げ</div>
         </div>
       </div>
 
-      <div class="card">
+      <div class="card glass">
         <div class="card-title"><span class="num">3</span>サポート会員（毎月の柱）</div>
         <div class="card-note">他社の継続報酬はあてにしない。自分の伴走に対価をもらう。</div>
         <div class="field">
@@ -280,7 +338,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card glass">
         <div class="card-title"><span class="num">4</span>講座・回線紹介（入口／副次）</div>
         <div class="field">
           <div class="field-head"><label>月間の講座参加者</label><span class="val" id="v_les">12人</span></div>
@@ -303,7 +361,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card glass">
         <div class="card-title"><span class="num">5</span>固定費と店舗</div>
         <div class="card-note">店舗は売上も増やす。だから「増える分が家賃を超えるか」が全て。</div>
         <div class="field">
@@ -314,21 +372,21 @@
         <div class="field amber-field">
           <div class="field-head"><label>店舗ありの月次固定費</label><span class="val" id="v_fixB">200,000円</span></div>
           <input type="range" id="fixB" class="amber" min="50000" max="800000" value="200000" step="10000">
-          <div class="hint">実勢：関西の商店街・住宅地の路面12〜15坪なら<strong>家賃13〜18万円</strong>（坪1万円前後）＋光熱通信雑費。梅田・難波は坪2.5万超で過剰</div>
+          <div class="hint">実勢：関西の商店街・住宅地の路面12〜15坪なら<strong>家賃13〜18万円</strong>（坪1万円前後）＋光熱通信</div>
         </div>
         <div class="field amber-field">
           <div class="field-head"><label>店舗による集客の増加</label><span class="val" id="v_boost">+120%</span></div>
           <input type="range" id="boost" class="amber" min="0" max="400" value="120" step="10">
-          <div class="hint"><strong>ここが最重要。</strong>修理業はGoogle広告が出せない（規約で不可）ため、集客は立地・MEO・口コミのみ。＝店舗の集客力が事業の生命線</div>
+          <div class="hint"><strong>ここが最重要。</strong>修理サービスはGoogle広告で訴求できないため、集客は立地・MEO・口コミが軸</div>
         </div>
         <div class="field amber-field">
           <div class="field-head"><label>店舗の初期投資</label><span class="val" id="v_init">4,500,000円</span></div>
           <input type="range" id="init" class="amber" min="0" max="15000000" value="4500000" step="100000">
-          <div class="hint">実勢（商店街・居抜き）：物件取得120〜165万＋内装什器120〜200万＋看板POS防犯50〜80万＋修理機材30〜50万＋初期在庫50〜150万＝<strong>約370〜645万円</strong>。許認可（古物商1.9万）含む</div>
+          <div class="hint">実勢：物件取得120〜165万＋内装什器120〜200万＋看板POS防犯50〜80万＋修理機材30〜50万＋初期在庫50〜150万＝<strong>約370〜645万円</strong></div>
         </div>
       </div>
 
-      <div class="card">
+      <div class="card glass">
         <div class="card-title"><span class="num">6</span>時間の経過</div>
         <div class="field">
           <div class="field-head"><label>開業からの経過月数</label><span class="val" id="v_mon">12ヶ月目</span></div>
@@ -342,7 +400,8 @@
     <!-- RESULTS -->
     <div class="results">
       <div class="compare">
-        <div class="scenario a">
+        <div class="scenario glass a">
+          <div class="rail"></div>
           <h3>無店舗</h3>
           <div class="tag">出張・間借り・自宅拠点</div>
           <div class="bl-label">月次の営業利益</div>
@@ -350,7 +409,8 @@
           <div class="breakdown" id="breakA"></div>
           <div class="verdict" id="verdictA"></div>
         </div>
-        <div class="scenario b">
+        <div class="scenario glass b">
+          <div class="rail"></div>
           <h3>店舗あり（関西）</h3>
           <div class="tag">路面の小規模店・修理と在庫の拠点</div>
           <div class="bl-label">月次の営業利益</div>
@@ -360,45 +420,42 @@
         </div>
       </div>
 
-      <div class="keybox">
+      <div class="keybox glass">
         <h4>店舗が元を取るのに必要な「集客の増加」</h4>
         <div class="big" id="reqboost">+0%</div>
         <p id="boostmsg"></p>
       </div>
 
       <div class="stats">
-        <div class="stat"><div class="lab">必要な運転資金（現金の谷）</div><div class="num negative" id="trough">¥0</div></div>
-        <div class="stat"><div class="lab">初期投資の回収</div><div class="num" id="payback">—</div></div>
-        <div class="stat"><div class="lab">損益分岐（月間粗利）</div><div class="num" id="bep">¥0</div></div>
-        <div class="stat"><div class="lab">会員数（現時点）</div><div class="num" id="memb">0人</div></div>
+        <div class="stat glass"><div class="lab">必要な運転資金（現金の谷）</div><div class="num negative" id="trough">¥0</div></div>
+        <div class="stat glass"><div class="lab">初期投資の回収</div><div class="num" id="payback">—</div></div>
+        <div class="stat glass"><div class="lab">損益分岐（月間粗利）</div><div class="num" id="bep">¥0</div></div>
+        <div class="stat glass"><div class="lab">会員数（現時点）</div><div class="num" id="memb">0人</div></div>
       </div>
 
-      <div class="verdict" id="capacity" style="margin-top:16px;"></div>
+      <div class="verdict glass" id="capacity" style="margin-top:16px;"></div>
 
-      <div class="card cash" style="margin-top:20px;">
+      <div class="cash glass">
         <div class="cash-head">
           <h4>店舗ありの累積キャッシュ（初期投資を含む・36ヶ月）</h4>
-          <span class="legend">赤＝手元がマイナス／緑＝プラス</span>
+          <span class="legend">赤＝手元マイナス／緑＝プラス</span>
         </div>
         <div class="bars" id="bars"></div>
         <div class="bar-x" id="barx"></div>
-        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:12px;line-height:1.7;">
-          一番深い赤字が「開業までに用意しておくべき現金」です。ここを見誤ると、黒字なのに資金が尽きて潰れます。
-        </p>
+        <p>一番深い赤字が「開業までに用意しておくべき現金」です。ここを見誤ると、黒字なのに資金が尽きて潰れます。</p>
       </div>
 
-      <details class="assump">
+      <details class="assump glass">
         <summary>試算の前提と注意（必ずお読みください）</summary>
         <ul>
           <li>本ツールは<strong>意思決定の当たりをつけるための概算</strong>で、確定的な予測ではありません。仕入れ値・家賃・報酬は実地で確認してください。</li>
           <li>売上はすべて<strong>粗利（原価を引いた後）</strong>で入力します。端末の仕入れ代金は「1台あたり粗利」に織り込み済みです。</li>
-          <li>営業利益は<strong>2人（松田さん＋パートナー）で分ける前の事業の利益</strong>です。役員報酬・生活費はここから出ます。</li>
-          <li><strong>サポート会員は解約率を織り込んで</strong>積み上げています（毎月：前月×(1−解約率)＋新規）。解約率を0にすると非現実的に楽観的な数字になります。</li>
-          <li><strong>回線紹介の報酬は7ヶ月目から</strong>計上しています（mineoは6ヶ月継続＋累計3,000円以上で確定するため）。立ち上げ期の資金繰りは、即金の物販・修理・役務で回す前提です。</li>
-          <li>「店舗あり」は、すべての件数に<strong>集客の増加率</strong>を掛けています。店舗は固定費を増やす代わりに客も増やす、という前提を明示するためです。</li>
-          <li><strong>スマホ修理はGoogle広告を出せません</strong>（Google広告ポリシーで第三者のハードウェア修理サービスの広告は不許可）。＝広告費で集客を買えないため、<strong>立地・MEO・口コミが集客の全て</strong>。店舗の場所選びが事業の成否をほぼ決めます。</li>
-          <li><strong>必要な許認可</strong>：中古端末の買取をするなら<strong>古物商許可</strong>（約19,000円・審査40日前後・警察署）が必須。修理の「登録修理業者」登録は<strong>任意</strong>（手数料10万円強＋機種ごと変更登録）で、個人開業は無登録スタートが現実解。回線の取次に踏み込むなら総務省の届出（電子申請・無料）。</li>
-          <li><strong>在庫リスク</strong>：中古端末は月1〜3%値落ちし、毎年9月の新型iPhone発表で相場が一段下がります。<strong>30〜45日で売り切る</strong>のが鉄則で、90日超は不良在庫です。</li>
+          <li>営業利益は<strong>2人で分ける前の事業の利益</strong>です。役員報酬・生活費はここから出ます。</li>
+          <li><strong>サポート会員は解約率を織り込んで</strong>積み上げています（毎月：前月×(1−解約率)＋新規）。解約率を0にすると非現実的に楽観的になります。</li>
+          <li><strong>回線紹介の報酬は7ヶ月目から</strong>計上（mineoは6ヶ月継続＋累計3,000円以上で確定）。立ち上げ期は即金の物販・修理・役務で回す前提です。</li>
+          <li><strong>広告について</strong>：Google広告は「修理・設定代行などのテクニカルサポート」を訴求できません。ただし公式の注記により<strong>「中古端末の販売」を訴求する広告は可能で、リンク先に修理メニューがあっても許可</strong>されます。＝物販を軸にした広告は打てます。</li>
+          <li><strong>必要な許認可</strong>：買取をするなら<strong>古物商許可</strong>（約19,000円・審査40日前後）が必須。修理の「登録修理業者」登録は<strong>任意</strong>。回線の取次に踏み込むなら総務省の届出（無料）。</li>
+          <li><strong>在庫リスク</strong>：中古端末は月1〜3%値落ちし、毎年9月の新型iPhone発表で相場が一段下がります。<strong>30〜45日で売り切る</strong>のが鉄則。</li>
           <li><strong>成約率を無理に上げない</strong>のがこの事業の思想です。オプション大量付帯をすれば数字は上がりますが、それは事業の否定です。</li>
         </ul>
       </details>
@@ -422,7 +479,6 @@
     });
   }
 
-  // members accumulate with churn: m_t = m_{t-1}*(1-churn) + new
   function membersAt(month, newPerMonth, churn) {
     let m = 0;
     for (let t = 1; t <= month; t++) m = m * (1 - churn) + newPerMonth;
@@ -444,7 +500,6 @@
     };
   }
 
-  // gross profit at month t, with volume multiplier k
   function grossAt(d, t, k) {
     const devG = d.dev * k * d.devm;
     const repG = d.rep * k * d.repm;
@@ -453,7 +508,7 @@
     const lesG = d.les * k * d.lesf;
     const memb = membersAt(t, d.nm * k, d.ch);
     const membG = memb * d.mf;
-    const simG = (t >= 7) ? (d.sim * k * d.simf) : 0;   // 半年遅れ
+    const simG = (t >= 7) ? (d.sim * k * d.simf) : 0;
     return { devG, repG, svcG, accG, lesG, membG, simG, memb,
              total: devG + repG + svcG + accG + lesG + membG + simG };
   }
@@ -487,7 +542,6 @@
     paintTracks();
     const d = inputs();
 
-    // labels
     $('v_dev').textContent = d.dev + '台';
     $('v_devm').textContent = yen(d.devm) + '円';
     $('v_rep').textContent = d.rep + '件';
@@ -524,45 +578,41 @@
     $('verdictA').outerHTML = verdictHTML(pA, '無店舗').replace('class="verdict', 'id="verdictA" class="verdict');
     $('verdictB').outerHTML = verdictHTML(pB, '店舗').replace('class="verdict', 'id="verdictB" class="verdict');
 
-    // Required boost: gross_base*(1+b) - fixB = gross_base - fixA
-    //   => b = (fixB - fixA) / gross_base
     const base = gA.total;
     const reqB = base > 0 ? (d.fixB - d.fixA) / base : Infinity;
     const reqPct = reqB * 100;
-    $('reqboost').textContent = (reqB === Infinity || !isFinite(reqB)) ? '算出不可' : '+' + reqPct.toFixed(0) + '%';
+    $('reqboost').textContent = (!isFinite(reqB)) ? '算出不可' : '+' + reqPct.toFixed(0) + '%';
 
     let msg;
     if (!isFinite(reqB) || base <= 0) {
       msg = '売上がゼロのため算出できません。まず件数を入れてください。';
     } else if (d.boost * 100 >= reqPct) {
-      msg = `いま見込んでいる集客増（+${$('boost').value}%）は、必要ライン（+${reqPct.toFixed(0)}%）を<strong>上回っています</strong>。この前提なら、店舗を持つ方が無店舗より利益が大きくなります。差額は月 ¥${yen(pB - pA)}。`;
+      msg = `いま見込んでいる集客増（+${$('boost').value}%）は、必要ライン（+${reqPct.toFixed(0)}%）を<strong>上回っています</strong>。この前提なら、店舗を持つ方が利益が大きくなります。差額は月 ¥${yen(pB - pA)}。`;
     } else {
-      msg = `いま見込んでいる集客増（+${$('boost').value}%）は、必要ライン（+${reqPct.toFixed(0)}%）に<strong>届いていません</strong>。この前提だと、店舗の家賃を客の増加で埋めきれず、無店舗の方が月 ¥${yen(pA - pB)} 有利です。`;
+      msg = `いま見込んでいる集客増（+${$('boost').value}%）は、必要ライン（+${reqPct.toFixed(0)}%）に<strong>届いていません</strong>。この前提だと家賃を客の増加で埋めきれず、無店舗の方が月 ¥${yen(pA - pB)} 有利です。`;
     }
-    $('boostmsg').innerHTML = msg + ' <br>※ 家賃差（¥' + yen(d.fixB - d.fixA) + '/月）を、店舗が呼び込む追加の粗利で回収できるか、という問いです。';
+    $('boostmsg').innerHTML = msg + '<br>※ 家賃差（¥' + yen(d.fixB - d.fixA) + '/月）を、店舗が呼び込む追加の粗利で回収できるか、という問いです。';
 
-    // Break-even monthly gross for store
     $('bep').textContent = '¥' + yen(d.fixB);
     $('memb').textContent = gB.memb.toFixed(0) + '人';
 
-    // Capacity check: can 2 people actually handle this volume?
-    // 修理1件・端末1台・相談1件 ≒ それぞれ実質1時間（受付/診断/作業/動作確認/接客込み）
-    const CAP = 2 * 8 * 22;                    // 2人 × 8時間 × 22日 = 352時間/月
-    const need = (d.rep + d.dev + d.svc) * kB; // 店舗シナリオの必要工数（時間）
+    // Capacity: can 2 people handle it?
+    const CAP = 2 * 8 * 22;
+    const need = (d.rep + d.dev + d.svc) * kB;
     const util = (need / CAP) * 100;
     const capEl = $('capacity');
     if (util > 100) {
-      capEl.className = 'verdict warn';
+      capEl.className = 'verdict glass warn';
       capEl.innerHTML = `<strong>2人では回りません。</strong>店舗シナリオの件数（修理${Math.round(d.rep*kB)}件＋端末${Math.round(d.dev*kB)}台＋相談${Math.round(d.svc*kB)}件）に必要な工数は月<strong>${Math.round(need)}時間</strong>で、2人の稼働上限（月${CAP}時間）の<strong>${util.toFixed(0)}%</strong>。件数を下げるか、人を雇う前提（＝人件費が固定費に乗る）が要ります。`;
     } else if (util > 80) {
-      capEl.className = 'verdict warn';
-      capEl.innerHTML = `<strong>2人の限界に近いです（稼働率${util.toFixed(0)}%）。</strong>必要工数 月${Math.round(need)}時間／上限${CAP}時間。繁忙期や講座・集客の時間を考えると、この水準は続きません。`;
+      capEl.className = 'verdict glass warn';
+      capEl.innerHTML = `<strong>2人の限界に近いです（稼働率${util.toFixed(0)}%）。</strong>必要工数 月${Math.round(need)}時間／上限${CAP}時間。集客や講座の時間を考えると、この水準は続きません。`;
     } else {
-      capEl.className = 'verdict ok';
+      capEl.className = 'verdict glass ok';
       capEl.innerHTML = `2人の稼働率は<strong>${util.toFixed(0)}%</strong>（必要工数 月${Math.round(need)}時間／上限${CAP}時間）。まだ受け入れる余地があります。※修理1件・端末1台・相談1件を、それぞれ実質1時間（受付〜動作確認・接客込み）として計算。`;
     }
 
-    // Cash flow for store scenario over 36 months (incl. initial investment)
+    // Cash flow
     let cum = -d.init;
     let trough = cum;
     let payback = null;
@@ -579,11 +629,10 @@
     $('payback').textContent = payback ? payback + 'ヶ月目' : '36ヶ月内に回収せず';
     $('payback').className = 'num ' + (payback ? 'positive' : 'negative');
 
-    // bars
     const maxAbs = Math.max(...series.map(v => Math.abs(v)), 1);
-    let barsHTML = '<div class="zero" style="top:50%"></div>';
+    let barsHTML = '<div class="zero"></div>';
     series.forEach(v => {
-      const h = (Math.abs(v) / maxAbs) * 50; // % of container height (half)
+      const h = (Math.abs(v) / maxAbs) * 50;
       if (v >= 0) barsHTML += `<div class="bar"><i class="pos" style="bottom:50%;height:${h}%"></i></div>`;
       else barsHTML += `<div class="bar"><i class="neg" style="top:50%;height:${h}%"></i></div>`;
     });
