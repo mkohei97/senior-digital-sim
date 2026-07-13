@@ -423,6 +423,26 @@
           <div class="field-head"><label>紹介1件あたり報酬</label><span class="val" id="v_simf">2,500円</span></div>
           <input type="range" id="simf" class="amber" min="0" max="8000" value="2500" step="500">
         </div>
+
+        <div class="field">
+          <div class="field-head"><label>ネット購入おまかせサポートの割合</label><span class="val" id="v_np">3%</span></div>
+          <input type="range" id="np" min="0" max="30" value="3" step="1">
+        </div>
+        <div class="field">
+          <div class="field-head"><label>ネット購入サポート1件あたり粗利</label><span class="val" id="v_npm">7,000円</span></div>
+          <input type="range" id="npm" min="0" max="15000" value="7000" step="500">
+          <div class="hint">ドコモショップで3万円→うちなら15,000円（粗利7,000円）。<strong>ネットでの購入操作サポート＋初期設定・データ移行まで全部込み。原価率55%</strong></div>
+        </div>
+
+        <div class="field">
+          <div class="field-head"><label>料金見直し診断の割合</label><span class="val" id="v_rv">5%</span></div>
+          <input type="range" id="rv" min="0" max="30" value="5" step="1">
+        </div>
+        <div class="field">
+          <div class="field-head"><label>料金見直し1件あたり単価</label><span class="val" id="v_rvp">5,000円</span></div>
+          <input type="range" id="rvp" min="0" max="15000" value="5000" step="500">
+          <div class="hint">不要なオプションを外させるメニュー。<strong>客が得する＝信頼の起点。月1,000〜3,000円の節約で年間12,000〜36,000円</strong></div>
+        </div>
       </div>
 
       <div class="card glass">
@@ -434,8 +454,9 @@
           <div class="hint"><strong>ここを上げるのが、この事業で一番効く。</strong>会員は解約されない限り、翌月も翌々月も入り続ける</div>
         </div>
         <div class="field">
-          <div class="field-head"><label>月会費</label><span class="val" id="v_mf">2,000円</span></div>
-          <input type="range" id="mf" min="0" max="8000" value="2000" step="500">
+          <div class="field-head"><label>月会費</label><span class="val" id="v_mf">5,000円</span></div>
+          <input type="range" id="mf" min="0" max="8000" value="5000" step="500">
+          <div class="hint">Phase1のかかりつけ会員。<strong>月5,000円＝毎月1回60分の対面＋いつでもLINE相談。いちえ（地元の実勢）と同額</strong></div>
         </div>
         <div class="field">
           <div class="field-head"><label>月次の解約率</label><span class="val" id="v_ch">3%</span></div>
@@ -568,24 +589,28 @@
 
   const ids = ['seed','evt','evtc','ref','sns','walk','rpt','lapse','tam',
                'rp','repm','dp','devm','sp','svcp','accp','simr','simf',
+               'np','npm','rv','rvp',
                'cv','mf','ch','lesr','lesf',
                'rent','other','pay','init','mon'];
 
   const PRESETS = {
-    // ① 素の現実解 ―― 2人とも即専業。これは数字が許さない（現金の谷 −1,682万）
+    // ① 素の現実解 ―― 2人とも即専業
     real: { seed:80,  evt:40, evtc:15, ref:8,  sns:5,  walk:8,  rpt:15, lapse:2, tam:2500,
             rp:22, repm:6000, dp:12, devm:8000, sp:18, svcp:3000, accp:700, simr:4, simf:2500,
-            cv:6, mf:2000, ch:3, lesr:20, lesf:1000,
+            np:3, npm:7000, rv:5, rvp:5000,
+            cv:6, mf:5000, ch:3, lesr:20, lesf:1000,
             rent:165000, other:90000, pay:500000, init:4500000 },
     // ② 悲観
     hard: { seed:30,  evt:20, evtc:8,  ref:4,  sns:2,  walk:4,  rpt:8, lapse:4, tam:1800,
             rp:18, repm:5000, dp:8,  devm:6500, sp:14, svcp:2500, accp:500, simr:2, simf:2000,
-            cv:3, mf:2000, ch:6, lesr:12, lesf:1000,
+            np:1, npm:5000, rv:3, rvp:3000,
+            cv:3, mf:5000, ch:6, lesr:12, lesf:1000,
             rent:165000, other:110000, pay:500000, init:5500000 },
     // ③ 生き残る道 ―― 人脈300／一人は勤めを継続（生活費25万）／会員12%／イベント80人／紹介1.2
     live: { seed:300, evt:80, evtc:15, ref:12, sns:5,  walk:8,  rpt:15, lapse:2, tam:2500,
             rp:22, repm:6000, dp:12, devm:8000, sp:18, svcp:3000, accp:700, simr:4, simf:2500,
-            cv:12, mf:2500, ch:3, lesr:20, lesf:1000,
+            np:3, npm:7000, rv:5, rvp:5000,
+            cv:12, mf:5000, ch:3, lesr:20, lesf:1000,
             rent:165000, other:90000, pay:250000, init:3500000 }
   };
 
@@ -623,6 +648,8 @@
       sp:+$('sp').value/100, svcp:+$('svcp').value,
       accp:+$('accp').value,
       simr:+$('simr').value/100, simf:+$('simf').value,
+      np:+$('np').value/100, npm:+$('npm').value,
+      rv:+$('rv').value/100, rvp:+$('rvp').value,
       cv:+$('cv').value/100, mf:+$('mf').value, ch:+$('ch').value/100,
       lesr:+$('lesr').value/100, lesf:+$('lesf').value,
       rent:+$('rent').value, other:+$('other').value, pay:+$('pay').value,
@@ -663,6 +690,8 @@
       const nDev = visits * d.dp;
       const nSvc = visits * d.sp;
       const nSim = visits * d.simr;
+      const nNp  = visits * d.np;
+      const nRv  = visits * d.rv;
       const nLes = d.evt * d.lesr;
 
       // --- 粗利 ---
@@ -673,7 +702,9 @@
       const gLes  = nLes * d.lesf;
       const gMemb = memb * d.mf;
       const gSim  = (t >= 7) ? nSim * d.simf : 0;
-      const gross = gRep + gDev + gSvc + gAcc + gLes + gMemb + gSim;
+      const gNp   = nNp * d.npm;
+      const gRv   = nRv * d.rvp;
+      const gross = gRep + gDev + gSvc + gAcc + gLes + gMemb + gSim + gNp + gRv;
 
       const fixed = d.rent + d.other;
       const op    = gross - fixed;      // 2人の取り分の原資
@@ -685,8 +716,8 @@
       out.push({ t, factor,
                  nSeed:nSeed*s, nEvt:nEvt*s, nSns:nSns*s, nWalk:nWalk*s, nRef:nRef*s,
                  newC, repeatV, visits, cust, active, memb,
-                 nRep, nDev, nSvc, nSim, nLes,
-                 gRep, gDev, gSvc, gAcc, gLes, gMemb, gSim, gross, fixed, op, net, cum });
+                 nRep, nDev, nSvc, nSim, nNp, nRv, nLes,
+                 gRep, gDev, gSvc, gAcc, gLes, gMemb, gSim, gNp, gRv, gross, fixed, op, net, cum });
     }
     return out;
   }
@@ -714,6 +745,10 @@
     $('v_accp').textContent  = yen(d.accp) + '円';
     $('v_simr').textContent  = $('simr').value + '%';
     $('v_simf').textContent  = yen(d.simf) + '円';
+    $('v_np').textContent    = $('np').value + '%';
+    $('v_npm').textContent   = yen(d.npm) + '円';
+    $('v_rv').textContent    = $('rv').value + '%';
+    $('v_rvp').textContent   = yen(d.rvp) + '円';
     $('v_cv').textContent    = $('cv').value + '%';
     $('v_mf').textContent    = yen(d.mf) + '円';
     $('v_ch').textContent    = $('ch').value + '%';
@@ -776,6 +811,8 @@
       <div class="row rev"><span class="k">講座 <em>${m.nLes.toFixed(1)}人</em></span><span class="v">¥${yen(m.gLes)}</span></div>
       <div class="row rev"><span class="k">サポート会員 <em>${m.memb.toFixed(0)}人</em></span><span class="v">¥${yen(m.gMemb)}</span></div>
       <div class="row rev"><span class="k">回線紹介${m.gSim === 0 ? '<em>7ヶ月目〜</em>' : ` <em>${m.nSim.toFixed(1)}件</em>`}</span><span class="v">¥${yen(m.gSim)}</span></div>
+      <div class="row rev"><span class="k">ネット購入サポート <em>${m.nNp.toFixed(1)}件</em></span><span class="v">¥${yen(m.gNp)}</span></div>
+      <div class="row rev"><span class="k">料金見直し診断 <em>${m.nRv.toFixed(1)}件</em></span><span class="v">¥${yen(m.gRv)}</span></div>
       <div class="row sum"><span class="k">粗利 合計</span><span class="v positive">¥${yen(m.gross)}</span></div>
       <div class="row cost"><span class="k">家賃</span><span class="v">−¥${yen(d.rent)}</span></div>
       <div class="row cost"><span class="k">その他固定費</span><span class="v">−¥${yen(d.other)}</span></div>
@@ -815,7 +852,7 @@
     $('s_cust_f').textContent = `市場の ${sat.toFixed(0)}% を消化（生存 ${Math.round(m.active)}人）`;
 
     // 損益分岐に必要な来店数（生活費込み）
-    const perVisit = d.rp*d.repm + d.dp*d.devm + d.sp*d.svcp + d.accp + (d.mon>=7 ? d.simr*d.simf : 0);
+    const perVisit = d.rp*d.repm + d.dp*d.devm + d.sp*d.svcp + d.accp + (d.mon>=7 ? d.simr*d.simf : 0) + d.np*d.npm + d.rv*d.rvp;
     const nonVisit = m.gMemb + m.gLes;   // 来店数に依存しない粗利
     const needGross = d.rent + d.other + d.pay;
     const bev = perVisit > 0 ? Math.max(0, (needGross - nonVisit) / perVisit) : Infinity;
@@ -833,8 +870,9 @@
     // 稼働率
     const CAP = 2 * 8 * 22; // 352時間
     const hours = m.nRep * 1.5 + m.nDev * 1.0 + m.nSvc * 1.0
-                + Math.max(0, m.visits - m.nRep - m.nDev - m.nSvc) * 0.3
-                + m.nLes * 0.5 + 20; // イベント・出張の実働20h
+                + m.nNp * 1.5 + m.nRv * 0.5
+                + Math.max(0, m.visits - m.nRep - m.nDev - m.nSvc - m.nNp - m.nRv) * 0.3
+                + m.nLes * 0.5 + 20;
     const util = hours / CAP * 100;
     $('s_util').textContent = util.toFixed(0) + '%';
     $('s_util').className = 'num ' + (util > 100 ? 'negative' : util > 80 ? '' : 'positive');
