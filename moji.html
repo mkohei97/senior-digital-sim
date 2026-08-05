@@ -346,6 +346,31 @@ function getLog() {
 }
 function saveLog(log) { storeSet('kokosuma_moji', JSON.stringify(log)); }
 
+// ------- 受講記録の自動送信(カルテのスプレッドシートへ) -------
+// KIROKU_URL: GoogleフォームのformResponse URL。空のままなら送信しない(従来どおりスタッフ転記)。
+var KIROKU_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfHrlELGXTZYcrv40UMES-UMGC5OYtBedqvhPvhjp_MMVVfxg/formResponse';
+var KIROKU_KEYS = { m: 'entry.576526930', course: 'entry.193744536', method: 'entry.711671760', cpm: 'entry.708142637', fixes: 'entry.610332170' };
+// 会員番号: 会員カードのQR(?m=番号)から受け取り、端末内に覚える。ゲスト(番号なし)は送信しない。
+var memberNo = '';
+(function () {
+  try {
+    var m = new URLSearchParams(location.search).get('m');
+    if (m && /^[0-9A-Za-z-]{1,12}$/.test(m)) { memberNo = m; storeSet('kokosuma_member', m); }
+    else { memberNo = storeGet('kokosuma_member') || ''; }
+  } catch (e) {}
+})();
+function sendKiroku(course, method, cpm, fixes) {
+  if (!KIROKU_URL || !memberNo) return;
+  try {
+    var body = KIROKU_KEYS.m + '=' + encodeURIComponent(memberNo) +
+      '&' + KIROKU_KEYS.course + '=' + encodeURIComponent(course) +
+      '&' + KIROKU_KEYS.method + '=' + encodeURIComponent(method) +
+      '&' + KIROKU_KEYS.cpm + '=' + encodeURIComponent(cpm) +
+      '&' + KIROKU_KEYS.fixes + '=' + encodeURIComponent(fixes);
+    fetch(KIROKU_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body });
+  } catch (e) {}
+}
+
 // ------- 入力方式チップ -------
 var METHODS = [ { id: 'voice', label: '声' }, { id: 'toggle', label: 'ガラケー打ち' }, { id: 'flick', label: 'フリック' } ];
 function renderMethods() {
@@ -463,6 +488,7 @@ function finishPractice() {
   }
   log.last[cur.course] = { cpm: cpm, fixes: cur.fixes, at: new Date().toISOString().slice(0, 10) };
   saveLog(log);
+  sendKiroku(cur.course, log.method || '', cpm, cur.fixes);
   // 開花アニメを毎回再生
   var f = document.querySelector('.bigflower');
   f.style.animation = 'none';
