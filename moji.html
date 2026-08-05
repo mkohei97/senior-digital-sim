@@ -179,7 +179,7 @@
   <div class="pad">
     <div class="head">
       <h1>文字入力のれんしゅう</h1>
-      <div class="sub">自分のペースで、どうぞ。</div>
+      <div class="sub" id="select-greet">自分のペースで、どうぞ。</div>
     </div>
     <div>
       <div class="cap" style="margin-bottom:8px;">入力のしかた</div>
@@ -204,7 +204,8 @@
       <svg viewBox="0 0 24 24"><use href="#ic-sakura-a"></use></svg>
       <span id="last-line-tx"></span>
     </div>
-    <div class="footer">ここスマ・文字入力れんしゅう 試作版 v0.1</div>
+    <div class="quietlink" onclick="location.href='p.html'">会員証・メニューにもどる</div>
+    <div class="footer">ここスマ・文字入力れんしゅう 試作版 v0.3</div>
   </div>
 </div>
 
@@ -291,7 +292,7 @@
     <svg class="bigflower" width="104" height="104" viewBox="0 0 24 24" style="margin-top:12px;"><use href="#ic-sakura-a"></use></svg>
     <div>
       <div class="dekita">できました</div>
-      <div class="dekisub">桜が、1輪咲きました。</div>
+      <div class="dekisub">この調子で、今度はお店の桜も咲かせましょう。</div>
     </div>
     <div class="panel stats">
       <div class="row"><span class="k">1分あたり</span><span class="v" id="r-cpm">-<small> 文字</small></span></div>
@@ -354,9 +355,12 @@ var KIROKU_KEYS = { m: 'entry.576526930', course: 'entry.193744536', method: 'en
 var memberNo = '';
 (function () {
   try {
-    var m = new URLSearchParams(location.search).get('m');
+    var q0 = new URLSearchParams(location.search);
+    var m = q0.get('m');
     if (m && /^[0-9A-Za-z-]{1,12}$/.test(m)) { memberNo = m; storeSet('kokosuma_member', m); }
     else { memberNo = storeGet('kokosuma_member') || ''; }
+    var nm = q0.get('n');
+    if (nm && nm.length <= 20) { storeSet('kokosuma_name', nm); }
   } catch (e) {}
 })();
 function sendKiroku(course, method, cpm, fixes) {
@@ -504,6 +508,8 @@ function endSession() { renderMethods(); show('scr-select'); }
 (function () {
   renderMethods();
   try {
+    var nm2 = storeGet('kokosuma_name');
+    if (nm2) document.getElementById('select-greet').textContent = nm2 + 'さん、自分のペースで、どうぞ。';
     var c = new URLSearchParams(location.search).get('c');
     if (c === 'voice') openVoiceGuide();
     else if (c === 'fix' || c === 'type') startPractice(c);
