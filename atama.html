@@ -9,9 +9,9 @@
     /* ①ブランド(不変) */
     --brand: #0F766E;
     /* ②操作色(固定。秋スキン適用時にティール系へ差し替え予定) */
-    --action: #E75480;
-    --action-edge: #B23A61;
-    --accent-deep: #C22E63;
+    --action: #11866D;
+    --action-edge: #0A6350;
+    --accent-deep: #0B4F42;
     --ok: #2E8B57;
     --ok-edge: #1E5E3A;
     /* ③景色(季節で変わる) */
@@ -24,8 +24,15 @@
     --season-deep-bg1: #F9CBDD;
     --season-deep-bg2: #F6B9D0;
   }
-  /* 季節スキン(春=既定値。他季節は19j§5の設計後に追加) */
-  body[data-season="spring"] { }
+  /* 季節スキン(19j② Claude Design設計値) */
+  body[data-season="spring"] { --season-bg1: #D8ECFA; --season-bg2: #FDF3F6; --season-bg3: #FBE3EC; --season-border: #F3D8E2;
+    --season-pale: #FBE7EF; --season-light: #F3A9C7; --season-deep: #A9436E; --season-deep-bg1: #F9CBDD; --season-deep-bg2: #F6B9D0; }
+  body[data-season="summer"] { --season-bg1: #CDEBFA; --season-bg2: #EAF7FD; --season-bg3: #E3F4E9; --season-border: #CDE4EC;
+    --season-pale: #E3F2F8; --season-light: #A5D3A0; --season-deep: #2A6E8F; --season-deep-bg1: #C4E5F6; --season-deep-bg2: #ACD8F0; }
+  body[data-season="autumn"] { --season-bg1: #FBE7D0; --season-bg2: #FDF4E7; --season-bg3: #F8E2CC; --season-border: #F0D8BE;
+    --season-pale: #FAECD9; --season-light: #F2B879; --season-deep: #9E4E22; --season-deep-bg1: #F7D9B4; --season-deep-bg2: #F2C795; }
+  body[data-season="winter"] { --season-bg1: #DCE9F5; --season-bg2: #F5F8FB; --season-bg3: #EDF2F8; --season-border: #DBE5EF;
+    --season-pale: #EAF1F7; --season-light: #C4D4CA; --season-deep: #8A3A48; --season-deep-bg1: #E3EDF6; --season-deep-bg2: #D3E2EF; }
 
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; }
@@ -76,7 +83,7 @@
   .sakura-card .line { font-size: 21px; line-height: 1.5; }
   .sakura-card .num { font-size: 38px; font-weight: 700; color: var(--accent-deep); }
   .sakura-card .track { height: 13px; border-radius: 999px; background: #F3E3EA; overflow: hidden; }
-  .sakura-card .track i { display: block; height: 100%; width: 0%; border-radius: 999px; background: linear-gradient(90deg, var(--season-light), var(--action)); }
+  .sakura-card .track i { display: block; height: 100%; width: 0%; border-radius: 999px; background: linear-gradient(90deg, var(--season-light), var(--season-deep)); }
   .sakura-card .hint { font-size: 19px; color: #555555; }
 
   /* 種目カード(ホーム) */
@@ -179,7 +186,7 @@
   .tree-panel svg { width: 100%; max-width: 620px; height: auto; }
   .meter-wrap { display: flex; flex-direction: column; gap: 8px; align-items: center; }
   .meter { height: 14px; width: 78%; max-width: 480px; border-radius: 999px; background: #F3E3EA; overflow: hidden; }
-  .meter i { display: block; height: 100%; width: 0%; border-radius: 999px; background: linear-gradient(90deg, var(--season-light), var(--action)); }
+  .meter i { display: block; height: 100%; width: 0%; border-radius: 999px; background: linear-gradient(90deg, var(--season-light), var(--season-deep)); }
   .tree-msg { font-size: 24px; font-weight: 700; color: var(--accent-deep); text-align: center; }
 
   /* 今日できたこと */
@@ -246,22 +253,22 @@
   .staff-qr-cap { font-size: 24px; font-weight: 700; color: var(--accent-deep); text-align: center; }
 
   /* ---- ログイン状態の見える化(v1.3) ---- */
-  .member-band { display: none; margin: 0 -26px 0; padding: 10px 22px 10px 26px; background: linear-gradient(90deg, var(--action), var(--season-light));
+  .member-band { display: none; margin: 0 -26px 0; padding: 10px 22px 10px 26px; background: linear-gradient(90deg, var(--season-deep), var(--season-light));
     align-items: center; gap: 14px; }
   .member-band .flo { width: 40px; height: 40px; border-radius: 999px; background: rgba(255,255,255,0.92); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .member-band .flo svg { width: 27px; height: 27px; }
   .member-band .t { font-size: 26px; font-weight: 700; color: #FFFFFF; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .member-band .t b { font-size: 29px; }
-  .member-band .endbtn { background: #FFFFFF; border-radius: 999px; padding: 8px 20px; font-size: 20px; font-weight: 700; color: var(--accent-deep);
-    cursor: pointer; box-shadow: 0 3px 0 var(--action-edge); flex-shrink: 0; }
+  .member-band .endbtn { background: #FFFFFF; border-radius: 999px; padding: 8px 20px; font-size: 20px; font-weight: 700; color: var(--season-deep);
+    cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,0.18); flex-shrink: 0; }
   .member-band .endbtn:active { transform: translateY(3px); box-shadow: none; }
   .ovl { position: fixed; inset: 0; z-index: 50; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
     background: linear-gradient(180deg, var(--season-deep-bg1) 0%, var(--season-deep-bg2) 55%, var(--season-light) 100%); text-align: center; overflow: hidden; }
   .ovl.on { display: flex; }
   .ovl .bigflo { width: 190px; height: 190px; animation: bloomIn 1.4s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
-  .ovl .l1 { font-size: 52px; font-weight: 700; color: #8F2C4F; line-height: 1.4; padding: 0 30px; position: relative; }
+  .ovl .l1 { font-size: 52px; font-weight: 700; color: var(--season-deep); line-height: 1.4; padding: 0 30px; position: relative; }
   .ovl .l1 b { font-size: 58px; }
-  .ovl .l2 { font-size: 26px; color: #A0526E; }
+  .ovl .l2 { font-size: 26px; color: var(--season-deep); opacity: 0.75; }
   .ovl .fall { position: absolute; top: -60px; animation: petalFall linear infinite; opacity: 0.85; }
   @keyframes petalFall { 0% { transform: translateY(0) rotate(-10deg); } 100% { transform: translateY(1150px) rotate(50deg); } }
 </style>
@@ -324,6 +331,29 @@
     <path d="M12 3.2 L13.7 8.8 L19.2 7 L15.6 11.5 L20.3 15 L14.9 14.2 L15.7 17.3 L13.1 15.2 L12 17 L10.9 15.2 L8.3 17.3 L9.1 14.2 L3.7 15 L8.4 11.5 L4.8 7 L10.3 8.8 Z" fill="#D6EAD8"></path>
     <path d="M12 17 V21.4"></path>
   </symbol>
+  <symbol id="ic-leaf-a" viewBox="0 0 24 24">
+    <path d="M12 2.6 C17 6 19.4 10.6 18.6 15.8 C18 19.5 15.4 21.6 12 21.6 C8.6 21.6 6 19.5 5.4 15.8 C4.6 10.6 7 6 12 2.6 Z" fill="url(#ga-leaf)"></path>
+    <path d="M12 5.4 L12 21" stroke="#5E8F58" stroke-width="1" opacity="0.55" fill="none" stroke-linecap="round"></path>
+    <path d="M12 10 L8.6 13 M12 13.6 L15.4 16.4" stroke="#5E8F58" stroke-width="0.9" opacity="0.45" fill="none" stroke-linecap="round"></path>
+  </symbol>
+  <symbol id="ic-momiji-a" viewBox="0 0 24 24">
+    <path d="M12 3.2 L13.7 8.8 L19.2 7 L15.6 11.5 L20.3 15 L14.9 14.2 L15.7 17.3 L13.1 15.2 L12 17 L10.9 15.2 L8.3 17.3 L9.1 14.2 L3.7 15 L8.4 11.5 L4.8 7 L10.3 8.8 Z" fill="url(#ga-momiji)"></path>
+    <path d="M12 17 V21.4" stroke="#9E4E22" stroke-width="1.2" stroke-linecap="round"></path>
+  </symbol>
+  <symbol id="ic-tsubaki-a" viewBox="0 0 24 24">
+    <circle cx="12" cy="7.4" r="4.4" fill="url(#ga-tsubaki)"></circle>
+    <circle cx="16.4" cy="10.6" r="4.4" fill="url(#ga-tsubaki)"></circle>
+    <circle cx="14.7" cy="15.8" r="4.4" fill="url(#ga-tsubaki)"></circle>
+    <circle cx="9.3" cy="15.8" r="4.4" fill="url(#ga-tsubaki)"></circle>
+    <circle cx="7.6" cy="10.6" r="4.4" fill="url(#ga-tsubaki)"></circle>
+    <circle cx="12" cy="12" r="2.4" fill="#F3C13F"></circle>
+    <circle cx="12" cy="12" r="1.1" fill="#D9A21B"></circle>
+  </symbol>
+  <symbol id="ic-asagao-a" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8.6" fill="url(#ga-asagao)"></circle>
+    <path d="M12 3.4 L13.4 10.6 L20.6 12 L13.4 13.4 L12 20.6 L10.6 13.4 L3.4 12 L10.6 10.6 Z" fill="#FFFFFF" opacity="0.85"></path>
+    <circle cx="12" cy="12" r="1.6" fill="#FFF6D9"></circle>
+  </symbol>
   <symbol id="ic-phone" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
     <rect x="7" y="2.6" width="10" height="18.8" rx="2.4" fill="#E7E2F5"></rect>
     <path d="M10.8 5.2 H13.2"></path>
@@ -335,6 +365,23 @@
       <stop offset="0.55" stop-color="#FBDCE8"></stop>
       <stop offset="1" stop-color="#F3A9C7"></stop>
     </linearGradient>
+    <linearGradient id="ga-leaf" x1="0.5" y1="1" x2="0.5" y2="0">
+      <stop offset="0" stop-color="#6FAE6E"></stop>
+      <stop offset="1" stop-color="#A5D3A0"></stop>
+    </linearGradient>
+    <linearGradient id="ga-momiji" x1="0.5" y1="1" x2="0.5" y2="0">
+      <stop offset="0" stop-color="#C25A2A"></stop>
+      <stop offset="0.55" stop-color="#E08A45"></stop>
+      <stop offset="1" stop-color="#F2B879"></stop>
+    </linearGradient>
+    <radialGradient id="ga-tsubaki" cx="0.5" cy="0.42" r="0.65">
+      <stop offset="0" stop-color="#D9697B"></stop>
+      <stop offset="1" stop-color="#B94A5C"></stop>
+    </radialGradient>
+    <radialGradient id="ga-asagao" cx="0.5" cy="0.45" r="0.6">
+      <stop offset="0" stop-color="#7C9BDE"></stop>
+      <stop offset="1" stop-color="#5B7FD1"></stop>
+    </radialGradient>
     <radialGradient id="ga-center" cx="0.5" cy="0.45" r="0.6">
       <stop offset="0" stop-color="#E85D8E"></stop>
       <stop offset="1" stop-color="#C22E63"></stop>
@@ -391,7 +438,7 @@
       <h1>あたまと指の体操</h1>
       <div class="greet" id="home-greet">こんにちは。今日も、ゆっくりどうぞ。</div>
       <div class="member-band" id="member-band">
-        <span class="flo"><svg viewBox="0 0 24 24"><use href="#ic-sakura-a"></use></svg></span>
+        <span class="flo"><svg viewBox="0 0 24 24"><use class="skin-use" href="#ic-sakura-a"></use></svg></span>
         <span class="t" id="member-band-tx"><b>ハナさん</b>の時間です</span>
         <span class="endbtn" onclick="logoutMember(false)">終わりにする</span>
       </div>
@@ -404,12 +451,12 @@
       </div>
     </div>
     <div class="panel sakura-card" onclick="showTree()">
-      <svg class="minitree" viewBox="0 0 320 240" id="home-tree-svg" role="img" aria-label="みんなの桜の木"></svg>
+      <svg class="minitree" viewBox="0 0 320 240" id="home-tree-svg" role="img" aria-label="みんなの木"></svg>
       <div class="info">
-        <div class="name">みんなの桜</div>
-        <div class="line">今月は <span class="num" id="home-sakura-count">0</span> 輪 咲きました</div>
+        <div class="name" id="home-tree-name">みんなの桜</div>
+        <div class="line">今月は <span class="num" id="home-sakura-count">0</span> <span id="home-tree-unitline">輪 咲きました</span></div>
         <div class="track"><i id="home-sakura-bar"></i></div>
-        <div class="hint">80輪で満開です ・ 押すと大きく見られます</div>
+        <div class="hint" id="home-tree-hint">80輪で満開です ・ 押すと大きく見られます</div>
       </div>
     </div>
     <div class="game-card g-kofun" onclick="startQuiz()">
@@ -425,7 +472,7 @@
     <div class="game-card g-tile" onclick="startNums()">
       <span class="chip" style="background:var(--season-pale);"><svg viewBox="0 0 24 24"><use href="#ic-tile"></use></svg></span>
       <div class="tx"><b>順番タップ</b><span>1から順に押していきます</span></div>
-      <span class="go" style="background:var(--action);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
+      <span class="go" style="background:#E75480;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
     </div>
     <div class="game-card g-phone" onclick="showQr()">
       <span class="chip" style="background:#E7E2F5;"><svg viewBox="0 0 24 24"><use href="#ic-phone"></use></svg></span>
@@ -438,7 +485,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.3(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.5(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -516,13 +563,13 @@
     <div class="appbar">
       <div class="left">
         <span class="icchip" style="background:var(--season-pale);"><svg viewBox="0 0 24 24"><use href="#ic-sakura"></use></svg></span>
-        <span class="t">みんなの桜</span>
+        <span class="t" id="tree-title">みんなの桜</span>
       </div>
       <span class="badge" id="tree-stage"></span>
     </div>
-    <div class="tree-count-line" id="tree-month-line">今月は <b id="tree-count">0</b> 輪(80輪まで)</div>
+    <div class="tree-count-line" id="tree-month-line">今月は <b id="tree-count">0</b> <span id="tree-unitline">輪(80輪まで)</span></div>
     <div class="panel tree-panel">
-      <svg id="tree-svg" viewBox="0 0 320 240" role="img" aria-label="みんなの桜の木"></svg>
+      <svg id="tree-svg" viewBox="0 0 320 240" role="img" aria-label="みんなの木"></svg>
     </div>
     <div class="meter-wrap">
       <div class="meter"><i id="tree-bar"></i></div>
@@ -685,6 +732,38 @@
 </div>
 
 <script>
+// ------- 季節エンジン(19j: 同じ木が四季を巡る) -------
+var SEASON_SKINS = {
+  spring: { sym: 'ic-sakura-a', puff: ['#FBEFF3', '#F9E3EB', '#F5D3DF', '#F0C2D3', '#EBB2C7'], bud: '#C97F9E', ground: '#F0DBE4', groundBits: '#F6C8DB',
+    name: 'みんなの桜', unit: '輪', verb: '咲きました', hint: '80輪で満開です',
+    stages: ['つぼみ', '咲き始め', '一分咲き', '三分咲き', '五分咲き', '七分咲き', '九分咲き', '満開'],
+    fullMsg: '満開です。皆さんの力で咲きました。', restMsg: '満開まで、あと{n}輪です。', emptyMsg: 'まだつぼみです。遊ぶと咲きます' },
+  summer: { sym: 'ic-leaf-a', accentSym: 'ic-asagao-a', puff: ['#EAF6E8', '#D9EED6', '#BFE3B9', '#A5D3A0', '#8CC487'], bud: '#7FA06B', ground: '#DDEBD9', groundBits: '#A5D3A0',
+    name: 'みんなの青葉', unit: '枚', verb: '茂りました', hint: '80枚で盛りです',
+    stages: ['芽吹き前', '芽吹き', '一分', '三分', '五分', '七分', '九分', '青葉の盛り'],
+    fullMsg: '青葉の盛りです。皆さんの力で茂りました。朝顔も咲きました。', restMsg: '盛りまで、あと{n}枚です。', emptyMsg: 'まだ芽吹き前です。遊ぶと茂ります' },
+  autumn: { sym: 'ic-momiji-a', puff: ['#FAE6C8', '#F6D5A8', '#F2B879', '#EFA95F', '#E08A45'], bud: '#B5713C', ground: '#F0DFC8', groundBits: '#E8B47E',
+    name: 'みんなの紅葉', unit: '枚', verb: '色づきました', hint: '80枚で盛りです',
+    stages: ['色づき前', '色づき始め', '一分', '三分', '五分', '七分', '九分', '紅葉の盛り'],
+    fullMsg: '紅葉の盛りです。皆さんの力で色づきました。', restMsg: '盛りまで、あと{n}枚です。', emptyMsg: 'まだ色づき前です。遊ぶと色づきます' },
+  winter: { sym: 'ic-tsubaki-a', puff: ['#FFFFFF', '#F4F8FB', '#E6EEF3', '#D5E2DB', '#C4D4CA'], bud: '#9AAFA3', ground: '#E9F0F6', groundBits: '#FFFFFF',
+    name: 'みんなの椿', unit: '輪', verb: '咲きました', hint: '80輪で満開です',
+    stages: ['つぼみ', '咲き始め', '一分咲き', '三分咲き', '五分咲き', '七分咲き', '九分咲き', '満開'],
+    fullMsg: '椿が満開です。雪の中、皆さんの力で咲きました。', restMsg: '満開まで、あと{n}輪です。', emptyMsg: 'まだつぼみです。遊ぶと咲きます' }
+};
+function detectSeason() {
+  try {
+    var q = new URLSearchParams(location.search).get('season');
+    if (q && SEASON_SKINS[q]) return q;
+  } catch (e) {}
+  var m = new Date().getMonth() + 1;
+  return (m >= 3 && m <= 5) ? 'spring' : (m >= 6 && m <= 8) ? 'summer' : (m >= 9 && m <= 11) ? 'autumn' : 'winter';
+}
+var SEASON = detectSeason();
+var SKIN = SEASON_SKINS[SEASON];
+
+
+
 // ------- 記録(このセッションの分) -------
 function newRecord() { return { quizDone: 0, quizAnswered: 0, cardsRounds: 0, numsMax: 0, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0 }, memo: [] }; }
 var record = newRecord();
@@ -729,7 +808,7 @@ function dateLabel() {
   var host = document.getElementById('petals');
   host.innerHTML = defs.map(function (p) {
     return '<svg width="' + p.s + '" height="' + p.s + '" viewBox="0 0 24 24" style="left:' + p.x + '%;top:' + p.y + '%;opacity:' + p.op +
-      ';animation:petalFloat ' + p.dur + 's ease-in-out ' + p.delay + 's infinite;"><use href="#ic-sakura-a"></use></svg>';
+      ';animation:petalFloat ' + p.dur + 's ease-in-out ' + p.delay + 's infinite;"><use href="#' + SKIN.sym + '"></use></svg>';
   }).join('');
 })();
 
@@ -777,14 +856,15 @@ function gameCompleted(game) {
 
 // ------- 桜の木(A案リッチ桜・花の粒方式 / Claude Design制作) -------
 function stageLabel(c) {
-  if (c >= 80) return '満開';
-  if (c >= 72) return '九分咲き';
-  if (c >= 56) return '七分咲き';
-  if (c >= 40) return '五分咲き';
-  if (c >= 24) return '三分咲き';
-  if (c >= 8) return '一分咲き';
-  if (c > 0) return '咲き始め';
-  return 'つぼみ';
+  var st = SKIN.stages;
+  if (c >= 80) return st[7];
+  if (c >= 72) return st[6];
+  if (c >= 56) return st[5];
+  if (c >= 40) return st[4];
+  if (c >= 24) return st[3];
+  if (c >= 8) return st[2];
+  if (c > 0) return st[1];
+  return st[0];
 }
 var BRANCH_DEFS = [
   { d: 'M151 170 C126 152 98 136 58 120 L60 114 C100 128 128 142 154 158 Z', ox: 152, oy: 166,
@@ -836,7 +916,7 @@ function buildBranches() {
         var rnd = frac(Math.sin((pj + 1) * 91.7) * 4321.9);
         var isMini = pj % 7 === 0;
         var s = 6 + (pj % 4);
-        puffs.push({ rnd: rnd, isMini: isMini, cx: cx, cy: cy, r: rad, col: puffPalette[pj % 5], s: s, x: +(cx - s / 2).toFixed(1), y: +(cy - s / 2).toFixed(1) });
+        puffs.push({ rnd: rnd, isMini: isMini, cx: cx, cy: cy, r: rad, ci: pj % 5, s: s, x: +(cx - s / 2).toFixed(1), y: +(cy - s / 2).toFixed(1) });
         pj++;
       }
     });
@@ -852,15 +932,15 @@ function showTree() {
   document.getElementById('tree-stage').textContent = stageLabel(data.count);
   document.getElementById('tree-bar').style.width = Math.min(100, Math.round(data.count / SAKURA_GOAL * 100)) + '%';
   document.getElementById('tree-msg').textContent = data.count >= SAKURA_GOAL
-    ? '満開です。皆さんの力で咲きました。'
-    : '満開まで、あと' + (SAKURA_GOAL - data.count) + '輪です。';
+    ? SKIN.fullMsg
+    : SKIN.restMsg.replace('{n}', SAKURA_GOAL - data.count);
   drawTree(data.count, document.getElementById('tree-svg'), false);
   show('scr-tree');
 }
 function drawTree(count, svg, mini) {
   var shown = Math.min(count, SAKURA_GOAL);
   var parts = [];
-  parts.push('<ellipse cx="160" cy="228" rx="62" ry="6" fill="#F0DBE4"/>');
+  parts.push('<ellipse cx="160" cy="228" rx="62" ry="6" fill="' + SKIN.ground + '"/>');
   parts.push('<g style="transform-box:view-box;transform-origin:160px 228px;animation:treeSway 7s ease-in-out infinite;">');
   parts.push('<path d="M144 228 C150 206 151 186 151 162 L150 146 L160 146 C160 164 162 186 168 206 C171 216 174 222 178 228 Z" fill="url(#bark)"/>');
   parts.push('<path d="M148 220 C151 196 151 176 151 158" stroke="#A9805B" stroke-width="2.5" opacity="0.5" fill="none" stroke-linecap="round"/>');
@@ -873,17 +953,17 @@ function drawTree(count, svg, mini) {
       parts.push('<path d="' + tw.d + '" stroke="url(#bark)" stroke-width="' + tw.w + '" fill="none" stroke-linecap="round"/>');
     });
     b.puffs.forEach(function (q) {
-      if (!q.isMini && q.rnd < pf) parts.push('<circle cx="' + q.cx + '" cy="' + q.cy + '" r="' + q.r + '" fill="' + q.col + '"/>');
+      if (!q.isMini && q.rnd < pf) parts.push('<circle cx="' + q.cx + '" cy="' + q.cy + '" r="' + q.r + '" fill="' + SKIN.puff[q.ci] + '"/>');
     });
     b.puffs.forEach(function (q) {
-      if (q.isMini && q.rnd < pf) parts.push('<use href="#ic-sakura-a" x="' + q.x + '" y="' + q.y + '" width="' + q.s + '" height="' + q.s + '"/>');
+      if (q.isMini && q.rnd < pf) parts.push('<use href="#' + (SKIN.accentSym && q.ci === 0 ? SKIN.accentSym : SKIN.sym) + '" x="' + q.x + '" y="' + q.y + '" width="' + q.s + '" height="' + q.s + '"/>');
     });
     b.flowers.forEach(function (f) {
       if (f.rank < shown) {
         var extra = (!mini && f.rank === shown - 1) ? ' style="transform-box:fill-box;transform-origin:50% 80%;animation:bloomIn 0.9s ease-out;"' : '';
-        parts.push('<use href="#ic-sakura-a" x="' + f.x + '" y="' + f.y + '" width="' + f.s + '" height="' + f.s + '"' + extra + '/>');
+        parts.push('<use href="#' + SKIN.sym + '" x="' + f.x + '" y="' + f.y + '" width="' + f.s + '" height="' + f.s + '"' + extra + '/>');
       } else {
-        parts.push('<circle cx="' + f.cx + '" cy="' + f.cy + '" r="2" fill="#C97F9E"/>');
+        parts.push('<circle cx="' + f.cx + '" cy="' + f.cy + '" r="2" fill="' + SKIN.bud + '"/>');
       }
     });
     parts.push('</g>');
@@ -892,11 +972,11 @@ function drawTree(count, svg, mini) {
   if (shown >= SAKURA_GOAL) {
     var petals = [[112, 224, -30], [128, 230, 15], [146, 233, 50], [170, 231, -10], [188, 226, 35], [204, 230, -45], [220, 224, 20], [98, 229, 60], [236, 229, -25], [158, 236, 5]];
     petals.forEach(function (pt) {
-      parts.push('<ellipse cx="' + pt[0] + '" cy="' + pt[1] + '" rx="3.4" ry="2" fill="#F6C8DB" opacity="0.85" transform="rotate(' + pt[2] + ' ' + pt[0] + ' ' + pt[1] + ')"/>');
+      parts.push('<ellipse cx="' + pt[0] + '" cy="' + pt[1] + '" rx="3.4" ry="2" fill="' + SKIN.groundBits + '" opacity="0.85" transform="rotate(' + pt[2] + ' ' + pt[0] + ' ' + pt[1] + ')"/>');
     });
   }
   if (shown === 0 && !mini) {
-    parts.push('<text x="160" y="30" font-size="15" text-anchor="middle" fill="#A88F96">まだつぼみです。遊ぶと咲きます</text>');
+    parts.push('<text x="160" y="30" font-size="15" text-anchor="middle" fill="#A88F96">' + SKIN.emptyMsg + '</text>');
   }
   svg.innerHTML = parts.join('');
 }
@@ -966,7 +1046,7 @@ function renderQuizQ() {
 }
 
 function sakuraIconHtml(size) {
-  return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24"><use href="#ic-sakura-a"></use></svg>';
+  return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24"><use href="#' + SKIN.sym + '"></use></svg>';
 }
 
 function answerQuiz(el, isCorrect, q) {
@@ -1236,12 +1316,12 @@ updateHome();
 
 <!-- ウェルカム/お見送り(v1.3) -->
 <div class="ovl" id="ovl-welcome">
-  <svg class="bigflo" viewBox="0 0 24 24"><use href="#ic-sakura-a"></use></svg>
+  <svg class="bigflo" viewBox="0 0 24 24"><use class="skin-use" href="#ic-sakura-a"></use></svg>
   <div class="l1" id="welcome-tx"><b>ようこそ</b></div>
   <div class="l2">まもなく始まります</div>
 </div>
 <div class="ovl" id="ovl-bye">
-  <svg class="bigflo" viewBox="0 0 24 24"><use href="#ic-sakura-a"></use></svg>
+  <svg class="bigflo" viewBox="0 0 24 24"><use class="skin-use" href="#ic-sakura-a"></use></svg>
   <div class="l1" id="bye-tx">お疲れさまでした</div>
   <div class="l2">また来てくださいね</div>
 </div>
@@ -13703,7 +13783,7 @@ function sprinklePetals(id) {
     sv.style.left = (4 + (i * 37) % 92) + '%';
     sv.style.animationDuration = (4 + (i % 5)) + 's';
     sv.style.animationDelay = (-((i * 13) % 40) / 10) + 's';
-    sv.innerHTML = '<use href="#ic-sakura-a"></use>';
+    sv.innerHTML = '<use href="#' + SKIN.sym + '"></use>';
     el.appendChild(sv);
   }
 }
@@ -13837,6 +13917,15 @@ var __origShowSummary = (typeof showSummary === 'function') ? showSummary : null
 if (__origShowSummary) {
   showSummary = function () { __origShowSummary(); logoutMember(true); };
 }
+function applySeasonTexts() {
+  document.getElementById('home-tree-name').textContent = SKIN.name;
+  document.getElementById('home-tree-unitline').textContent = SKIN.unit + ' ' + SKIN.verb;
+  document.getElementById('home-tree-hint').textContent = SKIN.hint + ' ・ 押すと大きく見られます';
+  document.getElementById('tree-title').textContent = SKIN.name;
+  document.getElementById('tree-unitline').textContent = SKIN.unit + '(80' + SKIN.unit + 'まで)';
+  document.querySelectorAll('use.skin-use').forEach(function (u) { u.setAttribute('href', '#' + SKIN.sym); });
+}
+applySeasonTexts();
 updateMemberUi();
 renderQrScreen();
 </script>
@@ -13846,9 +13935,7 @@ renderQrScreen();
 (function () {
   var m = new Date().getMonth() + 1;
   var s = (m >= 3 && m <= 5) ? 'spring' : (m >= 6 && m <= 8) ? 'summer' : (m >= 9 && m <= 11) ? 'autumn' : 'winter';
-  // 他季節のスキン実装まで、判定結果に関わらず spring を適用(見た目不変)
-  document.body.setAttribute('data-season', 'spring');
-  document.body.setAttribute('data-season-actual', s);
+  document.body.setAttribute('data-season', (typeof SEASON !== 'undefined') ? SEASON : s);
 })();
 </script>
 </body>
