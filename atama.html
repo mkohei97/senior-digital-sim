@@ -222,6 +222,26 @@
   .staff-qr-card { background: rgba(255,255,255,0.95); border: 1px solid #F3D8E2; border-radius: 28px; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; box-shadow: 0 10px 26px rgba(196, 88, 128, 0.12); }
   .staff-qr-card img { width: 300px; height: 300px; image-rendering: pixelated; }
   .staff-qr-cap { font-size: 24px; font-weight: 700; color: #C22E63; text-align: center; }
+
+  /* ---- ログイン状態の見える化(v1.3) ---- */
+  .member-band { display: none; margin: 0 -26px 0; padding: 10px 22px 10px 26px; background: linear-gradient(90deg, #E75480, #F3A9C7);
+    align-items: center; gap: 14px; }
+  .member-band .flo { width: 40px; height: 40px; border-radius: 999px; background: rgba(255,255,255,0.92); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .member-band .flo svg { width: 27px; height: 27px; }
+  .member-band .t { font-size: 26px; font-weight: 700; color: #FFFFFF; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .member-band .t b { font-size: 29px; }
+  .member-band .endbtn { background: #FFFFFF; border-radius: 999px; padding: 8px 20px; font-size: 20px; font-weight: 700; color: #C22E63;
+    cursor: pointer; box-shadow: 0 3px 0 #B23A61; flex-shrink: 0; }
+  .member-band .endbtn:active { transform: translateY(3px); box-shadow: none; }
+  .ovl { position: fixed; inset: 0; z-index: 50; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    background: linear-gradient(180deg, #F9CBDD 0%, #F6B9D0 55%, #F3A9C7 100%); text-align: center; overflow: hidden; }
+  .ovl.on { display: flex; }
+  .ovl .bigflo { width: 190px; height: 190px; animation: bloomIn 1.4s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+  .ovl .l1 { font-size: 52px; font-weight: 700; color: #8F2C4F; line-height: 1.4; padding: 0 30px; position: relative; }
+  .ovl .l1 b { font-size: 58px; }
+  .ovl .l2 { font-size: 26px; color: #A0526E; }
+  .ovl .fall { position: absolute; top: -60px; animation: petalFall linear infinite; opacity: 0.85; }
+  @keyframes petalFall { 0% { transform: translateY(0) rotate(-10deg); } 100% { transform: translateY(1150px) rotate(50deg); } }
 </style>
 </head>
 <body>
@@ -348,6 +368,11 @@
       <div class="date" id="home-date"></div>
       <h1>あたまと指の体操</h1>
       <div class="greet" id="home-greet">こんにちは。今日も、ゆっくりどうぞ。</div>
+      <div class="member-band" id="member-band">
+        <span class="flo"><svg viewBox="0 0 24 24"><use href="#ic-sakura-a"></use></svg></span>
+        <span class="t" id="member-band-tx"><b>ハナさん</b>の時間です</span>
+        <span class="endbtn" onclick="logoutMember(false)">終わりにする</span>
+      </div>
       <div class="member-row" style="margin-top:2px;">
         <div class="member-start" id="member-start" onclick="showLogin()">
           <svg width="24" height="24" viewBox="0 0 24 24"><use href="#ic-phone"></use></svg>
@@ -391,7 +416,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.2(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.3(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -1186,6 +1211,18 @@ function resetAll() {
 updateHome();
 </script>
 
+
+<!-- ウェルカム/お見送り(v1.3) -->
+<div class="ovl" id="ovl-welcome">
+  <svg class="bigflo" viewBox="0 0 24 24"><use href="#ic-sakura-a"></use></svg>
+  <div class="l1" id="welcome-tx"><b>ようこそ</b></div>
+  <div class="l2">まもなく始まります</div>
+</div>
+<div class="ovl" id="ovl-bye">
+  <svg class="bigflo" viewBox="0 0 24 24"><use href="#ic-sakura-a"></use></svg>
+  <div class="l1" id="bye-tx">お疲れさまでした</div>
+  <div class="l2">また来てくださいね</div>
+</div>
 <script>
 /* qrcode-generator v1.4.4 (MIT) */
 //---------------------------------------------------------------------
@@ -13604,19 +13641,48 @@ setInterval(function () {
 }, 30000);
 
 function pad4(n) { return ('0000' + n).slice(-4); }
+function memberLabel() { return session.n ? session.n + 'さん' : 'No. ' + pad4(session.m); }
 function updateMemberUi() {
   var st = document.getElementById('member-start');
   var bd = document.getElementById('member-badge');
+  var band = document.getElementById('member-band');
+  var row = st.parentElement;
   var greet = document.getElementById('home-greet');
+  bd.style.display = 'none';
   if (session.m) {
-    st.style.display = 'none';
-    bd.style.display = 'inline-flex';
-    bd.innerHTML = (session.n ? session.n + 'さん' : 'No. ' + pad4(session.m)) + ' <small>(押すと終わります)</small>';
-    greet.textContent = (session.n ? session.n + 'さん、' : '') + 'こんにちは。今日も、ゆっくりどうぞ。';
+    row.style.display = 'none';
+    band.style.display = 'flex';
+    document.getElementById('member-band-tx').innerHTML = '<b>' + memberLabel() + '</b>の時間です';
+    greet.style.display = 'none';
   } else {
+    row.style.display = 'flex';
     st.style.display = 'inline-flex';
-    bd.style.display = 'none';
+    band.style.display = 'none';
+    greet.style.display = 'block';
     greet.textContent = 'こんにちは。今日も、ゆっくりどうぞ。';
+  }
+}
+function showOverlay(id, ms, after) {
+  var el = document.getElementById(id);
+  var flo = el.querySelector('.bigflo');
+  flo.style.animation = 'none'; void flo.offsetWidth; flo.style.animation = '';
+  el.classList.add('on');
+  setTimeout(function () { el.classList.remove('on'); if (after) after(); }, ms);
+}
+function sprinklePetals(id) {
+  var el = document.getElementById(id);
+  el.querySelectorAll('.fall').forEach(function (n) { n.remove(); });
+  for (var i = 0; i < 10; i++) {
+    var sz = 22 + (i * 7) % 20;
+    var sv = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    sv.setAttribute('viewBox', '0 0 24 24');
+    sv.setAttribute('class', 'fall');
+    sv.style.width = sz + 'px'; sv.style.height = sz + 'px';
+    sv.style.left = (4 + (i * 37) % 92) + '%';
+    sv.style.animationDuration = (4 + (i % 5)) + 's';
+    sv.style.animationDelay = (-((i * 13) % 40) / 10) + 's';
+    sv.innerHTML = '<use href="#ic-sakura-a"></use>';
+    el.appendChild(sv);
   }
 }
 function loginMember(m, n) {
@@ -13624,12 +13690,22 @@ function loginMember(m, n) {
   lastAct = Date.now();
   stopCam();
   updateMemberUi();
-  goHome();
+  document.getElementById('welcome-tx').innerHTML = '<b>' + memberLabel() + '</b>、ようこそ';
+  showOverlay('ovl-welcome', 2200, function () { goHome(); });
 }
 function logoutMember(quiet) {
+  var had = !!session.m;
+  var label = had ? memberLabel() : '';
   session.m = ''; session.n = '';
   updateMemberUi();
-  if (!quiet) goHome();
+  if (quiet) return;
+  if (had) {
+    document.getElementById('bye-tx').innerHTML = '<b>' + label + '</b>、お疲れさまでした';
+    sprinklePetals('ovl-bye');
+    showOverlay('ovl-bye', 2200, function () { goHome(); });
+  } else {
+    goHome();
+  }
 }
 
 /* ===== カメラ読み取り ===== */
