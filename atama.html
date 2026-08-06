@@ -485,7 +485,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.5(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.6(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -1305,6 +1305,10 @@ function showSummary() {
 }
 
 function resetAll() {
+  if (typeof kirokuPending !== 'undefined' && kirokuPending) {
+    sendTabletKiroku(kirokuPending);
+    kirokuPending = null;
+  }
   record = newRecord();
   goHome();
 }
@@ -13735,6 +13739,32 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
 /* ===== 会員セッション(v1.2) ===== */
 var PORTAL_URL = 'https://mkohei97.github.io/senior-digital-sim/p.html';
 var MOJI_URL = 'https://mkohei97.github.io/senior-digital-sim/moji.html';
+// 受講記録の自動送信(19f: カルテのスプレッドシートへ。moji.htmlと同じフォーム)
+var KIROKU_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfHrlELGXTZYcrv40UMES-UMGC5OYtBedqvhPvhjp_MMVVfxg/formResponse';
+var KIROKU_KEYS = { m: 'entry.576526930', course: 'entry.193744536', method: 'entry.711671760' };
+function buildSessionSummary() {
+  var parts = [];
+  if (record.quizAnswered > 0) parts.push('クイズ' + record.quizAnswered + '問');
+  if (record.cardsRounds > 0) parts.push('カード合わせ' + record.cardsRounds + '回');
+  if (record.numsMax > 0) parts.push('順番タップ' + record.numsMax + 'まで');
+  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile;
+  if (flowers > 0) parts.push(SKIN.name.replace('みんなの', '') + flowers + SKIN.unit);
+  if (record.memo.length > 0) parts.push('ひとこと:' + record.memo.join('・'));
+  return parts.join('、');
+}
+var kirokuPending = null; // 「今日はここまで」経由: まとめ画面のひとことを待ってから送る
+function sendTabletKiroku(mid) {
+  if (!KIROKU_URL || !mid) return;
+  var summary = buildSessionSummary();
+  if (!summary) return;
+  try {
+    var body = KIROKU_KEYS.m + '=' + encodeURIComponent(mid) +
+      '&' + KIROKU_KEYS.course + '=' + encodeURIComponent('店内体操: ' + summary) +
+      '&' + KIROKU_KEYS.method + '=' + encodeURIComponent('タブレット');
+    fetch(KIROKU_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body });
+  } catch (e) {}
+  record = newRecord();
+}
 var session = { m: '', n: '' };
 var lastAct = Date.now();
 document.addEventListener('click', function () { lastAct = Date.now(); }, true);
@@ -13788,6 +13818,7 @@ function sprinklePetals(id) {
   }
 }
 function loginMember(m, n) {
+  if (typeof kirokuPending !== 'undefined' && kirokuPending) { sendTabletKiroku(kirokuPending); kirokuPending = null; record = newRecord(); }
   session.m = m; session.n = n || '';
   lastAct = Date.now();
   stopCam();
@@ -13798,6 +13829,7 @@ function loginMember(m, n) {
 function logoutMember(quiet) {
   var had = !!session.m;
   var label = had ? memberLabel() : '';
+  if (had && !kirokuPending) sendTabletKiroku(session.m);
   session.m = ''; session.n = '';
   updateMemberUi();
   if (quiet) return;
@@ -13915,7 +13947,11 @@ var __origShowQr = showQr;
 showQr = function () { renderQrScreen(); show('scr-qr'); };
 var __origShowSummary = (typeof showSummary === 'function') ? showSummary : null;
 if (__origShowSummary) {
-  showSummary = function () { __origShowSummary(); logoutMember(true); };
+  showSummary = function () {
+    if (session.m) kirokuPending = session.m;
+    __origShowSummary();
+    logoutMember(true);
+  };
 }
 function applySeasonTexts() {
   document.getElementById('home-tree-name').textContent = SKIN.name;
