@@ -5,11 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ここスマ 会員証</title>
 <style>
+  :root {
+    /* ①ブランド(不変) */
+    --brand: #0F766E;
+    /* ②操作色(固定。秋スキン適用時にティール系へ差し替え予定) */
+    --action: #E75480;
+    --action-edge: #B23A61;
+    --accent-deep: #C22E63;
+    --ok: #2E8B57;
+    --ok-edge: #1E5E3A;
+    /* ③景色(季節で変わる) */
+    --season-bg1: #D8ECFA;
+    --season-bg2: #FDF3F6;
+    --season-bg3: #FBE3EC;
+    --season-border: #F3D8E2;
+    --season-light: #F3A9C7;
+    --season-pale: #FBE7EF;
+    --season-deep-bg1: #F9CBDD;
+    --season-deep-bg2: #F6B9D0;
+  }
+  /* 季節スキン(春=既定値。他季節は19j§5の設計後に追加) */
+  body[data-season="spring"] { }
+
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { min-height: 100%; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-    background: linear-gradient(180deg, #D8ECFA 0%, #FDF3F6 46%, #FBE3EC 100%);
+    background: linear-gradient(180deg, var(--season-bg1) 0%, var(--season-bg2) 46%, var(--season-bg3) 100%);
     background-attachment: fixed;
     color: #333A38;
     font-size: 22px;
@@ -24,8 +46,8 @@
     display: flex; flex-direction: column; padding: 22px 20px 20px; gap: 16px; }
 
   /* デジタル会員証 */
-  .idcard { border-radius: 28px; overflow: hidden; border: 1px solid #F3D8E2; box-shadow: 0 10px 26px rgba(196, 88, 128, 0.16); background: #FFFFFF; }
-  .idcard .band { background: linear-gradient(90deg, #E75480, #F3A9C7); color: #FFFFFF; padding: 10px 20px;
+  .idcard { border-radius: 28px; overflow: hidden; border: 1px solid var(--season-border); box-shadow: 0 10px 26px rgba(196, 88, 128, 0.16); background: #FFFFFF; }
+  .idcard .band { background: linear-gradient(90deg, var(--action), var(--season-light)); color: #FFFFFF; padding: 10px 20px;
     display: flex; align-items: center; justify-content: space-between; }
   .idcard .band .t { font-size: 22px; font-weight: 700; letter-spacing: 0.04em; }
   .idcard .band svg { width: 26px; height: 26px; }
@@ -34,16 +56,16 @@
   .idcard .name { font-size: 32px; font-weight: 700; line-height: 1.3; }
   .idcard .name small { font-size: 21px; font-weight: 400; color: #555555; }
   .idcard .no { font-size: 20px; color: #555555; }
-  .idcard .kazasu { font-size: 20px; font-weight: 700; color: #C22E63; line-height: 1.5; margin-top: 6px; }
-  .idcard .qrbox { flex-shrink: 0; border: 1px solid #F3D8E2; border-radius: 14px; padding: 8px; background: #FFFFFF; }
+  .idcard .kazasu { font-size: 20px; font-weight: 700; color: var(--accent-deep); line-height: 1.5; margin-top: 6px; }
+  .idcard .qrbox { flex-shrink: 0; border: 1px solid var(--season-border); border-radius: 14px; padding: 8px; background: #FFFFFF; }
   .idcard .qrbox img { width: 132px; height: 132px; display: block; image-rendering: pixelated; }
   .idcard .noqr { width: 132px; height: 132px; display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 4px; border-radius: 8px; border: 2px dashed #C9BFAE; background: #FDFBF7; font-size: 18px; color: #555555; text-align: center; }
 
   /* 実践お題 */
-  .odai { background: rgba(255, 255, 255, 0.92); border: 1px solid #F3D8E2; border-radius: 28px;
+  .odai { background: rgba(255, 255, 255, 0.92); border: 1px solid var(--season-border); border-radius: 28px;
     box-shadow: 0 10px 26px rgba(196, 88, 128, 0.12); padding: 16px 20px; display: flex; flex-direction: column; gap: 6px; }
-  .odai .cap { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; color: #C22E63; }
+  .odai .cap { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; color: var(--accent-deep); }
   .odai .cap svg { width: 24px; height: 24px; }
   .odai .tx { font-size: 25px; font-weight: 700; line-height: 1.6; }
   .odai .sub { font-size: 20px; color: #555555; }
@@ -53,12 +75,12 @@
   .menu { background: #FFFFFF; border-radius: 24px; padding: 15px 18px; display: flex; align-items: center; gap: 14px; cursor: pointer;
     box-shadow: 0 6px 0 #EFC3D4, 0 12px 18px rgba(60, 48, 36, 0.10); text-decoration: none; color: inherit; }
   .menu:active { transform: translateY(4px); box-shadow: none; }
-  .menu .icchip { width: 60px; height: 60px; border-radius: 999px; background: #FBE7EF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .menu .icchip { width: 60px; height: 60px; border-radius: 999px; background: var(--season-pale); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .menu .icchip svg { width: 38px; height: 38px; }
   .menu .tx { display: flex; flex-direction: column; flex: 1; min-width: 0; }
   .menu .tx b { font-size: 24px; font-weight: 700; }
   .menu .tx span { font-size: 20px; color: #555555; }
-  .menu .go { width: 40px; height: 40px; border-radius: 999px; background: #E75480; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .menu .go { width: 40px; height: 40px; border-radius: 999px; background: var(--action); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .menu-soon { border: 2px dashed #E3D0DA; border-radius: 24px; padding: 15px 18px; display: flex; flex-direction: column; gap: 2px;
     color: #9A8391; background: rgba(255, 255, 255, 0.5); }
   .menu-soon b { font-size: 22px; font-weight: 700; }
@@ -69,15 +91,15 @@
   .footer { font-size: 13px; color: #B08FA0; text-align: center; }
 
   /* 呼び名の初回確認 */
-  .askname { background: rgba(255, 255, 255, 0.96); border: 1px solid #F3D8E2; border-radius: 28px; padding: 18px 20px;
+  .askname { background: rgba(255, 255, 255, 0.96); border: 1px solid var(--season-border); border-radius: 28px; padding: 18px 20px;
     display: flex; flex-direction: column; gap: 12px; box-shadow: 0 10px 26px rgba(196, 88, 128, 0.12); }
   .askname .q { font-size: 23px; font-weight: 700; }
-  .askname input { width: 100%; background: #FFFFFF; border: 2px solid #F3D8E2; border-radius: 18px; padding: 12px 16px;
+  .askname input { width: 100%; background: #FFFFFF; border: 2px solid var(--season-border); border-radius: 18px; padding: 12px 16px;
     font-size: 24px; font-family: inherit; color: #333A38; }
-  .askname input:focus { outline: none; border-color: #E75480; }
+  .askname input:focus { outline: none; border-color: var(--action); }
   .askname .row { display: flex; gap: 10px; }
   .btn { border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; flex: 1; border: none; font-family: inherit; }
-  .btn-primary { background: #E75480; padding: 13px; box-shadow: 0 5px 0 #B23A61; font-size: 23px; font-weight: 700; color: #FFFFFF; }
+  .btn-primary { background: var(--action); padding: 13px; box-shadow: 0 5px 0 var(--action-edge); font-size: 23px; font-weight: 700; color: #FFFFFF; }
   .btn-primary:active { transform: translateY(4px); box-shadow: none; }
   .btn-white { background: #FFFFFF; padding: 13px; box-shadow: 0 4px 0 #C9BFAE; font-size: 21px; font-weight: 700; color: #555555; }
   .btn-white:active { transform: translateY(3px); box-shadow: none; }
@@ -2584,6 +2606,17 @@ function skipName() {
   var seed = d.getFullYear() * 366 + (d.getMonth() + 1) * 31 + d.getDate();
   el.textContent = all[seed % all.length];
   document.getElementById('odai-sub').style.display = 'block';
+})();
+</script>
+
+<script>
+/* 季節の自動判定(19j§4): 3-5月=spring / 6-8月=summer / 9-11月=autumn / 12-2月=winter */
+(function () {
+  var m = new Date().getMonth() + 1;
+  var s = (m >= 3 && m <= 5) ? 'spring' : (m >= 6 && m <= 8) ? 'summer' : (m >= 9 && m <= 11) ? 'autumn' : 'winter';
+  // 他季節のスキン実装まで、判定結果に関わらず spring を適用(見た目不変)
+  document.body.setAttribute('data-season', 'spring');
+  document.body.setAttribute('data-season-actual', s);
 })();
 </script>
 </body>

@@ -5,11 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>文字入力のれんしゅう</title>
 <style>
+  :root {
+    /* ①ブランド(不変) */
+    --brand: #0F766E;
+    /* ②操作色(固定。秋スキン適用時にティール系へ差し替え予定) */
+    --action: #E75480;
+    --action-edge: #B23A61;
+    --accent-deep: #C22E63;
+    --ok: #2E8B57;
+    --ok-edge: #1E5E3A;
+    /* ③景色(季節で変わる) */
+    --season-bg1: #D8ECFA;
+    --season-bg2: #FDF3F6;
+    --season-bg3: #FBE3EC;
+    --season-border: #F3D8E2;
+    --season-light: #F3A9C7;
+    --season-pale: #FBE7EF;
+    --season-deep-bg1: #F9CBDD;
+    --season-deep-bg2: #F6B9D0;
+  }
+  /* 季節スキン(春=既定値。他季節は19j§5の設計後に追加) */
+  body[data-season="spring"] { }
+
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { min-height: 100%; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
-    background: linear-gradient(180deg, #D8ECFA 0%, #FDF3F6 46%, #FBE3EC 100%);
+    background: linear-gradient(180deg, var(--season-bg1) 0%, var(--season-bg2) 46%, var(--season-bg3) 100%);
     background-attachment: fixed;
     color: #333A38;
     font-size: 22px;
@@ -28,15 +50,15 @@
   .head .sub { font-size: 21px; color: #555555; }
   .cap { font-size: 21px; font-weight: 700; }
 
-  .panel { background: rgba(255, 255, 255, 0.92); border: 1px solid #F3D8E2; border-radius: 28px;
+  .panel { background: rgba(255, 255, 255, 0.92); border: 1px solid var(--season-border); border-radius: 28px;
     box-shadow: 0 10px 26px rgba(196, 88, 128, 0.12); }
 
   /* 方式チップ */
   .chips { display: flex; flex-wrap: wrap; gap: 10px; }
-  .chip { background: #FFFFFF; color: #C22E63; border: 1px solid #F3D8E2; border-radius: 999px; padding: 9px 20px;
+  .chip { background: #FFFFFF; color: var(--accent-deep); border: 1px solid var(--season-border); border-radius: 999px; padding: 9px 20px;
     font-size: 21px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 0 #E3D9CB; }
   .chip:active { transform: translateY(3px); box-shadow: none; }
-  .chip.sel { background: #E75480; color: #FFFFFF; border-color: #E75480; box-shadow: 0 3px 0 #B23A61; }
+  .chip.sel { background: var(--action); color: #FFFFFF; border-color: var(--action); box-shadow: 0 3px 0 var(--action-edge); }
 
   /* 課題カード */
   .renshu { background: #FFFFFF; border-radius: 24px; padding: 15px 18px; display: flex; align-items: center; gap: 14px; cursor: pointer; }
@@ -56,19 +78,19 @@
   /* 練習中 */
   .pbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   .pbar .t { font-size: 25px; font-weight: 700; }
-  .badge { background: #FFFFFF; border: 1px solid #F3D8E2; border-radius: 999px; padding: 5px 16px; font-size: 20px; font-weight: 700; color: #C22E63; white-space: nowrap; }
+  .badge { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 999px; padding: 5px 16px; font-size: 20px; font-weight: 700; color: var(--accent-deep); white-space: nowrap; }
   .task { padding: 17px 20px; display: flex; flex-direction: column; gap: 6px; }
-  .task .cap2 { font-size: 20px; color: #C22E63; font-weight: 700; }
+  .task .cap2 { font-size: 20px; color: var(--accent-deep); font-weight: 700; }
   .task .tx { font-size: 26px; font-weight: 700; line-height: 1.7; }
-  .inputbox { width: 100%; background: #FFFFFF; border: 2px solid #F3D8E2; border-radius: 24px; padding: 16px 18px;
+  .inputbox { width: 100%; background: #FFFFFF; border: 2px solid var(--season-border); border-radius: 24px; padding: 16px 18px;
     min-height: 130px; font-size: 24px; line-height: 1.7; font-family: inherit; color: #333A38; resize: none; }
-  .inputbox:focus { outline: none; border-color: #E75480; }
+  .inputbox:focus { outline: none; border-color: var(--action); }
   .measure { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 20px; color: #555555; }
-  .measure .dot { width: 11px; height: 11px; border-radius: 999px; background: #E75480; opacity: 0.6; animation: gentlePulse 1.6s ease-in-out infinite; }
+  .measure .dot { width: 11px; height: 11px; border-radius: 999px; background: var(--action); opacity: 0.6; animation: gentlePulse 1.6s ease-in-out infinite; }
 
   /* ボタン */
   .btn { border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: 12px; cursor: pointer; width: 100%; }
-  .btn-primary { background: #E75480; padding: 16px; box-shadow: 0 6px 0 #B23A61, 0 12px 20px rgba(196, 88, 128, 0.25);
+  .btn-primary { background: var(--action); padding: 16px; box-shadow: 0 6px 0 var(--action-edge), 0 12px 20px rgba(196, 88, 128, 0.25);
     font-size: 26px; font-weight: 700; color: #FFFFFF; }
   .btn-primary:active { transform: translateY(5px); box-shadow: none; }
   .btn-white { background: #FFFFFF; padding: 14px; box-shadow: 0 5px 0 #C9BFAE, 0 10px 18px rgba(60, 48, 36, 0.10);
@@ -80,7 +102,7 @@
   /* 結果 */
   .result-wrap { align-items: center; text-align: center; }
   .bigflower { animation: bloomIn 1.6s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
-  .dekita { font-size: 40px; font-weight: 700; color: #C22E63; }
+  .dekita { font-size: 40px; font-weight: 700; color: var(--accent-deep); }
   .dekisub { font-size: 22px; color: #555555; }
   .stats { width: 100%; padding: 4px 24px; display: flex; flex-direction: column; }
   .stats .row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
@@ -88,17 +110,17 @@
   .stats .k { font-size: 22px; }
   .stats .v { font-size: 28px; font-weight: 700; }
   .stats .v small { font-size: 20px; font-weight: 400; }
-  .compare { background: #FBE7EF; border-radius: 999px; padding: 10px 24px; font-size: 22px; font-weight: 700; color: #C22E63; text-align: center; }
+  .compare { background: var(--season-pale); border-radius: 999px; padding: 10px 24px; font-size: 22px; font-weight: 700; color: var(--accent-deep); text-align: center; }
 
   /* 音声ガイド */
   .phones { display: flex; gap: 12px; }
   .phonecard { flex: 1; padding: 13px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
   .phonecard .os { font-size: 21px; font-weight: 700; }
-  .phonecard .pos { font-size: 21px; color: #C22E63; font-weight: 700; }
+  .phonecard .pos { font-size: 21px; color: var(--accent-deep); font-weight: 700; }
   .phonecard svg.fig { width: 100%; height: auto; }
   .steps { display: flex; flex-direction: column; gap: 11px; }
-  .step { background: #FFFFFF; border: 1px solid #F3D8E2; border-radius: 24px; padding: 14px 16px; display: flex; align-items: center; gap: 13px; box-shadow: 0 4px 0 #E3D9CB; }
-  .step .n { width: 42px; height: 42px; border-radius: 999px; background: #E75480; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 23px; font-weight: 700; }
+  .step { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 24px; padding: 14px 16px; display: flex; align-items: center; gap: 13px; box-shadow: 0 4px 0 #E3D9CB; }
+  .step .n { width: 42px; height: 42px; border-radius: 999px; background: var(--action); color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 23px; font-weight: 700; }
   .step .t { font-size: 23px; font-weight: 700; line-height: 1.5; }
 
   .gentlemsg { font-size: 21px; font-weight: 700; color: #C25E00; text-align: center; min-height: 30px; }
@@ -186,9 +208,9 @@
       <div class="chips" id="method-chips"></div>
     </div>
     <div class="renshu r-voice" onclick="openVoiceGuide()">
-      <span class="icchip" style="background:#FBE7EF;"><svg viewBox="0 0 24 24"><use href="#ic-mic"></use></svg></span>
+      <span class="icchip" style="background:var(--season-pale);"><svg viewBox="0 0 24 24"><use href="#ic-mic"></use></svg></span>
       <div class="tx"><b>声で入れる</b><span>話しかけて、文にします</span></div>
-      <span class="go" style="background:#E75480;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
+      <span class="go" style="background:var(--action);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
     </div>
     <div class="renshu r-fix" onclick="startPractice('fix')">
       <span class="icchip" style="background:#E4F0FC;"><svg viewBox="0 0 24 24"><use href="#ic-pen"></use></svg></span>
@@ -198,7 +220,7 @@
     <div class="renshu r-type" onclick="startPractice('type')">
       <span class="icchip" style="background:#E7F3E8;"><svg viewBox="0 0 24 24"><use href="#ic-keys"></use></svg></span>
       <div class="tx"><b>打ってみる</b><span>短い文を、打ちうつします</span></div>
-      <span class="go" style="background:#2E8B57;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
+      <span class="go" style="background:var(--ok);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
     </div>
     <div class="lastline" id="last-line" style="display:none;">
       <svg viewBox="0 0 24 24"><use href="#ic-sakura-a"></use></svg>
@@ -514,6 +536,17 @@ function endSession() { renderMethods(); show('scr-select'); }
     if (c === 'voice') openVoiceGuide();
     else if (c === 'fix' || c === 'type') startPractice(c);
   } catch (e) {}
+})();
+</script>
+
+<script>
+/* 季節の自動判定(19j§4): 3-5月=spring / 6-8月=summer / 9-11月=autumn / 12-2月=winter */
+(function () {
+  var m = new Date().getMonth() + 1;
+  var s = (m >= 3 && m <= 5) ? 'spring' : (m >= 6 && m <= 8) ? 'summer' : (m >= 9 && m <= 11) ? 'autumn' : 'winter';
+  // 他季節のスキン実装まで、判定結果に関わらず spring を適用(見た目不変)
+  document.body.setAttribute('data-season', 'spring');
+  document.body.setAttribute('data-season-actual', s);
 })();
 </script>
 </body>
