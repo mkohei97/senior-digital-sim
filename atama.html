@@ -548,7 +548,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.9(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.10(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -1415,17 +1415,50 @@ var KIKI_TASKS = [
   { text: '電車は、2番のりばから出発します。', q: '電車が出るのは、<br>何番のりばでしたか？', c: ['2番のりば', '5番のりば'], a: 0 }
 ];
 var kiki = null;
+// 収録音声(B案・VOICEVOX No.7)。ファイル= kiki_audio/k01_s0.mp3 〜 k12_s4.mp3(12文×5速度)
+var KIKI_AUDIO_DIR = 'kiki_audio/';
+var KIKI_AUDIO_COUNT = 12; // 先頭12問ぶんに収録音声あり
+function kikiVoiceMode() {
+  try {
+    var q = new URLSearchParams(location.search).get('voice');
+    if (q === 'tts' || q === 'rec') return q;
+  } catch (e) {}
+  return 'rec';
+}
+var kikiAudioEl = null;
+function kikiAudioSrc(taskIdx, speedIdx) {
+  if (taskIdx === null || taskIdx === undefined || taskIdx >= KIKI_AUDIO_COUNT) return null;
+  return KIKI_AUDIO_DIR + 'k' + ('0' + (taskIdx + 1)).slice(-2) + '_s' + speedIdx + '.mp3';
+}
 function kikiCanSpeak() { return !!(window.speechSynthesis && window.SpeechSynthesisUtterance); }
-function kikiStopVoice() { try { window.speechSynthesis.cancel(); } catch (e) {} }
+function kikiStopVoice() {
+  try { window.speechSynthesis.cancel(); } catch (e) {}
+  if (kikiAudioEl) { try { kikiAudioEl.onended = null; kikiAudioEl.onerror = null; kikiAudioEl.pause(); } catch (e) {} }
+}
+function kikiBestVoice() {
+  try {
+    var vs = window.speechSynthesis.getVoices();
+    var ja = [];
+    for (var i = 0; i < vs.length; i++) { if (vs[i].lang && vs[i].lang.replace('_', '-').indexOf('ja') === 0) ja.push(vs[i]); }
+    if (ja.length === 0) return null;
+    function rank(v) {
+      var n = ((v.name || '') + ' ' + (v.voiceURI || '')).toLowerCase();
+      if (n.indexOf('premium') >= 0) return 0;
+      if (n.indexOf('enhanced') >= 0 || n.indexOf('拡張') >= 0) return 1;
+      if (v.localService) return 2;
+      return 3;
+    }
+    ja.sort(function (x, y) { return rank(x) - rank(y); });
+    return ja[0];
+  } catch (e) { return null; }
+}
 function kikiSpeak(text, rate, onEnd) {
   if (!kikiCanSpeak()) { if (onEnd) setTimeout(onEnd, 600); return; }
   kikiStopVoice();
   var u = new SpeechSynthesisUtterance(text);
   u.lang = 'ja-JP'; u.rate = rate; u.pitch = 1;
-  try {
-    var vs = window.speechSynthesis.getVoices();
-    for (var i = 0; i < vs.length; i++) { if (vs[i].lang && vs[i].lang.indexOf('ja') === 0) { u.voice = vs[i]; break; } }
-  } catch (e) {}
+  var v = kikiBestVoice();
+  if (v) u.voice = v;
   u.onend = function () { if (onEnd) onEnd(); };
   u.onerror = function () { if (onEnd) onEnd(); };
   try { window.speechSynthesis.speak(u); } catch (e) { if (onEnd) setTimeout(onEnd, 600); }
@@ -1450,7 +1483,8 @@ function kikiRenderStart() {
     '<div style="font-size:36px;font-weight:700;">耳の体操</div>' +
     '<div class="kiki-card">タブレットが短い文を読み上げます。<br>よく聞いて、問題に答えてください。<br>だんだん速くなります。</div>' +
     '<div class="btn btn-primary" style="padding:18px 84px;font-size:30px;" onclick="kikiNextSentence()">はじめる</div>' +
-    '<div class="kiki-note"><svg viewBox="0 0 24 24"><use href="#ic-spk"></use></svg>音が出ます。まわりの音量にご注意ください。</div>' + extra;
+    '<div class="kiki-note"><svg viewBox="0 0 24 24"><use href="#ic-spk"></use></svg>音が出ます。まわりの音量にご注意ください。</div>' +
+    (kikiVoiceMode() === 'rec' ? '<div style="font-size:15px;color:#8B857A;">音声: VOICEVOX:No.7</div>' : '') + extra;
 }
 function kikiPickTask() {
   var pool = [];
@@ -1458,6 +1492,7 @@ function kikiPickTask() {
   if (pool.length === 0) { kiki.used = []; for (var j = 0; j < KIKI_TASKS.length; j++) pool.push(j); }
   var pick = pool[Math.floor(Math.random() * pool.length)];
   kiki.used.push(pick);
+  kiki.taskIdx = pick;
   return KIKI_TASKS[pick];
 }
 function kikiNextSentence() {
@@ -1484,21 +1519,39 @@ function kikiRenderListen() {
     '<div class="btn btn-primary" style="margin:0;padding:15px 40px;font-size:25px;" onclick="kikiRenderQuiz()">問題に進む</div>' +
     '</div>';
 }
-function kikiPlay() {
+function kikiPlayUiOn() {
   var vis = document.getElementById('kiki-vis');
   var bars = document.getElementById('kiki-bars');
   var lead = document.getElementById('kiki-lead');
-  if (vis) { vis.classList.add('on'); }
-  if (bars) { bars.classList.add('on'); }
-  if (lead) { lead.textContent = '読み上げています。よく聞いてください'; }
-  kikiSpeak(kiki.task.text, KIKI_SPEEDS[kiki.speedIdx], function () {
-    var v2 = document.getElementById('kiki-vis');
-    var b2 = document.getElementById('kiki-bars');
-    var l2 = document.getElementById('kiki-lead');
-    if (v2) v2.classList.remove('on');
-    if (b2) b2.classList.remove('on');
-    if (l2) l2.textContent = '聞き取れましたか。「問題に進む」を押してください';
-  });
+  if (vis) vis.classList.add('on');
+  if (bars) bars.classList.add('on');
+  if (lead) lead.textContent = '読み上げています。よく聞いてください';
+}
+function kikiPlayUiOff() {
+  var vis = document.getElementById('kiki-vis');
+  var bars = document.getElementById('kiki-bars');
+  var lead = document.getElementById('kiki-lead');
+  if (vis) vis.classList.remove('on');
+  if (bars) bars.classList.remove('on');
+  if (lead) lead.textContent = '聞き取れましたか。「問題に進む」を押してください';
+}
+function kikiPlay() {
+  kikiStopVoice();
+  kikiPlayUiOn();
+  var src = (kikiVoiceMode() === 'rec') ? kikiAudioSrc(kiki.taskIdx, kiki.speedIdx) : null;
+  if (src) {
+    if (!kikiAudioEl) kikiAudioEl = new Audio();
+    kikiAudioEl.onended = function () { kikiPlayUiOff(); };
+    kikiAudioEl.onerror = function () { kikiSpeakFallback(); }; // 読み込めない時は端末の声で
+    kikiAudioEl.src = src;
+    var pr = kikiAudioEl.play();
+    if (pr && pr.catch) pr.catch(function () { kikiSpeakFallback(); });
+  } else {
+    kikiSpeakFallback();
+  }
+}
+function kikiSpeakFallback() {
+  kikiSpeak(kiki.task.text, KIKI_SPEEDS[kiki.speedIdx], function () { kikiPlayUiOff(); });
 }
 function kikiRenderQuiz() {
   kikiStopVoice();
