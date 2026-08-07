@@ -99,12 +99,23 @@
   .game-card.g-cards { box-shadow: 0 6px 0 #B9D5F0, 0 14px 22px rgba(60, 48, 36, 0.10); }
   .game-card.g-tile { box-shadow: 0 6px 0 #EFC3D4, 0 14px 22px rgba(60, 48, 36, 0.10); }
   .game-card.g-phone { box-shadow: 0 6px 0 #CDC6E6, 0 14px 22px rgba(60, 48, 36, 0.10); }
-  #scr-home .pad { gap: 8px; padding-top: 10px; padding-bottom: 14px; } #scr-home .home-head { margin-top: 0; } #scr-home .sakura-card { padding: 8px 22px; }
-  /* v1.9: 5種目に増えたぶんの圧縮(読みやすさの文字サイズは維持) */
-  #scr-home .sakura-card svg.minitree { max-width: 190px; }
-  #scr-home .game-card { padding: 7px 24px; }
-  #scr-home .game-card .chip { width: 60px; height: 60px; } #scr-home .game-card .chip svg { width: 41px; height: 41px; }
-  .game-card.g-kiki { box-shadow: 0 6px 0 #EBD3B8, 0 14px 22px rgba(60, 48, 36, 0.10); }
+  #scr-home .pad { gap: 14px; padding-top: 20px; padding-bottom: 16px; } #scr-home .home-head { margin-top: 0; }
+  /* v1.12: 6種目・2列グリッド(Claude Design「ホーム2列とことわざクイズ」1a) */
+  .home-head-row { display: flex; align-items: center; gap: 16px; }
+  .home-head-tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .home-head-row .member-row { margin-left: auto; flex-shrink: 0; }
+  #scr-home .sakura-card { padding: 8px 24px; gap: 22px; flex-shrink: 0; }
+  #scr-home .sakura-card svg.minitree { max-width: 175px; }
+  .game-grid { flex: 1; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; gap: 14px; }
+  .gcard { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 24px; box-shadow: 0 8px 20px rgba(60, 48, 36, 0.10);
+    display: flex; align-items: center; gap: 14px; padding: 0 16px 0 18px; position: relative; cursor: pointer; }
+  .gcard:active { transform: translateY(3px); box-shadow: 0 2px 8px rgba(60, 48, 36, 0.10); }
+  .gcard .chip { width: 66px; height: 66px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .gcard .chip svg { width: 40px; height: 40px; }
+  .gcard .tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding-right: 30px; }
+  .gcard .tx b { font-size: 25px; font-weight: 700; color: #333A38; letter-spacing: -0.3px; line-height: 1.25; }
+  .gcard .tx span { font-size: 19px; color: #555555; line-height: 1.35; }
+  .gcard .goa { position: absolute; right: 12px; bottom: 12px; width: 38px; height: 38px; border-radius: 999px; display: flex; align-items: center; justify-content: center; }
 
   /* 聞き取りチャレンジ(v1.9・Claude Design 1a〜1d) */
   .kiki-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; }
@@ -404,6 +415,16 @@
     <path d="M10.8 5.2 H13.2"></path>
     <path d="M10.5 18.4 H13.5"></path>
   </symbol>
+  <symbol id="ic-maki" viewBox="0 0 24 24">
+    <path d="M7 4.5 L17.5 4.5 C18.9 4.5 20 5.6 20 7 L20 8 L16.5 8" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M7 4.5 C5.6 4.5 4.5 5.6 4.5 7 C4.5 8.4 5.6 9.5 7 9.5 L7 4.5 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
+    <path d="M7 9.5 L16.5 9.5 L16.5 17 C16.5 18.4 15.4 19.5 14 19.5 L6 19.5 C7.4 19.5 8.5 18.4 8.5 17 L8.5 9" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M6 19.5 C4.6 19.5 3.5 18.4 3.5 17 C3.5 15.6 4.6 14.5 6 14.5 L8.5 14.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M11 12.5 L14 12.5 M11 15.5 L13 15.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
+  </symbol>
+  <symbol id="ic-arrow-go" viewBox="0 0 24 24">
+    <path d="M8 12 L16 12 M12.5 8 L16.5 12 L12.5 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+  </symbol>
   <symbol id="ic-ear" viewBox="0 0 24 24">
     <path d="M7 9.5 C7 5.9 9.5 3.5 12.3 3.5 C15.4 3.5 17.5 5.9 17.5 8.8 C17.5 11.2 16.2 12.2 15 13.5 C13.9 14.7 13.4 15.6 13.2 17.2 C13 18.9 11.8 20.5 10 20.5 C8.5 20.5 7.4 19.5 7.1 18.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
     <path d="M10.2 9.3 C10.4 7.7 11.3 6.8 12.5 6.8 C13.9 6.8 14.8 7.9 14.8 9.1 C14.8 10.4 13.9 11 13.2 11.9 C12.7 12.5 12.4 13.1 12.3 13.9" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
@@ -492,20 +513,24 @@
 <div class="screen active" id="scr-home">
   <div class="pad">
     <div class="home-head">
-      <div class="date" id="home-date"></div>
-      <h1>あたまと指の体操</h1>
-      <div class="greet" id="home-greet">こんにちは。今日も、ゆっくりどうぞ。</div>
+      <div class="home-head-row">
+        <div class="home-head-tx">
+          <div class="date" id="home-date"></div>
+          <h1>あたまと指の体操</h1>
+          <div class="greet" id="home-greet">こんにちは。今日も、ゆっくりどうぞ。</div>
+        </div>
+        <div class="member-row">
+          <div class="member-start" id="member-start" onclick="showLogin()">
+            <svg width="24" height="24" viewBox="0 0 24 24"><use href="#ic-phone"></use></svg>
+            会員証ではじめる
+          </div>
+          <div class="member-badge" id="member-badge" style="display:none;" onclick="logoutMember(false)"></div>
+        </div>
+      </div>
       <div class="member-band" id="member-band">
         <span class="flo"><svg viewBox="0 0 24 24"><use class="skin-use" href="#ic-sakura-a"></use></svg></span>
         <span class="t" id="member-band-tx"><b>ハナさん</b>の時間です</span>
         <span class="endbtn" onclick="logoutMember(false)">終わりにする</span>
-      </div>
-      <div class="member-row" style="margin-top:2px;">
-        <div class="member-start" id="member-start" onclick="showLogin()">
-          <svg width="24" height="24" viewBox="0 0 24 24"><use href="#ic-phone"></use></svg>
-          会員証ではじめる
-        </div>
-        <div class="member-badge" id="member-badge" style="display:none;" onclick="logoutMember(false)"></div>
       </div>
     </div>
     <div class="panel sakura-card" onclick="showTree()">
@@ -517,38 +542,45 @@
         <div class="hint" id="home-tree-hint">80輪で満開です ・ 押すと大きく見られます</div>
       </div>
     </div>
-    <div class="game-card g-kofun" onclick="startQuiz()">
-      <span class="chip" style="background:#E7F3E8;"><svg viewBox="0 0 24 24"><use href="#ic-kofun"></use></svg></span>
-      <div class="tx"><b>ふるさとクイズ</b><span>思い出をたどる二択です</span></div>
-      <span class="go" style="background:var(--ok);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
+    <div class="game-grid">
+      <div class="gcard" onclick="startQuiz()">
+        <span class="chip" style="background:#E7F3E8; color:#2E8B57;"><svg viewBox="0 0 24 24"><use href="#ic-kofun"></use></svg></span>
+        <div class="tx"><b>ふるさとクイズ</b><span>思い出をたどる二択</span></div>
+        <span class="goa" style="background:#E7F3E8; color:#2E8B57;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard" onclick="startCards()">
+        <span class="chip" style="background:#E3EEF8; color:#2A6496;"><svg viewBox="0 0 24 24"><use href="#ic-cards"></use></svg></span>
+        <div class="tx"><b>カード合わせ</b><span>同じ絵柄をさがす</span></div>
+        <span class="goa" style="background:#E3EEF8; color:#2A6496;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard" onclick="startNums()">
+        <span class="chip" style="background:#FBE7EF; color:#C22E63;"><svg viewBox="0 0 24 24"><use href="#ic-tile"></use></svg></span>
+        <div class="tx"><b>順番タップ</b><span>数字を順に押す</span></div>
+        <span class="goa" style="background:#FBE7EF; color:#C22E63;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard" onclick="startKiki()">
+        <span class="chip" style="background:#FBE9D6; color:#B96A2C;"><svg viewBox="0 0 24 24"><use href="#ic-ear"></use></svg></span>
+        <div class="tx"><b>聞き取り<br>チャレンジ</b><span>耳の体操・二択</span></div>
+        <span class="goa" style="background:#FBE9D6; color:#B96A2C;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard" onclick="startKotowaza()">
+        <span class="chip" style="background:#F6E7EB; color:#963E52;"><svg viewBox="0 0 24 24"><use href="#ic-maki"></use></svg></span>
+        <div class="tx"><b>ことわざクイズ</b><span>つづきを当てる</span></div>
+        <span class="goa" style="background:#F6E7EB; color:#963E52;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard" onclick="showQr()">
+        <span class="chip" style="background:#EEE8F6; color:#6B4FA1;"><svg viewBox="0 0 24 24"><use href="#ic-phone"></use></svg></span>
+        <div class="tx"><b>スマホ練習</b><span>自分のスマホで練習</span></div>
+        <span class="goa" style="background:#EEE8F6; color:#6B4FA1;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
     </div>
-    <div class="game-card g-cards" onclick="startCards()">
-      <span class="chip" style="background:#E4F0FC;"><svg viewBox="0 0 24 24"><use href="#ic-cards"></use></svg></span>
-      <div class="tx"><b>カード合わせ</b><span>同じ絵柄を二枚めくります</span></div>
-      <span class="go" style="background:#0071E3;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
-    </div>
-    <div class="game-card g-tile" onclick="startNums()">
-      <span class="chip" style="background:var(--season-pale);"><svg viewBox="0 0 24 24"><use href="#ic-tile"></use></svg></span>
-      <div class="tx"><b>順番タップ</b><span>1から順に押していきます</span></div>
-      <span class="go" style="background:#E75480;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
-    </div>
-    <div class="game-card g-kiki" onclick="startKiki()">
-      <span class="chip" style="background:#FBE9D6; color:#B96A2C;"><svg viewBox="0 0 24 24"><use href="#ic-ear"></use></svg></span>
-      <div class="tx"><b>聞き取りチャレンジ</b><span>耳の体操。読み上げを聞き取ります</span></div>
-      <span class="go" style="background:#B96A2C;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
-    </div>
-    <div class="game-card g-phone" onclick="showQr()">
-      <span class="chip" style="background:#E7E2F5;"><svg viewBox="0 0 24 24"><use href="#ic-phone"></use></svg></span>
-      <div class="tx"><b>スマホ練習</b><span>自分のスマホで文字入力</span></div>
-      <span class="go" style="background:#7C6BB8;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
-    </div>
-    <div style="margin-top:auto; display:flex; justify-content:center;">
+    <div style="display:flex; justify-content:center;">
       <div class="btn btn-white" onclick="showSummary()">
         <svg class="ic" viewBox="0 0 24 24"><use href="#ic-yunomi"></use></svg>
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.11(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.12(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -615,6 +647,36 @@
     <div class="numgrid" id="numgrid"></div>
     <div class="subnote"><span id="nums-note">押しおわった数字には、桜がつきます。</span></div>
     <div style="margin-top:auto; display:flex; justify-content:center;">
+      <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
+    </div>
+  </div>
+</div>
+
+<!-- ことわざクイズ(v1.12) -->
+<div class="screen" id="scr-kotoba">
+  <div class="pad">
+    <div class="appbar">
+      <div class="left">
+        <span class="icchip" style="background:#F3EAD8;"><svg viewBox="0 0 24 24" style="color:#8A6A3B;"><use href="#ic-maki"></use></svg></span>
+        <span class="t">ことわざクイズ</span>
+      </div>
+      <span class="badge" id="koto-progress"></span>
+    </div>
+    <div class="panel q-panel">
+      <div class="cap">ことわざ</div>
+      <div class="q" id="koto-q"></div>
+    </div>
+    <div class="choices" id="koto-choices"></div>
+    <div class="msg" id="koto-msg"></div>
+    <div class="trivia" id="koto-trivia">
+      <div class="cap">意味</div>
+      <div class="tx" id="koto-trivia-tx"></div>
+    </div>
+    <div style="margin-top:auto; display:flex; flex-direction:column; gap:12px; align-items:center;">
+      <div class="btn btn-primary" id="koto-next" style="display:none;" onclick="nextKotoQ()">
+        <span id="koto-next-tx">次の問題へ</span>
+        <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
+      </div>
       <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
     </div>
   </div>
@@ -845,7 +907,7 @@ var SKIN = SEASON_SKINS[SEASON];
 
 
 // ------- 記録(このセッションの分) -------
-function newRecord() { return { quizDone: 0, quizAnswered: 0, cardsRounds: 0, numsMax: 0, kikiSets: 0, kikiTop: 0, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0 }, memo: [] }; }
+function newRecord() { return { quizDone: 0, quizAnswered: 0, cardsRounds: 0, numsMax: 0, kikiSets: 0, kikiTop: 0, kotoAnswered: 0, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0 }, memo: [] }; }
 var record = newRecord();
 
 // ------- 画面切り替え -------
@@ -1358,6 +1420,10 @@ function showSummary() {
     rows.push({ icon: 'ear', chip: '#FBE9D6', label: '聞き取りチャレンジ(' + kikiSpeedLabel(record.kikiTop) + 'まで)', n: record.flowersByGame.kiki });
     total += record.flowersByGame.kiki;
   }
+  if (record.kotoAnswered > 0) {
+    rows.push({ icon: 'maki', chip: '#F3EAD8', label: 'ことわざクイズ(' + record.kotoAnswered + '問)', n: record.flowersByGame.kotowaza });
+    total += record.flowersByGame.kotowaza;
+  }
   var html = '';
   if (rows.length === 0) {
     html += '<div class="done-row"><span class="chip" style="background:var(--season-pale);"><svg viewBox="0 0 24 24"><use href="#ic-sakura"></use></svg></span><span class="lbl">今日もお店に来てくださいました</span></div>';
@@ -1395,6 +1461,97 @@ function resetAll() {
   }
   record = newRecord();
   goHome();
+}
+
+// ------- ことわざクイズ(v1.12・19k B-1) -------
+var KOTOWAZA = [
+  { q: '猿も木から ◯◯◯', c: ['落ちる', '滑る'], a: 0, t: 'その道の名人でも、時には失敗することがある、というたとえです。' },
+  { q: '石の上にも ◯◯', c: ['三年', '五年'], a: 0, t: '冷たい石も三年座れば温まる。辛抱強く続ければ必ず実を結ぶ、という意味です。' },
+  { q: '急がば ◯◯◯', c: ['回れ', '走れ'], a: 0, t: '急ぐときこそ、遠回りでも安全で確実な道を選ぶほうがよい、という教えです。' },
+  { q: '犬も歩けば ◯◯に当たる', c: ['棒', '塀'], a: 0, t: '出歩けば思いがけない出来事(幸運)に出会うものだ、という意味で使われます。' },
+  { q: '七転び ◯◯◯', c: ['八起き', '七起き'], a: 0, t: '何度失敗しても、くじけずに立ち上がることのたとえです。' },
+  { q: '花より ◯◯', c: ['団子', '餅'], a: 0, t: '風流を眺めるより、実際に役に立つもののほうがよい、という意味です。' },
+  { q: '塵も積もれば ◯◯となる', c: ['山', '川'], a: 0, t: 'わずかなものでも、積み重なれば大きなものになる、というたとえです。' },
+  { q: '早起きは三文の ◯◯', c: ['徳', '損'], a: 0, t: '朝早く起きると、何かしら良いことがあるものだ、という意味です。' },
+  { q: '出る杭は ◯◯◯◯', c: ['打たれる', '抜かれる'], a: 0, t: '才能があって目立つ人は、とかく人から非難されがちだ、というたとえです。' },
+  { q: '猫に ◯◯', c: ['小判', '大判'], a: 0, t: '価値のわからない者には、どんな貴重なものも役に立たない、という意味です。' },
+  { q: '二階から ◯◯◯', c: ['目薬', 'うちわ'], a: 0, t: '思うように届かず、もどかしいこと。回りくどくて効き目がないことのたとえです。' },
+  { q: '論より ◯◯', c: ['証拠', '理屈'], a: 0, t: 'あれこれ議論するより、証拠を示すほうが物事は早く明らかになる、という意味です。' },
+  { q: '善は ◯◯◯', c: ['急げ', '待て'], a: 0, t: '良いと思ったことは、ためらわずすぐに実行するのがよい、という教えです。' },
+  { q: '情けは人の ◯◯ならず', c: ['ため', '恥'], a: 0, t: '人への親切は、めぐりめぐって自分のためになる、という意味です。' },
+  { q: '弘法にも ◯◯の誤り', c: ['筆', '墨'], a: 0, t: '書の名人・弘法大師でも書き損じることがある。名人も失敗する、というたとえです。' },
+  { q: '河童の ◯◯◯◯', c: ['川流れ', '山登り'], a: 0, t: '泳ぎの得意な河童も川に流されることがある。名人も失敗する、という意味です。' },
+  { q: '馬の耳に ◯◯', c: ['念仏', '説教'], a: 0, t: 'いくら意見をしても、まったく効き目がないことのたとえです。' },
+  { q: '石橋を ◯◯◯て渡る', c: ['叩い', '眺め'], a: 0, t: '固い石橋でも叩いて確かめてから渡る。用心の上にも用心を重ねることです。' },
+  { q: '百聞は ◯◯◯にしかず', c: ['一見', '一言'], a: 0, t: '百回聞くより、一度自分の目で見るほうが確かだ、という意味です。' },
+  { q: '灯台 ◯◯暗し', c: ['下', '上'], a: 0, t: '身近なことは、かえって気がつきにくいものだ、というたとえです。' },
+  { q: '良薬は口に ◯◯◯', c: ['苦し', '甘し'], a: 0, t: 'よく効く薬が苦いように、ためになる忠告は聞くのがつらいものだ、という意味です。' },
+  { q: '笑う門には ◯◯来る', c: ['福', '春'], a: 0, t: 'いつも明るく笑いのある家には、自然と幸運がやってくる、という意味です。' },
+  { q: '千里の道も ◯◯◯から', c: ['一歩', '一里'], a: 0, t: 'どんな大きな事業も、まず手近なことから始まる、というたとえです。' },
+  { q: '蛙の子は ◯◯', c: ['蛙', '蛇'], a: 0, t: '子は親に似るものだ、平凡な親からは平凡な子が育つ、という意味で使われます。' }
+];
+var kotoSet = [], kotoIndex = 0, kotoUsed = [];
+
+function startKotowaza() {
+  var pool = [];
+  for (var i = 0; i < KOTOWAZA.length; i++) { if (kotoUsed.indexOf(i) < 0) pool.push(i); }
+  if (pool.length < 5) { kotoUsed = []; pool = []; for (var j = 0; j < KOTOWAZA.length; j++) pool.push(j); }
+  shuffle(pool);
+  kotoSet = pool.slice(0, 5).map(function (i) { kotoUsed.push(i); return KOTOWAZA[i]; });
+  kotoIndex = 0;
+  show('scr-kotoba');
+  renderKotoQ();
+}
+
+function renderKotoQ() {
+  var q = kotoSet[kotoIndex];
+  document.getElementById('koto-progress').textContent = (kotoIndex + 1) + '問目(全' + kotoSet.length + '問)';
+  document.getElementById('koto-q').textContent = q.q;
+  document.getElementById('koto-trivia').style.display = 'none';
+  document.getElementById('koto-msg').innerHTML = '';
+  document.getElementById('koto-next').style.display = 'none';
+  var order = shuffle([0, 1]);
+  var box = document.getElementById('koto-choices');
+  box.innerHTML = '';
+  order.forEach(function (ci) {
+    var el = document.createElement('div');
+    el.className = 'q-choice';
+    el.textContent = q.c[ci];
+    el.onclick = function () { answerKoto(el, ci === q.a, q); };
+    box.appendChild(el);
+  });
+}
+
+function answerKoto(el, isCorrect, q) {
+  var choices = document.querySelectorAll('#koto-choices .q-choice');
+  for (var i = 0; i < choices.length; i++) {
+    choices[i].onclick = null;
+    if (choices[i].textContent === q.c[q.a]) { choices[i].classList.add('correct'); }
+    else { choices[i].classList.add('dim'); }
+  }
+  record.kotoAnswered++;
+  var msg = document.getElementById('koto-msg');
+  if (isCorrect) {
+    msg.innerHTML = sakuraIconHtml(36) + '<span style="color:var(--accent-deep);">正解です。お見事。</span>';
+    msg.className = 'msg';
+  } else {
+    msg.innerHTML = '<span>「' + q.q.replace('◯◯◯◯', q.c[q.a]).replace('◯◯◯', q.c[q.a]).replace('◯◯', q.c[q.a]) + '」でした。</span>';
+    msg.className = 'msg gentle';
+  }
+  document.getElementById('koto-trivia-tx').textContent = q.t;
+  document.getElementById('koto-trivia').style.display = 'flex';
+  document.getElementById('koto-next-tx').textContent = (kotoIndex < kotoSet.length - 1) ? '次の問題へ' : '終わりへ';
+  document.getElementById('koto-next').style.display = 'flex';
+}
+
+function nextKotoQ() {
+  if (kotoIndex < kotoSet.length - 1) {
+    kotoIndex++;
+    renderKotoQ();
+  } else {
+    gameCompleted('kotowaza');
+    showSummary();
+  }
 }
 
 // ------- 聞き取りチャレンジ(v1.9・19k裁定: 速度を上げながら二択チェック) -------
@@ -14059,7 +14216,8 @@ function buildSessionSummary() {
   if (record.cardsRounds > 0) parts.push('カード合わせ' + record.cardsRounds + '回');
   if (record.numsMax > 0) parts.push('順番タップ' + record.numsMax + 'まで');
   if (record.kikiSets > 0) parts.push('聞き取り' + kikiSpeedLabel(record.kikiTop) + 'まで');
-  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0);
+  if (record.kotoAnswered > 0) parts.push('ことわざ' + record.kotoAnswered + '問');
+  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0) + (record.flowersByGame.kotowaza || 0);
   if (flowers > 0) parts.push(SKIN.name.replace('みんなの', '') + flowers + SKIN.unit);
   if (record.memo.length > 0) parts.push('ひとこと:' + record.memo.join('・'));
   return parts.join('、');
