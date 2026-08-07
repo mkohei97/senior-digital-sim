@@ -130,6 +130,31 @@
   .renshu-item .tx span { font-size: 20px; color: #555555; }
   .renshu-item .go { width: 42px; height: 42px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .qr-back { font-size: 23px; font-weight: 700; color: var(--accent-deep); text-decoration: underline; text-underline-offset: 5px; cursor: pointer; }
+  /* リード画面(v1.15・Claude Design「スマホ練習リード画面」: タブレット=先生役) */
+  .lead-body { flex: 1; min-height: 0; display: flex; gap: 20px; }
+  .lead-qrcol { width: 280px; flex-shrink: 0; background: rgba(255, 255, 255, 0.92); border: 1px solid var(--season-border); border-radius: 28px;
+    box-shadow: 0 10px 26px rgba(60, 48, 36, 0.10); padding: 20px 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .lead-qrcol .ttl { font-size: 24px; font-weight: 700; }
+  .lead-qrcol #qr-dyn { min-width: 232px; min-height: 232px; display: flex; align-items: center; justify-content: center; }
+  .lead-qrcol .mini-steps { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+  .lead-qrcol .ms { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; }
+  .lead-qrcol .ms .n { width: 34px; height: 34px; border-radius: 999px; background: #EEE8F6; color: #6B4FA1; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .lead-qrcol .alt { font-size: 18px; color: #555555; line-height: 1.6; text-align: center; margin-top: auto; }
+  .lead-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+  .lead-main .hd { font-size: 27px; font-weight: 700; }
+  .lead-step { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 26px; box-shadow: 0 8px 20px rgba(60, 48, 36, 0.08);
+    padding: 16px 22px; display: flex; align-items: center; gap: 18px; }
+  .lead-step .n { width: 60px; height: 60px; border-radius: 999px; background: var(--action); color: #FFFFFF; font-size: 40px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .lead-step .tx { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .lead-step .tx b { font-size: 25px; font-weight: 700; line-height: 1.4; }
+  .lead-step .tx span { font-size: 21px; color: #555555; line-height: 1.45; }
+  .lead-kotsu { margin-top: auto; background: #FBE9D6; border-radius: 22px; padding: 14px 20px; display: flex; align-items: flex-start; gap: 14px; }
+  .lead-kotsu .chip { width: 50px; height: 50px; border-radius: 999px; background: #FFFFFF; display: flex; align-items: center; justify-content: center; color: #B96A2C; flex-shrink: 0; }
+  .lead-kotsu .chip svg { width: 30px; height: 30px; }
+  .lead-kotsu .tx { display: flex; flex-direction: column; gap: 2px; }
+  .lead-kotsu .cap { font-size: 21px; font-weight: 700; color: #B96A2C; }
+  .lead-kotsu .tx span:last-child { font-size: 21px; line-height: 1.55; }
 
   /* 出席帳(v1.13・Claude Design「出席帳」) */
   @keyframes stampLand { 0% { transform: translateY(-60px) rotate(4deg) scale(1.4); opacity: 0; } 55% { transform: translateY(0) rotate(-7deg) scale(0.96); opacity: 1; } 75% { transform: translateY(0) rotate(-6deg) scale(1.04); } 100% { transform: translateY(0) rotate(-6deg) scale(1); } }
@@ -714,7 +739,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.14(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.15(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -907,27 +932,30 @@
         <span>スマホのホーム画面の「ここスマ」からも、同じ練習ができます。</span>
       </div>
     </div>
-    <!-- 選んだ練習のQR -->
-    <div id="renshu-qr" style="margin:auto 0; display:none; flex-direction:column; gap:22px;">
-    <div style="font-size:26px;" id="qr-note">ご自分のスマホで、練習のページを開きます。</div>
-    <div class="qr-body">
-      <div class="qr-card">
-        <div id="qr-dyn"></div>
-        <div class="cap">カメラを、かざしてください</div>
+    <!-- 選んだ練習のリード画面(v1.15: タブレット=先生役) -->
+    <div id="renshu-qr" style="flex:1; min-height:0; display:none; flex-direction:column; gap:16px;">
+      <div class="lead-body">
+        <div class="lead-qrcol">
+          <span class="ttl">スマホで開く</span>
+          <div id="qr-dyn"></div>
+          <div class="mini-steps">
+            <div class="ms"><span class="n">1</span><span>スマホのカメラを開く</span></div>
+            <div class="ms"><span class="n">2</span><span>このQRにかざす</span></div>
+          </div>
+          <span class="alt" id="lead-alt">ホーム画面の「ここスマ」からも開けます。</span>
+        </div>
+        <div class="lead-main">
+          <span class="hd">すすめ方</span>
+          <div id="lead-steps"></div>
+          <div class="lead-kotsu">
+            <span class="chip"><svg viewBox="0 0 24 24"><use href="#ic-yunomi"></use></svg></span>
+            <div class="tx"><span class="cap">コツ</span><span id="lead-kotsu-tx"></span></div>
+          </div>
+        </div>
       </div>
-      <div class="qr-steps">
-        <div class="qr-step"><span class="n">1</span><span class="t">スマホのカメラを開く</span></div>
-        <div class="qr-step"><span class="n">2</span><span class="t">このQRコードにかざす</span></div>
-        <div class="qr-step"><span class="n">3</span><span class="t" id="qr-step3">出てきたリンクを押す</span></div>
+      <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+        <div class="qr-back" onclick="renshuBackToMenu()">べつの練習をえらぶ</div>
       </div>
-    </div>
-    <div class="qr-note">
-      <svg viewBox="0 0 24 24"><use href="#ic-yunomi"></use></svg>
-      うまくいかない時は、スタッフにお声がけください。
-    </div>
-    <div style="display:flex; justify-content:center;">
-      <div class="qr-back" onclick="renshuBackToMenu()">べつの練習をえらぶ</div>
-    </div>
     </div>
     <div style="display:flex; justify-content:center;">
       <div class="btn btn-white" onclick="goHome()">
@@ -14669,10 +14697,30 @@ function staffReset() {
 
 /* ===== スマホ練習メニュー(v1.14: ログインしていれば選んだ練習が直接開くQRを出す) ===== */
 var RENSHU_MENU = [
-  { c: 'voice', name: '声で入れる', desc: '話しかけて、文にします', icon: 'ic-mic', chip: 'var(--season-pale)', go: 'var(--action)' },
-  { c: 'fix', name: '間違いを直す', desc: '消して、直す練習', icon: 'ic-pen', chip: '#E4F0FC', go: '#0071E3' },
-  { c: 'type', name: '打ってみる', desc: '見て、同じ文を打ちます', icon: 'ic-keys', chip: '#E7F3E8', go: 'var(--ok)' },
-  { c: 'hard', name: '英字・数字・記号', desc: '小さい「っ」「ゃ」も練習', icon: 'ic-tile', chip: '#EEE8F6', go: '#6B4FA1' }
+  { c: 'voice', name: '声で入れる', desc: '話しかけて、文にします', icon: 'ic-mic', chip: 'var(--season-pale)', go: 'var(--action)',
+    steps: [
+      ['キーボードの マイクの印 を押す', '入力欄を押すと、キーボードが出ます'],
+      ['スマホに向かって、ゆっくり話す', 'ふだんの声の大きさで大丈夫です'],
+      ['出てきた文を確かめて「できた」を押す', '違っていたら、もう一度話せます']
+    ], kotsu: '「まる」「てん」と言うと、句読点が入ります。' },
+  { c: 'fix', name: '間違いを直す', desc: '消して、直す練習', icon: 'ic-pen', chip: '#E4F0FC', go: '#0071E3',
+    steps: [
+      ['お手本と見くらべて、間違いをさがす', '文の中に、違う字がひとつあります'],
+      ['消す印(バツや矢印)で、間違いを消す', '押すたびに、うしろから1文字消えます'],
+      ['正しい字を打ち直して「できた」を押す', '直せたら、それで合格です']
+    ], kotsu: '消しすぎても大丈夫。何度でもやり直せます。' },
+  { c: 'type', name: '打ってみる', desc: '見て、同じ文を打ちます', icon: 'ic-keys', chip: '#E7F3E8', go: 'var(--ok)',
+    steps: [
+      ['お手本の文を、よく見る', '声に出して読むと、覚えやすいです'],
+      ['同じ文を、そのまま打つ', 'あわてなくて大丈夫です'],
+      ['打ち終わったら「できた」を押す', 'かかった時間が出ます']
+    ], kotsu: '速さより、正しく打てることが大切です。' },
+  { c: 'hard', name: '英字・数字・記号', desc: '小さい「っ」「ゃ」も練習', icon: 'ic-tile', chip: '#EEE8F6', go: '#6B4FA1',
+    steps: [
+      ['キーボードの「ABC」や「123」を押す', '英字・数字のキーボードに替わります'],
+      ['課題の説明を読んでから、打つ', '小さい「っ」「ゃ」のコツも出ます'],
+      ['打ち終わったら「できた」を押す', 'ひとつずつで大丈夫です']
+    ], kotsu: '「あいう」に戻るときも、同じ場所を押します。' }
 ];
 function renshuUrl(course) {
   var url = MOJI_URL + '?c=' + course;
@@ -14680,6 +14728,8 @@ function renshuUrl(course) {
   return url;
 }
 function renderRenshuMenu() {
+  var bb = document.getElementById('renshu-badge');
+  if (bb) bb.style.display = 'none';
   var list = document.getElementById('renshu-list');
   var html = '';
   RENSHU_MENU.forEach(function (r, i) {
@@ -14698,16 +14748,39 @@ function renderRenshuMenu() {
 function renshuPick(i) {
   var r = RENSHU_MENU[i];
   var url = renshuUrl(r.c);
-  document.getElementById('qr-note').textContent = '「' + r.name + '」の練習を、ご自分のスマホで開きます。';
-  document.getElementById('qr-step3').textContent = 'リンクを押すと「' + r.name + '」が開きます';
   var qr = qrcode(0, 'M');
   qr.addData(url);
   qr.make();
-  document.getElementById('qr-dyn').innerHTML = qr.createImgTag(5, 8).replace('<img ', '<img style="width:240px;height:240px;image-rendering:pixelated;border-radius:12px;" alt="練習ページのQRコード" ');
+  document.getElementById('qr-dyn').innerHTML = qr.createImgTag(5, 8).replace('<img ', '<img style="width:232px;height:232px;image-rendering:pixelated;border-radius:12px;" alt="練習ページのQRコード" ');
+  var stHtml = '';
+  r.steps.forEach(function (st, k) {
+    stHtml += '<div class="lead-step"><span class="n">' + (k + 1) + '</span>' +
+      '<div class="tx"><b>' + st[0] + '</b><span>' + st[1] + '</span></div></div>';
+  });
+  document.getElementById('lead-steps').innerHTML = stHtml;
+  document.getElementById('lead-steps').style.display = 'flex';
+  document.getElementById('lead-steps').style.flexDirection = 'column';
+  document.getElementById('lead-steps').style.gap = '12px';
+  document.getElementById('lead-kotsu-tx').textContent = r.kotsu;
+  document.getElementById('lead-alt').style.display = session.m ? 'block' : 'none';
+  var badge = document.querySelector('#scr-qr .appbar');
+  var old = document.getElementById('renshu-badge');
+  if (!old) {
+    old = document.createElement('span');
+    old.className = 'badge';
+    old.id = 'renshu-badge';
+    badge.appendChild(old);
+  }
+  old.style.display = 'inline-block';
+  old.textContent = r.name;
   document.getElementById('renshu-menu').style.display = 'none';
   document.getElementById('renshu-qr').style.display = 'flex';
 }
-function renshuBackToMenu() { renderRenshuMenu(); }
+function renshuBackToMenu() {
+  var b = document.getElementById('renshu-badge');
+  if (b) b.style.display = 'none';
+  renderRenshuMenu();
+}
 var __origShowQr = showQr;
 showQr = function () { renderRenshuMenu(); show('scr-qr'); };
 var __origShowSummary = (typeof showSummary === 'function') ? showSummary : null;
