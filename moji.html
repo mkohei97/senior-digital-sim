@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>文字入力のれんしゅう</title>
+<title>文字入力の練習</title>
 <style>
   :root {
     /* ①ブランド(不変) */
@@ -78,6 +78,7 @@
   .renshu.r-voice { box-shadow: 0 6px 0 #EFC3D4, 0 12px 18px rgba(60, 48, 36, 0.10); }
   .renshu.r-fix { box-shadow: 0 6px 0 #B9D5F0, 0 12px 18px rgba(60, 48, 36, 0.10); }
   .renshu.r-type { box-shadow: 0 6px 0 #BFD9C4, 0 12px 18px rgba(60, 48, 36, 0.10); }
+  .renshu.r-hard { box-shadow: 0 6px 0 #CDC6E6, 0 12px 18px rgba(60, 48, 36, 0.10); }
   .renshu:active { transform: translateY(4px); box-shadow: none !important; }
   .lastline { margin-top: auto; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 21px; color: #555555; }
   .lastline svg { width: 26px; height: 26px; }
@@ -142,6 +143,12 @@
 <body>
 
 <svg width="0" height="0" style="position:absolute;" aria-hidden="true">
+  <symbol id="ic-tile" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="8.6" y="3.4" width="12" height="12" rx="2.6" fill="#E7E2F5"></rect>
+    <rect x="3.4" y="8.6" width="12" height="12" rx="2.6" fill="#FFFFFF"></rect>
+    <path d="M8.1 12.2 L9.9 11 L9.9 17.6"></path>
+    <path d="M8 17.6 H11.9"></path>
+  </symbol>
   <symbol id="ic-mic" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
     <rect x="9" y="2.6" width="6" height="10.4" rx="3" fill="#F7CFDD"></rect>
     <path d="M6.2 10.8 A5.8 5.8 0 0 0 17.8 10.8"></path>
@@ -236,12 +243,8 @@
 <div class="screen active" id="scr-select">
   <div class="pad">
     <div class="head">
-      <h1>文字入力のれんしゅう</h1>
+      <h1>文字入力の練習</h1>
       <div class="sub" id="select-greet">自分のペースで、どうぞ。</div>
-    </div>
-    <div>
-      <div class="cap" style="margin-bottom:8px;">入力のしかた</div>
-      <div class="chips" id="method-chips"></div>
     </div>
     <div class="renshu r-voice" onclick="openVoiceGuide()">
       <span class="icchip" style="background:var(--season-pale);"><svg viewBox="0 0 24 24"><use href="#ic-mic"></use></svg></span>
@@ -250,20 +253,25 @@
     </div>
     <div class="renshu r-fix" onclick="startPractice('fix')">
       <span class="icchip" style="background:#E4F0FC;"><svg viewBox="0 0 24 24"><use href="#ic-pen"></use></svg></span>
-      <div class="tx"><b>間違いを直す</b><span>消して、直すれんしゅう</span></div>
+      <div class="tx"><b>間違いを直す</b><span>消して、直す練習</span></div>
       <span class="go" style="background:#0071E3;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
     </div>
     <div class="renshu r-type" onclick="startPractice('type')">
       <span class="icchip" style="background:#E7F3E8;"><svg viewBox="0 0 24 24"><use href="#ic-keys"></use></svg></span>
-      <div class="tx"><b>打ってみる</b><span>短い文を、打ちうつします</span></div>
+      <div class="tx"><b>打ってみる</b><span>見て、同じ文を打ちます</span></div>
       <span class="go" style="background:var(--ok);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
+    </div>
+    <div class="renshu r-hard" onclick="startPractice('hard')">
+      <span class="icchip" style="background:#E7E2F5;"><svg viewBox="0 0 24 24"><use href="#ic-tile"></use></svg></span>
+      <div class="tx"><b>英字・数字・記号</b><span>小さい「っ」「ゃ」も練習</span></div>
+      <span class="go" style="background:#7C6BB8;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
     </div>
     <div class="lastline" id="last-line" style="display:none;">
       <svg viewBox="0 0 24 24"><use href="#ic-sakura-a"></use></svg>
       <span id="last-line-tx"></span>
     </div>
     <div class="quietlink" onclick="location.href='p.html'">会員証・メニューにもどる</div>
-    <div class="footer">ここスマ・文字入力れんしゅう 試作版 v0.6</div>
+    <div class="footer">ここスマ・文字入力の練習 試作版 v0.7</div>
   </div>
 </div>
 
@@ -452,28 +460,8 @@ function sendKiroku(course, method, cpm, fixes) {
 }
 
 // ------- 入力方式チップ -------
-var METHODS = [ { id: 'voice', label: '声' }, { id: 'flick', label: 'フリック' } ];
-function renderMethods() {
-  var log = getLog();
-  if (log.method === 'toggle') { log.method = 'flick'; saveLog(log); }
-  var box = document.getElementById('method-chips');
-  box.innerHTML = '';
-  METHODS.forEach(function (m) {
-    var el = document.createElement('span');
-    el.className = 'chip' + (log.method === m.id ? ' sel' : '');
-    el.textContent = m.label;
-    el.onclick = function () { var l = getLog(); l.method = m.id; saveLog(l); renderMethods(); };
-    box.appendChild(el);
-  });
-  var last = log.last[courseKey('type')] || log.last[courseKey('voice')] || log.last[courseKey('fix')];
-  var line = document.getElementById('last-line');
-  if (last && last.cpm) {
-    line.style.display = 'flex';
-    document.getElementById('last-line-tx').textContent = '前回:1分あたり ' + last.cpm + '文字';
-  } else {
-    line.style.display = 'none';
-  }
-}
+function renderMethods() { }
+
 function courseKey(course) { return course; }
 
 // ------- 課題文(郷土ネタ・短文) -------
@@ -495,7 +483,18 @@ var TASKS = {
     { wrong: '古市古墳群は、世界遺跡。', right: '古市古墳群は、世界遺産。' }
   ]
 };
-var COURSE_TITLES = { voice: '声で入れる', fix: '間違いを直す', type: '打ってみる' };
+var COURSE_TITLES = { voice: '声で入れる', fix: '間違いを直す', type: '打ってみる', hard: '英字・数字・記号' };
+TASKS.hard = [
+  { kind: '英字(アルファベット)', text: 'OK' },
+  { kind: '英字(アルファベット)', text: 'LINE' },
+  { kind: '英字(アルファベット)', text: 'Wi-Fi' },
+  { kind: '数字', text: '2026年8月' },
+  { kind: '数字', text: '10時30分' },
+  { kind: '記号(まる・てん)', text: 'こんにちは。お元気ですか?' },
+  { kind: '小さい「っ」', text: 'きっぷを買った。' },
+  { kind: '小さい「ゃ・ゅ・ょ」', text: 'ぎゅうにゅうと、おちゃ。' },
+  { kind: '小さい文字(カタカナ)', text: 'チョコレート' }
+];
 
 // ------- 練習 -------
 var cur = { course: 'type', taskIdx: 0, target: '', startAt: 0, started: false, fixes: 0, prevLen: 0 };
@@ -517,6 +516,11 @@ function startPractice(course) {
     document.getElementById('p-task').textContent = t.right;
     input.value = t.wrong;
     cur.prevLen = t.wrong.length;
+  } else if (course === 'hard') {
+    var h = pool[idx];
+    cur.target = h.text;
+    document.getElementById('p-cap').textContent = h.kind + 'の練習です。そのまま入れてみましょう';
+    document.getElementById('p-task').textContent = h.text;
   } else {
     cur.target = pool[idx];
     document.getElementById('p-cap').textContent = course === 'voice' ? 'この文を、声で入れてみましょう' : 'この文を、入れてみましょう';
@@ -569,7 +573,7 @@ function finishPractice() {
   }
   log.last[cur.course] = { cpm: cpm, fixes: cur.fixes, at: new Date().toISOString().slice(0, 10) };
   saveLog(log);
-  sendKiroku(cur.course, log.method || '', cpm, cur.fixes);
+  sendKiroku(COURSE_TITLES[cur.course] || cur.course, cur.course === 'voice' ? '声' : '打ち', cpm, cur.fixes);
   // 開花アニメを毎回再生
   var f = document.querySelector('.bigflower');
   f.style.animation = 'none';
@@ -589,7 +593,7 @@ function endSession() { renderMethods(); show('scr-select'); }
     if (nm2) document.getElementById('select-greet').textContent = nm2 + 'さん、自分のペースで、どうぞ。';
     var c = new URLSearchParams(location.search).get('c');
     if (c === 'voice') openVoiceGuide();
-    else if (c === 'fix' || c === 'type') startPractice(c);
+    else if (c === 'fix' || c === 'type' || c === 'hard') startPractice(c);
   } catch (e) {}
 })();
 </script>
