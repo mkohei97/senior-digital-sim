@@ -488,7 +488,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.7(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.8(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -13935,7 +13935,7 @@ function renderQrScreen() {
   var url, note;
   if (session.m) {
     url = PORTAL_URL + '?m=' + session.m + '&n=' + encodeURIComponent(session.n || '');
-    note = (session.n ? session.n + 'さん' : 'あなた') + '専用のページが開きます。ご自分のスマホで、どうぞ。';
+    note = (session.n ? session.n + 'さん' : 'あなた') + 'のスマホの、ホーム画面「ここスマ」から開くのが早道です。アイコンがまだ無い時は、このQRをかざしてください。';
   } else {
     url = MOJI_URL;
     note = 'ご自分のスマホで、練習のページを開きます。';

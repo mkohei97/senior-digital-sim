@@ -263,7 +263,7 @@
       <span id="last-line-tx"></span>
     </div>
     <div class="quietlink" onclick="location.href='p.html'">会員証・メニューにもどる</div>
-    <div class="footer">ここスマ・文字入力れんしゅう 試作版 v0.3</div>
+    <div class="footer">ここスマ・文字入力れんしゅう 試作版 v0.6</div>
   </div>
 </div>
 
@@ -452,9 +452,10 @@ function sendKiroku(course, method, cpm, fixes) {
 }
 
 // ------- 入力方式チップ -------
-var METHODS = [ { id: 'voice', label: '声' }, { id: 'toggle', label: 'ガラケー打ち' }, { id: 'flick', label: 'フリック' } ];
+var METHODS = [ { id: 'voice', label: '声' }, { id: 'flick', label: 'フリック' } ];
 function renderMethods() {
   var log = getLog();
+  if (log.method === 'toggle') { log.method = 'flick'; saveLog(log); }
   var box = document.getElementById('method-chips');
   box.innerHTML = '';
   METHODS.forEach(function (m) {
