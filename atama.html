@@ -99,7 +99,49 @@
   .game-card.g-cards { box-shadow: 0 6px 0 #B9D5F0, 0 14px 22px rgba(60, 48, 36, 0.10); }
   .game-card.g-tile { box-shadow: 0 6px 0 #EFC3D4, 0 14px 22px rgba(60, 48, 36, 0.10); }
   .game-card.g-phone { box-shadow: 0 6px 0 #CDC6E6, 0 14px 22px rgba(60, 48, 36, 0.10); }
-  #scr-home .pad { gap: 10px; padding-top: 18px; padding-bottom: 22px; } #scr-home .home-head { margin-top: 0; } #scr-home .sakura-card { padding: 12px 22px; }
+  #scr-home .pad { gap: 8px; padding-top: 10px; padding-bottom: 14px; } #scr-home .home-head { margin-top: 0; } #scr-home .sakura-card { padding: 8px 22px; }
+  /* v1.9: 5種目に増えたぶんの圧縮(読みやすさの文字サイズは維持) */
+  #scr-home .sakura-card svg.minitree { max-width: 190px; }
+  #scr-home .game-card { padding: 7px 24px; }
+  #scr-home .game-card .chip { width: 60px; height: 60px; } #scr-home .game-card .chip svg { width: 41px; height: 41px; }
+  .game-card.g-kiki { box-shadow: 0 6px 0 #EBD3B8, 0 14px 22px rgba(60, 48, 36, 0.10); }
+
+  /* 聞き取りチャレンジ(v1.9・Claude Design 1a〜1d) */
+  .kiki-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; }
+  .kiki-earchip { border-radius: 999px; background: #FBE9D6; display: flex; align-items: center; justify-content: center; color: #B96A2C; }
+  .kiki-card { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 28px; padding: 26px 36px;
+    box-shadow: 0 10px 26px rgba(60, 48, 36, 0.10); font-size: 25px; line-height: 1.9; text-align: center; }
+  .kiki-note { display: flex; align-items: center; gap: 10px; color: #555555; font-size: 21px; }
+  .kiki-note svg { width: 26px; height: 26px; flex-shrink: 0; }
+  @keyframes kikiRing { 0% { transform: scale(0.9); opacity: 0.7; } 100% { transform: scale(1.35); opacity: 0; } }
+  @keyframes kikiBar { 0%, 100% { transform: scaleY(0.35); } 50% { transform: scaleY(1); } }
+  .kiki-vis { position: relative; width: 250px; height: 250px; display: flex; align-items: center; justify-content: center; }
+  .kiki-vis .ring { position: absolute; inset: 0; border-radius: 999px; border: 4px solid var(--action); opacity: 0; }
+  .kiki-vis.on .ring { animation: kikiRing 1.8s ease-out infinite; }
+  .kiki-vis.on .ring.r2 { animation-delay: 0.9s; }
+  .kiki-vis .core { width: 185px; height: 185px; border-radius: 999px; background: #FFFFFF; border: 1px solid var(--season-border);
+    box-shadow: 0 10px 26px rgba(60, 48, 36, 0.10); display: flex; align-items: center; justify-content: center; color: var(--action); }
+  .kiki-bars { display: flex; align-items: flex-end; gap: 9px; height: 62px; }
+  .kiki-bars span { width: 11px; border-radius: 6px; background: var(--action); transform-origin: bottom; transform: scaleY(0.35); }
+  .kiki-bars.on span { animation: kikiBar 1s ease-in-out infinite; }
+  .kiki-lead { font-size: 27px; font-weight: 700; color: var(--accent-deep); text-align: center; }
+  .kiki-btnrow { display: flex; gap: 22px; }
+  .btn-outline { background: #FFFFFF; border: 3px solid var(--accent-deep); border-radius: 999px; padding: 15px 38px;
+    font-size: 25px; font-weight: 700; color: var(--accent-deep); display: flex; align-items: center; gap: 12px; cursor: pointer; }
+  .btn-outline:active { transform: translateY(3px); }
+  .btn-outline svg { width: 28px; height: 28px; }
+  .kiki-relisten { display: flex; align-items: center; gap: 10px; color: var(--accent-deep); cursor: pointer; }
+  .kiki-relisten svg { width: 26px; height: 26px; }
+  .kiki-relisten span { font-size: 23px; font-weight: 700; text-decoration: underline; text-underline-offset: 5px; }
+  .kiki-q { font-size: 31px; font-weight: 700; line-height: 1.7; text-align: center; }
+  .kiki-choices { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 560px; }
+  .kiki-done { font-size: 44px; font-weight: 700; color: var(--accent-deep); }
+  .kiki-result { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 28px; padding: 30px 56px;
+    box-shadow: 0 10px 26px rgba(60, 48, 36, 0.10); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .kiki-result .a { font-size: 24px; color: #555555; }
+  .kiki-result .b { font-size: 72px; font-weight: 700; color: var(--action); line-height: 1.1; }
+  .kiki-result .c { font-size: 27px; font-weight: 700; }
+  .kiki-pill { background: #E3F2F0; border: 1px solid #B8DAD4; border-radius: 999px; padding: 12px 34px; font-size: 22px; font-weight: 700; color: var(--accent-deep); }
   .game-card:active { transform: translateY(4px); box-shadow: none !important; }
 
   /* ボタン */
@@ -362,6 +404,19 @@
     <path d="M10.8 5.2 H13.2"></path>
     <path d="M10.5 18.4 H13.5"></path>
   </symbol>
+  <symbol id="ic-ear" viewBox="0 0 24 24">
+    <path d="M7 9.5 C7 5.9 9.5 3.5 12.3 3.5 C15.4 3.5 17.5 5.9 17.5 8.8 C17.5 11.2 16.2 12.2 15 13.5 C13.9 14.7 13.4 15.6 13.2 17.2 C13 18.9 11.8 20.5 10 20.5 C8.5 20.5 7.4 19.5 7.1 18.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
+    <path d="M10.2 9.3 C10.4 7.7 11.3 6.8 12.5 6.8 C13.9 6.8 14.8 7.9 14.8 9.1 C14.8 10.4 13.9 11 13.2 11.9 C12.7 12.5 12.4 13.1 12.3 13.9" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
+  </symbol>
+  <symbol id="ic-spk" viewBox="0 0 24 24">
+    <path d="M4 9.5 L7.5 9.5 L12 5.5 L12 18.5 L7.5 14.5 L4 14.5 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"></path>
+    <path d="M15.5 9 C16.4 9.8 16.4 14.2 15.5 15" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
+    <path d="M18 6.8 C19.8 8.4 19.8 15.6 18 17.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
+  </symbol>
+  <symbol id="ic-replay" viewBox="0 0 24 24">
+    <path d="M5 12 A7 7 0 1 1 7 17" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+    <path d="M5 8 L5 12 L9 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+  </symbol>
   <defs>
     <linearGradient id="ga-petal" x1="0.5" y1="1" x2="0.5" y2="0">
       <stop offset="0" stop-color="#FFF9FB"></stop>
@@ -477,6 +532,11 @@
       <div class="tx"><b>順番タップ</b><span>1から順に押していきます</span></div>
       <span class="go" style="background:#E75480;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
     </div>
+    <div class="game-card g-kiki" onclick="startKiki()">
+      <span class="chip" style="background:#FBE9D6; color:#B96A2C;"><svg viewBox="0 0 24 24"><use href="#ic-ear"></use></svg></span>
+      <div class="tx"><b>聞き取りチャレンジ</b><span>耳の体操。読み上げを聞き取ります</span></div>
+      <span class="go" style="background:#B96A2C;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
+    </div>
     <div class="game-card g-phone" onclick="showQr()">
       <span class="chip" style="background:#E7E2F5;"><svg viewBox="0 0 24 24"><use href="#ic-phone"></use></svg></span>
       <div class="tx"><b>スマホ練習</b><span>自分のスマホで文字入力</span></div>
@@ -488,7 +548,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.8(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.9(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -556,6 +616,23 @@
     <div class="subnote"><span id="nums-note">押しおわった数字には、桜がつきます。</span></div>
     <div style="margin-top:auto; display:flex; justify-content:center;">
       <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
+    </div>
+  </div>
+</div>
+
+<!-- 聞き取りチャレンジ(v1.9) -->
+<div class="screen" id="scr-kiki">
+  <div class="pad">
+    <div class="appbar">
+      <div class="left">
+        <span class="icchip kiki-earchip"><svg viewBox="0 0 24 24" style="width:37px;height:37px;"><use href="#ic-ear"></use></svg></span>
+        <span class="t">聞き取りチャレンジ</span>
+      </div>
+      <span class="badge" id="kiki-badge" style="display:none;"></span>
+    </div>
+    <div class="kiki-body" id="kiki-body"></div>
+    <div style="display:flex; justify-content:center;">
+      <div class="btn btn-white" onclick="kikiExit()">最初の画面に戻る</div>
     </div>
   </div>
 </div>
@@ -738,19 +815,19 @@
 // ------- 季節エンジン(19j: 同じ木が四季を巡る) -------
 var SEASON_SKINS = {
   spring: { sym: 'ic-sakura-a', puff: ['#FBEFF3', '#F9E3EB', '#F5D3DF', '#F0C2D3', '#EBB2C7'], bud: '#C97F9E', ground: '#F0DBE4', groundBits: '#F6C8DB',
-    name: 'みんなの桜', unit: '輪', verb: '咲きました', mark: '桜', hint: '80輪で満開です',
+    name: 'みんなの桜', unit: '輪', verb: '咲きました', doneLabel: '咲いた桜', mark: '桜', hint: '80輪で満開です',
     stages: ['つぼみ', '咲き始め', '一分咲き', '三分咲き', '五分咲き', '七分咲き', '九分咲き', '満開'],
     fullMsg: '満開です。皆さんの力で咲きました。', restMsg: '満開まで、あと{n}輪です。', emptyMsg: 'まだつぼみです。遊ぶと咲きます' },
   summer: { sym: 'ic-leaf-a', accentSym: 'ic-asagao-a', puff: ['#EAF6E8', '#D9EED6', '#BFE3B9', '#A5D3A0', '#8CC487'], bud: '#7FA06B', ground: '#DDEBD9', groundBits: '#A5D3A0',
-    name: 'みんなの青葉', unit: '枚', verb: '茂りました', mark: '葉', hint: '80枚で盛りです',
+    name: 'みんなの青葉', unit: '枚', verb: '茂りました', doneLabel: '茂った青葉', mark: '葉', hint: '80枚で盛りです',
     stages: ['芽吹き前', '芽吹き', '一分', '三分', '五分', '七分', '九分', '青葉の盛り'],
     fullMsg: '青葉の盛りです。皆さんの力で茂りました。朝顔も咲きました。', restMsg: '盛りまで、あと{n}枚です。', emptyMsg: 'まだ芽吹き前です。遊ぶと茂ります' },
   autumn: { sym: 'ic-momiji-a', puff: ['#FAE6C8', '#F6D5A8', '#F2B879', '#EFA95F', '#E08A45'], bud: '#B5713C', ground: '#F0DFC8', groundBits: '#E8B47E',
-    name: 'みんなの紅葉', unit: '枚', verb: '色づきました', mark: '紅葉', hint: '80枚で盛りです',
+    name: 'みんなの紅葉', unit: '枚', verb: '色づきました', doneLabel: '色づいた紅葉', mark: '紅葉', hint: '80枚で盛りです',
     stages: ['色づき前', '色づき始め', '一分', '三分', '五分', '七分', '九分', '紅葉の盛り'],
     fullMsg: '紅葉の盛りです。皆さんの力で色づきました。', restMsg: '盛りまで、あと{n}枚です。', emptyMsg: 'まだ色づき前です。遊ぶと色づきます' },
   winter: { sym: 'ic-tsubaki-a', puff: ['#FFFFFF', '#F4F8FB', '#E6EEF3', '#D5E2DB', '#C4D4CA'], bud: '#9AAFA3', ground: '#E9F0F6', groundBits: '#FFFFFF',
-    name: 'みんなの椿', unit: '輪', verb: '咲きました', mark: '椿', hint: '80輪で満開です',
+    name: 'みんなの椿', unit: '輪', verb: '咲きました', doneLabel: '咲いた椿', mark: '椿', hint: '80輪で満開です',
     stages: ['つぼみ', '咲き始め', '一分咲き', '三分咲き', '五分咲き', '七分咲き', '九分咲き', '満開'],
     fullMsg: '椿が満開です。雪の中、皆さんの力で咲きました。', restMsg: '満開まで、あと{n}輪です。', emptyMsg: 'まだつぼみです。遊ぶと咲きます' }
 };
@@ -768,7 +845,7 @@ var SKIN = SEASON_SKINS[SEASON];
 
 
 // ------- 記録(このセッションの分) -------
-function newRecord() { return { quizDone: 0, quizAnswered: 0, cardsRounds: 0, numsMax: 0, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0 }, memo: [] }; }
+function newRecord() { return { quizDone: 0, quizAnswered: 0, cardsRounds: 0, numsMax: 0, kikiSets: 0, kikiTop: 0, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0 }, memo: [] }; }
 var record = newRecord();
 
 // ------- 画面切り替え -------
@@ -1277,6 +1354,10 @@ function showSummary() {
     rows.push({ icon: 'tile', chip: '#FBE7EF', label: '順番タップ(' + record.numsMax + 'まで)', n: record.flowersByGame.tile });
     total += record.flowersByGame.tile;
   }
+  if (record.kikiSets > 0) {
+    rows.push({ icon: 'ear', chip: '#FBE9D6', label: '聞き取りチャレンジ(' + kikiSpeedLabel(record.kikiTop) + 'まで)', n: record.flowersByGame.kiki });
+    total += record.flowersByGame.kiki;
+  }
   var html = '';
   if (rows.length === 0) {
     html += '<div class="done-row"><span class="chip" style="background:var(--season-pale);"><svg viewBox="0 0 24 24"><use href="#ic-sakura"></use></svg></span><span class="lbl">今日もお店に来てくださいました</span></div>';
@@ -1285,10 +1366,10 @@ function showSummary() {
       html += '<div class="done-row">' +
         '<span class="chip" style="background:' + r.chip + ';"><svg viewBox="0 0 24 24"><use href="#ic-' + r.icon + '"></use></svg></span>' +
         '<span class="lbl">' + r.label + '</span>' +
-        '<span class="wa">' + sakuraIconHtml(30) + r.n + '輪</span></div>';
+        '<span class="wa">' + sakuraIconHtml(30) + r.n + SKIN.unit + '</span></div>';
     });
   }
-  html += '<div class="done-total"><span>咲いた桜</span><b>あわせて ' + total + '輪</b></div>';
+  html += '<div class="done-total"><span>' + SKIN.doneLabel + '</span><b>あわせて ' + total + SKIN.unit + '</b></div>';
   document.getElementById('done-panel').innerHTML = html;
 
   var chips = document.getElementById('memo-chips');
@@ -1314,6 +1395,180 @@ function resetAll() {
   }
   record = newRecord();
   goHome();
+}
+
+// ------- 聞き取りチャレンジ(v1.9・19k裁定: 速度を上げながら二択チェック) -------
+var KIKI_SPEEDS = [0.9, 1.0, 1.15, 1.3, 1.5];
+function kikiSpeedLabel(s) { return (s === 1 ? '1' : String(s)) + '倍'; }
+var KIKI_TASKS = [
+  { text: '山梨県は、ぶどうの産地として有名です。', q: '今の文で、ぶどうの産地は<br>どこでしたか？', c: ['山梨県', '青森県'], a: 0 },
+  { text: '青森県は、りんごの産地として有名です。', q: '今の文で、りんごの産地は<br>どこでしたか？', c: ['青森県', '長野県'], a: 0 },
+  { text: '郵便局は、駅前の通りを右に曲がるとあります。', q: '郵便局は、どちらに曲がると<br>ありましたか？', c: ['右', '左'], a: 0 },
+  { text: '明日の天気は、午後から雨になるそうです。', q: '雨になるのは、<br>いつからでしたか？', c: ['午後から', '朝から'], a: 0 },
+  { text: 'スーパーの特売は、毎週水曜日にあります。', q: '特売があるのは、<br>何曜日でしたか？', c: ['水曜日', '金曜日'], a: 0 },
+  { text: '病院の受付は、朝9時から始まります。', q: '受付が始まるのは、<br>何時からでしたか？', c: ['9時', '10時'], a: 0 },
+  { text: '回覧板は、隣の家に渡すことになっています。', q: '回覧板は、どこに渡すと<br>言っていましたか？', c: ['隣の家', '公民館'], a: 0 },
+  { text: 'バスは、10分おきに駅へ向かいます。', q: 'バスは、何分おきに<br>出ていましたか？', c: ['10分おき', '30分おき'], a: 0 },
+  { text: '今日の夕飯は、さばの味噌煮だそうです。', q: '今日の夕飯は、<br>何でしたか？', c: ['さばの味噌煮', 'カレーライス'], a: 0 },
+  { text: '図書館は、月曜日がお休みです。', q: '図書館のお休みは、<br>何曜日でしたか？', c: ['月曜日', '日曜日'], a: 0 },
+  { text: '桜の見頃は、来週の日曜日ごろだそうです。', q: '桜の見頃は、<br>いつごろでしたか？', c: ['来週の日曜日', '今週の土曜日'], a: 0 },
+  { text: '電車は、2番のりばから出発します。', q: '電車が出るのは、<br>何番のりばでしたか？', c: ['2番のりば', '5番のりば'], a: 0 }
+];
+var kiki = null;
+function kikiCanSpeak() { return !!(window.speechSynthesis && window.SpeechSynthesisUtterance); }
+function kikiStopVoice() { try { window.speechSynthesis.cancel(); } catch (e) {} }
+function kikiSpeak(text, rate, onEnd) {
+  if (!kikiCanSpeak()) { if (onEnd) setTimeout(onEnd, 600); return; }
+  kikiStopVoice();
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ja-JP'; u.rate = rate; u.pitch = 1;
+  try {
+    var vs = window.speechSynthesis.getVoices();
+    for (var i = 0; i < vs.length; i++) { if (vs[i].lang && vs[i].lang.indexOf('ja') === 0) { u.voice = vs[i]; break; } }
+  } catch (e) {}
+  u.onend = function () { if (onEnd) onEnd(); };
+  u.onerror = function () { if (onEnd) onEnd(); };
+  try { window.speechSynthesis.speak(u); } catch (e) { if (onEnd) setTimeout(onEnd, 600); }
+}
+function kikiBadge(tx) {
+  var b = document.getElementById('kiki-badge');
+  if (tx) { b.style.display = 'inline-block'; b.innerHTML = tx; } else { b.style.display = 'none'; }
+}
+function startKiki() {
+  kiki = { qNum: 1, speedIdx: 0, topOkIdx: -1, used: [], task: null };
+  kikiBadge('');
+  kikiRenderStart();
+  show('scr-kiki');
+}
+function kikiExit() { kikiStopVoice(); goHome(); }
+function kikiRenderStart() {
+  kikiBadge('');
+  var extra = kikiCanSpeak() ? '' :
+    '<div class="kiki-note" style="color:#C25E00;">この端末では音声が使えないため、文を画面に表示します。</div>';
+  document.getElementById('kiki-body').innerHTML =
+    '<span class="kiki-earchip" style="width:130px;height:130px;"><svg viewBox="0 0 24 24" style="width:80px;height:80px;"><use href="#ic-ear"></use></svg></span>' +
+    '<div style="font-size:36px;font-weight:700;">耳の体操</div>' +
+    '<div class="kiki-card">タブレットが短い文を読み上げます。<br>よく聞いて、問題に答えてください。<br>だんだん速くなります。</div>' +
+    '<div class="btn btn-primary" style="padding:18px 84px;font-size:30px;" onclick="kikiNextSentence()">はじめる</div>' +
+    '<div class="kiki-note"><svg viewBox="0 0 24 24"><use href="#ic-spk"></use></svg>音が出ます。まわりの音量にご注意ください。</div>' + extra;
+}
+function kikiPickTask() {
+  var pool = [];
+  for (var i = 0; i < KIKI_TASKS.length; i++) { if (kiki.used.indexOf(i) < 0) pool.push(i); }
+  if (pool.length === 0) { kiki.used = []; for (var j = 0; j < KIKI_TASKS.length; j++) pool.push(j); }
+  var pick = pool[Math.floor(Math.random() * pool.length)];
+  kiki.used.push(pick);
+  return KIKI_TASKS[pick];
+}
+function kikiNextSentence() {
+  kiki.task = kikiPickTask();
+  kikiRenderListen();
+  setTimeout(function () { kikiPlay(); }, 450);
+}
+function kikiRenderListen() {
+  var speed = KIKI_SPEEDS[kiki.speedIdx];
+  kikiBadge(kikiSpeedLabel(speed) + 'の速さ ・ ' + kiki.qNum + '問め／3問');
+  var bars = [28, 44, 56, 38, 52, 60, 42, 54, 30];
+  var barsHtml = '';
+  for (var i = 0; i < bars.length; i++) {
+    barsHtml += '<span style="height:' + bars[i] + 'px; animation-duration:' + (0.8 + (i % 4) * 0.13) + 's; animation-delay:' + (i * 0.09) + 's;"></span>';
+  }
+  var textFallback = kikiCanSpeak() ? '' : '<div class="kiki-card" style="font-size:29px;font-weight:700;">' + kiki.task.text + '</div>';
+  document.getElementById('kiki-body').innerHTML =
+    '<div class="kiki-vis" id="kiki-vis"><span class="ring"></span><span class="ring r2"></span>' +
+    '<span class="core"><svg viewBox="0 0 24 24" style="width:100px;height:100px;"><use href="#ic-spk"></use></svg></span></div>' +
+    '<div class="kiki-bars" id="kiki-bars">' + barsHtml + '</div>' +
+    '<div class="kiki-lead" id="kiki-lead">読み上げています。よく聞いてください</div>' + textFallback +
+    '<div class="kiki-btnrow">' +
+    '<div class="btn-outline" onclick="kikiPlay()"><svg viewBox="0 0 24 24"><use href="#ic-replay"></use></svg>もう一度聞く</div>' +
+    '<div class="btn btn-primary" style="margin:0;padding:15px 40px;font-size:25px;" onclick="kikiRenderQuiz()">問題に進む</div>' +
+    '</div>';
+}
+function kikiPlay() {
+  var vis = document.getElementById('kiki-vis');
+  var bars = document.getElementById('kiki-bars');
+  var lead = document.getElementById('kiki-lead');
+  if (vis) { vis.classList.add('on'); }
+  if (bars) { bars.classList.add('on'); }
+  if (lead) { lead.textContent = '読み上げています。よく聞いてください'; }
+  kikiSpeak(kiki.task.text, KIKI_SPEEDS[kiki.speedIdx], function () {
+    var v2 = document.getElementById('kiki-vis');
+    var b2 = document.getElementById('kiki-bars');
+    var l2 = document.getElementById('kiki-lead');
+    if (v2) v2.classList.remove('on');
+    if (b2) b2.classList.remove('on');
+    if (l2) l2.textContent = '聞き取れましたか。「問題に進む」を押してください';
+  });
+}
+function kikiRenderQuiz() {
+  kikiStopVoice();
+  kikiBadge(kiki.qNum + '問め ／ 3問');
+  var t = kiki.task;
+  var order = shuffle([0, 1]);
+  var chHtml = '';
+  for (var i = 0; i < order.length; i++) {
+    chHtml += '<div class="q-choice" onclick="kikiAnswer(' + order[i] + ', this)">' + t.c[order[i]] + '</div>';
+  }
+  document.getElementById('kiki-body').innerHTML =
+    '<span class="kiki-earchip" style="width:84px;height:84px;"><svg viewBox="0 0 24 24" style="width:52px;height:52px;"><use href="#ic-ear"></use></svg></span>' +
+    '<div class="kiki-q">' + t.q + '</div>' +
+    '<div class="kiki-choices" id="kiki-choices">' + chHtml + '</div>' +
+    '<div class="msg" id="kiki-msg"></div>' +
+    '<div class="kiki-relisten" onclick="kikiPlay()"><svg viewBox="0 0 24 24"><use href="#ic-replay"></use></svg><span>もう一度聞く</span></div>';
+}
+function kikiAnswer(idx, el) {
+  var ch = document.getElementById('kiki-choices');
+  if (!ch || ch.getAttribute('data-done')) return;
+  ch.setAttribute('data-done', '1');
+  kikiStopVoice();
+  var ok = (idx === kiki.task.a);
+  var msg = document.getElementById('kiki-msg');
+  if (ok) {
+    el.style.border = '3px solid var(--action)';
+    msg.textContent = '正解です。よく聞き取れました';
+    if (kiki.speedIdx > kiki.topOkIdx) kiki.topOkIdx = kiki.speedIdx;
+  } else {
+    msg.textContent = '正解は「' + kiki.task.c[kiki.task.a] + '」でした。同じ速さでもう一問どうぞ';
+    msg.style.color = '#C25E00';
+  }
+  var last = (kiki.qNum >= 3);
+  setTimeout(function () {
+    if (last) { kikiRenderResult(); return; }
+    kiki.qNum += 1;
+    if (ok && kiki.speedIdx < KIKI_SPEEDS.length - 1) kiki.speedIdx += 1;
+    kikiNextSentence();
+  }, ok ? 1400 : 2200);
+}
+function kikiRenderResult() {
+  kikiBadge('');
+  var top = KIKI_SPEEDS[kiki.topOkIdx >= 0 ? kiki.topOkIdx : 0];
+  var okAny = kiki.topOkIdx >= 0;
+  var prevRaw = storeGet('kokosuma_kiki_last');
+  var prev = prevRaw ? parseFloat(prevRaw) : null;
+  storeSet('kokosuma_kiki_last', String(top));
+  var pill;
+  if (prev === null) pill = '耳の体操、はじめの一歩です';
+  else if (top > prev) pill = '前回の自分より速くなりました';
+  else if (top === prev) pill = '前回と同じ速さで聞けました';
+  else pill = '今日はゆっくり確かめました';
+  record.kikiSets += 1;
+  if (top > record.kikiTop) record.kikiTop = top;
+  gameCompleted('kiki');
+  var line = okAny ? 'まで聞けました' : 'に挑戦しました';
+  document.getElementById('kiki-body').innerHTML =
+    '<div class="kiki-done">できました</div>' +
+    '<div class="kiki-result"><span class="a">今日は</span><span class="b">' + kikiSpeedLabel(top) + '</span><span class="c">' + line + '</span></div>' +
+    '<div class="kiki-pill">' + pill + '</div>' +
+    '<div class="msg">' + sakuraIconHtml(34) + SKIN.name.replace('みんなの', '') + 'が 1' + SKIN.unit + ' ' + SKIN.verb + '</div>' +
+    '<div class="kiki-btnrow">' +
+    '<div class="btn btn-primary" style="margin:0;padding:17px 52px;font-size:27px;" onclick="kikiAgain()">もう一回</div>' +
+    '<div class="btn-outline" style="padding:14px 52px;font-size:27px;" onclick="kikiExit()">終わる</div>' +
+    '</div>';
+}
+function kikiAgain() {
+  var used = kiki ? kiki.used : [];
+  kiki = { qNum: 1, speedIdx: 0, topOkIdx: -1, used: used, task: null };
+  kikiNextSentence();
 }
 
 // 初期表示
@@ -13750,7 +14005,8 @@ function buildSessionSummary() {
   if (record.quizAnswered > 0) parts.push('クイズ' + record.quizAnswered + '問');
   if (record.cardsRounds > 0) parts.push('カード合わせ' + record.cardsRounds + '回');
   if (record.numsMax > 0) parts.push('順番タップ' + record.numsMax + 'まで');
-  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile;
+  if (record.kikiSets > 0) parts.push('聞き取り' + kikiSpeedLabel(record.kikiTop) + 'まで');
+  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0);
   if (flowers > 0) parts.push(SKIN.name.replace('みんなの', '') + flowers + SKIN.unit);
   if (record.memo.length > 0) parts.push('ひとこと:' + record.memo.join('・'));
   return parts.join('、');
@@ -13830,6 +14086,7 @@ function loginMember(m, n) {
   showOverlay('ovl-welcome', 2200, function () { goHome(); });
 }
 function logoutMember(quiet) {
+  if (typeof kikiStopVoice === 'function') kikiStopVoice();
   var had = !!session.m;
   var label = had ? memberLabel() : '';
   if (had && !kirokuPending) sendTabletKiroku(session.m);
