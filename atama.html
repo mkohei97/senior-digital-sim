@@ -117,6 +117,42 @@
   .gcard .tx span { font-size: 19px; color: #555555; line-height: 1.35; }
   .gcard .goa { position: absolute; right: 12px; bottom: 12px; width: 38px; height: 38px; border-radius: 999px; display: flex; align-items: center; justify-content: center; }
 
+  /* 出席帳(v1.13・Claude Design「出席帳」) */
+  @keyframes stampLand { 0% { transform: translateY(-60px) rotate(4deg) scale(1.4); opacity: 0; } 55% { transform: translateY(0) rotate(-7deg) scale(0.96); opacity: 1; } 75% { transform: translateY(0) rotate(-6deg) scale(1.04); } 100% { transform: translateY(0) rotate(-6deg) scale(1); } }
+  @keyframes inkBleed { 0%, 60% { filter: blur(0px); opacity: 1; } 100% { filter: blur(0.4px); opacity: 0.92; } }
+  .seki-hd { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  .seki-hd .nm { font-size: 28px; font-weight: 700; }
+  .seki-hd .ln { font-size: 25px; line-height: 1.5; }
+  .seki-hd .ln b { font-size: 40px; font-weight: 700; color: var(--accent-deep); }
+  .seki-book { width: 100%; flex: 1; min-height: 0; background: linear-gradient(180deg, #FFFDF8 0%, #FDF9F0 100%); border: 1px solid #E8DFC9; border-radius: 28px;
+    box-shadow: 0 10px 26px rgba(60, 48, 36, 0.10); padding: 20px 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; }
+  .seki-month { display: flex; align-items: baseline; gap: 12px; border-bottom: 3px solid #B4402F; padding-bottom: 8px; }
+  .seki-month .m { font-size: 30px; font-weight: 700; }
+  .seki-month .c { font-size: 19px; color: #555555; }
+  .seki-wk { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; font-size: 17px; color: #555555; text-align: center; font-weight: 700; }
+  .seki-wk .sun { color: #B4402F; } .seki-wk .sat { color: #2A6E8F; }
+  .seki-grid { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(7, 1fr); grid-auto-rows: 1fr; gap: 6px; }
+  .seki-cell { border: 1px solid #EFE6D2; border-radius: 12px; position: relative; display: flex; align-items: flex-start; padding: 4px 7px; background: #FFFFFF; min-height: 0; }
+  .seki-cell.empty { border-color: transparent; background: transparent; }
+  .seki-cell .n { font-size: 17px; font-weight: 700; color: #8B857A; }
+  .seki-cell.today .n { color: #333A38; }
+  .seki-cell .seal { position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; margin-left: -23px; margin-top: -21px; color: #C0392B; opacity: 0.88; filter: blur(0.3px); }
+  .seki-foot { display: flex; align-items: center; justify-content: space-between; }
+  .seki-foot .lg { font-size: 18px; color: #555555; }
+  .seki-foot .prev { font-size: 20px; font-weight: 700; color: var(--accent-deep); text-decoration: underline; text-underline-offset: 5px; cursor: pointer; }
+  .stamp-band { background: linear-gradient(180deg, #FFFDF8 0%, #FDF9F0 100%); border: 1px solid #E8DFC9; border-radius: 24px;
+    box-shadow: 0 8px 20px rgba(60, 48, 36, 0.10); padding: 14px 24px; display: flex; align-items: center; gap: 24px; }
+  .stamp-band .cell { width: 104px; height: 104px; border: 1px solid #EFE6D2; border-radius: 14px; background: #FFFFFF; position: relative; display: flex; align-items: flex-start; padding: 6px 9px; box-sizing: border-box; flex-shrink: 0; }
+  .stamp-band .cell .n { font-size: 20px; font-weight: 700; }
+  .stamp-band .cell .seal { position: absolute; left: 50%; top: 50%; width: 78px; height: 78px; margin-left: -39px; margin-top: -36px; color: #C0392B;
+    animation: stampLand 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) 0.5s both, inkBleed 1.4s ease-out 0.5s both; }
+  .stamp-band .tx { display: flex; flex-direction: column; gap: 2px; }
+  .stamp-band .tx .a { font-size: 20px; color: #555555; }
+  .stamp-band .tx .b { font-size: 27px; font-weight: 700; }
+  .stamp-band .tx .b i { font-style: normal; font-size: 40px; color: #B4402F; }
+  .stamp-band .tx .c { font-size: 19px; font-weight: 700; color: #2A6E8F; }
+  .member-band .sekibtn { background: rgba(255, 255, 255, 0.92); border-radius: 999px; padding: 8px 18px; font-size: 19px; font-weight: 700; color: var(--accent-deep); cursor: pointer; flex-shrink: 0; margin-right: 8px; }
+
   /* 聞き取りチャレンジ(v1.9・Claude Design 1a〜1d) */
   .kiki-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; }
   .kiki-earchip { border-radius: 999px; background: #FBE9D6; display: flex; align-items: center; justify-content: center; color: #B96A2C; }
@@ -263,6 +299,25 @@
   .memo-chip { background: #FFFFFF; color: var(--accent-deep); border: 1px solid var(--season-border); border-radius: 999px; padding: 10px 24px;
     font-size: 22px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 0 #E3D9CB; }
   .memo-chip:active { transform: translateY(3px); box-shadow: none; }
+  /* v1.13: まとめ画面の圧縮モード(項目が多い日でも1024pxに収める) */
+  #scr-summary .pad.dense { gap: 10px; padding-top: 16px; padding-bottom: 18px; }
+  #scr-summary .pad.dense .guide { font-size: 21px; }
+  #scr-summary .pad.dense .done-row { padding: 8px 0; gap: 12px; }
+  #scr-summary .pad.dense .done-row .chip { width: 42px; height: 42px; } #scr-summary .pad.dense .done-row .chip svg { width: 27px; height: 27px; }
+  #scr-summary .pad.dense .done-row .lbl { font-size: 22px; }
+  #scr-summary .pad.dense .done-row .wa { font-size: 21px; } #scr-summary .pad.dense .done-row .wa svg { width: 26px; height: 26px; }
+  #scr-summary .pad.dense .done-total { padding: 8px 0; }
+  #scr-summary .pad.dense .memo-panel { padding: 12px 22px; gap: 8px; }
+  #scr-summary .pad.dense .memo-panel .sub { display: none; }
+  #scr-summary .pad.dense .memo-chip { padding: 8px 20px; font-size: 21px; }
+  #scr-summary .pad.dense .staffnote { display: none; }
+  #scr-summary .pad.dense .stamp-band { padding: 10px 22px; gap: 20px; }
+  #scr-summary .pad.dense .stamp-band .cell { width: 84px; height: 84px; }
+  #scr-summary .pad.dense .stamp-band .cell .seal { width: 62px; height: 62px; margin-left: -31px; margin-top: -28px; }
+  #scr-summary .pad.dense .stamp-band .tx .a { font-size: 18px; }
+  #scr-summary .pad.dense .stamp-band .tx .b { font-size: 24px; } #scr-summary .pad.dense .stamp-band .tx .b i { font-size: 34px; }
+  #scr-summary .pad.dense .stamp-band .tx .c { font-size: 17px; }
+  #scr-summary .pad.dense .btn-primary { padding: 13px 38px; font-size: 24px; }
   .memo-chip.sel { background: var(--action); color: #FFFFFF; border-color: var(--action); box-shadow: 0 3px 0 var(--action-edge); }
   .staffnote { font-size: 20px; color: #555555; text-align: center; }
 
@@ -415,6 +470,51 @@
     <path d="M10.8 5.2 H13.2"></path>
     <path d="M10.5 18.4 H13.5"></path>
   </symbol>
+  <symbol id="ic-stamp" viewBox="0 0 24 24">
+    <path d="M9.5 4.5 C9.5 3.4 10.6 2.5 12 2.5 C13.4 2.5 14.5 3.4 14.5 4.5 C14.5 5.6 13.8 6.3 13.6 7.4 L13.4 9 L10.6 9 L10.4 7.4 C10.2 6.3 9.5 5.6 9.5 4.5 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
+    <path d="M9 9 L15 9 C16.1 9 17 9.9 17 11 L17 13.5 L7 13.5 L7 11 C7 9.9 7.9 9 9 9 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
+    <path d="M5.5 17 C5.5 15.6 6.6 13.5 8 13.5 L16 13.5 C17.4 13.5 18.5 15.6 18.5 17 L18.5 18 L5.5 18 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
+    <path d="M6.5 21 L17.5 21" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
+  </symbol>
+  <symbol id="seal-asagao" viewBox="0 0 48 48">
+    <circle cx="24" cy="24" r="21.5" fill="none" stroke="currentColor" stroke-width="2.4"></circle>
+    <circle cx="24" cy="23" r="11" fill="none" stroke="currentColor" stroke-width="2.2"></circle>
+    <path d="M24 12 L27.2 19.2 L24 23 L20.8 19.2 Z M35 23 L27.8 26.2 L24 23 L27.8 19.8 Z M24 34 L20.8 26.8 L24 23 L27.2 26.8 Z M13 23 L20.2 19.8 L24 23 L20.2 26.2 Z" fill="currentColor" opacity="0.9"></path>
+    <circle cx="24" cy="23" r="3" fill="currentColor"></circle>
+    <path d="M24 34 C24 37 26 39 29 39.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    <path d="M29 39.5 C31.5 37 34.5 37.5 36 39.5 C34 41.5 31 41.5 29 39.5 Z" fill="currentColor" opacity="0.85"></path>
+  </symbol>
+  <symbol id="seal-sakura" viewBox="0 0 48 48">
+    <circle cx="24" cy="24" r="21.5" fill="none" stroke="currentColor" stroke-width="2.4"></circle>
+    <g fill="currentColor" opacity="0.9">
+      <ellipse cx="24" cy="14.5" rx="4.4" ry="6"></ellipse>
+      <ellipse cx="33" cy="21" rx="4.4" ry="6" transform="rotate(72 33 21)"></ellipse>
+      <ellipse cx="29.5" cy="31.5" rx="4.4" ry="6" transform="rotate(144 29.5 31.5)"></ellipse>
+      <ellipse cx="18.5" cy="31.5" rx="4.4" ry="6" transform="rotate(216 18.5 31.5)"></ellipse>
+      <ellipse cx="15" cy="21" rx="4.4" ry="6" transform="rotate(288 15 21)"></ellipse>
+    </g>
+    <circle cx="24" cy="24" r="3" fill="currentColor"></circle>
+  </symbol>
+  <symbol id="seal-momiji" viewBox="0 0 48 48">
+    <circle cx="24" cy="24" r="21.5" fill="none" stroke="currentColor" stroke-width="2.4"></circle>
+    <g fill="currentColor" opacity="0.9">
+      <path d="M24 10 L26.5 17 L24 20 L21.5 17 Z"></path>
+      <path d="M33 13.5 L32.5 20.5 L26.5 22.5 L28 17 Z"></path>
+      <path d="M15 13.5 L20 17 L21.5 22.5 L15.5 20.5 Z"></path>
+      <path d="M37 24 L30.5 26.5 L26 24 L30.5 21.5 Z"></path>
+      <path d="M11 24 L17.5 21.5 L22 24 L17.5 26.5 Z"></path>
+      <path d="M31 32 L26 28.5 L26.5 25 L32 28 Z"></path>
+      <path d="M17 32 L21.5 25 L22 28.5 L17.5 34 Z"></path>
+    </g>
+    <path d="M24 22 L24 37" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+  </symbol>
+  <symbol id="seal-tsubaki" viewBox="0 0 48 48">
+    <circle cx="24" cy="24" r="21.5" fill="none" stroke="currentColor" stroke-width="2.4"></circle>
+    <circle cx="24" cy="22" r="9.5" fill="currentColor" opacity="0.9"></circle>
+    <circle cx="24" cy="22" r="3.6" fill="none" stroke="#FFFFFF" stroke-width="1.6" opacity="0.9"></circle>
+    <path d="M24 32 C20 34 16.5 34 14 32.5 C16 29.5 20 28.8 24 30.2 Z" fill="currentColor" opacity="0.85"></path>
+    <path d="M24 32 C28 34 31.5 34 34 32.5 C32 29.5 28 28.8 24 30.2 Z" fill="currentColor" opacity="0.85"></path>
+  </symbol>
   <symbol id="ic-maki" viewBox="0 0 24 24">
     <path d="M7 4.5 L17.5 4.5 C18.9 4.5 20 5.6 20 7 L20 8 L16.5 8" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
     <path d="M7 4.5 C5.6 4.5 4.5 5.6 4.5 7 C4.5 8.4 5.6 9.5 7 9.5 L7 4.5 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
@@ -530,6 +630,7 @@
       <div class="member-band" id="member-band">
         <span class="flo"><svg viewBox="0 0 24 24"><use class="skin-use" href="#ic-sakura-a"></use></svg></span>
         <span class="t" id="member-band-tx"><b>ハナさん</b>の時間です</span>
+        <span class="sekibtn" onclick="showSeki()">出席帳</span>
         <span class="endbtn" onclick="logoutMember(false)">終わりにする</span>
       </div>
     </div>
@@ -647,6 +748,35 @@
     <div class="numgrid" id="numgrid"></div>
     <div class="subnote"><span id="nums-note">押しおわった数字には、桜がつきます。</span></div>
     <div style="margin-top:auto; display:flex; justify-content:center;">
+      <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
+    </div>
+  </div>
+</div>
+
+<!-- わたしの出席帳(v1.13) -->
+<div class="screen" id="scr-seki">
+  <div class="pad">
+    <div class="appbar">
+      <div class="left">
+        <span class="icchip" style="background:#F8E3DC;"><svg viewBox="0 0 24 24" style="color:#B4402F;"><use href="#ic-stamp"></use></svg></span>
+        <span class="t">わたしの出席帳</span>
+      </div>
+      <span class="badge" id="seki-badge"></span>
+    </div>
+    <div class="seki-hd">
+      <div class="nm" id="seki-name"></div>
+      <div class="ln" id="seki-line"></div>
+    </div>
+    <div class="seki-book">
+      <div class="seki-month"><span class="m" id="seki-month"></span><span class="c">の帳面</span></div>
+      <div class="seki-wk"><span class="sun">日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span class="sat">土</span></div>
+      <div class="seki-grid" id="seki-grid"></div>
+      <div class="seki-foot">
+        <span class="lg" id="seki-legend"></span>
+        <span class="prev" id="seki-prev" onclick="sekiTogglePrev()">先月をみる</span>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:center;">
       <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
     </div>
   </div>
@@ -857,6 +987,7 @@
       <span class="badge" id="sum-date"></span>
     </div>
     <div class="guide">お疲れさまでした。今日は、これだけできました。</div>
+    <div class="stamp-band" id="sum-stamp" style="display:none;"></div>
     <div class="panel done-panel" id="done-panel"></div>
     <div class="panel memo-panel">
       <div class="cap">スタッフへのひとこと</div>
@@ -877,19 +1008,19 @@
 // ------- 季節エンジン(19j: 同じ木が四季を巡る) -------
 var SEASON_SKINS = {
   spring: { sym: 'ic-sakura-a', puff: ['#FBEFF3', '#F9E3EB', '#F5D3DF', '#F0C2D3', '#EBB2C7'], bud: '#C97F9E', ground: '#F0DBE4', groundBits: '#F6C8DB',
-    name: 'みんなの桜', unit: '輪', verb: '咲きました', doneLabel: '咲いた桜', mark: '桜', hint: '80輪で満開です',
+    name: 'みんなの桜', unit: '輪', verb: '咲きました', doneLabel: '咲いた桜', sealSym: 'seal-sakura', sealName: '春の印・桜', mark: '桜', hint: '80輪で満開です',
     stages: ['つぼみ', '咲き始め', '一分咲き', '三分咲き', '五分咲き', '七分咲き', '九分咲き', '満開'],
     fullMsg: '満開です。皆さんの力で咲きました。', restMsg: '満開まで、あと{n}輪です。', emptyMsg: 'まだつぼみです。遊ぶと咲きます' },
   summer: { sym: 'ic-leaf-a', accentSym: 'ic-asagao-a', puff: ['#EAF6E8', '#D9EED6', '#BFE3B9', '#A5D3A0', '#8CC487'], bud: '#7FA06B', ground: '#DDEBD9', groundBits: '#A5D3A0',
-    name: 'みんなの青葉', unit: '枚', verb: '茂りました', doneLabel: '茂った青葉', mark: '葉', hint: '80枚で盛りです',
+    name: 'みんなの青葉', unit: '枚', verb: '茂りました', doneLabel: '茂った青葉', sealSym: 'seal-asagao', sealName: '夏の印・朝顔', mark: '葉', hint: '80枚で盛りです',
     stages: ['芽吹き前', '芽吹き', '一分', '三分', '五分', '七分', '九分', '青葉の盛り'],
     fullMsg: '青葉の盛りです。皆さんの力で茂りました。朝顔も咲きました。', restMsg: '盛りまで、あと{n}枚です。', emptyMsg: 'まだ芽吹き前です。遊ぶと茂ります' },
   autumn: { sym: 'ic-momiji-a', puff: ['#FAE6C8', '#F6D5A8', '#F2B879', '#EFA95F', '#E08A45'], bud: '#B5713C', ground: '#F0DFC8', groundBits: '#E8B47E',
-    name: 'みんなの紅葉', unit: '枚', verb: '色づきました', doneLabel: '色づいた紅葉', mark: '紅葉', hint: '80枚で盛りです',
+    name: 'みんなの紅葉', unit: '枚', verb: '色づきました', doneLabel: '色づいた紅葉', sealSym: 'seal-momiji', sealName: '秋の印・紅葉', mark: '紅葉', hint: '80枚で盛りです',
     stages: ['色づき前', '色づき始め', '一分', '三分', '五分', '七分', '九分', '紅葉の盛り'],
     fullMsg: '紅葉の盛りです。皆さんの力で色づきました。', restMsg: '盛りまで、あと{n}枚です。', emptyMsg: 'まだ色づき前です。遊ぶと色づきます' },
   winter: { sym: 'ic-tsubaki-a', puff: ['#FFFFFF', '#F4F8FB', '#E6EEF3', '#D5E2DB', '#C4D4CA'], bud: '#9AAFA3', ground: '#E9F0F6', groundBits: '#FFFFFF',
-    name: 'みんなの椿', unit: '輪', verb: '咲きました', doneLabel: '咲いた椿', mark: '椿', hint: '80輪で満開です',
+    name: 'みんなの椿', unit: '輪', verb: '咲きました', doneLabel: '咲いた椿', sealSym: 'seal-tsubaki', sealName: '冬の印・椿', mark: '椿', hint: '80輪で満開です',
     stages: ['つぼみ', '咲き始め', '一分咲き', '三分咲き', '五分咲き', '七分咲き', '九分咲き', '満開'],
     fullMsg: '椿が満開です。雪の中、皆さんの力で咲きました。', restMsg: '満開まで、あと{n}輪です。', emptyMsg: 'まだつぼみです。遊ぶと咲きます' }
 };
@@ -1402,6 +1533,23 @@ var MEMO_CHOICES = ['楽しかった', 'ちょうどよい', '少し難しかっ
 
 function showSummary() {
   document.getElementById('sum-date').textContent = dateLabel();
+  var band = document.getElementById('sum-stamp');
+  if (band) {
+    var mid = session.m || (typeof kirokuPending !== 'undefined' ? kirokuPending : '');
+    if (mid && typeof getStamps === 'function') {
+      var total = getStamps(mid).length;
+      band.style.display = 'flex';
+      band.innerHTML =
+        '<div class="cell"><span class="n">' + (new Date().getDate()) + '</span>' +
+        '<svg class="seal" viewBox="0 0 48 48"><use href="#' + SKIN.sealSym + '"></use></svg></div>' +
+        '<div class="tx"><span class="a">きょうの帳面に 印を押しました</span>' +
+        '<span class="b">出席 <i>' + total + '</i>回目</span>' +
+        '<span class="c">' + SKIN.sealName + '</span></div>';
+    } else {
+      band.style.display = 'none';
+      band.innerHTML = '';
+    }
+  }
   var rows = [];
   var total = 0;
   if (record.quizAnswered > 0) {
@@ -1451,6 +1599,9 @@ function showSummary() {
     };
     chips.appendChild(el);
   });
+  var padEl = document.querySelector('#scr-summary .pad');
+  var stampOn = document.getElementById('sum-stamp') && document.getElementById('sum-stamp').style.display !== 'none';
+  padEl.classList.toggle('dense', rows.length + (stampOn ? 2 : 0) >= 4);
   show('scr-summary');
 }
 
@@ -1461,6 +1612,53 @@ function resetAll() {
   }
   record = newRecord();
   goHome();
+}
+
+// ------- わたしの出席帳(v1.13・19l) -------
+var sekiShowPrev = false;
+function sekiMonthKey(prev) {
+  var d = new Date();
+  if (prev) d = new Date(d.getFullYear(), d.getMonth() - 1, 1);
+  return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2);
+}
+function showSeki() {
+  if (!session.m) { goHome(); return; }
+  sekiShowPrev = false;
+  renderSeki();
+  show('scr-seki');
+}
+function sekiTogglePrev() {
+  sekiShowPrev = !sekiShowPrev;
+  renderSeki();
+}
+function renderSeki() {
+  var days = getStamps(session.m);
+  var mk = sekiMonthKey(sekiShowPrev);
+  var parts = mk.split('-');
+  var y = parseInt(parts[0], 10), mo = parseInt(parts[1], 10);
+  var inMonth = days.filter(function (d) { return d.indexOf(mk) === 0; }).map(function (d) { return parseInt(d.slice(8), 10); });
+  document.getElementById('seki-badge').textContent = '通算 ' + days.length + '回';
+  document.getElementById('seki-name').textContent = memberLabel();
+  var thisMonthCount = days.filter(function (d) { return d.indexOf(sekiMonthKey(false)) === 0; }).length;
+  document.getElementById('seki-line').innerHTML = '今月は <b>' + thisMonthCount + '</b>回 通われました';
+  document.getElementById('seki-month').textContent = mo + '月';
+  document.getElementById('seki-legend').textContent = SKIN.sealName.split('・')[1] + 'の印は 出席した日です';
+  document.getElementById('seki-prev').textContent = sekiShowPrev ? '今月にもどる' : '先月をみる';
+  var first = new Date(y, mo - 1, 1).getDay();
+  var dim = new Date(y, mo, 0).getDate();
+  var today = new Date();
+  var isThisMonth = (!sekiShowPrev && y === today.getFullYear() && mo === today.getMonth() + 1);
+  var html = '';
+  for (var e = 0; e < first; e++) html += '<div class="seki-cell empty"></div>';
+  for (var d = 1; d <= dim; d++) {
+    var stamped = inMonth.indexOf(d) >= 0;
+    var cls = 'seki-cell' + (isThisMonth && d === today.getDate() ? ' today' : '');
+    var tilt = ((d * 7) % 13) - 6;
+    html += '<div class="' + cls + '"><span class="n">' + d + '</span>' +
+      (stamped ? '<svg class="seal" viewBox="0 0 48 48" style="transform:rotate(' + tilt + 'deg);"><use href="#' + SKIN.sealSym + '"></use></svg>' : '') +
+      '</div>';
+  }
+  document.getElementById('seki-grid').innerHTML = html;
 }
 
 // ------- ことわざクイズ(v1.12・19k B-1) -------
@@ -14229,7 +14427,7 @@ function sendTabletKiroku(mid) {
   if (!summary) return;
   try {
     var body = KIROKU_KEYS.m + '=' + encodeURIComponent(mid) +
-      '&' + KIROKU_KEYS.course + '=' + encodeURIComponent('店内体操: ' + summary) +
+      '&' + KIROKU_KEYS.course + '=' + encodeURIComponent('店内体操: ' + summary + '(出席' + getStamps(mid).length + '回目)') +
       '&' + KIROKU_KEYS.method + '=' + encodeURIComponent('タブレット');
     fetch(KIROKU_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body });
   } catch (e) {}
@@ -14287,13 +14485,38 @@ function sprinklePetals(id) {
     el.appendChild(sv);
   }
 }
+/* ===== 出席帳(v1.13・19l) ===== */
+function todayStr() {
+  var d = new Date();
+  return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+}
+function getStamps(m) {
+  if (!m) return [];
+  var raw = storeGet('kokosuma_stamps_' + m);
+  if (!raw) return [];
+  try { var a = JSON.parse(raw); return Array.isArray(a) ? a : []; } catch (e) { return []; }
+}
+function stampToday(m) {
+  var days = getStamps(m);
+  var t = todayStr();
+  var isNew = days.indexOf(t) < 0;
+  if (isNew) { days.push(t); storeSet('kokosuma_stamps_' + m, JSON.stringify(days)); }
+  return { total: days.length, isNew: isNew };
+}
+function stampsThisMonth(m) {
+  var pre = monthKey();
+  return getStamps(m).filter(function (d) { return d.indexOf(pre) === 0; }).length;
+}
 function loginMember(m, n) {
   if (typeof kirokuPending !== 'undefined' && kirokuPending) { sendTabletKiroku(kirokuPending); kirokuPending = null; record = newRecord(); }
   session.m = m; session.n = n || '';
   lastAct = Date.now();
   stopCam();
   updateMemberUi();
+  var st = stampToday(m);
   document.getElementById('welcome-tx').innerHTML = '<b>' + memberLabel() + '</b>、ようこそ';
+  var l2 = document.querySelector('#ovl-welcome .l2');
+  if (l2) l2.textContent = '今日で ' + st.total + '回目の出席です';
   showOverlay('ovl-welcome', 2200, function () { goHome(); });
 }
 function logoutMember(quiet) {
