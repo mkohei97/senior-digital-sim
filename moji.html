@@ -87,9 +87,11 @@
   .pbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   .pbar .t { font-size: 25px; font-weight: 700; }
   .badge { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 999px; padding: 5px 16px; font-size: 20px; font-weight: 700; color: var(--accent-deep); white-space: nowrap; }
-  .task { padding: 17px 20px; display: flex; flex-direction: column; gap: 6px; }
-  .task .cap2 { font-size: 20px; color: var(--accent-deep); font-weight: 700; }
-  .task .tx { font-size: 26px; font-weight: 700; line-height: 1.7; }
+  .pdirect { font-size: 21px; line-height: 1.6; color: #333A38; }
+  .task { padding: 22px 20px 17px; margin-top: 14px; position: relative; display: flex; flex-direction: column; }
+  .task .tag { position: absolute; top: -16px; left: 16px; background: #FFFFFF; border: 2px solid var(--accent-deep); color: var(--accent-deep);
+    border-radius: 999px; padding: 4px 16px; font-size: 18px; font-weight: 700; }
+  .task .tx { font-size: 27px; font-weight: 700; line-height: 1.7; }
   .inputbox { width: 100%; background: #FFFFFF; border: 2px solid var(--season-border); border-radius: 24px; padding: 16px 18px;
     min-height: 130px; font-size: 24px; line-height: 1.7; font-family: inherit; color: #333A38; resize: none; }
   .inputbox:focus { outline: none; border-color: var(--action); }
@@ -271,7 +273,7 @@
       <span id="last-line-tx"></span>
     </div>
     <div class="quietlink" onclick="location.href='p.html'">会員証・メニューにもどる</div>
-    <div class="footer">ここスマ・文字入力の練習 試作版 v0.7</div>
+    <div class="footer">ここスマ・文字入力の練習 試作版 v0.8</div>
   </div>
 </div>
 
@@ -332,8 +334,9 @@
       <span class="t" id="p-title">打ってみる</span>
       <span class="badge">れんしゅう中</span>
     </div>
+    <div class="pdirect" id="p-cap">下のお手本と同じ文を、打ちましょう。</div>
     <div class="panel task">
-      <div class="cap2" id="p-cap">この文を、入れてみましょう</div>
+      <span class="tag" id="p-tag">お手本</span>
       <div class="tx" id="p-task"></div>
     </div>
     <textarea class="inputbox" id="p-input" placeholder="ここに入ります" autocomplete="off" autocorrect="on"></textarea>
@@ -512,18 +515,21 @@ function startPractice(course) {
   if (course === 'fix') {
     var t = pool[idx];
     cur.target = t.right;
-    document.getElementById('p-cap').textContent = 'まちがいを直して、この文にしましょう';
+    document.getElementById('p-cap').textContent = '入力欄の文のまちがいを直して、下の「めざす文」にしましょう。';
+    document.getElementById('p-tag').textContent = 'めざす文';
     document.getElementById('p-task').textContent = t.right;
     input.value = t.wrong;
     cur.prevLen = t.wrong.length;
   } else if (course === 'hard') {
     var h = pool[idx];
     cur.target = h.text;
-    document.getElementById('p-cap').textContent = h.kind + 'の練習です。そのまま入れてみましょう';
+    document.getElementById('p-cap').textContent = h.kind + 'の練習です。下のお手本を、そのまま打ちましょう。';
+    document.getElementById('p-tag').textContent = 'お手本';
     document.getElementById('p-task').textContent = h.text;
   } else {
     cur.target = pool[idx];
-    document.getElementById('p-cap').textContent = course === 'voice' ? 'この文を、声で入れてみましょう' : 'この文を、入れてみましょう';
+    document.getElementById('p-cap').textContent = course === 'voice' ? '下のお手本の文を、声で入れましょう。' : '下のお手本と同じ文を、打ちましょう。';
+    document.getElementById('p-tag').textContent = 'お手本';
     document.getElementById('p-task').textContent = cur.target;
     input.value = '';
     cur.prevLen = 0;
