@@ -158,6 +158,35 @@
   .cat-menu .gcard .tx b { font-size: 27px; }
   .cat-menu .gcard .tx span { font-size: 21px; }
   .newbadge { background: #DFF2FA; color: #1E7A9C; font-size: 17px; font-weight: 700; border-radius: 999px; padding: 3px 12px; margin-left: 10px; }
+  /* v1.18: 上の句・下の句(Claude Design「上の句下の句」) */
+  .kami-inst { background: var(--accent-deep); color: #FFFFFF; border-radius: 16px; padding: 14px 24px; text-align: center;
+    font-size: 23px; font-weight: 700; letter-spacing: 0.5px; flex-shrink: 0; }
+  .kami-heads { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; flex-shrink: 0; }
+  .kami-heads div { text-align: center; font-size: 20px; color: #555555; font-weight: 700; }
+  .kami-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; flex: 1 1 auto; min-height: 0; }
+  .kami-col { display: flex; flex-direction: column; gap: 14px; min-height: 0; }
+  .kami-card { flex: 1 1 0; background: #FBF8EC; border: 2px solid #E3DEC8; border-radius: 16px; padding: 10px 18px;
+    font-size: 23px; line-height: 1.5; color: #333A38; display: flex; align-items: center; cursor: pointer; position: relative;
+    box-shadow: 0 4px 12px rgba(60, 48, 36, 0.07); min-height: 0; }
+  .kami-card:active { transform: translateY(2px); }
+  .kami-card.sel { border: 3px solid var(--accent-deep); background: #FFFFFF; }
+  .kami-card.newpair { background: #EEF0DC; border-color: #5F6B2B; }
+  .kami-card.done { background: #F1EFE6; border-color: #E3DEC8; color: #9A947F; cursor: default; }
+  .kami-card .chk { position: absolute; right: 10px; top: 10px; width: 28px; height: 28px; border-radius: 999px;
+    background: #B9B29B; color: #FFFFFF; display: none; align-items: center; justify-content: center; }
+  .kami-card.newpair .chk { display: flex; background: #5F6B2B; }
+  .kami-card.done .chk { display: flex; }
+  .kami-card .chk svg { width: 16px; height: 16px; }
+  .kami-msg { border-radius: 16px; padding: 12px 22px; display: none; align-items: center; gap: 14px; flex-shrink: 0; }
+  .kami-msg.ok { display: flex; background: #E7F0E4; border: 1px solid #C9DEC4; }
+  .kami-msg.ng { display: flex; background: #FBF3E4; border: 1px solid #E8D5AE; }
+  .kami-msg .ic { width: 34px; height: 34px; border-radius: 999px; background: #5F6B2B; color: #FFFFFF;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .kami-msg .ic svg { width: 20px; height: 20px; }
+  .kami-msg .tx { display: flex; flex-direction: column; gap: 1px; }
+  .kami-msg .tx b { font-size: 23px; color: #333A38; }
+  .kami-msg .tx span { font-size: 19px; color: #6B6455; }
+  .kami-msg.ng .tx b { font-size: 22px; color: #7A5A28; }
   /* v1.17: 記憶の順番(Claude Design「記憶の順番とホーム8種目」) */
   .kioku-status { align-self: center; background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 999px;
     padding: 12px 26px; font-size: 24px; font-weight: 700; color: #333A38; display: flex; align-items: center; gap: 12px;
@@ -689,6 +718,11 @@
     <path d="M12 12 L12 15.5 M12 15.5 C10 15.5 9.2 17 9.5 18.5 L14.5 18.5 C14.8 17 14 15.5 12 15.5 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
     <path d="M10.2 4.2 C10.8 3.6 11.5 3.5 12 4 C12.5 4.5 13.2 4.4 13.8 4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
   </symbol>
+  <symbol id="ic-tanzaku" viewBox="0 0 24 24">
+    <path d="M8 3.5 L16 3.5 L16 20.5 L8 20.5 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
+    <circle cx="12" cy="6.2" r="0.9" fill="currentColor" stroke="none"></circle>
+    <path d="M10.2 10 H13.8 M10.2 13 H13.8 M10.2 16 H12.6" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
+  </symbol>
   <symbol id="ic-spark" viewBox="0 0 24 24">
     <path d="M9.2 15.5 C9.2 14 8.5 13.2 7.8 12.3 C7 11.3 6.5 10.2 6.5 8.9 C6.5 5.9 8.9 3.7 12 3.7 C15.1 3.7 17.5 5.9 17.5 8.9 C17.5 10.2 17 11.3 16.2 12.3 C15.5 13.2 14.8 14 14.8 15.5 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
     <path d="M9.6 17.8 H14.4 M10.2 20 H13.8" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
@@ -834,6 +868,7 @@
             <span><i style="background:#C22E63;"></i>順番タップ</span>
             <span><i style="background:#1E7A9C;"></i>記憶の順番</span>
             <span><i style="background:#B96A2C;"></i>聞き取りチャレンジ</span>
+            <span><i style="background:#5F6B2B;"></i>上の句・下の句</span>
           </div>
         </div>
         <span class="goa" style="background:#F3EAD8; color:#8A6A3B;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
@@ -852,7 +887,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.17(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.18(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -919,6 +954,11 @@
         <span class="chip" style="background:#FBE9D6; color:#B96A2C;"><svg viewBox="0 0 24 24"><use href="#ic-ear"></use></svg></span>
         <div class="tx"><b>聞き取りチャレンジ</b><span>耳の体操・二択</span></div>
         <span class="goa" style="background:#FBE9D6; color:#B96A2C;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard" onclick="startKami()">
+        <span class="chip" style="background:#F0F2DF; color:#5F6B2B;"><svg viewBox="0 0 24 24"><use href="#ic-tanzaku"></use></svg></span>
+        <div class="tx"><b>上の句・下の句<span class="newbadge" style="background:#F0F2DF; color:#5F6B2B;">あたらしい</span></b><span>上の句と下の句を合わせる</span></div>
+        <span class="goa" style="background:#F0F2DF; color:#5F6B2B;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
     </div>
   </div>
@@ -1080,6 +1120,31 @@
         <span id="ots-next-tx">次の問題へ</span>
         <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
       </div>
+      <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
+    </div>
+  </div>
+</div>
+
+<!-- 上の句・下の句(v1.18) -->
+<div class="screen" id="scr-kami">
+  <div class="pad">
+    <div class="appbar">
+      <div class="left">
+        <span class="icchip" style="background:#F0F2DF;"><svg viewBox="0 0 24 24" style="color:#5F6B2B;"><use href="#ic-tanzaku"></use></svg></span>
+        <span class="t">上の句・下の句</span>
+      </div>
+      <span class="badge" id="kami-badge"></span>
+    </div>
+    <div class="kami-inst" id="kami-inst">上の句を えらんでください</div>
+    <div class="kami-msg" id="kami-msg"></div>
+    <div class="kami-heads" id="kami-heads"><div>上の句</div><div>下の句</div></div>
+    <div class="kami-grid" id="kami-grid">
+      <div class="kami-col" id="kami-col-a"></div>
+      <div class="kami-col" id="kami-col-b"></div>
+    </div>
+    <div class="kioku-result" id="kami-result"></div>
+    <div style="margin-top:auto; display:flex; flex-direction:column; gap:12px; align-items:center;">
+      <div class="btn btn-primary" id="kami-again" style="display:none;" onclick="startKami()">もう一度あそぶ</div>
       <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
     </div>
   </div>
@@ -1348,7 +1413,7 @@ var SKIN = SEASON_SKINS[SEASON];
 
 
 // ------- 記録(このセッションの分) -------
-function newRecord() { return { quizDone: 0, quizAnswered: 0, cardsRounds: 0, numsMax: 0, kikiSets: 0, kikiTop: 0, kotoAnswered: 0, otsuriAnswered: 0, kiokuBest: 0, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0, otsuri: 0, kioku: 0 }, memo: [] }; }
+function newRecord() { return { quizDone: 0, quizAnswered: 0, cardsRounds: 0, numsMax: 0, kikiSets: 0, kikiTop: 0, kotoAnswered: 0, otsuriAnswered: 0, kiokuBest: 0, kamiPairs: 0, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0, otsuri: 0, kioku: 0, kami: 0 }, memo: [] }; }
 var record = newRecord();
 
 // ------- 画面切り替え -------
@@ -1889,8 +1954,12 @@ function showSummary() {
     total += record.flowersByGame.otsuri;
   }
   if (record.kiokuBest > 0) {
-    rows.push({ icon: 'kioku', chip: '#DDEEF7', label: '記憶の順番(' + record.kiokuBest + '個まで)', n: record.flowersByGame.kioku });
+    rows.push({ icon: 'spark', chip: '#DDEEF7', label: '記憶の順番(' + record.kiokuBest + '個まで)', n: record.flowersByGame.kioku });
     total += record.flowersByGame.kioku;
+  }
+  if (record.kamiPairs > 0) {
+    rows.push({ icon: 'tanzaku', chip: '#EFE3EA', label: '上の句・下の句(' + record.kamiPairs + '組)', n: record.flowersByGame.kami });
+    total += record.flowersByGame.kami;
   }
   var html = '';
   if (rows.length === 0) {
@@ -2196,6 +2265,116 @@ function nextOtsuriQ() {
     gameCompleted('otsuri');
     showSummary();
   }
+}
+
+// ------- 上の句・下の句(v1.18・19k D-7: 開き札の対句合わせ) -------
+var KAMI = [
+  { a: '春すぎて 夏来にけらし 白妙の', b: '衣ほすてふ 天の香具山', src: '持統天皇(百人一首)' },
+  { a: '秋の田の かりほの庵の 苫をあらみ', b: 'わが衣手は 露にぬれつつ', src: '天智天皇(百人一首)' },
+  { a: 'あしびきの 山鳥の尾の しだり尾の', b: 'ながながし夜を ひとりかも寝む', src: '柿本人麻呂(百人一首)' },
+  { a: '田子の浦に うち出でて見れば 白妙の', b: '富士の高嶺に 雪は降りつつ', src: '山部赤人(百人一首)' },
+  { a: '花の色は うつりにけりな いたづらに', b: 'わが身世にふる ながめせしまに', src: '小野小町(百人一首)' },
+  { a: 'ちはやぶる 神代も聞かず 竜田川', b: 'からくれなゐに 水くくるとは', src: '在原業平(百人一首)' },
+  { a: 'これやこの 行くも帰るも 別れては', b: '知るも知らぬも 逢坂の関', src: '蝉丸(百人一首)' },
+  { a: '天の原 ふりさけ見れば 春日なる', b: '三笠の山に 出でし月かも', src: '阿倍仲麻呂(百人一首)' },
+  { a: '春はあけぼの', b: 'やうやう白くなりゆく山ぎは', src: '清少納言「枕草子」' },
+  { a: '祇園精舎の鐘の声', b: '諸行無常の響きあり', src: '「平家物語」' },
+  { a: '月日は百代の過客にして', b: '行きかふ年もまた旅人なり', src: '松尾芭蕉「おくのほそ道」' },
+  { a: 'ゆく河の流れは絶えずして', b: 'しかももとの水にあらず', src: '鴨長明「方丈記」' }
+];
+
+var kamiSet = [], kamiUsed = [], kamiSelA = -1, kamiMatched = 0, kamiOrderB = [];
+function startKami() {
+  var pool = [];
+  for (var i = 0; i < KAMI.length; i++) { if (kamiUsed.indexOf(i) < 0) pool.push(i); }
+  if (pool.length < 4) { kamiUsed = []; pool = []; for (var j = 0; j < KAMI.length; j++) pool.push(j); }
+  shuffle(pool);
+  kamiSet = pool.slice(0, 4).map(function (i) { kamiUsed.push(i); return KAMI[i]; });
+  kamiSelA = -1; kamiMatched = 0;
+  kamiOrderB = shuffle([0, 1, 2, 3]);
+  document.getElementById('kami-result').style.display = 'none';
+  document.getElementById('kami-again').style.display = 'none';
+  document.getElementById('kami-grid').style.display = 'grid';
+  document.getElementById('kami-heads').style.display = 'grid';
+  document.getElementById('kami-inst').style.display = 'block';
+  var m = document.getElementById('kami-msg');
+  m.className = 'kami-msg'; m.innerHTML = '';
+  renderKami();
+  show('scr-kami');
+}
+function kamiChk() { return '<span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 L10 17.5 L19 7.5"></path></svg></span>'; }
+function renderKami() {
+  document.getElementById('kami-badge').textContent = 'そろった組 ' + kamiMatched + '/4';
+  var colA = document.getElementById('kami-col-a');
+  var colB = document.getElementById('kami-col-b');
+  colA.innerHTML = ''; colB.innerHTML = '';
+  kamiSet.forEach(function (p, i) {
+    var el = document.createElement('div');
+    el.className = 'kami-card' + (p.doneA ? ' done' : (kamiSelA === i ? ' sel' : ''));
+    el.innerHTML = kamiChk() + '<span>' + p.a + '</span>';
+    el.onclick = function () { tapKamiA(i); };
+    colA.appendChild(el);
+  });
+  kamiOrderB.forEach(function (i) {
+    var p = kamiSet[i];
+    var el = document.createElement('div');
+    el.className = 'kami-card' + (p.doneB ? ' done' : '');
+    el.innerHTML = kamiChk() + '<span>' + p.b + '</span>';
+    el.onclick = function () { tapKamiB(i); };
+    colB.appendChild(el);
+  });
+}
+function kamiMsg(kind, big, sub) {
+  var m = document.getElementById('kami-msg');
+  if (!kind) { m.className = 'kami-msg'; m.innerHTML = ''; return; }
+  m.className = 'kami-msg ' + kind;
+  var ic = kind === 'ok' ? '<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 L10 17.5 L19 7.5"></path></svg></span>' : '';
+  m.innerHTML = ic + '<span class="tx"><b>' + big + '</b>' + (sub ? '<span>' + sub + '</span>' : '') + '</span>';
+}
+function tapKamiA(i) {
+  if (kamiSet[i].doneA) return;
+  kamiSelA = i;
+  kamiMsg(null);
+  document.getElementById('kami-inst').textContent = 'つづきの下の句を えらんでください';
+  renderKami();
+}
+function tapKamiB(i) {
+  if (kamiSet[i].doneB) return;
+  if (kamiSelA < 0) {
+    kamiMsg('ng', 'まず、上の句を えらんでください');
+    return;
+  }
+  if (i === kamiSelA) {
+    var p = kamiSet[i];
+    p.doneA = true; p.doneB = true;
+    kamiMatched++;
+    record.kamiPairs++;
+    kamiSelA = -1;
+    kamiMsg('ok', 'そろいました。', p.src);
+    document.getElementById('kami-inst').textContent = '上の句を えらんでください';
+    renderKami();
+    // 今そろった対を強調
+    var cardsA = document.querySelectorAll('#kami-col-a .kami-card');
+    var idxB = kamiOrderB.indexOf(i);
+    var cardsB = document.querySelectorAll('#kami-col-b .kami-card');
+    if (cardsA[i]) { cardsA[i].classList.remove('done'); cardsA[i].classList.add('newpair'); }
+    if (cardsB[idxB]) { cardsB[idxB].classList.remove('done'); cardsB[idxB].classList.add('newpair'); }
+    if (kamiMatched === 4) { setTimeout(finishKami, 1300); }
+  } else {
+    kamiMsg('ng', 'ちがう札のようです。もう一度えらんでください');
+  }
+}
+function finishKami() {
+  document.getElementById('kami-grid').style.display = 'none';
+  document.getElementById('kami-heads').style.display = 'none';
+  document.getElementById('kami-inst').style.display = 'none';
+  kamiMsg(null);
+  var res = document.getElementById('kami-result');
+  res.innerHTML = '<div class="big">お見事です。<i>4組</i> そろいました</div>' +
+    '<div class="pill">' + SKIN.name + 'が 1' + SKIN.unit + ' 増えました</div>';
+  res.style.display = 'flex';
+  document.getElementById('kami-again').style.display = 'flex';
+  gameCompleted('kami');
 }
 
 // ------- 記憶の順番(v1.17・19k C-5: サイモン式・2個から5個へ) -------
@@ -15027,7 +15206,8 @@ function buildSessionSummary() {
   if (record.kotoAnswered > 0) parts.push('ことわざ' + record.kotoAnswered + '問');
   if (record.otsuriAnswered > 0) parts.push('お釣り計算' + record.otsuriAnswered + '問');
   if (record.kiokuBest > 0) parts.push('記憶の順番' + record.kiokuBest + '個まで');
-  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0) + (record.flowersByGame.kotowaza || 0) + (record.flowersByGame.otsuri || 0) + (record.flowersByGame.kioku || 0);
+  if (record.kamiPairs > 0) parts.push('上の句下の句' + record.kamiPairs + '組');
+  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0) + (record.flowersByGame.kotowaza || 0) + (record.flowersByGame.otsuri || 0) + (record.flowersByGame.kioku || 0) + (record.flowersByGame.kami || 0);
   if (flowers > 0) parts.push(SKIN.name.replace('みんなの', '') + flowers + SKIN.unit);
   if (record.memo.length > 0) parts.push('ひとこと:' + record.memo.join('・'));
   return parts.join('、');
