@@ -125,6 +125,12 @@
   .otsuri-pay .bill span { font-size: 14px; color: #8A6A3B; }
   .otsuri-pay .cnt { position: absolute; right: -12px; top: -10px; background: #9A7B2D; color: #FFFFFF; font-size: 16px; font-weight: 700;
     border-radius: 999px; padding: 2px 9px; }
+  .otsuri-buy.two .v { font-size: 21px; line-height: 1.4; }
+  .otsuri-pay .plus { font-size: 26px; color: #8A6A3B; font-weight: 700; margin: 0 2px; }
+  .otsuri-pay .komi { width: 56px; height: 56px; border-radius: 999px; background: #F1EAD8; border: 2px solid #C7A94F;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: inset 0 0 0 2px #FFFFFF; }
+  .otsuri-pay .komi b { font-size: 20px; font-weight: 700; color: #8A6A3B; line-height: 1; }
+  .otsuri-pay .komi span { font-size: 13px; color: #8A6A3B; }
   .otsuri-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .otsuri-choices .q-choice { font-size: 42px; font-weight: 700; letter-spacing: 0.5px; position: relative; overflow: visible; }
   .otsuri-choices .q-choice .tag { position: absolute; top: -14px; left: 14px; font-size: 17px; font-weight: 700; letter-spacing: 0.5px;
@@ -158,6 +164,9 @@
   .cat-menu .gcard .tx b { font-size: 27px; }
   .cat-menu .gcard .tx span { font-size: 21px; }
   .newbadge { background: #DFF2FA; color: #1E7A9C; font-size: 17px; font-weight: 700; border-radius: 999px; padding: 3px 12px; margin-left: 10px; }
+  .done-row .mig { background: #F5EDD6; border: 1px solid #D8BE72; color: #8A6A3B; font-size: 17px; font-weight: 700;
+    border-radius: 999px; padding: 2px 10px; margin-left: 10px; vertical-align: middle; }
+  #scr-summary .pad.dense .done-row .mig { font-size: 15px; padding: 1px 8px; }
   /* v1.19: 検定・級と学びの記録(Claude Design「検定と学びの記録」) */
   .rec-hd { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 24px; padding: 14px 20px;
     display: flex; align-items: center; gap: 16px; flex-shrink: 0; box-shadow: 0 6px 16px rgba(60, 48, 36, 0.08); }
@@ -230,6 +239,7 @@
   .kami-card.newpair .chk { display: flex; background: #5F6B2B; }
   .kami-card.done .chk { display: flex; }
   .kami-card .chk svg { width: 16px; height: 16px; }
+  .kami-grid.p5 .kami-card { font-size: 21px; padding: 8px 14px; }
   .kami-msg { border-radius: 16px; padding: 12px 22px; display: none; align-items: center; gap: 14px; flex-shrink: 0; }
   .kami-msg.ok { display: flex; background: #E7F0E4; border: 1px solid #C9DEC4; }
   .kami-msg.ng { display: flex; background: #FBF3E4; border: 1px solid #E8D5AE; }
@@ -429,6 +439,8 @@
   .q-panel .cap { font-size: 20px; color: var(--accent-deep); font-weight: 700; }
   .q-panel .q { font-size: 28px; font-weight: 700; line-height: 1.6; }
   .choices { display: flex; flex-direction: column; gap: 16px; }
+  .choices.three { gap: 12px; }
+  .choices.three .q-choice { padding: 14px; }
   .q-choice { background: #FFFFFF; border: 1px solid #E7E0D2; border-radius: 24px; padding: 18px; text-align: center;
     font-size: 29px; font-weight: 700; cursor: pointer; box-shadow: 0 6px 0 #DDD5C6, 0 12px 18px rgba(60, 48, 36, 0.08);
     display: flex; align-items: center; justify-content: center; gap: 12px; }
@@ -461,6 +473,11 @@
 
   /* 順番タップ */
   .numgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; }
+  .numgrid.wide { grid-template-columns: repeat(4, 1fr); gap: 13px; }
+  .numgrid.wide .numbtn { aspect-ratio: 1 / 0.8; font-size: 46px; }
+  .cardgrid.many { gap: 11px; }
+  .cardgrid.many .card { aspect-ratio: 3 / 3.15; }
+  .cardgrid.many .card .lbl { font-size: 17px; }
   .numbtn { aspect-ratio: 1 / 0.72; border-radius: 24px; background: #FFFFFF; border: 1px solid var(--season-border);
     font-size: 52px; font-weight: 700; color: #333A38;
     display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer;
@@ -940,7 +957,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.19(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.20(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -1476,7 +1493,7 @@ var SKIN = SEASON_SKINS[SEASON];
 
 
 // ------- 記録(このセッションの分) -------
-function newRecord() { return { quizDone: 0, quizAnswered: 0, cardsRounds: 0, numsMax: 0, kikiSets: 0, kikiTop: 0, kotoAnswered: 0, otsuriAnswered: 0, kiokuBest: 0, kamiPairs: 0, shoukyu: [], quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0, otsuri: 0, kioku: 0, kami: 0 }, memo: [] }; }
+function newRecord() { return { quizDone: 0, quizAnswered: 0, quizCorrect: 0, cardsRounds: 0, cardsMiss: 0, numsMax: 0, numsMiss: 0, kikiSets: 0, kikiTop: 0, kikiCorrect: 0, kotoAnswered: 0, kotoCorrect: 0, otsuriAnswered: 0, otsuriCorrect: 0, kiokuBest: 0, kamiPairs: 0, kamiMiss: 0, shoukyu: [], perfect: {}, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0, otsuri: 0, kioku: 0, kami: 0 }, memo: [] }; }
 var record = newRecord();
 
 // ------- 画面切り替え -------
@@ -1562,10 +1579,22 @@ function updateHome() {
   drawTree(c, document.getElementById('home-tree-svg'), true);
 }
 // ゲームを1つ完走するごとに1輪
-function gameCompleted(game) {
+// quality: 2=みごと(ミスなし) / 1=よくできました / 0=級は進まないが花はつく
+function gameCompleted(game, quality) {
+  var q = (quality === undefined) ? 1 : quality;
   record.flowersByGame[game] = (record.flowersByGame[game] || 0) + 1;
+  if (q >= 2) record.perfect[game] = true;
   addSakura(1);
-  addKenteiPoint(game);
+  addKenteiPoint(game, q);
+}
+// 出来の判定(共通のものさし: ミスなし=2・おおむね出来た=1・それ未満=0)
+function qualityByCorrect(correct, total) {
+  if (correct >= total) return 2;
+  return (correct * 2 >= total) ? 1 : 0;
+}
+function qualityByMiss(miss, allow) {
+  if (miss === 0) return 2;
+  return (miss <= allow) ? 1 : 0;
 }
 
 // ------- 検定・級(v1.19・19l第2弾: 全8種目・会員のみ・十級→一級) -------
@@ -1592,11 +1621,14 @@ function getKentei(m) {
   return {};
 }
 function setKentei(m, data) { storeSet('kokosuma_kentei_' + m, JSON.stringify(data)); }
-function addKenteiPoint(game) {
+function addKenteiPoint(game, add) {
   if (!session.m || !KENTEI_GAMES[game]) return;
+  var n = (add === undefined) ? 1 : add;
+  if (n <= 0) return; // 出来が振るわない回は級を進めない(表には出さない)
   var data = getKentei(session.m);
-  var pts = (data[game] || 0) + 1;
-  var oldLv = kenteiLevelOf(pts - 1);
+  var was = data[game] || 0;
+  var pts = was + n;
+  var oldLv = kenteiLevelOf(was);
   var newLv = kenteiLevelOf(pts);
   data[game] = pts;
   setKentei(session.m, data);
@@ -1806,26 +1838,26 @@ function drawTree(count, svg, mini) {
 
 // ------- ふるさとクイズ -------
 var QUIZ = [
-  { region: '藤井寺・羽曳野', q: '藤井寺市の名前のもとになったお寺「葛井寺」。なんと読むでしょう?', c: ['ふじいでら', 'くずいでら'], a: 0, t: '西国三十三所の第五番札所。国宝の千手観音さまで有名です。' },
-  { region: '藤井寺・羽曳野', q: '古市古墳群が世界遺産に登録されたのは、いつでしょう?', c: ['2019年(令和元年)', '1999年(平成11年)'], a: 0, t: '「百舌鳥・古市古墳群」として大阪府初の世界遺産になりました。' },
-  { region: '藤井寺・羽曳野', q: '羽曳野市の特産のくだものは、どちらでしょう?', c: ['いちじく', 'みかん'], a: 0, t: 'いちじくとぶどうが特産。市の「いちじくMap」もあるほどです。' },
-  { region: '藤井寺・羽曳野', q: 'かつて藤井寺球場を本拠地にしていたプロ野球チームは?', c: ['近鉄バファローズ', '阪急ブレーブス'], a: 0, t: '藤井寺球場は2005年まで存在。多くのファンで賑わいました。' },
-  { region: '藤井寺・羽曳野', q: '羽曳野市に古墳が残る「白鳥伝説」の主人公は、だれでしょう?', c: ['ヤマトタケル', '聖徳太子'], a: 0, t: '白鳥になって羽を曳くように飛んだ姿が「羽曳野」の地名の由来と伝わります。' },
-  { region: '藤井寺・羽曳野', q: '全国で2番目に大きい古墳「応神天皇陵古墳」があるのは?', c: ['羽曳野市', '堺市'], a: 0, t: '誉田(こんだ)にあります。1番大きい仁徳天皇陵古墳は堺市です。' },
-  { region: '藤井寺・羽曳野', q: '羽曳野市の駒ヶ谷地区で、ぶどうから作られている飲みものは?', c: ['ワイン', '日本酒'], a: 0, t: '羽曳野は「ぶどうとワインの街」。河内ワインで知られています。' },
-  { region: '藤井寺・羽曳野', q: '「道明寺粉」から作る、関西でおなじみの和菓子は?', c: ['さくらもち', 'かしわもち'], a: 0, t: '道明寺粉の名前は藤井寺市の道明寺に由来すると言われています。' },
-  { region: '大阪', q: '1970年の大阪万博のシンボル「太陽の塔」を作ったのは?', c: ['岡本太郎', '手塚治虫'], a: 0, t: '「芸術は爆発だ!」の岡本太郎さん。今も万博記念公園に立っています。' },
-  { region: '大阪', q: '通天閣にいる、足の裏をなでると願いが叶うという神様は?', c: ['ビリケンさん', 'えべっさん'], a: 0, t: 'アメリカ生まれの幸運の神様。大阪に来て100年以上になります。' },
-  { region: '大阪', q: '大阪城を最初に築いたのは、だれでしょう?', c: ['豊臣秀吉', '徳川家康'], a: 0, t: '天下統一の拠点として築きました。今の天守閣は昭和6年の再建です。' },
-  { region: '大阪', q: '江戸時代、大阪はなんと呼ばれていたでしょう?', c: ['天下の台所', '天下の玄関'], a: 0, t: '全国の米や物産が集まる商業の中心地だったことに由来します。' },
-  { region: '関西', q: '奈良の大仏さまがあるお寺は、どちらでしょう?', c: ['東大寺', '法隆寺'], a: 0, t: '高さ約15メートル。奈良時代に聖武天皇の願いで作られました。' },
-  { region: '関西', q: '金閣寺があるのは、どちらの都市でしょう?', c: ['京都', '神戸'], a: 0, t: '正式には鹿苑寺。足利義満が建てたことで知られます。' },
-  { region: '関西', q: '甲子園球場があるのは、なに県でしょう?', c: ['兵庫県', '大阪府'], a: 0, t: '兵庫県西宮市にあります。大正13年(1924年)生まれの歴史ある球場です。' },
-  { region: '関西', q: '日本一大きい湖・琵琶湖があるのは、なに県でしょう?', c: ['滋賀県', '奈良県'], a: 0, t: '滋賀県の面積の約6分の1が琵琶湖です。' },
-  { region: '日本', q: '日本一高い山は、どちらでしょう?', c: ['富士山', '立山'], a: 0, t: '高さ3776メートル。2013年に世界文化遺産になりました。' },
-  { region: '日本', q: '東京タワーと東京スカイツリー、高いのはどちらでしょう?', c: ['スカイツリー', '東京タワー'], a: 0, t: 'スカイツリーは634メートル、東京タワーは333メートルです。' },
-  { region: '日本', q: '新幹線が日本で最初に走った区間は、どちらでしょう?', c: ['東京〜新大阪', '東京〜博多'], a: 0, t: '昭和39年(1964年)、東京オリンピックの年に開業しました。' },
-  { region: '日本', q: '日本でいちばん面積が大きい都道府県は、どちらでしょう?', c: ['北海道', '岩手県'], a: 0, t: '北海道は日本の面積の約2割をしめています。' }
+  { region: '藤井寺・羽曳野', q: '藤井寺市の名前のもとになったお寺「葛井寺」。なんと読むでしょう?', c: ['ふじいでら', 'くずいでら', 'かつらいでら'], a: 0, t: '西国三十三所の第五番札所。国宝の千手観音さまで有名です。' },
+  { region: '藤井寺・羽曳野', q: '古市古墳群が世界遺産に登録されたのは、いつでしょう?', c: ['2019年(令和元年)', '1999年(平成11年)', '2009年(平成21年)'], a: 0, t: '「百舌鳥・古市古墳群」として大阪府初の世界遺産になりました。' },
+  { region: '藤井寺・羽曳野', q: '羽曳野市の特産のくだものは、どちらでしょう?', c: ['いちじく', 'みかん', 'さくらんぼ'], a: 0, t: 'いちじくとぶどうが特産。市の「いちじくMap」もあるほどです。' },
+  { region: '藤井寺・羽曳野', q: 'かつて藤井寺球場を本拠地にしていたプロ野球チームは?', c: ['近鉄バファローズ', '阪急ブレーブス', '阪神タイガース'], a: 0, t: '藤井寺球場は2005年まで存在。多くのファンで賑わいました。' },
+  { region: '藤井寺・羽曳野', q: '羽曳野市に古墳が残る「白鳥伝説」の主人公は、だれでしょう?', c: ['ヤマトタケル', '聖徳太子', 'オオクニヌシ'], a: 0, t: '白鳥になって羽を曳くように飛んだ姿が「羽曳野」の地名の由来と伝わります。' },
+  { region: '藤井寺・羽曳野', q: '全国で2番目に大きい古墳「応神天皇陵古墳」があるのは?', c: ['羽曳野市', '堺市', '藤井寺市'], a: 0, t: '誉田(こんだ)にあります。1番大きい仁徳天皇陵古墳は堺市です。' },
+  { region: '藤井寺・羽曳野', q: '羽曳野市の駒ヶ谷地区で、ぶどうから作られている飲みものは?', c: ['ワイン', '日本酒', 'ビール'], a: 0, t: '羽曳野は「ぶどうとワインの街」。河内ワインで知られています。' },
+  { region: '藤井寺・羽曳野', q: '「道明寺粉」から作る、関西でおなじみの和菓子は?', c: ['さくらもち', 'かしわもち', 'くずもち'], a: 0, t: '道明寺粉の名前は藤井寺市の道明寺に由来すると言われています。' },
+  { region: '大阪', q: '1970年の大阪万博のシンボル「太陽の塔」を作ったのは?', c: ['岡本太郎', '手塚治虫', '棟方志功'], a: 0, t: '「芸術は爆発だ!」の岡本太郎さん。今も万博記念公園に立っています。' },
+  { region: '大阪', q: '通天閣にいる、足の裏をなでると願いが叶うという神様は?', c: ['ビリケンさん', 'えべっさん', 'おたふくさん'], a: 0, t: 'アメリカ生まれの幸運の神様。大阪に来て100年以上になります。' },
+  { region: '大阪', q: '大阪城を最初に築いたのは、だれでしょう?', c: ['豊臣秀吉', '徳川家康', '織田信長'], a: 0, t: '天下統一の拠点として築きました。今の天守閣は昭和6年の再建です。' },
+  { region: '大阪', q: '江戸時代、大阪はなんと呼ばれていたでしょう?', c: ['天下の台所', '天下の玄関', '天下の米蔵'], a: 0, t: '全国の米や物産が集まる商業の中心地だったことに由来します。' },
+  { region: '関西', q: '奈良の大仏さまがあるお寺は、どちらでしょう?', c: ['東大寺', '法隆寺', '興福寺'], a: 0, t: '高さ約15メートル。奈良時代に聖武天皇の願いで作られました。' },
+  { region: '関西', q: '金閣寺があるのは、どちらの都市でしょう?', c: ['京都', '神戸', '奈良'], a: 0, t: '正式には鹿苑寺。足利義満が建てたことで知られます。' },
+  { region: '関西', q: '甲子園球場があるのは、なに県でしょう?', c: ['兵庫県', '大阪府', '京都府'], a: 0, t: '兵庫県西宮市にあります。大正13年(1924年)生まれの歴史ある球場です。' },
+  { region: '関西', q: '日本一大きい湖・琵琶湖があるのは、なに県でしょう?', c: ['滋賀県', '奈良県', '三重県'], a: 0, t: '滋賀県の面積の約6分の1が琵琶湖です。' },
+  { region: '日本', q: '日本一高い山は、どちらでしょう?', c: ['富士山', '立山', '御嶽山'], a: 0, t: '高さ3776メートル。2013年に世界文化遺産になりました。' },
+  { region: '日本', q: '東京タワーと東京スカイツリー、高いのはどれでしょう?', c: ['スカイツリー', '東京タワー', '同じ高さ'], a: 0, t: 'スカイツリーは634メートル、東京タワーは333メートルです。' },
+  { region: '日本', q: '新幹線が日本で最初に走った区間は、どちらでしょう?', c: ['東京〜新大阪', '東京〜博多', '東京〜名古屋'], a: 0, t: '昭和39年(1964年)、東京オリンピックの年に開業しました。' },
+  { region: '日本', q: '日本でいちばん面積が大きい都道府県は、どちらでしょう?', c: ['北海道', '岩手県', '福島県'], a: 0, t: '北海道は日本の面積の約2割をしめています。' }
 ];
 var quizSet = [], quizIndex = 0;
 
@@ -1856,8 +1888,9 @@ function renderQuizQ() {
   document.getElementById('quiz-msg').innerHTML = '';
   document.getElementById('quiz-next').style.display = 'none';
 
-  var order = shuffle([0, 1]);
+  var order = shuffle(q.c.map(function (_, i) { return i; }));
   var box = document.getElementById('quiz-choices');
+  box.classList.toggle('three', q.c.length >= 3);
   box.innerHTML = '';
   order.forEach(function (ci) {
     var el = document.createElement('div');
@@ -1880,6 +1913,7 @@ function answerQuiz(el, isCorrect, q) {
     else { choices[i].classList.add('dim'); }
   }
   record.quizAnswered++;
+  if (isCorrect) record.quizCorrect++;
   var msg = document.getElementById('quiz-msg');
   if (isCorrect) {
     msg.innerHTML = sakuraIconHtml(36) + '<span style="color:var(--accent-deep);">正解です。素晴らしい。</span>';
@@ -1901,7 +1935,7 @@ function nextQuizQ() {
     renderQuizQ();
   } else {
     record.quizDone++;
-    gameCompleted('kofun');
+    gameCompleted('kofun', qualityByCorrect(record.quizCorrect, record.quizAnswered));
     showSummary();
   }
 }
@@ -1918,7 +1952,7 @@ var FACES = [
   { id: 'yunomi', label: 'ゆのみ' }
 ];
 var cardRound = 0;
-var CARD_PAIRS = [2, 3, 4];
+var CARD_PAIRS = [3, 4, 6];
 var openCards = [], lock = false, remainingPairs = 0;
 
 function faceHtml(face) {
@@ -1947,6 +1981,7 @@ function nextCardRound() {
   var grid = document.getElementById('cardgrid');
   grid.innerHTML = '';
   grid.style.gridTemplateColumns = 'repeat(' + (pairs <= 2 ? 2 : (pairs === 3 ? 3 : 4)) + ', 1fr)';
+  grid.classList.toggle('many', pairs >= 6);
 
   deck.forEach(function (face) {
     var el = document.createElement('div');
@@ -1979,6 +2014,7 @@ function flipCard(el, face) {
       if (remainingPairs === 0) cardRoundClear();
     }, 350);
   } else {
+    record.cardsMiss++;
     setMsg('cards-msg', '違いました。大丈夫、もう一度。', true);
     setTimeout(function () {
       a.classList.remove('open'); a.innerHTML = backHtml();
@@ -1995,15 +2031,16 @@ function cardRoundClear() {
     cardRound++;
     setTimeout(nextCardRound, 1800);
   } else {
-    setMsg('cards-msg', '3回ともできました。お見事です。', false);
-    gameCompleted('cards');
+    var cq = qualityByMiss(record.cardsMiss, CARD_PAIRS.reduce(function (a, b) { return a + b; }, 0));
+    setMsg('cards-msg', cq >= 2 ? '一度も間違えずにそろいました。お見事です。' : '3回ともできました。お見事です。', false);
+    gameCompleted('cards', cq);
     setTimeout(showSummary, 1800);
   }
 }
 
 // ------- 順番タップ -------
 var numRound = 0;
-var NUM_COUNTS = [3, 5, 7];
+var NUM_COUNTS = [5, 8, 12];
 var nextNum = 1, numMistakes = 0;
 
 function startNums() {
@@ -2020,10 +2057,12 @@ function nextNumRound() {
 
   var nums = [];
   for (var n = 1; n <= count; n++) nums.push(n);
-  var cells = nums.concat(new Array(9 - count).fill(null));
+  var slots = count <= 5 ? 9 : 12; // 5までは3×3の中に散らす / 8・12は4×3
+  var cells = nums.concat(new Array(slots - count).fill(null));
   shuffle(cells);
 
   var grid = document.getElementById('numgrid');
+  grid.classList.toggle('wide', slots === 12);
   grid.innerHTML = '';
   cells.forEach(function (n) {
     var el = document.createElement('div');
@@ -2051,6 +2090,7 @@ function tapNum(el, n) {
     }
   } else {
     numMistakes++;
+    record.numsMiss++;
     if (numMistakes >= 3) {
       setMsg('nums-msg', 'つぎは ' + nextNum + ' です。ゆっくりで大丈夫。', true);
     } else {
@@ -2065,8 +2105,9 @@ function numRoundClear() {
     numRound++;
     setTimeout(nextNumRound, 1800);
   } else {
-    setMsg('nums-msg', '7まで全部できました。お見事です。', false);
-    gameCompleted('tile');
+    var tq = qualityByMiss(record.numsMiss, 3);
+    setMsg('nums-msg', (tq >= 2 ? '一度も間違えずに ' : '') + NUM_COUNTS[NUM_COUNTS.length - 1] + 'まで全部できました。お見事です。', false);
+    gameCompleted('tile', tq);
     setTimeout(showSummary, 1800);
   }
 }
@@ -2103,35 +2144,35 @@ function showSummary() {
   var rows = [];
   var total = 0;
   if (record.quizAnswered > 0) {
-    rows.push({ icon: 'kofun', chip: '#E7F3E8', label: 'ふるさとクイズ(' + record.quizAnswered + '問)', n: record.flowersByGame.kofun });
+    rows.push({ icon: 'kofun', chip: '#E7F3E8', label: 'ふるさとクイズ(' + record.quizCorrect + '/' + record.quizAnswered + '問)', n: record.flowersByGame.kofun, perfect: record.perfect.kofun });
     total += record.flowersByGame.kofun;
   }
   if (record.cardsRounds > 0) {
-    rows.push({ icon: 'cards', chip: '#E4F0FC', label: 'カード合わせ(' + record.cardsRounds + '回)', n: record.flowersByGame.cards });
+    rows.push({ icon: 'cards', chip: '#E4F0FC', label: 'カード合わせ(' + record.cardsRounds + '回)', n: record.flowersByGame.cards, perfect: record.perfect.cards });
     total += record.flowersByGame.cards;
   }
   if (record.numsMax > 0) {
-    rows.push({ icon: 'tile', chip: '#FBE7EF', label: '順番タップ(' + record.numsMax + 'まで)', n: record.flowersByGame.tile });
+    rows.push({ icon: 'tile', chip: '#FBE7EF', label: '順番タップ(' + record.numsMax + 'まで)', n: record.flowersByGame.tile, perfect: record.perfect.tile });
     total += record.flowersByGame.tile;
   }
   if (record.kikiSets > 0) {
-    rows.push({ icon: 'ear', chip: '#FBE9D6', label: '聞き取りチャレンジ(' + kikiSpeedLabel(record.kikiTop) + 'まで)', n: record.flowersByGame.kiki });
+    rows.push({ icon: 'ear', chip: '#FBE9D6', label: '聞き取りチャレンジ(' + kikiSpeedLabel(record.kikiTop) + 'まで)', n: record.flowersByGame.kiki, perfect: record.perfect.kiki });
     total += record.flowersByGame.kiki;
   }
   if (record.kotoAnswered > 0) {
-    rows.push({ icon: 'maki', chip: '#F3EAD8', label: 'ことわざクイズ(' + record.kotoAnswered + '問)', n: record.flowersByGame.kotowaza });
+    rows.push({ icon: 'maki', chip: '#F3EAD8', label: 'ことわざクイズ(' + record.kotoCorrect + '/' + record.kotoAnswered + '問)', n: record.flowersByGame.kotowaza, perfect: record.perfect.kotowaza });
     total += record.flowersByGame.kotowaza;
   }
   if (record.otsuriAnswered > 0) {
-    rows.push({ icon: 'coin', chip: '#F5EDD6', label: 'お釣り計算(' + record.otsuriAnswered + '問)', n: record.flowersByGame.otsuri });
+    rows.push({ icon: 'coin', chip: '#F5EDD6', label: 'お釣り計算(' + record.otsuriCorrect + '/' + record.otsuriAnswered + '問)', n: record.flowersByGame.otsuri, perfect: record.perfect.otsuri });
     total += record.flowersByGame.otsuri;
   }
   if (record.kiokuBest > 0) {
-    rows.push({ icon: 'spark', chip: '#DDEEF7', label: '記憶の順番(' + record.kiokuBest + '個まで)', n: record.flowersByGame.kioku });
+    rows.push({ icon: 'spark', chip: '#DDEEF7', label: '記憶の順番(' + record.kiokuBest + '個まで)', n: record.flowersByGame.kioku, perfect: record.perfect.kioku });
     total += record.flowersByGame.kioku;
   }
   if (record.kamiPairs > 0) {
-    rows.push({ icon: 'tanzaku', chip: '#EFE3EA', label: '上の句・下の句(' + record.kamiPairs + '組)', n: record.flowersByGame.kami });
+    rows.push({ icon: 'tanzaku', chip: '#EFE3EA', label: '上の句・下の句(' + record.kamiPairs + '組)', n: record.flowersByGame.kami, perfect: record.perfect.kami });
     total += record.flowersByGame.kami;
   }
   var html = '';
@@ -2141,7 +2182,7 @@ function showSummary() {
     rows.forEach(function (r) {
       html += '<div class="done-row">' +
         '<span class="chip" style="background:' + r.chip + ';"><svg viewBox="0 0 24 24"><use href="#ic-' + r.icon + '"></use></svg></span>' +
-        '<span class="lbl">' + r.label + '</span>' +
+        '<span class="lbl">' + r.label + (r.perfect ? '<span class="mig">お見事</span>' : '') + '</span>' +
         '<span class="wa">' + sakuraIconHtml(30) + r.n + SKIN.unit + '</span></div>';
     });
   }
@@ -2230,30 +2271,30 @@ function renderSeki() {
 
 // ------- ことわざクイズ(v1.12・19k B-1) -------
 var KOTOWAZA = [
-  { q: '猿も木から 【？】', c: ['落ちる', '滑る'], a: 0, t: 'その道の名人でも、時には失敗することがある、というたとえです。' },
-  { q: '石の上にも 【？】', c: ['三年', '五年'], a: 0, t: '冷たい石も三年座れば温まる。辛抱強く続ければ必ず実を結ぶ、という意味です。' },
-  { q: '急がば 【？】', c: ['回れ', '走れ'], a: 0, t: '急ぐときこそ、遠回りでも安全で確実な道を選ぶほうがよい、という教えです。' },
-  { q: '犬も歩けば 【？】に当たる', c: ['棒', '塀'], a: 0, t: '出歩けば思いがけない出来事(幸運)に出会うものだ、という意味で使われます。' },
-  { q: '七転び 【？】', c: ['八起き', '七起き'], a: 0, t: '何度失敗しても、くじけずに立ち上がることのたとえです。' },
-  { q: '花より 【？】', c: ['団子', '餅'], a: 0, t: '風流を眺めるより、実際に役に立つもののほうがよい、という意味です。' },
-  { q: '塵も積もれば 【？】となる', c: ['山', '川'], a: 0, t: 'わずかなものでも、積み重なれば大きなものになる、というたとえです。' },
-  { q: '早起きは三文の 【？】', c: ['徳', '損'], a: 0, t: '朝早く起きると、何かしら良いことがあるものだ、という意味です。' },
-  { q: '出る杭は 【？】', c: ['打たれる', '抜かれる'], a: 0, t: '才能があって目立つ人は、とかく人から非難されがちだ、というたとえです。' },
-  { q: '猫に 【？】', c: ['小判', '大判'], a: 0, t: '価値のわからない者には、どんな貴重なものも役に立たない、という意味です。' },
-  { q: '二階から 【？】', c: ['目薬', 'うちわ'], a: 0, t: '思うように届かず、もどかしいこと。回りくどくて効き目がないことのたとえです。' },
-  { q: '論より 【？】', c: ['証拠', '理屈'], a: 0, t: 'あれこれ議論するより、証拠を示すほうが物事は早く明らかになる、という意味です。' },
-  { q: '善は 【？】', c: ['急げ', '待て'], a: 0, t: '良いと思ったことは、ためらわずすぐに実行するのがよい、という教えです。' },
-  { q: '情けは人の 【？】ならず', c: ['ため', '恥'], a: 0, t: '人への親切は、めぐりめぐって自分のためになる、という意味です。' },
-  { q: '弘法にも 【？】の誤り', c: ['筆', '墨'], a: 0, t: '書の名人・弘法大師でも書き損じることがある。名人も失敗する、というたとえです。' },
-  { q: '河童の 【？】', c: ['川流れ', '山登り'], a: 0, t: '泳ぎの得意な河童も川に流されることがある。名人も失敗する、という意味です。' },
-  { q: '馬の耳に 【？】', c: ['念仏', '説教'], a: 0, t: 'いくら意見をしても、まったく効き目がないことのたとえです。' },
-  { q: '石橋を 【？】て渡る', c: ['叩い', '眺め'], a: 0, t: '固い石橋でも叩いて確かめてから渡る。用心の上にも用心を重ねることです。' },
-  { q: '百聞は 【？】にしかず', c: ['一見', '一言'], a: 0, t: '百回聞くより、一度自分の目で見るほうが確かだ、という意味です。' },
-  { q: '灯台 【？】暗し', c: ['下', '上'], a: 0, t: '身近なことは、かえって気がつきにくいものだ、というたとえです。' },
-  { q: '良薬は口に 【？】', c: ['苦し', '甘し'], a: 0, t: 'よく効く薬が苦いように、ためになる忠告は聞くのがつらいものだ、という意味です。' },
-  { q: '笑う門には 【？】来る', c: ['福', '春'], a: 0, t: 'いつも明るく笑いのある家には、自然と幸運がやってくる、という意味です。' },
-  { q: '千里の道も 【？】から', c: ['一歩', '一里'], a: 0, t: 'どんな大きな事業も、まず手近なことから始まる、というたとえです。' },
-  { q: '蛙の子は 【？】', c: ['蛙', '蛇'], a: 0, t: '子は親に似るものだ、平凡な親からは平凡な子が育つ、という意味で使われます。' }
+  { q: '猿も木から 【？】', c: ['落ちる', '滑る', '転げる'], a: 0, t: 'その道の名人でも、時には失敗することがある、というたとえです。' },
+  { q: '石の上にも 【？】', c: ['三年', '五年', '十年'], a: 0, t: '冷たい石も三年座れば温まる。辛抱強く続ければ必ず実を結ぶ、という意味です。' },
+  { q: '急がば 【？】', c: ['回れ', '走れ', '戻れ'], a: 0, t: '急ぐときこそ、遠回りでも安全で確実な道を選ぶほうがよい、という教えです。' },
+  { q: '犬も歩けば 【？】に当たる', c: ['棒', '塀', '石'], a: 0, t: '出歩けば思いがけない出来事(幸運)に出会うものだ、という意味で使われます。' },
+  { q: '七転び 【？】', c: ['八起き', '七起き', '九起き'], a: 0, t: '何度失敗しても、くじけずに立ち上がることのたとえです。' },
+  { q: '花より 【？】', c: ['団子', '餅', '煎餅'], a: 0, t: '風流を眺めるより、実際に役に立つもののほうがよい、という意味です。' },
+  { q: '塵も積もれば 【？】となる', c: ['山', '川', '岩'], a: 0, t: 'わずかなものでも、積み重なれば大きなものになる、というたとえです。' },
+  { q: '早起きは三文の 【？】', c: ['徳', '損', '宝'], a: 0, t: '朝早く起きると、何かしら良いことがあるものだ、という意味です。' },
+  { q: '出る杭は 【？】', c: ['打たれる', '抜かれる', '折られる'], a: 0, t: '才能があって目立つ人は、とかく人から非難されがちだ、というたとえです。' },
+  { q: '猫に 【？】', c: ['小判', '大判', '小銭'], a: 0, t: '価値のわからない者には、どんな貴重なものも役に立たない、という意味です。' },
+  { q: '二階から 【？】', c: ['目薬', 'うちわ', '水'], a: 0, t: '思うように届かず、もどかしいこと。回りくどくて効き目がないことのたとえです。' },
+  { q: '論より 【？】', c: ['証拠', '理屈', '実物'], a: 0, t: 'あれこれ議論するより、証拠を示すほうが物事は早く明らかになる、という意味です。' },
+  { q: '善は 【？】', c: ['急げ', '待て', '進め'], a: 0, t: '良いと思ったことは、ためらわずすぐに実行するのがよい、という教えです。' },
+  { q: '情けは人の 【？】ならず', c: ['ため', '恥', '情け'], a: 0, t: '人への親切は、めぐりめぐって自分のためになる、という意味です。' },
+  { q: '弘法にも 【？】の誤り', c: ['筆', '墨', '紙'], a: 0, t: '書の名人・弘法大師でも書き損じることがある。名人も失敗する、というたとえです。' },
+  { q: '河童の 【？】', c: ['川流れ', '山登り', '水遊び'], a: 0, t: '泳ぎの得意な河童も川に流されることがある。名人も失敗する、という意味です。' },
+  { q: '馬の耳に 【？】', c: ['念仏', '説教', '祝詞'], a: 0, t: 'いくら意見をしても、まったく効き目がないことのたとえです。' },
+  { q: '石橋を 【？】て渡る', c: ['叩い', '眺め', '数え'], a: 0, t: '固い石橋でも叩いて確かめてから渡る。用心の上にも用心を重ねることです。' },
+  { q: '百聞は 【？】にしかず', c: ['一見', '一言', '一読'], a: 0, t: '百回聞くより、一度自分の目で見るほうが確かだ、という意味です。' },
+  { q: '灯台 【？】暗し', c: ['下', '上', '横'], a: 0, t: '身近なことは、かえって気がつきにくいものだ、というたとえです。' },
+  { q: '良薬は口に 【？】', c: ['苦し', '甘し', '渋し'], a: 0, t: 'よく効く薬が苦いように、ためになる忠告は聞くのがつらいものだ、という意味です。' },
+  { q: '笑う門には 【？】来る', c: ['福', '春', '客'], a: 0, t: 'いつも明るく笑いのある家には、自然と幸運がやってくる、という意味です。' },
+  { q: '千里の道も 【？】から', c: ['一歩', '一里', '一日'], a: 0, t: 'どんな大きな事業も、まず手近なことから始まる、というたとえです。' },
+  { q: '蛙の子は 【？】', c: ['蛙', '蛇', '亀'], a: 0, t: '子は親に似るものだ、平凡な親からは平凡な子が育つ、という意味で使われます。' }
 ];
 var kotoSet = [], kotoIndex = 0, kotoUsed = [];
 
@@ -2275,8 +2316,9 @@ function renderKotoQ() {
   document.getElementById('koto-trivia').style.display = 'none';
   document.getElementById('koto-msg').innerHTML = '';
   document.getElementById('koto-next').style.display = 'none';
-  var order = shuffle([0, 1]);
+  var order = shuffle(q.c.map(function (_, i) { return i; }));
   var box = document.getElementById('koto-choices');
+  box.classList.toggle('three', q.c.length >= 3);
   box.innerHTML = '';
   order.forEach(function (ci) {
     var el = document.createElement('div');
@@ -2295,6 +2337,7 @@ function answerKoto(el, isCorrect, q) {
     else { choices[i].classList.add('dim'); }
   }
   record.kotoAnswered++;
+  if (isCorrect) record.kotoCorrect++;
   var msg = document.getElementById('koto-msg');
   if (isCorrect) {
     msg.innerHTML = sakuraIconHtml(36) + '<span style="color:var(--accent-deep);">正解です。お見事。</span>';
@@ -2314,7 +2357,7 @@ function nextKotoQ() {
     kotoIndex++;
     renderKotoQ();
   } else {
-    gameCompleted('kotowaza');
+    gameCompleted('kotowaza', qualityByCorrect(record.kotoCorrect, record.kotoAnswered));
     showSummary();
   }
 }
@@ -2341,8 +2384,22 @@ var OTSURI = [
   { lvl: 3, item: 'うなぎ弁当', price: 1280, pay: 2000, payLabel: '千円札2枚', pk: 'bill', pv: 1000, pc: 2 },
   { lvl: 3, item: 'ぶどう', price: 680, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 },
   { lvl: 3, item: 'お惣菜', price: 730, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 },
-  { lvl: 3, item: 'ケーキ', price: 460, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 }
+  { lvl: 3, item: 'ケーキ', price: 460, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 },
+  // lvl4: 二段階の計算(19m)。kind='two'=2品の合計→お釣り / kind='exact'=お札に小銭を足して出す
+  { lvl: 4, kind: 'two', item: 'りんご', price: 120, item2: '食パン', price2: 200, pay: 500, payLabel: '500円玉', pk: 'coin', pv: 500, pc: 1 },
+  { lvl: 4, kind: 'two', item: 'お茶', price: 150, item2: 'おにぎり', price2: 130, pay: 500, payLabel: '500円玉', pk: 'coin', pv: 500, pc: 1 },
+  { lvl: 4, kind: 'two', item: 'たまご', price: 250, item2: '牛乳', price2: 230, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 },
+  { lvl: 4, kind: 'two', item: 'お弁当', price: 550, item2: 'お茶', price2: 150, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 },
+  { lvl: 4, kind: 'two', item: 'みかん', price: 380, item2: 'せんべい', price2: 340, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 },
+  { lvl: 4, kind: 'exact', item: 'お惣菜', price: 730, pay: 1000, extra: 30, payLabel: '千円札と30円', pk: 'bill', pv: 1000, pc: 1 },
+  { lvl: 4, kind: 'exact', item: 'ぶどう', price: 680, pay: 1000, extra: 80, payLabel: '千円札と80円', pk: 'bill', pv: 1000, pc: 1 },
+  { lvl: 4, kind: 'exact', item: 'お刺身', price: 498, pay: 500, extra: 8, payLabel: '500円玉と8円', pk: 'coin', pv: 500, pc: 1 },
+  { lvl: 4, kind: 'exact', item: 'うなぎ弁当', price: 1280, pay: 2000, extra: 80, payLabel: '千円札2枚と80円', pk: 'bill', pv: 1000, pc: 2 },
+  { lvl: 4, kind: 'exact', item: 'ケーキ', price: 460, pay: 1000, extra: 60, payLabel: '千円札と60円', pk: 'bill', pv: 1000, pc: 1 }
 ];
+// その問題の「支払い総額」と「品物の合計」
+function otsPaid(q) { return q.pay + (q.extra || 0); }
+function otsCost(q) { return q.price + (q.price2 || 0); }
 var otsSet = [], otsIndex = 0, otsUsed = [];
 // 5問1セット: 易1問→中2問→やや難2問(1問目は必ずできる)
 function startOtsuri() {
@@ -2356,21 +2413,24 @@ function startOtsuri() {
     shuffle(pool);
     return pool.slice(0, n).map(function (i) { otsUsed.push(i); return OTSURI[i]; });
   }
-  otsSet = pickLvl(1, 1).concat(pickLvl(2, 2)).concat(pickLvl(3, 2));
+  otsSet = pickLvl(1, 1).concat(pickLvl(2, 2)).concat(pickLvl(3, 1)).concat(pickLvl(4, 1));
   otsIndex = 0;
   show('scr-otsuri');
   renderOtsuriQ();
 }
 // 選択肢: 正解+ありがちな間違い(±10/±50/±100・端数の丸め・品物代との混同)
 function otsuriChoices(q) {
-  var ans = q.pay - q.price;
+  var ans = otsPaid(q) - otsCost(q);
   var n = q.lvl === 1 ? 2 : q.lvl === 2 ? 3 : 4;
   var cand = [];
-  function push(v) { if (v >= 10 && v !== ans && v < q.pay && cand.indexOf(v) < 0) cand.push(v); }
+  var cap = otsPaid(q);
+  function push(v) { if (v >= 10 && v !== ans && v < cap && cand.indexOf(v) < 0) cand.push(v); }
   push(ans + 100); push(ans - 100);
   push(ans + 50); push(ans - 50);
   push(ans + 10); push(ans - 10);
   push(Math.round(ans / 100) * 100);
+  if (q.kind === 'two') { push(q.pay - q.price); push(q.pay - q.price2); } // 片方だけ引いた答え
+  if (q.kind === 'exact') { push(q.pay - q.price); } // 小銭を忘れた答え
   push(q.price);
   return shuffle([ans].concat(shuffle(cand).slice(0, n - 1)));
 }
@@ -2378,14 +2438,31 @@ function otsuriPayHtml(q) {
   var inner = q.pk === 'coin'
     ? '<div class="coin"><b>' + q.pv + '</b><span>円玉</span></div>'
     : '<div class="bill"><b>' + q.pv + '</b><span>円札</span></div>';
-  return inner + (q.pc > 1 ? '<span class="cnt">×' + q.pc + '</span>' : '');
+  var html = inner + (q.pc > 1 ? '<span class="cnt">×' + q.pc + '</span>' : '');
+  if (q.extra) html += '<span class="plus">+</span><div class="komi"><b>' + q.extra + '</b><span>円</span></div>';
+  return html;
 }
 function renderOtsuriQ() {
   var q = otsSet[otsIndex];
   document.getElementById('ots-progress').textContent = (otsIndex + 1) + '問目(全' + otsSet.length + '問)';
-  document.getElementById('ots-buy').textContent = q.item + ' ' + q.price + '円';
+  var buy = document.getElementById('ots-buy');
+  if (q.kind === 'two') {
+    buy.innerHTML = q.item + ' ' + q.price + '円<br>' + q.item2 + ' ' + q.price2 + '円';
+    buy.classList.add('two');
+  } else {
+    buy.textContent = q.item + ' ' + q.price + '円';
+    buy.classList.remove('two');
+  }
   document.getElementById('ots-pay').innerHTML = otsuriPayHtml(q);
-  document.getElementById('ots-q').textContent = q.price + '円の買い物。' + q.payLabel + 'で払うと、お釣りはいくら?';
+  var qt;
+  if (q.kind === 'two') {
+    qt = q.item + 'と' + q.item2 + 'を買います。' + q.payLabel + 'で払うと、お釣りはいくら?';
+  } else if (q.kind === 'exact') {
+    qt = q.price + '円の買い物。' + q.payLabel + 'を出すと、お釣りはいくら?';
+  } else {
+    qt = q.price + '円の買い物。' + q.payLabel + 'で払うと、お釣りはいくら?';
+  }
+  document.getElementById('ots-q').textContent = qt;
   document.getElementById('ots-shiki').style.display = 'none';
   document.getElementById('ots-msg').innerHTML = '';
   document.getElementById('ots-next').style.display = 'none';
@@ -2401,7 +2478,7 @@ function renderOtsuriQ() {
   });
 }
 function answerOtsuri(el, picked, q) {
-  var ans = q.pay - q.price;
+  var ans = otsPaid(q) - otsCost(q);
   var isCorrect = picked === ans;
   var choices = document.querySelectorAll('#ots-choices .q-choice');
   for (var i = 0; i < choices.length; i++) {
@@ -2420,6 +2497,7 @@ function answerOtsuri(el, picked, q) {
     }
   }
   record.otsuriAnswered++;
+  if (isCorrect) record.otsuriCorrect++;
   var msg = document.getElementById('ots-msg');
   if (isCorrect) {
     msg.innerHTML = sakuraIconHtml(36) + '<span style="color:var(--accent-deep);">正解です。お見事。</span>';
@@ -2428,7 +2506,15 @@ function answerOtsuri(el, picked, q) {
     msg.innerHTML = '<span>お釣りは ' + ans + '円でした。</span>';
     msg.className = 'msg gentle';
   }
-  document.getElementById('ots-shiki-tx').textContent = q.pay + '円 − ' + q.price + '円 = ' + ans + '円。' + (isCorrect ? 'この調子でどうぞ。' : 'ゆっくりで大丈夫です。');
+  var shiki;
+  if (q.kind === 'two') {
+    shiki = q.price + '円 + ' + q.price2 + '円 = ' + otsCost(q) + '円。' + q.pay + '円 − ' + otsCost(q) + '円 = ' + ans + '円。';
+  } else if (q.kind === 'exact') {
+    shiki = q.pay + '円 + ' + q.extra + '円 = ' + otsPaid(q) + '円。' + otsPaid(q) + '円 − ' + q.price + '円 = ' + ans + '円。';
+  } else {
+    shiki = q.pay + '円 − ' + q.price + '円 = ' + ans + '円。';
+  }
+  document.getElementById('ots-shiki-tx').textContent = shiki + (isCorrect ? 'この調子でどうぞ。' : 'ゆっくりで大丈夫です。');
   document.getElementById('ots-shiki').style.display = 'flex';
   document.getElementById('ots-next-tx').textContent = (otsIndex < otsSet.length - 1) ? '次の問題へ' : '終わりへ';
   document.getElementById('ots-next').style.display = 'flex';
@@ -2438,7 +2524,7 @@ function nextOtsuriQ() {
     otsIndex++;
     renderOtsuriQ();
   } else {
-    gameCompleted('otsuri');
+    gameCompleted('otsuri', qualityByCorrect(record.otsuriCorrect, record.otsuriAnswered));
     showSummary();
   }
 }
@@ -2459,15 +2545,16 @@ var KAMI = [
   { a: 'ゆく河の流れは絶えずして', b: 'しかももとの水にあらず', src: '鴨長明「方丈記」' }
 ];
 
+var KAMI_PAIRS = 5;
 var kamiSet = [], kamiUsed = [], kamiSelA = -1, kamiMatched = 0, kamiOrderB = [];
 function startKami() {
   var pool = [];
   for (var i = 0; i < KAMI.length; i++) { if (kamiUsed.indexOf(i) < 0) pool.push(i); }
-  if (pool.length < 4) { kamiUsed = []; pool = []; for (var j = 0; j < KAMI.length; j++) pool.push(j); }
+  if (pool.length < KAMI_PAIRS) { kamiUsed = []; pool = []; for (var j = 0; j < KAMI.length; j++) pool.push(j); }
   shuffle(pool);
-  kamiSet = pool.slice(0, 4).map(function (i) { kamiUsed.push(i); return KAMI[i]; });
+  kamiSet = pool.slice(0, KAMI_PAIRS).map(function (i) { kamiUsed.push(i); return KAMI[i]; });
   kamiSelA = -1; kamiMatched = 0;
-  kamiOrderB = shuffle([0, 1, 2, 3]);
+  kamiOrderB = shuffle([0, 1, 2, 3, 4].slice(0, KAMI_PAIRS));
   document.getElementById('kami-result').style.display = 'none';
   document.getElementById('kami-again').style.display = 'none';
   document.getElementById('kami-grid').style.display = 'grid';
@@ -2480,7 +2567,8 @@ function startKami() {
 }
 function kamiChk() { return '<span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 L10 17.5 L19 7.5"></path></svg></span>'; }
 function renderKami() {
-  document.getElementById('kami-badge').textContent = 'そろった組 ' + kamiMatched + '/4';
+  document.getElementById('kami-badge').textContent = 'そろった組 ' + kamiMatched + '/' + KAMI_PAIRS + '';
+  document.getElementById('kami-grid').classList.toggle('p5', KAMI_PAIRS >= 5);
   var colA = document.getElementById('kami-col-a');
   var colB = document.getElementById('kami-col-b');
   colA.innerHTML = ''; colB.innerHTML = '';
@@ -2535,8 +2623,9 @@ function tapKamiB(i) {
     var cardsB = document.querySelectorAll('#kami-col-b .kami-card');
     if (cardsA[i]) { cardsA[i].classList.remove('done'); cardsA[i].classList.add('newpair'); }
     if (cardsB[idxB]) { cardsB[idxB].classList.remove('done'); cardsB[idxB].classList.add('newpair'); }
-    if (kamiMatched === 4) { setTimeout(finishKami, 1300); }
+    if (kamiMatched === KAMI_PAIRS) { setTimeout(finishKami, 1300); }
   } else {
+    record.kamiMiss++;
     kamiMsg('ng', 'ちがう札のようです。もう一度えらんでください');
   }
 }
@@ -2546,11 +2635,11 @@ function finishKami() {
   document.getElementById('kami-inst').style.display = 'none';
   kamiMsg(null);
   var res = document.getElementById('kami-result');
-  res.innerHTML = '<div class="big">お見事です。<i>4組</i> そろいました</div>' +
+  res.innerHTML = '<div class="big">お見事です。<i>' + KAMI_PAIRS + '組</i> そろいました</div>' +
     '<div class="pill">' + SKIN.name + 'が 1' + SKIN.unit + ' 増えました</div>';
   res.style.display = 'flex';
   document.getElementById('kami-again').style.display = 'flex';
-  gameCompleted('kami');
+  gameCompleted('kami', qualityByMiss(record.kamiMiss, 2));
 }
 
 // ------- 記憶の順番(v1.17・19k C-5: サイモン式・2個から5個へ) -------
@@ -2560,7 +2649,7 @@ var KIOKU_TILES = [
   { sym: 'ic-mountain', name: 'やま', bg: '#E7F3E8', ink: '#2E8B57' },
   { sym: 'ic-fish', name: 'さかな', bg: '#E3EEF8', ink: '#2A6496' }
 ];
-var KIOKU_START = 2, KIOKU_GOAL = 5;
+var KIOKU_START = 2, KIOKU_GOAL = 7;
 var kioku = null;
 function kiokuClearTimers() {
   if (!kioku) return;
@@ -2633,7 +2722,9 @@ function beginKiokuRound(newSeq) {
   kiokuStatus('', 'よく見ていてください');
   kiokuOrderRender(0, 'watch');
   for (var i = 0; i < 4; i++) { kiokuLight(i, false); var n = document.getElementById('kio-tile-' + i); if (n) n.classList.remove('tapped'); }
-  var ON = 800, GAP = 350, HEAD = 900;
+  // 5個以上は提示を速くして歯ごたえを出す(19m)
+  var fast = kioku.level >= 5;
+  var ON = fast ? 650 : 800, GAP = fast ? 250 : 350, HEAD = 900;
   kioku.seq.forEach(function (tile, i) {
     kiokuLater(function () { kiokuLight(tile, true); kiokuOrderRender(i + 1, 'watch'); }, HEAD + i * (ON + GAP));
     kiokuLater(function () { kiokuLight(tile, false); }, HEAD + i * (ON + GAP) + ON);
@@ -2702,7 +2793,7 @@ function finishKioku() {
     html += '<div class="pill">' + SKIN.name + 'が 1' + SKIN.unit + ' 増えました</div>';
     res.innerHTML = html;
     res.style.display = 'flex';
-    gameCompleted('kioku');
+    gameCompleted('kioku', n >= KIOKU_GOAL ? 2 : (n >= KIOKU_GOAL - 2 ? 1 : 0));
   } else {
     html = '<div class="big">今日は' + KIOKU_START + '個に挑戦しました</div>' +
       '<div class="pill">また今度、ゆっくりやりましょう</div>';
@@ -2718,7 +2809,8 @@ function kiokuExit() {
 }
 
 // ------- 聞き取りチャレンジ(v1.9・19k裁定: 速度を上げながら二択チェック) -------
-var KIKI_SPEEDS = [0.9, 1.0, 1.15, 1.3, 1.5];
+var KIKI_SPEEDS = [0.9, 1.0, 1.15, 1.3, 1.5, 1.75, 2.0]; // 19m: 上限を1.5→2.0倍に
+var KIKI_QUESTIONS = 4;
 function kikiSpeedLabel(s) { return (s === 1 ? '1' : String(s)) + '倍'; }
 var KIKI_TASKS = [
   { text: '山梨県は、ぶどうの産地として有名です。', q: '今の文で、ぶどうの産地は<br>どこでしたか？', c: ['山梨県', '青森県'], a: 0 },
@@ -2787,8 +2879,17 @@ function kikiBadge(tx) {
   var b = document.getElementById('kiki-badge');
   if (tx) { b.style.display = 'inline-block'; b.innerHTML = tx; } else { b.style.display = 'none'; }
 }
+function kikiStartIdx() {
+  // 前回の到達速度の一段下から始める(初めての方は0.9倍から)
+  var raw = storeGet('kokosuma_kiki_last');
+  if (!raw) return 0;
+  var prev = parseFloat(raw);
+  var idx = KIKI_SPEEDS.indexOf(prev);
+  if (idx < 0) return 0;
+  return Math.max(0, idx - 1);
+}
 function startKiki() {
-  kiki = { qNum: 1, speedIdx: 0, topOkIdx: -1, used: [], task: null };
+  kiki = { qNum: 1, speedIdx: kikiStartIdx(), topOkIdx: -1, used: [], task: null };
   kikiBadge('');
   kikiRenderStart();
   show('scr-kiki');
@@ -2822,7 +2923,7 @@ function kikiNextSentence() {
 }
 function kikiRenderListen() {
   var speed = KIKI_SPEEDS[kiki.speedIdx];
-  kikiBadge(kikiSpeedLabel(speed) + 'の速さ ・ ' + kiki.qNum + '問め／3問');
+  kikiBadge(kikiSpeedLabel(speed) + 'の速さ ・ ' + kiki.qNum + '問め／' + KIKI_QUESTIONS + '問');
   var bars = [28, 44, 56, 38, 52, 60, 42, 54, 30];
   var barsHtml = '';
   for (var i = 0; i < bars.length; i++) {
@@ -2875,7 +2976,7 @@ function kikiSpeakFallback() {
 }
 function kikiRenderQuiz() {
   kikiStopVoice();
-  kikiBadge(kiki.qNum + '問め ／ 3問');
+  kikiBadge(kiki.qNum + '問め ／ ' + KIKI_QUESTIONS + '問');
   var t = kiki.task;
   var order = shuffle([0, 1]);
   var chHtml = '';
@@ -2899,12 +3000,13 @@ function kikiAnswer(idx, el) {
   if (ok) {
     el.style.border = '3px solid var(--action)';
     msg.textContent = '正解です。よく聞き取れました';
+    record.kikiCorrect++;
     if (kiki.speedIdx > kiki.topOkIdx) kiki.topOkIdx = kiki.speedIdx;
   } else {
     msg.textContent = '正解は「' + kiki.task.c[kiki.task.a] + '」でした。同じ速さでもう一問どうぞ';
     msg.style.color = '#C25E00';
   }
-  var last = (kiki.qNum >= 3);
+  var last = (kiki.qNum >= KIKI_QUESTIONS);
   setTimeout(function () {
     if (last) { kikiRenderResult(); return; }
     kiki.qNum += 1;
@@ -2926,7 +3028,7 @@ function kikiRenderResult() {
   else pill = '今日はゆっくり確かめました';
   record.kikiSets += 1;
   if (top > record.kikiTop) record.kikiTop = top;
-  gameCompleted('kiki');
+  gameCompleted('kiki', qualityByCorrect(record.kikiCorrect, KIKI_QUESTIONS));
   var line = okAny ? 'まで聞けました' : 'に挑戦しました';
   document.getElementById('kiki-body').innerHTML =
     '<div class="kiki-done">できました</div>' +
@@ -2940,7 +3042,7 @@ function kikiRenderResult() {
 }
 function kikiAgain() {
   var used = kiki ? kiki.used : [];
-  kiki = { qNum: 1, speedIdx: 0, topOkIdx: -1, used: used, task: null };
+  kiki = { qNum: 1, speedIdx: kikiStartIdx(), topOkIdx: -1, used: used, task: null };
   kikiNextSentence();
 }
 
@@ -15389,14 +15491,16 @@ var KIROKU_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfHrlELGXTZYcrv40UMES
 var KIROKU_KEYS = { m: 'entry.576526930', course: 'entry.193744536', method: 'entry.711671760' };
 function buildSessionSummary() {
   var parts = [];
-  if (record.quizAnswered > 0) parts.push('クイズ' + record.quizAnswered + '問');
+  if (record.quizAnswered > 0) parts.push('クイズ' + record.quizCorrect + '/' + record.quizAnswered + '問');
   if (record.cardsRounds > 0) parts.push('カード合わせ' + record.cardsRounds + '回');
   if (record.numsMax > 0) parts.push('順番タップ' + record.numsMax + 'まで');
   if (record.kikiSets > 0) parts.push('聞き取り' + kikiSpeedLabel(record.kikiTop) + 'まで');
-  if (record.kotoAnswered > 0) parts.push('ことわざ' + record.kotoAnswered + '問');
-  if (record.otsuriAnswered > 0) parts.push('お釣り計算' + record.otsuriAnswered + '問');
+  if (record.kotoAnswered > 0) parts.push('ことわざ' + record.kotoCorrect + '/' + record.kotoAnswered + '問');
+  if (record.otsuriAnswered > 0) parts.push('お釣り計算' + record.otsuriCorrect + '/' + record.otsuriAnswered + '問');
   if (record.kiokuBest > 0) parts.push('記憶の順番' + record.kiokuBest + '個まで');
   if (record.kamiPairs > 0) parts.push('上の句下の句' + record.kamiPairs + '組');
+  var mig = Object.keys(record.perfect || {});
+  if (mig.length > 0) parts.push('みごと' + mig.length + '種目');
   record.shoukyu.forEach(function (s) { parts.push(s); });
   var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0) + (record.flowersByGame.kotowaza || 0) + (record.flowersByGame.otsuri || 0) + (record.flowersByGame.kioku || 0) + (record.flowersByGame.kami || 0);
   if (flowers > 0) parts.push(SKIN.name.replace('みんなの', '') + flowers + SKIN.unit);
