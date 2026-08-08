@@ -233,7 +233,7 @@
     <div class="card" id="condCard">
       <div class="rowlab"><span class="lb">通話</span><span class="chips" id="callChips"></span></div>
       <div class="rowlab"><span class="lb">割引の条件</span><span class="chips" id="discChips"></span></div>
-      <div class="note">当てはまるものだけON(対象プランのみ割引を反映した目安)</div>
+      <div class="note">当てはまるものだけON(対象プランのみ割引を反映した目安)。カード割は通常カードの額で計算しています(ドコモ: dカードGOLD以上は−550円/SB: PayPayゴールドは−550円)。でんきセット割・長期利用割などは含みません。</div>
     </div>
 
     <div class="duo">
@@ -448,11 +448,22 @@ function yen(n) { return Math.round(n).toLocaleString('ja-JP') + '円'; }
 function signYen(n) { var r = Math.round(Math.abs(n)); if (r === 0) return '±0円'; return (n < 0 ? '−' : '+') + r.toLocaleString('ja-JP') + '円'; }
 
 /* ===== 月額計算 ===== */
+var DISCN = {
+  'ドコモ': { fam: 'みんなドコモ割', hik: 'ドコモ光/home 5G割', card: 'dカードお支払割' },
+  'au': { fam: '家族割プラス', hik: 'auスマートバリュー', card: 'au PAYカード割' },
+  'ソフトバンク': { fam: '新みんな家族割', hik: 'おうち割 光セット', card: 'PayPayカード割' },
+  'UQモバイル': { hik: '自宅セット割', card: 'au PAYカード割' },
+  'Y!mobile': { hik: 'おうち割 光セット', card: 'PayPayカード割' }
+};
+function discName(prov, key) {
+  var n = DISCN[prov] && DISCN[prov][key];
+  return n || { fam: '家族割', hik: '光セット割', card: 'カード割' }[key];
+}
 function monthlyOf(pl) {
-  var m = pl.base;
-  if (st.fam && pl.disc.fam) m -= pl.disc.fam;
-  if (st.hik && pl.disc.hik) m -= pl.disc.hik;
-  if (st.card && pl.disc.card) m -= pl.disc.card;
+  var m = pl.base, applied = [];
+  if (st.fam && pl.disc.fam) { m -= pl.disc.fam; applied.push({ n: discName(pl.prov, 'fam'), v: pl.disc.fam }); }
+  if (st.hik && pl.disc.hik) { m -= pl.disc.hik; applied.push({ n: discName(pl.prov, 'hik'), v: pl.disc.hik }); }
+  if (st.card && pl.disc.card) { m -= pl.disc.card; applied.push({ n: discName(pl.prov, 'card'), v: pl.disc.card }); }
   var callCost = 0, callNote = '';
   if (pl.dataOnly) { callNote = 'データ専用・音声通話なし'; }
   else if (st.call === 'few') { callNote = '通話は使ったぶんだけ'; }
@@ -468,7 +479,12 @@ function monthlyOf(pl) {
       callNote = full === 0 ? 'かけ放題込み' : 'かけ放題を追加(+' + full + '円' + (st.senior && pl.call.fullSenior !== undefined ? '・60歳以上割' : '') + ')';
     }
   }
-  return { m: m + callCost, callNote: callNote };
+  return { m: m + callCost, callNote: callNote, applied: applied, base: pl.base, callCost: callCost };
+}
+function discBreakdown(c) {
+  if (!c.applied || !c.applied.length) return '';
+  return '定価' + yen(c.base) + c.applied.map(function (a) { return ' <b>−' + a.n + ' ' + yen(a.v) + '</b>'; }).join('') +
+    (c.callCost ? ' +通話オプション' + yen(c.callCost) : '');
 }
 
 /* ===== 端末費用計算 ===== */
@@ -528,7 +544,8 @@ function renderSide(which) {
     var on = !((isNow && st.curManualMode)) && sel && planKey(pl) === planKey(sel);
     h += '<div class="prow' + (on ? ' on' : '') + '" onclick="pickPlan(\'' + which + '\',\'' + planKey(pl).replace(/'/g, "\\'") + '\')">' +
       '<span class="dot"></span><span class="nm"><span class="pl">' + pl.plan + '</span><br><span class="pv">' + pl.prov + '・' + pl.gb + (pl.note ? '・' + pl.note : '') + '</span></span>' +
-      '<span class="yen num">' + yen(c.m) + '<small>/月</small></span></div>';
+      '<span style="text-align:right;">' + (c.applied.length ? '<span class="num" style="font-size:11px;color:var(--faint);text-decoration:line-through;">' + yen(c.base) + '</span><br>' : '') +
+      '<span class="yen num">' + yen(c.m) + '<small>/月</small></span></span></div>';
   });
   if (isNow) {
     h += '<div class="prow free' + (st.curManualMode ? ' on' : '') + '" onclick="st.curManualMode=!st.curManualMode;refresh();">' +
@@ -550,13 +567,13 @@ function curMonthly() {
   var pl = st.curKey ? findPlan(st.curKey) : null;
   if (!pl) return null;
   var c = monthlyOf(pl);
-  return { m: c.m, label: pl.prov + ' ' + pl.plan, callNote: c.callNote, pl: pl };
+  return { m: c.m, label: pl.prov + ' ' + pl.plan, callNote: c.callNote, pl: pl, c: c };
 }
 function futMonthly() {
   var pl = st.futKey ? findPlan(st.futKey) : null;
   if (!pl) return null;
   var c = monthlyOf(pl);
-  return { m: c.m, label: pl.prov + ' ' + pl.plan, callNote: c.callNote, pl: pl };
+  return { m: c.m, label: pl.prov + ' ' + pl.plan, callNote: c.callNote, pl: pl, c: c };
 }
 
 /* ===== STEP2 描画 ===== */
@@ -743,10 +760,16 @@ function renderTotal() {
 /* ===== STEP1差額 ===== */
 function renderPlanDiff() {
   var cur = curMonthly(), fut = futMonthly();
+  function noteHtml(x) {
+    if (!x || x.manual) return '';
+    var c = x.c || {};
+    var bd = c.applied ? discBreakdown(c) : '';
+    return (bd ? bd + '<br>' : '') + (x.callNote || '');
+  }
   document.getElementById('curMo').textContent = cur ? yen(cur.m) : '―';
-  document.getElementById('curNote').textContent = cur ? (cur.manual ? '' : cur.callNote) : '';
+  document.getElementById('curNote').innerHTML = cur ? noteHtml(cur) : '';
   document.getElementById('futMo').textContent = fut ? yen(fut.m) : '―';
-  document.getElementById('futNote').textContent = fut ? fut.callNote : '';
+  document.getElementById('futNote').innerHTML = fut ? noteHtml(fut) : '';
   var el = document.getElementById('planDiff'), cap = document.getElementById('planDiffCap');
   if (cur && fut) {
     var d = fut.m - cur.m;
