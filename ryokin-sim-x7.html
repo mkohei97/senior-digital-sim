@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ここスマ 料金シミュレーション v0.4</title>
+<style>
+  :root {
+    --ink: #16181D; --sub: #6E7379; --faint: #9AA0A6;
+    --line: #E5E7EB; --line-soft: #EEF0F2; --bg: #FFFFFF; --soft: #F7F8FA;
+    --acc: #1A6DE3; --acc-ink: #1257BE; --acc-soft: #EAF2FE; --acc-line: #C9DDFB;
+    --save: #1A6DE3; --cost: #D9542B; --good-bg: #EAF2FE;
+    --brand: #0F766E;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Hiragino Sans", "Noto Sans JP", "Yu Gothic", sans-serif;
+    font-size: 15.5px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased; }
+  .num { font-variant-numeric: tabular-nums; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px 140px; }
+
+  /* ===== header ===== */
+  header.top { position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,.92);
+    backdrop-filter: blur(10px); border-bottom: 1px solid var(--line-soft); }
+  .top-in { max-width: 1080px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .logo { font-size: 18px; font-weight: 800; color: var(--brand); letter-spacing: .02em; }
+  .ttl { font-size: 16.5px; font-weight: 700; }
+  .ttl small { color: var(--faint); font-weight: 700; margin-left: 6px; }
+  .meta { margin-left: auto; font-size: 12.5px; color: var(--sub); }
+
+  /* ===== hero ===== */
+  .hero { text-align: center; padding: 58px 0 40px; }
+  .hero h1 { margin: 0 0 14px; font-size: 38px; letter-spacing: .01em; }
+  .hero p { margin: 0 auto; max-width: 560px; color: var(--sub); font-size: 15px; }
+
+  /* ===== step heading ===== */
+  .step { margin-top: 64px; }
+  .step-tag { color: var(--acc); font-size: 13px; font-weight: 800; letter-spacing: .18em; }
+  .step h2 { margin: 4px 0 20px; font-size: 27px; letter-spacing: .01em; }
+
+  /* ===== cards / chips ===== */
+  .card { background: var(--bg); border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px; }
+  .rowlab { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 10px 0; }
+  .rowlab .lb { width: 96px; flex-shrink: 0; font-size: 13.5px; font-weight: 700; color: var(--sub); }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { border: 1.5px solid var(--line); background: #FFF; color: var(--ink);
+    border-radius: 999px; padding: 8px 18px; font-size: 14.5px; font-weight: 700;
+    cursor: pointer; transition: all .12s; font-family: inherit; }
+  .chip:hover { border-color: var(--acc-line); }
+  .chip.on { background: var(--acc); border-color: var(--acc); color: #FFF; }
+  .chip .sm { font-size: 12px; font-weight: 700; opacity: .75; margin-left: 4px; }
+  .note { font-size: 12.5px; color: var(--faint); }
+
+  /* ===== STEP1 plan cards ===== */
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 22px; }
+  @media (max-width: 860px) { .duo { grid-template-columns: 1fr; } }
+  .pcard { border: 1px solid var(--line); border-radius: 18px; padding: 20px 22px; display: flex; flex-direction: column; }
+  .pcard .head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .badge { font-size: 12.5px; font-weight: 800; border-radius: 999px; padding: 4px 12px; }
+  .badge.now { background: var(--soft); color: var(--sub); border: 1px solid var(--line); }
+  .badge.fut { background: var(--acc-soft); color: var(--acc-ink); border: 1px solid var(--acc-line); }
+  .pcard .head b { font-size: 16.5px; }
+  .pcard .chips { margin-bottom: 12px; }
+  .pcard .chip { padding: 7px 14px; font-size: 13.5px; }
+  .plist { display: flex; flex-direction: column; gap: 8px; max-height: 372px; overflow-y: auto; padding-right: 2px; }
+  .prow { display: flex; align-items: center; gap: 12px; border: 1.5px solid var(--line); border-radius: 14px;
+    padding: 11px 14px; cursor: pointer; background: #FFF; transition: border-color .12s; }
+  .prow:hover { border-color: var(--acc-line); }
+  .prow.on { border-color: var(--acc); background: #F6FAFF; box-shadow: 0 0 0 1px var(--acc); }
+  .prow .dot { width: 21px; height: 21px; border-radius: 999px; border: 2px solid #C9CDD2; flex-shrink: 0; background: #FFF; }
+  .prow.on .dot { border-color: var(--acc); border-width: 6px; }
+  .prow .nm { flex: 1; min-width: 0; }
+  .prow .nm .pl { font-size: 15px; font-weight: 800; }
+  .prow .nm .pv { font-size: 12px; color: var(--sub); font-weight: 700; }
+  .prow .yen { font-size: 15.5px; font-weight: 800; white-space: nowrap; }
+  .prow .yen small { font-size: 11.5px; color: var(--sub); font-weight: 700; }
+  .prow.free { border-style: dashed; color: var(--sub); }
+  .manbox { margin-top: 10px; }
+  .manbox input { width: 100%; font-size: 16px; font-weight: 700; padding: 10px 14px;
+    border: 1.5px dashed #C9CDD2; border-radius: 12px; font-family: inherit; }
+  .pcard .foot { display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+    border-top: 1px solid var(--line-soft); margin-top: 14px; padding-top: 12px; }
+  .pcard .foot .k { font-size: 12.5px; color: var(--sub); font-weight: 700; }
+  .pcard .foot .v { font-size: 26px; font-weight: 800; }
+  .pcard .foot .cn { font-size: 12px; color: var(--faint); }
+
+  /* diff hero */
+  .diffhero { text-align: center; padding: 34px 0 8px; }
+  .diffhero .k { font-size: 13.5px; color: var(--sub); font-weight: 700; }
+  .diffhero .v { font-size: 52px; font-weight: 800; letter-spacing: .01em; line-height: 1.2; }
+  .diffhero .v.save { color: var(--save); } .diffhero .v.cost { color: var(--cost); }
+  .diffhero .c { font-size: 13px; color: var(--faint); }
+  .rule { border: none; border-top: 1px solid var(--line-soft); margin: 40px 0 0; }
+
+  /* ===== STEP2 ===== */
+  #manualDev { margin: 10px 0 0 110px; display: none; gap: 10px; flex-wrap: wrap; }
+  #manualDev input { width: 220px; font-size: 15px; font-weight: 700; padding: 9px 12px;
+    border: 1.5px dashed #C9CDD2; border-radius: 12px; font-family: inherit; }
+  table.cmp { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 22px;
+    border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+  table.cmp th, table.cmp td { padding: 13px 16px; text-align: right; font-size: 14.5px;
+    border-bottom: 1px solid var(--line-soft); background: #FFF; }
+  table.cmp thead th { text-align: right; vertical-align: top; padding-top: 18px; padding-bottom: 14px; background: #FFF; border-bottom: 1px solid var(--line); }
+  table.cmp thead th.h0 { text-align: left; }
+  .colmark { display: block; font-size: 12px; font-weight: 800; color: var(--acc); letter-spacing: .08em; }
+  .colname { display: block; font-size: 15px; font-weight: 800; line-height: 1.4; }
+  .colsub { display: block; font-size: 11.5px; color: var(--sub); font-weight: 700; }
+  .coltag { display: inline-block; margin-top: 6px; font-size: 11px; font-weight: 800; border-radius: 999px; padding: 2px 10px; }
+  .coltag.now { background: var(--soft); color: var(--sub); border: 1px solid var(--line); }
+  .coltag.fut { background: var(--acc-soft); color: var(--acc-ink); border: 1px solid var(--acc-line); }
+  table.cmp th.rh { text-align: left; font-size: 13px; color: var(--sub); font-weight: 700; background: #FFF; width: 190px; }
+  table.cmp th.rh small { color: var(--faint); font-weight: 700; }
+  table.cmp tr.total td { font-size: 17px; font-weight: 800; }
+  table.cmp tr.ysel td, table.cmp tr.ysel th.rh { background: #F6FAFF; }
+  table.cmp tr.ysel td.best { color: var(--acc-ink); }
+  table.cmp td .pm { display: block; font-size: 11.5px; color: var(--faint); font-weight: 700; }
+  table.cmp td.refc, table.cmp th.refc { color: var(--faint); background: #FCFCFD; }
+  table.cmp tr.sep th { background: var(--soft); color: var(--sub); font-size: 12px; font-weight: 800;
+    text-align: left; letter-spacing: .06em; padding: 8px 16px; }
+  table.cmp tr.sep td { background: var(--soft); padding: 8px 16px; }
+  table.cmp tr:last-child td, table.cmp tr:last-child th { border-bottom: none; }
+  .mnpbtn { margin-top: 12px; background: none; border: none; color: var(--faint); font-size: 12.5px;
+    font-weight: 700; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; font-family: inherit; padding: 4px 0; }
+  .mnpbtn:hover { color: var(--sub); }
+  .assump { margin-top: 16px; background: var(--soft); border-radius: 14px; padding: 14px 18px;
+    font-size: 12.5px; color: var(--sub); line-height: 1.8; }
+  .assump b { color: var(--ink); }
+  .assump .inline-in { width: 90px; font-size: 13px; font-weight: 700; padding: 3px 8px;
+    border: 1px solid var(--line); border-radius: 8px; font-family: inherit; text-align: right; }
+  .tglrow { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+  .sw { position: relative; width: 42px; height: 24px; border-radius: 999px; background: #D4D8DD; transition: background .15s; flex-shrink: 0; }
+  .sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 999px; background: #FFF; transition: left .15s; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+  .sw.on { background: var(--acc); } .sw.on::after { left: 21px; }
+
+  /* ===== STEP3 ===== */
+  .totgrid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px; align-items: stretch; margin-top: 22px; }
+  @media (max-width: 860px) { .totgrid { grid-template-columns: 1fr; } .arrowcol { display: none; } }
+  .tot { border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px; }
+  .tot.fut { border-color: var(--acc-line); background: #FBFDFF; }
+  .tot .bighead { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .tot .plabel { font-size: 13px; color: var(--sub); font-weight: 700; min-height: 40px; }
+  .tot .mo { font-size: 40px; font-weight: 800; line-height: 1.15; }
+  .tot .mo small { font-size: 14px; color: var(--sub); font-weight: 700; }
+  .tot .lines { margin-top: 12px; border-top: 1px solid var(--line-soft); padding-top: 8px; }
+  .tot .ln { display: flex; justify-content: space-between; gap: 10px; font-size: 13.5px; padding: 5px 0; }
+  .tot .ln .k { color: var(--sub); font-weight: 700; }
+  .tot .ln .v { font-weight: 800; }
+  .tot .ln.total { border-top: 1px solid var(--line-soft); margin-top: 6px; padding-top: 10px; font-size: 15px; }
+  .arrowcol { display: flex; align-items: center; color: var(--faint); font-size: 22px; }
+  .step3diff { margin-top: 26px; text-align: center; }
+  .step3diff .cap { font-size: 13.5px; color: var(--sub); font-weight: 700; }
+  .step3diff .big { font-size: 46px; font-weight: 800; }
+  .step3diff .big.save { color: var(--save); } .step3diff .big.cost { color: var(--cost); }
+  .step3diff .sub2 { font-size: 14px; color: var(--sub); font-weight: 700; }
+  .s3ctrl { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 18px; }
+  .printbtn { margin-left: auto; border: none; background: var(--ink); color: #FFF; border-radius: 999px;
+    padding: 11px 26px; font-size: 14.5px; font-weight: 800; cursor: pointer; font-family: inherit; }
+  .printbtn:hover { background: #000; }
+
+  /* ===== sticky bar ===== */
+  .stick { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    background: rgba(255,255,255,.94); backdrop-filter: blur(10px); border-top: 1px solid var(--line); }
+  .stick-in { max-width: 1080px; margin: 0 auto; padding: 12px 32px; display: flex; align-items: center; justify-content: center; gap: 40px; }
+  .stick .cell { text-align: center; }
+  .stick .k { font-size: 11.5px; color: var(--sub); font-weight: 700; }
+  .stick .v { font-size: 21px; font-weight: 800; line-height: 1.25; }
+  .stick .v.save { color: var(--save); } .stick .v.cost { color: var(--cost); }
+  .stick .arr { color: var(--faint); font-size: 18px; }
+
+  footer.foot { margin-top: 70px; border-top: 1px solid var(--line-soft); padding-top: 18px;
+    font-size: 12px; color: var(--faint); line-height: 1.9; }
+  footer.foot b { color: var(--sub); }
+
+  /* ===== print ===== */
+  @media print {
+    @page { size: A4 portrait; margin: 9mm; }
+    body { font-size: 11px; }
+    .wrap { max-width: none; padding: 0; }
+    header.top { position: static; }
+    .hero { padding: 8px 0 4px; } .hero h1 { font-size: 20px; margin-bottom: 4px; } .hero p { font-size: 10.5px; }
+    .step { margin-top: 12px; } .step h2 { font-size: 15px; margin-bottom: 8px; }
+    #condCard, .pcard .chips, .manbox, #step2sel, #hoshoSel, .mnpbtn, .printbtn, .stick, .s3ctrl { display: none !important; }
+    .plist { max-height: none; overflow: visible; } .prow:not(.on) { display: none; }
+    .card, .pcard, .tot, table.cmp { border-radius: 8px; padding: 10px 12px; break-inside: avoid; }
+    table.cmp th, table.cmp td { padding: 5px 8px; font-size: 10px; }
+    .diffhero { padding: 8px 0 0; } .diffhero .v { font-size: 26px; }
+    .tot .mo { font-size: 22px; } .step3diff .big { font-size: 24px; }
+    .assump { font-size: 9.5px; padding: 8px 10px; }
+    footer.foot { margin-top: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top"><div class="top-in">
+  <span class="logo">ここスマ</span>
+  <span class="ttl">料金シミュレーション<small>v0.4</small></span>
+  <span class="meta">試験公開中(仮ページ)|料金取得日 2026年8月7日|金額は税込の目安・各社公式サイトで要確認</span>
+</div></header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <h1>いまと、これからを、ならべてみる。</h1>
+    <p>当店から特定のプランをおすすめするものではありません。お客さまがくらべて選ぶための物差しです。</p>
+  </div>
+
+  <!-- ============ STEP 1 ============ -->
+  <section class="step" id="s1">
+    <div class="step-tag">STEP 1</div>
+    <h2>通信プランの選び方</h2>
+
+    <div class="card" id="condCard">
+      <div class="rowlab"><span class="lb">通話</span><span class="chips" id="callChips"></span></div>
+      <div class="rowlab"><span class="lb">割引の条件</span><span class="chips" id="discChips"></span></div>
+      <div class="note">当てはまるものだけON(対象プランのみ割引を反映した目安)</div>
+    </div>
+
+    <div class="duo">
+      <div class="pcard" id="cardNow">
+        <div class="head"><span class="badge now">現状</span><b>いまのご契約</b></div>
+        <div class="chips" id="curGChips"></div>
+        <div class="plist" id="curList"></div>
+        <div class="manbox" id="curManBox" style="display:none;">
+          <input type="number" id="curManual" placeholder="毎月の支払額を入力(例: 8500)">
+        </div>
+        <div class="foot"><span class="k">現状の月額<br>(通話・割引を反映)</span><span style="text-align:right;"><span class="v num" id="curMo">―</span><br><span class="cn" id="curNote"></span></span></div>
+      </div>
+      <div class="pcard" id="cardFut">
+        <div class="head"><span class="badge fut">将来</span><b>のりかえ・見直し後</b></div>
+        <div class="chips" id="futGChips"></div>
+        <div class="plist" id="futList"></div>
+        <div class="foot"><span class="k">将来の月額<br>(通話・割引を反映)</span><span style="text-align:right;"><span class="v num" id="futMo" style="color:var(--acc-ink);">―</span><br><span class="cn" id="futNote"></span></span></div>
+      </div>
+    </div>
+
+    <div class="diffhero">
+      <div class="k">プランだけでみた、月々の差額</div>
+      <div class="v num" id="planDiff">―</div>
+      <div class="c" id="planDiffCap"></div>
+    </div>
+    <div class="note" style="text-align:center; margin-top:10px;">プラン名・金額は2026年8月7日時点の公式サイト調べ。通話オプション・割引は一律の仮定で計算しています。最新の内容は各社公式サイトでご確認ください。</div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ============ STEP 2 ============ -->
+  <section class="step" id="s2">
+    <div class="step-tag">STEP 2</div>
+    <h2>スマホの購入の仕方</h2>
+
+    <div class="card" id="step2sel">
+      <div class="rowlab"><span class="lb">購入予定の端末</span><span class="chips" id="devChips"></span></div>
+      <div class="rowlab" id="manualDev" style="display:none;"><span class="lb"></span>
+        <input type="number" id="manualOfficial" placeholder="公式ストア価格(円)">
+        <input type="number" id="manualCarrier" placeholder="キャリア価格(円)">
+      </div>
+      <div class="rowlab"><span class="lb">キャリア</span><span class="chips" id="carChips"></span></div>
+      <div class="rowlab"><span class="lb">現状の買い方</span><span class="chips" id="buyNowChips"></span></div>
+      <div class="rowlab"><span class="lb">将来の買い方</span><span class="chips" id="buyFutChips"></span></div>
+      <div class="rowlab"><span class="lb">みる年数</span><span class="chips" id="yrChips"></span></div>
+    </div>
+
+    <table class="cmp" id="buyTable"></table>
+    <button class="mnpbtn" id="mnpBtn" onclick="st.showMnp=!st.showMnp;refresh();"></button>
+
+    <div class="assump" id="calcBasis" style="background:#F6FAFF;"></div>
+    <div class="assump" id="assumpBox"></div>
+
+    <h3 style="margin:36px 0 14px; font-size:19px;">端末の補償サービスもくらべる</h3>
+    <div class="card" id="hoshoSel">
+      <div class="rowlab"><span class="lb">現状の補償</span><span class="chips" id="hoNowChips"></span><input class="inline-in num" style="width:110px;" type="number" id="hoNowIn" title="月額(円)"><span class="note">円/月</span></div>
+      <div class="rowlab"><span class="lb">将来の補償</span><span class="chips" id="hoFutChips"></span><input class="inline-in num" style="width:110px;" type="number" id="hoFutIn" title="月額(円)"><span class="note">円/月</span></div>
+      <div class="note">月額は選択中の端末・キャリアでの目安を自動入力します(⚠は要確認)。実際の請求額がわかる場合は上書きしてください。選んだ補償はSTEP3の月々・総額に反映されます。</div>
+    </div>
+    <table class="cmp" id="hoshoTable"></table>
+    <div class="assump" id="hoshoNote"></div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ============ STEP 3 ============ -->
+  <section class="step" id="s3">
+    <div class="step-tag">STEP 3</div>
+    <h2>トータル費用 ― 現状とくらべる</h2>
+
+    <div class="s3ctrl">
+      <span class="chips" id="yrChips2"></span>
+      <span class="tglrow" onclick="st.kokoSim=!st.kokoSim;refresh();"><span class="sw" id="swKoko"></span><span style="font-size:13.5px;font-weight:700;color:var(--sub);">ここスマ SIM移行サポートを含める(のりかえ 12,800円・購入サポートと同時ならセット29,800円で計算)</span></span>
+      <button class="printbtn" onclick="window.print()">この結果を印刷する</button>
+    </div>
+
+    <div class="totgrid" id="totGrid"></div>
+
+    <div class="step3diff" id="s3diff"></div>
+  </section>
+
+  <footer class="foot">
+    <b>ここスマ|スマホの相談窓口</b> ― 試験公開中の仮ページ(店内相談用)。金額はすべて取得日時点の税込目安であり、契約条件・キャンペーンにより変わります。ご契約前に必ず各社公式サイトでご確認ください。<br>
+    出典: 各社公式サイト(詳細は 22_料金プラン調査_2026-08 v1.1 / 02_調査_3キャリア店頭費用)。料金取得日 2026年8月7日。ご契約前に必ず当日の各社公式ページでご確認ください。<br>
+    返却プログラムの実質負担は「残価=端末価格の45%(楽天は48回払い・25か月目返却で50%)」と仮定した概算です。機種・時期・査定条件により変わります。頭金は店舗独自(5,000〜22,000円)のため仮の金額です。iPhone 17e のドコモ・au価格は二次情報照合の概算。<br>
+    v0.4(2026-08-08): 3ステップ構成に再設計(通信プラン現状/将来→買い方比較→トータル)/楽天モバイルを端末比較に追加/頭金・設定サポートの内訳を明示/デザイン=Claude Design「ここスマ料金シミュレーション設計」(白基調ミニマル・v0.4)/同日データ更新: 日本通信SIMを4プラン(シンプル290・みんなの20GB・50GB・ネットだけ)に拡充(公式サイト2026-08-08確認)/頭金を02調査の実務値19,800円に統一・C列にここスマ ネット購入サポート19,800円を標準計上・積み重なる費用の計算根拠を表下に明示/端末の補償サービス比較を追加(キャリア4社・AppleCare+/Pixel Care+・@nifty安心メールパック・モバイル保険。2026-08-08公式調べ・選択でSTEP3に反映)
+  </footer>
+</div>
+
+<!-- sticky summary -->
+<div class="stick"><div class="stick-in">
+  <span class="cell"><span class="k">現状 月々</span><br><span class="v num" id="stNow">―</span></span>
+  <span class="arr">→</span>
+  <span class="cell"><span class="k">将来 月々</span><br><span class="v num" id="stFut">―</span></span>
+  <span class="cell" style="margin-left:20px;"><span class="k">月々の差額</span><br><span class="v num" id="stDiff">―</span></span>
+</div></div>
+
+<script>
+/* ===== データ(取得日: 2026-08-07 / 出典: 22 v1.1・02・02b・楽天公式2026-08-08確認) ===== */
+var GROUPS = [
+  { id: 'docomo', name: 'ドコモ' }, { id: 'au', name: 'au' }, { id: 'sb', name: 'ソフトバンク' },
+  { id: 'rakuten', name: '楽天モバイル' }, { id: 'sub', name: 'サブブランド' }, { id: 'mvno', name: '格安SIM' }
+];
+var PLANS = [
+  { g: 'docomo', prov: 'ドコモ', plan: 'MAX(〜1GB)', gb: '〜1GB', base: 5698, disc: { fam: 1210, hik: 1210, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン' },
+  { g: 'docomo', prov: 'ドコモ', plan: 'MAX(〜3GB)', gb: '〜3GB', base: 6798, disc: { fam: 1210, hik: 1210, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン' },
+  { g: 'docomo', prov: 'ドコモ', plan: 'MAX(無制限)', gb: '無制限', base: 8448, disc: { fam: 1210, hik: 1210, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン' },
+  { g: 'docomo', prov: 'ドコモ', plan: 'ポイ活MAX(無制限)', gb: '無制限', base: 11748, disc: { fam: 1210, hik: 1210, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン', note: 'pt還元は含めない定価比較' },
+  { g: 'docomo', prov: 'ドコモ', plan: 'ポイ活20(〜20GB)', gb: '〜20GB', base: 7898, disc: { fam: 1210, hik: 1210, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン' },
+  { g: 'docomo', prov: 'ドコモ', plan: 'mini(4GB)', gb: '4GB', base: 2750, disc: { hik: 1210, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン', note: '増量CP中6GB・家族割の減額対象外' },
+  { g: 'docomo', prov: 'ドコモ', plan: 'mini(10GB)', gb: '10GB', base: 3850, disc: { hik: 1210, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン', note: '増量CP中12GB' },
+  { g: 'au', prov: 'au', plan: 'スマホミニ+(〜1GB)', gb: '〜1GB', base: 4928, disc: { fam: 1210, hik: 1100, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'オンライン3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
+  { g: 'au', prov: 'au', plan: 'スマホミニ+(〜3GB)', gb: '〜3GB', base: 6578, disc: { fam: 1210, hik: 1100, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'オンライン3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
+  { g: 'au', prov: 'au', plan: 'スマホミニ+(〜5GB)', gb: '〜5GB', base: 8228, disc: { fam: 1210, hik: 1100, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'オンライン3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
+  { g: 'au', prov: 'au', plan: 'バリューリンク(無制限)', gb: '無制限', base: 8008, disc: { fam: 1210, hik: 1100, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'オンライン3,850円/店頭4,950円', win: '店頭・電話・オンライン', note: '1GB以下の月は自動-1,650円' },
+  { g: 'au', prov: 'au', plan: 'シニアバリュー(5GB)', gb: '5GB', base: 4048, disc: { hik: 1100, card: 220 }, call: { incl: 5, five: 0, full: 1100 }, init: 3850, initNote: 'オンライン3,850円/店頭4,950円', win: '店頭・電話・オンライン', seniorOnly: true, note: '60歳以上・5分かけ放題込み' },
+  { g: 'sb', prov: 'ソフトバンク', plan: 'ミニフィット2(〜2GB)', gb: '〜2GB', base: 5258, disc: { fam: 550, hik: 1100, card: 330 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
+  { g: 'sb', prov: 'ソフトバンク', plan: 'ミニフィット2(〜5GB)', gb: '〜5GB', base: 6358, disc: { fam: 550, hik: 1100, card: 330 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
+  { g: 'sb', prov: 'ソフトバンク', plan: 'テイガク無制限', gb: '無制限', base: 8008, disc: { fam: 1210, hik: 1100, card: 330 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
+  { g: 'sb', prov: 'ソフトバンク', plan: 'ペイトク2(無制限)', gb: '無制限', base: 10538, disc: { fam: 1210, hik: 1100, card: 330 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン', note: 'PayPay還元は含めない定価比較' },
+  { g: 'sb', prov: 'ソフトバンク', plan: 'スマホデビュー+(4GB)', gb: '4GB', base: 2596, disc: {}, call: { incl: 0, five: 880, full: 1980, fullSenior: 880 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン', note: '1年目1,078円・ガラケー移行向け', senior: '60歳以上: かけ放題880円' },
+  { g: 'sb', prov: 'ソフトバンク', plan: 'スマホデビュー+(20GB)', gb: '20GB', base: 4246, disc: {}, call: { incl: 0, five: 880, full: 1980, fullSenior: 880 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン', note: '1年目2,728円', senior: '60歳以上: かけ放題880円' },
+  { g: 'rakuten', prov: '楽天モバイル', plan: '最強プラン(〜3GB)', gb: '〜3GB', base: 1078, disc: {}, call: { incl: 99, five: 0, full: 0 }, init: 0, initNote: '0円', win: '店頭・オンライン', note: 'Rakuten Linkアプリで通話無料', senior: '65歳以上: pt還元・詐欺対策保険' },
+  { g: 'rakuten', prov: '楽天モバイル', plan: '最強プラン(〜20GB)', gb: '〜20GB', base: 2178, disc: {}, call: { incl: 99, five: 0, full: 0 }, init: 0, initNote: '0円', win: '店頭・オンライン', note: 'Rakuten Linkアプリで通話無料' },
+  { g: 'rakuten', prov: '楽天モバイル', plan: '最強プラン(無制限)', gb: '無制限', base: 3278, disc: {}, call: { incl: 99, five: 0, full: 0 }, init: 0, initNote: '0円', win: '店頭・オンライン', note: 'Rakuten Linkアプリで通話無料' },
+  { g: 'sub', prov: 'ahamo', plan: '30GB(CP中40GB)', gb: '30GB', base: 2970, disc: {}, call: { incl: 5, five: 0, full: 1100 }, init: 0, initNote: '0円', win: 'オンライン(店頭は有料3,300円)', note: 'ドコモ回線・5分かけ放題込み' },
+  { g: 'sub', prov: 'povo2.0', plan: '3GB/30日トッピング', gb: '3GB', base: 990, disc: {}, call: { incl: 0, five: 550, full: 1650 }, init: 0, initNote: '0円', win: 'オンラインのみ', note: 'au回線・基本料0円+トッピング' },
+  { g: 'sub', prov: 'povo2.0', plan: '30GB/30日トッピング', gb: '30GB', base: 2780, disc: {}, call: { incl: 0, five: 550, full: 1650 }, init: 0, initNote: '0円', win: 'オンラインのみ', note: 'au回線・基本料0円+トッピング' },
+  { g: 'sub', prov: 'UQモバイル', plan: 'トクトク2(5GB以下の月)', gb: '〜5GB', base: 2948, disc: { hik: 1100, card: 220 }, call: { incl: 0, five: 880, full: 1980, fullSenior: 880 }, init: 3850, initNote: 'オンライン3,850円/店頭4,950円', win: '店頭・オンライン', senior: '60歳以上: かけ放題880円', note: '30GBまで使った月は4,048円' },
+  { g: 'sub', prov: 'UQモバイル', plan: 'コミコミバリュー(35GB)', gb: '35GB', base: 3828, disc: {}, call: { incl: 10, five: 0, full: 1100 }, init: 3850, initNote: 'オンライン3,850円/店頭4,950円', win: '店頭・オンライン', note: '10分かけ放題込み(60歳以上割の対象外)' },
+  { g: 'sub', prov: 'Y!mobile', plan: 'シンプル3 S(5GB)', gb: '5GB', base: 3278, disc: { hik: 1650, card: 330 }, call: { incl: 0, five: 880, full: 1980, fullSenior: 880 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・オンライン', senior: '60歳以上: かけ放題880円' },
+  { g: 'sub', prov: 'Y!mobile', plan: 'シンプル3 M(30GB)', gb: '30GB', base: 4378, disc: { hik: 1650, card: 330 }, call: { incl: 0, five: 880, full: 1980, fullSenior: 880 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・オンライン', senior: '60歳以上: かけ放題880円' },
+  { g: 'sub', prov: 'Y!mobile', plan: 'シンプル3 L(35GB)', gb: '35GB', base: 5478, disc: { hik: 1650, card: 330 }, call: { incl: 10, five: 0, full: 1100 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・オンライン', note: '10分かけ放題込み' },
+  { g: 'sub', prov: 'LINEMO', plan: 'ベストプラン(〜3GB)', gb: '〜3GB', base: 990, disc: {}, call: { incl: 0, five: 550, full: 1650 }, init: 0, initNote: '0円', win: 'オンラインのみ' },
+  { g: 'sub', prov: 'LINEMO', plan: 'ベストプラン(〜10GB)', gb: '〜10GB', base: 2090, disc: {}, call: { incl: 0, five: 550, full: 1650 }, init: 0, initNote: '0円', win: 'オンラインのみ' },
+  { g: 'sub', prov: 'LINEMO', plan: 'ベストプランV(30GB)', gb: '30GB', base: 2970, disc: {}, call: { incl: 5, five: 0, full: 1100 }, init: 0, initNote: '0円', win: 'オンラインのみ', note: '5分かけ放題込み' },
+  { g: 'mvno', prov: 'イオンモバイル', plan: 'さいてき(3GB)', gb: '3GB', base: 1078, disc: {}, call: { incl: 0, five: 550, full: 1650 }, init: 3300, initNote: '3,300円', win: '店頭(イオン)・オンライン' },
+  { g: 'mvno', prov: 'イオンモバイル', plan: 'さいてき(10GB)', gb: '10GB', base: 1848, disc: {}, call: { incl: 0, five: 550, full: 1650 }, init: 3300, initNote: '3,300円', win: '店頭(イオン)・オンライン' },
+  { g: 'mvno', prov: 'イオンモバイル', plan: 'MORIMORI(30GB)', gb: '30GB', base: 2508, disc: {}, call: { incl: 0, five: 550, full: 1650 }, init: 3300, initNote: '3,300円', win: '店頭(イオン)・オンライン' },
+  { g: 'mvno', prov: 'イオンモバイル', plan: 'やさしい(3GB)', gb: '3GB', base: 858, disc: {}, call: { incl: 0, five: 550, full: 1210 }, init: 3300, initNote: '3,300円', win: '店頭(イオン)・オンライン', seniorOnly: true, note: '60歳以上専用・最大1Mbps' },
+  { g: 'mvno', prov: 'mineo', plan: 'マイピタ(3GB)', gb: '3GB', base: 1298, disc: {}, call: { incl: 0, five: 550, full: 1210 }, init: 3300, initNote: '3,300円(紹介で無料)', win: '一部店頭・オンライン', note: '店舗は限定的' },
+  { g: 'mvno', prov: 'mineo', plan: 'マイピタ(15GB)', gb: '15GB', base: 1958, disc: {}, call: { incl: 0, five: 550, full: 1210 }, init: 3300, initNote: '3,300円(紹介で無料)', win: '一部店頭・オンライン', note: '店舗は限定的' },
+  { g: 'mvno', prov: 'mineo', plan: 'マイピタ(30GB)', gb: '30GB', base: 2178, disc: {}, call: { incl: 0, five: 550, full: 1210 }, init: 3300, initNote: '3,300円(紹介で無料)', win: '一部店頭・オンライン', note: '店舗は限定的' },
+  { g: 'mvno', prov: 'IIJmio', plan: 'ギガプラン(5GB)', gb: '5GB', base: 950, disc: {}, call: { incl: 0, five: 500, full: 1400 }, init: 3300, initNote: '3,300円+SIM発行料', win: 'オンライン(量販店開通あり)' },
+  { g: 'mvno', prov: 'IIJmio', plan: 'ギガプラン(10GB)', gb: '10GB', base: 1400, disc: {}, call: { incl: 0, five: 500, full: 1400 }, init: 3300, initNote: '3,300円+SIM発行料', win: 'オンライン(量販店開通あり)' },
+  { g: 'mvno', prov: 'IIJmio', plan: 'ギガプラン(25GB)', gb: '25GB', base: 2000, disc: {}, call: { incl: 0, five: 500, full: 1400 }, init: 3300, initNote: '3,300円+SIM発行料', win: 'オンライン(量販店開通あり)' },
+  { g: 'mvno', prov: '日本通信SIM', plan: '合理的シンプル290(1GB)', gb: '1GB', base: 290, disc: {}, call: { incl: 0, five: 390, full: 1600 }, init: 3300, initNote: '3,300円', win: 'オンラインのみ', note: '追加データ1GBごと220円' },
+  { g: 'mvno', prov: '日本通信SIM', plan: '合理的みんなの(20GB)', gb: '20GB', base: 1390, disc: {}, call: { incl: 5, five: 0, full: 1600 }, init: 3300, initNote: '3,300円', win: 'オンラインのみ', note: '5分/回か月70分無料の選択制込み' },
+  { g: 'mvno', prov: '日本通信SIM', plan: '合理的50GB', gb: '50GB', base: 2178, disc: {}, call: { incl: 5, five: 0, full: 1600 }, init: 3300, initNote: '3,300円', win: 'オンラインのみ', note: '5分/回か月70分無料の選択制込み' },
+  { g: 'mvno', prov: '日本通信SIM', plan: 'ネットだけ(20GB)', gb: '20GB', base: 1200, disc: {}, dataOnly: true, call: { incl: 0, five: 0, full: 0 }, init: 3300, initNote: '3,300円', win: 'オンラインのみ', note: 'データ専用・1GB以下の月は119円' }
+];
+var DEVICES = [
+  { id: 'ip17', name: 'iPhone 17', official: 142800, carrier: { d: 178552, a: 168300, s: 164160, r: 146800 } },
+  { id: 'ip17e', name: 'iPhone 17e', official: 107800, carrier: { d: 139810, a: 119900, s: 124560, r: 109200 }, est: true },
+  { id: 'px10a', name: 'Pixel 10a', official: 79900, carrier: { d: 88440, a: 89800, s: 93600, r: 89760 } },
+  { id: 'manual', name: 'その他(手入力)', official: 0, carrier: { d: 0, a: 0, s: 0, r: 0 } }
+];
+var CARRIERS = [ { id: 'd', name: 'ドコモ' }, { id: 'a', name: 'au' }, { id: 's', name: 'ソフトバンク' }, { id: 'r', name: '楽天モバイル' } ];
+var FEES = {
+  adminStore: { d: 4950, a: 4950, s: 4950, r: 0 },
+  setup: { d: 5500, a: 6380, s: 3960, r: 0 },
+  prog: { d: 22000, a: 22000, s: 22000, r: 3300 },
+  burden: { d: 0.55, a: 0.55, s: 0.55, r: 0.50 },
+  battery: 8800, kokoNet: 19800, kokoSim: 12800, kokoSet: 29800, mnpDev: 1
+};
+var BUYS = [
+  { id: 'return', mark: 'A', name: '返却プログラム', sub: '2年ごとに買い替え・端末は返す' },
+  { id: 'carrier', mark: 'B', name: 'キャリアで購入', sub: '一括や分割で買って長く使う' },
+  { id: 'official', mark: 'C', name: '公式ストアで購入', sub: 'Apple/Google直販で買って長く使う' }
+];
+var PROGNAME = { d: 'いつでもカエドキ+', a: 'スマホトクする+', s: '新トクするサポート', r: '買い替え超トク' };
+
+/* ===== 端末補償サービス(取得日: 2026-08-08・各社公式) ===== */
+var HOSHO_KINDS = [
+  { id: 'none', name: '補償なし' }, { id: 'carrier', name: 'キャリアの補償' },
+  { id: 'maker', name: 'メーカーの補償' }, { id: 'nifty', name: '@nifty安心メールパック' }, { id: 'mobile', name: 'モバイル保険' }
+];
+function hoshoInfo(kind, carId) {
+  var dev = st.dev;
+  if (kind === 'none') return { label: '補償なし', m: 0 };
+  if (kind === 'carrier') {
+    if (carId === 'd') return { label: 'ドコモ smartあんしん補償', m: 990, est: true, note: '機種区分330〜1,720円' };
+    if (carId === 'a') {
+      if (dev === 'px10a') return { label: 'au 故障紛失サポート ワイド', m: 990, est: true, note: 'Android用・機種区分あり' };
+      return { label: 'au 故障紛失サポート ワイド with ACS & iCloud+', m: dev === 'ip17' ? 1690 : 1580, est: dev !== 'ip17', note: dev === 'ip17' ? 'iPhone 17の公式価格' : '17eは機種区分未確認' };
+    }
+    if (carId === 's') {
+      if (dev === 'px10a') return { label: 'SB あんしん保証パックネクスト', m: 990, est: true };
+      return { label: 'SB あんしん保証パック with AppleCare Services', m: 1340, est: true, note: '16標準機種の区分を仮置き' };
+    }
+    return { label: '楽天 スマホ交換保証プラス', m: 1180, est: true, note: '端末価格帯980〜1,580円' };
+  }
+  if (kind === 'maker') {
+    if (dev === 'ip17') return { label: 'AppleCare+(iPhone 17)', m: 992, est: true, note: '2年一括23,800円÷24・盗難紛失プランは26,800円' };
+    if (dev === 'ip17e') return { label: 'AppleCare+(iPhone 17e)', m: 825, est: true, note: '2年一括19,800円÷24・盗難紛失プランは22,800円' };
+    if (dev === 'px10a') return { label: 'Pixel Care+', m: 780, note: '2年一括なら15,800円・紛失盗難プランは880円/月' };
+    return { label: 'メーカーの補償(手入力)', m: 0, est: true };
+  }
+  if (kind === 'nifty') return { label: '@nifty安心メールパック Bプラン', m: 1408, note: 'A 1,078円(年5万まで)/C 1,958円(年30万まで)' };
+  return { label: 'モバイル保険', m: 700, note: '3台まで・年15万円まで' };
+}
+
+/* ===== 状態 ===== */
+var st = { call: 'few', fam: false, hik: false, card: false, senior: false,
+  curG: 'docomo', curKey: null, curManualMode: false,
+  futG: 'docomo', futKey: null,
+  dev: 'ip17e', car: 'd', buyNow: 'return', buyFut: 'return', yr: 4,
+  showMnp: false, loyal: false, atamakin: 19800, kokoC: true, kokoSim: false,
+  hoNow: 'none', hoFut: 'none', hoNowM: 0, hoFutM: 0, hoNowOv: false, hoFutOv: false };
+
+function yen(n) { return Math.round(n).toLocaleString('ja-JP') + '円'; }
+function signYen(n) { var r = Math.round(Math.abs(n)); if (r === 0) return '±0円'; return (n < 0 ? '−' : '+') + r.toLocaleString('ja-JP') + '円'; }
+
+/* ===== 月額計算 ===== */
+function monthlyOf(pl) {
+  var m = pl.base;
+  if (st.fam && pl.disc.fam) m -= pl.disc.fam;
+  if (st.hik && pl.disc.hik) m -= pl.disc.hik;
+  if (st.card && pl.disc.card) m -= pl.disc.card;
+  var callCost = 0, callNote = '';
+  if (pl.dataOnly) { callNote = 'データ専用・音声通話なし'; }
+  else if (st.call === 'few') { callNote = '通話は使ったぶんだけ'; }
+  else if (st.call === 'short') {
+    if (pl.call.incl >= 5) callNote = '短いかけ放題込み';
+    else if (pl.call.incl === 99) callNote = 'アプリ通話で無料';
+    else { callCost = pl.call.five; callNote = '5〜10分かけ放題を追加(+' + pl.call.five + '円)'; }
+  } else {
+    if (pl.call.incl === 99) callNote = 'アプリ通話で無料';
+    else {
+      var full = (st.senior && pl.call.fullSenior !== undefined) ? pl.call.fullSenior : pl.call.full;
+      callCost = full;
+      callNote = full === 0 ? 'かけ放題込み' : 'かけ放題を追加(+' + full + '円' + (st.senior && pl.call.fullSenior !== undefined ? '・60歳以上割' : '') + ')';
+    }
+  }
+  return { m: m + callCost, callNote: callNote };
+}
+
+/* ===== 端末費用計算 ===== */
+function devPrices() {
+  var d = DEVICES.find(function (x) { return x.id === st.dev; });
+  if (st.dev === 'manual') {
+    return { official: +document.getElementById('manualOfficial').value || 0,
+             carrier: +document.getElementById('manualCarrier').value || 0, name: 'その他(手入力)' };
+  }
+  return { official: d.official, carrier: d.carrier[st.car], name: d.name, est: d.est };
+}
+function buyCalc(method, Y) {
+  var p = devPrices();
+  var car = st.car, cycles = Y / 2;
+  var admin = FEES.adminStore[car], setup = FEES.setup[car], prog = FEES.prog[car];
+  var progWaived = (car !== 'r' && st.loyal);
+  var atk = (car === 'r') ? 0 : st.atamakin;
+  var battery = Y >= 6 ? FEES.battery : 0;
+  var r = { method: method, dev: 0, atamakin: 0, admin: 0, setup: 0, prog: 0, battery: 0, koko: 0, keep: false };
+  if (method === 'return') {
+    r.dev = p.carrier * FEES.burden[car] * cycles;
+    r.atamakin = atk * cycles; r.admin = admin * cycles; r.setup = setup * cycles;
+    r.prog = (progWaived ? 0 : prog) * cycles;
+  } else if (method === 'carrier') {
+    r.dev = p.carrier; r.atamakin = atk; r.admin = admin; r.setup = setup; r.battery = battery; r.keep = true;
+  } else if (method === 'official') {
+    r.dev = p.official; r.koko = st.kokoC ? FEES.kokoNet : 0; r.battery = battery; r.keep = true;
+  } else if (method === 'mnp') {
+    r.dev = FEES.mnpDev * cycles; r.admin = 4950 * cycles; r.prog = 22000 * cycles;
+  }
+  r.fees = r.atamakin + r.admin + r.setup + r.prog + r.battery + r.koko;
+  r.total = r.dev + r.fees;
+  r.perMonth = r.total / (Y * 12);
+  return r;
+}
+
+/* ===== STEP1 描画 ===== */
+function planKey(pl) { return pl.prov + '|' + pl.plan; }
+function findPlan(key) { return PLANS.find(function (p) { return planKey(p) === key; }); }
+function listOf(g) {
+  return PLANS.filter(function (p) { return p.g === g && (!p.seniorOnly || st.senior); });
+}
+function renderSide(which) {
+  var isNow = which === 'now';
+  var g = isNow ? st.curG : st.futG;
+  var listEl = document.getElementById(isNow ? 'curList' : 'futList');
+  var list = listOf(g);
+  var selKey = isNow ? st.curKey : st.futKey;
+  var sel = selKey ? findPlan(selKey) : null;
+  if (!isNow || !st.curManualMode) {
+    if (!sel || sel.g !== g || (sel.seniorOnly && !st.senior)) sel = list[0] || null;
+    if (isNow) st.curKey = sel ? planKey(sel) : null; else st.futKey = sel ? planKey(sel) : null;
+  }
+  var h = '';
+  list.forEach(function (pl) {
+    var c = monthlyOf(pl);
+    var on = !((isNow && st.curManualMode)) && sel && planKey(pl) === planKey(sel);
+    h += '<div class="prow' + (on ? ' on' : '') + '" onclick="pickPlan(\'' + which + '\',\'' + planKey(pl).replace(/'/g, "\\'") + '\')">' +
+      '<span class="dot"></span><span class="nm"><span class="pl">' + pl.plan + '</span><br><span class="pv">' + pl.prov + '・' + pl.gb + (pl.note ? '・' + pl.note : '') + '</span></span>' +
+      '<span class="yen num">' + yen(c.m) + '<small>/月</small></span></div>';
+  });
+  if (isNow) {
+    h += '<div class="prow free' + (st.curManualMode ? ' on' : '') + '" onclick="st.curManualMode=!st.curManualMode;refresh();">' +
+      '<span class="dot"></span><span class="nm"><span class="pl" style="font-size:13.5px;">プランがわからない ― 月額を手入力</span></span></div>';
+  }
+  listEl.innerHTML = h;
+  if (isNow) document.getElementById('curManBox').style.display = st.curManualMode ? 'block' : 'none';
+}
+function pickPlan(which, key) {
+  if (which === 'now') { st.curManualMode = false; st.curKey = key; }
+  else st.futKey = key;
+  refresh();
+}
+function curMonthly() {
+  if (st.curManualMode) {
+    var v = +document.getElementById('curManual').value || 0;
+    return v > 0 ? { m: v, label: '手入力の月額', manual: true, callNote: '' } : null;
+  }
+  var pl = st.curKey ? findPlan(st.curKey) : null;
+  if (!pl) return null;
+  var c = monthlyOf(pl);
+  return { m: c.m, label: pl.prov + ' ' + pl.plan, callNote: c.callNote, pl: pl };
+}
+function futMonthly() {
+  var pl = st.futKey ? findPlan(st.futKey) : null;
+  if (!pl) return null;
+  var c = monthlyOf(pl);
+  return { m: c.m, label: pl.prov + ' ' + pl.plan, callNote: c.callNote, pl: pl };
+}
+
+/* ===== STEP2 描画 ===== */
+function renderBuyTable() {
+  var Y = st.yr;
+  var cols = BUYS.map(function (b) { return { def: b, calc2: buyCalc(b.id, 2), calc4: buyCalc(b.id, 4), calc6: buyCalc(b.id, 6) }; });
+  if (st.showMnp) cols.push({ def: { id: 'mnp', mark: '参考', name: 'MNPで乗りかえ', sub: '2年ごとに他社へ・特価条件つき', ref: true }, calc2: buyCalc('mnp', 2), calc4: buyCalc('mnp', 4), calc6: buyCalc('mnp', 6) });
+  var p = devPrices();
+
+  var h = '<thead><tr><th class="h0" style="width:190px;"></th>';
+  cols.forEach(function (c) {
+    var tags = '';
+    if (c.def.id === st.buyNow) tags += '<span class="coltag now">現状の買い方</span> ';
+    if (c.def.id === st.buyFut) tags += '<span class="coltag fut">将来の買い方</span>';
+    h += '<th class="' + (c.def.ref ? 'refc' : '') + '"><span class="colmark">' + c.def.mark + '</span><span class="colname">' + c.def.name + '</span><span class="colsub">' + c.def.sub + '</span>' + (tags ? '<span>' + tags + '</span>' : '') + '</th>';
+  });
+  h += '</tr></thead><tbody>';
+
+  function row(cls, label, fn) {
+    return '<tr class="' + cls + '"><th class="rh">' + label + '</th>' + cols.map(function (c) {
+      return '<td class="' + (c.def.ref ? 'refc ' : '') + 'num">' + fn(c) + '</td>';
+    }).join('') + '</tr>';
+  }
+  [2, 4, 6].forEach(function (y) {
+    var mins = Math.min.apply(null, cols.filter(function (c) { return !c.def.ref; }).map(function (c) { return c['calc' + y].total; }));
+    h += '<tr class="total' + (y === Y ? ' ysel' : '') + '"><th class="rh">' + y + '年でみた合計' + (y === Y ? ' <small>▶ 選択中</small>' : '') + '</th>' + cols.map(function (c) {
+      var v = c['calc' + y];
+      return '<td class="num' + (c.def.ref ? ' refc' : '') + (y === Y && !c.def.ref && v.total === mins ? ' best' : '') + '">' + yen(v.total) + '<span class="pm">月あたり ' + yen(v.perMonth) + '</span></td>';
+    }).join('') + '</tr>';
+  });
+
+  h += '<tr class="sep"><th>内訳(' + Y + '年でみた場合)</th>' + cols.map(function () { return '<td></td>'; }).join('') + '</tr>';
+  h += row('', '端末代', function (c) { var v = c['calc' + Y]; return c.def.id === 'mnp' ? yen(v.dev) + '<span class="pm">実質1円等の特価前提</span>' : yen(v.dev) + (c.def.id === 'return' ? '<span class="pm">実質負担' + Math.round(FEES.burden[st.car] * 100) + '%×' + (Y / 2) + '回</span>' : ''); });
+  h += row('', '頭金 <small>(キャリア店頭のみ)</small>', function (c) { var v = c['calc' + Y]; return v.atamakin ? yen(v.atamakin) : '0円'; });
+  h += row('', '事務手数料', function (c) { var v = c['calc' + Y]; return v.admin ? yen(v.admin) : '0円'; });
+  h += row('', '設定サポート <small>(データ移行+アプリ)</small>', function (c) { var v = c['calc' + Y]; return v.setup ? yen(v.setup) : '0円'; });
+  h += row('', 'ここスマ ネット購入サポート', function (c) { var v = c['calc' + Y]; return v.koko ? yen(v.koko) + '<span class="pm">購入も設定もまるごと伴走</span>' : (c.def.id === 'official' ? '0円<span class="pm">ご自身で購入・設定</span>' : '―'); });
+  h += row('', 'プログラム利用料', function (c) { var v = c['calc' + Y]; return v.prog ? yen(v.prog) : '0円' + (c.def.id === 'return' && st.car !== 'r' && st.loyal ? '<span class="pm">買替特典で実質免除</span>' : ''); });
+  h += row('', '電池交換 <small>(6年でみる場合)</small>', function (c) { var v = c['calc' + Y]; return v.battery ? yen(v.battery) : '―'; });
+  h += row('', '期末に端末が手元に残る', function (c) { var v = c['calc' + Y]; return v.keep ? '○' : '×'; });
+  h += '</tbody>';
+  document.getElementById('buyTable').innerHTML = h;
+  document.getElementById('mnpBtn').textContent = st.showMnp ? '参考のMNP列をかくす' : '参考: MNPで2年ごとに乗りかえる場合も見る';
+
+  /* 計算根拠(積み重なる費用の式) */
+  var N = Y / 2;
+  var atk2 = (st.car === 'r') ? 0 : st.atamakin;
+  var adm2 = FEES.adminStore[st.car], set2 = FEES.setup[st.car];
+  var prg2 = (st.car !== 'r' && st.loyal) ? 0 : FEES.prog[st.car];
+  var perCycleFee = atk2 + adm2 + set2 + prg2;
+  var basis = '<b>計算根拠(' + Y + '年でみた場合)</b><br>' +
+    'A 返却プログラム: 端末 ' + yen(p.carrier) + '×実質負担' + Math.round(FEES.burden[st.car] * 100) + '%×' + N + '回 = ' + yen(p.carrier * FEES.burden[st.car] * N) +
+    ' + 店頭費用(頭金' + yen(atk2) + '+事務手数料' + yen(adm2) + '+設定サポート' + yen(set2) + '+プログラム利用料' + yen(prg2) + ')×' + N + '回 = ' + yen(perCycleFee * N) + '<br>' +
+    'B キャリアで購入: 端末 ' + yen(p.carrier) + ' + 店頭費用(頭金' + yen(atk2) + '+事務手数料' + yen(adm2) + '+設定サポート' + yen(set2) + ')×1回だけ' + (Y >= 6 ? ' + 電池交換' + yen(FEES.battery) : '') + '<br>' +
+    'C 公式ストアで購入: 端末 ' + yen(p.official) + '(頭金・事務手数料なし)' + (st.kokoC ? ' + ここスマ ネット購入サポート' + yen(FEES.kokoNet) + '×1回だけ' : '') + (Y >= 6 ? ' + 電池交換' + yen(FEES.battery) : '');
+  if (st.showMnp) basis += '<br>参考MNP: 端末1円×' + N + '回 + (事務手数料4,950円+プログラム利用料22,000円)×' + N + '回 = ' + yen((4950 + 22000) * N);
+  document.getElementById('calcBasis').innerHTML = basis;
+
+  var carName = CARRIERS.find(function (c) { return c.id === st.car; }).name;
+  document.getElementById('assumpBox').innerHTML =
+    '<b>前提</b> ' + p.name + ': 公式ストア ' + yen(p.official) + ' / ' + carName + ' ' + yen(p.carrier) +
+    (p.est ? '(iPhone 17eのドコモ・au価格は二次情報照合の概算)' : '') + '。' +
+    '返却プログラム(' + PROGNAME[st.car] + ')の実質負担は残価' + (st.car === 'r' ? '50%(48回払い・25か月目返却)' : '45%') + 'と仮定。' +
+    '頭金は店舗独自のため、02調査の実務値 <input class="inline-in num" type="number" id="atamakinIn" value="' + st.atamakin + '" onchange="st.atamakin=+this.value||0;refresh();">円 で試算(一般に5,000〜22,000円・店舗差が大きい。楽天は頭金なし)。' +
+    '設定サポートは02調査の店頭実額=データ移行+アプリ設定(ドコモ2,200+3,300=5,500円/au3,960+2,420=6,380円/SB3,960円・LINE設定は無料)。' +
+    'オンライン購入なら頭金0円・事務手数料はドコモ0円/au・SB3,850円になります。ポイント還元・下取りは含みません。<br>' +
+    '<span class="tglrow" onclick="st.loyal=!st.loyal;refresh();"><span class="sw' + (st.loyal ? ' on' : '') + '"></span><b>同じキャリアで買い替え続ける</b>(ONでプログラム利用料が買替特典で実質免除・楽天を除く)</span>' +
+    '<span class="tglrow" style="margin-left:18px;" onclick="st.kokoC=!st.kokoC;refresh();"><span class="sw' + (st.kokoC ? ' on' : '') + '"></span><b>Cにここスマ ネット購入サポート(19,800円)を含める</b></span>';
+}
+
+/* ===== 補償 描画 ===== */
+function renderHosho() {
+  ['Now', 'Fut'].forEach(function (side) {
+    var key = 'ho' + side, chipsEl = 'ho' + side + 'Chips', inEl = 'ho' + side + 'In';
+    chips(chipsEl, HOSHO_KINDS, function (it) { return st[key] === it.id; }, function (it) {
+      st[key] = it.id; st[key + 'Ov'] = false;
+    });
+    if (!st[key + 'Ov']) st[key + 'M'] = hoshoInfo(st[key], st.car).m;
+    var input = document.getElementById(inEl);
+    if (document.activeElement !== input) input.value = st[key + 'M'] || '';
+    input.disabled = st[key] === 'none';
+  });
+
+  var dev = st.dev;
+  var makerCell = dev === 'px10a'
+    ? 'Pixel Care+: <b>780円/月</b>(2年一括15,800円)<span class="pm">紛失盗難プランは880円/月(17,800円)</span>'
+    : dev === 'ip17' ? 'AppleCare+: 2年一括 <b>23,800円</b>(約992円/月)<span class="pm">⚠二次照合・盗難紛失プランは26,800円</span>'
+    : dev === 'ip17e' ? 'AppleCare+: 2年一括 <b>19,800円</b>(約825円/月)<span class="pm">⚠二次照合・盗難紛失プランは22,800円</span>'
+    : '機種により異なる';
+  var makerDeduct = dev === 'px10a' ? '交換 7,700円' : '画面 3,700円/その他修理 12,900円';
+  var rows = [
+    { nm: 'ドコモ smartあんしん補償', m: '330〜1,720円/月 <span class="pm">⚠機種区分・要確認</span>', ded: '交換時 自己負担あり(区分制・Web申込10%OFF)', loss: '盗難○・紛失○', who: 'ドコモ契約者(購入時加入が原則)' },
+    { nm: 'au 故障紛失サポート ワイド with ACS & iCloud+', m: 'iPhone 17: <b>1,690円/月</b><span class="pm">他機種は区分による(⚠)</span>', ded: '画面 3,700円/交換 12,900円', loss: '盗難○・紛失○', who: 'au契約者(購入時加入が原則)・iCloud+ 50GB込み' },
+    { nm: 'SB あんしん保証パック with AppleCare Services', m: '⚠1,340円/月前後 <span class="pm">機種区分・17系は公式未確認</span>', ded: '過失の画面等 12,900円', loss: '盗難○・紛失○', who: 'SB契約者(購入時加入が原則)' },
+    { nm: '楽天 スマホ交換保証プラス', m: '980〜1,580円/月 <span class="pm">⚠端末価格帯による</span>', ded: '交換 6,600円/12,900円', loss: '盗難○・紛失○(年2回まで)', who: '楽天モバイルで端末購入時' },
+    { nm: dev === 'px10a' ? 'Google Pixel Care+(メーカー)' : 'Apple AppleCare+(メーカー)', m: makerCell, ded: makerDeduct, loss: '標準は対象外・上位プランで盗難紛失○', who: 'どこで契約中でもOK・購入時(または購入後30日以内)に加入' },
+    { nm: '@nifty安心メールパック', m: 'A 1,078円/B 1,408円/C 1,958円 <span class="pm">補償上限 年5万/15万/30万円</span>', ded: '<b>自己負担 0円</b>(修理費用保険)', loss: '盗難○・紛失×', who: 'ネットで加入・発売5年以内の端末・中古不可・メール+専門家相談つき(ドコモショップでも案内あり)' },
+    { nm: 'モバイル保険', m: '<b>700円/月</b> <span class="pm">3台まで・年15万円まで</span>', ded: '<b>自己負担 0円</b>', loss: '盗難○・紛失×', who: 'ネットで加入・購入1年以内(または有償補償に加入中)の端末' }
+  ];
+  var h = '<thead><tr><th class="h0">サービス</th><th>月額(税込)</th><th>自己負担の例</th><th>盗難・紛失</th><th class="h0" style="text-align:left;">加入できる人・特徴</th></tr></thead><tbody>';
+  rows.forEach(function (r) {
+    h += '<tr><th class="rh" style="width:200px;">' + r.nm + '</th><td class="num">' + r.m + '</td><td class="num">' + r.ded + '</td><td style="font-size:13px;">' + r.loss + '</td><td style="text-align:left; font-size:12.5px; color:var(--sub);">' + r.who + '</td></tr>';
+  });
+  h += '</tbody>';
+  document.getElementById('hoshoTable').innerHTML = h;
+  document.getElementById('hoshoNote').innerHTML =
+    '<b>補償の見かた</b> キャリア補償は月額が高めでも「店頭で相談できる・盗難紛失まで一括対応」が持ち味。メーカー補償はどこで契約していても入れます(購入時期の条件あり)。ネット加入型(@nifty・モバイル保険)は自己負担0円で月額も安い一方、修理は自分で手配して保険金を請求する方式です。' +
+    '⚠印と機種区分は2026-08-08時点の各社公式調べ・加入前に必ず当日の公式ページでご確認ください。キャリア補償は原則、端末購入時にしか入れません(途中加入不可)。';
+}
+
+/* ===== STEP3 描画 ===== */
+function renderTotal() {
+  var Y = st.yr, months = Y * 12;
+  var cur = curMonthly(), fut = futMonthly();
+  var bNow = buyCalc(st.buyNow, Y), bFut = buyCalc(st.buyFut, Y);
+  var bNowDef = BUYS.find(function (b) { return b.id === st.buyNow; });
+  var bFutDef = BUYS.find(function (b) { return b.id === st.buyFut; });
+  var p = devPrices();
+  var futInit = fut && fut.pl ? fut.pl.init : 0;
+  var kokoSet = st.kokoSim && st.kokoC && st.buyFut === 'official';
+  var koko = st.kokoSim ? (kokoSet ? FEES.kokoSet - FEES.kokoNet : FEES.kokoSim) : 0;
+
+  var hoNowM = st.hoNow === 'none' ? 0 : st.hoNowM;
+  var hoFutM = st.hoFut === 'none' ? 0 : st.hoFutM;
+  var curMoTotal = cur ? cur.m + bNow.perMonth + hoNowM : null;
+  var futMoTotal = fut ? fut.m + bFut.perMonth + hoFutM : null;
+  var curTotal = cur ? (cur.m + hoNowM) * months + bNow.total : null;
+  var futTotal = fut ? (fut.m + hoFutM) * months + bFut.total + futInit + koko : null;
+
+  function card(cls, badge, title, plan, mo, planM, buy, buyDef, extra) {
+    return '<div class="tot ' + cls + '">' +
+      '<div class="bighead"><span class="badge ' + (cls === 'fut' ? 'fut' : 'now') + '">' + badge + '</span><b>' + title + '</b></div>' +
+      '<div class="plabel">' + plan + '<br>' + p.name + '・' + buyDef.name + '(' + buyDef.sub + ')</div>' +
+      '<div class="mo num">' + (mo === null ? '―' : yen(mo)) + '<small> /月</small></div>' +
+      '<div class="lines">' +
+      '<div class="ln"><span class="k">通信プラン</span><span class="v num">' + (planM === null ? '―' : yen(planM) + '/月') + '</span></div>' +
+      '<div class="ln"><span class="k">端末(' + Y + '年ならし)</span><span class="v num">' + yen(buy.perMonth) + '/月</span></div>' +
+      extra +
+      '<div class="ln total"><span class="k">' + Y + '年間の総額</span><span class="v num">' + ((planM === null) ? '―' : yen((cls === 'fut' ? futTotal : curTotal))) + '</span></div>' +
+      '</div></div>';
+  }
+  var extraFut = '';
+  if (hoFutM) extraFut += '<div class="ln"><span class="k">端末の補償(' + hoshoInfo(st.hoFut, st.car).label + ')</span><span class="v num">' + yen(hoFutM) + '/月</span></div>';
+  if (futInit) extraFut += '<div class="ln"><span class="k">乗り換え初期費用</span><span class="v num">' + yen(futInit) + '<small style="color:var(--faint);">(オンライン手続き)</small></span></div>';
+  else if (fut) extraFut += '<div class="ln"><span class="k">乗り換え初期費用</span><span class="v num">0円</span></div>';
+  if (koko) extraFut += '<div class="ln"><span class="k">ここスマ SIM移行' + (kokoSet ? '(セット適用)' : 'サポート') + '</span><span class="v num">' + yen(koko) + (kokoSet ? '<small style="color:var(--faint);"> 購入19,800円は端末側に計上・セット合計29,800円</small>' : '') + '</span></div>';
+  var extraCur = '';
+  if (hoNowM) extraCur += '<div class="ln"><span class="k">端末の補償(' + hoshoInfo(st.hoNow, st.car).label + ')</span><span class="v num">' + yen(hoNowM) + '/月</span></div>';
+  if (cur && cur.manual) extraCur += '<div class="ln"><span class="k" style="color:var(--cost);">※手入力額に端末分割金や補償が含まれる場合は重複にご注意</span></div>';
+
+  document.getElementById('totGrid').innerHTML =
+    card('', '現状', 'いまのまま', cur ? cur.label : '(STEP1でプランを選ぶか月額を入力)', curMoTotal, cur ? cur.m : null, bNow, bNowDef, extraCur) +
+    '<div class="arrowcol">→</div>' +
+    card('fut', '将来', '見直し後', fut ? fut.label : '(STEP1で将来プランを選択)', futMoTotal, fut ? fut.m : null, bFut, bFutDef, extraFut);
+
+  var dEl = document.getElementById('s3diff');
+  if (curMoTotal !== null && futMoTotal !== null) {
+    var dm = futMoTotal - curMoTotal, dt = futTotal - curTotal;
+    dEl.innerHTML = '<div class="cap">月々のちがい(プラン+端末ならし)</div>' +
+      '<div class="big num ' + (dm <= 0 ? 'save' : 'cost') + '">' + signYen(dm) + '<span style="font-size:18px;color:var(--sub);"> /月</span></div>' +
+      '<div class="sub2 num">' + Y + '年間では <b class="' + (dt <= 0 ? 'save' : 'cost') + '" style="font-size:20px;">' + signYen(dt) + '</b>' + (Math.round(Math.abs(dt)) === 0 ? ' で変わりません' : (dt < 0 ? ' 少なくなる見込みです' : ' 多くなる見込みです')) + '(仮の条件での目安)</div>';
+  } else {
+    dEl.innerHTML = '<div class="cap">STEP1で現状・将来のプランを選ぶと差額が出ます</div>';
+  }
+
+  /* sticky */
+  document.getElementById('stNow').textContent = curMoTotal === null ? '―' : '約' + yen(curMoTotal);
+  document.getElementById('stFut').textContent = futMoTotal === null ? '―' : '約' + yen(futMoTotal);
+  var sd = document.getElementById('stDiff');
+  if (curMoTotal !== null && futMoTotal !== null) {
+    var d = futMoTotal - curMoTotal;
+    sd.textContent = signYen(d);
+    sd.className = 'v num ' + (d <= 0 ? 'save' : 'cost');
+  } else { sd.textContent = '―'; sd.className = 'v num'; }
+  document.getElementById('swKoko').classList.toggle('on', st.kokoSim);
+}
+
+/* ===== STEP1差額 ===== */
+function renderPlanDiff() {
+  var cur = curMonthly(), fut = futMonthly();
+  document.getElementById('curMo').textContent = cur ? yen(cur.m) : '―';
+  document.getElementById('curNote').textContent = cur ? (cur.manual ? '' : cur.callNote) : '';
+  document.getElementById('futMo').textContent = fut ? yen(fut.m) : '―';
+  document.getElementById('futNote').textContent = fut ? fut.callNote : '';
+  var el = document.getElementById('planDiff'), cap = document.getElementById('planDiffCap');
+  if (cur && fut) {
+    var d = fut.m - cur.m;
+    el.textContent = signYen(d);
+    el.className = 'v num ' + (d <= 0 ? 'save' : 'cost');
+    cap.textContent = Math.round(Math.abs(d)) === 0 ? '月々の金額は変わりません(端末代は含みません)' : (d < 0 ? '月々このぶん軽くなる見込みです(端末代は含みません)' : '月々このぶん増えます(容量・サポート内容もあわせてご検討ください)');
+  } else { el.textContent = '―'; el.className = 'v num'; cap.textContent = ''; }
+}
+
+/* ===== chips ===== */
+function chips(elId, items, isOn, onPick, subFn) {
+  var el = document.getElementById(elId);
+  el.innerHTML = '';
+  items.forEach(function (it) {
+    var b = document.createElement('button');
+    b.className = 'chip' + (isOn(it) ? ' on' : '');
+    b.innerHTML = it.name + (subFn && subFn(it) ? '<span class="sm">' + subFn(it) + '</span>' : '');
+    b.onclick = function () { onPick(it); refresh(); };
+    el.appendChild(b);
+  });
+}
+function renderChips() {
+  chips('callChips', [ { id: 'few', name: 'ほとんどしない' }, { id: 'short', name: '短い通話がときどき' }, { id: 'long', name: '長い通話が多い' } ],
+    function (it) { return st.call === it.id; }, function (it) { st.call = it.id; });
+  chips('discChips', [ { id: 'fam', name: '家族3回線以上' }, { id: 'hik', name: '光回線セット' }, { id: 'card', name: '指定カード払い' }, { id: 'senior', name: '60歳以上' } ],
+    function (it) { return st[it.id]; }, function (it) { st[it.id] = !st[it.id]; });
+  chips('curGChips', GROUPS, function (it) { return st.curG === it.id; }, function (it) { st.curG = it.id; st.curKey = null; st.curManualMode = false; });
+  chips('futGChips', GROUPS, function (it) { return st.futG === it.id; }, function (it) { st.futG = it.id; st.futKey = null; });
+  chips('devChips', DEVICES, function (it) { return st.dev === it.id; }, function (it) { st.dev = it.id; },
+    function (it) { return it.id === 'manual' ? '' : yen(it.official); });
+  chips('carChips', CARRIERS, function (it) { return st.car === it.id; }, function (it) { st.car = it.id; });
+  chips('buyNowChips', BUYS.map(function (b) { return { id: b.id, name: b.mark + '. ' + b.name }; }),
+    function (it) { return st.buyNow === it.id; }, function (it) { st.buyNow = it.id; });
+  chips('buyFutChips', BUYS.map(function (b) { return { id: b.id, name: b.mark + '. ' + b.name }; }),
+    function (it) { return st.buyFut === it.id; }, function (it) { st.buyFut = it.id; });
+  var yrs = [ { id: 2, name: '2年' }, { id: 4, name: '4年' }, { id: 6, name: '6年' } ];
+  chips('yrChips', yrs, function (it) { return st.yr === it.id; }, function (it) { st.yr = it.id; });
+  chips('yrChips2', yrs.map(function (y) { return { id: y.id, name: y.name + 'でみる' }; }), function (it) { return st.yr === it.id; }, function (it) { st.yr = it.id; });
+  document.getElementById('manualDev').style.display = st.dev === 'manual' ? 'flex' : 'none';
+}
+
+function refresh() {
+  renderChips();
+  renderSide('now'); renderSide('fut');
+  renderPlanDiff();
+  renderBuyTable();
+  renderHosho();
+  renderTotal();
+}
+['curManual', 'manualOfficial', 'manualCarrier'].forEach(function (id) {
+  document.addEventListener('input', function (e) { if (e.target && e.target.id === id) { renderPlanDiff(); renderBuyTable(); renderTotal(); } });
+});
+document.addEventListener('input', function (e) {
+  if (!e.target) return;
+  if (e.target.id === 'hoNowIn') { st.hoNowM = +e.target.value || 0; st.hoNowOv = true; renderTotal(); }
+  if (e.target.id === 'hoFutIn') { st.hoFutM = +e.target.value || 0; st.hoFutOv = true; renderTotal(); }
+});
+refresh();
+</script>
+</body>
+</html>
