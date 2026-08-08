@@ -158,6 +158,59 @@
   .cat-menu .gcard .tx b { font-size: 27px; }
   .cat-menu .gcard .tx span { font-size: 21px; }
   .newbadge { background: #DFF2FA; color: #1E7A9C; font-size: 17px; font-weight: 700; border-radius: 999px; padding: 3px 12px; margin-left: 10px; }
+  /* v1.19: 検定・級と学びの記録(Claude Design「検定と学びの記録」) */
+  .rec-hd { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 24px; padding: 14px 20px;
+    display: flex; align-items: center; gap: 16px; flex-shrink: 0; box-shadow: 0 6px 16px rgba(60, 48, 36, 0.08); }
+  .rec-hd .av { width: 58px; height: 58px; border-radius: 999px; background: var(--season-pale); color: var(--accent-deep);
+    display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 700; flex-shrink: 0; }
+  .rec-hd .tx { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+  .rec-hd .tx b { font-size: 27px; font-weight: 700; color: #333A38; }
+  .rec-hd .tx span { font-size: 20px; color: #6B6455; line-height: 1.35; }
+  .rec-hd .pill { background: #FBF3E4; border: 1px solid #E8D5AE; border-radius: 16px; padding: 8px 16px; text-align: center; flex-shrink: 0; }
+  .rec-hd .pill i { display: block; font-style: normal; font-size: 18px; color: #8A6A3B; }
+  .rec-hd .pill b { font-size: 24px; color: #7A5A28; }
+  .rec-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; flex-shrink: 0; }
+  .rec-tab { border-radius: 999px; padding: 14px 0; text-align: center; font-size: 24px; font-weight: 700; cursor: pointer;
+    background: #FFFFFF; border: 1px solid var(--season-border); color: #333A38; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .rec-tab svg { width: 26px; height: 26px; }
+  .rec-tab.on { background: var(--accent-deep); border-color: var(--accent-deep); color: #FFFFFF; }
+  .manabi-list { display: flex; flex-direction: column; gap: 10px; flex: 1 1 auto; min-height: 0; }
+  .manabi-row { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 18px; padding: 0 16px;
+    display: flex; align-items: center; gap: 14px; flex: 1 1 0; min-height: 0; box-shadow: 0 4px 12px rgba(60, 48, 36, 0.06); }
+  .manabi-row .chip { width: 46px; height: 46px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .manabi-row .chip svg { width: 28px; height: 28px; }
+  .manabi-row .nm { font-size: 23px; font-weight: 700; color: #333A38; flex: 1; min-width: 0; }
+  .manabi-row .pg { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+  .manabi-row .dots { display: flex; gap: 5px; }
+  .manabi-row .dots i { width: 10px; height: 10px; border-radius: 999px; background: #E5E0D4; }
+  .manabi-row .nx { font-size: 19px; color: #6B6455; }
+  .manabi-row .rank { min-width: 78px; text-align: center; border-radius: 999px; padding: 7px 12px; font-size: 21px; font-weight: 700; flex-shrink: 0; }
+  .manabi-row .rank.none { background: #F1EFE9; color: #8A8378; font-size: 19px; }
+  /* 昇級の賞状(全画面) */
+  .cert-ovl .cert { background: #FCF8EC; border: 2px solid #C7A94F; border-radius: 10px; padding: 34px 40px 26px;
+    width: 84%; max-width: 560px; display: flex; flex-direction: column; align-items: center; gap: 12px; position: relative;
+    box-shadow: 0 18px 44px rgba(30, 24, 16, 0.35); animation: certIn 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+  @keyframes certIn { from { opacity: 0; transform: translateY(18px) scale(0.96); } to { opacity: 1; transform: none; } }
+  .cert-ovl .cert .cnr { position: absolute; width: 26px; height: 26px; border: 2px solid #C7A94F; }
+  .cert-ovl .cert .cnr.tl { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+  .cert-ovl .cert .cnr.tr { top: 12px; right: 12px; border-left: none; border-bottom: none; }
+  .cert-ovl .cert .cnr.bl { bottom: 12px; left: 12px; border-right: none; border-top: none; }
+  .cert-ovl .cert .cnr.br { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+  .cert-ovl .cert .ttl { font-size: 42px; font-weight: 700; letter-spacing: 18px; text-indent: 18px; color: #333A38; }
+  .cert-ovl .cert .rule { width: 210px; height: 1px; background: #C7A94F; }
+  .cert-ovl .cert .knd { display: flex; align-items: center; gap: 12px; font-size: 30px; font-weight: 700; }
+  .cert-ovl .cert .knd .chip { width: 40px; height: 40px; border-radius: 999px; display: flex; align-items: center; justify-content: center; }
+  .cert-ovl .cert .knd .chip svg { width: 26px; height: 26px; }
+  .cert-ovl .cert .who { font-size: 32px; font-weight: 700; color: #333A38; letter-spacing: 6px; border-bottom: 1px solid #D8CFB8; padding: 2px 40px 8px; }
+  .cert-ovl .cert .bd { font-size: 22px; color: #4A443A; text-align: center; line-height: 1.7; }
+  .cert-ovl .cert .dt { font-size: 21px; color: #6B6455; margin-top: 4px; }
+  .cert-ovl .cert .sig { display: flex; align-items: center; gap: 14px; font-size: 24px; font-weight: 700; color: #333A38; }
+  .cert-ovl .cert .sig .seal { border: 1.5px solid #B4402F; color: #B4402F; border-radius: 4px; font-size: 13px; line-height: 1.15;
+    padding: 5px 7px; text-align: center; font-weight: 700; }
+  .cert-ovl .cert .ssn { background: var(--season-pale); border-radius: 999px; padding: 7px 18px; font-size: 19px; color: var(--accent-deep);
+    display: flex; align-items: center; gap: 8px; }
+  .cert-ovl .cert .ssn svg { width: 20px; height: 20px; }
+  .cert-ovl .hint { font-size: 21px; color: var(--season-deep); opacity: 0.8; margin-top: 18px; }
   /* v1.18: 上の句・下の句(Claude Design「上の句下の句」) */
   .kami-inst { background: var(--accent-deep); color: #FFFFFF; border-radius: 16px; padding: 14px 24px; text-align: center;
     font-size: 23px; font-weight: 700; letter-spacing: 0.5px; flex-shrink: 0; }
@@ -836,7 +889,7 @@
       <div class="member-band" id="member-band">
         <span class="flo"><svg viewBox="0 0 24 24"><use class="skin-use" href="#ic-sakura-a"></use></svg></span>
         <span class="t" id="member-band-tx"><b>ハナさん</b>の時間です</span>
-        <span class="sekibtn" onclick="showSeki()">出席帳</span>
+        <span class="sekibtn" onclick="showSeki()">わたしの記録</span>
         <span class="endbtn" onclick="logoutMember(false)">終わりにする</span>
       </div>
     </div>
@@ -887,7 +940,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.18(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.19(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -1037,16 +1090,28 @@
   <div class="pad">
     <div class="appbar">
       <div class="left">
-        <span class="icchip" style="background:#F8E3DC;"><svg viewBox="0 0 24 24" style="color:#B4402F;"><use href="#ic-stamp"></use></svg></span>
-        <span class="t">わたしの出席帳</span>
+        <div class="btn btn-white" style="padding:10px 22px; font-size:20px;" onclick="goHome()">最初の画面に戻る</div>
       </div>
-      <span class="badge" id="seki-badge"></span>
+      <div class="left" style="gap:12px;">
+        <span class="icchip" style="background:#F8E3DC;"><svg viewBox="0 0 24 24" style="color:#B4402F;"><use href="#ic-stamp"></use></svg></span>
+        <span class="t">わたしの記録</span>
+      </div>
     </div>
-    <div class="seki-hd">
-      <div class="nm" id="seki-name"></div>
-      <div class="ln" id="seki-line"></div>
+    <div class="rec-hd">
+      <div class="av" id="rec-av"></div>
+      <div class="tx"><b id="seki-name"></b><span>大人塾 <span id="rec-total"></span>・続けた証がここに集まります</span></div>
+      <div class="pill"><i id="rec-pill-c"></i><b id="rec-pill-n"></b></div>
     </div>
-    <div class="seki-book">
+    <div class="rec-tabs">
+      <div class="rec-tab on" id="tab-seki" onclick="switchRecTab('seki')">
+        <svg viewBox="0 0 24 24"><use href="#ic-stamp"></use></svg>出席帳
+      </div>
+      <div class="rec-tab" id="tab-manabi" onclick="switchRecTab('manabi')">
+        <svg viewBox="0 0 24 24"><use href="#ic-tanzaku"></use></svg>学びの記録
+      </div>
+    </div>
+    <div class="manabi-list" id="manabi-panel" style="display:none;"></div>
+    <div class="seki-book" id="seki-panel">
       <div class="seki-month"><span class="m" id="seki-month"></span><span class="c">の帳面</span></div>
       <div class="seki-wk"><span class="sun">日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span class="sat">土</span></div>
       <div class="seki-grid" id="seki-grid"></div>
@@ -1055,9 +1120,7 @@
         <span class="prev" id="seki-prev" onclick="sekiTogglePrev()">先月をみる</span>
       </div>
     </div>
-    <div style="display:flex; justify-content:center;">
-      <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
-    </div>
+    <div class="hidden-line" id="seki-line" style="display:none;"></div>
   </div>
 </div>
 
@@ -1413,7 +1476,7 @@ var SKIN = SEASON_SKINS[SEASON];
 
 
 // ------- 記録(このセッションの分) -------
-function newRecord() { return { quizDone: 0, quizAnswered: 0, cardsRounds: 0, numsMax: 0, kikiSets: 0, kikiTop: 0, kotoAnswered: 0, otsuriAnswered: 0, kiokuBest: 0, kamiPairs: 0, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0, otsuri: 0, kioku: 0, kami: 0 }, memo: [] }; }
+function newRecord() { return { quizDone: 0, quizAnswered: 0, cardsRounds: 0, numsMax: 0, kikiSets: 0, kikiTop: 0, kotoAnswered: 0, otsuriAnswered: 0, kiokuBest: 0, kamiPairs: 0, shoukyu: [], quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0, otsuri: 0, kioku: 0, kami: 0 }, memo: [] }; }
 var record = newRecord();
 
 // ------- 画面切り替え -------
@@ -1502,7 +1565,117 @@ function updateHome() {
 function gameCompleted(game) {
   record.flowersByGame[game] = (record.flowersByGame[game] || 0) + 1;
   addSakura(1);
+  addKenteiPoint(game);
 }
+
+// ------- 検定・級(v1.19・19l第2弾: 全8種目・会員のみ・十級→一級) -------
+var KENTEI_TH = [1, 2, 4, 7, 11, 16, 22, 29, 37, 46]; // 累計完走数→十級..一級
+var KENTEI_RANKS = ['', '十級', '九級', '八級', '七級', '六級', '五級', '四級', '三級', '二級', '一級'];
+var KENTEI_GAMES = {
+  kofun: { name: 'ふるさと検定', icon: 'kofun', chip: '#E7F3E8', ink: '#2E8B57' },
+  kotowaza: { name: 'ことわざ検定', icon: 'maki', chip: '#F6E7EB', ink: '#963E52' },
+  otsuri: { name: 'お釣り検定', icon: 'coin', chip: '#F5EDD6', ink: '#9A7B2D' },
+  cards: { name: 'カード合わせ検定', icon: 'cards', chip: '#E3EEF8', ink: '#2A6496' },
+  tile: { name: '順番タップ検定', icon: 'tile', chip: '#FBE7EF', ink: '#C22E63' },
+  kioku: { name: '記憶の順番検定', icon: 'spark', chip: '#DFF2FA', ink: '#1E7A9C' },
+  kiki: { name: '聞き取り検定', icon: 'ear', chip: '#FBE9D6', ink: '#B96A2C' },
+  kami: { name: '上の句下の句検定', icon: 'tanzaku', chip: '#F0F2DF', ink: '#5F6B2B' }
+};
+function kenteiLevelOf(pts) {
+  var lv = 0;
+  for (var i = 0; i < KENTEI_TH.length; i++) { if (pts >= KENTEI_TH[i]) lv = i + 1; }
+  return lv; // 0=これから, 1=十級 .. 10=一級
+}
+function getKentei(m) {
+  var raw = storeGet('kokosuma_kentei_' + m);
+  if (raw) { try { return JSON.parse(raw); } catch (e) {} }
+  return {};
+}
+function setKentei(m, data) { storeSet('kokosuma_kentei_' + m, JSON.stringify(data)); }
+function addKenteiPoint(game) {
+  if (!session.m || !KENTEI_GAMES[game]) return;
+  var data = getKentei(session.m);
+  var pts = (data[game] || 0) + 1;
+  var oldLv = kenteiLevelOf(pts - 1);
+  var newLv = kenteiLevelOf(pts);
+  data[game] = pts;
+  setKentei(session.m, data);
+  if (newLv > oldLv) {
+    record.shoukyu.push(KENTEI_GAMES[game].name + ' ' + KENTEI_RANKS[newLv] + 'に昇級');
+    showKenteiCert(game, newLv);
+  }
+}
+function waDate() {
+  var d = new Date();
+  return '令和' + kanjiNum(d.getFullYear() - 2018) + '年' + kanjiNum(d.getMonth() + 1) + '月' + kanjiNum(d.getDate()) + '日';
+}
+function certAutoTimer(t) { certAutoTimer._t = t; }
+function showKenteiCert(game, lv) {
+  var g = KENTEI_GAMES[game];
+  document.getElementById('cert-knd').innerHTML =
+    '<span class="chip" style="background:' + g.chip + '; color:' + g.ink + ';"><svg viewBox="0 0 24 24"><use href="#ic-' + g.icon + '"></use></svg></span>' +
+    '<span style="color:' + g.ink + ';">' + g.name + '　' + KENTEI_RANKS[lv] + '</span>';
+  document.getElementById('cert-who').textContent = (session.n ? session.n : 'No. ' + pad4(session.m)) + '　様';
+  document.getElementById('cert-bd').innerHTML = '日々の積み重ねにより<br>' + KENTEI_RANKS[lv] + 'に達したことを　これに認定します';
+  document.getElementById('cert-dt').textContent = waDate();
+  document.getElementById('cert-ssn').innerHTML =
+    '<svg viewBox="0 0 24 24"><use class="skin-use" href="#' + SKIN.sym + '"></use></svg>' + SKIN.sealName + 'とともに';
+  var el = document.getElementById('ovl-cert');
+  el.classList.add('on');
+  if (certAutoTimer._t) clearTimeout(certAutoTimer._t);
+  certAutoTimer(setTimeout(hideCert, 3600));
+}
+function hideCert() {
+  if (certAutoTimer._t) { clearTimeout(certAutoTimer._t); certAutoTimer._t = null; }
+  document.getElementById('ovl-cert').classList.remove('on');
+}
+// ------- わたしの記録: 2タブ(出席帳/学びの記録) -------
+var recTab = 'seki';
+function switchRecTab(t) {
+  recTab = t;
+  document.getElementById('tab-seki').classList.toggle('on', t === 'seki');
+  document.getElementById('tab-manabi').classList.toggle('on', t === 'manabi');
+  document.getElementById('seki-panel').style.display = (t === 'seki') ? 'flex' : 'none';
+  document.getElementById('manabi-panel').style.display = (t === 'manabi') ? 'flex' : 'none';
+  if (t === 'manabi') renderManabi();
+}
+function renderManabi() {
+  var data = getKentei(session.m);
+  var order = ['kofun', 'kotowaza', 'otsuri', 'cards', 'tile', 'kioku', 'kiki', 'kami'];
+  var html = '';
+  order.forEach(function (k) {
+    var g = KENTEI_GAMES[k];
+    var pts = data[k] || 0;
+    var lv = kenteiLevelOf(pts);
+    var base = lv === 0 ? 0 : KENTEI_TH[lv - 1];
+    var next = lv < 10 ? KENTEI_TH[lv] : null;
+    var filled = 0;
+    if (next !== null) {
+      var span = next - base;
+      filled = Math.min(5, Math.ceil((pts - base) / span * 5));
+    } else { filled = 5; }
+    var dots = '';
+    for (var i = 0; i < 5; i++) dots += '<i style="' + (i < filled ? 'background:' + g.ink + ';' : '') + '"></i>';
+    var nx = (next === null) ? '一級に達しました'
+      : (lv === 0 ? 'はじめると 十級へ' : 'あと' + (next - pts) + '回で ' + KENTEI_RANKS[lv + 1]);
+    html += '<div class="manabi-row">' +
+      '<span class="chip" style="background:' + g.chip + '; color:' + g.ink + ';"><svg viewBox="0 0 24 24"><use href="#ic-' + g.icon + '"></use></svg></span>' +
+      '<span class="nm">' + g.name.replace('検定', '') + '</span>' +
+      '<span class="pg"><span class="dots">' + dots + '</span><span class="nx">' + nx + '</span></span>' +
+      (lv === 0
+        ? '<span class="rank none">これから</span>'
+        : '<span class="rank" style="background:' + g.chip + '; color:' + g.ink + ';">' + KENTEI_RANKS[lv] + '</span>') +
+      '</div>';
+  });
+  document.getElementById('manabi-panel').innerHTML = html;
+}
+function kanjiNum(n) {
+  var k = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+  if (n <= 10) return (n === 10 ? '十' : k[n]);
+  if (n < 20) return '十' + k[n - 10];
+  return k[Math.floor(n / 10)] + '十' + k[n % 10];
+}
+
 
 // ------- 桜の木(A案リッチ桜・花の粒方式 / Claude Design制作) -------
 function stageLabel(c) {
@@ -2012,10 +2185,11 @@ function sekiMonthKey(prev) {
   if (prev) d = new Date(d.getFullYear(), d.getMonth() - 1, 1);
   return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2);
 }
-function showSeki() {
+function showSeki(tab) {
   if (!session.m) { goHome(); return; }
   sekiShowPrev = false;
   renderSeki();
+  switchRecTab(tab === 'manabi' ? 'manabi' : 'seki');
   show('scr-seki');
 }
 function sekiTogglePrev() {
@@ -2028,10 +2202,12 @@ function renderSeki() {
   var parts = mk.split('-');
   var y = parseInt(parts[0], 10), mo = parseInt(parts[1], 10);
   var inMonth = days.filter(function (d) { return d.indexOf(mk) === 0; }).map(function (d) { return parseInt(d.slice(8), 10); });
-  document.getElementById('seki-badge').textContent = '通算 ' + days.length + '回';
   document.getElementById('seki-name').textContent = memberLabel();
   var thisMonthCount = days.filter(function (d) { return d.indexOf(sekiMonthKey(false)) === 0; }).length;
-  document.getElementById('seki-line').innerHTML = '今月は <b>' + thisMonthCount + '</b>回 通われました';
+  document.getElementById('rec-av').textContent = (session.n ? session.n.slice(0, 1) : '証');
+  document.getElementById('rec-total').textContent = '通算 ' + days.length + '回';
+  document.getElementById('rec-pill-c').textContent = (new Date().getMonth() + 1) + '月の印';
+  document.getElementById('rec-pill-n').textContent = thisMonthCount + '個';
   document.getElementById('seki-month').textContent = mo + '月';
   document.getElementById('seki-legend').textContent = SKIN.sealName.split('・')[1] + 'の印は 出席した日です';
   document.getElementById('seki-prev').textContent = sekiShowPrev ? '今月にもどる' : '先月をみる';
@@ -2778,6 +2954,20 @@ updateHome();
   <svg class="bigflo" viewBox="0 0 24 24"><use class="skin-use" href="#ic-sakura-a"></use></svg>
   <div class="l1" id="welcome-tx"><b>ようこそ</b></div>
   <div class="l2">まもなく始まります</div>
+</div>
+<div class="ovl cert-ovl" id="ovl-cert" onclick="hideCert()">
+  <div class="cert" id="cert-box">
+    <span class="cnr tl"></span><span class="cnr tr"></span><span class="cnr bl"></span><span class="cnr br"></span>
+    <div class="ttl">認定</div>
+    <div class="rule"></div>
+    <div class="knd" id="cert-knd"></div>
+    <div class="who" id="cert-who"></div>
+    <div class="bd" id="cert-bd"></div>
+    <div class="dt" id="cert-dt"></div>
+    <div class="sig">ここスマ<span class="seal">ここ<br>スマ</span></div>
+    <div class="ssn" id="cert-ssn"></div>
+  </div>
+  <div class="hint">画面を押すと 閉じます</div>
 </div>
 <div class="ovl" id="ovl-bye">
   <svg class="bigflo" viewBox="0 0 24 24"><use class="skin-use" href="#ic-sakura-a"></use></svg>
@@ -15207,6 +15397,7 @@ function buildSessionSummary() {
   if (record.otsuriAnswered > 0) parts.push('お釣り計算' + record.otsuriAnswered + '問');
   if (record.kiokuBest > 0) parts.push('記憶の順番' + record.kiokuBest + '個まで');
   if (record.kamiPairs > 0) parts.push('上の句下の句' + record.kamiPairs + '組');
+  record.shoukyu.forEach(function (s) { parts.push(s); });
   var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0) + (record.flowersByGame.kotowaza || 0) + (record.flowersByGame.otsuri || 0) + (record.flowersByGame.kioku || 0) + (record.flowersByGame.kami || 0);
   if (flowers > 0) parts.push(SKIN.name.replace('みんなの', '') + flowers + SKIN.unit);
   if (record.memo.length > 0) parts.push('ひとこと:' + record.memo.join('・'));
