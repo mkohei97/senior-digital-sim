@@ -106,7 +106,34 @@
   .home-head-row .member-row { margin-left: auto; flex-shrink: 0; }
   #scr-home .sakura-card { padding: 8px 24px; gap: 22px; flex-shrink: 0; }
   #scr-home .sakura-card svg.minitree { max-width: 175px; }
-  .game-grid { flex: 1 1 auto; min-height: 0; max-height: 660px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; gap: 14px; }
+  .game-grid { flex: 1 1 auto; min-height: 0; max-height: 700px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 1fr minmax(84px, 96px); gap: 14px; }
+  .gcard-wide { grid-column: 1 / -1; }
+  /* v1.16: お釣り計算(Claude Design「お釣り計算とホーム7種目」) */
+  .otsuri-scene { display: flex; align-items: center; justify-content: center; gap: 18px; margin-bottom: 10px; }
+  .otsuri-buy { background: #F8F3E9; border: 1px solid #E3D9C2; border-radius: 14px; padding: 8px 18px 10px; text-align: center; }
+  .otsuri-buy .cap2 { font-size: 17px; color: #8A6A3B; letter-spacing: 1px; }
+  .otsuri-buy .v { font-size: 24px; font-weight: 700; color: #333A38; }
+  .otsuri-arrow { color: #8A8378; flex-shrink: 0; }
+  .otsuri-pay { position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .otsuri-pay .coin { width: 72px; height: 72px; border-radius: 999px; background: #F5EDD6; border: 2px solid #C7A94F;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: inset 0 0 0 3px #FFFFFF; }
+  .otsuri-pay .coin b { font-size: 24px; font-weight: 700; color: #8A6A3B; line-height: 1; }
+  .otsuri-pay .coin span { font-size: 14px; color: #8A6A3B; }
+  .otsuri-pay .bill { min-width: 96px; height: 60px; border-radius: 8px; background: #F5EFDF; border: 2px solid #C7A94F;
+    display: flex; align-items: baseline; justify-content: center; gap: 4px; padding: 0 12px; box-shadow: inset 0 0 0 3px #FFFFFF; align-items: center; }
+  .otsuri-pay .bill b { font-size: 26px; font-weight: 700; color: #8A6A3B; }
+  .otsuri-pay .bill span { font-size: 14px; color: #8A6A3B; }
+  .otsuri-pay .cnt { position: absolute; right: -12px; top: -10px; background: #9A7B2D; color: #FFFFFF; font-size: 16px; font-weight: 700;
+    border-radius: 999px; padding: 2px 9px; }
+  .otsuri-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .otsuri-choices .q-choice { font-size: 42px; font-weight: 700; letter-spacing: 0.5px; position: relative; overflow: visible; }
+  .otsuri-choices .q-choice .tag { position: absolute; top: -14px; left: 14px; font-size: 17px; font-weight: 700; letter-spacing: 0.5px;
+    border-radius: 999px; padding: 3px 12px; line-height: 1.3; }
+  .otsuri-choices .q-choice.correct .tag { background: var(--accent-deep); color: #FFFFFF; }
+  .otsuri-choices .q-choice.picked { border-color: #C98A3D; background: #FBF3E4; color: #7A5A28; }
+  .otsuri-choices .q-choice.picked .tag { background: #C98A3D; color: #FFFFFF; }
+  .trivia.otsuri-shiki { background: #FBF3E4; border: 1px solid #E8D5AE; }
+  .trivia.otsuri-shiki .cap { color: #8A6A3B; }
   #scr-home .pad > div:nth-last-child(2) { margin-top: auto; } /* 「今日はここまで」を下辺に固定(縦長画面用) */
   .gcard { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 24px; box-shadow: 0 8px 20px rgba(60, 48, 36, 0.10);
     display: flex; align-items: center; gap: 14px; padding: 0 16px 0 18px; position: relative; cursor: pointer; }
@@ -580,6 +607,12 @@
     <path d="M6 19.5 C4.6 19.5 3.5 18.4 3.5 17 C3.5 15.6 4.6 14.5 6 14.5 L8.5 14.5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
     <path d="M11 12.5 L14 12.5 M11 15.5 L13 15.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
   </symbol>
+  <symbol id="ic-coin" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="1.3"></circle>
+    <path d="M9.4 8.2 L12 11.8 L14.6 8.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M12 11.8 L12 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
+    <path d="M9.7 13 H14.3 M9.7 15 H14.3" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path>
+  </symbol>
   <symbol id="ic-arrow-go" viewBox="0 0 24 24">
     <path d="M8 12 L16 12 M12.5 8 L16.5 12 L12.5 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
   </symbol>
@@ -727,7 +760,12 @@
         <div class="tx"><b>ことわざクイズ</b><span>つづきを当てる</span></div>
         <span class="goa" style="background:#F6E7EB; color:#963E52;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
-      <div class="gcard" onclick="showQr()">
+      <div class="gcard" onclick="startOtsuri()">
+        <span class="chip" style="background:#F5EDD6; color:#9A7B2D;"><svg viewBox="0 0 24 24"><use href="#ic-coin"></use></svg></span>
+        <div class="tx"><b>お釣り計算</b><span>買い物のお釣りを当てる</span></div>
+        <span class="goa" style="background:#F5EDD6; color:#9A7B2D;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard gcard-wide" onclick="showQr()">
         <span class="chip" style="background:#EEE8F6; color:#6B4FA1;"><svg viewBox="0 0 24 24"><use href="#ic-phone"></use></svg></span>
         <div class="tx"><b>スマホ練習</b><span>自分のスマホで練習</span></div>
         <span class="goa" style="background:#EEE8F6; color:#6B4FA1;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
@@ -739,7 +777,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.15(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.16(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -863,6 +901,40 @@
     <div style="margin-top:auto; display:flex; flex-direction:column; gap:12px; align-items:center;">
       <div class="btn btn-primary" id="koto-next" style="display:none;" onclick="nextKotoQ()">
         <span id="koto-next-tx">次の問題へ</span>
+        <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
+      </div>
+      <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
+    </div>
+  </div>
+</div>
+
+<!-- お釣り計算(v1.16) -->
+<div class="screen" id="scr-otsuri">
+  <div class="pad">
+    <div class="appbar">
+      <div class="left">
+        <span class="icchip" style="background:#F5EDD6;"><svg viewBox="0 0 24 24" style="color:#8A6A3B;"><use href="#ic-coin"></use></svg></span>
+        <span class="t">お釣り計算</span>
+      </div>
+      <span class="badge" id="ots-progress"></span>
+    </div>
+    <div class="panel q-panel">
+      <div class="otsuri-scene">
+        <div class="otsuri-buy"><div class="cap2">買ったもの</div><div class="v" id="ots-buy"></div></div>
+        <svg class="otsuri-arrow" width="30" height="30" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg>
+        <div class="otsuri-pay" id="ots-pay"></div>
+      </div>
+      <div class="q" id="ots-q"></div>
+    </div>
+    <div class="otsuri-choices" id="ots-choices"></div>
+    <div class="msg" id="ots-msg"></div>
+    <div class="trivia otsuri-shiki" id="ots-shiki">
+      <div class="cap">たしかめ算</div>
+      <div class="tx" id="ots-shiki-tx"></div>
+    </div>
+    <div style="margin-top:auto; display:flex; flex-direction:column; gap:12px; align-items:center;">
+      <div class="btn btn-primary" id="ots-next" style="display:none;" onclick="nextOtsuriQ()">
+        <span id="ots-next-tx">次の問題へ</span>
         <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
       </div>
       <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
@@ -1112,7 +1184,7 @@ var SKIN = SEASON_SKINS[SEASON];
 
 
 // ------- 記録(このセッションの分) -------
-function newRecord() { return { quizDone: 0, quizAnswered: 0, cardsRounds: 0, numsMax: 0, kikiSets: 0, kikiTop: 0, kotoAnswered: 0, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0 }, memo: [] }; }
+function newRecord() { return { quizDone: 0, quizAnswered: 0, cardsRounds: 0, numsMax: 0, kikiSets: 0, kikiTop: 0, kotoAnswered: 0, otsuriAnswered: 0, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0, otsuri: 0 }, memo: [] }; }
 var record = newRecord();
 
 // ------- 画面切り替え -------
@@ -1646,6 +1718,10 @@ function showSummary() {
     rows.push({ icon: 'maki', chip: '#F3EAD8', label: 'ことわざクイズ(' + record.kotoAnswered + '問)', n: record.flowersByGame.kotowaza });
     total += record.flowersByGame.kotowaza;
   }
+  if (record.otsuriAnswered > 0) {
+    rows.push({ icon: 'coin', chip: '#F5EDD6', label: 'お釣り計算(' + record.otsuriAnswered + '問)', n: record.flowersByGame.otsuri });
+    total += record.flowersByGame.otsuri;
+  }
   var html = '';
   if (rows.length === 0) {
     html += '<div class="done-row"><span class="chip" style="background:var(--season-pale);"><svg viewBox="0 0 24 24"><use href="#ic-sakura"></use></svg></span><span class="lbl">今日もお店に来てくださいました</span></div>';
@@ -1822,6 +1898,130 @@ function nextKotoQ() {
     renderKotoQ();
   } else {
     gameCompleted('kotowaza');
+    showSummary();
+  }
+}
+
+// ------- お釣り計算(v1.16・19k C-4: 買い物文脈・二択から四択へ) -------
+// pk: 支払いの見た目(coin=硬貨/bill=お札) pv: 表示金額 pc: 枚数
+var OTSURI = [
+  { lvl: 1, item: 'りんご', price: 100, pay: 500, payLabel: '500円玉', pk: 'coin', pv: 500, pc: 1 },
+  { lvl: 1, item: '食パン', price: 200, pay: 500, payLabel: '500円玉', pk: 'coin', pv: 500, pc: 1 },
+  { lvl: 1, item: '牛乳', price: 300, pay: 500, payLabel: '500円玉', pk: 'coin', pv: 500, pc: 1 },
+  { lvl: 1, item: 'お茶', price: 150, pay: 200, payLabel: '100円玉2枚', pk: 'coin', pv: 100, pc: 2 },
+  { lvl: 1, item: 'あめ', price: 50, pay: 100, payLabel: '100円玉', pk: 'coin', pv: 100, pc: 1 },
+  { lvl: 1, item: 'コロッケ', price: 80, pay: 100, payLabel: '100円玉', pk: 'coin', pv: 100, pc: 1 },
+  { lvl: 2, item: 'おにぎり', price: 130, pay: 500, payLabel: '500円玉', pk: 'coin', pv: 500, pc: 1 },
+  { lvl: 2, item: 'たまご', price: 250, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 },
+  { lvl: 2, item: 'お豆腐', price: 120, pay: 500, payLabel: '500円玉', pk: 'coin', pv: 500, pc: 1 },
+  { lvl: 2, item: 'コーヒー', price: 450, pay: 500, payLabel: '500円玉', pk: 'coin', pv: 500, pc: 1 },
+  { lvl: 2, item: 'お弁当', price: 550, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 },
+  { lvl: 2, item: 'みかん', price: 380, pay: 500, payLabel: '500円玉', pk: 'coin', pv: 500, pc: 1 },
+  { lvl: 2, item: 'せんべい', price: 340, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 },
+  { lvl: 3, item: 'さんまの塩焼き', price: 398, pay: 500, payLabel: '500円玉', pk: 'coin', pv: 500, pc: 1 },
+  { lvl: 3, item: 'お刺身', price: 498, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 },
+  { lvl: 3, item: 'いちご', price: 398, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 },
+  { lvl: 3, item: 'うなぎ弁当', price: 1280, pay: 2000, payLabel: '千円札2枚', pk: 'bill', pv: 1000, pc: 2 },
+  { lvl: 3, item: 'ぶどう', price: 680, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 },
+  { lvl: 3, item: 'お惣菜', price: 730, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 },
+  { lvl: 3, item: 'ケーキ', price: 460, pay: 1000, payLabel: '千円札', pk: 'bill', pv: 1000, pc: 1 }
+];
+var otsSet = [], otsIndex = 0, otsUsed = [];
+// 5問1セット: 易1問→中2問→やや難2問(1問目は必ずできる)
+function startOtsuri() {
+  function pickLvl(lvl, n) {
+    var pool = [];
+    for (var i = 0; i < OTSURI.length; i++) { if (OTSURI[i].lvl === lvl && otsUsed.indexOf(i) < 0) pool.push(i); }
+    if (pool.length < n) {
+      otsUsed = otsUsed.filter(function (u) { return OTSURI[u].lvl !== lvl; });
+      pool = []; for (var j = 0; j < OTSURI.length; j++) { if (OTSURI[j].lvl === lvl) pool.push(j); }
+    }
+    shuffle(pool);
+    return pool.slice(0, n).map(function (i) { otsUsed.push(i); return OTSURI[i]; });
+  }
+  otsSet = pickLvl(1, 1).concat(pickLvl(2, 2)).concat(pickLvl(3, 2));
+  otsIndex = 0;
+  show('scr-otsuri');
+  renderOtsuriQ();
+}
+// 選択肢: 正解+ありがちな間違い(±10/±50/±100・端数の丸め・品物代との混同)
+function otsuriChoices(q) {
+  var ans = q.pay - q.price;
+  var n = q.lvl === 1 ? 2 : q.lvl === 2 ? 3 : 4;
+  var cand = [];
+  function push(v) { if (v >= 10 && v !== ans && v < q.pay && cand.indexOf(v) < 0) cand.push(v); }
+  push(ans + 100); push(ans - 100);
+  push(ans + 50); push(ans - 50);
+  push(ans + 10); push(ans - 10);
+  push(Math.round(ans / 100) * 100);
+  push(q.price);
+  return shuffle([ans].concat(shuffle(cand).slice(0, n - 1)));
+}
+function otsuriPayHtml(q) {
+  var inner = q.pk === 'coin'
+    ? '<div class="coin"><b>' + q.pv + '</b><span>円玉</span></div>'
+    : '<div class="bill"><b>' + q.pv + '</b><span>円札</span></div>';
+  return inner + (q.pc > 1 ? '<span class="cnt">×' + q.pc + '</span>' : '');
+}
+function renderOtsuriQ() {
+  var q = otsSet[otsIndex];
+  document.getElementById('ots-progress').textContent = (otsIndex + 1) + '問目(全' + otsSet.length + '問)';
+  document.getElementById('ots-buy').textContent = q.item + ' ' + q.price + '円';
+  document.getElementById('ots-pay').innerHTML = otsuriPayHtml(q);
+  document.getElementById('ots-q').textContent = q.price + '円の買い物。' + q.payLabel + 'で払うと、お釣りはいくら?';
+  document.getElementById('ots-shiki').style.display = 'none';
+  document.getElementById('ots-msg').innerHTML = '';
+  document.getElementById('ots-next').style.display = 'none';
+  var box = document.getElementById('ots-choices');
+  box.innerHTML = '';
+  otsuriChoices(q).forEach(function (v) {
+    var el = document.createElement('div');
+    el.className = 'q-choice';
+    el.dataset.v = v;
+    el.innerHTML = '<span class="tag" style="display:none;"></span>' + v + '円';
+    el.onclick = function () { answerOtsuri(el, v, q); };
+    box.appendChild(el);
+  });
+}
+function answerOtsuri(el, picked, q) {
+  var ans = q.pay - q.price;
+  var isCorrect = picked === ans;
+  var choices = document.querySelectorAll('#ots-choices .q-choice');
+  for (var i = 0; i < choices.length; i++) {
+    var c = choices[i];
+    c.onclick = null;
+    var v = parseInt(c.dataset.v, 10);
+    var tag = c.querySelector('.tag');
+    if (v === ans) {
+      c.classList.add('correct');
+      if (!isCorrect) { tag.style.display = 'inline-block'; tag.textContent = '正しいお釣り'; }
+    } else if (v === picked) {
+      c.classList.add('picked');
+      tag.style.display = 'inline-block'; tag.textContent = 'えらんだ答え';
+    } else {
+      c.classList.add('dim');
+    }
+  }
+  record.otsuriAnswered++;
+  var msg = document.getElementById('ots-msg');
+  if (isCorrect) {
+    msg.innerHTML = sakuraIconHtml(36) + '<span style="color:var(--accent-deep);">正解です。お見事。</span>';
+    msg.className = 'msg';
+  } else {
+    msg.innerHTML = '<span>お釣りは ' + ans + '円でした。</span>';
+    msg.className = 'msg gentle';
+  }
+  document.getElementById('ots-shiki-tx').textContent = q.pay + '円 − ' + q.price + '円 = ' + ans + '円。' + (isCorrect ? 'この調子でどうぞ。' : 'ゆっくりで大丈夫です。');
+  document.getElementById('ots-shiki').style.display = 'flex';
+  document.getElementById('ots-next-tx').textContent = (otsIndex < otsSet.length - 1) ? '次の問題へ' : '終わりへ';
+  document.getElementById('ots-next').style.display = 'flex';
+}
+function nextOtsuriQ() {
+  if (otsIndex < otsSet.length - 1) {
+    otsIndex++;
+    renderOtsuriQ();
+  } else {
+    gameCompleted('otsuri');
     showSummary();
   }
 }
@@ -14489,7 +14689,8 @@ function buildSessionSummary() {
   if (record.numsMax > 0) parts.push('順番タップ' + record.numsMax + 'まで');
   if (record.kikiSets > 0) parts.push('聞き取り' + kikiSpeedLabel(record.kikiTop) + 'まで');
   if (record.kotoAnswered > 0) parts.push('ことわざ' + record.kotoAnswered + '問');
-  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0) + (record.flowersByGame.kotowaza || 0);
+  if (record.otsuriAnswered > 0) parts.push('お釣り計算' + record.otsuriAnswered + '問');
+  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0) + (record.flowersByGame.kotowaza || 0) + (record.flowersByGame.otsuri || 0);
   if (flowers > 0) parts.push(SKIN.name.replace('みんなの', '') + flowers + SKIN.unit);
   if (record.memo.length > 0) parts.push('ひとこと:' + record.memo.join('・'));
   return parts.join('、');
