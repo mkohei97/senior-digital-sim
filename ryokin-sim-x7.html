@@ -319,7 +319,7 @@
     <b>ここスマ|スマホの相談窓口</b> ― 試験公開中の仮ページ(店内相談用)。金額はすべて取得日時点の税込目安であり、契約条件・キャンペーンにより変わります。ご契約前に必ず各社公式サイトでご確認ください。<br>
     出典: 各社公式サイト(詳細は 22_料金プラン調査_2026-08 v1.1 / 02_調査_3キャリア店頭費用)。料金取得日 2026年8月7日。ご契約前に必ず当日の各社公式ページでご確認ください。<br>
     返却プログラムの実質負担は「残価=端末価格の45%(楽天は48回払い・25か月目返却で50%)」と仮定した概算です。機種・時期・査定条件により変わります。頭金は店舗独自(5,000〜22,000円)のため仮の金額です。iPhone 17e のドコモ・au価格は二次情報照合の概算。<br>
-    v0.4(2026-08-08): 3ステップ構成に再設計(通信プラン現状/将来→買い方比較→トータル)/楽天モバイルを端末比較に追加/頭金・設定サポートの内訳を明示/デザイン=Claude Design「ここスマ料金シミュレーション設計」(白基調ミニマル・v0.4)/同日データ更新: 日本通信SIMを4プラン(シンプル290・みんなの20GB・50GB・ネットだけ)に拡充(公式サイト2026-08-08確認)/頭金を02調査の実務値19,800円に統一・C列にここスマ ネット購入サポート19,800円を標準計上・積み重なる費用の計算根拠を表下に明示/端末の補償サービス比較を追加(キャリア4社・AppleCare+/Pixel Care+・@nifty安心メールパック・モバイル保険。2026-08-08公式調べ・選択でSTEP3に反映)
+    v0.4(2026-08-08): 3ステップ構成に再設計(通信プラン現状/将来→買い方比較→トータル)/楽天モバイルを端末比較に追加/頭金・設定サポートの内訳を明示/デザイン=Claude Design「ここスマ料金シミュレーション設計」(白基調ミニマル・v0.4)/同日データ更新: 日本通信SIMを4プラン(シンプル290・みんなの20GB・50GB・ネットだけ)に拡充(公式サイト2026-08-08確認)/頭金を02調査の実務値19,800円に統一・C列にここスマ ネット購入サポート19,800円を標準計上・積み重なる費用の計算根拠を表下に明示/端末の補償サービス比較を追加(キャリア4社・AppleCare+/Pixel Care+・@nifty安心メールパック・モバイル保険。2026-08-08公式調べ・選択でSTEP3に反映)/補償は選択中の機種ごとの確定額で表示(ドコモ補償料金検索・au公式・SB公式・楽天価格帯区分で裏取り)
   </footer>
 </div>
 
@@ -406,34 +406,45 @@ var BUYS = [
 ];
 var PROGNAME = { d: 'いつでもカエドキ+', a: 'スマホトクする+', s: '新トクするサポート', r: '買い替え超トク' };
 
-/* ===== 端末補償サービス(取得日: 2026-08-08・各社公式) ===== */
+/* ===== 端末補償サービス(機種別の確定額・2026-08-08 各社公式調べ) ===== */
 var HOSHO_KINDS = [
   { id: 'none', name: '補償なし' }, { id: 'carrier', name: 'キャリアの補償' },
   { id: 'maker', name: 'メーカーの補償' }, { id: 'nifty', name: '@nifty安心メールパック' }, { id: 'mobile', name: 'モバイル保険' }
 ];
+/* 出典: ドコモ=補償料金検索(機種名で確定) / au=故障紛失サポート ワイド with ACS & iCloud+ ・故障紛失サポート(Android 5G一律726円)
+   SB=あんしん保証パック with ACS(iPhone)・あんしん保証パックネクスト(Pixel) / 楽天=製品価格帯区分(税別)
+   Apple=2年一括÷24 / Google=Pixel Care+公式 */
+var HOSHO = {
+  ip17: {
+    d: { nm: 'ドコモ smartあんしん補償', m: 1100, sub: '', ded: '交換 4,950円〜(Web申込10%OFF)' },
+    a: { nm: 'au 故障紛失サポート ワイド', m: 1690, sub: 'with AppleCare Services & iCloud+ 50GB', ded: '画面 3,700円/交換 12,900円' },
+    s: { nm: 'ソフトバンク あんしん保証パック', m: 1340, sub: 'with AppleCare Services', ded: '過失の画面等 12,900円', est: true },
+    r: { nm: '楽天 スマホ交換保証プラス', m: 1580, sub: '端末10万円超の区分', ded: '交換 6,600円/12,900円' },
+    mk: { nm: 'Apple AppleCare+', m: 992, sub: '2年一括 23,800円 ÷24か月', ded: '画面 3,700円/その他 12,900円', est: true, loss: '盗難・紛失プランは 26,800円/2年' }
+  },
+  ip17e: {
+    d: { nm: 'ドコモ smartあんしん補償', m: 1100, sub: '', ded: '交換 4,950円〜(Web申込10%OFF)' },
+    a: { nm: 'au 故障紛失サポート ワイド', m: 1580, sub: 'with AppleCare Services & iCloud+ 50GB', ded: '画面 3,700円/交換 12,900円', est: true },
+    s: { nm: 'ソフトバンク あんしん保証パック', m: 1340, sub: 'with AppleCare Services', ded: '過失の画面等 12,900円', est: true },
+    r: { nm: '楽天 スマホ交換保証プラス', m: 1380, sub: '端末5〜10万円の区分', ded: '交換 6,600円/12,900円' },
+    mk: { nm: 'Apple AppleCare+', m: 825, sub: '2年一括 19,800円 ÷24か月', ded: '画面 3,700円/その他 12,900円', est: true, loss: '盗難・紛失プランは 22,800円/2年' }
+  },
+  px10a: {
+    d: { nm: 'ドコモ smartあんしん補償', m: 990, sub: '', ded: '交換 4,950円〜(Web申込10%OFF)' },
+    a: { nm: 'au 故障紛失サポート', m: 726, sub: 'ワイド with Cloudは990円〜(機種区分)', ded: '交換時 自己負担あり' },
+    s: { nm: 'ソフトバンク あんしん保証パックネクスト', m: 990, sub: 'Pixel専用・即日修理あり', ded: '修理 0円/配送交換 8,250円' },
+    r: { nm: '楽天 スマホ交換保証プラス', m: 1380, sub: '端末5〜10万円の区分', ded: '交換 6,600円/12,900円' },
+    mk: { nm: 'Google Pixel Care+', m: 780, sub: '2年一括なら 15,800円', ded: '交換 7,700円', loss: '紛失・盗難プランは 880円/月' }
+  }
+};
+function hoshoDev() { return HOSHO[st.dev] || HOSHO.ip17e; }
 function hoshoInfo(kind, carId) {
-  var dev = st.dev;
   if (kind === 'none') return { label: '補償なし', m: 0 };
-  if (kind === 'carrier') {
-    if (carId === 'd') return { label: 'ドコモ smartあんしん補償', m: 990, est: true, note: '機種区分330〜1,720円' };
-    if (carId === 'a') {
-      if (dev === 'px10a') return { label: 'au 故障紛失サポート ワイド', m: 990, est: true, note: 'Android用・機種区分あり' };
-      return { label: 'au 故障紛失サポート ワイド with ACS & iCloud+', m: dev === 'ip17' ? 1690 : 1580, est: dev !== 'ip17', note: dev === 'ip17' ? 'iPhone 17の公式価格' : '17eは機種区分未確認' };
-    }
-    if (carId === 's') {
-      if (dev === 'px10a') return { label: 'SB あんしん保証パックネクスト', m: 990, est: true };
-      return { label: 'SB あんしん保証パック with AppleCare Services', m: 1340, est: true, note: '16標準機種の区分を仮置き' };
-    }
-    return { label: '楽天 スマホ交換保証プラス', m: 1180, est: true, note: '端末価格帯980〜1,580円' };
-  }
-  if (kind === 'maker') {
-    if (dev === 'ip17') return { label: 'AppleCare+(iPhone 17)', m: 992, est: true, note: '2年一括23,800円÷24・盗難紛失プランは26,800円' };
-    if (dev === 'ip17e') return { label: 'AppleCare+(iPhone 17e)', m: 825, est: true, note: '2年一括19,800円÷24・盗難紛失プランは22,800円' };
-    if (dev === 'px10a') return { label: 'Pixel Care+', m: 780, note: '2年一括なら15,800円・紛失盗難プランは880円/月' };
-    return { label: 'メーカーの補償(手入力)', m: 0, est: true };
-  }
-  if (kind === 'nifty') return { label: '@nifty安心メールパック Bプラン', m: 1408, note: 'A 1,078円(年5万まで)/C 1,958円(年30万まで)' };
-  return { label: 'モバイル保険', m: 700, note: '3台まで・年15万円まで' };
+  var H = hoshoDev();
+  if (kind === 'carrier') { var x = H[carId] || H.d; return { label: x.nm, m: x.m }; }
+  if (kind === 'maker') return { label: H.mk.nm, m: H.mk.m };
+  if (kind === 'nifty') return { label: '@nifty安心メールパック Bプラン', m: 1408 };
+  return { label: 'モバイル保険', m: 700 };
 }
 
 /* ===== 状態 ===== */
@@ -657,37 +668,35 @@ function renderHosho() {
     input.disabled = st[key] === 'none';
   });
 
-  var dev = st.dev;
-  function hrow(t, d, price, sub, tou, fun) {
-    return '<div class="horow"><span class="hn"><span class="t">' + t + '</span><br><span class="d">' + d + '</span></span>' +
+  var H = hoshoDev(), devName = DEVICES.find(function (x) { return x.id === st.dev; }).name;
+  function hrow(t, d, m, sub, tou, fun, est, hl) {
+    return '<div class="horow"' + (hl ? ' style="background:#F6FAFF;"' : '') + '><span class="hn"><span class="t">' + t + (hl ? ' <span style="font-size:11px;color:var(--acc-ink);font-weight:800;">選択中のキャリア</span>' : '') + '</span><br><span class="d">' + d + '</span></span>' +
       '<span class="hochip ' + (tou ? 'ok' : 'ng') + '">盗難' + (tou ? '○' : '×') + '</span>' +
       '<span class="hochip ' + (fun ? 'ok' : 'ng') + '">紛失' + (fun ? '○' : '×') + '</span>' +
-      '<span class="hoyen num"><span class="y">' + price + '</span>' + (sub ? '<br><span class="s">' + sub + '</span>' : '') + '</span></div>';
+      '<span class="hoyen num"><span class="y">' + yen(m) + '<span style="font-size:12px;font-weight:700;color:var(--sub);">/月</span></span>' +
+      (sub || est ? '<br><span class="s">' + (est ? '⚠ ' : '') + (sub || '要確認') + '</span>' : '') + '</span></div>';
   }
-  var maker = dev === 'px10a'
-    ? hrow('Google Pixel Care+', '交換の自己負担 7,700円・紛失盗難プランは880円/月', '780円/月', '2年一括なら15,800円', false, false)
-    : hrow('Apple AppleCare+ ' + (dev === 'ip17' ? '(iPhone 17)' : dev === 'ip17e' ? '(iPhone 17e)' : ''),
-        '画面修理 3,700円・その他修理 12,900円・盗難紛失プランは+3,000円/2年',
-        dev === 'ip17' ? '約992円/月' : dev === 'ip17e' ? '約825円/月' : '機種による',
-        dev === 'ip17' ? '2年一括 23,800円 ⚠二次照合' : dev === 'ip17e' ? '2年一括 19,800円 ⚠二次照合' : '', false, false);
   var h =
-    '<div class="ghead"><span class="gt">キャリアの補償</span><span class="gn">端末の購入時にしか入れません(途中加入不可)</span></div>' +
+    '<div class="ghead"><span class="gt">キャリアの補償</span><span class="gn">' + devName + 'の場合・端末の購入時にしか入れません(途中加入不可)</span></div>' +
     '<div class="holist">' +
-    hrow('ドコモ smartあんしん補償', '店頭ワンストップ・交換時は自己負担あり(Web申込10%OFF)', '330〜1,720円/月', '⚠機種の区分による・要確認', true, true) +
-    hrow('au 故障紛失サポート ワイド', 'AppleCare Services+iCloud+ 50GB込み・画面修理 3,700円', '1,690円/月', 'iPhone 17の場合・他機種は区分(⚠)', true, true) +
-    hrow('ソフトバンク あんしん保証パック', 'with AppleCare Services・過失の画面等 12,900円', '約1,340円/月', '⚠機種区分・17系は公式未確認', true, true) +
-    hrow('楽天 スマホ交換保証プラス', '新品同等品と交換(自己負担 6,600円/12,900円)・年3回まで', '980〜1,580円/月', '⚠端末の価格帯による', true, true) +
+    ['d', 'a', 's', 'r'].map(function (k) {
+      var x = H[k];
+      return hrow(x.nm, x.ded + (x.sub ? '・' + x.sub : ''), x.m, x.est ? '公式未掲載のため近い区分' : '', true, true, x.est, st.car === k);
+    }).join('') +
     '</div>' +
     '<div class="ghead"><span class="gt">メーカーの補償</span><span class="gn">どの会社で契約中でも入れます(購入時または30日以内に加入)</span></div>' +
-    '<div class="holist">' + maker + '</div>' +
+    '<div class="holist">' +
+    hrow(H.mk.nm, H.mk.ded + '・' + H.mk.loss, H.mk.m, H.mk.sub, false, false, H.mk.est, false) +
+    '</div>' +
     '<div class="ghead"><span class="gt">ネットで入れる保険</span><span class="gn">自己負担0円・修理は自分で手配して保険金を請求する方式</span></div>' +
     '<div class="holist">' +
-    hrow('@nifty安心メールパック', 'メール+専門家相談つき・発売5年以内の端末・中古不可', '1,408円/月', 'Bプラン(年15万まで)・A 1,078円/C 1,958円', true, false) +
-    hrow('モバイル保険', 'スマホ+イヤホン等あわせて3台まで・年15万円まで', '700円/月', '購入1年以内(または有償補償に加入中)の端末', true, false) +
+    hrow('@nifty安心メールパック', '自己負担0円・年15万円まで(Bプラン)・発売5年以内の端末・中古不可', 1408, 'A 1,078円/C 1,958円', true, false, false, false) +
+    hrow('モバイル保険', '自己負担0円・年15万円まで・スマホ+イヤホン等あわせて3台まで', 700, '購入1年以内などの条件あり', true, false, false, false) +
     '</div>';
   document.getElementById('hoshoList').innerHTML = h;
   document.getElementById('hoshoNote').innerHTML =
-    '<b>補償の見かた</b> キャリア=店頭で相談でき盗難紛失まで一括対応/メーカー=回線を選ばない/ネット保険=安くて自己負担0円だが手続きは自分で(ここスマがお手伝いできる領域です)。金額・区分は2026-08-08時点の各社公式調べ。⚠印は加入前に当日の公式ページでご確認ください。';
+    '<b>補償の見かた</b> キャリア=店頭で相談でき盗難紛失まで一括対応/メーカー=回線を選ばない/ネット保険=安くて自己負担0円だが手続きは自分で(ここスマがお手伝いできる領域です)。' +
+    '金額は<b>' + devName + '</b>での各社公式調べ(2026年8月8日)。機種を変えると金額も切り替わります。⚠印は公式に該当機種の掲載がなく近い区分で表示しているものです(加入前に店頭・公式でご確認ください)。';
 }
 
 /* ===== STEP3 描画 ===== */
