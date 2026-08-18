@@ -957,7 +957,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.21(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.22(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -1640,6 +1640,15 @@ function addKenteiPoint(game, add) {
   var newLv = kenteiLevelOf(pts);
   data[game] = pts;
   setKentei(session.m, data);
+  /* v1.22: 正本はSupabase。ローカルはキャッシュ(19r§12第3段階) */
+  if (session.t) {
+    var sbAdd = Math.min(2, n);
+    sbRpc('kentei_add', { p_token: session.t, p_game: game, p_add: sbAdd })
+      .then(function (r) { if (!r || r.ok !== true) throw 0; })
+      .catch(function () {
+        sbQueueAdd({ fn: 'kentei_add', args: { p_token: session.t, p_game: game, p_add: sbAdd }, day: todayStr() });
+      });
+  }
   if (newLv > oldLv) {
     record.shoukyu.push(KENTEI_GAMES[game].name + ' ' + KENTEI_RANKS[newLv] + 'に昇級');
     showKenteiCert(game, newLv);
@@ -15624,7 +15633,7 @@ function sbQueueFlush() {
   var keep = [];
   var chain = Promise.resolve();
   all.forEach(function (e) {
-    if (e.day !== today) return; /* 期限切れは破棄(遡り打刻は当日中だけ) */
+    if (e.fn === 'checkin' && e.day !== today) return; /* 打刻だけ期限あり(遡り打刻は当日中だけ)。検定ポイントは日をまたいでも送る */
     chain = chain.then(function () {
       return sbRpc(e.fn, e.args).then(function (res) {
         if (!res || typeof res.ok === 'undefined') keep.push(e);
@@ -15651,6 +15660,25 @@ function sbStudyLog() {
   sbStudy.lastLog = now;
   var game = (typeof curScreen === 'string' && curScreen.indexOf('scr-') === 0) ? curScreen.slice(4) : 'home';
   sbRpc('study_log', { p_token: session.t, p_session: sbStudy.sid, p_game: game }).catch(function () {});
+}
+/* ----- 復元(v1.22・19r§12第3段階): 出席帳・検定の正本はSupabase。どの端末でも同じ記録が出る ----- */
+function sbRestore(t, m) {
+  sbRpc('my_record', { p_token: t }).then(function (r) {
+    if (!r || !r.ok) return;
+    /* 出席帳: サーバーの来店日と端末の控えの合算(オフライン打刻の未送信分を失わない) */
+    var days = getStamps(m);
+    var grew = false;
+    (r.visit_dates || []).forEach(function (d) { if (days.indexOf(d) < 0) { days.push(d); grew = true; } });
+    if (grew) { days.sort(); storeSet('kokosuma_stamps_' + m, JSON.stringify(days)); }
+    /* 検定: 種目ごとに大きい方を採る(新しい端末=サーバー値で復元/未送信のある端末=ローカル値を保持) */
+    var loc = getKentei(m);
+    var srv = r.kentei || {};
+    var changed = false;
+    Object.keys(srv).forEach(function (g) {
+      if ((srv[g] || 0) > (loc[g] || 0)) { loc[g] = srv[g]; changed = true; }
+    });
+    if (changed) setKentei(m, loc);
+  }).catch(function () { /* オフラインは端末のキャッシュのまま */ });
 }
 function sbStudyEnd(reason) {
   if (!sbStudy.sid || !session.t) { sbStudy.sid = null; return; }
@@ -15729,6 +15757,7 @@ function loginMember(m, n, t) {
       sbQueueAdd({ fn: 'checkin', args: { p_token: session.t }, day: todayStr() });
     });
     sbStudyStart(session.t);
+    sbRestore(session.t, m);
   }
 }
 function logoutMember(quiet) {
