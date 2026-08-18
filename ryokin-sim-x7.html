@@ -7,7 +7,7 @@
 <title>ここスマ 料金シミュレーション v0.4</title>
 <style>
   :root {
-    --ink: #16181D; --sub: #6E7379; --faint: #9AA0A6;
+    --ink: #16181D; --sub: #6E7379; --faint: #6F747A;
     --line: #E5E7EB; --line-soft: #EEF0F2; --bg: #FFFFFF; --soft: #F7F8FA;
     --acc: #1A6DE3; --acc-ink: #1257BE; --acc-soft: #EAF2FE; --acc-line: #C9DDFB;
     --save: #1A6DE3; --cost: #D9542B; --good-bg: #EAF2FE;
@@ -20,7 +20,21 @@
     font-size: 15.5px; line-height: 1.6;
     -webkit-font-smoothing: antialiased; }
   .num { font-variant-numeric: tabular-nums; }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px 140px; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 32px 170px; }
+  section.step { scroll-margin-top: 70px; }
+  .warn { color: var(--cost); font-size: 12.5px; font-weight: 700; }
+  .tscroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tscroll table.cmp { min-width: 640px; }
+  .plistwrap { position: relative; }
+  .plistwrap::after { content: ""; position: absolute; left: 0; right: 8px; bottom: 0; height: 24px;
+    background: linear-gradient(rgba(255,255,255,0), #FFF); pointer-events: none; }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 18px 170px; }
+    .hoyen { width: auto; min-width: 120px; }
+    .horow { flex-wrap: wrap; gap: 10px; }
+    .stick-in { gap: 18px; padding: 10px 16px; }
+    .stick .v { font-size: 17px; }
+  }
 
   /* ===== header ===== */
   header.top { position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,.92);
@@ -191,22 +205,31 @@
     font-size: 12px; color: var(--faint); line-height: 1.9; }
   footer.foot b { color: var(--sub); }
 
-  /* ===== print ===== */
+  /* ===== print: STEP3中心の1枚要約 ===== */
   @media print {
-    @page { size: A4 portrait; margin: 9mm; }
-    body { font-size: 11px; }
+    @page { size: A4 portrait; margin: 8mm; }
+    body { font-size: 10px; }
     .wrap { max-width: none; padding: 0; }
     header.top { position: static; }
-    .hero { padding: 8px 0 4px; } .hero h1 { font-size: 20px; margin-bottom: 4px; } .hero p { font-size: 10.5px; }
-    .step { margin-top: 12px; } .step h2 { font-size: 15px; margin-bottom: 8px; }
-    #condCard, .pcard .chips, .manbox, #step2sel, #hoshoSel, .mnpbtn, .printbtn, .stick, .s3ctrl { display: none !important; }
+    .top-in { padding: 4px 0; }
+    .hero { padding: 4px 0 2px; } .hero h1 { font-size: 16px; margin-bottom: 2px; } .hero p { font-size: 9px; max-width: none; }
+    .step { margin-top: 8px; } .step h2 { font-size: 13px; margin: 2px 0 6px; } .step-tag { font-size: 10px; }
+    #condCard, .pcard .chips, .manbox, #step2sel, #hoshoSel, #hoshoList, #hoshoNote, #assumpBox,
+    #s2 .tscroll, #s2 h3, .mnpbtn, .printbtn, .stick, .s3ctrl, #demoRow, .plistwrap::after, .rule,
+    .hero p, .diffhero .c, #s1 > .note, #curCount, #futCount, .arrowcol { display: none !important; }
+    .duo { gap: 8px; margin-top: 6px; grid-template-columns: 1fr 1fr !important; }
+    .totgrid { grid-template-columns: 1fr 1fr !important; }
     .plist { max-height: none; overflow: visible; } .prow:not(.on) { display: none; }
-    .card, .pcard, .tot, table.cmp { border-radius: 8px; padding: 10px 12px; break-inside: avoid; }
-    table.cmp th, table.cmp td { padding: 5px 8px; font-size: 10px; }
-    .diffhero { padding: 8px 0 0; } .diffhero .v { font-size: 26px; }
-    .tot .mo { font-size: 22px; } .step3diff .big { font-size: 24px; }
-    .assump { font-size: 9.5px; padding: 8px 10px; }
-    footer.foot { margin-top: 12px; }
+    .prow { padding: 5px 8px; } .pcard { padding: 8px 10px; } .pcard .foot { margin-top: 6px; padding-top: 5px; }
+    .pcard .foot .v { font-size: 15px; }
+    .card, .pcard, .tot { border-radius: 6px; break-inside: avoid; }
+    .diffhero { padding: 4px 0 0; } .diffhero .v { font-size: 20px; }
+    .assump { font-size: 8.5px; padding: 6px 8px; margin-top: 6px; line-height: 1.5; }
+    .totgrid { gap: 8px; margin-top: 6px; }
+    .tot { padding: 8px 10px; } .tot .mo { font-size: 17px; } .tot .plabel { min-height: 0; font-size: 9px; }
+    .tot .ln { font-size: 9px; padding: 2px 0; } .tot .lines { margin-top: 4px; padding-top: 3px; }
+    .step3diff { margin-top: 6px; } .step3diff .big { font-size: 18px; } .step3diff .sub2 { font-size: 10px; }
+    footer.foot { margin-top: 8px; padding-top: 5px; font-size: 7.5px; line-height: 1.6; }
   }
 </style>
 </head>
@@ -215,7 +238,7 @@
 <header class="top"><div class="top-in">
   <span class="logo">ここスマ</span>
   <span class="ttl">料金シミュレーション<small>v0.4</small></span>
-  <span class="meta">試験公開中(仮ページ)|料金取得日 2026年8月7日|金額は税込の目安・各社公式サイトで要確認</span>
+  <span class="meta">試験公開中(仮ページ)|料金取得日 2026年8月7〜8日|金額は税込の目安・各社公式サイトで要確認</span>
 </div></header>
 
 <div class="wrap">
@@ -229,27 +252,36 @@
   <section class="step" id="s1">
     <div class="step-tag">STEP 1</div>
     <h2>通信プランの選び方</h2>
+    <div class="chips" id="demoRow" style="margin: -6px 0 16px;">
+      <button class="chip" onclick="applyDemo()">かんたんな例を見る(ドコモ内での見直し)</button>
+      <button class="chip" onclick="location.reload()">はじめに戻す</button>
+    </div>
 
     <div class="card" id="condCard">
       <div class="rowlab"><span class="lb">通話</span><span class="chips" id="callChips"></span></div>
       <div class="rowlab"><span class="lb">割引の条件</span><span class="chips" id="discChips"></span></div>
-      <div class="note">当てはまるものだけON(対象プランのみ割引を反映した目安)。カード割は通常カードの額で計算しています(ドコモ: dカードGOLD以上は−550円/SB: PayPayゴールドは−550円)。でんきセット割・長期利用割などは含みません。</div>
+      <div class="note">当てはまるものだけON(対象プランのみ割引を反映した目安)。カード割は通常カードの額で計算しています(ドコモ: dカードGOLD以上は−550円/SB: PayPayゴールドは−550円)。でんきセット割・長期利用割・通話料の従量分(22円/30秒)は含みません。</div>
     </div>
 
     <div class="duo">
       <div class="pcard" id="cardNow">
         <div class="head"><span class="badge now">現状</span><b>いまのご契約</b></div>
         <div class="chips" id="curGChips"></div>
-        <div class="plist" id="curList"></div>
+        <div class="note" id="curCount" style="margin-bottom:6px;"></div>
+        <div class="plistwrap"><div class="plist" id="curList"></div></div>
         <div class="manbox" id="curManBox" style="display:none;">
-          <input type="number" id="curManual" placeholder="毎月の支払額を入力(例: 8500)">
+          <input type="number" id="curManual" placeholder="毎月の支払額の合計(例: 8500)">
+          <input type="number" id="curManualDev" placeholder="うち端末の分割金(円・わかれば)" style="margin-top:6px;">
+          <input type="number" id="curManualOpt" placeholder="うち補償・オプション(円・わかれば)" style="margin-top:6px;">
+          <div class="note" style="margin-top:6px;">請求書の合計から端末分割・補償を除いた「プラン部分」で比較します。端末分割中の方は下の「現状の買い方」、補償は「現状の補償」でも選べます。</div>
         </div>
         <div class="foot"><span class="k">現状の月額<br>(通話・割引を反映)</span><span style="text-align:right;"><span class="v num" id="curMo">―</span><br><span class="cn" id="curNote"></span></span></div>
       </div>
       <div class="pcard" id="cardFut">
         <div class="head"><span class="badge fut">将来</span><b>のりかえ・見直し後</b></div>
         <div class="chips" id="futGChips"></div>
-        <div class="plist" id="futList"></div>
+        <div class="note" id="futCount" style="margin-bottom:6px;"></div>
+        <div class="plistwrap"><div class="plist" id="futList"></div></div>
         <div class="foot"><span class="k">将来の月額<br>(通話・割引を反映)</span><span style="text-align:right;"><span class="v num" id="futMo" style="color:var(--acc-ink);">―</span><br><span class="cn" id="futNote"></span></span></div>
       </div>
     </div>
@@ -281,7 +313,7 @@
       <div class="rowlab"><span class="lb">みる年数</span><span class="chips" id="yrChips"></span></div>
     </div>
 
-    <table class="cmp" id="buyTable"></table>
+    <div class="tscroll"><table class="cmp" id="buyTable"></table></div>
     <button class="mnpbtn" id="mnpBtn" onclick="st.showMnp=!st.showMnp;refresh();"></button>
 
     <div class="assump" id="calcBasis" style="background:#F6FAFF;"></div>
@@ -289,9 +321,10 @@
 
     <h3 style="margin:36px 0 14px; font-size:19px;">端末の補償サービスもくらべる</h3>
     <div class="card" id="hoshoSel">
-      <div class="rowlab"><span class="lb">現状の補償</span><span class="chips" id="hoNowChips"></span><input class="inline-in num" style="width:110px;" type="number" id="hoNowIn" title="月額(円)"><span class="note">円/月</span></div>
-      <div class="rowlab"><span class="lb">将来の補償</span><span class="chips" id="hoFutChips"></span><input class="inline-in num" style="width:110px;" type="number" id="hoFutIn" title="月額(円)"><span class="note">円/月</span></div>
-      <div class="note">月額は選択中の端末・キャリアでの目安を自動入力します(⚠は要確認)。実際の請求額がわかる場合は上書きしてください。選んだ補償はSTEP3の月々・総額に反映されます。</div>
+      <div class="rowlab"><span class="lb"><span class="badge now">現状</span>の補償</span><span class="chips" id="hoNowChips"></span><input class="inline-in num" style="width:110px;" type="number" id="hoNowIn" title="月額(円)"><span class="note">円/月</span></div>
+      <div class="rowlab"><span class="lb"><span class="badge fut">将来</span>の補償</span><span class="chips" id="hoFutChips"></span><input class="inline-in num" style="width:110px;" type="number" id="hoFutIn" title="月額(円)"><span class="note">円/月</span></div>
+      <div id="hoshoWarn"></div>
+      <div class="note">月額は選択中の端末・キャリアでの確定額を自動入力します(⚠は近い区分)。実際の請求額がわかる場合は上書きしてください。選んだ補償はSTEP3の月々・総額に反映されます。</div>
     </div>
     <div id="hoshoList"></div>
     <div class="assump" id="hoshoNote"></div>
@@ -317,9 +350,9 @@
 
   <footer class="foot">
     <b>ここスマ|スマホの相談窓口</b> ― 試験公開中の仮ページ(店内相談用)。金額はすべて取得日時点の税込目安であり、契約条件・キャンペーンにより変わります。ご契約前に必ず各社公式サイトでご確認ください。<br>
-    出典: 各社公式サイト(詳細は 22_料金プラン調査_2026-08 v1.1 / 02_調査_3キャリア店頭費用)。料金取得日 2026年8月7日。ご契約前に必ず当日の各社公式ページでご確認ください。<br>
+    出典: 各社公式サイト(詳細は 22_料金プラン調査_2026-08 v1.4 / 02_調査_3キャリア店頭費用)。料金取得日 2026年8月7〜8日。ご契約前に必ず当日の各社公式ページでご確認ください。<br>
     返却プログラムの実質負担は「残価=端末価格の45%(楽天は48回払い・25か月目返却で50%)」と仮定した概算です。機種・時期・査定条件により変わります。頭金は店舗独自(5,000〜22,000円)のため仮の金額です。iPhone 17e のドコモ・au価格は二次情報照合の概算。<br>
-    v0.4(2026-08-08): 3ステップ構成に再設計(通信プラン現状/将来→買い方比較→トータル)/楽天モバイルを端末比較に追加/頭金・設定サポートの内訳を明示/デザイン=Claude Design「ここスマ料金シミュレーション設計」(白基調ミニマル・v0.4)/同日データ更新: 日本通信SIMを4プラン(シンプル290・みんなの20GB・50GB・ネットだけ)に拡充(公式サイト2026-08-08確認)/頭金を02調査の実務値19,800円に統一・C列にここスマ ネット購入サポート19,800円を標準計上・積み重なる費用の計算根拠を表下に明示/端末の補償サービス比較を追加(キャリア4社・AppleCare+/Pixel Care+・@nifty安心メールパック・モバイル保険。2026-08-08公式調べ・選択でSTEP3に反映)/補償は選択中の機種ごとの確定額で表示(ドコモ補償料金検索・au公式・SB公式・楽天価格帯区分で裏取り)
+    v0.4(2026-08-08): 3ステップ構成に再設計(通信プラン現状/将来→買い方比較→トータル)/楽天モバイルを端末比較に追加/頭金・設定サポートの内訳を明示/デザイン=Claude Design「ここスマ料金シミュレーション設計」(白基調ミニマル・v0.4)/同日データ更新: 日本通信SIMを4プラン(シンプル290・みんなの20GB・50GB・ネットだけ)に拡充(公式サイト2026-08-08確認)/頭金を02調査の実務値19,800円に統一・C列にここスマ ネット購入サポート19,800円を標準計上・積み重なる費用の計算根拠を表下に明示/端末の補償サービス比較を追加(キャリア4社・AppleCare+/Pixel Care+・@nifty安心メールパック・モバイル保険。2026-08-08公式調べ・選択でSTEP3に反映)/補償は選択中の機種ごとの確定額で表示(ドコモ補償料金検索・au公式・SB公式・楽天価格帯区分で裏取り)/22fレビュー全21項目を反映(買い方「買わない」追加・乗換手数料の店頭統合・公式ストア×キャリア補償の警告・手入力の分解入力・例ボタン・データ専用警告・スマホ幅対応・注記コントラストAA・印刷A4縦1枚要約・チップ✓/aria対応ほか)
   </footer>
 </div>
 
@@ -328,7 +361,7 @@
   <span class="cell"><span class="k">現状 月々</span><br><span class="v num" id="stNow">―</span></span>
   <span class="arr">→</span>
   <span class="cell"><span class="k">将来 月々</span><br><span class="v num" id="stFut">―</span></span>
-  <span class="cell" style="margin-left:20px;"><span class="k">月々の差額</span><br><span class="v num" id="stDiff">―</span></span>
+  <span class="cell" style="margin-left:20px;"><span class="k">月々の差額(端末・補償込み)</span><br><span class="v num" id="stDiff">―</span></span>
 </div></div>
 
 <script>
@@ -404,6 +437,8 @@ var BUYS = [
   { id: 'carrier', mark: 'B', name: 'キャリアで購入', sub: '一括や分割で買って長く使う' },
   { id: 'official', mark: 'C', name: '公式ストアで購入', sub: 'Apple/Google直販で買って長く使う' }
 ];
+var BUY_NONE = { id: 'none', mark: '―', name: '買わない', sub: 'いまの端末を使い続ける' };
+function buyDef(id) { return id === 'none' ? BUY_NONE : BUYS.find(function (b) { return b.id === id; }); }
 var PROGNAME = { d: 'いつでもカエドキ+', a: 'スマホトクする+', s: '新トクするサポート', r: '買い替え超トク' };
 
 /* ===== 端末補償サービス(機種別の確定額・2026-08-08 各社公式調べ) ===== */
@@ -451,7 +486,7 @@ function hoshoInfo(kind, carId) {
 var st = { call: 'few', fam: false, hik: false, card: false, senior: false,
   curG: 'docomo', curKey: null, curManualMode: false,
   futG: 'docomo', futKey: null,
-  dev: 'ip17e', car: 'd', buyNow: 'return', buyFut: 'return', yr: 4,
+  dev: 'ip17e', car: 'd', buyNow: 'none', buyFut: 'none', yr: 4,
   showMnp: false, loyal: false, atamakin: 19800, kokoC: true, kokoSim: false,
   hoNow: 'none', hoFut: 'none', hoNowM: 0, hoFutM: 0, hoNowOv: false, hoFutOv: false };
 
@@ -515,7 +550,8 @@ function buyCalc(method, Y) {
   var atk = (car === 'r') ? 0 : st.atamakin;
   var battery = Y >= 6 ? FEES.battery : 0;
   var r = { method: method, dev: 0, atamakin: 0, admin: 0, setup: 0, prog: 0, battery: 0, koko: 0, keep: false };
-  if (method === 'return') {
+  if (method === 'none') { r.keep = true; }
+  else if (method === 'return') {
     r.dev = p.carrier * FEES.burden[car] * cycles;
     r.atamakin = atk * cycles; r.admin = admin * cycles; r.setup = setup * cycles;
     r.prog = (progWaived ? 0 : prog) * cycles;
@@ -563,6 +599,8 @@ function renderSide(which) {
       '<span class="dot"></span><span class="nm"><span class="pl" style="font-size:13.5px;">プランがわからない ― 月額を手入力</span></span></div>';
   }
   listEl.innerHTML = h;
+  var cnt = document.getElementById(isNow ? 'curCount' : 'futCount');
+  cnt.textContent = '全' + list.length + 'プラン' + (list.length > 4 ? '(下にスクロールできます)' : '');
   if (isNow) document.getElementById('curManBox').style.display = st.curManualMode ? 'block' : 'none';
 }
 function pickPlan(which, key) {
@@ -572,8 +610,12 @@ function pickPlan(which, key) {
 }
 function curMonthly() {
   if (st.curManualMode) {
-    var v = +document.getElementById('curManual').value || 0;
-    return v > 0 ? { m: v, label: '手入力の月額', manual: true, callNote: '' } : null;
+    var total = +document.getElementById('curManual').value || 0;
+    var dv = +document.getElementById('curManualDev').value || 0;
+    var op = +document.getElementById('curManualOpt').value || 0;
+    if (total <= 0) return null;
+    var m = Math.max(0, total - dv - op);
+    return { m: m, label: '手入力(プラン部分' + (dv || op ? '=合計−分割−補償' : '') + ')', manual: true, callNote: '', manualDev: dv, manualOpt: op };
   }
   var pl = st.curKey ? findPlan(st.curKey) : null;
   if (!pl) return null;
@@ -647,7 +689,7 @@ function renderBuyTable() {
   document.getElementById('assumpBox').innerHTML =
     '<b>前提</b> ' + p.name + ': 公式ストア ' + yen(p.official) + ' / ' + carName + ' ' + yen(p.carrier) +
     (p.est ? '(iPhone 17eのドコモ・au価格は二次情報照合の概算)' : '') + '。' +
-    '返却プログラム(' + PROGNAME[st.car] + ')の実質負担は残価' + (st.car === 'r' ? '50%(48回払い・25か月目返却)' : '45%') + 'と仮定。' +
+    '返却プログラム(' + PROGNAME[st.car] + ')の実質負担は残価' + (st.car === 'r' ? '50%(48回払い・25か月目返却=実際は2年+1か月)' : '45%') + 'と仮定。' +
     '頭金は店舗独自のため、02調査の実務値 <input class="inline-in num" type="number" id="atamakinIn" value="' + st.atamakin + '" onchange="st.atamakin=+this.value||0;refresh();">円 で試算(一般に5,000〜22,000円・店舗差が大きい。楽天は頭金なし)。' +
     '設定サポートは02調査の店頭実額=データ移行+アプリ設定(ドコモ2,200+3,300=5,500円/au3,960+2,420=6,380円/SB3,960円・LINE設定は無料)。' +
     'オンライン購入なら頭金0円・事務手数料はドコモ0円/au・SB3,850円になります。ポイント還元・下取りは含みません。<br>' +
@@ -667,6 +709,12 @@ function renderHosho() {
     if (document.activeElement !== input) input.value = st[key + 'M'] || '';
     input.disabled = st[key] === 'none';
   });
+
+  /* 買い方×キャリア補償の整合チェック */
+  var warns = [];
+  if (st.hoNow === 'carrier' && st.buyNow === 'official') warns.push('現状: 公式ストアで購入した端末は、キャリアの補償に原則入れません(購入時加入のため)。');
+  if (st.hoFut === 'carrier' && st.buyFut === 'official') warns.push('将来: 公式ストアで購入する端末は、キャリアの補償に原則入れません。メーカーの補償かネット保険をご検討ください。');
+  document.getElementById('hoshoWarn').innerHTML = warns.length ? '<div class="warn" style="margin:4px 0 8px;">⚠ ' + warns.join('<br>⚠ ') + '</div>' : '';
 
   var H = hoshoDev(), devName = DEVICES.find(function (x) { return x.id === st.dev; }).name;
   function hrow(t, d, m, sub, tou, fun, est, hl) {
@@ -704,10 +752,14 @@ function renderTotal() {
   var Y = st.yr, months = Y * 12;
   var cur = curMonthly(), fut = futMonthly();
   var bNow = buyCalc(st.buyNow, Y), bFut = buyCalc(st.buyFut, Y);
-  var bNowDef = BUYS.find(function (b) { return b.id === st.buyNow; });
-  var bFutDef = BUYS.find(function (b) { return b.id === st.buyFut; });
+  var bNowDef = buyDef(st.buyNow), bFutDef = buyDef(st.buyFut);
   var p = devPrices();
   var futInit = fut && fut.pl ? fut.pl.init : 0;
+  /* 乗り換えと店頭購入を同時に行う場合、事務手数料は1回(端末側に統合) */
+  var initMerged = false;
+  if (futInit > 0 && (st.buyFut === 'return' || st.buyFut === 'carrier') && fut && fut.pl && fut.pl.win.indexOf('店頭') >= 0) {
+    initMerged = true; futInit = 0;
+  }
   var kokoSet = st.kokoSim && st.kokoC && st.buyFut === 'official';
   var koko = st.kokoSim ? (kokoSet ? FEES.kokoSet - FEES.kokoNet : FEES.kokoSim) : 0;
 
@@ -718,21 +770,26 @@ function renderTotal() {
   var curTotal = cur ? (cur.m + hoNowM) * months + bNow.total : null;
   var futTotal = fut ? (fut.m + hoFutM) * months + bFut.total + futInit + koko : null;
 
-  function card(cls, badge, title, plan, mo, planM, buy, buyDef, extra) {
+  function card(cls, badge, title, plan, mo, planM, buy, bd, extra) {
+    var devDesc = bd.id === 'none' ? 'いまの端末を使い続ける(端末費用なし)' : p.name + '・' + bd.name + '(' + bd.sub + ')';
+    var devLine = bd.id === 'none'
+      ? '<div class="ln"><span class="k">端末代</span><span class="v num">0円(買わない)</span></div>'
+      : '<div class="ln"><span class="k">端末(' + Y + '年ならし)</span><span class="v num">' + yen(buy.perMonth) + '/月</span></div>';
     return '<div class="tot ' + cls + '">' +
       '<div class="bighead"><span class="badge ' + (cls === 'fut' ? 'fut' : 'now') + '">' + badge + '</span><b>' + title + '</b></div>' +
-      '<div class="plabel">' + plan + '<br>' + p.name + '・' + buyDef.name + '(' + buyDef.sub + ')</div>' +
+      '<div class="plabel">' + plan + '<br>' + devDesc + '</div>' +
       '<div class="mo num">' + (mo === null ? '―' : yen(mo)) + '<small> /月</small></div>' +
       '<div class="lines">' +
       '<div class="ln"><span class="k">通信プラン</span><span class="v num">' + (planM === null ? '―' : yen(planM) + '/月') + '</span></div>' +
-      '<div class="ln"><span class="k">端末(' + Y + '年ならし)</span><span class="v num">' + yen(buy.perMonth) + '/月</span></div>' +
+      devLine +
       extra +
       '<div class="ln total"><span class="k">' + Y + '年間の総額</span><span class="v num">' + ((planM === null) ? '―' : yen((cls === 'fut' ? futTotal : curTotal))) + '</span></div>' +
       '</div></div>';
   }
   var extraFut = '';
   if (hoFutM) extraFut += '<div class="ln"><span class="k">端末の補償(' + hoshoInfo(st.hoFut, st.car).label + ')</span><span class="v num">' + yen(hoFutM) + '/月</span></div>';
-  if (futInit) extraFut += '<div class="ln"><span class="k">乗り換え初期費用</span><span class="v num">' + yen(futInit) + '<small style="color:var(--faint);">(オンライン手続き)</small></span></div>';
+  if (initMerged) extraFut += '<div class="ln"><span class="k">乗り換え初期費用</span><span class="v num">0円<small style="color:var(--faint);"> 端末側の店頭手数料に統合(同時手続き)</small></span></div>';
+  else if (futInit) extraFut += '<div class="ln"><span class="k">乗り換え初期費用</span><span class="v num">' + yen(futInit) + '<small style="color:var(--faint);">(オンライン手続き)</small></span></div>';
   else if (fut) extraFut += '<div class="ln"><span class="k">乗り換え初期費用</span><span class="v num">0円</span></div>';
   if (koko) extraFut += '<div class="ln"><span class="k">ここスマ SIM移行' + (kokoSet ? '(セット適用)' : 'サポート') + '</span><span class="v num">' + yen(koko) + (kokoSet ? '<small style="color:var(--faint);"> 購入19,800円は端末側に計上・セット合計29,800円</small>' : '') + '</span></div>';
   var extraCur = '';
@@ -747,7 +804,7 @@ function renderTotal() {
   var dEl = document.getElementById('s3diff');
   if (curMoTotal !== null && futMoTotal !== null) {
     var dm = futMoTotal - curMoTotal, dt = futTotal - curTotal;
-    dEl.innerHTML = '<div class="cap">月々のちがい(プラン+端末ならし)</div>' +
+    dEl.innerHTML = '<div class="cap">月々のちがい(プラン+端末+補償の合計)</div>' +
       '<div class="big num ' + (dm <= 0 ? 'save' : 'cost') + '">' + signYen(dm) + '<span style="font-size:18px;color:var(--sub);"> /月</span></div>' +
       '<div class="sub2 num">' + Y + '年間では <b class="' + (dt <= 0 ? 'save' : 'cost') + '" style="font-size:20px;">' + signYen(dt) + '</b>' + (Math.round(Math.abs(dt)) === 0 ? ' で変わりません' : (dt < 0 ? ' 少なくなる見込みです' : ' 多くなる見込みです')) + '(仮の条件での目安)</div>';
   } else {
@@ -770,10 +827,14 @@ function renderTotal() {
 function renderPlanDiff() {
   var cur = curMonthly(), fut = futMonthly();
   function noteHtml(x) {
-    if (!x || x.manual) return '';
+    if (!x) return '';
+    if (x.manual) {
+      return (x.manualDev || x.manualOpt) ? '合計から端末分割' + (x.manualDev ? yen(x.manualDev) : '0円') + '・補償等' + (x.manualOpt ? yen(x.manualOpt) : '0円') + 'を除いたプラン部分' : '';
+    }
     var c = x.c || {};
     var bd = c.applied ? discBreakdown(c) : '';
-    return (bd ? bd + '<br>' : '') + (x.callNote || '');
+    var dataWarn = x.pl && x.pl.dataOnly ? '<span class="warn">⚠ データ専用: 音声通話・電話番号は使えません(電話番号ののりかえ不可)</span><br>' : '';
+    return dataWarn + (bd ? bd + '<br>' : '') + (x.callNote || '');
   }
   document.getElementById('curMo').textContent = cur ? yen(cur.m) : '―';
   document.getElementById('curNote').innerHTML = cur ? noteHtml(cur) : '';
@@ -789,13 +850,15 @@ function renderPlanDiff() {
 }
 
 /* ===== chips ===== */
-function chips(elId, items, isOn, onPick, subFn) {
+function chips(elId, items, isOn, onPick, subFn, isToggle) {
   var el = document.getElementById(elId);
   el.innerHTML = '';
   items.forEach(function (it) {
     var b = document.createElement('button');
-    b.className = 'chip' + (isOn(it) ? ' on' : '');
-    b.innerHTML = it.name + (subFn && subFn(it) ? '<span class="sm">' + subFn(it) + '</span>' : '');
+    var on = isOn(it);
+    b.className = 'chip' + (on ? ' on' : '');
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    b.innerHTML = (isToggle && on ? '✓ ' : '') + it.name + (subFn && subFn(it) ? '<span class="sm">' + subFn(it) + '</span>' : '');
     b.onclick = function () { onPick(it); refresh(); };
     el.appendChild(b);
   });
@@ -804,22 +867,29 @@ function renderChips() {
   chips('callChips', [ { id: 'few', name: 'ほとんどしない' }, { id: 'short', name: '短い通話がときどき' }, { id: 'long', name: '長い通話が多い' } ],
     function (it) { return st.call === it.id; }, function (it) { st.call = it.id; });
   chips('discChips', [ { id: 'fam', name: '家族3回線以上' }, { id: 'hik', name: '光回線セット' }, { id: 'card', name: '指定カード払い' }, { id: 'senior', name: '60歳以上' } ],
-    function (it) { return st[it.id]; }, function (it) { st[it.id] = !st[it.id]; });
+    function (it) { return st[it.id]; }, function (it) { st[it.id] = !st[it.id]; }, null, true);
   chips('curGChips', GROUPS, function (it) { return st.curG === it.id; }, function (it) { st.curG = it.id; st.curKey = null; st.curManualMode = false; });
   chips('futGChips', GROUPS, function (it) { return st.futG === it.id; }, function (it) { st.futG = it.id; st.futKey = null; });
   chips('devChips', DEVICES, function (it) { return st.dev === it.id; }, function (it) { st.dev = it.id; },
     function (it) { return it.id === 'manual' ? '' : yen(it.official); });
   chips('carChips', CARRIERS, function (it) { return st.car === it.id; }, function (it) { st.car = it.id; });
-  chips('buyNowChips', BUYS.map(function (b) { return { id: b.id, name: b.mark + '. ' + b.name }; }),
-    function (it) { return st.buyNow === it.id; }, function (it) { st.buyNow = it.id; });
-  chips('buyFutChips', BUYS.map(function (b) { return { id: b.id, name: b.mark + '. ' + b.name }; }),
-    function (it) { return st.buyFut === it.id; }, function (it) { st.buyFut = it.id; });
+  var buySel = [ { id: 'none', name: '買わない(いまの端末)' } ].concat(BUYS.map(function (b) { return { id: b.id, name: b.mark + '. ' + b.name }; }));
+  chips('buyNowChips', buySel, function (it) { return st.buyNow === it.id; }, function (it) { st.buyNow = it.id; });
+  chips('buyFutChips', buySel, function (it) { return st.buyFut === it.id; }, function (it) { st.buyFut = it.id; });
   var yrs = [ { id: 2, name: '2年' }, { id: 4, name: '4年' }, { id: 6, name: '6年' } ];
   chips('yrChips', yrs, function (it) { return st.yr === it.id; }, function (it) { st.yr = it.id; });
   chips('yrChips2', yrs.map(function (y) { return { id: y.id, name: y.name + 'でみる' }; }), function (it) { return st.yr === it.id; }, function (it) { st.yr = it.id; });
   document.getElementById('manualDev').style.display = st.dev === 'manual' ? 'flex' : 'none';
 }
 
+function applyDemo() {
+  /* 中立な例: 同じドコモ内で、使い方に合わせてプランを見直した場合 */
+  st.curManualMode = false;
+  st.curG = 'docomo'; st.curKey = 'ドコモ|MAX(無制限)';
+  st.futG = 'docomo'; st.futKey = 'ドコモ|mini(10GB)';
+  refresh();
+  document.getElementById('cardNow').scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
 function refresh() {
   renderChips();
   renderSide('now'); renderSide('fut');
@@ -828,7 +898,7 @@ function refresh() {
   renderHosho();
   renderTotal();
 }
-['curManual', 'manualOfficial', 'manualCarrier'].forEach(function (id) {
+['curManual', 'curManualDev', 'curManualOpt', 'manualOfficial', 'manualCarrier'].forEach(function (id) {
   document.addEventListener('input', function (e) { if (e.target && e.target.id === id) { renderPlanDiff(); renderBuyTable(); renderTotal(); } });
 });
 document.addEventListener('input', function (e) {
