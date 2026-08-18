@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>ここスマ｜会員ページ</title>
+<style>
+/* ============ 意匠は 44_会員スマホ画面_仕様プロト_v0.1 の確定トークン ============ */
+:root{
+  --brand:#0F766E; --action:#11866D; --action-edge:#0A6350; --accent-deep:#0B4F42;
+  --ok:#2E8B57; --ok-edge:#1E5E3A;
+  --ink:#1B2B28; --ink-soft:#4A5C58; --ink-faint:#8A9A96;
+  --line:#D8E2E0; --card:#FFFFFF;
+  --cat-kihon:#3B6EA5; --cat-ouyou:#7A5BA6; --cat-katsuyo:#C2703D; --cat-event:#B04A63;
+}
+html[data-season="spring"]{--season-border:#F3D8E2;--season-pale:#FBE7EF;--season-light:#F3A9C7;--season-deep:#A9436E}
+html[data-season="summer"]{--season-border:#CDE4EC;--season-pale:#E3F2F8;--season-light:#A5D3A0;--season-deep:#2A6E8F}
+html[data-season="autumn"]{--season-border:#F0D8BE;--season-pale:#FAECD9;--season-light:#F2B879;--season-deep:#9E4E22}
+html[data-season="winter"]{--season-border:#DBE5EF;--season-pale:#EAF1F7;--season-light:#C4D4CA;--season-deep:#8A3A48}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;font-size:20px;line-height:1.7;color:var(--ink);
+  font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;
+  background:linear-gradient(180deg,var(--season-pale) 0%,#FFFFFF 42%);
+  min-height:100vh;-webkit-font-smoothing:antialiased;
+}
+.phone{max-width:430px;margin:0 auto;padding:0 18px 120px}
+
+header{padding:22px 0 10px}
+.shop{display:flex;align-items:center;gap:9px;font-size:19px;color:var(--brand);font-weight:800;letter-spacing:.04em}
+.shop .dot{width:12px;height:12px;border-radius:50%;background:var(--brand);flex:none}
+.hello{margin:16px 0 4px;font-size:30px;font-weight:800;letter-spacing:.01em}
+.hello small{font-size:22px;font-weight:700;color:var(--ink-soft)}
+.visits{font-size:22px;color:var(--season-deep);font-weight:700}
+
+.card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:20px 18px;margin:18px 0;
+  box-shadow:0 2px 0 rgba(15,118,110,.04)}
+.card h2{margin:0 0 14px;font-size:24px;font-weight:800;display:flex;align-items:center;gap:10px}
+.card h2 .bar{width:6px;height:24px;border-radius:3px;background:var(--brand);flex:none}
+
+.resv{border:2px solid var(--season-border);background:var(--season-pale);border-radius:16px;padding:16px;margin-bottom:12px}
+.resv .when{font-size:23px;font-weight:800;color:var(--season-deep)}
+.resv .what{font-size:25px;font-weight:800;margin:4px 0 12px}
+.resv .cat{display:inline-block;font-size:17px;font-weight:800;color:#fff;border-radius:999px;padding:3px 12px;margin-bottom:6px}
+.resv .extra-chip{display:inline-block;font-size:16px;font-weight:800;color:var(--season-deep);
+  border:2px solid var(--season-border);background:#fff;border-radius:999px;padding:2px 10px;margin-left:8px}
+.none{color:var(--ink-soft);font-size:21px;padding:6px 2px 12px}
+
+button{font-family:inherit}
+.btn{display:block;width:100%;min-height:68px;border:none;border-radius:16px;background:var(--action);
+  border-bottom:5px solid var(--action-edge);color:#fff;font-size:26px;font-weight:800;cursor:pointer;padding:14px}
+.btn:active{transform:translateY(2px);border-bottom-width:3px}
+.btn.sub{background:#fff;color:var(--action);border:2px solid var(--action);border-bottom:5px solid var(--action-edge);}
+.btn.quiet{background:#fff;color:var(--ink-soft);border:2px solid var(--line);border-bottom:5px solid var(--line)}
+.btn.ok{background:var(--ok);border-bottom-color:var(--ok-edge)}
+.btn:disabled{opacity:.5;pointer-events:none}
+.btn+.btn{margin-top:12px}
+
+.sumline{font-size:23px;font-weight:700;margin:2px 0 14px;color:var(--ink-soft)}
+.sumline b{font-size:34px;color:var(--brand);font-weight:800;margin:0 4px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cell{position:relative;aspect-ratio:1/1;border-radius:14px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:8px;font-size:15px;font-weight:700;
+  line-height:1.35;cursor:pointer;border:2px dashed #C9D6D3;background:#fff;color:#A7B5B1}
+.cell.got{border:2px solid var(--c);background:color-mix(in srgb,var(--c) 12%,#fff);color:var(--c)}
+.cell.done{border:3px solid var(--c);background:color-mix(in srgb,var(--c) 26%,#fff);color:#14231F}
+.cell .mark{font-size:22px;line-height:1;margin-bottom:4px}
+.cell.done .mark{color:var(--c)}
+.cat-head{display:flex;align-items:center;gap:9px;margin:22px 0 10px;font-size:21px;font-weight:800}
+.cat-head .chip{width:16px;height:16px;border-radius:5px;background:var(--c)}
+.cat-head .cnt{margin-left:auto;font-size:19px;color:var(--ink-soft);font-weight:700}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:17px;color:var(--ink-soft);margin:14px 0 4px;font-weight:700}
+.legend i{display:inline-block;width:20px;height:20px;border-radius:6px;vertical-align:-4px;margin-right:6px}
+
+.row{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fff;border:2px solid var(--line);
+  border-bottom:4px solid var(--line);border-radius:16px;padding:16px;font-size:22px;font-weight:700;margin-bottom:12px;cursor:pointer;color:var(--ink)}
+.row:active{transform:translateY(2px)}
+.row .big{font-size:24px;font-weight:800}
+.row .sub{font-size:18px;color:var(--ink-soft);font-weight:700}
+.row .arw{margin-left:auto;color:var(--action);font-size:26px;font-weight:800;flex:none}
+.row.full{opacity:.5}
+.row .seat{font-size:17px;font-weight:800;color:var(--ok);flex:none}
+.row.full .seat{color:var(--ink-faint)}
+.row.mine{border-color:var(--season-border);background:var(--season-pale)}
+.row.mine .seat{color:var(--season-deep)}
+
+.screen{display:none}.screen.on{display:block}
+.top{display:flex;align-items:center;gap:12px;padding:18px 0 6px}
+.back{border:2px solid var(--line);border-bottom:4px solid var(--line);background:#fff;border-radius:14px;
+  min-height:56px;padding:8px 18px;font-size:21px;font-weight:800;color:var(--ink-soft);cursor:pointer}
+.title{font-size:26px;font-weight:800}
+
+.notice{border:2px solid var(--season-border);background:var(--season-pale);border-radius:16px;padding:16px;margin:16px 0;font-size:21px;line-height:1.65}
+.notice b{color:var(--season-deep)}
+.done-big{text-align:center;padding:26px 10px}
+.done-big .mk{font-size:64px;line-height:1}
+.done-big h3{font-size:30px;margin:12px 0 6px;font-weight:800}
+
+.sheet{position:fixed;inset:0;background:rgba(20,35,31,.45);display:none;align-items:flex-end;z-index:50}
+.sheet.on{display:flex}
+.sheet .inner{background:#fff;width:100%;max-width:430px;margin:0 auto;border-radius:24px 24px 0 0;padding:24px 20px 30px}
+.sheet h3{margin:0 0 6px;font-size:27px;font-weight:800}
+.cat2{display:inline-block;font-size:17px;font-weight:800;color:#fff;border-radius:999px;padding:3px 12px;margin-bottom:12px}
+.state{font-size:21px;font-weight:800;padding:12px 14px;border-radius:14px;margin:12px 0 18px}
+.state.yet{background:#F3F6F5;color:var(--ink-soft)}
+.state.got{background:#E9F3F1;color:var(--brand)}
+.state.done{background:#E7F4EC;color:var(--ok-edge)}
+
+.center{padding:60px 10px;text-align:center;font-size:23px;font-weight:700;color:var(--ink-soft);line-height:1.9}
+.foot{margin:34px 0 10px;text-align:center;font-size:14px;color:var(--ink-faint)}
+</style>
+</head>
+<body>
+<div class="phone">
+
+<!-- ========== 読み込み・ご案内 ========== -->
+<section id="s-load" class="screen on">
+  <header>
+    <div class="shop"><span class="dot"></span>ここスマ</div>
+  </header>
+  <div id="load-body" class="center">読み込んでいます…</div>
+</section>
+
+<!-- ========== ホーム ========== -->
+<section id="s-home" class="screen">
+  <header>
+    <div class="shop"><span class="dot"></span>ここスマ</div>
+    <div class="hello"><span id="h-name"></span><small>、こんにちは</small></div>
+    <div class="visits" id="h-visits"></div>
+  </header>
+
+  <div class="card">
+    <h2><span class="bar"></span>これからのご予約</h2>
+    <div id="resv-list"></div>
+    <button class="btn" onclick="go('s-book')">＋ 予約する</button>
+  </div>
+
+  <div class="card">
+    <h2><span class="bar"></span>できることカード</h2>
+    <div class="sumline">できるようになったこと <b id="sum-done">0</b> 個</div>
+    <div class="grid" id="mini-grid"></div>
+    <div style="height:14px"></div>
+    <button class="btn sub" onclick="go('s-card')">ぜんぶ見る</button>
+  </div>
+
+  <div class="foot">ここスマ 会員ページ v0.1</div>
+</section>
+
+<!-- ========== 予約の入口 ========== -->
+<section id="s-book" class="screen">
+  <div class="top"><button class="back" onclick="go('s-home')">もどる</button><div class="title">予約する</div></div>
+  <div class="card">
+    <h2><span class="bar"></span>どちらから選びますか</h2>
+    <button class="btn" onclick="go('s-bydate')">日にちから選ぶ</button>
+    <button class="btn sub" onclick="go('s-bycourse')">習いたいことから選ぶ</button>
+  </div>
+</section>
+
+<!-- ========== 日にちから ========== -->
+<section id="s-bydate" class="screen">
+  <div class="top"><button class="back" onclick="go('s-book')">もどる</button><div class="title">日にちから</div></div>
+  <div id="date-list" style="margin-top:8px"></div>
+</section>
+
+<!-- ========== 講座から ========== -->
+<section id="s-bycourse" class="screen">
+  <div class="top"><button class="back" onclick="go('s-book')">もどる</button><div class="title">習いたいこと</div></div>
+  <div id="course-list" style="margin-top:8px"></div>
+</section>
+
+<!-- ========== 確認 ========== -->
+<section id="s-confirm" class="screen">
+  <div class="top"><button class="back" onclick="go(backTo)">もどる</button><div class="title">ご確認ください</div></div>
+  <div class="card">
+    <div id="cf-when" class="visits" style="font-size:23px"></div>
+    <div id="cf-what" style="font-size:29px;font-weight:800;margin:6px 0 4px"></div>
+    <div id="cf-cat"></div>
+    <div id="cf-notice"></div>
+    <div id="cf-err"></div>
+    <div style="height:8px"></div>
+    <button class="btn ok" id="cf-btn" onclick="doBook()">この日で予約する</button>
+    <button class="btn quiet" onclick="go(backTo)">やめる</button>
+  </div>
+</section>
+
+<!-- ========== 完了 ========== -->
+<section id="s-done" class="screen">
+  <div class="card done-big">
+    <div class="mk" id="dn-mk">🌸</div>
+    <h3>ご予約しました</h3>
+    <div id="dn-when" style="font-size:23px;font-weight:800;color:var(--season-deep)"></div>
+    <div id="dn-what" style="font-size:26px;font-weight:800;margin-top:4px"></div>
+    <div id="dn-extra"></div>
+  </div>
+  <div class="card">
+    <div style="font-size:21px;line-height:1.7;margin-bottom:14px">
+      お忘れにならないよう、<b>スマホのカレンダーに入れておく</b>と安心です。
+      入れ方が分からないときは、お店でお声かけください。
+    </div>
+    <button class="btn sub" onclick="addToCalendar()">カレンダーに入れる</button>
+    <button class="btn" onclick="go('s-home')">ホームにもどる</button>
+  </div>
+</section>
+
+<!-- ========== できることカード ========== -->
+<section id="s-card" class="screen">
+  <div class="top"><button class="back" onclick="go('s-home')">もどる</button><div class="title">できることカード</div></div>
+  <div class="card">
+    <div class="sumline">できるようになったこと <b id="sum-done2">0</b> 個</div>
+    <div class="legend">
+      <span><i style="border:2px dashed #C9D6D3;background:#fff"></i>これから</span>
+      <span><i style="border:2px solid var(--brand);background:#E9F3F1"></i>習いました</span>
+      <span><i style="border:3px solid var(--ok);background:#CFE9DA"></i>できるようになった</span>
+    </div>
+  </div>
+  <div id="card-body"></div>
+  <div style="height:20px"></div>
+</section>
+
+</div>
+
+<!-- ========== 講座の詳細シート ========== -->
+<div class="sheet" id="sheet" onclick="if(event.target.id==='sheet')closeSheet()">
+  <div class="inner">
+    <div id="sh-cat"></div>
+    <h3 id="sh-title"></h3>
+    <div id="sh-state" class="state"></div>
+    <div id="sh-btns"></div>
+    <div style="height:10px"></div>
+    <button class="btn quiet" onclick="closeSheet()">とじる</button>
+  </div>
+</div>
+
+<!-- ========== 取消の確認シート ========== -->
+<div class="sheet" id="cxl" onclick="if(event.target.id==='cxl')closeCancel()">
+  <div class="inner">
+    <h3>ご予約の取り消し</h3>
+    <div id="cx-when" style="font-size:23px;font-weight:800;color:var(--season-deep)"></div>
+    <div id="cx-what" style="font-size:25px;font-weight:800;margin:4px 0 14px"></div>
+    <div id="cx-err"></div>
+    <button class="btn" id="cx-btn" onclick="doCancel()">はい、取り消す</button>
+    <button class="btn quiet" onclick="closeCancel()">やめる</button>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   ここスマ 会員ページ(予約・できることカード) v0.1  2026-08-18
+   ・データは Supabase の RPC(yoyaku_data / reserve / cancel_reservation /
+     mark_can_do)から。HTMLに入れてよいのは公開キーだけ(19r§9-7)
+   ・空席は「空きあり/満席」の2値だけ表示(43§4-4。残り数は出さない)
+   ・回数超過は追加のご受講として金額を明示(裁定①)。支払いはお店で
+   ・取消は開始時刻まで(裁定③)
+   ===================================================================== */
+var SUPA_URL = 'https://kravngifhbxywmpoydur.supabase.co';
+var SUPA_KEY = 'sb_publishable_kxqrgfxUIyZk-pQmU8Jpbw_r9lmxb1E';
+
+/* ---------- 保存(localStorageが使えない環境でも動くように) ---------- */
+var memStore = {};
+function storeGet(k){ try{var v=localStorage.getItem(k);return v!==null?v:(memStore[k]||null);}catch(e){return memStore[k]||null;} }
+function storeSet(k,v){ memStore[k]=v; try{localStorage.setItem(k,v);}catch(e){} }
+
+/* ---------- トークン(p.htmlと同じ約束: ?t=…→保存) ---------- */
+var TOKEN = '';
+(function(){
+  try{
+    var t = new URLSearchParams(location.search).get('t') || '';
+    if(t && /^[0-9a-fA-F-]{36}$/.test(t)){ TOKEN=t; storeSet('kokosuma_token',t); }
+    else { TOKEN = storeGet('kokosuma_token') || ''; }
+  }catch(e){ TOKEN = storeGet('kokosuma_token') || ''; }
+})();
+
+/* ---------- RPC ---------- */
+function rpc(fn, body){
+  return fetch(SUPA_URL + '/rest/v1/rpc/' + fn, {
+    method:'POST',
+    headers:{'Content-Type':'application/json','apikey':SUPA_KEY},
+    body: JSON.stringify(body)
+  }).then(function(r){ return r.json(); });
+}
+
+/* ---------- データ ---------- */
+var D = null;          // yoyaku_data の結果
+var COURSES = [];      // {id,t,k,pre}
+var SESSIONS = [];     // {id,d,t,cid,title,k,full,mine,mineId,mineExtra,heldOn,startTime}
+var RESV = [];         // 自分の予約(SESSIONSの部分集合)
+var LEARNED = [], MARKED = [];
+
+var CAT = {
+  kihon:{name:"基本",     c:"var(--cat-kihon)"},
+  ouyou:{name:"応用",     c:"var(--cat-ouyou)"},
+  katsu:{name:"活用",     c:"var(--cat-katsuyo)"},
+  event:{name:"季節の講座",c:"var(--cat-event)"}
+};
+function catKey(id){ return id>=400?'event':id>=300?'katsu':id>=200?'ouyou':'kihon'; }
+var C = function(id){ return COURSES.find(function(x){return x.id===id;}); };
+var catStyle = function(k){ return 'style="background:'+CAT[k].c+'"'; };
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+
+var YOBI = ['日','月','火','水','木','金','土'];
+function fmtDate(iso){  // '2026-08-24' → '8/24(月)'
+  var p = iso.split('-');
+  var dt = new Date(Number(p[0]), Number(p[1])-1, Number(p[2]));
+  return Number(p[1]) + '/' + Number(p[2]) + '(' + YOBI[dt.getDay()] + ')';
+}
+function ymOf(iso){ return iso.slice(0,7); }
+function todayYm(){
+  var n = new Date();
+  return n.getFullYear() + '-' + ('0'+(n.getMonth()+1)).slice(-2);
+}
+function nextYm(){
+  var n = new Date(); n.setDate(1); n.setMonth(n.getMonth()+1);
+  return n.getFullYear() + '-' + ('0'+(n.getMonth()+1)).slice(-2);
+}
+function yen(n){ return (n==null?'':Number(n).toLocaleString('ja-JP')); }
+
+/* ---------- 読み込み ---------- */
+function showLoad(html){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on');});
+  document.getElementById('s-load').classList.add('on');
+  document.getElementById('load-body').innerHTML = html;
+}
+function loadData(){
+  if(!TOKEN){
+    showLoad('この画面は、ここスマの<b>会員さま用</b>です。<br>お店でお渡しした<b>会員証(QRコード)</b>から<br>お開きください。<br><br><span style="font-size:19px">分からないときは、お店でお声かけください。<br>お電話でもご予約いただけます。</span>');
+    return Promise.resolve(false);
+  }
+  return rpc('yoyaku_data', {p_token: TOKEN}).then(function(r){
+    if(!r || !r.ok){
+      if(r && r.error==='bad_token'){
+        showLoad('会員の確認ができませんでした。<br>お店でお渡しした<b>会員証(QRコード)</b>から<br>もう一度お開きください。<br><br><span style="font-size:19px">分からないときは、お店でお声かけください。</span>');
+      }else{
+        showLoad('うまくつながりませんでした。<br>電波のよいところで、もう一度お試しください。<br><br><button class="btn sub" onclick="boot()">もう一度</button>');
+      }
+      return false;
+    }
+    D = r;
+    COURSES = (r.courses||[]).map(function(c){
+      return {id:c.id, t:c.title, k:catKey(c.id), pre:c.prereq};
+    });
+    SESSIONS = (r.sessions||[]).map(function(s){
+      return {id:s.id, d:fmtDate(s.held_on), t:s.start_time, cid:s.course_id,
+              title:s.title, k:s.course_id?catKey(s.course_id):'kihon',
+              full:(s.remaining<=0), mine:s.mine, mineId:s.mine_id,
+              mineExtra:s.mine_extra, heldOn:s.held_on, startTime:s.start_time};
+    });
+    RESV = SESSIONS.filter(function(s){ return s.mine==='reserved'; });
+    LEARNED = r.learned || [];
+    MARKED  = r.marked || [];
+    return true;
+  }).catch(function(){
+    showLoad('うまくつながりませんでした。<br>電波のよいところで、もう一度お試しください。<br><br><button class="btn sub" onclick="boot()">もう一度</button>');
+    return false;
+  });
+}
+function boot(){
+  showLoad('読み込んでいます…');
+  loadData().then(function(ok){ if(ok) go('s-home'); });
+}
+
+/* ---------- 画面遷移 ---------- */
+var backTo='s-book', pending=null, lastBooked=null;
+function go(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on');});
+  document.getElementById(id).classList.add('on');
+  window.scrollTo(0,0);
+  if(id==='s-home'){renderHome();}
+  if(id==='s-bydate'){renderDates();}
+  if(id==='s-bycourse'){renderCourses();}
+  if(id==='s-card'){renderCard();}
+}
+
+/* ---------- ホーム ---------- */
+function stateOf(cid){
+  if(MARKED.indexOf(cid)>=0) return 2;
+  if(LEARNED.indexOf(cid)>=0) return 1;
+  return 0;
+}
+function renderHome(){
+  document.getElementById('h-name').textContent = (D.nickname||'会員') + 'さん';
+  document.getElementById('h-visits').textContent =
+    D.visits>0 ? 'これまで '+D.visits+'回 ご来店いただきました' : 'ようこそ、ここスマへ';
+  var L=document.getElementById('resv-list');
+  L.innerHTML = RESV.length===0
+    ? '<div class="none">ご予約はまだありません。</div>'
+    : RESV.map(function(s){
+        var c=s.cid?C(s.cid):null;
+        return '<div class="resv">'
+          + (c?'<span class="cat" '+catStyle(c.k)+'>'+CAT[c.k].name+'</span>':'')
+          + (s.mineExtra?'<span class="extra-chip">追加のご受講</span>':'')
+          + '<div class="when">'+s.d+' '+s.t+'</div>'
+          + '<div class="what">'+esc(s.title||'教室')+'</div>'
+          + '<button class="btn quiet" style="min-height:56px;font-size:21px" onclick="openCancel('+s.id+')">取り消す</button>'
+          + '</div>';
+      }).join('');
+  var done = MARKED.length;
+  document.getElementById('sum-done').textContent = done;
+  document.getElementById('mini-grid').innerHTML =
+    COURSES.slice(0,6).map(function(c){return cellHTML(c,true);}).join('');
+}
+
+/* ---------- 取消 ---------- */
+var cxTarget=null;
+function openCancel(sid){
+  cxTarget = SESSIONS.find(function(s){return s.id===sid;});
+  if(!cxTarget) return;
+  document.getElementById('cx-when').textContent = cxTarget.d+' '+cxTarget.t;
+  document.getElementById('cx-what').textContent = '「'+(cxTarget.title||'教室')+'」のご予約を取り消します。よろしいですか？';
+  document.getElementById('cx-err').innerHTML='';
+  document.getElementById('cx-btn').disabled=false;
+  document.getElementById('cxl').classList.add('on');
+}
+function closeCancel(){ document.getElementById('cxl').classList.remove('on'); cxTarget=null; }
+function doCancel(){
+  if(!cxTarget) return;
+  var btn=document.getElementById('cx-btn'); btn.disabled=true;
+  rpc('cancel_reservation', {p_token:TOKEN, p_reservation:cxTarget.mineId}).then(function(r){
+    if(r && r.ok){
+      closeCancel();
+      loadData().then(function(){ renderHome(); });
+    }else{
+      btn.disabled=false;
+      var msg = (r&&r.error==='too_late') ? 'この回は開始時刻を過ぎたため、取り消しできません。お店にお電話ください。'
+                                          : 'うまくいきませんでした。もう一度お試しください。';
+      document.getElementById('cx-err').innerHTML = '<div class="notice">'+msg+'</div>';
+    }
+  }).catch(function(){
+    btn.disabled=false;
+    document.getElementById('cx-err').innerHTML = '<div class="notice">うまくつながりませんでした。もう一度お試しください。</div>';
+  });
+}
+
+/* ---------- 日にちから ---------- */
+function renderDates(){
+  var h = SESSIONS.length===0 ? '<div class="none" style="padding:14px 4px">いまは予約できる回がありません。<br>次の予定が決まりましたらご案内します。</div>' : '';
+  h += SESSIONS.map(function(s,i){
+    var mine = s.mine==='reserved';
+    var dead = s.full && !mine;
+    var seat = mine ? 'ご予約済み' : (s.full ? '満席' : '空きあり');
+    return '<button class="row '+(dead?'full':'')+(mine?' mine':'')+'" '
+      + ((dead||mine)?'disabled':'onclick="pick('+i+',\'s-bydate\')"')+'>'
+      + '<span><span class="big">'+s.d+' '+s.t+'</span><br>'
+      + '<span class="sub">'+esc(s.title||'教室')+'</span></span>'
+      + '<span class="seat">'+seat+'</span>'
+      + ((dead||mine)?'':'<span class="arw">›</span>')
+      + '</button>';
+  }).join('');
+  document.getElementById('date-list').innerHTML = h;
+}
+
+/* ---------- 講座から ---------- */
+function renderCourses(){
+  document.getElementById('course-list').innerHTML = COURSES.map(function(c){
+    var idx = SESSIONS.findIndex(function(s){return s.cid===c.id && !s.full && s.mine!=='reserved';});
+    var s = idx>=0 ? SESSIONS[idx] : null;
+    return '<button class="row '+(s?'':'full')+'" '+(s?'onclick="pick('+idx+',\'s-bycourse\')"':'disabled')+'>'
+      + '<span><span class="big">'+esc(c.t)+'</span><br>'
+      + '<span class="sub">'+CAT[c.k].name+(s?' ・ つぎは '+s.d+' '+s.t:' ・ いまは予約できる回がありません')+'</span></span>'
+      + (s?'<span class="arw">›</span>':'')
+      + '</button>';
+  }).join('');
+}
+
+/* ---------- 確認 ---------- */
+function usedFor(heldOn){
+  var ym = ymOf(heldOn);
+  if(ym===todayYm()) return D.used_this_month;
+  if(ym===nextYm())  return D.used_next_month;
+  return 0;
+}
+function pick(i,from){
+  pending=SESSIONS[i]; backTo=from;
+  var c = pending.cid ? C(pending.cid) : null;
+  document.getElementById('cf-when').textContent = pending.d+' '+pending.t;
+  document.getElementById('cf-what').textContent = pending.title||'教室';
+  document.getElementById('cf-cat').innerHTML = c ? '<span class="cat2" '+catStyle(c.k)+'>'+CAT[c.k].name+'</span>' : '';
+  var n='';
+  /* 推奨前提はかならず1行だけ(44の約束) */
+  if(c && c.pre && stateOf(c.pre)===0 && C(c.pre)){
+    n += '<div class="notice">「<b>'+esc(C(c.pre).t)+'</b>」がまだのようです。先にお受けになると分かりやすいですが、<b>このままでも大丈夫です。</b></div>';
+  }
+  /* 回数の超過(裁定①: 追加分と金額を明示。支払いはお店で) */
+  var used = usedFor(pending.heldOn);
+  if(used >= D.limit_month){
+    n += '<div class="notice">この月は <b>'+(used+1)+'回目</b> のご予約です。<br>'
+       + '月'+D.limit_month+'回をこえた分は <b>追加のご受講(1回 '+yen(D.extra_price)+'円)</b> になります。<br>'
+       + 'お支払いは、お店でお願いします。</div>';
+  }
+  document.getElementById('cf-notice').innerHTML = n;
+  document.getElementById('cf-err').innerHTML = '';
+  document.getElementById('cf-btn').disabled = false;
+  go('s-confirm');
+}
+function bookErr(msg){
+  document.getElementById('cf-err').innerHTML = '<div class="notice">'+msg+'</div>';
+  document.getElementById('cf-btn').disabled = false;
+}
+function doBook(){
+  if(!pending) return;
+  document.getElementById('cf-btn').disabled = true;
+  rpc('reserve', {p_token:TOKEN, p_session:pending.id}).then(function(r){
+    if(r && r.ok){
+      lastBooked = {heldOn:pending.heldOn, startTime:pending.startTime,
+                    d:pending.d, t:pending.t, title:pending.title||'教室',
+                    extra:r.extra, price:r.extra_price, rid:r.reservation_id};
+      document.getElementById('dn-when').textContent = pending.d+' '+pending.t;
+      document.getElementById('dn-what').textContent = pending.title||'教室';
+      document.getElementById('dn-extra').innerHTML = r.extra
+        ? '<div class="notice" style="text-align:left">この分は <b>追加のご受講(1回 '+yen(r.extra_price)+'円)</b> です。<br>お支払いは、お店でお願いします。</div>' : '';
+      loadData().then(function(){ go('s-done'); });
+    }else{
+      var e = r ? r.error : '';
+      if(e==='full')          bookErr('申しわけありません。ひと足ちがいで<b>満席</b>になりました。ほかの回をお選びください。');
+      else if(e==='too_late') bookErr('この回は受付を終了しました。ほかの回をお選びください。');
+      else if(e==='already')  bookErr('この回は、すでにご予約いただいています。');
+      else if(e==='not_open_yet') bookErr('この回のご予約は、<b>'+(r.opens_on?fmtDate(r.opens_on):'前の月の20日')+'</b> から受付します。');
+      else if(e==='bad_token') bookErr('会員の確認ができませんでした。お店でお渡しした会員証(QRコード)からお開きください。');
+      else bookErr('うまくいきませんでした。もう一度お試しください。');
+    }
+  }).catch(function(){ bookErr('うまくつながりませんでした。電波のよいところで、もう一度お試しください。'); });
+}
+
+/* ---------- カレンダー(.icsファイル) ---------- */
+function addToCalendar(){
+  if(!lastBooked) return;
+  var p = lastBooked.heldOn.split('-'), tm = lastBooked.startTime.split(':');
+  var start = new Date(Date.UTC(+p[0], +p[1]-1, +p[2], +tm[0]-9, +tm[1]));  // JST→UTC
+  var end   = new Date(start.getTime() + 60*60*1000);
+  function z(d){ return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,''); }
+  var ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//kokosuma//yoyaku//JP',
+    'BEGIN:VEVENT','UID:kokosuma-'+(lastBooked.rid||Date.now())+'@kokosuma',
+    'DTSTAMP:'+z(new Date()),'DTSTART:'+z(start),'DTEND:'+z(end),
+    'SUMMARY:ここスマ教室 '+lastBooked.title,'LOCATION:ここスマ',
+    'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  var a=document.createElement('a');
+  a.href='data:text/calendar;charset=utf-8,'+encodeURIComponent(ics);
+  a.download='kokosuma_yoyaku.ics';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ---------- できることカード ---------- */
+function cellHTML(c,mini){
+  var st=stateOf(c.id);
+  var cls = st===2?'done':(st===1?'got':'');
+  var mk  = st===2?'✓':(st===1?'●':'');
+  return '<div class="cell '+cls+'" style="--c:'+CAT[c.k].c+'" onclick="openSheet('+c.id+')">'
+       + (mk?'<span class="mark">'+mk+'</span>':'')+'<span>'+esc(c.t)+'</span></div>';
+}
+function renderCard(){
+  document.getElementById('sum-done2').textContent = MARKED.length;
+  var h='';
+  ['kihon','ouyou','katsu','event'].forEach(function(k){
+    var list=COURSES.filter(function(c){return c.k===k;});
+    if(list.length===0) return;
+    var d=list.filter(function(c){return stateOf(c.id)===2;}).length;
+    var g=list.filter(function(c){return stateOf(c.id)>=1;}).length;
+    h += '<div class="cat-head" style="--c:'+CAT[k].c+'">'
+       + '<span class="chip"></span>'+CAT[k].name
+       + '<span class="cnt">習いました '+g+' ・ できるように '+d+'</span></div>'
+       + '<div class="grid">'+list.map(function(c){return cellHTML(c);}).join('')+'</div>';
+  });
+  document.getElementById('card-body').innerHTML = h || '<div class="none">講座の一覧は、じゅんび中です。</div>';
+}
+
+/* ---------- 講座の詳細シート ---------- */
+var shId=null;
+function openSheet(id){
+  shId=id; var c=C(id); if(!c) return;
+  var st=stateOf(id);
+  document.getElementById('sh-cat').innerHTML='<span class="cat2" '+catStyle(c.k)+'>'+CAT[c.k].name+'</span>';
+  document.getElementById('sh-title').textContent=c.t;
+  var S=document.getElementById('sh-state');
+  var B=document.getElementById('sh-btns');
+  if(st===0){
+    S.className='state yet'; S.textContent='これから受けられます';
+    B.innerHTML='<button class="btn" onclick="closeSheet();go(\'s-bycourse\')">この講座を予約する</button>';
+  }else if(st===1){
+    S.className='state got'; S.textContent='習いました';
+    B.innerHTML='<button class="btn ok" onclick="markDone()">できるようになりました！</button>'
+              + '<button class="btn sub" onclick="closeSheet();go(\'s-bycourse\')">もう一度受ける</button>';
+  }else{
+    S.className='state done'; S.textContent='✓ できるようになりました';
+    B.innerHTML='<button class="btn sub" onclick="closeSheet();go(\'s-bycourse\')">もう一度受ける</button>';
+  }
+  document.getElementById('sheet').classList.add('on');
+}
+function markDone(){
+  var id=shId;
+  closeSheet();
+  if(MARKED.indexOf(id)<0) MARKED.push(id);   // 先に画面へ反映
+  renderCard(); renderHomeSafe();
+  rpc('mark_can_do',{p_token:TOKEN,p_course:id,p_on:true}).catch(function(){});
+}
+function renderHomeSafe(){ try{ if(D) renderHome(); }catch(e){} }
+function closeSheet(){ document.getElementById('sheet').classList.remove('on'); }
+
+/* ---------- 季節の自動判定(19j§4) ---------- */
+(function(){
+  var m=new Date().getMonth()+1;
+  var s=(m>=3&&m<=5)?'spring':(m>=6&&m<=8)?'summer':(m>=9&&m<=11)?'autumn':'winter';
+  document.documentElement.dataset.season=s;
+  var mk={spring:'🌸',summer:'🎋',autumn:'🍁',winter:'⛄'}[s];
+  var el=document.getElementById('dn-mk'); if(el) el.textContent=mk;
+})();
+
+boot();
+</script>
+</body>
+</html>
