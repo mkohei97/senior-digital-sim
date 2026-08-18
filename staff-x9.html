@@ -70,6 +70,27 @@
   #qrbox img { width: 260px; height: 260px; image-rendering: pixelated; }
   .note { font-size: 13.5px; color: var(--sub); background: var(--bg); border-radius: 10px; padding: 10px 12px; margin-top: 10px; line-height: 1.6; }
   .hidden { display: none !important; }
+  /* タブ */
+  .tabs { display: flex; gap: 8px; margin-top: 14px; }
+  .tabs .tab { flex: 1; text-align: center; padding: 10px 6px; border-radius: 12px; font-size: 15.5px; font-weight: 700;
+               background: #fff; border: 1.5px solid var(--line); color: var(--sub); cursor: pointer; }
+  .tabs .tab.on { background: var(--deep); color: #fff; border-color: var(--deep); }
+  /* コマカード */
+  .srow { border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; margin-top: 10px; background: #fff; }
+  .srow .head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .srow .head b { font-size: 17px; }
+  .srow .head .tt { color: var(--deep); font-weight: 700; }
+  .srow .head .cap { margin-left: auto; font-size: 13.5px; color: var(--sub); }
+  .rrow { display: flex; align-items: center; gap: 8px; padding: 7px 0; border-top: 1px dashed var(--line); font-size: 15.5px; }
+  .rrow .st { margin-left: auto; display: flex; gap: 6px; }
+  .rrow .st .btn { padding: 6px 10px; font-size: 13px; border-radius: 8px; }
+  .rrow .st .btn.on { background: var(--deep); color: #fff; border: none; box-shadow: 0 2px 0 #06382E; }
+  .rrow .st .btn.on.ab { background: #8A6D1F; box-shadow: 0 2px 0 #6B540F; }
+  .addrow { display: flex; gap: 8px; align-items: center; padding-top: 10px; border-top: 1px dashed var(--line); margin-top: 4px; }
+  .addrow input { max-width: 110px; font-size: 15px; padding: 8px 10px; }
+  .formgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
+  .formgrid label { margin: 0 0 2px; }
+  select { width: 100%; font-size: 16px; font-family: inherit; padding: 11px 12px; border: 1.5px solid var(--line); border-radius: 12px; background: #fff; }
 </style>
 </head>
 <body>
@@ -89,6 +110,12 @@
 
   <!-- 本体 -->
   <div id="main" class="hidden">
+    <div class="tabs">
+      <div class="tab on" id="tab-kaiin" onclick="switchTab('kaiin')">会員</div>
+      <div class="tab" id="tab-kyoshitsu" onclick="switchTab('kyoshitsu')">今日の教室</div>
+      <div class="tab" id="tab-yotei" onclick="switchTab('yotei')">開催予定</div>
+    </div>
+    <div id="pane-kaiin">
     <div class="toolbar">
       <input type="text" id="q" placeholder="番号・呼び名でしぼり込み" oninput="renderList()">
       <button class="btn small" onclick="loadList()">更新</button>
@@ -100,6 +127,48 @@
       <div class="count" id="count"></div>
     </div>
     <div class="note">状態の意味 — <b>在籍</b>: ふだんの会員/<b>休会</b>: お休み中(記録は残る)/<b>退会</b>: 退会済み(退会日が会員数の推移に反映)。パスコードを間違え続けると15分間ロックされます。</div>
+    </div>
+
+    <!-- 今日の教室(講師画面) -->
+    <div id="pane-kyoshitsu" class="hidden">
+      <div class="card">
+        <div class="row"><b style="font-size:18px;" id="ky-date"></b><button class="btn small" style="margin-left:auto;" onclick="loadKyoshitsu()">更新</button></div>
+        <div id="ky-list"></div>
+        <div class="msg" id="ky-msg"></div>
+      </div>
+      <div class="note">出席の確定は<b>当日中だけ</b>できます(翌日以降は直せません)。飛び入り・電話の方は「番号で追加」でどうぞ。無断欠席(取消なしの欠席)も1回分の消化として数えます。</div>
+    </div>
+
+    <!-- 開催予定 -->
+    <div id="pane-yotei" class="hidden">
+      <div class="card">
+        <div class="row"><b style="font-size:18px;">これからの開催予定(60日先まで)</b><button class="btn small" style="margin-left:auto;" onclick="loadYotei()">更新</button></div>
+        <div id="yt-list"></div>
+      </div>
+      <div class="card">
+        <b style="font-size:17px;">コマを作る・直す</b>
+        <div class="formgrid" style="margin-top:10px;">
+          <div><label>日付</label><input type="date" id="yt-date"></div>
+          <div><label>時間帯の名前</label><input type="text" id="yt-slot" placeholder="平日1" maxlength="8"></div>
+          <div><label>開始時刻</label><input type="time" id="yt-start" value="10:30"></div>
+          <div><label>講座</label><select id="yt-course"></select></div>
+          <div><label>定員</label><input type="number" id="yt-cap" value="8" min="1" max="20"></div>
+          <div><label>状態</label><select id="yt-status"><option value="open">開講</option><option value="cancelled">中止</option></select></div>
+        </div>
+        <div class="row right" style="margin-top:12px;"><button class="btn" onclick="saveSession()">この内容で保存</button></div>
+        <div class="msg" id="yt-msg"></div>
+      </div>
+      <div class="card">
+        <b style="font-size:17px;">講座の登録</b>
+        <div class="formgrid" style="margin-top:10px;">
+          <div><label>講座ID(101,201…使い回さない)</label><input type="number" id="co-id" placeholder="101"></div>
+          <div style="grid-column: span 2;"><label>講座名</label><input type="text" id="co-title" placeholder="文字入力の基本" maxlength="30"></div>
+        </div>
+        <div class="row right" style="margin-top:12px;"><button class="btn ghost" onclick="saveCourse()">講座を登録</button></div>
+        <div class="msg" id="co-msg"></div>
+        <div id="co-list" style="font-size:14px; color:var(--sub); margin-top:8px;"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2720,6 +2789,154 @@ document.querySelectorAll('.ovl').forEach(function (o) {
   o.addEventListener('click', function (e) { if (e.target === o) closeOvl(o.id); });
 });
 document.getElementById('gate-pass').addEventListener('keydown', function (e) { if (e.key === 'Enter') gateIn(); });
+
+/* ---- タブ ---- */
+function switchTab(t) {
+  ['kaiin', 'kyoshitsu', 'yotei'].forEach(function (k) {
+    document.getElementById('tab-' + k).classList.toggle('on', k === t);
+    document.getElementById('pane-' + k).classList.toggle('hidden', k !== t);
+  });
+  if (t === 'kyoshitsu') loadKyoshitsu();
+  if (t === 'yotei') loadYotei();
+}
+function todayStr() {
+  var d = new Date();
+  return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+}
+function plusDays(n) {
+  var d = new Date(Date.now() + n * 86400000);
+  return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+}
+var courses = [];
+var STATUS_JA = { reserved: '予約', attended: '出席', absent: '欠席' };
+
+/* ---- 今日の教室(講師画面) ---- */
+function loadKyoshitsu() {
+  var t = todayStr();
+  document.getElementById('ky-date').textContent = t.replace(/-/g, '/') + ' の教室';
+  document.getElementById('ky-msg').textContent = '';
+  sbRpc('staff_sessions', { p_pass: pass(), p_from: t, p_to: t }).then(function (r) {
+    if (!(r && r.ok)) { document.getElementById('ky-msg').textContent = errText(r && r.error); return; }
+    courses = r.courses || [];
+    var el = document.getElementById('ky-list');
+    if (!r.sessions.length) { el.innerHTML = '<div style="padding:14px 4px; color:var(--sub);">今日の開催予定はありません。</div>'; return; }
+    var html = '';
+    r.sessions.forEach(function (s) {
+      var taken = s.roster.filter(function (x) { return x.status !== 'absent'; }).length;
+      html += '<div class="srow"><div class="head"><b>' + s.start_time + '</b><span>' + esc(s.slot) + '</span>' +
+        '<span class="tt">' + esc(s.title || '(講座未定)') + '</span>' +
+        (s.status === 'cancelled' ? '<span class="chip left">中止</span>' : '') +
+        '<span class="cap">' + taken + '/' + s.capacity + '名</span></div>';
+      s.roster.forEach(function (x) {
+        html += '<div class="rrow"><b>' + esc(x.nickname) + 'さん</b><span style="color:var(--sub); font-size:13px;">No.' + pad4(x.member_id) +
+          (x.extra ? '・<span style="color:#8A6D1F;">追加受講</span>' : '') + '</span>' +
+          '<span class="st">' +
+          '<button class="btn small ghost' + (x.status === 'attended' ? ' on' : '') + '" onclick="doAttend(' + x.reservation_id + ', \'attended\')">出席</button>' +
+          '<button class="btn small ghost' + (x.status === 'absent' ? ' on ab' : '') + '" onclick="doAttend(' + x.reservation_id + ', \'absent\')">欠席</button>' +
+          (x.status !== 'reserved' ? '<button class="btn small ghost" onclick="doAttend(' + x.reservation_id + ', \'reserved\')">戻す</button>' : '') +
+          '</span></div>';
+      });
+      html += '<div class="addrow"><input type="number" id="ky-add-' + s.id + '" placeholder="会員番号" min="1" max="9999">' +
+        '<button class="btn small ghost" onclick="doStaffReserve(' + s.id + ')">番号で追加(飛び入り・電話)</button></div>';
+      html += '</div>';
+    });
+    el.innerHTML = html;
+  }).catch(function () { document.getElementById('ky-msg').textContent = errText(); });
+}
+function doAttend(rid, st) {
+  sbRpc('staff_attend', { p_pass: pass(), p_reservation: rid, p_status: st }).then(function (r) {
+    if (r && r.ok) loadKyoshitsu();
+    else document.getElementById('ky-msg').textContent = r && r.error === 'not_today' ? '出席の確定は当日中だけです。' : errText(r && r.error);
+  }).catch(function () { document.getElementById('ky-msg').textContent = errText(); });
+}
+function doStaffReserve(sid) {
+  var el = document.getElementById('ky-add-' + sid);
+  var id = parseInt(el.value, 10);
+  if (!id) { document.getElementById('ky-msg').textContent = '会員番号を入れてください。'; return; }
+  sbRpc('staff_reserve', { p_pass: pass(), p_session: sid, p_member: id, p_source: 'store' }).then(function (r) {
+    if (r && r.ok) {
+      document.getElementById('ky-msg').textContent = '';
+      loadKyoshitsu();
+    } else {
+      var t = { full: '満席です。', not_found: 'その番号の会員が見つかりません。', already: 'すでに入っています。' }[r && r.error];
+      document.getElementById('ky-msg').textContent = t || errText(r && r.error);
+    }
+  }).catch(function () { document.getElementById('ky-msg').textContent = errText(); });
+}
+
+/* ---- 開催予定 ---- */
+function loadYotei() {
+  sbRpc('staff_sessions', { p_pass: pass(), p_from: todayStr(), p_to: plusDays(60) }).then(function (r) {
+    if (!(r && r.ok)) return;
+    courses = r.courses || [];
+    renderCourseSelect();
+    renderCourseList();
+    var el = document.getElementById('yt-list');
+    if (!r.sessions.length) { el.innerHTML = '<div style="padding:14px 4px; color:var(--sub);">開催予定がまだありません。下のフォームから作れます。</div>'; return; }
+    var html = '';
+    r.sessions.forEach(function (s) {
+      var taken = s.roster.filter(function (x) { return x.status !== 'absent'; }).length;
+      html += '<div class="srow" style="cursor:pointer;" onclick="fillSession(\'' + s.held_on + '\', \'' + esc(s.slot) + '\', \'' + s.start_time + '\', ' + (s.course_id || 'null') + ', ' + s.capacity + ', \'' + s.status + '\')">' +
+        '<div class="head"><b>' + s.held_on.slice(5).replace('-', '/') + '</b><span>' + s.start_time + '</span><span>' + esc(s.slot) + '</span>' +
+        '<span class="tt">' + esc(s.title || '(講座未定)') + '</span>' +
+        (s.status === 'cancelled' ? '<span class="chip left">中止</span>' : '') +
+        '<span class="cap">予約' + taken + '/' + s.capacity + '</span></div></div>';
+    });
+    el.innerHTML = html;
+  }).catch(function () {});
+}
+function renderCourseSelect() {
+  var sel = document.getElementById('yt-course');
+  sel.innerHTML = '<option value="">(講座未定)</option>' + courses.filter(function (c) { return c.active; })
+    .map(function (c) { return '<option value="' + c.id + '">' + c.id + ' ' + esc(c.title) + '</option>'; }).join('');
+}
+function renderCourseList() {
+  document.getElementById('co-list').textContent = courses.length
+    ? '登録済み: ' + courses.map(function (c) { return c.id + ' ' + c.title; }).join('/')
+    : '';
+}
+function fillSession(d, slot, start, courseId, cap, status) {
+  document.getElementById('yt-date').value = d;
+  document.getElementById('yt-slot').value = slot;
+  document.getElementById('yt-start').value = start;
+  document.getElementById('yt-course').value = courseId || '';
+  document.getElementById('yt-cap').value = cap;
+  document.getElementById('yt-status').value = status === 'cancelled' ? 'cancelled' : 'open';
+  document.getElementById('yt-msg').textContent = 'この行を読み込みました。直して「保存」を押してください。';
+  document.getElementById('yt-msg').className = 'msg ok-msg';
+}
+function saveSession() {
+  var d = document.getElementById('yt-date').value;
+  var slot = (document.getElementById('yt-slot').value || '').trim();
+  var start = document.getElementById('yt-start').value;
+  var courseId = parseInt(document.getElementById('yt-course').value, 10) || null;
+  var cap = parseInt(document.getElementById('yt-cap').value, 10) || 8;
+  var status = document.getElementById('yt-status').value;
+  var msg = document.getElementById('yt-msg');
+  msg.className = 'msg';
+  if (!d || !slot || !start) { msg.textContent = '日付・時間帯の名前・開始時刻を入れてください。'; return; }
+  msg.textContent = '保存しています…';
+  sbRpc('staff_session_upsert', { p_pass: pass(), p_held_on: d, p_slot: slot, p_start: start, p_course: courseId, p_capacity: cap, p_status: status }).then(function (r) {
+    if (r && r.ok) { msg.textContent = '保存しました。'; msg.className = 'msg ok-msg'; loadYotei(); }
+    else msg.textContent = errText(r && r.error);
+  }).catch(function () { msg.textContent = errText(); });
+}
+function saveCourse() {
+  var id = parseInt(document.getElementById('co-id').value, 10);
+  var title = (document.getElementById('co-title').value || '').trim();
+  var msg = document.getElementById('co-msg');
+  if (!id || !title) { msg.textContent = '講座IDと講座名を入れてください。'; return; }
+  msg.textContent = '登録しています…';
+  sbRpc('staff_course_upsert', { p_pass: pass(), p_id: id, p_title: title }).then(function (r) {
+    if (r && r.ok) {
+      msg.textContent = '登録しました。';
+      msg.className = 'msg ok-msg';
+      document.getElementById('co-id').value = '';
+      document.getElementById('co-title').value = '';
+      loadYotei();
+    } else msg.textContent = errText(r && r.error);
+  }).catch(function () { msg.textContent = errText(); });
+}
 
 /* 起動: パスが端末にあれば自動で入る */
 if (pass()) {
