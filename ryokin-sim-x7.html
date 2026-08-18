@@ -260,7 +260,7 @@
     <div class="card" id="condCard">
       <div class="rowlab"><span class="lb">通話</span><span class="chips" id="callChips"></span></div>
       <div class="rowlab"><span class="lb">割引の条件</span><span class="chips" id="discChips"></span></div>
-      <div class="note">当てはまるものだけON(対象プランのみ割引を反映した目安)。カード割は通常カードの額で計算しています(ドコモ: dカードGOLD以上は−550円/SB: PayPayゴールドは−550円)。でんきセット割・長期利用割・通話料の従量分(22円/30秒)は含みません。</div>
+      <div class="note">当てはまるものだけON(対象プランのみ割引を反映した目安)。「上位カード」ONでdカードGOLD系(ドコモ−550円)・PayPayゴールド(SB−550円/Y!mobile−770円⚠)の額で計算します(au・UQは上位区分なし)。でんきセット割・長期利用割・通話料の従量分(22円/30秒)は含みません。</div>
     </div>
 
     <div class="duo">
@@ -352,7 +352,7 @@
     <b>ここスマ|スマホの相談窓口</b> ― 試験公開中の仮ページ(店内相談用)。金額はすべて取得日時点の税込目安であり、契約条件・キャンペーンにより変わります。ご契約前に必ず各社公式サイトでご確認ください。<br>
     出典: 各社公式サイト(詳細は 22_料金プラン調査_2026-08 v1.4 / 02_調査_3キャリア店頭費用)。料金取得日 2026年8月7〜8日。ご契約前に必ず当日の各社公式ページでご確認ください。<br>
     返却プログラムの実質負担は「残価=端末価格の45%(楽天は48回払い・25か月目返却で50%)」と仮定した概算です。機種・時期・査定条件により変わります。頭金は店舗独自(5,000〜22,000円)のため仮の金額です。iPhone 17e のドコモ・au価格は二次情報照合の概算。<br>
-    v0.4(2026-08-08): 3ステップ構成に再設計(通信プラン現状/将来→買い方比較→トータル)/楽天モバイルを端末比較に追加/頭金・設定サポートの内訳を明示/デザイン=Claude Design「ここスマ料金シミュレーション設計」(白基調ミニマル・v0.4)/同日データ更新: 日本通信SIMを4プラン(シンプル290・みんなの20GB・50GB・ネットだけ)に拡充(公式サイト2026-08-08確認)/頭金を02調査の実務値19,800円に統一・C列にここスマ ネット購入サポート19,800円を標準計上・積み重なる費用の計算根拠を表下に明示/端末の補償サービス比較を追加(キャリア4社・AppleCare+/Pixel Care+・@nifty安心メールパック・モバイル保険。2026-08-08公式調べ・選択でSTEP3に反映)/補償は選択中の機種ごとの確定額で表示(ドコモ補償料金検索・au公式・SB公式・楽天価格帯区分で裏取り)/22fレビュー全21項目を反映(買い方「買わない」追加・乗換手数料の店頭統合・公式ストア×キャリア補償の警告・手入力の分解入力・例ボタン・データ専用警告・スマホ幅対応・注記コントラストAA・印刷A4縦1枚要約・チップ✓/aria対応ほか)
+    v0.4(2026-08-08): 3ステップ構成に再設計(通信プラン現状/将来→買い方比較→トータル)/楽天モバイルを端末比較に追加/頭金・設定サポートの内訳を明示/デザイン=Claude Design「ここスマ料金シミュレーション設計」(白基調ミニマル・v0.4)/同日データ更新: 日本通信SIMを4プラン(シンプル290・みんなの20GB・50GB・ネットだけ)に拡充(公式サイト2026-08-08確認)/頭金を02調査の実務値19,800円に統一・C列にここスマ ネット購入サポート19,800円を標準計上・積み重なる費用の計算根拠を表下に明示/端末の補償サービス比較を追加(キャリア4社・AppleCare+/Pixel Care+・@nifty安心メールパック・モバイル保険。2026-08-08公式調べ・選択でSTEP3に反映)/補償は選択中の機種ごとの確定額で表示(ドコモ補償料金検索・au公式・SB公式・楽天価格帯区分で裏取り)/ドコモMAX系に「家族間通話無料」注記(5分通話はオプション880円を公式確認)・上位カード(dカードGOLD−550/PayPayゴールドSB−550/Y!m−770⚠)トグル追加・プラン一覧を会社名ファースト表示に/22fレビュー全21項目を反映(買い方「買わない」追加・乗換手数料の店頭統合・公式ストア×キャリア補償の警告・手入力の分解入力・例ボタン・データ専用警告・スマホ幅対応・注記コントラストAA・印刷A4縦1枚要約・チップ✓/aria対応ほか)
   </footer>
 </div>
 
@@ -371,22 +371,22 @@ var GROUPS = [
   { id: 'rakuten', name: '楽天モバイル' }, { id: 'sub', name: 'サブブランド' }, { id: 'mvno', name: '格安SIM' }
 ];
 var PLANS = [
-  { g: 'docomo', prov: 'ドコモ', plan: 'MAX(〜1GB)', gb: '〜1GB', base: 5698, disc: { fam: 1210, hik: 1210, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン' },
-  { g: 'docomo', prov: 'ドコモ', plan: 'MAX(〜3GB)', gb: '〜3GB', base: 6798, disc: { fam: 1210, hik: 1210, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン' },
-  { g: 'docomo', prov: 'ドコモ', plan: 'MAX(無制限)', gb: '無制限', base: 8448, disc: { fam: 1210, hik: 1210, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン' },
-  { g: 'docomo', prov: 'ドコモ', plan: 'ポイ活MAX(無制限)', gb: '無制限', base: 11748, disc: { fam: 1210, hik: 1210, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン', note: 'pt還元は含めない定価比較' },
-  { g: 'docomo', prov: 'ドコモ', plan: 'ポイ活20(〜20GB)', gb: '〜20GB', base: 7898, disc: { fam: 1210, hik: 1210, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン' },
-  { g: 'docomo', prov: 'ドコモ', plan: 'mini(4GB)', gb: '4GB', base: 2750, disc: { hik: 1210, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン', note: '増量CP中6GB・家族割の減額対象外' },
-  { g: 'docomo', prov: 'ドコモ', plan: 'mini(10GB)', gb: '10GB', base: 3850, disc: { hik: 1210, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン', note: '増量CP中12GB' },
+  { g: 'docomo', prov: 'ドコモ', plan: 'MAX(〜1GB)', gb: '〜1GB', base: 5698, disc: { fam: 1210, hik: 1210, card: 220, cardG: 550 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン', note: '家族間通話は無料' },
+  { g: 'docomo', prov: 'ドコモ', plan: 'MAX(〜3GB)', gb: '〜3GB', base: 6798, disc: { fam: 1210, hik: 1210, card: 220, cardG: 550 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン', note: '家族間通話は無料' },
+  { g: 'docomo', prov: 'ドコモ', plan: 'MAX(無制限)', gb: '無制限', base: 8448, disc: { fam: 1210, hik: 1210, card: 220, cardG: 550 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン', note: '家族間通話は無料' },
+  { g: 'docomo', prov: 'ドコモ', plan: 'ポイ活MAX(無制限)', gb: '無制限', base: 11748, disc: { fam: 1210, hik: 1210, card: 220, cardG: 550 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン', note: 'pt還元は含めない定価比較・家族間通話は無料' },
+  { g: 'docomo', prov: 'ドコモ', plan: 'ポイ活20(〜20GB)', gb: '〜20GB', base: 7898, disc: { fam: 1210, hik: 1210, card: 220, cardG: 550 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン', note: '家族間通話は無料' },
+  { g: 'docomo', prov: 'ドコモ', plan: 'mini(4GB)', gb: '4GB', base: 2750, disc: { hik: 1210, card: 220, cardG: 550 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン', note: '増量CP中6GB・家族割の減額/家族間通話無料の対象外' },
+  { g: 'docomo', prov: 'ドコモ', plan: 'mini(10GB)', gb: '10GB', base: 3850, disc: { hik: 1210, card: 220, cardG: 550 }, call: { incl: 0, five: 880, full: 1980 }, init: 0, initNote: 'オンライン0円/店頭4,950円', win: '店頭・電話・オンライン', note: '増量CP中12GB・家族割の減額/家族間通話無料の対象外' },
   { g: 'au', prov: 'au', plan: 'スマホミニ+(〜1GB)', gb: '〜1GB', base: 4928, disc: { fam: 1210, hik: 1100, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'オンライン3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
   { g: 'au', prov: 'au', plan: 'スマホミニ+(〜3GB)', gb: '〜3GB', base: 6578, disc: { fam: 1210, hik: 1100, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'オンライン3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
   { g: 'au', prov: 'au', plan: 'スマホミニ+(〜5GB)', gb: '〜5GB', base: 8228, disc: { fam: 1210, hik: 1100, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'オンライン3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
   { g: 'au', prov: 'au', plan: 'バリューリンク(無制限)', gb: '無制限', base: 8008, disc: { fam: 1210, hik: 1100, card: 220 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'オンライン3,850円/店頭4,950円', win: '店頭・電話・オンライン', note: '1GB以下の月は自動-1,650円' },
   { g: 'au', prov: 'au', plan: 'シニアバリュー(5GB)', gb: '5GB', base: 4048, disc: { hik: 1100, card: 220 }, call: { incl: 5, five: 0, full: 1100 }, init: 3850, initNote: 'オンライン3,850円/店頭4,950円', win: '店頭・電話・オンライン', seniorOnly: true, note: '60歳以上・5分かけ放題込み' },
-  { g: 'sb', prov: 'ソフトバンク', plan: 'ミニフィット2(〜2GB)', gb: '〜2GB', base: 5258, disc: { fam: 550, hik: 1100, card: 330 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
-  { g: 'sb', prov: 'ソフトバンク', plan: 'ミニフィット2(〜5GB)', gb: '〜5GB', base: 6358, disc: { fam: 550, hik: 1100, card: 330 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
-  { g: 'sb', prov: 'ソフトバンク', plan: 'テイガク無制限', gb: '無制限', base: 8008, disc: { fam: 1210, hik: 1100, card: 330 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
-  { g: 'sb', prov: 'ソフトバンク', plan: 'ペイトク2(無制限)', gb: '無制限', base: 10538, disc: { fam: 1210, hik: 1100, card: 330 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン', note: 'PayPay還元は含めない定価比較' },
+  { g: 'sb', prov: 'ソフトバンク', plan: 'ミニフィット2(〜2GB)', gb: '〜2GB', base: 5258, disc: { fam: 550, hik: 1100, card: 330, cardG: 550 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
+  { g: 'sb', prov: 'ソフトバンク', plan: 'ミニフィット2(〜5GB)', gb: '〜5GB', base: 6358, disc: { fam: 550, hik: 1100, card: 330, cardG: 550 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
+  { g: 'sb', prov: 'ソフトバンク', plan: 'テイガク無制限', gb: '無制限', base: 8008, disc: { fam: 1210, hik: 1100, card: 330, cardG: 550 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン' },
+  { g: 'sb', prov: 'ソフトバンク', plan: 'ペイトク2(無制限)', gb: '無制限', base: 10538, disc: { fam: 1210, hik: 1100, card: 330, cardG: 550 }, call: { incl: 0, five: 880, full: 1980 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン', note: 'PayPay還元は含めない定価比較' },
   { g: 'sb', prov: 'ソフトバンク', plan: 'スマホデビュー+(4GB)', gb: '4GB', base: 2596, disc: {}, call: { incl: 0, five: 880, full: 1980, fullSenior: 880 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン', note: '1年目1,078円・ガラケー移行向け', senior: '60歳以上: かけ放題880円' },
   { g: 'sb', prov: 'ソフトバンク', plan: 'スマホデビュー+(20GB)', gb: '20GB', base: 4246, disc: {}, call: { incl: 0, five: 880, full: 1980, fullSenior: 880 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・電話・オンライン', note: '1年目2,728円', senior: '60歳以上: かけ放題880円' },
   { g: 'rakuten', prov: '楽天モバイル', plan: '最強プラン(〜3GB)', gb: '〜3GB', base: 1078, disc: {}, call: { incl: 99, five: 0, full: 0 }, init: 0, initNote: '0円', win: '店頭・オンライン', note: 'Rakuten Linkアプリで通話無料', senior: '65歳以上: pt還元・詐欺対策保険' },
@@ -397,9 +397,9 @@ var PLANS = [
   { g: 'sub', prov: 'povo2.0', plan: '30GB/30日トッピング', gb: '30GB', base: 2780, disc: {}, call: { incl: 0, five: 550, full: 1650 }, init: 0, initNote: '0円', win: 'オンラインのみ', note: 'au回線・基本料0円+トッピング' },
   { g: 'sub', prov: 'UQモバイル', plan: 'トクトク2(5GB以下の月)', gb: '〜5GB', base: 2948, disc: { hik: 1100, card: 220 }, call: { incl: 0, five: 880, full: 1980, fullSenior: 880 }, init: 3850, initNote: 'オンライン3,850円/店頭4,950円', win: '店頭・オンライン', senior: '60歳以上: かけ放題880円', note: '30GBまで使った月は4,048円' },
   { g: 'sub', prov: 'UQモバイル', plan: 'コミコミバリュー(35GB)', gb: '35GB', base: 3828, disc: {}, call: { incl: 10, five: 0, full: 1100 }, init: 3850, initNote: 'オンライン3,850円/店頭4,950円', win: '店頭・オンライン', note: '10分かけ放題込み(60歳以上割の対象外)' },
-  { g: 'sub', prov: 'Y!mobile', plan: 'シンプル3 S(5GB)', gb: '5GB', base: 3278, disc: { hik: 1650, card: 330 }, call: { incl: 0, five: 880, full: 1980, fullSenior: 880 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・オンライン', senior: '60歳以上: かけ放題880円' },
-  { g: 'sub', prov: 'Y!mobile', plan: 'シンプル3 M(30GB)', gb: '30GB', base: 4378, disc: { hik: 1650, card: 330 }, call: { incl: 0, five: 880, full: 1980, fullSenior: 880 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・オンライン', senior: '60歳以上: かけ放題880円' },
-  { g: 'sub', prov: 'Y!mobile', plan: 'シンプル3 L(35GB)', gb: '35GB', base: 5478, disc: { hik: 1650, card: 330 }, call: { incl: 10, five: 0, full: 1100 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・オンライン', note: '10分かけ放題込み' },
+  { g: 'sub', prov: 'Y!mobile', plan: 'シンプル3 S(5GB)', gb: '5GB', base: 3278, disc: { hik: 1650, card: 330, cardG: 770 }, call: { incl: 0, five: 880, full: 1980, fullSenior: 880 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・オンライン', senior: '60歳以上: かけ放題880円' },
+  { g: 'sub', prov: 'Y!mobile', plan: 'シンプル3 M(30GB)', gb: '30GB', base: 4378, disc: { hik: 1650, card: 330, cardG: 770 }, call: { incl: 0, five: 880, full: 1980, fullSenior: 880 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・オンライン', senior: '60歳以上: かけ放題880円' },
+  { g: 'sub', prov: 'Y!mobile', plan: 'シンプル3 L(35GB)', gb: '35GB', base: 5478, disc: { hik: 1650, card: 330, cardG: 770 }, call: { incl: 10, five: 0, full: 1100 }, init: 3850, initNote: 'Web3,850円/店頭4,950円', win: '店頭・オンライン', note: '10分かけ放題込み' },
   { g: 'sub', prov: 'LINEMO', plan: 'ベストプラン(〜3GB)', gb: '〜3GB', base: 990, disc: {}, call: { incl: 0, five: 550, full: 1650 }, init: 0, initNote: '0円', win: 'オンラインのみ' },
   { g: 'sub', prov: 'LINEMO', plan: 'ベストプラン(〜10GB)', gb: '〜10GB', base: 2090, disc: {}, call: { incl: 0, five: 550, full: 1650 }, init: 0, initNote: '0円', win: 'オンラインのみ' },
   { g: 'sub', prov: 'LINEMO', plan: 'ベストプランV(30GB)', gb: '30GB', base: 2970, disc: {}, call: { incl: 5, five: 0, full: 1100 }, init: 0, initNote: '0円', win: 'オンラインのみ', note: '5分かけ放題込み' },
@@ -483,7 +483,7 @@ function hoshoInfo(kind, carId) {
 }
 
 /* ===== 状態 ===== */
-var st = { call: 'few', fam: false, hik: false, card: false, senior: false,
+var st = { call: 'few', fam: false, hik: false, card: false, cardGold: false, senior: false,
   curG: 'docomo', curKey: null, curManualMode: false,
   futG: 'docomo', futKey: null,
   dev: 'ip17e', car: 'd', buyNow: 'none', buyFut: 'none', yr: 4,
@@ -509,7 +509,12 @@ function monthlyOf(pl) {
   var m = pl.base, applied = [];
   if (st.fam && pl.disc.fam) { m -= pl.disc.fam; applied.push({ n: discName(pl.prov, 'fam'), v: pl.disc.fam }); }
   if (st.hik && pl.disc.hik) { m -= pl.disc.hik; applied.push({ n: discName(pl.prov, 'hik'), v: pl.disc.hik }); }
-  if (st.card && pl.disc.card) { m -= pl.disc.card; applied.push({ n: discName(pl.prov, 'card'), v: pl.disc.card }); }
+  if (st.card && pl.disc.card) {
+    var gold = st.cardGold && pl.disc.cardG;
+    var cv = gold ? pl.disc.cardG : pl.disc.card;
+    m -= cv;
+    applied.push({ n: discName(pl.prov, 'card') + (gold ? '(GOLD系' + (pl.prov === 'Y!mobile' ? '・⚠増額分要確認' : '') + ')' : ''), v: cv });
+  }
   var callCost = 0, callNote = '';
   if (pl.dataOnly) { callNote = 'データ専用・音声通話なし'; }
   else if (st.call === 'few') { callNote = '通話は使ったぶんだけ'; }
@@ -590,7 +595,7 @@ function renderSide(which) {
     var c = monthlyOf(pl);
     var on = !((isNow && st.curManualMode)) && sel && planKey(pl) === planKey(sel);
     h += '<div class="prow' + (on ? ' on' : '') + '" onclick="pickPlan(\'' + which + '\',\'' + planKey(pl).replace(/'/g, "\\'") + '\')">' +
-      '<span class="dot"></span><span class="nm"><span class="pl">' + pl.plan + '</span><br><span class="pv">' + pl.prov + '・' + pl.gb + (pl.note ? '・' + pl.note : '') + '</span></span>' +
+      '<span class="dot"></span><span class="nm"><span class="pl"><span style="font-weight:800;">' + pl.prov + '</span> <span style="font-weight:600;">' + pl.plan + '</span></span><br><span class="pv">' + pl.gb + (pl.note ? '・' + pl.note : '') + '</span></span>' +
       '<span style="text-align:right;">' + (c.applied.length ? '<span class="num" style="font-size:11px;color:var(--faint);text-decoration:line-through;">' + yen(c.base) + '</span><br>' : '') +
       '<span class="yen num">' + yen(c.m) + '<small>/月</small></span></span></div>';
   });
@@ -866,8 +871,13 @@ function chips(elId, items, isOn, onPick, subFn, isToggle) {
 function renderChips() {
   chips('callChips', [ { id: 'few', name: 'ほとんどしない' }, { id: 'short', name: '短い通話がときどき' }, { id: 'long', name: '長い通話が多い' } ],
     function (it) { return st.call === it.id; }, function (it) { st.call = it.id; });
-  chips('discChips', [ { id: 'fam', name: '家族3回線以上' }, { id: 'hik', name: '光回線セット' }, { id: 'card', name: '指定カード払い' }, { id: 'senior', name: '60歳以上' } ],
-    function (it) { return st[it.id]; }, function (it) { st[it.id] = !st[it.id]; }, null, true);
+  chips('discChips', [ { id: 'fam', name: '家族3回線以上' }, { id: 'hik', name: '光回線セット' }, { id: 'card', name: '指定カード払い' }, { id: 'cardGold', name: '上位カード(GOLD系)' }, { id: 'senior', name: '60歳以上' } ],
+    function (it) { return st[it.id]; },
+    function (it) {
+      st[it.id] = !st[it.id];
+      if (it.id === 'cardGold' && st.cardGold) st.card = true;   /* 上位カードON→カード払いも自動ON */
+      if (it.id === 'card' && !st.card) st.cardGold = false;
+    }, null, true);
   chips('curGChips', GROUPS, function (it) { return st.curG === it.id; }, function (it) { st.curG = it.id; st.curKey = null; st.curManualMode = false; });
   chips('futGChips', GROUPS, function (it) { return st.futG === it.id; }, function (it) { st.futG = it.id; st.futKey = null; });
   chips('devChips', DEVICES, function (it) { return st.dev === it.id; }, function (it) { st.dev = it.id; },
