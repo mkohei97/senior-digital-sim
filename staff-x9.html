@@ -121,6 +121,7 @@
       <button class="btn small" onclick="loadList()">更新</button>
       <button class="btn small ghost" onclick="openRegister()">＋新規登録</button>
       <a class="btn small ghost" id="daicho-link" href="#" target="_blank" rel="noopener">顧客台帳</a>
+      <a class="btn small ghost" id="tenpo-link" href="#" target="_blank" rel="noopener">店舗画面</a>
     </div>
     <div class="card" style="padding: 6px 14px;">
       <div id="list"></div>
@@ -2528,6 +2529,7 @@ var SUPA_URL = 'https://kravngifhbxywmpoydur.supabase.co';
 var SUPA_KEY = 'sb_publishable_kxqrgfxUIyZk-pQmU8Jpbw_r9lmxb1E';
 var PORTAL_URL = 'https://mkohei97.github.io/senior-digital-sim/p.html';
 var DAICHO_URL = 'https://docs.google.com/spreadsheets/d/1VodW8nNml7A16kDQYBxJWHOOxqTtnz8dqvnDhsaAvpY/edit'; // ここスマ顧客台帳(19u)
+var TENPO_URL = 'https://docs.google.com/spreadsheets/d/1xoi8ODDGZ4jOUmJMGU9kXWB0KjpHA6CVpOFkLeEQs68/edit'; // ここスマ店舗画面(ミラーの控え・19t)
 var COURSE_NAME = { c2: '月2回', c4: '月4回', c8: '月8回' };
 
 function sbRpc(fn, args) {
@@ -2568,6 +2570,8 @@ function enter(listResult) {
   document.getElementById('main').classList.remove('hidden');
   var dl = document.getElementById('daicho-link');
   if (DAICHO_URL) dl.href = DAICHO_URL; else dl.classList.add('hidden');
+  var tl = document.getElementById('tenpo-link');
+  if (tl) { if (TENPO_URL) tl.href = TENPO_URL; else tl.classList.add('hidden'); }
   if (listResult) { members = listResult.members; renderList(); }
   else loadList();
 }
