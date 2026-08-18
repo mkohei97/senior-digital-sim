@@ -232,7 +232,7 @@
     <svg viewBox="0 0 24 24"><use href="#ic-yunomi"></use></svg>
     練習の記録は、お店のカルテにも残ります。
   </div>
-  <div class="footer">ここスマ・会員証 試作版 v0.1</div>
+  <div class="footer">ここスマ・会員証 試作版 v0.4</div>
 </div>
 
 <script>
@@ -2558,15 +2558,20 @@ function storeSet(k, v) { memStore[k] = v; try { localStorage.setItem(k, v); } c
 // ------- 会員番号・呼び名(URL → 端末記憶) -------
 var memberNo = '';
 var memberName = '';
+var memberToken = '';
 (function () {
   try {
     var q = new URLSearchParams(location.search);
     var m = q.get('m');
     var n = q.get('n');
+    var t = q.get('t');
     if (m && /^[0-9A-Za-z-]{1,12}$/.test(m)) { memberNo = m; storeSet('kokosuma_member', m); }
     else { memberNo = storeGet('kokosuma_member') || ''; }
     if (n && n.length <= 20) { memberName = n; storeSet('kokosuma_name', n); }
     else { memberName = storeGet('kokosuma_name') || ''; }
+    /* v0.4: t=トークン(19r v0.6 §9-2b。打刻・自習時間・予約のSupabase認証を1本に) */
+    if (t && /^[0-9a-fA-F-]{36}$/.test(t)) { memberToken = t; storeSet('kokosuma_token', t); }
+    else { memberToken = storeGet('kokosuma_token') || ''; }
   } catch (e) {}
 })();
 
@@ -2589,7 +2594,8 @@ var memberName = '';
 // ------- 会員証の表示 -------
 function pad4(n) { return ('0000' + n).slice(-4); }
 function myUrl() {
-  return location.origin + location.pathname + '?m=' + memberNo + '&n=' + encodeURIComponent(memberName);
+  return location.origin + location.pathname + '?m=' + memberNo + '&n=' + encodeURIComponent(memberName) +
+    (memberToken ? '&t=' + memberToken : '');
 }
 function renderCard() {
   document.getElementById('id-name').textContent = memberName || 'ようこそ';

@@ -957,7 +957,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.20(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.21(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -1215,7 +1215,7 @@
       </div>
       <span class="badge" id="kami-badge"></span>
     </div>
-    <div class="kami-inst" id="kami-inst">上の句を えらんでください</div>
+    <div class="kami-inst" id="kami-inst">上の句を選んでください</div>
     <div class="kami-msg" id="kami-msg"></div>
     <div class="kami-heads" id="kami-heads"><div>上の句</div><div>下の句</div></div>
     <div class="kami-grid" id="kami-grid">
@@ -1306,7 +1306,7 @@
     </div>
     <!-- 練習メニュー(v1.14) -->
     <div id="renshu-menu" style="margin:auto 0; display:flex; flex-direction:column; gap:18px;">
-      <div style="font-size:25px;" id="renshu-greet">練習をえらんでください。ご自分のスマホで開きます。</div>
+      <div style="font-size:25px;" id="renshu-greet">練習を選んでください。ご自分のスマホで開きます。</div>
       <div class="renshu-list" id="renshu-list"></div>
       <div class="qr-note" id="renshu-hint" style="display:none; font-size:20px;">
         <svg viewBox="0 0 24 24" style="width:28px;height:28px;"><use href="#ic-phone"></use></svg>
@@ -1335,7 +1335,7 @@
         </div>
       </div>
       <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
-        <div class="qr-back" onclick="renshuBackToMenu()">べつの練習をえらぶ</div>
+        <div class="qr-back" onclick="renshuBackToMenu()">別の練習を選ぶ</div>
       </div>
     </div>
     <div style="display:flex; justify-content:center;">
@@ -1406,6 +1406,12 @@
             <input id="staff-name" type="text" maxlength="10" placeholder="ハナ" autocomplete="off">
           </div>
           <div style="font-size:20px; color:#555555; line-height:1.6;">番号と呼び名を入れて「決定」を押すと、ご本人専用のQRコードが表示されます。呼び名なしでも進めます。</div>
+          <div id="staff-pass-wrap" style="display:none;">
+            <div class="staff-field">
+              <label>お店のパスコード(この端末では初回だけ)</label>
+              <input id="staff-pass" type="password" maxlength="12" placeholder="パスコード" autocomplete="off">
+            </div>
+          </div>
           <div class="gentlemsg" id="staff-msg"></div>
         </div>
       </div>
@@ -1497,7 +1503,9 @@ function newRecord() { return { quizDone: 0, quizAnswered: 0, quizCorrect: 0, ca
 var record = newRecord();
 
 // ------- 画面切り替え -------
+var curScreen = 'scr-home';
 function show(id) {
+  curScreen = id;
   var scrs = document.querySelectorAll('.screen');
   for (var i = 0; i < scrs.length; i++) scrs[i].classList.remove('active');
   document.getElementById(id).classList.add('active');
@@ -1644,6 +1652,8 @@ function waDate() {
 function certAutoTimer(t) { certAutoTimer._t = t; }
 function showKenteiCert(game, lv) {
   var g = KENTEI_GAMES[game];
+  var ttlEl = document.querySelector('#cert-box .ttl');
+  if (ttlEl) ttlEl.textContent = '認定';
   document.getElementById('cert-knd').innerHTML =
     '<span class="chip" style="background:' + g.chip + '; color:' + g.ink + ';"><svg viewBox="0 0 24 24"><use href="#ic-' + g.icon + '"></use></svg></span>' +
     '<span style="color:' + g.ink + ';">' + g.name + '　' + KENTEI_RANKS[lv] + '</span>';
@@ -2599,13 +2609,13 @@ function tapKamiA(i) {
   if (kamiSet[i].doneA) return;
   kamiSelA = i;
   kamiMsg(null);
-  document.getElementById('kami-inst').textContent = 'つづきの下の句を えらんでください';
+  document.getElementById('kami-inst').textContent = '続きの下の句を選んでください';
   renderKami();
 }
 function tapKamiB(i) {
   if (kamiSet[i].doneB) return;
   if (kamiSelA < 0) {
-    kamiMsg('ng', 'まず、上の句を えらんでください');
+    kamiMsg('ng', 'まず、上の句を選んでください');
     return;
   }
   if (i === kamiSelA) {
@@ -2615,7 +2625,7 @@ function tapKamiB(i) {
     record.kamiPairs++;
     kamiSelA = -1;
     kamiMsg('ok', 'そろいました。', p.src);
-    document.getElementById('kami-inst').textContent = '上の句を えらんでください';
+    document.getElementById('kami-inst').textContent = '上の句を選んでください';
     renderKami();
     // 今そろった対を強調
     var cardsA = document.querySelectorAll('#kami-col-a .kami-card');
@@ -2626,7 +2636,7 @@ function tapKamiB(i) {
     if (kamiMatched === KAMI_PAIRS) { setTimeout(finishKami, 1300); }
   } else {
     record.kamiMiss++;
-    kamiMsg('ng', 'ちがう札のようです。もう一度えらんでください');
+    kamiMsg('ng', '違う札のようです。もう一度選んでください');
   }
 }
 function finishKami() {
@@ -15520,11 +15530,17 @@ function sendTabletKiroku(mid) {
   } catch (e) {}
   record = newRecord();
 }
-var session = { m: '', n: '' };
+var session = { m: '', n: '', t: '' };
 var lastAct = Date.now();
-document.addEventListener('click', function () { lastAct = Date.now(); }, true);
+document.addEventListener('click', function () {
+  lastAct = Date.now();
+  if (session.m) sbStudyLog();
+}, true);
 setInterval(function () {
-  if (session.m && Date.now() - lastAct > 5 * 60 * 1000) logoutMember(true);
+  if (session.m && Date.now() - lastAct > 5 * 60 * 1000) {
+    window.__sbEndReason = 'timeout'; /* 無操作の5分は自習時間に含めない(19r§8-3) */
+    logoutMember(true);
+  }
 }, 30000);
 
 function pad4(n) { return ('0000' + n).slice(-4); }
@@ -15572,6 +15588,99 @@ function sprinklePetals(id) {
     el.appendChild(sv);
   }
 }
+/* ===== Supabase連携(v1.21・19r v0.6 §9/19s v0.2) =====
+   正本はSupabase・localStorageはキャッシュ。HTMLに入れてよいのは公開キーだけ(19r§9-7)。 */
+var SUPA_URL = 'https://kravngifhbxywmpoydur.supabase.co';
+var SUPA_KEY = 'sb_publishable_kxqrgfxUIyZk-pQmU8Jpbw_r9lmxb1E';
+function sbRpc(fn, args) {
+  return fetch(SUPA_URL + '/rest/v1/rpc/' + fn, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY },
+    body: JSON.stringify(args || {})
+  }).then(function (r) { return r.json(); });
+}
+/* トークンの端末控え(番号手入力の代替ログイン・オフライン用) */
+function tokenCacheSet(m, t) { if (m && t) storeSet('kokosuma_token_' + m, t); }
+function tokenCacheGet(m) { return m ? (storeGet('kokosuma_token_' + m) || '') : ''; }
+/* 台の役割(19r§10-2)。既定=study(1台運用では打刻も時間記録もこの台)。?role=entry で入口専用に */
+function deviceRole() { return storeGet('kokosuma_device_role') || 'study'; }
+(function () {
+  try {
+    var r = new URLSearchParams(location.search).get('role');
+    if (r === 'entry' || r === 'study') storeSet('kokosuma_device_role', r);
+  } catch (e) {}
+})();
+/* ----- オフライン時のキュー(19r§9-6)。打刻は当日中だけ送る(19r§11の裁定に合わせる) ----- */
+function sbQueueLoad() { try { var a = JSON.parse(storeGet('kokosuma_sb_queue') || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } }
+function sbQueueSave(a) { storeSet('kokosuma_sb_queue', JSON.stringify(a)); }
+function sbQueueAdd(entry) { var a = sbQueueLoad(); a.push(entry); sbQueueSave(a); }
+var sbFlushing = false;
+function sbQueueFlush() {
+  if (sbFlushing) return;
+  var all = sbQueueLoad();
+  if (!all.length) return;
+  sbFlushing = true;
+  var today = todayStr();
+  var keep = [];
+  var chain = Promise.resolve();
+  all.forEach(function (e) {
+    if (e.day !== today) return; /* 期限切れは破棄(遡り打刻は当日中だけ) */
+    chain = chain.then(function () {
+      return sbRpc(e.fn, e.args).then(function (res) {
+        if (!res || typeof res.ok === 'undefined') keep.push(e);
+      }).catch(function () { keep.push(e); });
+    });
+  });
+  chain.then(function () { sbQueueSave(keep); sbFlushing = false; })
+       .catch(function () { sbFlushing = false; });
+}
+window.addEventListener('online', sbQueueFlush);
+setInterval(sbQueueFlush, 120000);
+/* ----- 自習時間の実測(19r§8-3)。会員には表示しない(19r§5-4) ----- */
+var sbStudy = { sid: null, lastLog: 0 };
+function sbStudyStart(t) {
+  if (deviceRole() !== 'study') return;
+  sbRpc('study_start', { p_token: t }).then(function (r) {
+    if (r && r.ok) { sbStudy.sid = r.session_id; sbStudy.lastLog = 0; sbStudyLog(); }
+  }).catch(function () { /* オフライン時は記録なしで続行(画面はキャッシュで動く) */ });
+}
+function sbStudyLog() {
+  if (!sbStudy.sid || !session.t) return;
+  var now = Date.now();
+  if (sbStudy.lastLog && now - sbStudy.lastLog < 60000) return; /* 最終操作時刻の記録なので1分に1回で十分 */
+  sbStudy.lastLog = now;
+  var game = (typeof curScreen === 'string' && curScreen.indexOf('scr-') === 0) ? curScreen.slice(4) : 'home';
+  sbRpc('study_log', { p_token: session.t, p_session: sbStudy.sid, p_game: game }).catch(function () {});
+}
+function sbStudyEnd(reason) {
+  if (!sbStudy.sid || !session.t) { sbStudy.sid = null; return; }
+  var sid = sbStudy.sid;
+  sbStudy.sid = null;
+  sbRpc('study_end', { p_token: session.t, p_session: sid, p_ended_by: (reason === 'timeout' ? 'timeout' : 'manual') }).catch(function () {});
+}
+/* ----- 節目の感謝状(19r§5-3。賞状の様式を流用・級とは別物として見せる) ----- */
+function showMilestoneCert(count) {
+  if (!session.m) return; /* ゲストには出さない */
+  var ttl = document.querySelector('#cert-box .ttl');
+  if (ttl) ttl.textContent = '感謝';
+  document.getElementById('cert-knd').innerHTML =
+    '<span class="chip" style="background:var(--season-pale);"><svg viewBox="0 0 24 24"><use class="skin-use" href="#' + SKIN.sym + '"></use></svg></span>' +
+    '<span style="color:var(--accent-deep);">ご来店 ' + count + '回</span>';
+  document.getElementById('cert-who').textContent = (session.n ? session.n : 'No. ' + pad4(session.m)) + '　様';
+  document.getElementById('cert-bd').innerHTML = count + '回目のご来店です。<br>ありがとうございます。';
+  document.getElementById('cert-dt').textContent = waDate();
+  document.getElementById('cert-ssn').innerHTML =
+    '<svg viewBox="0 0 24 24"><use class="skin-use" href="#' + SKIN.sym + '"></use></svg>' + SKIN.sealName + 'とともに';
+  var el = document.getElementById('ovl-cert');
+  el.classList.add('on');
+  if (certAutoTimer._t) clearTimeout(certAutoTimer._t);
+  certAutoTimer(setTimeout(function () { hideCert(); certRestoreTitle(); }, 3600));
+}
+function certRestoreTitle() {
+  var ttl = document.querySelector('#cert-box .ttl');
+  if (ttl) ttl.textContent = '認定';
+}
+
 /* ===== 出席帳(v1.13・19l) ===== */
 function todayStr() {
   var d = new Date();
@@ -15594,24 +15703,42 @@ function stampsThisMonth(m) {
   var pre = monthKey();
   return getStamps(m).filter(function (d) { return d.indexOf(pre) === 0; }).length;
 }
-function loginMember(m, n) {
+function loginMember(m, n, t) {
   if (typeof kirokuPending !== 'undefined' && kirokuPending) { sendTabletKiroku(kirokuPending); kirokuPending = null; record = newRecord(); }
   session.m = m; session.n = n || '';
+  session.t = t || tokenCacheGet(m);
+  if (t) tokenCacheSet(m, t);
   lastAct = Date.now();
   stopCam();
   updateMemberUi();
   var st = stampToday(m);
   document.getElementById('welcome-tx').innerHTML = '<b>' + memberLabel() + '</b>、ようこそ';
   var l2 = document.querySelector('#ovl-welcome .l2');
-  if (l2) l2.textContent = '今日で ' + st.total + '回目の出席です';
+  if (l2) l2.textContent = '今日で ' + st.total + '回目のご来店です';
   showOverlay('ovl-welcome', 2200, function () { goHome(); });
+  /* ----- Supabaseへ打刻+自習セッション開始(19r v0.6 §3・§8) ----- */
+  if (session.t) {
+    sbRpc('checkin', { p_token: session.t }).then(function (r) {
+      if (r && r.ok) {
+        if (r.nickname && !session.n) { session.n = r.nickname; updateMemberUi(); }
+        if (l2) l2.textContent = '今日で ' + r.visit_count + '回目のご来店です';
+        if (r.milestone) setTimeout(function () { showMilestoneCert(r.milestone); }, 2400);
+      }
+      /* bad_token等はローカル表示のまま静かに続行(19f§3: エラーで不安にさせない) */
+    }).catch(function () {
+      sbQueueAdd({ fn: 'checkin', args: { p_token: session.t }, day: todayStr() });
+    });
+    sbStudyStart(session.t);
+  }
 }
 function logoutMember(quiet) {
   if (typeof kikiStopVoice === 'function') kikiStopVoice();
   var had = !!session.m;
   var label = had ? memberLabel() : '';
   if (had && !kirokuPending) sendTabletKiroku(session.m);
-  session.m = ''; session.n = '';
+  sbStudyEnd(window.__sbEndReason || 'manual');
+  window.__sbEndReason = null;
+  session.m = ''; session.n = ''; session.t = '';
   updateMemberUi();
   if (quiet) return;
   if (had) {
@@ -15668,24 +15795,62 @@ function tryLoginFromText(text) {
     var u = new URL(text);
     var m = u.searchParams.get('m');
     var n = u.searchParams.get('n') || '';
-    if (m && /^[0-9A-Za-z-]{1,12}$/.test(m)) { loginMember(m, n); return true; }
+    var t = u.searchParams.get('t') || '';
+    if (t && !/^[0-9a-fA-F-]{36}$/.test(t)) t = '';
+    if (m && /^[0-9A-Za-z-]{1,12}$/.test(m)) { loginMember(m, n, t); return true; }
   } catch (e) {}
   return false;
 }
 
 /* ===== スタッフ登録 ===== */
 var staffNo = '';
-function showStaff() { stopCam(); staffReset(); show('scr-staff'); }
+function showStaff() { stopCam(); staffReset(); show('scr-staff'); staffPassNeeded(); }
 function staffKey(k) {
   if (k === 'del') staffNo = staffNo.slice(0, -1);
   else if (staffNo.length < 6) staffNo += k;
   document.getElementById('staff-no').textContent = staffNo || '\u00a0';
 }
+function staffPassNeeded() {
+  var wrap = document.getElementById('staff-pass-wrap');
+  if (wrap) wrap.style.display = storeGet('kokosuma_staff_pass') ? 'none' : 'block';
+}
 function staffMakeQr() {
   var name = (document.getElementById('staff-name').value || '').trim().slice(0, 10);
-  if (!staffNo) { document.getElementById('staff-msg').textContent = '会員番号を入れてください。'; return; }
-  document.getElementById('staff-msg').textContent = '';
-  var url = PORTAL_URL + '?m=' + staffNo + '&n=' + encodeURIComponent(name);
+  var msg = document.getElementById('staff-msg');
+  if (!staffNo) { msg.textContent = '会員番号を入れてください。'; return; }
+  var passEl = document.getElementById('staff-pass');
+  var pass = storeGet('kokosuma_staff_pass') || (passEl ? passEl.value.trim() : '');
+  if (!pass) {
+    var wrap = document.getElementById('staff-pass-wrap');
+    if (wrap) wrap.style.display = 'block';
+    msg.textContent = 'お店のパスコードを入れてください(この端末では初回だけ)。';
+    return;
+  }
+  msg.textContent = '登録しています…';
+  sbRpc('member_register', { p_pass: pass, p_id: parseInt(staffNo, 10), p_nickname: name })
+    .then(function (r) {
+      if (r && r.ok) {
+        storeSet('kokosuma_staff_pass', pass);
+        tokenCacheSet(String(r.member_id), r.token);
+        staffPassNeeded();
+        msg.textContent = '';
+        staffRenderQr(r.nickname === ('No.' + staffNo) ? name : (name || r.nickname), r.token);
+      } else if (r && r.error === 'bad_pass') {
+        storeSet('kokosuma_staff_pass', '');
+        staffPassNeeded();
+        msg.textContent = 'パスコードが違います。もう一度お願いします。';
+      } else {
+        msg.textContent = '登録できませんでした。番号を確かめてください。';
+      }
+    })
+    .catch(function () {
+      var cached = tokenCacheGet(staffNo);
+      if (cached) { msg.textContent = ''; staffRenderQr(name, cached); }
+      else msg.textContent = '通信できません。電波の届くところで、もう一度お試しください。';
+    });
+}
+function staffRenderQr(name, t) {
+  var url = PORTAL_URL + '?m=' + staffNo + '&n=' + encodeURIComponent(name || '') + (t ? '&t=' + t : '');
   var qr = qrcode(0, 'M');
   qr.addData(url);
   qr.make();
@@ -15693,17 +15858,19 @@ function staffMakeQr() {
   document.getElementById('staff-qr-who').textContent = (name ? name + 'さん' : '') + '(No. ' + pad4(staffNo) + ')の専用QRです。読み取ると、玄関ページが開きます。';
   document.getElementById('staff-input-wrap').style.display = 'none';
   document.getElementById('staff-qr-wrap').style.display = 'block';
-  window.__staffPending = { m: staffNo, n: name };
+  window.__staffPending = { m: staffNo, n: name || '', t: t || '' };
 }
 function staffLoginNow() {
   var pd = window.__staffPending;
-  if (pd) loginMember(pd.m, pd.n);
+  if (pd) loginMember(pd.m, pd.n, pd.t);
 }
 function staffReset() {
   staffNo = '';
   window.__staffPending = null;
   var el = document.getElementById('staff-no'); if (el) el.textContent = '\u00a0';
   var nm = document.getElementById('staff-name'); if (nm) nm.value = '';
+  var pw = document.getElementById('staff-pass'); if (pw) pw.value = '';
+  var ms = document.getElementById('staff-msg'); if (ms) ms.textContent = '';
   var iw = document.getElementById('staff-input-wrap'); if (iw) iw.style.display = 'block';
   var qw = document.getElementById('staff-qr-wrap'); if (qw) qw.style.display = 'none';
 }
@@ -15753,7 +15920,7 @@ function renderRenshuMenu() {
   });
   list.innerHTML = html;
   document.getElementById('renshu-greet').textContent =
-    (session.n ? session.n + 'さん、' : '') + '練習をえらんでください。ご自分のスマホで開きます。';
+    (session.n ? session.n + 'さん、' : '') + '練習を選んでください。ご自分のスマホで開きます。';
   document.getElementById('renshu-hint').style.display = session.m ? 'flex' : 'none';
   document.getElementById('renshu-menu').style.display = 'flex';
   document.getElementById('renshu-qr').style.display = 'none';
@@ -15818,6 +15985,7 @@ function applySeasonTexts() {
 applySeasonTexts();
 updateMemberUi();
 renderRenshuMenu();
+sbQueueFlush(); /* 前回オフラインだった打刻を送る(当日分のみ) */
 </script>
 
 <script>
