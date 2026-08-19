@@ -293,6 +293,14 @@
   .gcard .tx span { font-size: 19px; color: #555555; line-height: 1.35; }
   .gcard .goa { position: absolute; right: 12px; bottom: 12px; width: 38px; height: 38px; border-radius: 999px; display: flex; align-items: center; justify-content: center; }
 
+  /* あやしいメッセージを見分ける(v1.23・19k§5-1「どこを押す?」第1弾=103) */
+  .sagi-sms { background: #F4F1EA; border: 1px solid #E3DCCB; border-radius: 18px; padding: 14px 18px; display: flex; flex-direction: column; gap: 8px; }
+  .sagi-sms .from { font-size: 19px; font-weight: 700; color: #8A6A3B; display: flex; align-items: center; gap: 8px; }
+  .sagi-sms .from svg { width: 24px; height: 24px; }
+  .sagi-sms .bub { background: #FFFFFF; border: 1px solid #E7E0D2; border-radius: 4px 18px 18px 18px; padding: 14px 18px; font-size: 25px; line-height: 1.6; }
+  .sagi-sms .bub .lnk { color: #2A63C9; text-decoration: underline; text-underline-offset: 4px; word-break: break-all; }
+  .sagi-choices .q-choice { font-size: 24px; text-align: left; justify-content: flex-start; padding: 14px 20px; line-height: 1.5; }
+  #scr-sagi .q-panel .q { font-size: 27px; margin-top: 10px; }
   /* スマホ練習メニュー(v1.14) */
   .renshu-list { display: flex; flex-direction: column; gap: 14px; }
   .renshu-item { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 24px; padding: 14px 24px;
@@ -946,7 +954,7 @@
       <div class="catcard" onclick="showQr()">
         <span class="chip" style="background:#EEE8F6; color:#6B4FA1;"><svg viewBox="0 0 24 24"><use href="#ic-phone"></use></svg></span>
         <div class="tx"><b>スマホ練習</b>
-          <div class="items"><span>自分のスマホで練習(QRの画面へ進みます)</span></div>
+          <div class="items"><span>文字入力(自分のスマホ)・あやしいメッセージの見分け</span></div>
         </div>
         <span class="goa" style="background:#EEE8F6; color:#6B4FA1;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
@@ -957,7 +965,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.22(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.23(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -1164,6 +1172,40 @@
     <div style="margin-top:auto; display:flex; flex-direction:column; gap:12px; align-items:center;">
       <div class="btn btn-primary" id="koto-next" style="display:none;" onclick="nextKotoQ()">
         <span id="koto-next-tx">次の問題へ</span>
+        <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
+      </div>
+      <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
+    </div>
+  </div>
+</div>
+
+<!-- あやしいメッセージを見分ける(v1.23) -->
+<div class="screen" id="scr-sagi">
+  <div class="pad">
+    <div class="appbar">
+      <div class="left">
+        <span class="icchip" style="background:#FDEBE7;"><svg viewBox="0 0 24 24" style="color:#B0452F;"><use href="#ic-phone"></use></svg></span>
+        <span class="t">あやしいメッセージを見分ける</span>
+      </div>
+      <span class="badge" id="sagi-progress"></span>
+    </div>
+    <div class="panel q-panel">
+      <div class="cap" id="sagi-cap">届いたメッセージ</div>
+      <div class="sagi-sms">
+        <div class="from"><svg viewBox="0 0 24 24"><use href="#ic-phone"></use></svg><span id="sagi-from"></span></div>
+        <div class="bub" id="sagi-body"></div>
+      </div>
+      <div class="q" id="sagi-q">どうしますか？</div>
+    </div>
+    <div class="choices sagi-choices" id="sagi-choices"></div>
+    <div class="msg" id="sagi-msg"></div>
+    <div class="trivia" id="sagi-trivia">
+      <div class="cap">見分けのコツ</div>
+      <div class="tx" id="sagi-trivia-tx"></div>
+    </div>
+    <div style="margin-top:auto; display:flex; flex-direction:column; gap:12px; align-items:center;">
+      <div class="btn btn-primary" id="sagi-next" style="display:none;" onclick="nextSagiQ()">
+        <span id="sagi-next-tx">次の問題へ</span>
         <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
       </div>
       <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
@@ -1499,7 +1541,7 @@ var SKIN = SEASON_SKINS[SEASON];
 
 
 // ------- 記録(このセッションの分) -------
-function newRecord() { return { quizDone: 0, quizAnswered: 0, quizCorrect: 0, cardsRounds: 0, cardsMiss: 0, numsMax: 0, numsMiss: 0, kikiSets: 0, kikiTop: 0, kikiCorrect: 0, kotoAnswered: 0, kotoCorrect: 0, otsuriAnswered: 0, otsuriCorrect: 0, kiokuBest: 0, kamiPairs: 0, kamiMiss: 0, shoukyu: [], perfect: {}, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0, otsuri: 0, kioku: 0, kami: 0 }, memo: [] }; }
+function newRecord() { return { quizDone: 0, quizAnswered: 0, quizCorrect: 0, cardsRounds: 0, cardsMiss: 0, numsMax: 0, numsMiss: 0, kikiSets: 0, kikiTop: 0, kikiCorrect: 0, kotoAnswered: 0, kotoCorrect: 0, otsuriAnswered: 0, otsuriCorrect: 0, kiokuBest: 0, kamiPairs: 0, kamiMiss: 0, sagiAnswered: 0, sagiCorrect: 0, shoukyu: [], perfect: {}, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0, otsuri: 0, kioku: 0, kami: 0, sagi: 0 }, memo: [] }; }
 var record = newRecord();
 
 // ------- 画面切り替え -------
@@ -1616,7 +1658,8 @@ var KENTEI_GAMES = {
   tile: { name: '順番タップ検定', icon: 'tile', chip: '#FBE7EF', ink: '#C22E63' },
   kioku: { name: '記憶の順番検定', icon: 'spark', chip: '#DFF2FA', ink: '#1E7A9C' },
   kiki: { name: '聞き取り検定', icon: 'ear', chip: '#FBE9D6', ink: '#B96A2C' },
-  kami: { name: '上の句下の句検定', icon: 'tanzaku', chip: '#F0F2DF', ink: '#5F6B2B' }
+  kami: { name: '上の句下の句検定', icon: 'tanzaku', chip: '#F0F2DF', ink: '#5F6B2B' },
+  sagi: { name: '見分け検定', icon: 'phone', chip: '#FDEBE7', ink: '#B0452F' }
 };
 function kenteiLevelOf(pts) {
   var lv = 0;
@@ -1692,7 +1735,7 @@ function switchRecTab(t) {
 }
 function renderManabi() {
   var data = getKentei(session.m);
-  var order = ['kofun', 'kotowaza', 'otsuri', 'cards', 'tile', 'kioku', 'kiki', 'kami'];
+  var order = ['kofun', 'kotowaza', 'otsuri', 'sagi', 'cards', 'tile', 'kioku', 'kiki', 'kami'];
   var html = '';
   order.forEach(function (k) {
     var g = KENTEI_GAMES[k];
@@ -2194,6 +2237,10 @@ function showSummary() {
     rows.push({ icon: 'tanzaku', chip: '#EFE3EA', label: '上の句・下の句(' + record.kamiPairs + '組)', n: record.flowersByGame.kami, perfect: record.perfect.kami });
     total += record.flowersByGame.kami;
   }
+  if (record.sagiAnswered > 0) {
+    rows.push({ icon: 'phone', chip: '#FDEBE7', label: 'あやしいメッセージ見分け(' + record.sagiCorrect + '/' + record.sagiAnswered + '問)', n: record.flowersByGame.sagi, perfect: record.perfect.sagi });
+    total += record.flowersByGame.sagi;
+  }
   var html = '';
   if (rows.length === 0) {
     html += '<div class="done-row"><span class="chip" style="background:var(--season-pale);"><svg viewBox="0 0 24 24"><use href="#ic-sakura"></use></svg></span><span class="lbl">今日もお店に来てくださいました</span></div>';
@@ -2381,6 +2428,113 @@ function nextKotoQ() {
   }
 }
 
+// ------- あやしいメッセージを見分ける(v1.23・19k§5-1: 103メール・SMSの自学自習受け皿) -------
+// 見分けの合言葉:「急がせる・お金の話・リンク」。責めない・1問目は必ずできる。
+// 事実関係は警察庁・消費者庁の一般的な注意喚起の範囲。作問の追加は神崎さん領域。
+var SAGI = [
+  { from: '知らない番号', body: 'お荷物をお届けしましたが、不在のため持ち帰りました。こちらからご確認ください。<span class="lnk">https://takuhai…</span>',
+    c: ['開かずに、送り状の控えや公式アプリで確かめる', '書かれたリンクを開いて手続きする', '書かれた番号に電話する'], a: 0,
+    t: '宅配業者が、SMSのリンクから手続きをさせることはありません。荷物に心当たりがあるときも、送り状の控えや公式アプリで確かめれば安心です。' },
+  { from: '知らない番号', body: 'ご利用料金についてお話があります。本日中にこちらへご連絡ください。',
+    c: ['連絡しない。気になるときは公式窓口に自分からかける', '急いで、書かれた番号に電話する', 'とりあえず返信して事情を聞く'], a: 0,
+    t: '「本日中に」と急がせるのは、考える時間を与えないための手口です。心当たりがなければ連絡せず、気になるときは請求書や公式アプリにある番号へ自分からかけます。' },
+  { from: '銀行を名乗るメッセージ', body: 'お客様の口座を一時停止しました。解除はこちらから。<span class="lnk">https://bank…</span>',
+    c: ['リンクは開かず、カードの裏の正規の番号に電話する', 'リンクを開いて暗証番号を入力する', '口座番号を返信して確かめてもらう'], a: 0,
+    t: '銀行がSMSのリンクで暗証番号を入力させることはありません。確かめるときは、通帳やカードの裏に印刷された電話番号へ、自分からかけるのが確実です。' },
+  { from: '画面に急に出た表示', body: 'ウイルスに感染しています！今すぐこちらに電話してください。',
+    c: ['何もせず、画面を閉じる', '表示された番号に電話する', '表示されたボタンから対策ソフトを買う'], a: 0,
+    t: '急に出る「感染しました」の表示は、ほとんどが偽物の広告です。電話やお支払いをさせるのが目的なので、閉じてしまえば大丈夫。心配なときはお店にお持ちください。' },
+  { from: '知らない差出人', body: '3億円が当選しました。受け取りには手数料が必要です。',
+    c: ['信じずに消す', '手数料を払って受け取る', '住所と口座を送って申し込む'], a: 0,
+    t: '「お金を受け取るために、先にお金を払う」ことは、まずありません。うまい話ほど、いったん立ち止まるのが安全です。' },
+  { from: '息子を名乗るメッセージ', body: '携帯が壊れて番号が変わった。新しい番号はこちら。あとで頼みたいことがある。',
+    c: ['前から知っている元の番号にかけて、本人に確かめる', '新しい番号をすぐ登録して返事する', '頼まれる前にお金を用意しておく'], a: 0,
+    t: '家族を名乗って「番号が変わった」と知らせるのは、よくある手口です。本当に本人かどうかは、前から知っている番号や、ほかの家族への連絡で確かめます。' },
+  { from: '電話の相手(銀行員を名乗る)', body: '「確認のため、スマホに届いた数字(ワンタイムパスワード)を教えてください」と言われた。',
+    c: ['教えずに、電話を切る', '数字だけなので教える', '半分だけ教える'], a: 0,
+    t: 'ワンタイムパスワードは、お金を動かすための大事な鍵です。銀行員や警察官が電話で聞くことは、絶対にありません。' },
+  { from: '予約したお店', body: '明日のご予約の確認です。ご来店をお待ちしております。(心当たりのある予約)',
+    c: ['慌てなくて大丈夫。ふつうに読んでよい', '詐欺なので、すぐ消す', 'すぐ警察に通報する'], a: 0,
+    t: 'すべてのメッセージが詐欺というわけではありません。見分けの合言葉は「急がせる・お金の話・リンク」。心当たりがあって、この3つがなければ慌てなくて大丈夫です。' },
+  { from: '電話の相手(サポートを名乗る)', body: '「修理代は、コンビニで電子マネーのカードを買って、番号を教えてください」と言われた。',
+    c: ['買わずに、電話を切る', '言われたとおりに買って番号を伝える', '金額を相談してから買う'], a: 0,
+    t: '支払いを「コンビニの電子マネーカードの番号」で求めるのは、詐欺の決まり文句です。まともな会社が、この方法で支払わせることはありません。' },
+  { from: '知らない差出人', body: '給付金の受け取り手続きはこちらから。口座情報を入力してください。<span class="lnk">https://kyufu…</span>',
+    c: ['開かずに、市役所などの公式窓口に確かめる', 'リンクを開いて口座を入力する', '家族の分も一緒に入力する'], a: 0,
+    t: '給付金や税金の手続きが、SMSのリンクだけで進むことはありません。心当たりがあるときは、市役所や公式サイトで確かめてから手続きします。' }
+];
+var sagiSet = [], sagiIndex = 0, sagiUsed = [];
+
+function startSagi() {
+  var pool = [];
+  for (var i = 0; i < SAGI.length; i++) { if (sagiUsed.indexOf(i) < 0) pool.push(i); }
+  if (pool.length < 5) { sagiUsed = []; pool = []; for (var j = 0; j < SAGI.length; j++) pool.push(j); }
+  // 1問目は必ずできる: 初回セットは宅配(0番)から始める
+  var first = (sagiUsed.length === 0 && pool.indexOf(0) >= 0) ? 0 : null;
+  if (first !== null) pool.splice(pool.indexOf(0), 1);
+  shuffle(pool);
+  var picked = pool.slice(0, first !== null ? 4 : 5);
+  if (first !== null) picked.unshift(0);
+  sagiSet = picked.map(function (i) { sagiUsed.push(i); return SAGI[i]; });
+  sagiIndex = 0;
+  show('scr-sagi');
+  renderSagiQ();
+}
+
+function renderSagiQ() {
+  var q = sagiSet[sagiIndex];
+  document.getElementById('sagi-progress').textContent = (sagiIndex + 1) + '問目(全' + sagiSet.length + '問)';
+  document.getElementById('sagi-cap').textContent = (q.from.indexOf('電話') === 0) ? '電話でのやりとり' : '届いたメッセージ';
+  document.getElementById('sagi-from').textContent = q.from;
+  document.getElementById('sagi-body').innerHTML = q.body;
+  document.getElementById('sagi-trivia').style.display = 'none';
+  document.getElementById('sagi-msg').innerHTML = '';
+  document.getElementById('sagi-next').style.display = 'none';
+  var order = shuffle(q.c.map(function (_, i) { return i; }));
+  var box = document.getElementById('sagi-choices');
+  box.innerHTML = '';
+  order.forEach(function (ci) {
+    var el = document.createElement('div');
+    el.className = 'q-choice';
+    el.textContent = q.c[ci];
+    el.onclick = function () { answerSagi(el, ci === q.a, q); };
+    box.appendChild(el);
+  });
+}
+
+function answerSagi(el, isCorrect, q) {
+  var choices = document.querySelectorAll('#sagi-choices .q-choice');
+  for (var i = 0; i < choices.length; i++) {
+    choices[i].onclick = null;
+    if (choices[i].textContent === q.c[q.a]) { choices[i].classList.add('correct'); }
+    else { choices[i].classList.add('dim'); }
+  }
+  record.sagiAnswered++;
+  if (isCorrect) record.sagiCorrect++;
+  var msg = document.getElementById('sagi-msg');
+  if (isCorrect) {
+    msg.innerHTML = sakuraIconHtml(36) + '<span style="color:var(--accent-deep);">正解です。それで安心です。</span>';
+    msg.className = 'msg';
+  } else {
+    msg.innerHTML = '<span>安心なのは「' + q.c[q.a] + '」でした。</span>';
+    msg.className = 'msg gentle';
+  }
+  document.getElementById('sagi-trivia-tx').textContent = q.t;
+  document.getElementById('sagi-trivia').style.display = 'flex';
+  document.getElementById('sagi-next-tx').textContent = (sagiIndex < sagiSet.length - 1) ? '次の問題へ' : '終わりへ';
+  document.getElementById('sagi-next').style.display = 'flex';
+}
+
+function nextSagiQ() {
+  if (sagiIndex < sagiSet.length - 1) {
+    sagiIndex++;
+    renderSagiQ();
+  } else {
+    gameCompleted('sagi', qualityByCorrect(record.sagiCorrect, record.sagiAnswered));
+    showSummary();
+  }
+}
+
 // ------- お釣り計算(v1.16・19k C-4: 買い物文脈・二択から四択へ) -------
 // pk: 支払いの見た目(coin=硬貨/bill=お札) pv: 表示金額 pc: 枚数
 var OTSURI = [
@@ -2510,7 +2664,7 @@ function answerOtsuri(el, picked, q) {
       if (!isCorrect) { tag.style.display = 'inline-block'; tag.textContent = '正しいお釣り'; }
     } else if (v === picked) {
       c.classList.add('picked');
-      tag.style.display = 'inline-block'; tag.textContent = 'えらんだ答え';
+      tag.style.display = 'inline-block'; tag.textContent = '選んだ答え';
     } else {
       c.classList.add('dim');
     }
@@ -15518,10 +15672,11 @@ function buildSessionSummary() {
   if (record.otsuriAnswered > 0) parts.push('お釣り計算' + record.otsuriCorrect + '/' + record.otsuriAnswered + '問');
   if (record.kiokuBest > 0) parts.push('記憶の順番' + record.kiokuBest + '個まで');
   if (record.kamiPairs > 0) parts.push('上の句下の句' + record.kamiPairs + '組');
+  if (record.sagiAnswered > 0) parts.push('見分け' + record.sagiCorrect + '/' + record.sagiAnswered + '問');
   var mig = Object.keys(record.perfect || {});
   if (mig.length > 0) parts.push('みごと' + mig.length + '種目');
   record.shoukyu.forEach(function (s) { parts.push(s); });
-  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0) + (record.flowersByGame.kotowaza || 0) + (record.flowersByGame.otsuri || 0) + (record.flowersByGame.kioku || 0) + (record.flowersByGame.kami || 0);
+  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0) + (record.flowersByGame.kotowaza || 0) + (record.flowersByGame.otsuri || 0) + (record.flowersByGame.kioku || 0) + (record.flowersByGame.kami || 0) + (record.flowersByGame.sagi || 0);
   if (flowers > 0) parts.push(SKIN.name.replace('みんなの', '') + flowers + SKIN.unit);
   if (record.memo.length > 0) parts.push('ひとこと:' + record.memo.join('・'));
   return parts.join('、');
@@ -15929,7 +16084,8 @@ var RENSHU_MENU = [
       ['キーボードの「ABC」や「123」を押す', '英字・数字のキーボードに替わります'],
       ['課題の説明を読んでから、打つ', '小さい「っ」「ゃ」のコツも出ます'],
       ['打ち終わったら「できた」を押す', 'ひとつずつで大丈夫です']
-    ], kotsu: '「あいう」に戻るときも、同じ場所を押します。' }
+    ], kotsu: '「あいう」に戻るときも、同じ場所を押します。' },
+  { c: 'sagi', tablet: true, name: 'あやしいメッセージを見分ける', desc: 'このタブレットで見分けの練習', icon: 'ic-phone', chip: '#FDEBE7', go: '#B0452F' }
 ];
 function renshuUrl(course) {
   var url = MOJI_URL + '?c=' + course;
@@ -15956,6 +16112,7 @@ function renderRenshuMenu() {
 }
 function renshuPick(i) {
   var r = RENSHU_MENU[i];
+  if (r.tablet) { startSagi(); return; }
   var url = renshuUrl(r.c);
   var qr = qrcode(0, 'M');
   qr.addData(url);
