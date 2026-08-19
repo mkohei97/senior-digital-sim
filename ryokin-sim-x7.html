@@ -215,7 +215,7 @@
     .hero { padding: 2px 0 0; } .hero h1 { font-size: 14px; margin-bottom: 0; } .hero p { font-size: 8.5px; max-width: none; }
     .step { margin-top: 5px; } .step h2 { font-size: 12px; margin: 1px 0 4px; } .step-tag { font-size: 9px; }
     #condCard, .pcard .chips, .manbox, #step2sel, #hoshoSel, #hoshoList, #hoshoNote, #assumpBox,
-    #s2 .tscroll, #s2 h3, .mnpbtn, .printbtn, .stick, .s3ctrl, #demoRow, .plistwrap::after, .rule,
+    #s2, .mnpbtn, .printbtn, .stick, .s3ctrl, #demoRow, .plistwrap::after, .rule,
     .hero p, .diffhero .c, #s1 > .note, #curCount, #futCount, .arrowcol { display: none !important; }
     .duo { gap: 8px; margin-top: 6px; grid-template-columns: 1fr 1fr !important; }
     .totgrid { grid-template-columns: 1fr 1fr !important; }
@@ -232,8 +232,8 @@
     .step3diff { margin-top: 4px; } .step3diff .big { font-size: 16px; } .step3diff .sub2 { font-size: 9px; }
     footer.foot { display: none !important; }
     #printOnly { display: block !important; }
-    #printCond { font-size: 8.5px; padding: 4px 7px; margin-top: 4px; line-height: 1.55; background: #F6FAFF; }
-    #printDisc { font-size: 8px; padding: 4px 7px; margin-top: 3px; line-height: 1.6; }
+    #printCond { font-size: 9.5px; padding: 6px 9px; margin-top: 6px; line-height: 1.65; background: #F6FAFF; }
+    #printDisc { font-size: 9px; padding: 6px 9px; margin-top: 4px; line-height: 1.65; }
     .prow { padding: 4px 8px; } .prow .pl { font-size: 12px; } .prow .yen { font-size: 12px; }
     .pcard { padding: 6px 9px; } .pcard .head { margin-bottom: 4px; } .pcard .head b { font-size: 12px; }
     .pcard .foot .v { font-size: 13px; } .pcard .foot .k, .pcard .foot .cn { font-size: 8.5px; }
@@ -702,11 +702,15 @@ function renderBuyTable() {
   var adm2 = FEES.adminStore[st.car], set2 = FEES.setup[st.car];
   var prg2 = (st.car !== 'r' && st.loyal) ? 0 : FEES.prog[st.car];
   var perCycleFee = atk2 + adm2 + set2 + prg2;
+  BASIS_LINES = {
+    none: '買わない: いまの端末を使い続けるため端末費用は0円',
+    'return': 'A 返却プログラム: 端末 ' + yen(p.carrier) + '×実質負担' + Math.round(FEES.burden[st.car] * 100) + '%×' + N + '回 = ' + yen(p.carrier * FEES.burden[st.car] * N) +
+      ' + 店頭費用(頭金' + yen(atk2) + '+事務手数料' + yen(adm2) + '+設定サポート' + yen(set2) + '+プログラム利用料' + yen(prg2) + ')×' + N + '回 = ' + yen(perCycleFee * N),
+    carrier: 'B キャリアで購入: 端末 ' + yen(p.carrier) + ' + 店頭費用(頭金' + yen(atk2) + '+事務手数料' + yen(adm2) + '+設定サポート' + yen(set2) + ')×1回だけ' + (Y >= 6 ? ' + 電池交換' + yen(FEES.battery) : ''),
+    official: 'C 公式ストアで購入: 端末 ' + yen(p.official) + '(頭金・事務手数料なし)' + (st.kokoC ? ' + ここスマ ネット購入サポート' + yen(FEES.kokoNet) + '×1回だけ' : '') + (Y >= 6 ? ' + 電池交換' + yen(FEES.battery) : '')
+  };
   var basis = '<b>計算根拠(' + Y + '年でみた場合)</b><br>' +
-    'A 返却プログラム: 端末 ' + yen(p.carrier) + '×実質負担' + Math.round(FEES.burden[st.car] * 100) + '%×' + N + '回 = ' + yen(p.carrier * FEES.burden[st.car] * N) +
-    ' + 店頭費用(頭金' + yen(atk2) + '+事務手数料' + yen(adm2) + '+設定サポート' + yen(set2) + '+プログラム利用料' + yen(prg2) + ')×' + N + '回 = ' + yen(perCycleFee * N) + '<br>' +
-    'B キャリアで購入: 端末 ' + yen(p.carrier) + ' + 店頭費用(頭金' + yen(atk2) + '+事務手数料' + yen(adm2) + '+設定サポート' + yen(set2) + ')×1回だけ' + (Y >= 6 ? ' + 電池交換' + yen(FEES.battery) : '') + '<br>' +
-    'C 公式ストアで購入: 端末 ' + yen(p.official) + '(頭金・事務手数料なし)' + (st.kokoC ? ' + ここスマ ネット購入サポート' + yen(FEES.kokoNet) + '×1回だけ' : '') + (Y >= 6 ? ' + 電池交換' + yen(FEES.battery) : '');
+    BASIS_LINES['return'] + '<br>' + BASIS_LINES.carrier + '<br>' + BASIS_LINES.official;
   if (st.showMnp) basis += '<br>参考MNP: 端末1円×' + N + '回 + (事務手数料4,950円+プログラム利用料22,000円)×' + N + '回 = ' + yen((4950 + 22000) * N);
   document.getElementById('calcBasis').innerHTML = basis;
 
@@ -920,6 +924,7 @@ function applyDemo() {
   refresh();
   document.getElementById('cardNow').scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
+var BASIS_LINES = {};
 function renderPrintMeta() {
   var CALLN = { few: 'ほとんどしない', short: '短い通話がときどき', long: '長い通話が多い' };
   var discs = [ st.fam && '家族3回線以上', st.hik && '光回線セット', st.card && (st.cardGold ? '上位カード(GOLD系)払い' : '指定カード払い'), st.senior && '60歳以上' ].filter(Boolean);
@@ -931,7 +936,13 @@ function renderPrintMeta() {
     '端末: ' + devPrices().name + '(キャリア価格は' + carName + ')/買い方: 現状=' + buyDef(st.buyNow).name + ' → 将来=' + buyDef(st.buyFut).name +
     '/補償: 現状=' + hoN.label + (st.hoNow !== 'none' && st.hoNowM ? '(' + yen(st.hoNowM) + '/月)' : '') +
     ' → 将来=' + hoF.label + (st.hoFut !== 'none' && st.hoFutM ? '(' + yen(st.hoFutM) + '/月)' : '') +
-    (st.buyFut !== 'none' ? '/頭金は仮置き' + yen(st.atamakin) + '(店舗により異なる)' : '');
+    (st.buyFut !== 'none' ? '/頭金は仮置き' + yen(st.atamakin) + '(店舗により異なる)' : '') +
+    (function () {
+      var ids = [];
+      [st.buyNow, st.buyFut].forEach(function (id) { if (id !== 'none' && ids.indexOf(id) < 0) ids.push(id); });
+      if (!ids.length) return '';
+      return '<br><b>端末費用の計算根拠(' + st.yr + '年でみた場合)</b><br>' + ids.map(function (id) { return BASIS_LINES[id] || ''; }).join('<br>');
+    })();
   document.getElementById('printDate').textContent = new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 function refresh() {
