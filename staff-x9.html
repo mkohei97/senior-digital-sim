@@ -114,6 +114,7 @@
       <div class="tab on" id="tab-kaiin" onclick="switchTab('kaiin')">会員</div>
       <div class="tab" id="tab-kyoshitsu" onclick="switchTab('kyoshitsu')">今日の教室</div>
       <div class="tab" id="tab-yotei" onclick="switchTab('yotei')">開催予定</div>
+      <div class="tab" id="tab-link" onclick="switchTab('link')">リンク</div>
     </div>
     <div id="pane-kaiin">
     <div class="toolbar">
@@ -168,6 +169,28 @@
         <div class="row right" style="margin-top:12px;"><button class="btn ghost" onclick="saveCourse()">講座を登録</button></div>
         <div class="msg" id="co-msg"></div>
         <div id="co-list" style="font-size:14px; color:var(--sub); margin-top:8px;"></div>
+      </div>
+    </div>
+
+    <!-- リンク(全画面の入り口・チェック用) -->
+    <div id="pane-link" class="hidden">
+      <div class="card">
+        <b style="font-size:17px;">会員の画面(お客様が見るもの)</b>
+        <div class="note">動作チェック用。会員のスマホでは会員証のQRから開くので、URLを覚えていただく必要はありません。</div>
+        <div class="row" style="margin-top:10px;"><span>会員証・玄関ページ<br><small style="color:var(--sub);">会員の入口はここ1本。予約・練習へもここから</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://mkohei97.github.io/senior-digital-sim/p.html" target="_blank" rel="noopener">開く</a></div>
+        <div class="row" style="margin-top:8px;"><span>教室の予約<br><small style="color:var(--sub);">空き状況・予約・取消・できることカード</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://mkohei97.github.io/senior-digital-sim/yoyaku.html" target="_blank" rel="noopener">開く</a></div>
+        <div class="row" style="margin-top:8px;"><span>文字入力の練習<br><small style="color:var(--sub);">声・打ち方を選べる練習</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://mkohei97.github.io/senior-digital-sim/moji.html" target="_blank" rel="noopener">開く</a></div>
+        <div class="row" style="margin-top:8px;"><span>頭と指の体操<br><small style="color:var(--sub);">店内タブレット用。タブレットではホーム画面アイコンから</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://mkohei97.github.io/senior-digital-sim/atama.html" target="_blank" rel="noopener">開く</a></div>
+      </div>
+      <div class="card">
+        <b style="font-size:17px;">店の記録(スプレッドシート)</b>
+        <div class="row" style="margin-top:10px;"><span>顧客台帳<br><small style="color:var(--sub);">本名・連絡先はここだけ(番号で結ぶ2層式)</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://docs.google.com/spreadsheets/d/1VodW8nNml7A16kDQYBxJWHOOxqTtnz8dqvnDhsaAvpY/edit" target="_blank" rel="noopener">開く</a></div>
+        <div class="row" style="margin-top:8px;"><span>店舗画面<br><small style="color:var(--sub);">今日の来店・自習・月の控え。15分おきに自動で写る控えなので、直接書きこまない</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://docs.google.com/spreadsheets/d/1xoi8ODDGZ4jOUmJMGU9kXWB0KjpHA6CVpOFkLeEQs68/edit" target="_blank" rel="noopener">開く</a></div>
+      </div>
+      <div class="card">
+        <b style="font-size:17px;">管理(ふだんは開かない)</b>
+        <div class="row" style="margin-top:10px;"><span>Supabase管理画面<br><small style="color:var(--sub);">障害時とデータベースの変更時だけ。ログイン=屋号のGoogleアカウント</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://supabase.com/dashboard/project/kravngifhbxywmpoydur" target="_blank" rel="noopener">開く</a></div>
+        <div class="note" style="margin-top:10px;">この一覧の正本は 19s「URLと画面の一覧」(iCloud)。新しい画面を作ったら、あちらの表とこのタブの両方に足す。このスタッフ画面のURLは公開ページに載せない。</div>
       </div>
     </div>
   </div>
@@ -2796,7 +2819,7 @@ document.getElementById('gate-pass').addEventListener('keydown', function (e) { 
 
 /* ---- タブ ---- */
 function switchTab(t) {
-  ['kaiin', 'kyoshitsu', 'yotei'].forEach(function (k) {
+  ['kaiin', 'kyoshitsu', 'yotei', 'link'].forEach(function (k) {
     document.getElementById('tab-' + k).classList.toggle('on', k === t);
     document.getElementById('pane-' + k).classList.toggle('hidden', k !== t);
   });
