@@ -301,6 +301,19 @@
   .sagi-sms .bub .lnk { color: #2A63C9; text-decoration: underline; text-underline-offset: 4px; word-break: break-all; }
   .sagi-choices .q-choice { font-size: 24px; text-align: left; justify-content: flex-start; padding: 14px 20px; line-height: 1.5; }
   #scr-sagi .q-panel .q { font-size: 27px; margin-top: 10px; }
+  /* LINEの練習(v1.24・19k§5-1エンジン2本目=201) */
+  .line-mock { background: #D9E2EE; border: 1px solid #C4D1E2; border-radius: 18px; overflow: hidden; display: flex; flex-direction: column; }
+  .line-mock .lm-head { background: #FFFFFF; padding: 10px 16px; display: flex; align-items: center; gap: 10px; font-size: 21px; font-weight: 700; border-bottom: 1px solid #E3E9F1; }
+  .line-mock .lm-head .call { margin-left: auto; position: relative; width: 46px; height: 46px; border-radius: 999px; background: #F2F6FA; display: flex; align-items: center; justify-content: center; }
+  .line-mock .lm-body { padding: 14px 16px 10px; display: flex; flex-direction: column; gap: 8px; }
+  .line-mock .lm-bub { align-self: flex-start; background: #FFFFFF; border-radius: 4px 16px 16px 16px; padding: 10px 16px; font-size: 22px; line-height: 1.5; max-width: 80%; }
+  .line-mock .lm-bar { background: #FFFFFF; border-top: 1px solid #E3E9F1; padding: 10px 12px; display: flex; align-items: center; gap: 10px; }
+  .line-mock .lm-bar .tool { position: relative; width: 46px; height: 46px; border-radius: 999px; background: #F2F6FA; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 26px; font-weight: 700; color: #4A5C58; }
+  .line-mock .lm-input { position: relative; flex: 1; min-width: 0; background: #F2F6FA; border: 1px solid #E0E7EF; border-radius: 999px; padding: 10px 18px; font-size: 20px; color: #8A9A96; }
+  .line-mock .lm-input .mark { right: auto; left: 50%; margin-left: -17px; }
+  .line-mock .mark { position: absolute; top: -12px; right: -10px; width: 34px; height: 34px; border-radius: 999px; background: #B0452F; color: #FFFFFF;
+    display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; box-shadow: 0 2px 6px rgba(60, 48, 36, 0.3); z-index: 2; }
+  .line-scene { background: #E9F4EA; border: 1px solid #CBE4CF; border-radius: 18px; padding: 16px 20px; font-size: 25px; line-height: 1.6; }
   /* スマホ練習メニュー(v1.14) */
   .renshu-list { display: flex; flex-direction: column; gap: 14px; }
   .renshu-item { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 24px; padding: 14px 24px;
@@ -954,7 +967,7 @@
       <div class="catcard" onclick="showQr()">
         <span class="chip" style="background:#EEE8F6; color:#6B4FA1;"><svg viewBox="0 0 24 24"><use href="#ic-phone"></use></svg></span>
         <div class="tx"><b>スマホ練習</b>
-          <div class="items"><span>文字入力(自分のスマホ)・あやしいメッセージの見分け</span></div>
+          <div class="items"><span>文字入力(自分のスマホ)・メッセージの見分け・LINEの練習</span></div>
         </div>
         <span class="goa" style="background:#EEE8F6; color:#6B4FA1;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
@@ -965,7 +978,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.23(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.24(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -1206,6 +1219,50 @@
     <div style="margin-top:auto; display:flex; flex-direction:column; gap:12px; align-items:center;">
       <div class="btn btn-primary" id="sagi-next" style="display:none;" onclick="nextSagiQ()">
         <span id="sagi-next-tx">次の問題へ</span>
+        <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
+      </div>
+      <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
+    </div>
+  </div>
+</div>
+
+<!-- LINEの練習(v1.24) -->
+<div class="screen" id="scr-line">
+  <div class="pad">
+    <div class="appbar">
+      <div class="left">
+        <span class="icchip" style="background:#E4F3E6;"><svg viewBox="0 0 24 24" style="color:#1E8A46;"><use href="#ic-bubble"></use></svg></span>
+        <span class="t">LINEの練習</span>
+      </div>
+      <span class="badge" id="line-progress"></span>
+    </div>
+    <div class="panel q-panel">
+      <div class="cap" id="line-cap">練習用の画面(LINEふう)</div>
+      <div class="line-mock" id="line-mock">
+        <div class="lm-head"><span>ハナさん</span>
+          <span class="call"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#4A5C58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4 C5 12 12 19 20 19 L20 15 L15.5 14 L14 16 C11 14.5 9.5 13 8 10 L10 8.5 L9 4 Z"></path></svg><span class="mark">④</span></span>
+        </div>
+        <div class="lm-body">
+          <div class="lm-bub">こんにちは。お元気ですか。</div>
+        </div>
+        <div class="lm-bar">
+          <span class="tool">＋<span class="mark">①</span></span>
+          <span class="lm-input">メッセージを入力<span class="mark">②</span></span>
+          <span class="tool"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4A5C58" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><circle cx="9" cy="10" r="0.8" fill="#4A5C58"></circle><circle cx="15" cy="10" r="0.8" fill="#4A5C58"></circle><path d="M8.5 14.5 C10 16.2 14 16.2 15.5 14.5"></path></svg><span class="mark">③</span></span>
+        </div>
+      </div>
+      <div class="line-scene" id="line-scene" style="display:none;"></div>
+      <div class="q" id="line-q"></div>
+    </div>
+    <div class="choices sagi-choices" id="line-choices"></div>
+    <div class="msg" id="line-msg"></div>
+    <div class="trivia" id="line-trivia">
+      <div class="cap">おぼえておくこと</div>
+      <div class="tx" id="line-trivia-tx"></div>
+    </div>
+    <div style="margin-top:auto; display:flex; flex-direction:column; gap:12px; align-items:center;">
+      <div class="btn btn-primary" id="line-next" style="display:none;" onclick="nextLineQ()">
+        <span id="line-next-tx">次の問題へ</span>
         <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
       </div>
       <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
@@ -1541,7 +1598,7 @@ var SKIN = SEASON_SKINS[SEASON];
 
 
 // ------- 記録(このセッションの分) -------
-function newRecord() { return { quizDone: 0, quizAnswered: 0, quizCorrect: 0, cardsRounds: 0, cardsMiss: 0, numsMax: 0, numsMiss: 0, kikiSets: 0, kikiTop: 0, kikiCorrect: 0, kotoAnswered: 0, kotoCorrect: 0, otsuriAnswered: 0, otsuriCorrect: 0, kiokuBest: 0, kamiPairs: 0, kamiMiss: 0, sagiAnswered: 0, sagiCorrect: 0, shoukyu: [], perfect: {}, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0, otsuri: 0, kioku: 0, kami: 0, sagi: 0 }, memo: [] }; }
+function newRecord() { return { quizDone: 0, quizAnswered: 0, quizCorrect: 0, cardsRounds: 0, cardsMiss: 0, numsMax: 0, numsMiss: 0, kikiSets: 0, kikiTop: 0, kikiCorrect: 0, kotoAnswered: 0, kotoCorrect: 0, otsuriAnswered: 0, otsuriCorrect: 0, kiokuBest: 0, kamiPairs: 0, kamiMiss: 0, sagiAnswered: 0, sagiCorrect: 0, lineAnswered: 0, lineCorrect: 0, shoukyu: [], perfect: {}, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0, otsuri: 0, kioku: 0, kami: 0, sagi: 0, line: 0 }, memo: [] }; }
 var record = newRecord();
 
 // ------- 画面切り替え -------
@@ -1659,7 +1716,8 @@ var KENTEI_GAMES = {
   kioku: { name: '記憶の順番検定', icon: 'spark', chip: '#DFF2FA', ink: '#1E7A9C' },
   kiki: { name: '聞き取り検定', icon: 'ear', chip: '#FBE9D6', ink: '#B96A2C' },
   kami: { name: '上の句下の句検定', icon: 'tanzaku', chip: '#F0F2DF', ink: '#5F6B2B' },
-  sagi: { name: '見分け検定', icon: 'phone', chip: '#FDEBE7', ink: '#B0452F' }
+  sagi: { name: '見分け検定', icon: 'phone', chip: '#FDEBE7', ink: '#B0452F' },
+  line: { name: 'LINE検定', icon: 'bubble', chip: '#E4F3E6', ink: '#1E8A46' }
 };
 function kenteiLevelOf(pts) {
   var lv = 0;
@@ -1735,7 +1793,7 @@ function switchRecTab(t) {
 }
 function renderManabi() {
   var data = getKentei(session.m);
-  var order = ['kofun', 'kotowaza', 'otsuri', 'sagi', 'cards', 'tile', 'kioku', 'kiki', 'kami'];
+  var order = ['kofun', 'kotowaza', 'otsuri', 'sagi', 'line', 'cards', 'tile', 'kioku', 'kiki', 'kami'];
   var html = '';
   order.forEach(function (k) {
     var g = KENTEI_GAMES[k];
@@ -2241,6 +2299,10 @@ function showSummary() {
     rows.push({ icon: 'phone', chip: '#FDEBE7', label: 'あやしいメッセージ見分け(' + record.sagiCorrect + '/' + record.sagiAnswered + '問)', n: record.flowersByGame.sagi, perfect: record.perfect.sagi });
     total += record.flowersByGame.sagi;
   }
+  if (record.lineAnswered > 0) {
+    rows.push({ icon: 'bubble', chip: '#E4F3E6', label: 'LINEの練習(' + record.lineCorrect + '/' + record.lineAnswered + '問)', n: record.flowersByGame.line, perfect: record.perfect.line });
+    total += record.flowersByGame.line;
+  }
   var html = '';
   if (rows.length === 0) {
     html += '<div class="done-row"><span class="chip" style="background:var(--season-pale);"><svg viewBox="0 0 24 24"><use href="#ic-sakura"></use></svg></span><span class="lbl">今日もお店に来てくださいました</span></div>';
@@ -2531,6 +2593,122 @@ function nextSagiQ() {
     renderSagiQ();
   } else {
     gameCompleted('sagi', qualityByCorrect(record.sagiCorrect, record.sagiAnswered));
+    showSummary();
+  }
+}
+
+// ------- LINEの練習(v1.24・19k§5-1エンジン2本目: 201 LINEの基本の自学自習受け皿) -------
+// mock=true: 練習用のLINEふう画面(①＋ ②入力欄 ③顔のマーク ④受話器)を見せて「どこを押す?」
+// mock=false: 場面(こんなとき)の三択。作問の追加は神崎さん領域。
+var LINEQ = [
+  { mock: true, q: 'ハナさんに、文字で返事を打ちたい。まず押すのはどれですか？',
+    c: ['② まん中の「メッセージを入力」', '① 左はしの「＋」', '④ 右上の受話器のマーク'], a: 0,
+    t: '文字を打つときは、まん中の入力欄を押すとキーボードが出ます。打ち終わったら、横に出る紙飛行機のマークで送ります。' },
+  { mock: true, q: 'スタンプ(絵で気持ちを送るもの)を送りたい。押すのはどれですか？',
+    c: ['③ 顔のマーク', '② まん中の「メッセージを入力」', '④ 右上の受話器のマーク'], a: 0,
+    t: 'スタンプは、文字を打たなくても気持ちが伝わる便利な機能です。押しまちがいもないので、返事に迷ったらスタンプで大丈夫です。' },
+  { mock: true, q: 'アルバムの写真を送りたい。押すのはどれですか？',
+    c: ['① 左はしの「＋」', '③ 顔のマーク', '② まん中の「メッセージを入力」'], a: 0,
+    t: '「＋」を押すと、写真やアルバムを選ぶ画面が出ます。孫の運動会の写真も、ここから送れます。' },
+  { mock: true, q: 'ハナさんと、声で話したい(通話したい)。押すのはどれですか？',
+    c: ['④ 右上の受話器のマーク', '① 左はしの「＋」', '③ 顔のマーク'], a: 0,
+    t: 'LINEどうしの通話は通話料がかかりません(そのかわりギガ=通信量を使います)。Wi-Fiのある場所なら、時間を気にせず話せます。' },
+  { mock: false, sc: '送ったメッセージに「既読」と付きました。',
+    q: 'どういう意味ですか？',
+    c: ['相手がメッセージを読んだ、という印', 'まだ相手に届いていない、という印', '相手が怒っている、という印'], a: 0,
+    t: '既読は「読みましたよ」の印です。既読が付いたのに返事がなくても、急かす意味はありません。お互いさまで、ゆっくりで大丈夫です。' },
+  { mock: false, sc: 'まちがえて、違う人にメッセージを送ってしまいました。',
+    q: 'どうしますか？',
+    c: ['慌てない。送ったメッセージを長押しして「送信取消」を選ぶ', 'もう直せないので、スマホの電源を切る', '謝りの手紙を書く'], a: 0,
+    t: '送ったメッセージは、長押しして「送信取消」を選べば取り消せます(24時間以内)。だれにでもある失敗なので、慌てなくて大丈夫です。' },
+  { mock: false, sc: '知らない人から「友だち追加」の知らせが来ました。',
+    q: 'どうしますか？',
+    c: ['心当たりがなければ、追加しない(ブロックもできる)', 'とりあえず追加して、話を聞いてみる', '自分の電話番号を送って、確かめる'], a: 0,
+    t: '知らない相手は追加しないで大丈夫です。ブロックしても、相手に知らせは行きません。迷ったら、お店でご一緒に確かめましょう。' },
+  { mock: false, sc: '目の前にいるお友だちと、LINEでつながりたい。',
+    q: 'いちばん確実な方法はどれですか？',
+    c: ['自分のQRコードを見せて、読み取ってもらう', '電話番号を大きな声で伝える', '相手のスマホを借りて、自分で操作する'], a: 0,
+    t: '目の前の相手とは、QRコードの見せ合いがいちばん確実で安全です。QRの出し方は、お店で一緒に練習できます。' },
+  { mock: false, sc: 'LINEのメッセージに、知らないリンク(URL)が付いていました。',
+    q: 'どうしますか？',
+    c: ['心当たりがなければ、開かない', 'とりあえず開いて確かめる', 'お友だち全員に転送して知らせる'], a: 0,
+    t: 'LINEでも合言葉は同じ、「急がせる・お金の話・リンク」です。「あやしいメッセージを見分ける」の練習も、あわせてどうぞ。' },
+  { mock: false, sc: 'グループトーク(家族みんなのLINE)に、メッセージを送ります。',
+    q: 'だれに届きますか？',
+    c: ['グループの全員に届く', '選んだ一人にだけ届く', 'だれにも届かない'], a: 0,
+    t: 'グループに送ると、全員に届きます。一人にだけ話したいときは、その人とのトークを開いてから送ります。' }
+];
+var lineSet = [], lineIndex = 0, lineUsed = [];
+
+function startLine() {
+  var pool = [];
+  for (var i = 0; i < LINEQ.length; i++) { if (lineUsed.indexOf(i) < 0) pool.push(i); }
+  if (pool.length < 5) { lineUsed = []; pool = []; for (var j = 0; j < LINEQ.length; j++) pool.push(j); }
+  // 1問目は必ずできる: 初回セットは「入力欄」(0番)から
+  var first = (lineUsed.length === 0 && pool.indexOf(0) >= 0) ? 0 : null;
+  if (first !== null) pool.splice(pool.indexOf(0), 1);
+  shuffle(pool);
+  var picked = pool.slice(0, first !== null ? 4 : 5);
+  if (first !== null) picked.unshift(0);
+  lineSet = picked.map(function (i) { lineUsed.push(i); return LINEQ[i]; });
+  lineIndex = 0;
+  show('scr-line');
+  renderLineQ();
+}
+
+function renderLineQ() {
+  var q = lineSet[lineIndex];
+  document.getElementById('line-progress').textContent = (lineIndex + 1) + '問目(全' + lineSet.length + '問)';
+  document.getElementById('line-cap').textContent = q.mock ? '練習用の画面(LINEふう)' : 'こんなとき';
+  document.getElementById('line-mock').style.display = q.mock ? 'flex' : 'none';
+  var sc = document.getElementById('line-scene');
+  sc.style.display = q.mock ? 'none' : 'block';
+  if (!q.mock) sc.textContent = q.sc;
+  document.getElementById('line-q').textContent = q.q;
+  document.getElementById('line-trivia').style.display = 'none';
+  document.getElementById('line-msg').innerHTML = '';
+  document.getElementById('line-next').style.display = 'none';
+  var order = shuffle(q.c.map(function (_, i) { return i; }));
+  var box = document.getElementById('line-choices');
+  box.innerHTML = '';
+  order.forEach(function (ci) {
+    var el = document.createElement('div');
+    el.className = 'q-choice';
+    el.textContent = q.c[ci];
+    el.onclick = function () { answerLine(el, ci === q.a, q); };
+    box.appendChild(el);
+  });
+}
+
+function answerLine(el, isCorrect, q) {
+  var choices = document.querySelectorAll('#line-choices .q-choice');
+  for (var i = 0; i < choices.length; i++) {
+    choices[i].onclick = null;
+    if (choices[i].textContent === q.c[q.a]) { choices[i].classList.add('correct'); }
+    else { choices[i].classList.add('dim'); }
+  }
+  record.lineAnswered++;
+  if (isCorrect) record.lineCorrect++;
+  var msg = document.getElementById('line-msg');
+  if (isCorrect) {
+    msg.innerHTML = sakuraIconHtml(36) + '<span style="color:var(--accent-deep);">正解です。お見事。</span>';
+    msg.className = 'msg';
+  } else {
+    msg.innerHTML = '<span>正解は「' + q.c[q.a] + '」でした。</span>';
+    msg.className = 'msg gentle';
+  }
+  document.getElementById('line-trivia-tx').textContent = q.t;
+  document.getElementById('line-trivia').style.display = 'flex';
+  document.getElementById('line-next-tx').textContent = (lineIndex < lineSet.length - 1) ? '次の問題へ' : '終わりへ';
+  document.getElementById('line-next').style.display = 'flex';
+}
+
+function nextLineQ() {
+  if (lineIndex < lineSet.length - 1) {
+    lineIndex++;
+    renderLineQ();
+  } else {
+    gameCompleted('line', qualityByCorrect(record.lineCorrect, record.lineAnswered));
     showSummary();
   }
 }
@@ -15673,10 +15851,11 @@ function buildSessionSummary() {
   if (record.kiokuBest > 0) parts.push('記憶の順番' + record.kiokuBest + '個まで');
   if (record.kamiPairs > 0) parts.push('上の句下の句' + record.kamiPairs + '組');
   if (record.sagiAnswered > 0) parts.push('見分け' + record.sagiCorrect + '/' + record.sagiAnswered + '問');
+  if (record.lineAnswered > 0) parts.push('LINE練習' + record.lineCorrect + '/' + record.lineAnswered + '問');
   var mig = Object.keys(record.perfect || {});
   if (mig.length > 0) parts.push('みごと' + mig.length + '種目');
   record.shoukyu.forEach(function (s) { parts.push(s); });
-  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0) + (record.flowersByGame.kotowaza || 0) + (record.flowersByGame.otsuri || 0) + (record.flowersByGame.kioku || 0) + (record.flowersByGame.kami || 0) + (record.flowersByGame.sagi || 0);
+  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0) + (record.flowersByGame.kotowaza || 0) + (record.flowersByGame.otsuri || 0) + (record.flowersByGame.kioku || 0) + (record.flowersByGame.kami || 0) + (record.flowersByGame.sagi || 0) + (record.flowersByGame.line || 0);
   if (flowers > 0) parts.push(SKIN.name.replace('みんなの', '') + flowers + SKIN.unit);
   if (record.memo.length > 0) parts.push('ひとこと:' + record.memo.join('・'));
   return parts.join('、');
@@ -16085,7 +16264,8 @@ var RENSHU_MENU = [
       ['課題の説明を読んでから、打つ', '小さい「っ」「ゃ」のコツも出ます'],
       ['打ち終わったら「できた」を押す', 'ひとつずつで大丈夫です']
     ], kotsu: '「あいう」に戻るときも、同じ場所を押します。' },
-  { c: 'sagi', tablet: true, name: 'あやしいメッセージを見分ける', desc: 'このタブレットで見分けの練習', icon: 'ic-phone', chip: '#FDEBE7', go: '#B0452F' }
+  { c: 'sagi', tablet: true, start: 'startSagi', name: 'あやしいメッセージを見分ける', desc: 'このタブレットで見分けの練習', icon: 'ic-phone', chip: '#FDEBE7', go: '#B0452F' },
+  { c: 'line', tablet: true, start: 'startLine', name: 'LINEの練習', desc: 'このタブレットで疑似画面の練習', icon: 'ic-bubble', chip: '#E4F3E6', go: '#1E8A46' }
 ];
 function renshuUrl(course) {
   var url = MOJI_URL + '?c=' + course;
@@ -16112,7 +16292,7 @@ function renderRenshuMenu() {
 }
 function renshuPick(i) {
   var r = RENSHU_MENU[i];
-  if (r.tablet) { startSagi(); return; }
+  if (r.tablet) { window[r.start || 'startSagi'](); return; }
   var url = renshuUrl(r.c);
   var qr = qrcode(0, 'M');
   qr.addData(url);
