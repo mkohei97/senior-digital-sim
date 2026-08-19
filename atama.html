@@ -314,6 +314,23 @@
   .line-mock .mark { position: absolute; top: -12px; right: -10px; width: 34px; height: 34px; border-radius: 999px; background: #B0452F; color: #FFFFFF;
     display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; box-shadow: 0 2px 6px rgba(60, 48, 36, 0.3); z-index: 2; }
   .line-scene { background: #E9F4EA; border: 1px solid #CBE4CF; border-radius: 18px; padding: 16px 20px; font-size: 25px; line-height: 1.6; }
+  /* スマホでやってみる(v1.25・19k§5-2「お題カード」: 極軽6単元の受け皿) */
+  .odai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .odai-card { position: relative; background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 22px; padding: 14px 18px;
+    display: flex; align-items: center; gap: 14px; cursor: pointer; box-shadow: 0 5px 0 #E3D9CB, 0 10px 18px rgba(60, 48, 36, 0.08); }
+  .odai-card:active { transform: translateY(3px); box-shadow: none; }
+  .odai-card .chip { width: 56px; height: 56px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .odai-card .chip svg { width: 34px; height: 34px; }
+  .odai-card .tx { display: flex; flex-direction: column; min-width: 0; }
+  .odai-card .tx b { font-size: 23px; font-weight: 700; }
+  .odai-card .tx span { font-size: 18px; color: #555555; }
+  .odai-card .donemark { position: absolute; top: -10px; right: -6px; width: 34px; height: 34px; border-radius: 999px; background: var(--ok); color: #FFFFFF;
+    display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; box-shadow: 0 2px 6px rgba(60, 48, 36, 0.25); }
+  .odai-task { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 26px; box-shadow: 0 8px 20px rgba(60, 48, 36, 0.08); padding: 20px 24px;
+    display: flex; flex-direction: column; gap: 10px; }
+  .odai-task .big { font-size: 28px; font-weight: 700; line-height: 1.5; }
+  .odai-qrbox { display: flex; align-items: center; gap: 18px; background: #FBF8EC; border: 1px solid #E3DEC8; border-radius: 18px; padding: 14px 18px; }
+  .odai-qrbox .cap3 { font-size: 20px; font-weight: 700; }
   /* スマホ練習メニュー(v1.14) */
   .renshu-list { display: flex; flex-direction: column; gap: 14px; }
   .renshu-item { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 24px; padding: 14px 24px;
@@ -978,7 +995,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.24(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.25(ここスマ・自学自習システム)</div>
   </div>
 </div>
 
@@ -1265,6 +1282,44 @@
         <span id="line-next-tx">次の問題へ</span>
         <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
       </div>
+      <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
+    </div>
+  </div>
+</div>
+
+<!-- スマホでやってみる(v1.25) -->
+<div class="screen" id="scr-odai">
+  <div class="pad">
+    <div class="appbar">
+      <div class="left">
+        <span class="icchip" style="background:#EEE8F6;"><svg viewBox="0 0 24 24" style="color:#6B4FA1;"><use href="#ic-phone"></use></svg></span>
+        <span class="t">スマホでやってみる</span>
+      </div>
+      <span class="badge" id="odai-badge" style="display:none;"></span>
+    </div>
+    <div id="odai-list-wrap" style="display:flex; flex-direction:column; gap:14px;">
+      <div style="font-size:23px;">お題をひとつ選んで、ご自分のスマホでやってみましょう。</div>
+      <div class="odai-grid" id="odai-grid"></div>
+    </div>
+    <div id="odai-task-wrap" style="display:none; flex-direction:column; gap:14px; flex:1; min-height:0;">
+      <div class="odai-task">
+        <div class="big" id="odai-task-tx"></div>
+        <div id="odai-steps" style="display:flex; flex-direction:column; gap:10px;"></div>
+        <div class="odai-qrbox" id="odai-qrbox" style="display:none;">
+          <div id="odai-qr"></div>
+          <div class="cap3" id="odai-qr-cap">スマホのカメラで、このQRを読み取ると開きます。</div>
+        </div>
+        <div class="lead-kotsu">
+          <span class="chip"><svg viewBox="0 0 24 24"><use href="#ic-yunomi"></use></svg></span>
+          <div class="tx"><span class="cap">コツ</span><span id="odai-kotsu"></span></div>
+        </div>
+      </div>
+      <div style="margin-top:auto; display:flex; flex-direction:column; gap:12px; align-items:center;">
+        <div class="btn btn-primary" style="background:var(--ok); " onclick="odaiDone()">できました</div>
+        <div class="qr-back" onclick="odaiBackToList()">べつのお題を選ぶ</div>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:center; margin-top:12px;">
       <div class="btn btn-white" onclick="goHome()">最初の画面に戻る</div>
     </div>
   </div>
@@ -1598,7 +1653,7 @@ var SKIN = SEASON_SKINS[SEASON];
 
 
 // ------- 記録(このセッションの分) -------
-function newRecord() { return { quizDone: 0, quizAnswered: 0, quizCorrect: 0, cardsRounds: 0, cardsMiss: 0, numsMax: 0, numsMiss: 0, kikiSets: 0, kikiTop: 0, kikiCorrect: 0, kotoAnswered: 0, kotoCorrect: 0, otsuriAnswered: 0, otsuriCorrect: 0, kiokuBest: 0, kamiPairs: 0, kamiMiss: 0, sagiAnswered: 0, sagiCorrect: 0, lineAnswered: 0, lineCorrect: 0, shoukyu: [], perfect: {}, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0, otsuri: 0, kioku: 0, kami: 0, sagi: 0, line: 0 }, memo: [] }; }
+function newRecord() { return { quizDone: 0, quizAnswered: 0, quizCorrect: 0, cardsRounds: 0, cardsMiss: 0, numsMax: 0, numsMiss: 0, kikiSets: 0, kikiTop: 0, kikiCorrect: 0, kotoAnswered: 0, kotoCorrect: 0, otsuriAnswered: 0, otsuriCorrect: 0, kiokuBest: 0, kamiPairs: 0, kamiMiss: 0, sagiAnswered: 0, sagiCorrect: 0, lineAnswered: 0, lineCorrect: 0, odaiDone: [], shoukyu: [], perfect: {}, quizTopics: [], flowersByGame: { kofun: 0, cards: 0, tile: 0, kiki: 0, kotowaza: 0, otsuri: 0, kioku: 0, kami: 0, sagi: 0, line: 0, odai: 0 }, memo: [] }; }
 var record = newRecord();
 
 // ------- 画面切り替え -------
@@ -1717,7 +1772,8 @@ var KENTEI_GAMES = {
   kiki: { name: '聞き取り検定', icon: 'ear', chip: '#FBE9D6', ink: '#B96A2C' },
   kami: { name: '上の句下の句検定', icon: 'tanzaku', chip: '#F0F2DF', ink: '#5F6B2B' },
   sagi: { name: '見分け検定', icon: 'phone', chip: '#FDEBE7', ink: '#B0452F' },
-  line: { name: 'LINE検定', icon: 'bubble', chip: '#E4F3E6', ink: '#1E8A46' }
+  line: { name: 'LINE検定', icon: 'bubble', chip: '#E4F3E6', ink: '#1E8A46' },
+  odai: { name: 'やってみた検定', icon: 'phone', chip: '#EEE8F6', ink: '#6B4FA1' }
 };
 function kenteiLevelOf(pts) {
   var lv = 0;
@@ -1793,7 +1849,7 @@ function switchRecTab(t) {
 }
 function renderManabi() {
   var data = getKentei(session.m);
-  var order = ['kofun', 'kotowaza', 'otsuri', 'sagi', 'line', 'cards', 'tile', 'kioku', 'kiki', 'kami'];
+  var order = ['kofun', 'kotowaza', 'otsuri', 'sagi', 'line', 'odai', 'cards', 'tile', 'kioku', 'kiki', 'kami'];
   var html = '';
   order.forEach(function (k) {
     var g = KENTEI_GAMES[k];
@@ -2303,6 +2359,10 @@ function showSummary() {
     rows.push({ icon: 'bubble', chip: '#E4F3E6', label: 'LINEの練習(' + record.lineCorrect + '/' + record.lineAnswered + '問)', n: record.flowersByGame.line, perfect: record.perfect.line });
     total += record.flowersByGame.line;
   }
+  if (record.odaiDone.length > 0) {
+    rows.push({ icon: 'phone', chip: '#EEE8F6', label: 'スマホでやってみた(' + record.odaiDone.length + '個)', n: record.flowersByGame.odai, perfect: false });
+    total += record.flowersByGame.odai;
+  }
   var html = '';
   if (rows.length === 0) {
     html += '<div class="done-row"><span class="chip" style="background:var(--season-pale);"><svg viewBox="0 0 24 24"><use href="#ic-sakura"></use></svg></span><span class="lbl">今日もお店に来てくださいました</span></div>';
@@ -2711,6 +2771,101 @@ function nextLineQ() {
     gameCompleted('line', qualityByCorrect(record.lineCorrect, record.lineAnswered));
     showSummary();
   }
+}
+
+// ------- スマホでやってみる(v1.25・19k§5-2「お題カード」) -------
+// タブレットはお題を出すだけ。本番は自分のスマホ。「できました」は自己申告(19c§3-2の裁定どおり)。
+// 手順は機種で違うことがあるので、細かい操作はあえて書かず「迷ったらスタッフと一緒に」へつなぐ(=声かけ装置)。
+var YOYAKU_URL = 'https://mkohei97.github.io/senior-digital-sim/yoyaku.html';
+var ODAI = [
+  { id: 'yoyaku', name: '教室を予約してみる', desc: '予約して、取り消すまで', icon: 'ic-bubble', chip: '#E3F2F8', ink: '#2A6E8F', member: true, qr: 'yoyaku',
+    task: 'ご自分のスマホで、教室をひとつ予約して、ホームの「これからのご予約」で確かめてから、取り消してみましょう。',
+    steps: [['下のQRから、予約の画面を開く', '会員証の「教室を予約する」からも開けます'], ['「日にちから選ぶ」で、どれかひとつ予約する', '本当に行きたい回なら、そのまま残してもかまいません'], ['ホームで確かめて、「取り消す」を押す', '開始前なら、いつでも取り消せます']],
+    kotsu: '練習で予約しても大丈夫。開始前の取り消しは、何回でも自由です。' },
+  { id: 'manner', name: 'マナーモードにする', desc: '音を消して、もどす', icon: 'ic-ear', chip: '#FBE9D6', ink: '#B96A2C',
+    task: 'ご自分のスマホをマナーモード(音の鳴らない状態)にして、そのあと元にもどしてみましょう。',
+    steps: [['スマホの横のスイッチやボタンで、音を消す', '画面の上から出るメニューでもできます'], ['マナーモードの印が出たか、確かめる', ''], ['元にもどす', '']],
+    kotsu: '病院や電車で慌てないための練習です。機種で場所が違うので、迷ったらスタッフとご一緒に。' },
+  { id: 'moji', name: '文字を大きくする', desc: '見やすさを変えてみる', icon: 'ic-pen', chip: '#E4F0FC', ink: '#0071E3',
+    task: 'ご自分のスマホの設定で、文字の大きさを1段大きくして、見え方を確かめてみましょう。',
+    steps: [['「設定」を開く', '歯車のマークです'], ['「画面表示」や「文字サイズ」を探す', '「設定」の中で検索もできます'], ['1段大きくして、見え方を確かめる', '好みに合わなければ、もどして大丈夫です']],
+    kotsu: '文字が小さくて読みにくいのは、目のせいではありません。スマホの側を合わせましょう。' },
+  { id: 'shot', name: '画面を写真に残す', desc: 'スクリーンショット', icon: 'ic-cards', chip: '#E3EEF8', ink: '#2A6496',
+    task: 'いま見ている画面を、そのまま写真に残して(スクリーンショット)、アルバムで確かめてみましょう。',
+    steps: [['ボタンを2つ同時に押す', '多くの機種で、電源と音量のボタンです'], ['カシャッと鳴って、画面が保存される', ''], ['アルバム(写真)を開いて、確かめる', '']],
+    kotsu: '大事な画面を残しておくと、あとでスタッフに見せて相談するときにも役立ちます。' },
+  { id: 'photo', name: '前の写真を探す', desc: 'アルバムをさかのぼる', icon: 'ic-kofun', chip: '#E7F3E8', ink: '#2E8B57',
+    task: 'アルバム(写真)で、前の月より昔の写真を1枚探して、開いてみましょう。',
+    steps: [['アルバム(写真)を開く', ''], ['上や横に動かして、さかのぼる', '月や年のまとまりで飛ぶこともできます'], ['なつかしい1枚を開く', 'よければスタッフにも見せてください']],
+    kotsu: '撮った写真は消えていません。探し方さえ覚えれば、いつでも会えます。' },
+  { id: 'ai', name: '声で調べてみる', desc: '明日の天気を聞く', icon: 'ic-mic', chip: 'var(--season-pale)', ink: 'var(--action)',
+    task: 'ご自分のスマホに向かって、「明日の藤井寺の天気は?」と声で聞いてみましょう。',
+    steps: [['マイクのマークか、音声の呼び出しを使う', '検索の画面にもマイクがあります'], ['ゆっくり、ふだんの声で聞く', ''], ['出てきた答えを確かめる', '']],
+    kotsu: '文字を打たなくても調べられます。「近くの郵便局は?」など、聞き方は自由です。' }
+];
+var odaiCurrent = null;
+
+function startOdai() {
+  show('scr-odai');
+  renderOdaiList();
+}
+function renderOdaiList() {
+  document.getElementById('odai-list-wrap').style.display = 'flex';
+  document.getElementById('odai-task-wrap').style.display = 'none';
+  document.getElementById('odai-badge').style.display = 'none';
+  var html = '';
+  ODAI.forEach(function (o, i) {
+    var done = record.odaiDone.indexOf(o.name) >= 0;
+    html += '<div class="odai-card" onclick="odaiPick(' + i + ')">' +
+      (done ? '<span class="donemark">✓</span>' : '') +
+      '<span class="chip" style="background:' + o.chip + '; color:' + o.ink + ';"><svg viewBox="0 0 24 24"><use href="#' + o.icon + '"></use></svg></span>' +
+      '<div class="tx"><b>' + o.name + '</b><span>' + o.desc + '</span></div></div>';
+  });
+  document.getElementById('odai-grid').innerHTML = html;
+}
+function odaiPick(i) {
+  var o = ODAI[i];
+  odaiCurrent = o;
+  document.getElementById('odai-task-tx').textContent = o.task;
+  var stHtml = '';
+  o.steps.forEach(function (st, k) {
+    stHtml += '<div class="lead-step"><span class="n">' + (k + 1) + '</span>' +
+      '<div class="tx"><b>' + st[0] + '</b>' + (st[1] ? '<span>' + st[1] + '</span>' : '') + '</div></div>';
+  });
+  document.getElementById('odai-steps').innerHTML = stHtml;
+  document.getElementById('odai-kotsu').textContent = o.kotsu;
+  var qb = document.getElementById('odai-qrbox');
+  if (o.qr === 'yoyaku') {
+    if (session.t) {
+      try {
+        var qr = qrcode(0, 'M');
+        qr.addData(YOYAKU_URL + '?t=' + session.t);
+        qr.make();
+        document.getElementById('odai-qr').innerHTML = qr.createImgTag(4, 6).replace('<img ', '<img style="width:150px;height:150px;image-rendering:pixelated;border-radius:10px;" alt="予約画面のQRコード" ');
+        document.getElementById('odai-qr-cap').textContent = 'スマホのカメラで、このQRを読み取ると、ご自分の予約画面が開きます。';
+        qb.style.display = 'flex';
+      } catch (e) { qb.style.display = 'none'; }
+    } else {
+      document.getElementById('odai-qr').innerHTML = '';
+      document.getElementById('odai-qr-cap').textContent = 'このお題は、会員証ではじめると、ご自分の予約画面が開きます。お店でお声かけください。';
+      qb.style.display = 'flex';
+    }
+  } else {
+    qb.style.display = 'none';
+  }
+  var badge = document.getElementById('odai-badge');
+  badge.textContent = o.name;
+  badge.style.display = 'inline-block';
+  document.getElementById('odai-list-wrap').style.display = 'none';
+  document.getElementById('odai-task-wrap').style.display = 'flex';
+}
+function odaiBackToList() { renderOdaiList(); }
+function odaiDone() {
+  if (odaiCurrent && record.odaiDone.indexOf(odaiCurrent.name) < 0) {
+    record.odaiDone.push(odaiCurrent.name);
+    gameCompleted('odai', 1);
+  }
+  renderOdaiList();
 }
 
 // ------- お釣り計算(v1.16・19k C-4: 買い物文脈・二択から四択へ) -------
@@ -15852,10 +16007,11 @@ function buildSessionSummary() {
   if (record.kamiPairs > 0) parts.push('上の句下の句' + record.kamiPairs + '組');
   if (record.sagiAnswered > 0) parts.push('見分け' + record.sagiCorrect + '/' + record.sagiAnswered + '問');
   if (record.lineAnswered > 0) parts.push('LINE練習' + record.lineCorrect + '/' + record.lineAnswered + '問');
+  if (record.odaiDone.length > 0) parts.push('やってみた:' + record.odaiDone.join('・'));
   var mig = Object.keys(record.perfect || {});
   if (mig.length > 0) parts.push('みごと' + mig.length + '種目');
   record.shoukyu.forEach(function (s) { parts.push(s); });
-  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0) + (record.flowersByGame.kotowaza || 0) + (record.flowersByGame.otsuri || 0) + (record.flowersByGame.kioku || 0) + (record.flowersByGame.kami || 0) + (record.flowersByGame.sagi || 0) + (record.flowersByGame.line || 0);
+  var flowers = record.flowersByGame.kofun + record.flowersByGame.cards + record.flowersByGame.tile + (record.flowersByGame.kiki || 0) + (record.flowersByGame.kotowaza || 0) + (record.flowersByGame.otsuri || 0) + (record.flowersByGame.kioku || 0) + (record.flowersByGame.kami || 0) + (record.flowersByGame.sagi || 0) + (record.flowersByGame.line || 0) + (record.flowersByGame.odai || 0);
   if (flowers > 0) parts.push(SKIN.name.replace('みんなの', '') + flowers + SKIN.unit);
   if (record.memo.length > 0) parts.push('ひとこと:' + record.memo.join('・'));
   return parts.join('、');
@@ -16265,7 +16421,8 @@ var RENSHU_MENU = [
       ['打ち終わったら「できた」を押す', 'ひとつずつで大丈夫です']
     ], kotsu: '「あいう」に戻るときも、同じ場所を押します。' },
   { c: 'sagi', tablet: true, start: 'startSagi', name: 'あやしいメッセージを見分ける', desc: 'このタブレットで見分けの練習', icon: 'ic-phone', chip: '#FDEBE7', go: '#B0452F' },
-  { c: 'line', tablet: true, start: 'startLine', name: 'LINEの練習', desc: 'このタブレットで疑似画面の練習', icon: 'ic-bubble', chip: '#E4F3E6', go: '#1E8A46' }
+  { c: 'line', tablet: true, start: 'startLine', name: 'LINEの練習', desc: 'このタブレットで疑似画面の練習', icon: 'ic-bubble', chip: '#E4F3E6', go: '#1E8A46' },
+  { c: 'odai', tablet: true, start: 'startOdai', name: 'スマホでやってみる', desc: 'お題を選んで、自分のスマホで', icon: 'ic-phone', chip: '#EEE8F6', go: '#6B4FA1' }
 ];
 function renshuUrl(course) {
   var url = MOJI_URL + '?c=' + course;
