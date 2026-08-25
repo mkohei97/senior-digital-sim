@@ -24,6 +24,15 @@
   .btn.ghost:hover{background:rgba(255,255,255,.15)}
   .wrap{max-width:1400px;margin:0 auto;padding:16px 20px 60px}
 
+  .ctabwrap{margin-bottom:12px}
+  .ctabs{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .ctab{border:1px solid var(--line);background:#fff;border-radius:6px 6px 0 0;border-bottom:3px solid transparent;
+        padding:9px 18px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--sub);white-space:nowrap}
+  .ctab.on{background:#fff;color:var(--g);border-color:var(--line);border-bottom:3px solid var(--g2)}
+  .ctab .cm{font-weight:400;font-size:11px;opacity:.85;margin-left:8px}
+  .ctab.add{border-style:dashed;color:var(--g2);border-bottom-color:transparent;padding:9px 14px}
+  .cdel{border:0;background:none;color:#c0c8c4;cursor:pointer;font-size:14px;padding:0 0 0 8px}
+  .cdel:hover{color:var(--red)}
   .setup{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin-bottom:16px}
   .setup h2{font-size:13px;color:var(--g);margin:0 0 10px;font-weight:700;letter-spacing:.06em}
   .row{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
@@ -130,10 +139,14 @@
 
 <div class="wrap">
 
+  <div class="ctabwrap">
+    <div class="ctabs" id="ctabs"></div>
+  </div>
+
   <div class="setup">
     <h2>1　枠の設定</h2>
     <div class="row">
-      <div class="f"><label>コース名</label><input type="text" id="cname" class="wide" value="初回参加者向け" oninput="save()"></div>
+      <div class="f"><label>このコースの名前</label><input type="text" id="cname" class="wide" value="初回参加者向け" oninput="renameCourse(this.value)"></div>
       <div class="f"><label>枠の数</label><input type="number" id="nslot" value="2" min="1" max="20" onchange="rebuild()"></div>
       <div class="f"><label>1枠の長さ（分）</label><input type="number" id="cap" value="60" min="5" max="600" step="5" onchange="applyCap()"></div>
       <div class="f"><label>&nbsp;</label><button class="gbtn" onclick="applyCap()">全枠に反映</button></div>
@@ -286,59 +299,66 @@ const SEED = [
 
 /* ---------- 状態 ---------- */
 let S = null;
-const KEY = "curriculum_builder_v2";
+const KEY = "curriculum_builder_v3";
 
+function newCourse(name, cap){
+  return { name:name, cur:0, slots:[ {name:"1枠目",cap:cap,items:[]}, {name:"2枠目",cap:cap,items:[]} ] };
+}
 function seedState(){
   return {
-    cname:"初回参加者向け",
     units: SEED.map((u,i)=>({id:"u"+i, cat:u[0], name:u[1], min:u[2], done:!!u[3]})),
-    slots: [ {name:"1枠目", cap:60, items:[]}, {name:"2枠目", cap:60, items:[]} ],
-    cur: 0,
+    courses: [ newCourse("初回参加者向け",60) ],
+    ccur: 0,
     seq: SEED.length
   };
 }
-function save(){
-  S.cname = document.getElementById("cname").value;
-  try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){}
-}
+function C(){ return S.courses[S.ccur]; }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 function load(){
-  try{
-    const r = localStorage.getItem(KEY);
-    if(r){ S = JSON.parse(r); return; }
-  }catch(e){}
+  try{ const r = localStorage.getItem(KEY); if(r){ S = JSON.parse(r); if(S && S.courses && S.courses.length) return; } }catch(e){}
   S = seedState();
 }
 
 /* ---------- 描画 ---------- */
 function render(){
-  document.getElementById("cname").value = S.cname;
-  document.getElementById("nslot").value = S.slots.length;
-  renderUnits(); renderTabs(); renderMeter(); renderSlot(); renderResult(); save();
+  document.getElementById("cname").value = C().name;
+  document.getElementById("nslot").value = C().slots.length;
+  renderCourseTabs(); renderUnits(); renderTabs(); renderMeter(); renderSlot(); renderResult(); save();
+}
+
+function courseTotal(ci){
+  return S.courses[ci].slots.reduce((a,sl)=>a+sl.items.reduce((x,y)=>x+(+y.min||0),0),0);
+}
+function renderCourseTabs(){
+  const t = document.getElementById("ctabs");
+  t.innerHTML = S.courses.map((c,i)=>{
+    const cap = c.slots.reduce((a,s)=>a+s.cap,0);
+    return `<button class="ctab ${i===S.ccur?'on':''}" onclick="goCourse(${i})">${esc(c.name)}<span class="cm">${c.slots.length}枠・${courseTotal(i)}/${cap}分</span>${i===S.ccur&&S.courses.length>1?`<span class="cdel" onclick="event.stopPropagation();delCourse(${i})" title="このコースを削除">×</span>`:''}</button>`;
+  }).join("") + `<button class="ctab add" onclick="addCourse()">＋ コースを追加</button>`;
 }
 
 function usedIds(){
   const m = {};
-  S.slots.forEach((sl,si)=> sl.items.forEach(it=>{ m[it.uid] = si; }));
+  C().slots.forEach((sl,si)=> sl.items.forEach(it=>{ m[it.uid] = si; }));
   return m;
 }
 
 function renderUnits(){
   const box = document.getElementById("units");
-  const used = usedIds();
-  const cur = S.cur;
+  const used = usedIds(), cur = C().cur;
   let html = "";
   Object.keys(CATS).forEach(c=>{
     const list = S.units.filter(u=>u.cat===c);
     if(!list.length) return;
     html += `<div class="cat"><h3>${CATS[c]}<span class="n">${list.length}</span></h3>`;
     list.forEach(u=>{
-      const inCur = S.slots[cur].items.some(i=>i.uid===u.id);
+      const inCur = C().slots[cur].items.some(i=>i.uid===u.id);
       const inOther = (used[u.id]!==undefined && used[u.id]!==cur);
       html += `<div class="u ${inCur?'sel':''} ${inOther?'used':''}">
         <input type="checkbox" ${inCur?'checked':''} onchange="toggle('${u.id}')">
         <span class="nm" onclick="toggle('${u.id}')"><b>${esc(u.name)}</b></span>
         ${u.done?'<span class="tag done">昨年実施</span>':''}
-        ${inOther?`<span class="tag">${esc(S.slots[used[u.id]].name)}</span>`:''}
+        ${inOther?`<span class="tag">${esc(C().slots[used[u.id]].name)}</span>`:''}
         <input class="min" type="number" value="${u.min}" min="1" step="5" onchange="setMin('${u.id}',this.value)">
         <span style="font-size:11px;color:var(--sub)">分</span>
         <button class="del" title="削除" onclick="delUnit('${u.id}')">×</button>
@@ -352,16 +372,16 @@ function renderUnits(){
 
 function renderTabs(){
   const t = document.getElementById("tabs");
-  t.innerHTML = S.slots.map((sl,i)=>{
+  t.innerHTML = C().slots.map((sl,i)=>{
     const sum = total(i), over = sum > sl.cap;
-    return `<button class="tab ${i===S.cur?'on':''} ${over?'over':''}" onclick="go(${i})">${esc(sl.name)}<span class="m">${sum}/${sl.cap}分</span></button>`;
+    return `<button class="tab ${i===C().cur?'on':''} ${over?'over':''}" onclick="go(${i})">${esc(sl.name)}<span class="m">${sum}/${sl.cap}分</span></button>`;
   }).join("") + `<button class="tab" onclick="addSlot()" title="枠を追加">＋枠</button>`;
 }
 
-function total(i){ return S.slots[i].items.reduce((a,b)=>a+(+b.min||0),0); }
+function total(i,ci){ const c = (ci===undefined)?C():S.courses[ci]; return c.slots[i].items.reduce((a,b)=>a+(+b.min||0),0); }
 
 function renderMeter(){
-  const sl = S.slots[S.cur], sum = total(S.cur), rest = sl.cap - sum;
+  const sl = C().slots[C().cur], sum = total(C().cur), rest = sl.cap - sum;
   const pct = Math.min(100, sl.cap? sum/sl.cap*100 : 0);
   let cls="", msg="";
   if(rest === 0){ cls="ok"; msg="ちょうど収まりました"; }
@@ -383,15 +403,16 @@ function renderMeter(){
     <div class="st ${cls}">${msg}</div>`;
 }
 
-function grouped(si){
-  const items = S.slots[si].items, order = Object.keys(CATS), map = {};
-  items.forEach((it,idx)=>{ const c = it.cat || "X"; (map[c]=map[c]||[]).push(Object.assign({},it,{_i:idx})); });
-  return order.filter(c=>map[c]).map(c=>({cat:c, items:map[c], sum:map[c].reduce((a,b)=>a+(+b.min||0),0)}));
+function grouped(si,ci){
+  const c = (ci===undefined)?C():S.courses[ci];
+  const items = c.slots[si].items, order = Object.keys(CATS), map = {};
+  items.forEach((it,idx)=>{ const k = it.cat || "X"; (map[k]=map[k]||[]).push(Object.assign({},it,{_i:idx})); });
+  return order.filter(k=>map[k]).map(k=>({cat:k, items:map[k], sum:map[k].reduce((a,b)=>a+(+b.min||0),0)}));
 }
 
 function renderSlot(){
   const box = document.getElementById("slot");
-  const gs = grouped(S.cur);
+  const gs = grouped(C().cur);
   if(!gs.length){ box.innerHTML = `<div class="empty">左の一覧から実施項目をえらんでください</div>`; return; }
   box.innerHTML = gs.map(g=>`
     <div class="cgroup">
@@ -413,59 +434,79 @@ function renderSlot(){
 
 function renderResult(){
   const r = document.getElementById("result");
-  if(!S.slots.some(s=>s.items.length)){ r.innerHTML=""; return; }
-  let rows = "";
-  S.slots.forEach((sl,i)=>{
-    const gs = grouped(i), sum = total(i), rest = sl.cap - sum;
-    const note = rest===0 ? "" : (rest>0 ? `　あと${rest}分` : `　${-rest}分オーバー`);
-    const n = gs.reduce((a,g)=>a+g.items.length,0) || 1;
-    let first = true;
-    if(!gs.length){
-      rows += `<tr class="slot"><td>${esc(sl.name)}</td><td colspan="2" style="color:var(--sub)">（未選択）</td><td class="n">0 / ${sl.cap}分</td></tr>`;
-      return;
-    }
-    gs.forEach(g=>{
-      g.items.forEach((it,j)=>{
-        rows += `<tr>`;
-        if(first){ rows += `<td rowspan="${n}" class="slotcell"><b>${esc(sl.name)}</b><br><span style="font-size:11px;color:var(--sub)">${sum}/${sl.cap}分${note}</span></td>`; first=false; }
-        if(j===0){ rows += `<td rowspan="${g.items.length}" class="catcell"><b>${esc(CATS[g.cat])}</b><br><span style="font-size:11px;color:var(--sub)">${g.sum}分</span></td>`; }
-        rows += `<td>${esc(it.name)}</td><td class="n">${it.min}分</td></tr>`;
+  const any = S.courses.some(c=>c.slots.some(s=>s.items.length));
+  if(!any){ r.innerHTML=""; return; }
+  let html = "";
+  S.courses.forEach((c,ci)=>{
+    if(!c.slots.some(s=>s.items.length)) return;
+    let rows = "";
+    c.slots.forEach((sl,i)=>{
+      const gs = grouped(i,ci), sum = total(i,ci), rest = sl.cap - sum;
+      const note = rest===0 ? "" : (rest>0 ? `　あと${rest}分` : `　${-rest}分オーバー`);
+      if(!gs.length){
+        rows += `<tr class="slot"><td>${esc(sl.name)}</td><td colspan="2" style="color:var(--sub);font-weight:400">（未選択）</td><td class="n">0 / ${sl.cap}分</td></tr>`;
+        return;
+      }
+      const n = gs.reduce((a,g)=>a+g.items.length,0);
+      let first = true;
+      gs.forEach(g=>{
+        g.items.forEach((it,j)=>{
+          rows += `<tr>`;
+          if(first){ rows += `<td rowspan="${n}" class="slotcell"><b>${esc(sl.name)}</b><br><span style="font-size:11px;color:var(--sub)">${sum}/${sl.cap}分${note}</span></td>`; first=false; }
+          if(j===0){ rows += `<td rowspan="${g.items.length}" class="catcell"><b>${esc(CATS[g.cat])}</b><br><span style="font-size:11px;color:var(--sub)">${g.sum}分</span></td>`; }
+          rows += `<td>${esc(it.name)}</td><td class="n">${it.min}分</td></tr>`;
+        });
       });
     });
+    const g = courseTotal(ci), gc = c.slots.reduce((a,s)=>a+s.cap,0);
+    html += `<h2 style="font-size:16px;color:var(--g);margin:22px 0 8px;border-bottom:2px solid var(--g);padding-bottom:5px">${esc(c.name)}</h2>
+      <table class="out"><thead><tr><th style="width:128px">枠</th><th style="width:162px">カテゴリ</th><th>実施項目</th><th class="n">時間</th></tr></thead>
+      <tbody>${rows}<tr class="slot"><td colspan="3"><b>${esc(c.name)}　合計</b>（全${c.slots.length}枠）</td><td class="n"><b>${g} / ${gc}分</b></td></tr></tbody></table>`;
   });
-  const g = S.slots.reduce((a,s,i)=>a+total(i),0), gc = S.slots.reduce((a,s)=>a+s.cap,0);
-  r.innerHTML = `<h2 style="font-size:15px;color:var(--g);margin:18px 0 8px">${esc(S.cname)}　カリキュラム</h2>
-    <table class="out"><thead><tr><th style="width:128px">枠</th><th style="width:162px">カテゴリ</th><th>実施項目</th><th class="n">時間</th></tr></thead>
-    <tbody>${rows}<tr class="slot"><td colspan="3"><b>合計</b>（全${S.slots.length}枠）</td><td class="n"><b>${g} / ${gc}分</b></td></tr></tbody></table>`;
+  r.innerHTML = html;
 }
 
 /* ---------- 操作 ---------- */
 function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("on"); setTimeout(()=>t.classList.remove("on"),1400); }
 
-function toggle(uid){
-  const sl = S.slots[S.cur];
-  const idx = sl.items.findIndex(i=>i.uid===uid);
-  if(idx>=0){ sl.items.splice(idx,1); }
-  else{
-    const u = S.units.find(x=>x.id===uid);
-    sl.items.push({uid:u.id, cat:u.cat, name:u.name, min:u.min});
-  }
+function goCourse(i){ S.ccur=i; render(); }
+function addCourse(){
+  const cap = +document.getElementById("cap").value||60;
+  S.courses.push(newCourse((S.courses.length+1)+"つ目のコース", cap));
+  S.ccur = S.courses.length-1; render();
+  document.getElementById("cname").focus(); document.getElementById("cname").select();
+  toast("コースを追加しました。名前を入れてください");
+}
+function delCourse(i){
+  if(S.courses.length<=1){ toast("コースは1つ以上必要です"); return; }
+  if(!confirm(`「${S.courses[i].name}」を削除しますか？`)) return;
+  S.courses.splice(i,1);
+  if(S.ccur>=S.courses.length) S.ccur = S.courses.length-1;
   render();
 }
-function rm(i){ S.slots[S.cur].items.splice(i,1); render(); }
+function renameCourse(v){ C().name = v; renderCourseTabs(); renderResult(); save(); }
+
+function toggle(uid){
+  const sl = C().slots[C().cur];
+  const idx = sl.items.findIndex(i=>i.uid===uid);
+  if(idx>=0){ sl.items.splice(idx,1); }
+  else{ const u = S.units.find(x=>x.id===uid); sl.items.push({uid:u.id, cat:u.cat, name:u.name, min:u.min}); }
+  render();
+}
+function rm(i){ C().slots[C().cur].items.splice(i,1); render(); }
 function moveIn(cat,pos,d){
-  const g = grouped(S.cur).find(x=>x.cat===cat); if(!g) return;
+  const g = grouped(C().cur).find(x=>x.cat===cat); if(!g) return;
   const t = pos+d; if(t<0||t>=g.items.length) return;
-  const a = S.slots[S.cur].items, i = g.items[pos]._i, j = g.items[t]._i;
+  const a = C().slots[C().cur].items, i = g.items[pos]._i, j = g.items[t]._i;
   const tmp = a[i]; a[i] = a[j]; a[j] = tmp; render();
 }
-function setItemMin(i,v){ S.slots[S.cur].items[i].min = +v||0; render(); }
+function setItemMin(i,v){ C().slots[C().cur].items[i].min = +v||0; render(); }
 function setMin(uid,v){ const u=S.units.find(x=>x.id===uid); u.min=+v||0; render(); }
 function delUnit(uid){
   if(!confirm("この実施項目を一覧から削除しますか？")) return;
   S.units = S.units.filter(u=>u.id!==uid);
-  S.slots.forEach(sl=> sl.items = sl.items.filter(i=>i.uid!==uid));
+  S.courses.forEach(c=> c.slots.forEach(sl=> sl.items = sl.items.filter(i=>i.uid!==uid)));
   render();
 }
 function addUnit(){
@@ -477,62 +518,70 @@ function addUnit(){
   document.getElementById("nname").value="";
   render(); toast("追加しました");
 }
-function go(i){ S.cur=i; render(); }
+function go(i){ C().cur=i; render(); }
 function nextSlot(){
-  const rest = S.slots[S.cur].cap - total(S.cur);
+  const rest = C().slots[C().cur].cap - total(C().cur);
   if(rest > 0 && !confirm(`この枠はあと${rest}分空いています。次の枠へ進みますか？`)) return;
   if(rest < 0 && !confirm(`この枠は${-rest}分オーバーしています。次の枠へ進みますか？`)) return;
-  if(S.cur < S.slots.length-1){ S.cur++; render(); }
-  else { toast("すべての枠が終わりました"); renderResult(); window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"}); }
+  if(C().cur < C().slots.length-1){ C().cur++; render(); }
+  else { toast("このコースの枠が終わりました"); window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"}); }
 }
-function prevSlot(){ if(S.cur>0){ S.cur--; render(); } }
-function addSlot(){ S.slots.push({name:(S.slots.length+1)+"枠目", cap:+document.getElementById("cap").value||60, items:[]}); S.cur=S.slots.length-1; render(); }
+function prevSlot(){ if(C().cur>0){ C().cur--; render(); } }
+function addSlot(){ C().slots.push({name:(C().slots.length+1)+"枠目", cap:+document.getElementById("cap").value||60, items:[]}); C().cur=C().slots.length-1; render(); }
 function rebuild(){
-  const n = +document.getElementById("nslot").value||1;
-  const cap = +document.getElementById("cap").value||60;
-  while(S.slots.length < n) S.slots.push({name:(S.slots.length+1)+"枠目", cap:cap, items:[]});
-  while(S.slots.length > n){
-    const last = S.slots[S.slots.length-1];
-    if(last.items.length && !confirm("削除する枠に実施項目が入っています。消してよいですか？")){ document.getElementById("nslot").value=S.slots.length; return; }
-    S.slots.pop();
+  const n = +document.getElementById("nslot").value||1, cap = +document.getElementById("cap").value||60;
+  while(C().slots.length < n) C().slots.push({name:(C().slots.length+1)+"枠目", cap:cap, items:[]});
+  while(C().slots.length > n){
+    const last = C().slots[C().slots.length-1];
+    if(last.items.length && !confirm("削除する枠に実施項目が入っています。消してよいですか？")){ document.getElementById("nslot").value=C().slots.length; return; }
+    C().slots.pop();
   }
-  if(S.cur >= S.slots.length) S.cur = S.slots.length-1;
+  if(C().cur >= C().slots.length) C().cur = C().slots.length-1;
   render();
 }
-function applyCap(){ const c=+document.getElementById("cap").value||60; S.slots.forEach(s=>s.cap=c); render(); }
-function setCap(v){ S.slots[S.cur].cap = +v||60; render(); }
-function renameSlot(v){ S.slots[S.cur].name = v || S.slots[S.cur].name; render(); }
-function clearSlot(){ if(confirm("この枠の実施項目をすべて外しますか？")){ S.slots[S.cur].items=[]; render(); } }
-function clearAll(){ if(confirm("すべての枠の選択を消しますか？（一覧は残ります）")){ S.slots.forEach(s=>s.items=[]); S.cur=0; render(); } }
+function applyCap(){ const c=+document.getElementById("cap").value||60; C().slots.forEach(s=>s.cap=c); render(); }
+function setCap(v){ C().slots[C().cur].cap = +v||60; render(); }
+function renameSlot(v){ C().slots[C().cur].name = v || C().slots[C().cur].name; render(); }
+function clearSlot(){ if(confirm("この枠の実施項目をすべて外しますか？")){ C().slots[C().cur].items=[]; render(); } }
+function clearAll(){ if(confirm("このコースの選択をすべて消しますか？（一覧は残ります）")){ C().slots.forEach(s=>s.items=[]); C().cur=0; render(); } }
 
 /* ---------- 出力 ---------- */
 function plain(){
   const NL = String.fromCharCode(10);
-  let t = S.cname + "　カリキュラム" + NL;
-  S.slots.forEach((sl,i)=>{
-    const sum=total(i), rest=sl.cap-sum;
-    const note = rest===0 ? "" : (rest>0 ? "（あと"+rest+"分）" : "（"+(-rest)+"分オーバー）");
-    t += NL + "■ " + sl.name + "　" + sum + "/" + sl.cap + "分" + note + NL;
-    grouped(i).forEach(g=>{
-      t += "　【" + CATS[g.cat] + "】" + g.sum + "分" + NL;
-      g.items.forEach(it=>{ t += "　　・" + it.name + "　" + it.min + "分" + NL; });
+  let t = "";
+  S.courses.forEach(c=>{
+    const ci = S.courses.indexOf(c);
+    t += "■■ " + c.name + NL;
+    c.slots.forEach((sl,i)=>{
+      const sum=total(i,ci), rest=sl.cap-sum;
+      const note = rest===0 ? "" : (rest>0 ? "（あと"+rest+"分）" : "（"+(-rest)+"分オーバー）");
+      t += NL + "  ■ " + sl.name + "　" + sum + "/" + sl.cap + "分" + note + NL;
+      grouped(i,ci).forEach(g=>{
+        t += "　　【" + CATS[g.cat] + "】" + g.sum + "分" + NL;
+        g.items.forEach(it=>{ t += "　　　・" + it.name + "　" + it.min + "分" + NL; });
+      });
     });
+    t += NL;
   });
   return t;
 }
 function md(){
   const NL = String.fromCharCode(10);
-  let t = "## " + S.cname + "　カリキュラム" + NL + NL
-        + "| 枠 | カテゴリ | 実施項目 | 時間 |" + NL + "|---|---|---|---:|" + NL;
-  S.slots.forEach((sl,i)=>{
-    let f = true;
-    grouped(i).forEach(g=>{
-      g.items.forEach((it,j)=>{
-        t += "| " + (f?sl.name:"") + " | " + (j===0? CATS[g.cat]+"（"+g.sum+"分）" : "") + " | " + it.name + " | " + it.min + "分 |" + NL;
-        f = false;
+  let t = "";
+  S.courses.forEach(c=>{
+    const ci = S.courses.indexOf(c);
+    t += "## " + c.name + NL + NL + "| 枠 | カテゴリ | 実施項目 | 時間 |" + NL + "|---|---|---|---:|" + NL;
+    c.slots.forEach((sl,i)=>{
+      let f = true;
+      grouped(i,ci).forEach(g=>{
+        g.items.forEach((it,j)=>{
+          t += "| " + (f?sl.name:"") + " | " + (j===0? CATS[g.cat]+"（"+g.sum+"分）" : "") + " | " + it.name + " | " + it.min + "分 |" + NL;
+          f = false;
+        });
       });
+      t += "| | | **" + sl.name + " 合計** | **" + total(i,ci) + "/" + sl.cap + "分** |" + NL;
     });
-    t += "| | | **" + sl.name + " 合計** | **" + total(i) + "/" + sl.cap + "分** |" + NL;
+    t += NL;
   });
   return t;
 }
@@ -549,13 +598,17 @@ function expJSON(){
   const blob = new Blob([JSON.stringify(S,null,2)],{type:"application/json"});
   const a=document.createElement("a");
   a.href=URL.createObjectURL(blob);
-  a.download=(S.cname||"カリキュラム")+".json";
+  a.download="カリキュラム_" + (C().name||"案") + ".json";
   a.click(); toast("保存しました");
 }
 function impJSON(el){
   const f = el.files[0]; if(!f) return;
   const r = new FileReader();
-  r.onload = e=>{ try{ S = JSON.parse(e.target.result); render(); toast("読み込みました"); }catch(err){ alert("読み込めませんでした"); } };
+  r.onload = e=>{ try{
+      const d = JSON.parse(e.target.result);
+      if(!d.courses && d.slots){ d.courses=[{name:d.cname||"コース", cur:d.cur||0, slots:d.slots}]; d.ccur=0; }
+      S = d; if(S.ccur==null) S.ccur=0; render(); toast("読み込みました");
+    }catch(err){ alert("読み込めませんでした"); } };
   r.readAsText(f); el.value="";
 }
 
