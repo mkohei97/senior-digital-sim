@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ここスマ カリキュラム組立ツール</title>
+<style>
+  :root{
+    --g:#0B4F42; --g2:#11866D; --gl:#E5F2EE; --gl2:#F4F8F6;
+    --cream:#F4F8F6; --line:#D9E4E0; --ink:#333A38; --sub:#555555;
+    --red:#B4402F; --redbg:#F9E9E5; --amber:#8a6112; --amberbg:#fdf8ee;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Noto Sans JP",sans-serif;color:var(--ink);background:#F4F8F6;font-size:14px;line-height:1.6}
+  header{background:var(--g);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  header h1{font-size:17px;margin:0;font-weight:900;letter-spacing:.02em}
+  header .sub{font-size:11px;opacity:.8;letter-spacing:.1em}
+  header .sp{flex:1}
+  header button{font-family:inherit}
+  .btn{background:#fff;color:var(--g);border:1px solid #fff;border-radius:4px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer}
+  .btn:hover{background:var(--gl)}
+  .btn.ghost{background:transparent;color:#fff}
+  .btn.ghost:hover{background:rgba(255,255,255,.15)}
+  .wrap{max-width:1400px;margin:0 auto;padding:16px 20px 60px}
+
+  .setup{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin-bottom:16px}
+  .setup h2{font-size:13px;color:var(--g);margin:0 0 10px;font-weight:700;letter-spacing:.06em}
+  .row{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end}
+  .f{display:flex;flex-direction:column;gap:3px}
+  .f label{font-size:11px;color:var(--sub);font-weight:700}
+  .f input,.f select{font-family:inherit;font-size:14px;padding:5px 8px;border:1px solid var(--line);border-radius:4px;background:#fff}
+  .f input[type=number]{width:90px}
+  .f input.wide{width:260px}
+
+  .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+  @media(max-width:1000px){.cols{grid-template-columns:1fr}}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  .panel>h2{font-size:13px;background:var(--gl);color:var(--g);margin:0;padding:8px 14px;font-weight:700;letter-spacing:.06em;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+  .panel>h2 .sp{flex:1}
+  .pbody{padding:12px 14px;max-height:64vh;overflow:auto}
+
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;padding:10px 14px;background:var(--gl2);border-bottom:1px solid var(--line)}
+  .tab{border:1px solid var(--line);background:#fff;border-radius:4px;padding:6px 12px;font-size:12px;cursor:pointer;font-family:inherit;font-weight:700;color:var(--sub);white-space:nowrap}
+  .tab.on{background:var(--g);color:#fff;border-color:var(--g)}
+  .tab .m{font-weight:400;font-size:11px;opacity:.85;margin-left:6px}
+  .tab.over{border-color:var(--red);color:var(--red)}
+  .tab.over.on{background:var(--red);color:#fff}
+
+  .meter{padding:10px 14px;border-bottom:1px solid var(--line);background:var(--cream)}
+  .meter .big{font-size:20px;font-weight:900}
+  .bar{height:9px;background:#e6ebe8;border-radius:5px;overflow:hidden;margin-top:7px;position:relative}
+  .bar i{display:block;height:100%;background:var(--g2);transition:width .18s}
+  .bar.over i{background:var(--red)}
+  .bar.ok i{background:#11866D}
+  .st{font-size:12px;font-weight:700;margin-top:5px}
+  .st.short{color:var(--amber)} .st.over{color:var(--red)} .st.ok{color:#11866D}
+
+  .cat{margin-bottom:12px}
+  .cat h3{font-size:12px;color:var(--g);margin:0 0 5px;font-weight:700;border-left:3px solid var(--g);padding-left:7px;display:flex;align-items:center;gap:8px}
+  .cat h3 .n{font-weight:400;color:var(--sub);font-size:11px}
+  .u{display:flex;align-items:center;gap:8px;padding:5px 7px;border-bottom:1px solid #eef1ef;font-size:13px}
+  .u:hover{background:var(--gl2)}
+  .u.sel{background:var(--gl)}
+  .u.used{opacity:.42}
+  .u input[type=checkbox]{width:16px;height:16px;accent-color:var(--g);cursor:pointer;flex-shrink:0}
+  .u .nm{flex:1;cursor:pointer;min-width:0}
+  .u .nm b{font-weight:500}
+  .u .tag{font-size:10px;color:var(--sub);border:1px solid var(--line);border-radius:3px;padding:0 4px;flex-shrink:0}
+  .u .tag.done{color:var(--amber);border-color:#e0cfa8;background:var(--amberbg)}
+  .u input.min{width:52px;text-align:right;font-family:inherit;font-size:12px;padding:2px 4px;border:1px solid var(--line);border-radius:3px}
+  .u .del{border:0;background:none;color:#c0c8c4;cursor:pointer;font-size:15px;line-height:1;padding:0 2px}
+  .u .del:hover{color:var(--red)}
+
+  .slot-list{list-style:none;margin:0;padding:0}
+  .slot-list li{display:flex;align-items:center;gap:8px;padding:7px;border-bottom:1px solid #eef1ef;font-size:13px}
+  .slot-list li .ord{width:20px;text-align:center;color:var(--g);font-weight:700;font-size:11px}
+  .slot-list li .nm{flex:1;min-width:0}
+  .slot-list li input.min{width:56px;text-align:right;font-family:inherit;font-size:12px;padding:2px 4px;border:1px solid var(--line);border-radius:3px}
+  .slot-list li .mv{border:1px solid var(--line);background:#fff;border-radius:3px;cursor:pointer;font-size:11px;padding:1px 5px;color:var(--sub)}
+  .slot-list li .x{border:0;background:none;color:#c0c8c4;cursor:pointer;font-size:16px;padding:0 3px}
+  .slot-list li .x:hover{color:var(--red)}
+  .empty{color:var(--sub);font-size:12px;padding:14px;text-align:center}
+
+  .addbox{display:flex;gap:6px;padding:9px 14px;background:var(--gl2);border-top:1px solid var(--line);flex-wrap:wrap}
+  .addbox input[type=text]{flex:1;min-width:150px;font-family:inherit;font-size:13px;padding:4px 7px;border:1px solid var(--line);border-radius:4px}
+  .addbox input[type=number]{width:66px;font-family:inherit;font-size:13px;padding:4px 7px;border:1px solid var(--line);border-radius:4px}
+  .addbox select{font-family:inherit;font-size:13px;padding:4px 7px;border:1px solid var(--line);border-radius:4px}
+  .gbtn{background:var(--g);color:#fff;border:0;border-radius:4px;padding:5px 13px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+  .gbtn:hover{background:var(--g2)}
+  .gbtn.sm{padding:3px 9px;font-size:11px}
+
+  .foot{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--line);background:var(--gl2);flex-wrap:wrap}
+
+  #result{margin-top:16px}
+  table.out{width:100%;border-collapse:collapse;font-size:13px;background:#fff}
+  table.out th,table.out td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+  table.out th{background:var(--gl);color:var(--g);font-weight:700}
+  table.out td.n{text-align:right;width:60px;white-space:nowrap}
+  table.out tr.slot td{background:var(--cream);font-weight:700}
+  .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--g);color:#fff;padding:9px 20px;border-radius:5px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s;z-index:99}
+  .toast.on{opacity:1}
+  .hint{font-size:11px;color:var(--sub);padding:0 14px 10px}
+  @media print{
+    header,.setup,.cols,.foot,.toast,.noprint{display:none!important}
+    body{background:#fff}.wrap{padding:0}
+    #result{margin:0}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="sub">こ こ ス マ ／ 出 張 教 室 の 商 談 ツ ー ル</div>
+    <h1 id="title">カリキュラム組立ツール</h1>
+  </div>
+  <div class="sp"></div>
+  <button class="btn ghost" onclick="expJSON()">保存（JSON）</button>
+  <button class="btn ghost" onclick="document.getElementById('imp').click()">読み込み</button>
+  <input type="file" id="imp" accept=".json" style="display:none" onchange="impJSON(this)">
+  <button class="btn" onclick="window.print()">印刷</button>
+</header>
+
+<div class="wrap">
+
+  <div class="setup">
+    <h2>1　枠の設定</h2>
+    <div class="row">
+      <div class="f"><label>コース名</label><input type="text" id="cname" class="wide" value="初回参加者向け" oninput="save()"></div>
+      <div class="f"><label>枠の数</label><input type="number" id="nslot" value="2" min="1" max="20" onchange="rebuild()"></div>
+      <div class="f"><label>1枠あたりの分数</label><input type="number" id="cap" value="60" min="5" max="600" step="5" onchange="applyCap()"></div>
+      <div class="f"><label>&nbsp;</label><button class="gbtn" onclick="applyCap()">全枠にこの分数を適用</button></div>
+      <div class="f"><label>&nbsp;</label><button class="btn" style="border-color:var(--line);color:var(--sub)" onclick="clearAll()">選択をすべて消す</button></div>
+    </div>
+    <div class="hint" style="padding:8px 0 0">枠ごとに分数を変えたいときは、右側の各枠の「定員」を直接書き換えてください。</div>
+  </div>
+
+  <div class="cols">
+
+    <div class="panel">
+      <h2>2　単元をえらぶ<span class="sp"></span><span style="font-weight:400;font-size:11px" id="ucount"></span></h2>
+      <div class="pbody" id="units"></div>
+      <div class="addbox">
+        <select id="ncat"></select>
+        <input type="text" id="nname" placeholder="単元名（その他・自由入力）">
+        <input type="number" id="nmin" value="30" min="1" step="5">
+        <button class="gbtn" onclick="addUnit()">単元を追加</button>
+      </div>
+      <div class="hint">分数の数字は直接書き換えられます（マスタの目安時間）。枠に入れたあとの調整は右側で。</div>
+    </div>
+
+    <div class="panel">
+      <h2>3　枠に入れる</h2>
+      <div class="tabs" id="tabs"></div>
+      <div class="meter" id="meter"></div>
+      <div class="pbody" style="max-height:46vh"><ul class="slot-list" id="slot"></ul></div>
+      <div class="foot">
+        <button class="gbtn" onclick="prevSlot()">← 前の枠</button>
+        <button class="gbtn" onclick="nextSlot()">この枠を確定して次へ →</button>
+        <div style="flex:1"></div>
+        <button class="btn" style="border-color:var(--line);color:var(--sub)" onclick="clearSlot()">この枠を空にする</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="result"></div>
+  <div class="row noprint" style="margin-top:10px">
+    <button class="gbtn" onclick="copyText()">時間割をコピー</button>
+    <button class="btn" style="border-color:var(--line);color:var(--sub)" onclick="copyMD()">Markdownでコピー</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- 単元マスタ（初期値） ---------- */
+const CATS = {
+  S:"センター業務", K:"便利な使い方", A:"安全", D:"災害への備え",
+  L:"LINE", T:"たのしみ", M:"お金・手続き", H:"健康・外出", X:"その他"
+};
+const SEED = [
+  ["S","求人情報の探しかた",35,1],["S","配分金明細の確認",35,1],["S","お知らせの見かた",15,1],
+  ["S","就業報告・実績報告のオンライン化",40,0],["S","センターからの連絡をスマホで受ける",30,0],
+  ["S","支払証明書をPDFで保存・印刷",25,0],["S","アンケート・行事申込のWEB回答",30,0],
+
+  ["K","スマホの便利な使い方（通話・スピーカー・ダイヤル）",20,1],
+  ["K","スクリーンショット",15,1],
+  ["K","ホーム画面に緊急連絡先を登録",20,0],
+  ["K","ユーザー辞書（文字入力を楽に）",25,0],
+  ["K","文字入力の基本",40,0],
+  ["K","困ったときの調べかた（音声検索）",40,0],
+  ["K","QRコードの読み取り",15,1],
+  ["K","ホーム画面の整理・よく見るページの貼り付け",25,1],
+  ["K","見やすくする設定（文字の大きさ・音量）",30,0],
+  ["K","容量とデータ通信量",35,0],
+
+  ["A","よくある詐欺と対策（迷惑SMS・メール）",45,0],
+  ["A","無料クリーナーアプリのトラブル",25,0],
+  ["A","入れてはいけないアプリの見分け方",30,0],
+  ["A","迷惑電話・不審な着信への対処",30,0],
+  ["A","開いてしまったときの対処と相談先",25,0],
+  ["A","ID・パスワードの管理",20,0],
+
+  ["D","SNS・ラジオで情報を取る",40,0],
+  ["D","緊急速報の設定",20,0],
+  ["D","災害用伝言板",25,0],
+  ["D","避難所を地図で探す",25,0],
+  ["D","モバイルバッテリーの選び方と使い方",25,0],
+  ["D","充電を長持ちさせる設定",20,0],
+
+  ["L","LINEをはじめる（友だち追加・トーク）",45,0],
+  ["L","写真を送る・グループを作る",40,0],
+  ["L","ビデオ通話",30,0],
+  ["L","位置情報の共有",25,0],
+  ["L","知らない人からのメッセージへの対処",20,0],
+
+  ["T","写真をきれいに撮る",45,0],
+  ["T","撮った写真の探し方・アルバム整理",40,0],
+  ["T","写真をプリントする",30,0],
+  ["T","YouTubeで好きな動画を見る",40,0],
+  ["T","ラジオアプリ",40,0],
+
+  ["M","キャッシュレス入門（種類と向き不向き）",45,0],
+  ["M","実際に使ってみる（チャージ・支払い・履歴）",45,0],
+  ["M","ポイントの貯め方と使い方",35,0],
+  ["M","マイナポータルでできること",45,0],
+  ["M","自治体の手続きでスマホで済むもの",30,0],
+  ["M","ネットで買い物をする",45,0],
+
+  ["H","脳トレアプリ（毎日脳トレ）",60,1],
+  ["H","歩数・健康記録アプリ",40,0],
+  ["H","地図で散歩コースを作る",40,0],
+  ["H","乗換案内で外出の計画を立てる",45,1],
+  ["H","地図で行き先を調べる（住所・下見・所要時間）",30,0],
+  ["H","Googleマップ（目的地までのナビ）",30,1],
+
+  ["X","前回の復習",15,1],
+  ["X","質疑応答・個別サポート",15,0]
+];
+
+/* ---------- 状態 ---------- */
+let S = null;
+const KEY = "curriculum_builder_v1";
+
+function seedState(){
+  return {
+    cname:"初回参加者向け",
+    units: SEED.map((u,i)=>({id:"u"+i, cat:u[0], name:u[1], min:u[2], done:!!u[3]})),
+    slots: [ {name:"1枠目", cap:60, items:[]}, {name:"2枠目", cap:60, items:[]} ],
+    cur: 0,
+    seq: SEED.length
+  };
+}
+function save(){
+  S.cname = document.getElementById("cname").value;
+  try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){}
+}
+function load(){
+  try{
+    const r = localStorage.getItem(KEY);
+    if(r){ S = JSON.parse(r); return; }
+  }catch(e){}
+  S = seedState();
+}
+
+/* ---------- 描画 ---------- */
+function render(){
+  document.getElementById("cname").value = S.cname;
+  document.getElementById("nslot").value = S.slots.length;
+  renderUnits(); renderTabs(); renderMeter(); renderSlot(); renderResult(); save();
+}
+
+function usedIds(){
+  const m = {};
+  S.slots.forEach((sl,si)=> sl.items.forEach(it=>{ m[it.uid] = si; }));
+  return m;
+}
+
+function renderUnits(){
+  const box = document.getElementById("units");
+  const used = usedIds();
+  const cur = S.cur;
+  let html = "";
+  Object.keys(CATS).forEach(c=>{
+    const list = S.units.filter(u=>u.cat===c);
+    if(!list.length) return;
+    html += `<div class="cat"><h3>${CATS[c]}<span class="n">${list.length}</span></h3>`;
+    list.forEach(u=>{
+      const inCur = S.slots[cur].items.some(i=>i.uid===u.id);
+      const inOther = (used[u.id]!==undefined && used[u.id]!==cur);
+      html += `<div class="u ${inCur?'sel':''} ${inOther?'used':''}">
+        <input type="checkbox" ${inCur?'checked':''} onchange="toggle('${u.id}')">
+        <span class="nm" onclick="toggle('${u.id}')"><b>${esc(u.name)}</b></span>
+        ${u.done?'<span class="tag done">昨年実施</span>':''}
+        ${inOther?`<span class="tag">${esc(S.slots[used[u.id]].name)}</span>`:''}
+        <input class="min" type="number" value="${u.min}" min="1" step="5" onchange="setMin('${u.id}',this.value)">
+        <span style="font-size:11px;color:var(--sub)">分</span>
+        <button class="del" title="削除" onclick="delUnit('${u.id}')">×</button>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+  box.innerHTML = html;
+  document.getElementById("ucount").textContent = S.units.length + "件";
+}
+
+function renderTabs(){
+  const t = document.getElementById("tabs");
+  t.innerHTML = S.slots.map((sl,i)=>{
+    const sum = total(i), over = sum > sl.cap;
+    return `<button class="tab ${i===S.cur?'on':''} ${over?'over':''}" onclick="go(${i})">${esc(sl.name)}<span class="m">${sum}/${sl.cap}分</span></button>`;
+  }).join("") + `<button class="tab" onclick="addSlot()" title="枠を追加">＋枠</button>`;
+}
+
+function total(i){ return S.slots[i].items.reduce((a,b)=>a+(+b.min||0),0); }
+
+function renderMeter(){
+  const sl = S.slots[S.cur], sum = total(S.cur), rest = sl.cap - sum;
+  const pct = Math.min(100, sl.cap? sum/sl.cap*100 : 0);
+  let cls="", msg="";
+  if(rest === 0){ cls="ok"; msg="ちょうど収まりました"; }
+  else if(rest > 0){ cls="short"; msg=`あと <b>${rest}分</b> 空いています`; }
+  else { cls="over"; msg=`<b>${-rest}分 オーバー</b>しています`; }
+  document.getElementById("meter").innerHTML = `
+    <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+      <input value="${esc(sl.name)}" onchange="renameSlot(this.value)"
+        style="font-family:inherit;font-size:14px;font-weight:700;color:var(--g);border:0;border-bottom:1px dashed var(--line);background:none;width:110px">
+      <span class="big">${sum}</span><span style="color:var(--sub)">／ 定員</span>
+      <input type="number" value="${sl.cap}" min="5" step="5" onchange="setCap(this.value)"
+        style="font-family:inherit;font-size:14px;width:64px;padding:2px 5px;border:1px solid var(--line);border-radius:3px;text-align:right">
+      <span style="color:var(--sub)">分</span>
+      <span style="flex:1"></span>
+      <span style="font-size:12px;color:var(--sub)">${S.slots[S.cur].items.length}単元</span>
+    </div>
+    <div class="bar ${cls==='over'?'over':(cls==='ok'?'ok':'')}"><i style="width:${pct}%"></i></div>
+    <div class="st ${cls}">${msg}</div>`;
+}
+
+function renderSlot(){
+  const ul = document.getElementById("slot");
+  const items = S.slots[S.cur].items;
+  if(!items.length){ ul.innerHTML = `<div class="empty">左の一覧から単元をえらんでください</div>`; return; }
+  ul.innerHTML = items.map((it,i)=>`
+    <li>
+      <span class="ord">${i+1}</span>
+      <span class="nm">${esc(it.name)}</span>
+      <button class="mv" onclick="move(${i},-1)" ${i===0?'disabled':''}>↑</button>
+      <button class="mv" onclick="move(${i},1)" ${i===items.length-1?'disabled':''}>↓</button>
+      <input class="min" type="number" value="${it.min}" min="1" step="5" onchange="setItemMin(${i},this.value)">
+      <span style="font-size:11px;color:var(--sub)">分</span>
+      <button class="x" onclick="rm(${i})">×</button>
+    </li>`).join("");
+}
+
+function renderResult(){
+  const r = document.getElementById("result");
+  const any = S.slots.some(s=>s.items.length);
+  if(!any){ r.innerHTML=""; return; }
+  let rows = "";
+  S.slots.forEach((sl,i)=>{
+    const sum = total(i), rest = sl.cap - sum;
+    const note = rest===0 ? "" : (rest>0 ? `（あと${rest}分）` : `（${-rest}分オーバー）`);
+    rows += `<tr class="slot"><td>${esc(sl.name)}</td><td>${esc(sl.name)} 合計</td><td class="n">${sum} / ${sl.cap}分 ${note}</td></tr>`;
+    sl.items.forEach((it,j)=>{
+      rows += `<tr><td></td><td>${j+1}. ${esc(it.name)}</td><td class="n">${it.min}分</td></tr>`;
+    });
+  });
+  const g = S.slots.reduce((a,s,i)=>a+total(i),0);
+  const gc = S.slots.reduce((a,s)=>a+s.cap,0);
+  r.innerHTML = `<h2 style="font-size:15px;color:var(--g);margin:18px 0 8px">${esc(S.cname)}　時間割</h2>
+    <table class="out"><thead><tr><th style="width:110px">枠</th><th>単元</th><th class="n">時間</th></tr></thead>
+    <tbody>${rows}<tr class="slot"><td>合計</td><td>全${S.slots.length}枠</td><td class="n">${g} / ${gc}分</td></tr></tbody></table>`;
+}
+
+/* ---------- 操作 ---------- */
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("on"); setTimeout(()=>t.classList.remove("on"),1400); }
+
+function toggle(uid){
+  const sl = S.slots[S.cur];
+  const idx = sl.items.findIndex(i=>i.uid===uid);
+  if(idx>=0){ sl.items.splice(idx,1); }
+  else{
+    const u = S.units.find(x=>x.id===uid);
+    sl.items.push({uid:u.id, name:u.name, min:u.min});
+  }
+  render();
+}
+function rm(i){ S.slots[S.cur].items.splice(i,1); render(); }
+function move(i,d){ const a=S.slots[S.cur].items; const j=i+d; if(j<0||j>=a.length)return; [a[i],a[j]]=[a[j],a[i]]; render(); }
+function setItemMin(i,v){ S.slots[S.cur].items[i].min = +v||0; render(); }
+function setMin(uid,v){ const u=S.units.find(x=>x.id===uid); u.min=+v||0; render(); }
+function delUnit(uid){
+  if(!confirm("この単元をマスタから削除しますか？")) return;
+  S.units = S.units.filter(u=>u.id!==uid);
+  S.slots.forEach(sl=> sl.items = sl.items.filter(i=>i.uid!==uid));
+  render();
+}
+function addUnit(){
+  const n = document.getElementById("nname").value.trim();
+  if(!n){ toast("単元名を入れてください"); return; }
+  const c = document.getElementById("ncat").value;
+  const m = +document.getElementById("nmin").value||30;
+  S.units.push({id:"u"+(S.seq++), cat:c, name:n, min:m, done:false});
+  document.getElementById("nname").value="";
+  render(); toast("追加しました");
+}
+function go(i){ S.cur=i; render(); }
+function nextSlot(){
+  const rest = S.slots[S.cur].cap - total(S.cur);
+  if(rest > 0 && !confirm(`この枠はあと${rest}分空いています。次の枠へ進みますか？`)) return;
+  if(rest < 0 && !confirm(`この枠は${-rest}分オーバーしています。次の枠へ進みますか？`)) return;
+  if(S.cur < S.slots.length-1){ S.cur++; render(); }
+  else { toast("すべての枠が終わりました"); renderResult(); window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"}); }
+}
+function prevSlot(){ if(S.cur>0){ S.cur--; render(); } }
+function addSlot(){ S.slots.push({name:(S.slots.length+1)+"枠目", cap:+document.getElementById("cap").value||60, items:[]}); S.cur=S.slots.length-1; render(); }
+function rebuild(){
+  const n = +document.getElementById("nslot").value||1;
+  const cap = +document.getElementById("cap").value||60;
+  while(S.slots.length < n) S.slots.push({name:(S.slots.length+1)+"枠目", cap:cap, items:[]});
+  while(S.slots.length > n){
+    const last = S.slots[S.slots.length-1];
+    if(last.items.length && !confirm("削除する枠に単元が入っています。消してよいですか？")){ document.getElementById("nslot").value=S.slots.length; return; }
+    S.slots.pop();
+  }
+  if(S.cur >= S.slots.length) S.cur = S.slots.length-1;
+  render();
+}
+function applyCap(){ const c=+document.getElementById("cap").value||60; S.slots.forEach(s=>s.cap=c); render(); }
+function setCap(v){ S.slots[S.cur].cap = +v||60; render(); }
+function renameSlot(v){ S.slots[S.cur].name = v || S.slots[S.cur].name; render(); }
+function clearSlot(){ if(confirm("この枠の単元をすべて外しますか？")){ S.slots[S.cur].items=[]; render(); } }
+function clearAll(){ if(confirm("すべての枠の選択を消しますか？（単元マスタは残ります）")){ S.slots.forEach(s=>s.items=[]); S.cur=0; render(); } }
+
+/* ---------- 出力 ---------- */
+function plain(){
+  let t = S.cname + "　時間割\n";
+  S.slots.forEach((sl,i)=>{
+    const sum=total(i), rest=sl.cap-sum;
+    t += `\n【${sl.name}】 ${sum}/${sl.cap}分` + (rest?(rest>0?`（あと${rest}分）`:`（${-rest}分オーバー）`):"") + "\n";
+    sl.items.forEach((it,j)=> t += `  ${j+1}. ${it.name}　${it.min}分\n`);
+  });
+  return t;
+}
+function md(){
+  let t = `## ${S.cname}　時間割\n\n| 枠 | 単元 | 時間 |\n|---|---|---:|\n`;
+  S.slots.forEach((sl,i)=>{
+    sl.items.forEach((it,j)=> t += `| ${j===0?sl.name:""} | ${it.name} | ${it.min}分 |\n`);
+    t += `| | **${sl.name} 合計** | **${total(i)}/${sl.cap}分** |\n`;
+  });
+  return t;
+}
+function cp(s,m){
+  navigator.clipboard.writeText(s).then(()=>toast(m)).catch(()=>{
+    const ta=document.createElement("textarea"); ta.value=s; document.body.appendChild(ta); ta.select();
+    document.execCommand("copy"); ta.remove(); toast(m);
+  });
+}
+function copyText(){ cp(plain(),"コピーしました"); }
+function copyMD(){ cp(md(),"Markdownでコピーしました"); }
+
+function expJSON(){
+  const blob = new Blob([JSON.stringify(S,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=(S.cname||"カリキュラム")+".json";
+  a.click(); toast("保存しました");
+}
+function impJSON(el){
+  const f = el.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = e=>{ try{ S = JSON.parse(e.target.result); render(); toast("読み込みました"); }catch(err){ alert("読み込めませんでした"); } };
+  r.readAsText(f); el.value="";
+}
+
+/* ---------- 起動 ---------- */
+document.getElementById("ncat").innerHTML = Object.keys(CATS).map(c=>`<option value="${c}">${CATS[c]}</option>`).join("");
+load(); render();
+</script>
+</body>
+</html>
