@@ -72,15 +72,19 @@
   .u .del{border:0;background:none;color:#c0c8c4;cursor:pointer;font-size:15px;line-height:1;padding:0 2px}
   .u .del:hover{color:var(--red)}
 
-  .slot-list{list-style:none;margin:0;padding:0}
-  .slot-list li{display:flex;align-items:center;gap:8px;padding:7px;border-bottom:1px solid #eef1ef;font-size:13px}
-  .slot-list li .ord{width:20px;text-align:center;color:var(--g);font-weight:700;font-size:11px}
-  .slot-list li .nm{flex:1;min-width:0}
-  .slot-list li input.min{width:56px;text-align:right;font-family:inherit;font-size:12px;padding:2px 4px;border:1px solid var(--line);border-radius:3px}
-  .slot-list li .mv{border:1px solid var(--line);background:#fff;border-radius:3px;cursor:pointer;font-size:11px;padding:1px 5px;color:var(--sub)}
-  .slot-list li .x{border:0;background:none;color:#c0c8c4;cursor:pointer;font-size:16px;padding:0 3px}
-  .slot-list li .x:hover{color:var(--red)}
+  
+  .cgroup li{display:flex;align-items:center;gap:8px;padding:7px;border-bottom:1px solid #eef1ef;font-size:13px}
+  .cgroup li .ord{width:20px;text-align:center;color:var(--g);font-weight:700;font-size:11px}
+  .cgroup li .nm{flex:1;min-width:0}
+  .cgroup li input.min{width:56px;text-align:right;font-family:inherit;font-size:12px;padding:2px 4px;border:1px solid var(--line);border-radius:3px}
+  .cgroup li .mv{border:1px solid var(--line);background:#fff;border-radius:3px;cursor:pointer;font-size:11px;padding:1px 5px;color:var(--sub)}
+  .cgroup li .x{border:0;background:none;color:#c0c8c4;cursor:pointer;font-size:16px;padding:0 3px}
+  .cgroup li .x:hover{color:var(--red)}
   .empty{color:var(--sub);font-size:12px;padding:14px;text-align:center}
+  .cgroup{margin-bottom:10px}
+  .chead{display:flex;align-items:center;gap:8px;background:var(--gl);color:var(--g);font-weight:700;font-size:12px;padding:5px 10px;border-radius:4px 4px 0 0}
+  .chead .cm{margin-left:auto;font-weight:700;font-size:12px}
+  .cgroup ul{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-top:0;border-radius:0 0 4px 4px}
 
   .addbox{display:flex;gap:6px;padding:9px 14px;background:var(--gl2);border-top:1px solid var(--line);flex-wrap:wrap}
   .addbox input[type=text]{flex:1;min-width:150px;font-family:inherit;font-size:13px;padding:4px 7px;border:1px solid var(--line);border-radius:4px}
@@ -94,10 +98,12 @@
 
   #result{margin-top:16px}
   table.out{width:100%;border-collapse:collapse;font-size:13px;background:#fff}
-  table.out th,table.out td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+  table.out th,table.out td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top;word-break:auto-phrase}
   table.out th{background:var(--gl);color:var(--g);font-weight:700}
   table.out td.n{text-align:right;width:60px;white-space:nowrap}
   table.out tr.slot td{background:var(--cream);font-weight:700}
+    table.out td.slotcell{background:var(--gl2);vertical-align:middle}
+    table.out td.catcell{background:#fbfcfb;vertical-align:top}
   .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--g);color:#fff;padding:9px 20px;border-radius:5px;font-size:13px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s;z-index:99}
   .toast.on{opacity:1}
   .hint{font-size:11px;color:var(--sub);padding:0 14px 10px}
@@ -129,32 +135,32 @@
     <div class="row">
       <div class="f"><label>コース名</label><input type="text" id="cname" class="wide" value="初回参加者向け" oninput="save()"></div>
       <div class="f"><label>枠の数</label><input type="number" id="nslot" value="2" min="1" max="20" onchange="rebuild()"></div>
-      <div class="f"><label>1枠あたりの分数</label><input type="number" id="cap" value="60" min="5" max="600" step="5" onchange="applyCap()"></div>
-      <div class="f"><label>&nbsp;</label><button class="gbtn" onclick="applyCap()">全枠にこの分数を適用</button></div>
+      <div class="f"><label>1枠の長さ（分）</label><input type="number" id="cap" value="60" min="5" max="600" step="5" onchange="applyCap()"></div>
+      <div class="f"><label>&nbsp;</label><button class="gbtn" onclick="applyCap()">全枠に反映</button></div>
       <div class="f"><label>&nbsp;</label><button class="btn" style="border-color:var(--line);color:var(--sub)" onclick="clearAll()">選択をすべて消す</button></div>
     </div>
-    <div class="hint" style="padding:8px 0 0">枠ごとに分数を変えたいときは、右側の各枠の「定員」を直接書き換えてください。</div>
+    <div class="hint" style="padding:8px 0 0">枠ごとに長さを変えたいときは、右側の各枠の分数を直接書き換えてください。</div>
   </div>
 
   <div class="cols">
 
     <div class="panel">
-      <h2>2　単元をえらぶ<span class="sp"></span><span style="font-weight:400;font-size:11px" id="ucount"></span></h2>
+      <h2>2　カリキュラムを選択<span class="sp"></span><span style="font-weight:400;font-size:11px" id="ucount"></span></h2>
       <div class="pbody" id="units"></div>
       <div class="addbox">
         <select id="ncat"></select>
-        <input type="text" id="nname" placeholder="単元名（その他・自由入力）">
+        <input type="text" id="nname" placeholder="実施項目（自由入力）">
         <input type="number" id="nmin" value="30" min="1" step="5">
-        <button class="gbtn" onclick="addUnit()">単元を追加</button>
+        <button class="gbtn" onclick="addUnit()">実施項目を追加</button>
       </div>
-      <div class="hint">分数の数字は直接書き換えられます（マスタの目安時間）。枠に入れたあとの調整は右側で。</div>
+      <div class="hint">分数は直接書き換えられます（目安時間）。枠に入れたあとの調整は右側で。</div>
     </div>
 
     <div class="panel">
-      <h2>3　枠に入れる</h2>
+      <h2>3　枠の組み立て</h2>
       <div class="tabs" id="tabs"></div>
       <div class="meter" id="meter"></div>
-      <div class="pbody" style="max-height:46vh"><ul class="slot-list" id="slot"></ul></div>
+      <div class="pbody" style="max-height:46vh"><div id="slot"></div></div>
       <div class="foot">
         <button class="gbtn" onclick="prevSlot()">← 前の枠</button>
         <button class="gbtn" onclick="nextSlot()">この枠を確定して次へ →</button>
@@ -167,7 +173,7 @@
 
   <div id="result"></div>
   <div class="row noprint" style="margin-top:10px">
-    <button class="gbtn" onclick="copyText()">時間割をコピー</button>
+    <button class="gbtn" onclick="copyText()">カリキュラムをコピー</button>
     <button class="btn" style="border-color:var(--line);color:var(--sub)" onclick="copyMD()">Markdownでコピー</button>
   </div>
 
@@ -178,64 +184,101 @@
 <script>
 /* ---------- 単元マスタ（初期値） ---------- */
 const CATS = {
-  S:"センター業務", K:"便利な使い方", A:"安全", D:"災害への備え",
-  L:"LINE", T:"たのしみ", M:"お金・手続き", H:"健康・外出", X:"その他"
+  S:"センター業務", K:"スマホの便利機能", M:"マップ・ナビ",
+  A:"安心・安全に使うために", D:"災害への備え",
+  L1:"LINEの基本", L2:"LINEの便利機能", L3:"LINEを安全に使うには",
+  P:"写真を楽しむ", V:"動画を楽しむ", O:"音楽を楽しむ",
+  H:"健康管理", X:"その他"
 };
 const SEED = [
-  ["S","求人情報の探しかた",35,1],["S","配分金明細の確認",35,1],["S","お知らせの見かた",15,1],
-  ["S","就業報告・実績報告のオンライン化",40,0],["S","センターからの連絡をスマホで受ける",30,0],
-  ["S","支払証明書をPDFで保存・印刷",25,0],["S","アンケート・行事申込のWEB回答",30,0],
+  ["S","求人情報の探し方",20,1],["S","お知らせの見かた",15,1],
+  ["S","会員クラウドサービスへのログイン",20,1],["S","配分金明細の確認",35,1],
+  ["S","配分金支払証明書のダウンロード",20,0],["S","就業報告のオンライン提出",30,0],
+  ["S","センターからの連絡をメールで受け取る",25,0],["S","アンケート・行事申込のWEB回答",25,0],
 
-  ["K","スマホの便利な使い方（通話・スピーカー・ダイヤル）",20,1],
-  ["K","スクリーンショット",15,1],
+  ["K","スクリーンショットの撮り方",15,1],
+  ["K","ユーザー辞書の使い方（文字入力を楽に）",20,0],
+  ["K","音声入力の使い方",20,0],
+  ["K","通話中のスピーカーの使い方",15,1],
   ["K","ホーム画面に緊急連絡先を登録",20,0],
-  ["K","ユーザー辞書（文字入力を楽に）",25,0],
-  ["K","文字入力の基本",40,0],
-  ["K","困ったときの調べかた（音声検索）",40,0],
-  ["K","QRコードの読み取り",15,1],
-  ["K","ホーム画面の整理・よく見るページの貼り付け",25,1],
-  ["K","見やすくする設定（文字の大きさ・音量）",30,0],
-  ["K","容量とデータ通信量",35,0],
+  ["K","ホーム画面によく見るページを貼り付け",20,1],
+  ["K","QRコードの読み取り方",15,1],
+  ["K","文字を大きくする設定",15,0],
+  ["K","音量と着信音の設定",15,0],
+  ["K","調べたいことの検索のしかた",30,1],
+  ["K","電池を長持ちさせる設定",15,0],
+  ["K","データ通信量の確認",20,0],
 
-  ["A","よくある詐欺と対策（迷惑SMS・メール）",45,0],
-  ["A","無料クリーナーアプリのトラブル",25,0],
-  ["A","入れてはいけないアプリの見分け方",30,0],
-  ["A","迷惑電話・不審な着信への対処",30,0],
-  ["A","開いてしまったときの対処と相談先",25,0],
-  ["A","ID・パスワードの管理",20,0],
+  ["M","住所から場所を探す",20,0],
+  ["M","ストリートビューで下見する",20,0],
+  ["M","目的地までの道順を調べる",25,1],
+  ["M","所要時間を調べる（徒歩・バス・車）",20,0],
+  ["M","自宅とよく行く場所を登録する",15,0],
+  ["M","近くの施設を探す（病院・薬局・郵便局）",20,0],
+  ["M","乗換案内で電車の時間を調べる",30,1],
+  ["M","避難所を地図で探す",20,0],
 
-  ["D","SNS・ラジオで情報を取る",40,0],
-  ["D","緊急速報の設定",20,0],
-  ["D","災害用伝言板",25,0],
-  ["D","避難所を地図で探す",25,0],
-  ["D","モバイルバッテリーの選び方と使い方",25,0],
-  ["D","充電を長持ちさせる設定",20,0],
+  ["A","迷惑メール・SMSの見分け方",30,0],
+  ["A","偽の警告画面への対処",20,0],
+  ["A","無料クリーナーアプリのトラブル",20,0],
+  ["A","入れてはいけないアプリの見分け方",25,0],
+  ["A","迷惑電話への対処",20,0],
+  ["A","IDとパスワードの管理",20,0],
+  ["A","個人情報を守る設定",20,0],
+  ["A","困ったときの相談先",15,0],
 
-  ["L","LINEをはじめる（友だち追加・トーク）",45,0],
-  ["L","写真を送る・グループを作る",40,0],
-  ["L","ビデオ通話",30,0],
-  ["L","位置情報の共有",25,0],
-  ["L","知らない人からのメッセージへの対処",20,0],
+  ["D","緊急速報の設定",15,0],
+  ["D","災害用伝言板の使い方",25,0],
+  ["D","SNSで災害情報を集める",25,0],
+  ["D","ラジオアプリで情報を聞く",25,0],
+  ["D","家族に一斉に連絡する",20,0],
+  ["D","モバイルバッテリーの使い方",20,0],
+  ["D","停電に備えた設定",15,0],
 
-  ["T","写真をきれいに撮る",45,0],
-  ["T","撮った写真の探し方・アルバム整理",40,0],
-  ["T","写真をプリントする",30,0],
-  ["T","YouTubeで好きな動画を見る",40,0],
-  ["T","ラジオアプリ",40,0],
+  ["L1","LINEをはじめる（登録・初期設定）",30,0],
+  ["L1","友だちを追加する",20,0],
+  ["L1","メッセージを送る・受け取る",25,0],
+  ["L1","スタンプを使う",20,0],
+  ["L1","既読と未読のしくみ",15,0],
+  ["L1","LINEで電話をかける",20,0],
 
-  ["M","キャッシュレス入門（種類と向き不向き）",45,0],
-  ["M","実際に使ってみる（チャージ・支払い・履歴）",45,0],
-  ["M","ポイントの貯め方と使い方",35,0],
-  ["M","マイナポータルでできること",45,0],
-  ["M","自治体の手続きでスマホで済むもの",30,0],
-  ["M","ネットで買い物をする",45,0],
+  ["L2","写真や動画を送る",25,0],
+  ["L2","グループを作る",25,0],
+  ["L2","ビデオ通話をする",25,0],
+  ["L2","アルバムで写真をまとめる",25,0],
+  ["L2","ノートに大事な連絡を残す",20,0],
+  ["L2","位置情報を共有する",20,0],
+  ["L2","音声メッセージを送る",15,0],
 
-  ["H","脳トレアプリ（毎日脳トレ）",60,1],
-  ["H","歩数・健康記録アプリ",40,0],
-  ["H","地図で散歩コースを作る",40,0],
-  ["H","乗換案内で外出の計画を立てる",45,1],
-  ["H","地図で行き先を調べる（住所・下見・所要時間）",30,0],
-  ["H","Googleマップ（目的地までのナビ）",30,1],
+  ["L3","知らない人からのメッセージへの対処",20,0],
+  ["L3","乗っ取りを防ぐ設定",25,0],
+  ["L3","友だち追加の設定を見直す",20,0],
+  ["L3","送る前に確認したいこと",15,0],
+
+  ["P","写真の撮り方の基本",25,0],
+  ["P","明るさとピントを合わせる",20,0],
+  ["P","花や料理をきれいに撮る",25,0],
+  ["P","撮った写真を探す",20,0],
+  ["P","アルバムに整理する",25,0],
+  ["P","写真をプリントする",25,0],
+  ["P","写真を家族に送る",20,0],
+  ["P","いらない写真を削除する",15,0],
+
+  ["V","YouTubeで動画を探す",25,0],
+  ["V","お気に入りを登録する",20,0],
+  ["V","音量と画質を調整する",15,0],
+  ["V","動画を撮る",25,0],
+  ["V","撮った動画を送る",20,0],
+
+  ["O","ラジオアプリで番組を聞く",25,0],
+  ["O","好きな曲を探して聞く",25,0],
+  ["O","イヤホンの使い方",15,0],
+
+  ["H","歩数を記録する",25,0],
+  ["H","脳トレアプリで頭の体操",30,1],
+  ["H","健康記録アプリの使い方",25,0],
+  ["H","散歩コースを地図で作る",25,0],
+  ["H","お薬の飲み忘れを防ぐ",20,0],
 
   ["X","前回の復習",15,1],
   ["X","質疑応答・個別サポート",15,0]
@@ -243,7 +286,7 @@ const SEED = [
 
 /* ---------- 状態 ---------- */
 let S = null;
-const KEY = "curriculum_builder_v1";
+const KEY = "curriculum_builder_v2";
 
 function seedState(){
   return {
@@ -304,7 +347,7 @@ function renderUnits(){
     html += `</div>`;
   });
   box.innerHTML = html;
-  document.getElementById("ucount").textContent = S.units.length + "件";
+  document.getElementById("ucount").textContent = S.units.length + "項目";
 }
 
 function renderTabs(){
@@ -325,54 +368,75 @@ function renderMeter(){
   else if(rest > 0){ cls="short"; msg=`あと <b>${rest}分</b> 空いています`; }
   else { cls="over"; msg=`<b>${-rest}分 オーバー</b>しています`; }
   document.getElementById("meter").innerHTML = `
-    <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+    <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
       <input value="${esc(sl.name)}" onchange="renameSlot(this.value)"
         style="font-family:inherit;font-size:14px;font-weight:700;color:var(--g);border:0;border-bottom:1px dashed var(--line);background:none;width:110px">
-      <span class="big">${sum}</span><span style="color:var(--sub)">／ 定員</span>
+      <span class="big">${sum}</span><span style="color:var(--sub);font-size:13px">分</span>
+      <span style="color:var(--sub)">／</span>
       <input type="number" value="${sl.cap}" min="5" step="5" onchange="setCap(this.value)"
-        style="font-family:inherit;font-size:14px;width:64px;padding:2px 5px;border:1px solid var(--line);border-radius:3px;text-align:right">
-      <span style="color:var(--sub)">分</span>
+        style="font-family:inherit;font-size:14px;width:62px;padding:2px 5px;border:1px solid var(--line);border-radius:3px;text-align:right">
+      <span style="color:var(--sub);font-size:13px">分</span>
       <span style="flex:1"></span>
-      <span style="font-size:12px;color:var(--sub)">${S.slots[S.cur].items.length}単元</span>
+      <span style="font-size:12px;color:var(--sub)">${sl.items.length}項目</span>
     </div>
     <div class="bar ${cls==='over'?'over':(cls==='ok'?'ok':'')}"><i style="width:${pct}%"></i></div>
     <div class="st ${cls}">${msg}</div>`;
 }
 
+function grouped(si){
+  const items = S.slots[si].items, order = Object.keys(CATS), map = {};
+  items.forEach((it,idx)=>{ const c = it.cat || "X"; (map[c]=map[c]||[]).push(Object.assign({},it,{_i:idx})); });
+  return order.filter(c=>map[c]).map(c=>({cat:c, items:map[c], sum:map[c].reduce((a,b)=>a+(+b.min||0),0)}));
+}
+
 function renderSlot(){
-  const ul = document.getElementById("slot");
-  const items = S.slots[S.cur].items;
-  if(!items.length){ ul.innerHTML = `<div class="empty">左の一覧から単元をえらんでください</div>`; return; }
-  ul.innerHTML = items.map((it,i)=>`
-    <li>
-      <span class="ord">${i+1}</span>
-      <span class="nm">${esc(it.name)}</span>
-      <button class="mv" onclick="move(${i},-1)" ${i===0?'disabled':''}>↑</button>
-      <button class="mv" onclick="move(${i},1)" ${i===items.length-1?'disabled':''}>↓</button>
-      <input class="min" type="number" value="${it.min}" min="1" step="5" onchange="setItemMin(${i},this.value)">
-      <span style="font-size:11px;color:var(--sub)">分</span>
-      <button class="x" onclick="rm(${i})">×</button>
-    </li>`).join("");
+  const box = document.getElementById("slot");
+  const gs = grouped(S.cur);
+  if(!gs.length){ box.innerHTML = `<div class="empty">左の一覧から実施項目をえらんでください</div>`; return; }
+  box.innerHTML = gs.map(g=>`
+    <div class="cgroup">
+      <div class="chead">${esc(CATS[g.cat])}<span class="cm">${g.sum}分</span></div>
+      <ul>
+      ${g.items.map((it,pos)=>`
+        <li>
+          <span class="ord">${pos+1}</span>
+          <span class="nm">${esc(it.name)}</span>
+          <button class="mv" onclick="moveIn('${g.cat}',${pos},-1)" ${pos===0?'disabled':''}>↑</button>
+          <button class="mv" onclick="moveIn('${g.cat}',${pos},1)" ${pos===g.items.length-1?'disabled':''}>↓</button>
+          <input class="min" type="number" value="${it.min}" min="1" step="5" onchange="setItemMin(${it._i},this.value)">
+          <span style="font-size:11px;color:var(--sub)">分</span>
+          <button class="x" onclick="rm(${it._i})">×</button>
+        </li>`).join("")}
+      </ul>
+    </div>`).join("");
 }
 
 function renderResult(){
   const r = document.getElementById("result");
-  const any = S.slots.some(s=>s.items.length);
-  if(!any){ r.innerHTML=""; return; }
+  if(!S.slots.some(s=>s.items.length)){ r.innerHTML=""; return; }
   let rows = "";
   S.slots.forEach((sl,i)=>{
-    const sum = total(i), rest = sl.cap - sum;
-    const note = rest===0 ? "" : (rest>0 ? `（あと${rest}分）` : `（${-rest}分オーバー）`);
-    rows += `<tr class="slot"><td>${esc(sl.name)}</td><td>${esc(sl.name)} 合計</td><td class="n">${sum} / ${sl.cap}分 ${note}</td></tr>`;
-    sl.items.forEach((it,j)=>{
-      rows += `<tr><td></td><td>${j+1}. ${esc(it.name)}</td><td class="n">${it.min}分</td></tr>`;
+    const gs = grouped(i), sum = total(i), rest = sl.cap - sum;
+    const note = rest===0 ? "" : (rest>0 ? `　あと${rest}分` : `　${-rest}分オーバー`);
+    const n = gs.reduce((a,g)=>a+g.items.length,0) || 1;
+    let first = true;
+    if(!gs.length){
+      rows += `<tr class="slot"><td>${esc(sl.name)}</td><td colspan="2" style="color:var(--sub)">（未選択）</td><td class="n">0 / ${sl.cap}分</td></tr>`;
+      return;
+    }
+    gs.forEach(g=>{
+      g.items.forEach((it,j)=>{
+        rows += `<tr>`;
+        if(first){ rows += `<td rowspan="${n}" class="slotcell"><b>${esc(sl.name)}</b><br><span style="font-size:11px;color:var(--sub)">${sum}/${sl.cap}分${note}</span></td>`; first=false; }
+        if(j===0){ rows += `<td rowspan="${g.items.length}" class="catcell"><b>${esc(CATS[g.cat])}</b><br><span style="font-size:11px;color:var(--sub)">${g.sum}分</span></td>`; }
+        rows += `<td>${esc(it.name)}</td><td class="n">${it.min}分</td></tr>`;
+      });
     });
   });
-  const g = S.slots.reduce((a,s,i)=>a+total(i),0);
-  const gc = S.slots.reduce((a,s)=>a+s.cap,0);
-  r.innerHTML = `<h2 style="font-size:15px;color:var(--g);margin:18px 0 8px">${esc(S.cname)}　時間割</h2>
-    <table class="out"><thead><tr><th style="width:110px">枠</th><th>単元</th><th class="n">時間</th></tr></thead>
-    <tbody>${rows}<tr class="slot"><td>合計</td><td>全${S.slots.length}枠</td><td class="n">${g} / ${gc}分</td></tr></tbody></table>`;
+  const g = S.slots.reduce((a,s,i)=>a+total(i),0), gc = S.slots.reduce((a,s)=>a+s.cap,0);
+  r.innerHTML = `<h2 style="font-size:15px;color:var(--g);margin:18px 0 8px">${esc(S.cname)}　カリキュラム</h2>
+    <table class="out"><thead><tr><th style="width:128px">枠</th><th style="width:162px">カテゴリ</th><th>実施項目</th><th class="n">時間</th></tr></thead>
+    <tbody>${rows}<tr class="slot"><td colspan="3"><b>合計</b>（全${S.slots.length}枠）</td><td class="n"><b>${g} / ${gc}分</b></td></tr></tbody></table>`;
 }
 
 /* ---------- 操作 ---------- */
@@ -385,23 +449,28 @@ function toggle(uid){
   if(idx>=0){ sl.items.splice(idx,1); }
   else{
     const u = S.units.find(x=>x.id===uid);
-    sl.items.push({uid:u.id, name:u.name, min:u.min});
+    sl.items.push({uid:u.id, cat:u.cat, name:u.name, min:u.min});
   }
   render();
 }
 function rm(i){ S.slots[S.cur].items.splice(i,1); render(); }
-function move(i,d){ const a=S.slots[S.cur].items; const j=i+d; if(j<0||j>=a.length)return; [a[i],a[j]]=[a[j],a[i]]; render(); }
+function moveIn(cat,pos,d){
+  const g = grouped(S.cur).find(x=>x.cat===cat); if(!g) return;
+  const t = pos+d; if(t<0||t>=g.items.length) return;
+  const a = S.slots[S.cur].items, i = g.items[pos]._i, j = g.items[t]._i;
+  const tmp = a[i]; a[i] = a[j]; a[j] = tmp; render();
+}
 function setItemMin(i,v){ S.slots[S.cur].items[i].min = +v||0; render(); }
 function setMin(uid,v){ const u=S.units.find(x=>x.id===uid); u.min=+v||0; render(); }
 function delUnit(uid){
-  if(!confirm("この単元をマスタから削除しますか？")) return;
+  if(!confirm("この実施項目を一覧から削除しますか？")) return;
   S.units = S.units.filter(u=>u.id!==uid);
   S.slots.forEach(sl=> sl.items = sl.items.filter(i=>i.uid!==uid));
   render();
 }
 function addUnit(){
   const n = document.getElementById("nname").value.trim();
-  if(!n){ toast("単元名を入れてください"); return; }
+  if(!n){ toast("実施項目名を入れてください"); return; }
   const c = document.getElementById("ncat").value;
   const m = +document.getElementById("nmin").value||30;
   S.units.push({id:"u"+(S.seq++), cat:c, name:n, min:m, done:false});
@@ -424,7 +493,7 @@ function rebuild(){
   while(S.slots.length < n) S.slots.push({name:(S.slots.length+1)+"枠目", cap:cap, items:[]});
   while(S.slots.length > n){
     const last = S.slots[S.slots.length-1];
-    if(last.items.length && !confirm("削除する枠に単元が入っています。消してよいですか？")){ document.getElementById("nslot").value=S.slots.length; return; }
+    if(last.items.length && !confirm("削除する枠に実施項目が入っています。消してよいですか？")){ document.getElementById("nslot").value=S.slots.length; return; }
     S.slots.pop();
   }
   if(S.cur >= S.slots.length) S.cur = S.slots.length-1;
@@ -433,24 +502,37 @@ function rebuild(){
 function applyCap(){ const c=+document.getElementById("cap").value||60; S.slots.forEach(s=>s.cap=c); render(); }
 function setCap(v){ S.slots[S.cur].cap = +v||60; render(); }
 function renameSlot(v){ S.slots[S.cur].name = v || S.slots[S.cur].name; render(); }
-function clearSlot(){ if(confirm("この枠の単元をすべて外しますか？")){ S.slots[S.cur].items=[]; render(); } }
-function clearAll(){ if(confirm("すべての枠の選択を消しますか？（単元マスタは残ります）")){ S.slots.forEach(s=>s.items=[]); S.cur=0; render(); } }
+function clearSlot(){ if(confirm("この枠の実施項目をすべて外しますか？")){ S.slots[S.cur].items=[]; render(); } }
+function clearAll(){ if(confirm("すべての枠の選択を消しますか？（一覧は残ります）")){ S.slots.forEach(s=>s.items=[]); S.cur=0; render(); } }
 
 /* ---------- 出力 ---------- */
 function plain(){
-  let t = S.cname + "　時間割\n";
+  const NL = String.fromCharCode(10);
+  let t = S.cname + "　カリキュラム" + NL;
   S.slots.forEach((sl,i)=>{
     const sum=total(i), rest=sl.cap-sum;
-    t += `\n【${sl.name}】 ${sum}/${sl.cap}分` + (rest?(rest>0?`（あと${rest}分）`:`（${-rest}分オーバー）`):"") + "\n";
-    sl.items.forEach((it,j)=> t += `  ${j+1}. ${it.name}　${it.min}分\n`);
+    const note = rest===0 ? "" : (rest>0 ? "（あと"+rest+"分）" : "（"+(-rest)+"分オーバー）");
+    t += NL + "■ " + sl.name + "　" + sum + "/" + sl.cap + "分" + note + NL;
+    grouped(i).forEach(g=>{
+      t += "　【" + CATS[g.cat] + "】" + g.sum + "分" + NL;
+      g.items.forEach(it=>{ t += "　　・" + it.name + "　" + it.min + "分" + NL; });
+    });
   });
   return t;
 }
 function md(){
-  let t = `## ${S.cname}　時間割\n\n| 枠 | 単元 | 時間 |\n|---|---|---:|\n`;
+  const NL = String.fromCharCode(10);
+  let t = "## " + S.cname + "　カリキュラム" + NL + NL
+        + "| 枠 | カテゴリ | 実施項目 | 時間 |" + NL + "|---|---|---|---:|" + NL;
   S.slots.forEach((sl,i)=>{
-    sl.items.forEach((it,j)=> t += `| ${j===0?sl.name:""} | ${it.name} | ${it.min}分 |\n`);
-    t += `| | **${sl.name} 合計** | **${total(i)}/${sl.cap}分** |\n`;
+    let f = true;
+    grouped(i).forEach(g=>{
+      g.items.forEach((it,j)=>{
+        t += "| " + (f?sl.name:"") + " | " + (j===0? CATS[g.cat]+"（"+g.sum+"分）" : "") + " | " + it.name + " | " + it.min + "分 |" + NL;
+        f = false;
+      });
+    });
+    t += "| | | **" + sl.name + " 合計** | **" + total(i) + "/" + sl.cap + "分** |" + NL;
   });
   return t;
 }
