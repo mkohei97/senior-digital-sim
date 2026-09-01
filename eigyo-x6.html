@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>出張教室 営業リスト ― 電話台帳(5市)</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FAF8F2; --green:#1E4D3E; --green-soft:#E6EFEA; --ink:#2A2A26; --muted:#6E6E66;
+    --line:rgba(30,77,62,.22); --white:#FFFFFF; --amber:#B8862B; --amber-soft:#F7EEDC; --red:#9B3B2E;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--cream);color:var(--ink);font-family:'Noto Sans JP',sans-serif;font-size:14px;line-height:1.6}
+  a{color:var(--green)}
+  .wrap{max-width:1380px;margin:0 auto;padding:28px 28px 60px}
+  header{border-bottom:1px solid var(--green);padding-bottom:16px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px}
+  .kicker{font-size:11px;letter-spacing:.35em;color:var(--green);margin-bottom:6px}
+  h1{font-family:'Shippori Mincho',serif;font-weight:600;font-size:26px;letter-spacing:.12em;color:var(--green);line-height:1.4}
+  .sub{font-size:12px;color:var(--muted);margin-top:4px}
+  .stats{display:flex;gap:8px;flex-wrap:wrap}
+  .stat{border:1px solid var(--line);background:var(--white);padding:6px 12px;border-radius:2px;font-size:12px;min-width:72px;text-align:center}
+  .stat b{display:block;font-family:'Shippori Mincho',serif;font-size:20px;color:var(--green);line-height:1.2}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--white);border:1px solid var(--line);padding:14px 18px;border-radius:2px}
+  .card h2{font-family:'Shippori Mincho',serif;font-weight:600;font-size:14px;letter-spacing:.2em;color:var(--green);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+  .card h2::after{content:"";flex:1;height:1px;background:var(--line)}
+  .next li{list-style:none;padding:6px 0;border-bottom:1px dashed var(--line);display:flex;gap:10px;align-items:baseline}
+  .next li:last-child{border-bottom:none}
+  .rank{font-family:'Shippori Mincho',serif;color:var(--green);font-size:16px;min-width:26px}
+  .next .nm{font-weight:500}
+  .next .tel{color:var(--green);font-weight:700;letter-spacing:.04em}
+  .next .ct{font-size:11px;color:var(--muted)}
+  .rules{font-size:12.5px}
+  .rules li{list-style:none;padding:3px 0 3px 14px;position:relative}
+  .rules li::before{content:"";position:absolute;left:0;top:.9em;width:8px;height:1px;background:var(--green)}
+  .rules b{color:var(--green)}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px;position:sticky;top:0;background:var(--cream);padding:10px 0;z-index:5;border-bottom:1px solid var(--line)}
+  .chip{border:1px solid var(--line);background:var(--white);padding:5px 12px;border-radius:999px;font-size:12.5px;cursor:pointer;user-select:none}
+  .chip.on{background:var(--green);color:#F6F3EA;border-color:var(--green)}
+  select,input[type=text]{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--white);padding:5px 8px;border-radius:2px;color:var(--ink)}
+  input.search{min-width:220px}
+  .spacer{flex:1}
+  button{font:inherit;font-size:12.5px;border:1px solid var(--green);background:var(--white);color:var(--green);padding:5px 12px;border-radius:2px;cursor:pointer}
+  button:hover{background:var(--green-soft)}
+  table{width:100%;border-collapse:collapse;background:var(--white);font-size:13px;table-layout:fixed}
+  col.c1{width:3.5%}col.c2{width:5%}col.c3{width:8%}col.c4{width:19%}col.c5{width:11%}col.c6{width:12%}col.c7{width:22%}col.c8{width:7.5%}col.c9{width:12%}
+  th{font-weight:500;color:var(--green);text-align:left;border-bottom:1px solid var(--green);padding:8px 8px;font-size:12px;letter-spacing:.06em;white-space:nowrap;background:var(--white);position:sticky;top:58px;z-index:4}
+  td{border-bottom:1px solid var(--line);padding:7px 8px;vertical-align:top}
+  tr.rk td{background:#FBFDFC}
+  tr.done td{color:var(--muted)}
+  tr.won td{background:var(--amber-soft)}
+  td.r{font-family:'Shippori Mincho',serif;color:var(--green);font-size:15px;text-align:center;white-space:nowrap}
+  td.city{}
+  td.tel{font-weight:700;letter-spacing:.03em;word-break:break-all}
+  td.tel a{text-decoration:none}
+  td.note{font-size:12px;color:#444}
+  td.addr{font-size:12px;color:var(--muted)}
+  .tag{display:inline-block;font-size:10.5px;padding:1px 7px;border-radius:2px;border:1px solid var(--line);color:var(--muted);margin-left:4px;vertical-align:middle;white-space:nowrap}
+  .tag.pay{border-color:var(--green);color:var(--green)}
+  .tag.free{border-color:#7A9A8C;color:#4F6F62}
+  .tag.warn{border-color:var(--amber);color:var(--amber)}
+  td select.st{padding:3px 6px;font-size:12px}
+  td select.st.s-受注{background:var(--amber-soft);border-color:var(--amber);color:#7A5410;font-weight:700}
+  td select.st.s-アポ{background:var(--green-soft);border-color:var(--green);color:var(--green);font-weight:700}
+  td select.st.s-見送り{color:var(--muted)}
+  td input.memo{width:100%;font-size:12px;padding:3px 6px}
+  td .upd{display:block;font-size:10px;color:var(--muted);margin-top:2px}
+  .cityhead td{background:var(--green);color:#F6F3EA;font-family:'Shippori Mincho',serif;letter-spacing:.2em;font-size:13px;padding:6px 10px}
+  .cityhead small{font-family:'Noto Sans JP',sans-serif;letter-spacing:0;opacity:.85;margin-left:12px;font-size:11px}
+  .foot{margin-top:24px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+  .exportbox{display:none;margin-top:10px}
+  .exportbox textarea{width:100%;height:160px;font:12px monospace;border:1px solid var(--line);padding:8px}
+  @media print{
+    .toolbar,button,.exportbox{display:none!important}
+    body{font-size:11px}
+    .wrap{padding:0;max-width:none}
+    th{position:static}
+    td select.st{border:none;background:none;padding:0;-webkit-appearance:none;appearance:none}
+    td input.memo{border:none;padding:0}
+    .grid{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <div class="kicker">33e ― 出張スマホ教室 営業リスト</div>
+    <h1>電話台帳 ― 藤井寺・羽曳野・柏原・松原・八尾</h1>
+    <div class="sub">藤井寺駅に通える範囲の5市。連絡先は各市・社協・法人の公式サイトから取得(2026-08-13/08-19確認)。状況とメモはこの端末のブラウザ内にだけ保存されます。</div>
+  </div>
+  <div class="stats" id="stats"></div>
+</header>
+
+<div class="grid">
+  <div class="card">
+    <h2>次にかける5本</h2>
+    <ul class="next" id="next"></ul>
+    <div class="sub" style="margin-top:8px">優先順(かける順)のうち、状況が「未着手」「架電済」のものを上から5本。<code>33d</code>§4の改訂案に基づく。</div>
+  </div>
+  <div class="card">
+    <h2>守ること</h2>
+    <ul class="rules">
+      <li><b>売り込まない。</b>名刺・チラシは「お求めがあれば」だけ。効能表現も、特定の携帯会社の名指し批判もしない</li>
+      <li><b>ねらいを伺ってから体制をご提案する</b>(楽しむ会か、定着まで狙うか)。同席は依頼の前提にしない</li>
+      <li><b>日程:</b>開業前(〜11月)は平日ほぼ自由/<b>開業後は月・火・木・金の午前(9〜13時)</b></li>
+      <li>電話は1日3本まで。切ったら5分以内に状況とメモを入れる</li>
+      <li>広域(松原・八尾)は同一市内で2件以上まとめて回る</li>
+    </ul>
+  </div>
+</div>
+
+<div class="toolbar">
+  <span class="chip on" data-city="">すべて</span>
+  <span class="chip" data-city="藤井寺">藤井寺</span>
+  <span class="chip" data-city="羽曳野">羽曳野</span>
+  <span class="chip" data-city="柏原">柏原</span>
+  <span class="chip" data-city="松原">松原</span>
+  <span class="chip" data-city="八尾">八尾</span>
+  <select id="fcat"><option value="">区分:すべて</option></select>
+  <select id="ftype"><option value="">型:すべて</option><option>有償</option><option>無償</option><option>加入</option><option>情報</option></select>
+  <select id="fst"><option value="">状況:すべて</option><option>未着手</option><option>架電済</option><option>送付済</option><option>アポ</option><option>受注</option><option>見送り</option></select>
+  <label class="chip" style="border-style:dashed"><input type="checkbox" id="frank" style="vertical-align:middle;margin-right:4px">優先順のみ</label>
+  <input type="text" class="search" id="q" placeholder="名称・電話・備考で検索">
+  <span class="spacer"></span>
+  <button id="btnExport">記録を書き出す</button>
+  <button id="btnPrint">印刷</button>
+</div>
+<div class="exportbox" id="exportbox"><div class="sub">状況・メモをタブ区切りで出力しました。全選択してコピーし、<code>33</code>や<code>33d</code>のメモ欄・スプレッドシートに貼り付けられます。</div><textarea id="exportta"></textarea></div>
+
+<table id="tbl">
+  <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5"><col class="c6"><col class="c7"><col class="c8"><col class="c9"></colgroup>
+  <thead><tr>
+    <th>順</th><th>市</th><th>区分</th><th>名称</th><th>電話</th><th>所在地</th><th>備考・聞くこと</th><th>状況</th><th>メモ</th>
+  </tr></thead>
+  <tbody id="tb"></tbody>
+</table>
+
+<div class="foot">
+電話番号はすべて各市・社協・法人の公式サイトから取得(2026-08-13/08-19確認)。松原市役所は課の直通が非公開のため代表経由。八尾商工会議所の番号のみ公式未確認。<br>
+  <b>この画面は関係者の作業用です。</b>検索には出さない設定にしていますが、URLをご存じの方は開けます。金額・契約・社内の判断はここには書かないでください(正本はiCloudの33d・33e)。<br>
+  公開版 v1.0 2026-08-31
+</div>
+</div>
+
+<script>
+// [id, 市, 区分, 名称, 電話, 所在地, 備考, 型, 優先順(0=なし), 初期状況]
+const ROWS = [
+// ───── 藤井寺 ─────
+["F01","藤井寺","市役所","高齢介護課 高齢者福祉支援担当","072-939-1169","市役所1階3番窓口","いきいき元気塾のスマホ回=R8.10.14(市民総合体育館・先着15名・10/1申込)。講師の決め方と来年度の時期を聞く。連続講座のニーズも","有償",1,""],
+["F02","藤井寺","市役所","生涯学習課","072-952-7800","アイセルシュラホール","スマートフォン体験講座の実績あり。実施事業者と来年度のご予定を伺う","有償",2,""],
+["F03","藤井寺","社協","藤井寺市社会福祉協議会","072-938-8220","北岡1-2-8","ふれあいサロン(校区福祉委員会)の開催可否。★老人クラブ連合会の事務局はここ(社協内)","無償",3,""],
+["F04","藤井寺","包括","藤井寺市地域包括支援センター","072-937-2641","北岡1-2-8 ふれあいセンター1階","市内1か所・社協運営。通いの場に無償1回の余地・見学","無償",4,""],
+["F05","藤井寺","シルバー","藤井寺市シルバー人材センター","072-954-6005","北岡1-2-3 パープルホール1階","会員向け研修のご予定を伺う。同種の講習会(会員向けスマホ講習会)の実績あり","有償",8,""],
+["F06","藤井寺","商工会","藤井寺市商工会","072-939-7047","岡1-2-16","まず加入。創業スクール・会員向けセミナー枠・持続化補助金〈創業型〉","加入",0,""],
+["F07","藤井寺","老人福祉センター","老人福祉センター松水苑","072-939-7010","国府2-5-38","60歳以上無料・クラブ活動盛ん(浴場は休止中)。無償1回","無償",0,""],
+["F08","藤井寺","公民館・生涯学習","アイセルシュラホール(生涯学習センター)","072-952-7800","","講座は市が企画実施・1階スペース貸出可。講師公募制度は確認できず","情報",0,""],
+["F09","藤井寺","公民館・生涯学習","市民総合会館パープルホール","072-939-1331","","いきいき元気塾の会場は市民総合体育館","情報",0,""],
+["F10","藤井寺","公民館・生涯学習","藤井寺市立図書館","072-938-2197","","生涯学習講座の実績あり・謝金小。実績づくり用","無償",0,""],
+["F11","藤井寺","市役所","協働人権課 広聴・協働担当","072-939-1331","","自治会・市民協働の窓口","情報",0,""],
+["F12","藤井寺","市役所","産業労働課","072-939-1337","","補助金の確認","情報",0,""],
+["F13","藤井寺","市役所","政策推進室 DX推進課","072-939-1032","","","情報",0,""],
+["F14","藤井寺","市役所","高齢介護課 総務担当/サービス担当","072-939-1164 / 072-939-1165","","","情報",0,""],
+["F15","藤井寺","市役所","福祉総務課","072-939-1417","","","情報",0,""],
+["F16","藤井寺","施設","デイルーム沢田","072-931-6612","林2-7-35","デイサービス","有償",0,""],
+["F17","藤井寺","施設","ビーナスプラス藤井寺","072-959-7331","林3-12-10","デイサービス","有償",0,""],
+["F18","藤井寺","施設","通所介護ル・ボワ","072-959-7017","林4-8-2","デイサービス","有償",0,""],
+["F19","藤井寺","施設","リハビリデイサービスひらき","072-959-8282","大井5-1-13","デイサービス","有償",0,""],
+["F20","藤井寺","施設","アクティブ・ラヴィ","072-938-5550","沢田1-30-23","デイサービス","有償",0,""],
+["F21","藤井寺","施設","どうみょうじ高殿苑","072-936-3515","道明寺3-2-2","デイサービス","有償",0,""],
+["F22","藤井寺","施設","青山デイサービス道明寺","072-930-4126","道明寺5-3-11","デイサービス","有償",0,""],
+["F23","藤井寺","施設","デイサービス元気藤井寺","072-937-5301","古室1-9-27","デイサービス","有償",0,""],
+["F24","藤井寺","施設","デイサービスステップ","072-939-5332","野中1-44-11","デイサービス","有償",0,""],
+["F25","藤井寺","施設","可児デイサービス","072-930-1148","藤ヶ丘4-6-20","デイサービス","有償",0,""],
+["F26","藤井寺","施設","藤井寺デイサービスセンター","072-952-0008","藤井寺4-11-7","デイサービス","有償",0,""],
+["F27","藤井寺","施設","おたふくDays","072-955-3851","春日丘2-19-2","デイサービス","有償",0,""],
+["F28","藤井寺","施設","つどうホール","072-953-0248","小山3-151-1","デイサービス","有償",0,""],
+["F29","藤井寺","施設","リハビリプラザ小山","072-931-0101","小山7-1-5","デイサービス","有償",0,""],
+["F30","藤井寺","施設","アクティブ・ラヴィ小山","要確認","小山9-16-10","デイサービス。市PDFの番号「071-」は誤植の疑い→直接検索","有償",0,""],
+["F31","藤井寺","施設","まごのて","072-930-5055","北岡2-13-6","サ高住","有償",0,""],
+["F32","藤井寺","施設","みおつくし藤井寺","072-246-9700","大井4-13-4","サ高住","有償",0,""],
+["F33","藤井寺","施設","フジパレスシニア藤井寺市野中","0120-170-280","野中5丁目","サ高住","有償",0,""],
+// ───── 羽曳野 ─────
+["H01","羽曳野","市役所","高齢福祉介護課 地域包括支援担当(旧:地域支援担当)","072-947-3822","","サロン・通いの場の所管。市の無料スマホ教室の実施状況を伺う","有償",0,""],
+["H02","羽曳野","市役所","行革DX推進課 デジタル担当","072-947-3814","","高齢者のICT利用促進に関する連携協定の所管(R4.3締結)","情報",0,""],
+["H03","羽曳野","市役所","生涯学習スポーツ課","072-947-0400","","市民大学・陵南の森公民館の所管","情報",0,""],
+["H04","羽曳野","市役所","市民協働ふれあい課","072-958-1111(代表)","","町会・自治会・地域区長懇談会","情報",0,""],
+["H05","羽曳野","市役所","高齢福祉介護課 総務・在宅支援担当","072-947-3825","","","情報",0,""],
+["H06","羽曳野","社協","羽曳野市社会福祉協議会","072-958-2315","誉田4-1-1","ふれあいサロン(校区福祉委員会)。老人クラブ連合会の事務局所在も聞く","無償",0,""],
+["H07","羽曳野","包括","地域包括支援センター 東圏域","072-958-1188","誉田3-15-6","古市・古市南・駒ヶ谷・白鳥・西浦・西浦東","無償",0,""],
+["H08","羽曳野","包括","地域包括支援センター 西圏域","072-953-1003","樫山100-1","高鷲・高鷲北・高鷲南・恵我ノ荘・丹比","無償",0,""],
+["H09","羽曳野","包括","地域包括支援センター 中圏域","072-959-2006","学園前6-1-1","はびきの埴生学園・羽曳が丘・埴生南","無償",0,""],
+["H10","羽曳野","公民館・生涯学習","はびきの市民大学 事務局","072-950-5503","軽里1-1-1 LICはびきの内","運営受託=(株)みのりの里(民間との契約実務が回っている)。現行メニューにスマホ講座なし=空き枠","有償",0,""],
+["H11","羽曳野","老人福祉センター","陵南の森 公民館/老人福祉センター","072-952-2751","島泉8-8-1","市内在住60歳以上・5人以上で団体登録。公民館・図書館併設","無償",0,""],
+["H12","羽曳野","公民館・生涯学習","LICはびきの","072-950-5500","軽里1-1-1","ホール・会議室・図書館の複合","情報",0,""],
+["H13","羽曳野","公民館・生涯学習","羽曳野中央図書館","072-950-5501","","","無償",0,""],
+["H14","羽曳野","商工会","羽曳野市商工会","072-958-2331","軽里1-1-1 LICはびきの1階","加入・会員向けセミナー枠","加入",0,""],
+["H15","羽曳野","シルバー","羽曳野市シルバー人材センター","072-936-1500","野々上4-5-12","会員向け研修のご予定を伺う","有償",11,""],
+["H16","羽曳野","会場・その他","高年生きがいサロン5号館","072-931-6010","","市の無料スマホ教室の会場。実施状況の見学","情報",0,""],
+["H17","羽曳野","施設","愛幸苑やすらぎ","072-950-3033","西浦2-1706-1","有料老人ホーム","有償",0,""],
+["H18","羽曳野","施設","介護付ライフビュー","072-931-1165","島泉5-11-2","有料老人ホーム","有償",0,""],
+["H19","羽曳野","施設","ライフコート春秋","072-956-0070","はびきの2-8-2","有料老人ホーム","有償",0,""],
+["H20","羽曳野","施設","ユニットガーデン羽曳野","072-931-6541","伊賀4-7-3","有料老人ホーム","有償",0,""],
+["H21","羽曳野","施設","フォーユーはびきの","072-937-8833","恵我之荘2-2-19","有料老人ホーム","有償",0,""],
+["H22","羽曳野","施設","はいらいふ羽曳野","072-921-7555","島泉9-20-3","有料老人ホーム","有償",0,""],
+["H23","羽曳野","施設","フィオレシニアレジデンス羽曳野","072-952-2000","島泉6-2-7","有料老人ホーム","有償",0,""],
+["H24","羽曳野","施設","潤いの杜はびきの","072-955-5000","島泉8-16-1","有料老人ホーム","有償",0,""],
+["H25","羽曳野","施設","介護付ライク羽曳野","072-957-8899","西浦1-11-2","有料老人ホーム","有償",0,""],
+["H26","羽曳野","施設","レストコート羽曳野","072-959-6771","島泉5-9-2","有料老人ホーム","有償",0,""],
+// ───── 柏原 ─────
+["K01","柏原","市役所","高齢介護課 高齢者支援係","072-972-1570","","R7年度に市事業でスマホ教室を実施。R8年度のご予定と、講師の決め方を伺う","有償",5,""],
+["K02","柏原","市役所","地域連携支援課(出前講座事務局)","072-971-8305","jichi@city.kashiwara.lg.jp","3市で唯一制度化された出前講座(10人以上・20日前まで)。「職員等が講師」と明記→民間登録の可否を確認","有償",0,""],
+["K03","柏原","市役所","デジタル推進課","072-971-8304","","","情報",0,""],
+["K04","柏原","市役所","社会教育課","072-972-1688","","公民館・市民文化会館(リビエールホールはR7.11から休館)","情報",0,""],
+["K05","柏原","市役所","産業振興課","072-972-1554","","","情報",0,""],
+["K06","柏原","社協","柏原市社会福祉協議会","072-972-6786","大正2-10-1 地域福祉センター","soumu@kashiwara-shakyo.jp・月〜金8:45-17:15。ふれあいサロン・老人クラブ連合会の事務局所在","無償",0,""],
+["K07","柏原","包括","柏原市高齢者いきいき元気センター","072-970-3100","大正2-10-1 地域福祉センター2階","R8.5.7に移転済み(現住所で確定)","無償",0,""],
+["K08","柏原","シルバー","柏原市シルバー人材センター","072-972-1583","安堂町1-55","会員向け研修のご予定を伺う。「会員がスマホ講師になるための研修」もご提案できる","有償",9,""],
+["K09","柏原","商工会","柏原市商工会","072-972-0881","上市1-2-2 アゼリア柏原5階","※柏原市に商工会議所はない","加入",0,""],
+["K10","柏原","公民館・生涯学習","柏原市公民館 国分分館","072-978-6001","国分本町2-7-2 国分合同会館内","5名以上・市内在住8割以上・2か月前〜5日前に申請。本館は休館中(R8.1.4〜)","無償",0,""],
+["K11","柏原","公民館・生涯学習","柏原市公民館 堅下分館","072-971-6800","大県3-9-19 堅下合同会館内","新規団体登録は堅下合同会館1階・審査3週間","無償",0,""],
+["K12","柏原","公民館・生涯学習","国分図書館","072-975-1212","","","無償",0,""],
+["K13","柏原","包括","ブランチ 特養柏寿","072-977-5533","","身近な相談窓口(施設側でもあり二重に狙える)","無償",0,""],
+["K14","柏原","包括","ブランチ ローズウッド国分","072-977-8980","","同上","無償",0,""],
+["K15","柏原","包括","ブランチ 第二好意の庭","072-976-0091","","同上","無償",0,""],
+["K16","柏原","包括","ブランチ 大阪好意の庭","072-976-0090","","同上","無償",0,""],
+["K17","柏原","包括","ブランチ はくとう","072-979-0260","","同上","無償",0,""],
+["K18","柏原","包括","ブランチ 知恵の和苑","072-973-4801","","同上","無償",0,""],
+["K19","柏原","包括","ブランチ 太寿","072-970-6010","","同上","無償",0,""],
+["K20","柏原","包括","ブランチ こくぶ","072-959-2382","","同上","無償",0,""],
+["K21","柏原","施設","エイジ・ガーデン柏原","072-943-1644","古町3-3-5","有料老人ホーム","有償",0,""],
+["K22","柏原","施設","ちゅーりっぷのまち かしわら","072-972-1115","安堂町11-46","有料老人ホーム","有償",0,""],
+["K23","柏原","施設","オリーブ柏原PLUS","072-973-2700","大県1-5-36","有料老人ホーム","有償",0,""],
+["K24","柏原","施設","HIBISU柏原","072-978-6670","国分市場2-11-48","有料老人ホーム","有償",0,""],
+["K25","柏原","施設","スイートガーデン柏原法善寺駅前","072-970-3113","法善寺2-14-4","有料老人ホーム","有償",0,""],
+["K26","柏原","施設","ぶどうの里国分","072-975-4128","","サ高住","有償",0,""],
+["K27","柏原","施設","オリーブ柏原","072-972-2340","","サ高住","有償",0,""],
+["K28","柏原","施設","愛の輪パレス清州","072-970-2335","","サ高住","有償",0,""],
+["K29","柏原","施設","オレンジガーデン旭ケ丘","072-977-3712","","サ高住","有償",0,""],
+["K30","柏原","施設","アストライ国分","072-977-7055","","サ高住","有償",0,""],
+["K31","柏原","施設","グランホーム ハロー","072-970-5668","","サ高住","有償",0,""],
+// ───── 松原 ─────
+["M01","松原","市役所","健康部 高齢介護課","072-334-1550(代表→取次)","阿保1-1-1","課の直通は非公開(代表から取次)。介護予防アプリ「まつばらきらり」の登録サポート会を直営で実施中。老人クラブ(元希者クラブ)の窓口もここ。スマホ講習会の現行の実施状況を伺う","有償",10,""],
+["M02","松原","市役所","いきがい学習課","072-334-1550(代表→取次)","阿保1-1-1","生涯学習・公民館の所管","情報",0,""],
+["M03","松原","市役所","デジタル推進課","072-334-1550(代表→取次)","阿保1-1-1","DX計画(高齢者スマホ教室の記載なし)","情報",0,""],
+["M04","松原","社協","松原市社会福祉協議会","072-333-0294","阿保3-5-18 ヒダカビル","福祉委員会活動とふれあいサロンの両方あり。包括(東)と同じ建物","無償",12,""],
+["M05","松原","包括","地域包括支援センター社会福祉協議会","072-349-2112","阿保3-5-18 ヒダカビル","国道309号の東側圏域。社協と同ビル","無償",12,""],
+["M06","松原","包括","地域包括支援センター徳洲会","072-334-3439","天美東7-103","国道309号の西側圏域","無償",0,""],
+["M07","松原","シルバー","松原市シルバー人材センター","072-337-1141","阿保1-1-1 市役所内(表記揺れあり)","会員向け研修のご予定を伺う。所在地は電話で確認してから訪問","有償",0,""],
+["M08","松原","老人福祉センター","つるかめ苑","072-336-0516","南新町3-3-12","元希者クラブ(老人クラブ)の活動拠点。小規模出張教室のハコ","無償",0,""],
+["M09","松原","老人福祉センター","天美荘","072-336-0517","天美東9-12-7","同上","無償",0,""],
+["M10","松原","老人福祉センター","新町福寿苑","072-336-2417","南新町1-6-22","同上","無償",0,""],
+["M11","松原","老人福祉センター","恵寿苑","072-336-2410","大堀3-19-11","同上","無償",0,""],
+["M12","松原","老人福祉センター","高見苑","072-332-9850","高見の里5-458-2","同上","無償",0,""],
+["M13","松原","老人福祉センター","弁天苑","072-334-8399","天美東7-85","同上","無償",0,""],
+["M14","松原","老人福祉センター","松南苑","072-334-8383","岡6-5-37","同上","無償",0,""],
+["M15","松原","老人福祉センター","松寿苑","072-332-6240","阿保2-28-1","同上","無償",0,""],
+["M16","松原","公民館・生涯学習","松原市民松原図書館「読書の森」","072-334-8060","田井城3-1-46","指定管理TRC","無償",0,""],
+["M17","松原","公民館・生涯学習","松原市文化会館","072-336-5755","田井城1-3-11","貸室あり","情報",0,""],
+["M18","松原","公民館・生涯学習","公民館(松原/中央/天美/新町/三宅)","072-336-2816 / 072-334-1330 / 072-332-0259 / 072-332-0022 / 072-331-0039","","窓口詳細はいきがい学習課に確認","無償",0,""],
+["M19","松原","商工会","松原商工会議所","072-331-0291","阿保1-2-30","平日9-17時。貸室あり","加入",0,""],
+["M20","松原","施設","パームコートまつばら","072-338-8665","阿保3-6-18","介護付有料老人ホーム","有償",0,""],
+["M21","松原","施設","松原なごみの里","072-336-1399","別所7-12-26","介護付有料老人ホーム","有償",0,""],
+["M22","松原","施設","コープアイメゾン松原","072-232-3731","岡7-229-1","介護付有料老人ホーム","有償",0,""],
+["M23","松原","施設","アプリシェイト天美","06-6121-2333","天美北3-17-18","住宅型有料老人ホーム","有償",0,""],
+["M24","松原","施設","スーパー・コート松原","06-6543-2291","西野々1-1-1","住宅型有料老人ホーム","有償",0,""],
+["M25","松原","施設","高木の郷Ⅰ","072-259-8104","北新町3-2-42","住宅型有料老人ホーム","有償",0,""],
+["M26","松原","施設","オアシス北燦まつばら","072-931-6517","一津屋3-5-22","住宅型有料老人ホーム","有償",0,""],
+["M27","松原","施設","ピュアネス高見の里","06-4305-7801","高見の里6-4-16","住宅型有料老人ホーム","有償",0,""],
+["M28","松原","施設","ライフパートナー松原","06-6210-1682","別所3-3-5","住宅型有料老人ホーム","有償",0,""],
+// ───── 八尾 ─────
+["Y01","八尾","シルバー","八尾市シルバー人材センター(きらめき)","072-924-2001","宮町1-10-32","受注済み。第1回=2026/11/18(水)。以後の日程・書面は出張教室の資料で管理","有償",6,"受注"],
+["Y02","八尾","市役所","高齢介護課 地域支援室","072-924-3837","本町1-1-1","市直営「シニアのためのスマホ教室」の主管(R7は全16回・コミセン等・無料)。R8年度のご予定と体制を伺う","有償",7,""],
+["Y03","八尾","市役所","地域共生推進課","072-924-3835","本町1-1-1","デジタルサポーター養成講座(R3〜)の主管。志紀・緑ヶ丘・八尾東部・大正等でスマホ相談活動","情報",0,""],
+["Y04","八尾","市役所","高齢介護課(高齢クラブ担当)","072-924-9360","本町1-1-1","高齢クラブ連合会の市側窓口","情報",0,""],
+["Y05","八尾","市役所","生涯学習課","072-924-3893","本町1-1-1","生涯学習センターの所管","情報",0,""],
+["Y06","八尾","市役所","コミュニティ政策推進課","072-924-3818","本町1-1-1","コミセン・自治会・集会所の所管","情報",0,""],
+["Y07","八尾","市役所","デジタル戦略課","072-924-9860","本町1-1-1","","情報",0,""],
+["Y08","八尾","社協","八尾市社会福祉協議会","072-991-1161","本町2-4-10 社会福祉会館内","地区福祉委員会・小地域ネットワーク活動あり","無償",0,""],
+["Y09","八尾","社協","同・高齢者ふれあいサロン担当","072-990-4567","本町2-4-10","市内サロン11施設登録。市側担当は地域支援室072-924-3973","無償",0,""],
+["Y10","八尾","老人クラブ","八尾市高齢クラブ連合会","072-924-2595","本町2-4-10 北隣 高齢者生きがい創造室","★受付は水・木・金 13〜16時のみ","無償",0,""],
+["Y11","八尾","老人福祉センター","社会福祉会館内老人福祉センター","072-924-8658","本町2-4-10 3階","社協運営・60歳以上無料","無償",0,""],
+["Y12","八尾","老人福祉センター","桂老人福祉センター","072-999-0820","桂町3-11","運営:八尾すずらん福祉会","無償",0,""],
+["Y13","八尾","老人福祉センター","安中老人福祉センター","072-994-2311","安中町8-15-12","運営:八尾すずらん福祉会","無償",0,""],
+["Y14","八尾","包括","高齢者あんしんセンター 基幹型","072-924-9306","本町1-1-1 市役所本館1階","全市","無償",0,""],
+["Y15","八尾","包括","高齢者あんしんセンター 萱振苑","072-928-7080","萱振町5-10","第1圏域","無償",0,""],
+["Y16","八尾","包括","高齢者あんしんセンター スローライフ北","072-924-3344","幸町2-48-4","第1圏域","無償",0,""],
+["Y17","八尾","包括","高齢者あんしんセンター スローライフ八尾","072-990-1220","福栄町1-12","第1圏域","無償",0,""],
+["Y18","八尾","包括","高齢者あんしんセンター りゅうげ","072-943-0261","東太子2-6-6","第2圏域","無償",0,""],
+["Y19","八尾","包括","高齢者あんしんセンター ホーム太子堂","072-996-0262","太子堂4-1-32","第2圏域","無償",0,""],
+["Y20","八尾","包括","高齢者あんしんセンター 久宝寺愛の郷","072-990-0337","久宝寺3-15-38","第2圏域","無償",0,""],
+["Y21","八尾","包括","高齢者あんしんセンター 楽寿","072-920-3612","神宮寺1-154","第3圏域","無償",0,""],
+["Y22","八尾","包括","高齢者あんしんセンター あおぞら","072-948-8222","太田7-36-3","第3圏域","無償",0,""],
+["Y23","八尾","包括","高齢者あんしんセンター 緑風園","072-949-6670","天王寺屋6-59","第3圏域","無償",0,""],
+["Y24","八尾","包括","高齢者あんしんセンター 長生園","072-991-0182","光南町1-4-8","第4圏域","無償",0,""],
+["Y25","八尾","包括","高齢者あんしんセンター サポートやお","072-925-1199","青山町4-4-18","第4圏域","無償",0,""],
+["Y26","八尾","包括","高齢者あんしんセンター 成法苑","072-994-8030","南本町3-4-5","第4圏域","無償",0,""],
+["Y27","八尾","包括","高齢者あんしんセンター 寿光園","072-940-5505","楽音寺2-125","第5圏域","無償",0,""],
+["Y28","八尾","包括","高齢者あんしんセンター 信貴の里","072-940-5727","垣内1-182","第5圏域","無償",0,""],
+["Y29","八尾","包括","高齢者あんしんセンター 中谷","072-943-0801","桜ヶ丘2-121-6","第5圏域","無償",0,""],
+["Y30","八尾","公民館・生涯学習","生涯学習センター「かがやき」","072-924-3876","旭ケ丘5-85-16","指定管理。講座情報 kagayaki-yao.jp","情報",0,""],
+["Y31","八尾","公民館・生涯学習","桂人権コミュニティセンター","072-922-1826","桂町2-37","R7市スマホ教室の会場","無償",0,""],
+["Y32","八尾","公民館・生涯学習","安中人権コミュニティセンター","072-922-1491","安中町8-5-30","R7市スマホ教室の会場","無償",0,""],
+["Y33","八尾","公民館・生涯学習","龍華コミュニティセンター","072-922-2718","南太子堂2-1-45","R7市スマホ教室の会場","無償",0,""],
+["Y34","八尾","公民館・生涯学習","久宝寺コミュニティセンター","072-922-2233","北久宝寺2-1-1","同上","無償",0,""],
+["Y35","八尾","公民館・生涯学習","西郡出張所","072-999-2243","桂町2-37","","無償",0,""],
+["Y36","八尾","公民館・生涯学習","大正コミュニティセンター","072-948-1979","若林町3-27","同上","無償",0,""],
+["Y37","八尾","公民館・生涯学習","山本コミュニティセンター","072-923-4079","山本町1-8-11","同上","無償",0,""],
+["Y38","八尾","公民館・生涯学習","竹渕コミュニティセンター","06-6708-3020","竹渕東4-3-2","同上","無償",0,""],
+["Y39","八尾","公民館・生涯学習","南高安コミュニティセンター","072-943-7044","恩智中町4-232","同上","無償",0,""],
+["Y40","八尾","公民館・生涯学習","高安コミュニティセンター","072-941-8013","千塚3-180-2","同上","無償",0,""],
+["Y41","八尾","公民館・生涯学習","曙川コミュニティセンター","072-922-3456","八尾木4-11","同上","無償",0,""],
+["Y42","八尾","公民館・生涯学習","志紀コミュニティセンター","072-949-5441","志紀町西1-8-2","同上","無償",0,""],
+["Y43","八尾","公民館・生涯学習","緑ヶ丘コミュニティセンター","072-996-0225","緑ヶ丘1-2","同上","無償",0,""],
+["Y44","八尾","商工会","八尾商工会議所","未確認(電話帳 072-922-1181・未裏取り)","清水町1-1-6","公式サイトで番号を確認してから。会館2階に市立中小企業サポートセンター072-925-8553","加入",0,""],
+["Y45","八尾","施設","介護付有料老人ホーム花咲","072-925-7107","北本町2-10-50","介護付(定員130)","有償",0,""],
+["Y46","八尾","施設","八尾志紀マリアヴィラ","072-920-5428","志紀町1-18-1","住宅型(77)","有償",0,""],
+["Y47","八尾","施設","メディケア縁","072-970-5102","沼2-125","住宅型(74)","有償",0,""],
+["Y48","八尾","施設","ASPARK陽光園","072-973-6802","陽光園2-1-3","住宅型(72)","有償",0,""],
+["Y49","八尾","施設","あいら八尾","072-973-8152","桂町6-15","住宅型(71)","有償",0,""],
+["Y50","八尾","施設","グレースヴィラ八尾本町","072-943-3457","本町4-1-3","住宅型(68)","有償",0,""],
+["Y51","八尾","施設","スーパー・コート八尾","072-929-4850","北亀井町3-2-31","介護付(60)","有償",0,""],
+["Y52","八尾","施設","フォーユー八尾山本","072-992-2878","上之島町北1-57-6","住宅型(60)","有償",0,""],
+["Y53","八尾","施設","老健 悠久苑","072-941-3222","山畑5-1","介護老人保健施設","有償",0,""],
+["Y54","八尾","施設","老健 ノーブル楽音寺","072-941-8005","楽音寺3-5","介護老人保健施設","有償",0,""],
+["Y55","八尾","施設","老健 八尾徳洲苑","072-991-2291","荘内町1-2-35","介護老人保健施設","有償",0,""],
+["Y56","八尾","施設","老健 あおぞら","072-948-2545","沼1-41","介護老人保健施設","有償",0,""],
+["Y57","八尾","施設","老健 スローライフ八尾","072-990-0100","福栄町1-12","介護老人保健施設","有償",0,""],
+];
+
+const CITIES = ["藤井寺","羽曳野","柏原","松原","八尾"];
+const CITY_NOTE = {
+  "藤井寺":"地元。いきいき元気塾・スマートフォン体験講座の実績あり",
+  "羽曳野":"市の無料スマホ教室が複数実施されている。継続の受け皿として住み分ける",
+  "柏原":"R8年度の実施は未確認。本館公民館は休館中",
+  "松原":"市役所の直通は非公開(代表経由)。老人福祉センター8ヶ所が老人クラブ拠点",
+  "八尾":"シルバー人材センターから受注。市直営のスマホ教室あり"
+};
+const STATUSES = ["未着手","架電済","送付済","アポ","受注","見送り"];
+const KEY = "kokosuma_sales_ledger_v1";
+
+let state = {};
+try { state = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch(e){ state = {}; }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+function getSt(r){ return (state[r[0]] && state[r[0]].s) || r[9] || "未着手"; }
+function getMemo(r){ return (state[r[0]] && state[r[0]].m) || ""; }
+function getUpd(r){ return (state[r[0]] && state[r[0]].u) || ""; }
+function setRow(id, s, m){
+  const r = ROWS.find(x=>x[0]===id);
+  state[id] = state[id] || {};
+  if(s!==undefined) state[id].s = s;
+  if(m!==undefined) state[id].m = m;
+  state[id].u = new Date().toISOString().slice(0,10);
+  save(); renderStats(); renderNext();
+  const tr = document.querySelector('tr[data-id="'+id+'"]');
+  if(tr){ tr.className = rowClass(r); const sel = tr.querySelector('select.st'); if(sel) sel.className = 'st s-'+getSt(r); const up = tr.querySelector('.upd'); if(up) up.textContent = getUpd(r); }
+}
+function rowClass(r){ const s=getSt(r); return (r[8]>0?'rk ':'') + (s==='受注'?'won ':'') + ((s==='見送り')?'done':''); }
+
+const filt = {city:"", cat:"", type:"", st:"", rank:false, q:""};
+function esc(s){ return String(s).replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function telHtml(t){
+  const m = String(t).match(/\d{2,4}-\d{2,4}-\d{3,4}/);
+  if(!m) return '<span class="tag warn">'+esc(t)+'</span>';
+  return '<a href="tel:'+m[0].replace(/-/g,'')+'">'+esc(t)+'</a>';
+}
+function typeTag(t){ return t==='有償'?'<span class="tag pay">有償</span>':t==='無償'?'<span class="tag free">無償</span>':'<span class="tag">'+esc(t)+'</span>'; }
+
+function render(){
+  const tb = document.getElementById('tb'); tb.innerHTML = "";
+  const q = filt.q.trim().toLowerCase();
+  let lastCity = null, shown = 0;
+  ROWS.forEach(r=>{
+    const s = getSt(r);
+    if(filt.city && r[1]!==filt.city) return;
+    if(filt.cat && r[2]!==filt.cat) return;
+    if(filt.type && r[7]!==filt.type) return;
+    if(filt.st && s!==filt.st) return;
+    if(filt.rank && !(r[8]>0)) return;
+    if(q && !(r[3]+r[4]+r[5]+r[6]+getMemo(r)).toLowerCase().includes(q)) return;
+    if(r[1]!==lastCity){
+      lastCity = r[1];
+      const h = document.createElement('tr'); h.className='cityhead';
+      h.innerHTML = '<td colspan="9">'+esc(r[1])+'市<small>'+esc(CITY_NOTE[r[1]]||'')+'</small></td>';
+      tb.appendChild(h);
+    }
+    const tr = document.createElement('tr'); tr.dataset.id = r[0]; tr.className = rowClass(r);
+    tr.innerHTML =
+      '<td class="r">'+(r[8]>0?r[8]:'')+'</td>'+
+      '<td class="city">'+esc(r[1])+'</td>'+
+      '<td>'+esc(r[2])+'</td>'+
+      '<td>'+esc(r[3])+typeTag(r[7])+'</td>'+
+      '<td class="tel">'+telHtml(r[4])+'</td>'+
+      '<td class="addr">'+esc(r[5])+'</td>'+
+      '<td class="note">'+esc(r[6])+'</td>'+
+      '<td><select class="st s-'+esc(s)+'">'+STATUSES.map(x=>'<option'+(x===s?' selected':'')+'>'+x+'</option>').join('')+'</select><span class="upd">'+esc(getUpd(r))+'</span></td>'+
+      '<td><input class="memo" type="text" value="'+esc(getMemo(r))+'" placeholder="担当者名・結果・次の期日"></td>';
+    tr.querySelector('select.st').addEventListener('change', e=>setRow(r[0], e.target.value, undefined));
+    tr.querySelector('input.memo').addEventListener('change', e=>setRow(r[0], undefined, e.target.value));
+    tb.appendChild(tr); shown++;
+  });
+  if(!shown){ tb.innerHTML = '<tr><td colspan="9" style="color:var(--muted);padding:20px">該当なし</td></tr>'; }
+}
+function renderStats(){
+  const c = {}; STATUSES.forEach(s=>c[s]=0);
+  ROWS.forEach(r=>c[getSt(r)]++);
+  document.getElementById('stats').innerHTML =
+    '<div class="stat"><b>'+ROWS.length+'</b>営業先</div>' +
+    STATUSES.filter(s=>s!=='未着手').map(s=>'<div class="stat"><b>'+c[s]+'</b>'+s+'</div>').join('');
+}
+function renderNext(){
+  const list = ROWS.filter(r=>r[8]>0 && ['未着手','架電済'].includes(getSt(r))).sort((a,b)=>a[8]-b[8]).slice(0,5);
+  document.getElementById('next').innerHTML = list.length ? list.map(r=>
+    '<li><span class="rank">'+r[8]+'</span><span><span class="nm">'+esc(r[3])+'</span><span class="ct">('+esc(r[1])+')</span><br><span class="tel">'+esc(r[4])+'</span> <span class="ct">'+esc(getSt(r))+'</span></span></li>'
+  ).join('') : '<li class="ct">優先順の先はすべて着手済みです。区分で次の先を選んでください。</li>';
+}
+
+// filters
+document.querySelectorAll('.chip[data-city]').forEach(ch=>ch.addEventListener('click', ()=>{
+  document.querySelectorAll('.chip[data-city]').forEach(x=>x.classList.remove('on')); ch.classList.add('on');
+  filt.city = ch.dataset.city; render();
+}));
+const cats = [...new Set(ROWS.map(r=>r[2]))];
+const fcat = document.getElementById('fcat'); cats.forEach(c=>{ const o=document.createElement('option'); o.textContent=c; fcat.appendChild(o); });
+fcat.addEventListener('change', e=>{filt.cat=e.target.value; render();});
+document.getElementById('ftype').addEventListener('change', e=>{filt.type=e.target.value; render();});
+document.getElementById('fst').addEventListener('change', e=>{filt.st=e.target.value; render();});
+document.getElementById('frank').addEventListener('change', e=>{filt.rank=e.target.checked; render();});
+document.getElementById('q').addEventListener('input', e=>{filt.q=e.target.value; render();});
+document.getElementById('btnPrint').addEventListener('click', ()=>window.print());
+document.getElementById('btnExport').addEventListener('click', ()=>{
+  const box = document.getElementById('exportbox'); box.style.display = box.style.display==='block'?'none':'block';
+  const lines = ['順\t市\t区分\t名称\t電話\t状況\t更新日\tメモ'];
+  ROWS.forEach(r=>{ const s=getSt(r), m=getMemo(r); if(s!=='未着手'||m) lines.push([r[8]||'',r[1],r[2],r[3],r[4],s,getUpd(r),m].join('\t')); });
+  document.getElementById('exportta').value = lines.join('\n');
+});
+
+renderStats(); renderNext(); render();
+</script>
+</body>
+</html>
