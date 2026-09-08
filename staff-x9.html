@@ -53,6 +53,16 @@
   .chip.paused { background: #F3EAD8; color: #8A6D1F; }
   .chip.left { background: #EEEEEE; color: #777; }
   .count { font-size: 14px; color: var(--sub); margin-top: 8px; }
+  /* リンクタブ */
+  .lk .lk-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; padding-bottom: 8px; border-bottom: 2px solid var(--line); }
+  .lk .lk-head b { font-size: 18px; font-weight: 800; }
+  .lk .lk-head .hint { font-size: 13.5px; color: var(--sub); flex-basis: 100%; }
+  .lk-item { display: flex; align-items: center; gap: 12px; padding: 12px 2px; border-bottom: 1px solid var(--line); }
+  .lk-item:last-child { border-bottom: none; }
+  .lk-item > div { flex: 1; min-width: 0; }
+  .lk-item b { display: block; font-size: 17px; font-weight: 800; color: var(--deep); }
+  .lk-item small { display: block; font-size: 14px; color: var(--sub); line-height: 1.45; margin-top: 2px; }
+  .lk-item .btn { flex: none; }
   /* 詳細・モーダル */
   .ovl { position: fixed; inset: 0; background: rgba(20, 35, 30, 0.45); display: none; align-items: flex-end; justify-content: center; z-index: 50; }
   .ovl.on { display: flex; }
@@ -175,39 +185,35 @@
 
     <!-- リンク(全画面の入り口・チェック用) -->
     <div id="pane-link" class="hidden">
-      <div class="card">
-        <b style="font-size:17px;">会員の画面(お客様が見るもの)</b>
-        <div class="note">動作チェック用。会員のスマホでは会員証のQRから開くので、URLを覚えていただく必要はありません。</div>
-        <div class="row" style="margin-top:10px;"><span>会員証・玄関ページ<br><small style="color:var(--sub);">会員の入口はここ1本。予約・練習へもここから</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://mkohei97.github.io/senior-digital-sim/p.html" target="_blank" rel="noopener">開く</a></div>
-        <div class="row" style="margin-top:8px;"><span>教室の予約<br><small style="color:var(--sub);">空き状況・予約・取消・できることカード</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://mkohei97.github.io/senior-digital-sim/yoyaku.html" target="_blank" rel="noopener">開く</a></div>
-        <div class="row" style="margin-top:8px;"><span>文字入力の練習<br><small style="color:var(--sub);">声・打ち方を選べる練習</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://mkohei97.github.io/senior-digital-sim/moji.html" target="_blank" rel="noopener">開く</a></div>
-        <div class="row" style="margin-top:8px;"><span>ここスマ自習システム(旧・頭と指の体操)<br><small style="color:var(--sub);">店内タブレット用。スマホ習得/脳活の2大分類・できる地図・記録帳。タブレットではホーム画面アイコンから</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://mkohei97.github.io/senior-digital-sim/atama.html" target="_blank" rel="noopener">開く</a></div>
-        <div class="row" style="margin-top:8px;"><span>思い出ムービー・受付<br><small style="color:var(--sub);">お客様が写真を送る画面。ふだんの入口はLINEから。<b>試作(モックモード)</b>のため本番の課金はされません</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://omoide-movie.mk0907.workers.dev" target="_blank" rel="noopener">開く</a></div>
+      <div class="card lk">
+        <div class="lk-head"><span class="chip today">お客さま</span><b>お客さまが見る画面</b><span class="hint">動作チェック用。お客さまはQRやホーム画面のアイコンから開く</span></div>
+        <div class="lk-item"><div><b>会員証・玄関ページ</b><small>会員の入口。予約・練習もここから</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/p.html" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>ここスマ自習システム</b><small>店内タブレット用。スマホ習得と脳活（文字入力の練習を含む）</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/atama.html" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>思い出ムービー・受付</b><small>お客さまが写真を送る画面。試作（課金なし）</small></div><a class="btn small ghost" href="https://omoide-movie.mk0907.workers.dev" target="_blank" rel="noopener">開く</a></div>
       </div>
-      <div class="card">
-        <b style="font-size:17px;">相談で使う道具(スタッフ用)</b>
-        <div class="note">接客中にスタッフが開くもの。お客様の画面ではありません。</div>
-        <div class="row" style="margin-top:10px;"><span>料金シミュレーション<br><small style="color:var(--sub);">プランの選び方・買い方・トータル費用をならべて見る。印刷するとお渡し用の1枚(前提・免責つき)</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://mkohei97.github.io/senior-digital-sim/ryokin-sim-x7.html" target="_blank" rel="noopener">開く</a></div>
-        <div class="row" style="margin-top:8px;"><span>教材ボード(出張教室)<br><small style="color:var(--sub);">単元カタログ×案件のカリキュラム×テキストの状態を1画面で見て編集する。編集はclaude.aiで開く(アプリ内のプレビュー窓は閲覧のみ)。旧「カリキュラム組立」ツールは役目終了(66)</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://claude.ai/code/artifact/c1c6a17a-3773-4063-9e9d-aa8001c6a9a7" target="_blank" rel="noopener">開く</a></div>
-        <div class="row" style="margin-top:8px;"><span>営業リスト(電話台帳)<br><small style="color:var(--sub);">出張教室の営業先。藤井寺・羽曳野・柏原・松原・八尾の5市を、市と区分でしぼって上から順にかける。かけた結果(状況・メモ)はその場で残せる。<b>記録はこの端末のブラウザにだけ残る</b>ので、区切りごとに「記録を書き出す」でiCloudの台帳へ写す</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://mkohei97.github.io/senior-digital-sim/eigyo-x6.html" target="_blank" rel="noopener">開く</a></div>
-        <div class="row" style="margin-top:8px;"><span>思い出ムービー・検品<br><small style="color:var(--sub);">お預かりした写真と出来上がった動画を確認する画面。<b>試作(モックモード)</b></small></span><a class="btn small ghost" style="margin-left:auto;" href="https://omoide-movie.mk0907.workers.dev/admin.html" target="_blank" rel="noopener">開く</a></div>
+      <div class="card lk">
+        <div class="lk-head"><span class="chip c">接客</span><b>接客で使う道具</b><span class="hint">スタッフがお客さまの前で開くもの</span></div>
+        <div class="lk-item"><div><b>受付・記録</b><small>探す→登録→今日の記録→回線・端末→ひかえ印刷。kokosumaでログイン</small></div><a class="btn small ghost" href="https://script.google.com/macros/s/AKfycbw_JfX3qJ-Ey59tupZKr3k7kzt-NebiDuORRyDM911XhCNBzNhdR65lFHIgWv96VhCc/exec" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>料金シミュレーション</b><small>プラン・買い方・総費用をならべる。印刷でお渡し1枚</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/ryokin-sim-x7.html" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>教材ボード</b><small>出張教室の単元・カリキュラム・テキストの状態。編集はclaude.aiで</small></div><a class="btn small ghost" href="https://claude.ai/code/artifact/c1c6a17a-3773-4063-9e9d-aa8001c6a9a7" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>営業リスト（電話台帳）</b><small>出張教室の営業先5市。記録は端末内→区切りで書き出す</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/eigyo-x6.html" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>思い出ムービー・検品</b><small>預かった写真と動画の確認。試作</small></div><a class="btn small ghost" href="https://omoide-movie.mk0907.workers.dev/admin.html" target="_blank" rel="noopener">開く</a></div>
       </div>
-      <div class="card">
-        <b style="font-size:17px;">店の記録(スプレッドシート)</b>
-        <div class="row" style="margin-top:10px;"><span>受付(ウェブアプリ)<br><small style="color:var(--sub);">お名前・電話下4桁で探す→新規はお客さまIDを自動採番→今日の記録・回線・端末・ひかえ。<b>店の端末はkokosumaでログイン</b>して使う(ネット購入サポート・60)</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://script.google.com/macros/s/AKfycbw_JfX3qJ-Ey59tupZKr3k7kzt-NebiDuORRyDM911XhCNBzNhdR65lFHIgWv96VhCc/exec" target="_blank" rel="noopener">開く</a></div>
-        <div class="row" style="margin-top:8px;"><span>記録ブック<br><small style="color:var(--sub);">回線・端末・サポート記録(お客さまIDだけ・本名なし)。ふだんは受付から書き込む</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://docs.google.com/spreadsheets/d/1HOWsiNU3FX-1XMi2LO31vlKjOpP_FdhinvN8Gnf_QJY/edit" target="_blank" rel="noopener">開く</a></div>
-        <div class="row" style="margin-top:10px;"><span>顧客台帳<br><small style="color:var(--sub);">本名・連絡先はここだけ(番号で結ぶ2層式)。お客さまID〜町名の8列と「受付」シートあり</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://docs.google.com/spreadsheets/d/1VodW8nNml7A16kDQYBxJWHOOxqTtnz8dqvnDhsaAvpY/edit" target="_blank" rel="noopener">開く</a></div>
-        <div class="row" style="margin-top:8px;"><span>店舗画面<br><small style="color:var(--sub);">今日の来店・自習・月の控え。15分おきに自動で写る控えなので、直接書きこまない</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://docs.google.com/spreadsheets/d/1xoi8ODDGZ4jOUmJMGU9kXWB0KjpHA6CVpOFkLeEQs68/edit" target="_blank" rel="noopener">開く</a></div>
-        <div class="row" style="margin-top:8px;"><span>データ移行体制(Googleドライブ)<br><small style="color:var(--sub);">店頭データ移行の帳票4点(事前チェック・手順書・同意書・作業台帳)と調達リスト。ポインタは62</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://drive.google.com/drive/folders/1sMT2BdEtbJXZB_F0zaH3Lc3KkLakuFl8" target="_blank" rel="noopener">開く</a></div>
+      <div class="card lk">
+        <div class="lk-head"><span class="chip paused">記録</span><b>店の記録</b><span class="hint">ふだんは受付から書く。直接開くのは訂正と点検のとき</span></div>
+        <div class="lk-item"><div><b>顧客台帳</b><small>本名・連絡先はここだけ（番号で結ぶ2層式）</small></div><a class="btn small ghost" href="https://docs.google.com/spreadsheets/d/1VodW8nNml7A16kDQYBxJWHOOxqTtnz8dqvnDhsaAvpY/edit" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>記録ブック</b><small>回線・端末・サポート記録。IDだけで本名なし</small></div><a class="btn small ghost" href="https://docs.google.com/spreadsheets/d/1HOWsiNU3FX-1XMi2LO31vlKjOpP_FdhinvN8Gnf_QJY/edit" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>店舗画面</b><small>来店・自習の自動控え（15分おき）。書き込まない</small></div><a class="btn small ghost" href="https://docs.google.com/spreadsheets/d/1xoi8ODDGZ4jOUmJMGU9kXWB0KjpHA6CVpOFkLeEQs68/edit" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>データ移行体制</b><small>帳票4点と作業台帳（Googleドライブ）</small></div><a class="btn small ghost" href="https://drive.google.com/drive/folders/1sMT2BdEtbJXZB_F0zaH3Lc3KkLakuFl8" target="_blank" rel="noopener">開く</a></div>
       </div>
-      <div class="card">
-        <b style="font-size:17px;">管理(ふだんは開かない)</b>
-        <div class="row" style="margin-top:10px;"><span>Supabase管理画面<br><small style="color:var(--sub);">障害時とデータベースの変更時だけ。ログイン=屋号のGoogleアカウント</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://supabase.com/dashboard/project/kravngifhbxywmpoydur" target="_blank" rel="noopener">開く</a></div>
-        <div class="row" style="margin-top:8px;"><span>内部サイト(鍵つき)<br><small style="color:var(--sub);">iCloudの内部用HTML(料金シミュレーター・比較表・印刷書式・設計書の見える化)を1か所で。iPhoneからも開ける。毎日7:30/19:30に自動更新。ログイン=メールのワンタイムコード</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://kokosuma-internal.mk0907.workers.dev/" target="_blank" rel="noopener">開く</a></div>
-        <div class="row" style="margin-top:8px;"><span>LINE公式アカウント 管理画面<br><small style="color:var(--sub);">ステップ配信・応答・友だち管理。配信は未開始(開始日は裁定待ち)</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://manager.line.biz/" target="_blank" rel="noopener">開く</a></div>
-        <div class="row" style="margin-top:8px;"><span>公式ホームページ(仮公開)<br><small style="color:var(--sub);">お客様向けの公開サイト(noindex・準備中表記あり)。更新はGitHub Pages kokosma-hpへ</small></span><a class="btn small ghost" style="margin-left:auto;" href="https://mkohei97.github.io/kokosma-hp/" target="_blank" rel="noopener">開く</a></div>
-        <div class="note" style="margin-top:10px;">この一覧の正本は 00_全体管理「08_成果物とURLの地図」(iCloud・自動生成)。新しい画面を作ったら、08の注記とこのタブの両方に足す。このスタッフ画面のURLは公開ページに載せない。</div>
+      <div class="card lk">
+        <div class="lk-head"><span class="chip left">管理</span><b>管理（ふだんは開かない）</b></div>
+        <div class="lk-item"><div><b>内部サイト</b><small>内部用HTMLの一覧。鍵つき・毎日自動更新</small></div><a class="btn small ghost" href="https://kokosuma-internal.mk0907.workers.dev/" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>LINE公式 管理画面</b><small>配信・応答・友だち。配信は未開始</small></div><a class="btn small ghost" href="https://manager.line.biz/" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>公式ホームページ</b><small>仮公開（noindex）</small></div><a class="btn small ghost" href="https://mkohei97.github.io/kokosma-hp/" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>Supabase</b><small>障害時とDB変更時だけ。屋号Googleでログイン</small></div><a class="btn small ghost" href="https://supabase.com/dashboard/project/kravngifhbxywmpoydur" target="_blank" rel="noopener">開く</a></div>
       </div>
+      <div class="note" style="margin-top:14px;">この一覧の正本は 00_全体管理「08_成果物とURLの地図」。新しい画面を作ったら08の注記とここの両方に足す。このスタッフ画面のURLは公開ページに載せない。</div>
     </div>
   </div>
 </div>
