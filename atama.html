@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>あたまと指の体操</title>
+<title>ここスマ自習システム</title>
 <style>
   :root {
     /* ①ブランド(不変) */
@@ -331,6 +331,52 @@
   .odai-task .big { font-size: 28px; font-weight: 700; line-height: 1.5; }
   .odai-qrbox { display: flex; align-items: center; gap: 18px; background: #FBF8EC; border: 1px solid #E3DEC8; border-radius: 18px; padding: 14px 18px; }
   .odai-qrbox .cap3 { font-size: 20px; font-weight: 700; }
+  /* v1.26: 2大分類ホーム・今日のおすすめ・わたしの記録3タブ(できる地図/記録帳) */
+  .cat-grid .catcard { min-height: 150px; padding-top: 14px; padding-bottom: 14px; }
+  .cat-grid .catcard .tx b { font-size: 29px; }
+  .cat-grid .catcard .items { gap: 2px 14px; }
+  .reco-wrap { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
+  .reco-cap { font-size: 20px; font-weight: 700; color: #555555; }
+  .reco-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .reco { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 18px; padding: 12px 14px; display: flex; align-items: center; gap: 12px;
+    cursor: pointer; box-shadow: 0 6px 16px rgba(60, 48, 36, 0.08); }
+  .reco:active { transform: translateY(2px); box-shadow: none; }
+  .reco .chip { width: 50px; height: 50px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .reco .chip svg { width: 30px; height: 30px; }
+  .reco .tx { display: flex; flex-direction: column; min-width: 0; }
+  .reco .tx b { font-size: 20px; line-height: 1.3; }
+  .reco .tx span { font-size: 16px; color: #555555; line-height: 1.4; }
+  .rec-tabs { grid-template-columns: 1fr 1fr 1fr; }
+  .rec-tab { font-size: 22px; }
+  .map-panel { display: flex; flex-direction: column; gap: 12px; flex: 1 1 auto; min-height: 0; overflow: auto; }
+  .map-sum { background: rgba(255,255,255,0.92); border: 1px solid var(--season-border); border-radius: 20px; padding: 12px 18px; display: flex; flex-direction: column; gap: 8px; }
+  .map-sum .n { font-size: 21px; font-weight: 700; color: #555555; } .map-sum .n b { font-size: 30px; color: var(--brand); margin: 0 4px; }
+  .map-lg { display: flex; gap: 14px; flex-wrap: wrap; font-size: 15px; color: #555555; font-weight: 700; }
+  .map-lg span { display: inline-flex; align-items: center; gap: 6px; } .map-lg i { width: 18px; height: 18px; border-radius: 6px; display: inline-block; }
+  .map-head { display: flex; align-items: center; gap: 9px; font-size: 20px; font-weight: 700; margin-top: 4px; }
+  .map-head .sq { width: 15px; height: 15px; border-radius: 5px; display: inline-block; } .map-head .cnt { margin-left: auto; font-size: 17px; color: #555555; }
+  .map-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 9px; }
+  .map-cell { min-height: 90px; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    padding: 6px; font-size: 15px; font-weight: 700; line-height: 1.35; gap: 3px; cursor: pointer; border: 2px dashed #D9CDB8; background: #FFFFFF; color: #A7B5B1; }
+  .map-cell .st { font-size: 13px; font-weight: 700; }
+  .map-cell.s1 { border: 2px solid var(--brand); background: #FFFFFF; color: var(--brand); }
+  .map-cell.s2 { border: 2px solid var(--brand); background: #E9F3F1; color: var(--accent-deep); }
+  .map-cell.s3 { border: 3px solid var(--ok); background: #CFE9DA; color: #14231F; } .map-cell.s3 .st { font-size: 20px; color: var(--ok); }
+  .map-cell.up { border: 2px solid #0071E3; background: #E4F0FC; color: var(--accent-deep); } .map-cell.up .st { color: #0071E3; }
+  .map-note { font-size: 15px; color: #8A6A3B; text-align: center; }
+  .log-panel { display: flex; flex-direction: column; gap: 10px; flex: 1 1 auto; min-height: 0; overflow: auto; }
+  .log-cap { font-size: 19px; font-weight: 700; color: #555555; margin-top: 4px; }
+  .log-row { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 18px; padding: 8px 16px; display: flex; align-items: center; gap: 12px; }
+  .log-row .chip { width: 44px; height: 44px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .log-row .chip svg { width: 26px; height: 26px; }
+  .log-row .tx { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+  .log-row .tx b { font-size: 21px; } .log-row .tx span { font-size: 16px; color: #555555; } .log-row .tx span b { font-size: 18px; color: var(--accent-deep); }
+  .log-row .rank { font-size: 15px; font-weight: 700; border-radius: 999px; padding: 4px 12px; flex-shrink: 0; }
+  .log-row .rank.none { background: #F3F0E8; color: #8A8A8A; }
+  .log-note { font-size: 15px; color: #8A6A3B; text-align: center; }
+  .log-streak { background: rgba(255,255,255,0.92); border: 1px solid var(--season-border); border-radius: 20px; padding: 12px 18px; display: flex; align-items: center; gap: 16px; }
+  .log-streak .tx { flex: 1; } .log-streak .tx b { font-size: 21px; } .log-streak .tx span { font-size: 17px; color: #555555; display: block; } .log-streak .tx span b { font-size: 24px; color: var(--accent-deep); }
+  .log-streak .wk { display: flex; flex-direction: column; gap: 5px; } .log-streak .wk div { display: flex; gap: 5px; } .log-streak .wk i { width: 12px; height: 12px; border-radius: 999px; background: #EFE6D6; display: inline-block; } .log-streak .wk i.on { background: var(--season-deep); }
   /* スマホ練習メニュー(v1.14) */
   .renshu-list { display: flex; flex-direction: column; gap: 14px; }
   .renshu-item { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 24px; padding: 14px 24px;
@@ -930,7 +976,7 @@
       <div class="home-head-row">
         <div class="home-head-tx">
           <div class="date" id="home-date"></div>
-          <h1>あたまと指の体操</h1>
+          <h1 id="app-name">ここスマ自習システム</h1>
           <div class="greet" id="home-greet">こんにちは。今日も、ゆっくりどうぞ。</div>
         </div>
         <div class="member-row">
@@ -957,37 +1003,40 @@
       <span class="goa" style="position:absolute; right:14px; bottom:14px; width:40px; height:40px; border-radius:999px; display:flex; align-items:center; justify-content:center; background:var(--season-pale); color:var(--accent-deep);"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
     </div>
     <div class="cat-grid">
-      <div class="catcard" onclick="showCat('quiz')">
-        <span class="chip" style="background:var(--action); color:#FFFFFF;"><svg viewBox="0 0 24 24"><use href="#ic-bubble"></use></svg></span>
-        <div class="tx"><b>クイズ</b>
+      <div class="catcard" onclick="showQr()">
+        <span class="chip" style="background:#EEE8F6; color:#6B4FA1;"><svg viewBox="0 0 24 24"><use href="#ic-phone"></use></svg></span>
+        <div class="tx"><b>スマホ習得トレーニング</b>
           <div class="items">
-            <span><i style="background:#2E8B57;"></i>ふるさとクイズ</span>
-            <span><i style="background:#963E52;"></i>ことわざクイズ</span>
-            <span><i style="background:#9A7B2D;"></i>お釣り計算</span>
+            <span style="color:#555555;">講座で習ったことを、自分のスマホで使えるように</span>
+            <span><i style="background:#0071E3;"></i>文字入力</span>
+            <span><i style="background:#B0452F;"></i>あやしいメッセージを見分ける</span>
+            <span><i style="background:#1E8A46;"></i>LINEの練習</span>
+            <span><i style="background:#6B4FA1;"></i>スマホでやってみる</span>
           </div>
         </div>
-        <span class="goa" style="background:#E4F0ED; color:var(--accent-deep);"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+        <span class="goa" style="background:#EEE8F6; color:#6B4FA1;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
-      <div class="catcard" onclick="showCat('asobi')">
+      <div class="catcard" onclick="showCat('nokatsu')">
         <span class="chip" style="background:#F3EAD8; color:#8A6A3B;"><svg viewBox="0 0 24 24"><use href="#ic-koma"></use></svg></span>
-        <div class="tx"><b>記憶とあそび</b>
+        <div class="tx"><b>脳活トレーニング</b>
           <div class="items">
+            <span style="color:#555555;">頭と指の体操。続けるほど記録帳が育ちます</span>
+            <span><i style="background:#2E8B57;"></i>ふるさとクイズ</span>
+            <span><i style="background:#963E52;"></i>ことわざ</span>
+            <span><i style="background:#9A7B2D;"></i>お釣り計算</span>
             <span><i style="background:#2A6496;"></i>カード合わせ</span>
             <span><i style="background:#C22E63;"></i>順番タップ</span>
             <span><i style="background:#1E7A9C;"></i>記憶の順番</span>
-            <span><i style="background:#B96A2C;"></i>聞き取りチャレンジ</span>
+            <span><i style="background:#B96A2C;"></i>聞き取り</span>
             <span><i style="background:#5F6B2B;"></i>上の句・下の句</span>
           </div>
         </div>
         <span class="goa" style="background:#F3EAD8; color:#8A6A3B;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
-      <div class="catcard" onclick="showQr()">
-        <span class="chip" style="background:#EEE8F6; color:#6B4FA1;"><svg viewBox="0 0 24 24"><use href="#ic-phone"></use></svg></span>
-        <div class="tx"><b>スマホ練習</b>
-          <div class="items"><span>文字入力(自分のスマホ)・メッセージの見分け・LINEの練習</span></div>
-        </div>
-        <span class="goa" style="background:#EEE8F6; color:#6B4FA1;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
-      </div>
+    </div>
+    <div class="reco-wrap">
+      <div class="reco-cap">今日のおすすめ</div>
+      <div class="reco-grid" id="reco-grid"></div>
     </div>
     <div style="display:flex; justify-content:center;">
       <div class="btn btn-white" onclick="showSummary()">
@@ -995,7 +1044,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.25(ここスマ・自学自習システム)</div>
+    <div class="footer">試作版 v1.26(ここスマ自習システム・2大分類)</div>
   </div>
 </div>
 
@@ -1039,10 +1088,26 @@
       </div>
       <div class="left" style="gap:12px;">
         <span class="icchip" style="background:#F3EAD8;"><svg viewBox="0 0 24 24" style="color:#8A6A3B;"><use href="#ic-koma"></use></svg></span>
-        <span class="t">記憶とあそび</span>
+        <span class="t">脳活トレーニング</span>
       </div>
     </div>
     <div class="cat-menu">
+      <div class="gcard" onclick="startQuiz()">
+        <span class="chip" style="background:#E7F3E8; color:#2E8B57;"><svg viewBox="0 0 24 24"><use href="#ic-kofun"></use></svg></span>
+        <div class="tx"><b>ふるさとクイズ</b><span>思い出をたどる二択</span></div>
+        <span class="goa" style="background:#E7F3E8; color:#2E8B57;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard" onclick="startKotowaza()">
+        <span class="chip" style="background:#F6E7EB; color:#963E52;"><svg viewBox="0 0 24 24"><use href="#ic-maki"></use></svg></span>
+        <div class="tx"><b>ことわざクイズ</b><span>つづきを当てる</span></div>
+        <span class="goa" style="background:#F6E7EB; color:#963E52;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard" onclick="startOtsuri()">
+        <span class="chip" style="background:#F5EDD6; color:#9A7B2D;"><svg viewBox="0 0 24 24"><use href="#ic-coin"></use></svg></span>
+        <div class="tx"><b>お釣り計算</b><span>買い物のお釣りを当てる</span></div>
+        <span class="goa" style="background:#F5EDD6; color:#9A7B2D;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+
       <div class="gcard" onclick="startCards()">
         <span class="chip" style="background:#E3EEF8; color:#2A6496;"><svg viewBox="0 0 24 24"><use href="#ic-cards"></use></svg></span>
         <div class="tx"><b>カード合わせ</b><span>同じ絵柄をさがす</span></div>
@@ -1161,11 +1226,15 @@
       <div class="rec-tab on" id="tab-seki" onclick="switchRecTab('seki')">
         <svg viewBox="0 0 24 24"><use href="#ic-stamp"></use></svg>出席帳
       </div>
+      <div class="rec-tab" id="tab-map" onclick="switchRecTab('map')">
+        <svg viewBox="0 0 24 24"><use href="#ic-phone"></use></svg>できる地図
+      </div>
       <div class="rec-tab" id="tab-manabi" onclick="switchRecTab('manabi')">
-        <svg viewBox="0 0 24 24"><use href="#ic-tanzaku"></use></svg>学びの記録
+        <svg viewBox="0 0 24 24"><use href="#ic-tanzaku"></use></svg>記録帳
       </div>
     </div>
-    <div class="manabi-list" id="manabi-panel" style="display:none;"></div>
+    <div class="map-panel" id="map-panel" style="display:none;"></div>
+    <div class="log-panel" id="manabi-panel" style="display:none;"></div>
     <div class="seki-book" id="seki-panel">
       <div class="seki-month"><span class="m" id="seki-month"></span><span class="c">の帳面</span></div>
       <div class="seki-wk"><span class="sun">日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span class="sat">土</span></div>
@@ -1455,7 +1524,7 @@
     <div class="appbar">
       <div class="left">
         <span class="icchip" style="background:#EEE8F6;"><svg viewBox="0 0 24 24"><use href="#ic-phone"></use></svg></span>
-        <span class="t">スマホ練習</span>
+        <span class="t">スマホ習得トレーニング</span>
       </div>
     </div>
     <!-- 練習メニュー(v1.14) -->
@@ -1666,7 +1735,7 @@ function show(id) {
   window.scrollTo(0, 0);
 }
 function goHome() { updateHome(); show('scr-home'); }
-function showCat(c) { show(c === 'quiz' ? 'scr-cat-quiz' : 'scr-cat-asobi'); }
+function showCat(c) { show('scr-cat-asobi'); }
 function showQr() { show('scr-qr'); }
 
 function shuffle(a) {
@@ -1733,6 +1802,7 @@ function addSakura(n) {
   return data.count;
 }
 function updateHome() {
+  renderReco();
   var c = getSakura().count;
   document.getElementById('home-date').textContent = dateLabel();
   document.getElementById('home-sakura-count').textContent = c;
@@ -1748,6 +1818,14 @@ function gameCompleted(game, quality) {
   if (q >= 2) record.perfect[game] = true;
   addSakura(1);
   addKenteiPoint(game, q);
+  /* v1.26: 前回の自分(記録帳)と練習しました(できる地図)を送る。既存の処理には触らない */
+  try {
+    var v = { kiki: record.kikiTop, tile: record.numsMax, kioku: record.kiokuBest, otsuri: record.otsuriCorrect, kofun: record.quizCorrect,
+              kotowaza: record.kotoCorrect, sagi: record.sagiCorrect, line: record.lineCorrect }[game];
+    if (typeof RESULT_METRIC !== 'undefined' && RESULT_METRIC[game] && v !== undefined) sendResult(game, RESULT_METRIC[game][0], v);
+    if (game === 'sagi') sendPractice(103, 'sagi');
+    if (game === 'line') sendPractice(201, 'line');
+  } catch (e) {}
 }
 // 出来の判定(共通のものさし: ミスなし=2・おおむね出来た=1・それ未満=0)
 function qualityByCorrect(correct, total) {
@@ -1842,40 +1920,175 @@ var recTab = 'seki';
 function switchRecTab(t) {
   recTab = t;
   document.getElementById('tab-seki').classList.toggle('on', t === 'seki');
+  document.getElementById('tab-map').classList.toggle('on', t === 'map');
   document.getElementById('tab-manabi').classList.toggle('on', t === 'manabi');
   document.getElementById('seki-panel').style.display = (t === 'seki') ? 'flex' : 'none';
+  document.getElementById('map-panel').style.display = (t === 'map') ? 'flex' : 'none';
   document.getElementById('manabi-panel').style.display = (t === 'manabi') ? 'flex' : 'none';
+  if (t === 'map') renderMap();
   if (t === 'manabi') renderManabi();
+}
+/* ===== v1.26: わたしの記録=できる地図/記録帳(19y v0.3 §9)。データ=Supabase my_progress + yoyaku_data(端末に控え) ===== */
+var THEMES = [
+  { id: 101, n: '文字入力', k: 'kihon', up: true }, { id: 102, n: '電話', k: 'kihon' }, { id: 103, n: 'あやしいメール・SMS', k: 'kihon' },
+  { id: 104, n: '見やすくする', k: 'kihon' }, { id: 105, n: 'Wi-Fiとギガ', k: 'kihon' }, { id: 106, n: 'スマホの基本操作', k: 'kihon' }, { id: 107, n: 'パスワードと安全', k: 'kihon' },
+  { id: 201, n: 'LINEの基本', k: 'ouyou' }, { id: 202, n: 'カメラと写真', k: 'ouyou' }, { id: 203, n: 'マップ', k: 'ouyou' }, { id: 204, n: 'スマホの困りごと', k: 'ouyou' },
+  { id: 205, n: 'キャッシュレス', k: 'ouyou' }, { id: 206, n: '検索とAIに聞く', k: 'ouyou' },
+  { id: 301, n: '孫とビデオ通話', k: 'katsu' }, { id: 302, n: '家族グループ', k: 'katsu' }, { id: 304, n: '緊急連絡先', k: 'katsu' }, { id: 305, n: 'スマホ代の見直し', k: 'katsu' },
+  { id: 306, n: '災害への備え', k: 'katsu' }, { id: 307, n: '昔の写真の残し方', k: 'katsu' }, { id: 311, n: '予約を取る', k: 'katsu' }
+];
+var THEME_CATS = { kihon: { name: '基本', c: '#3B6EA5' }, ouyou: { name: '応用', c: '#7A5BA6' }, katsu: { name: '活用', c: '#C2703D' } };
+/* 種目→練習できるテーマ(升を押したときの飛び先) */
+var THEME_START = { 103: 'startSagi', 201: 'startLine', 101: 'showQr', 102: 'startOdai', 104: 'startOdai', 106: 'startOdai', 202: 'startOdai', 206: 'startOdai', 311: 'startOdai' };
+var progressData = null;   /* {practice:[{theme_id,times,last_on}], results:[{game,metric,value,on}], learned:[], marked:[]} */
+function progressCacheKey() { return 'kokosuma_progress_' + session.m; }
+function loadProgress() {
+  try { var c = JSON.parse(storeGet(progressCacheKey()) || 'null'); if (c) progressData = c; } catch (e) {}
+  if (!session.t) return Promise.resolve(progressData);
+  return Promise.all([
+    sbRpc('my_progress', { p_token: session.t }).catch(function () { return null; }),
+    sbRpc('yoyaku_data', { p_token: session.t }).catch(function () { return null; })
+  ]).then(function (rs) {
+    var p = rs[0], y = rs[1];
+    var d = progressData || { practice: [], results: [], learned: [], marked: [] };
+    if (p && p.ok) { d.practice = p.practice || []; d.results = p.results || []; }
+    if (y && y.ok) { d.learned = y.learned || []; d.marked = y.marked || []; }
+    progressData = d;
+    storeSet(progressCacheKey(), JSON.stringify(d));
+    return d;
+  });
+}
+function themeState(t) {
+  var d = progressData || { practice: [], learned: [], marked: [] };
+  var pr = (d.practice || []).filter(function (x) { return x.theme_id === t.id; })[0];
+  var times = pr ? pr.times : 0;
+  if ((d.marked || []).indexOf(t.id) >= 0) return { s: 3, times: times };
+  if (t.up) return times > 0 ? { s: 'up', times: times } : ((d.learned || []).indexOf(t.id) >= 0 ? { s: 1, times: 0 } : { s: 0, times: 0 });
+  if (times > 0) return { s: 2, times: times };
+  if ((d.learned || []).indexOf(t.id) >= 0) return { s: 1, times: 0 };
+  return { s: 0, times: 0 };
+}
+function renderMap() {
+  var el = document.getElementById('map-panel');
+  var done = 0, prac = 0, learn = 0;
+  var byCat = { kihon: [], ouyou: [], katsu: [] };
+  THEMES.forEach(function (t) {
+    var st = themeState(t);
+    if (st.s === 3) done++; else if (st.s === 2 || st.s === 'up') prac++; else if (st.s === 1) learn++;
+    byCat[t.k].push({ t: t, st: st });
+  });
+  var h = '<div class="map-sum"><div class="n">できるようになったこと <b>' + done + '</b> 個　<span style="font-size:17px;">練習しました ' + prac + ' ・ 習いました ' + learn + '</span></div>' +
+    '<div class="map-lg"><span><i style="border:2px dashed #D9CDB8;"></i>これから</span><span><i style="border:2px solid var(--brand);"></i>習いました</span>' +
+    '<span><i style="border:2px solid var(--brand); background:#E9F3F1;"></i>練習しました</span><span><i style="border:3px solid var(--ok); background:#CFE9DA;"></i>できるようになった</span>' +
+    '<span><i style="border:2px solid #0071E3; background:#E4F0FC;"></i>練習中(くり返して伸びるもの)</span></div></div>';
+  ['kihon', 'ouyou', 'katsu'].forEach(function (k) {
+    var list = byCat[k];
+    var d = list.filter(function (x) { return x.st.s === 3; }).length;
+    var g = list.filter(function (x) { return x.st.s !== 0; }).length;
+    h += '<div class="map-head"><span class="sq" style="background:' + THEME_CATS[k].c + ';"></span>' + THEME_CATS[k].name +
+      '<span class="cnt">習いました ' + g + ' ・ できるように ' + d + '</span></div><div class="map-grid">';
+    list.forEach(function (x) {
+      var cls = x.st.s === 'up' ? 'up' : (x.st.s ? 's' + x.st.s : '');
+      var st = x.st.s === 3 ? '✓' : x.st.s === 2 ? '練習しました' : x.st.s === 1 ? '習いました' : x.st.s === 'up' ? '練習中 ' + x.st.times + '回' : '';
+      var fn = THEME_START[x.t.id] || '';
+      h += '<div class="map-cell ' + cls + '"' + (fn ? ' onclick="' + fn + '()"' : '') + '>' + (st ? '<span class="st">' + st + '</span>' : '') + '<span>' + x.t.n + '</span></div>';
+    });
+    h += '</div>';
+  });
+  h += '<div class="map-note">升を押すと、その練習をはじめられます。「できるようになった」は、会員証の「できることカード」でご自分で押します。</div>';
+  el.innerHTML = h;
+}
+/* 記録帳: 級(既存) + 前回の自分 + 伸びの線 */
+var RESULT_METRIC = { kiki: ['speed', '倍'], tile: ['count', 'まで'], kioku: ['count', '個'], otsuri: ['correct', '問'], kofun: ['correct', '問'],
+                      kotowaza: ['correct', '問'], sagi: ['correct', '問'], line: ['correct', '問'] };
+function sparkSvg(vals, color) {
+  var w = 140, h = 40, mx = Math.max.apply(null, vals), mn = Math.min.apply(null, vals), rng = (mx - mn) || 1;
+  var pts = vals.map(function (v, i) { return (6 + i * (w - 12) / Math.max(1, vals.length - 1)).toFixed(1) + ',' + (h - 6 - (v - mn) / rng * (h - 12)).toFixed(1); });
+  var dots = pts.map(function (p) { var a = p.split(','); return '<circle cx="' + a[0] + '" cy="' + a[1] + '" r="3" fill="' + color + '"></circle>'; }).join('');
+  var last = pts[pts.length - 1].split(',');
+  return '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '"><polyline points="' + pts.join(' ') + '" fill="none" stroke="' + color + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></polyline>' + dots +
+    '<circle cx="' + last[0] + '" cy="' + last[1] + '" r="5" fill="' + color + '" stroke="#fff" stroke-width="2"></circle></svg>';
 }
 function renderManabi() {
   var data = getKentei(session.m);
-  var order = ['kofun', 'kotowaza', 'otsuri', 'sagi', 'line', 'odai', 'cards', 'tile', 'kioku', 'kiki', 'kami'];
-  var html = '';
+  var order = ['kiki', 'tile', 'kioku', 'otsuri', 'kofun', 'kotowaza', 'cards', 'kami', 'sagi', 'line', 'odai'];
+  var results = (progressData && progressData.results) || [];
+  var days = getStamps(session.m);
+  var wk = '';
+  var today = new Date();
+  for (var r = 3; r >= 0; r--) {
+    wk += '<div>';
+    for (var c = 6; c >= 0; c--) {
+      var d = new Date(today.getFullYear(), today.getMonth(), today.getDate() - (r * 7 + c));
+      var key = d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+      wk += '<i class="' + (days.indexOf(key) >= 0 ? 'on' : '') + '"></i>';
+    }
+    wk += '</div>';
+  }
+  var recent = days.filter(function (k) { var d = new Date(k); return (today - d) / 86400000 < 28; }).length;
+  var html = '<div class="log-streak"><div class="tx"><b>続けている証</b><span>この4週間で <b>' + recent + '</b> 回。前回の自分と、くらべます。</span></div><div class="wk">' + wk + '</div></div>';
+  html += '<div class="log-cap">脳活トレーニング</div>';
+  var capDone = false;
   order.forEach(function (k) {
+    if (!capDone && (k === 'sagi')) { html += '<div class="log-cap">スマホ習得トレーニング</div>'; capDone = true; }
     var g = KENTEI_GAMES[k];
     var pts = data[k] || 0;
     var lv = kenteiLevelOf(pts);
-    var base = lv === 0 ? 0 : KENTEI_TH[lv - 1];
-    var next = lv < 10 ? KENTEI_TH[lv] : null;
-    var filled = 0;
-    if (next !== null) {
-      var span = next - base;
-      filled = Math.min(5, Math.ceil((pts - base) / span * 5));
-    } else { filled = 5; }
-    var dots = '';
-    for (var i = 0; i < 5; i++) dots += '<i style="' + (i < filled ? 'background:' + g.ink + ';' : '') + '"></i>';
-    var nx = (next === null) ? '一級に達しました'
-      : (lv === 0 ? 'はじめると 十級へ' : 'あと' + (next - pts) + '回で ' + KENTEI_RANKS[lv + 1]);
-    html += '<div class="manabi-row">' +
+    var m = RESULT_METRIC[k];
+    var line = '';
+    if (m) {
+      var rs = results.filter(function (x) { return x.game === k && x.metric === m[0]; }).map(function (x) { return Number(x.value); });
+      if (rs.length >= 1) {
+        var now = rs[0], prev = rs[1];
+        line = (prev !== undefined ? '前回 ' + prev + m[1] + ' → ' : '') + '今回 <b>' + now + m[1] + '</b>';
+        if (rs.length >= 2) line = '<span style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;"><span>' + line + '</span>' + sparkSvg(rs.slice(0, 8).reverse(), g.ink) + '</span>';
+      }
+    }
+    html += '<div class="log-row">' +
       '<span class="chip" style="background:' + g.chip + '; color:' + g.ink + ';"><svg viewBox="0 0 24 24"><use href="#ic-' + g.icon + '"></use></svg></span>' +
-      '<span class="nm">' + g.name.replace('検定', '') + '</span>' +
-      '<span class="pg"><span class="dots">' + dots + '</span><span class="nx">' + nx + '</span></span>' +
-      (lv === 0
-        ? '<span class="rank none">これから</span>'
-        : '<span class="rank" style="background:' + g.chip + '; color:' + g.ink + ';">' + KENTEI_RANKS[lv] + '</span>') +
+      '<span class="tx"><b>' + g.name.replace('検定', '') + '</b>' + (line ? '<span>' + line + '</span>' : '<span>' + (lv === 0 ? 'はじめると記録が残ります' : '続けています') + '</span>') + '</span>' +
+      (lv === 0 ? '<span class="rank none">これから</span>' : '<span class="rank" style="background:' + g.chip + '; color:' + g.ink + ';">' + KENTEI_RANKS[lv] + '</span>') +
       '</div>';
   });
+  html += '<div class="log-note">順位や平均は出しません。くらべるのは、前回のあなただけです。</div>';
   document.getElementById('manabi-panel').innerHTML = html;
+}
+/* 結果と練習の送信(既存RPCは変更なし。patch8の新RPCが無い環境では静かに失敗→キューへ) */
+function sendResult(game, metric, value) {
+  if (!session.t || value === undefined || value === null) return;
+  var args = { p_token: session.t, p_game: game, p_metric: metric, p_value: value };
+  sbRpc('result_add', args).then(function (r) { if (!r || r.ok !== true) throw 0; })
+    .catch(function () { sbQueueAdd({ fn: 'result_add', args: args, day: todayStr() }); });
+}
+function sendPractice(theme, game) {
+  if (!session.t || !theme) return;
+  var args = { p_token: session.t, p_theme: theme, p_game: game };
+  sbRpc('practice_add', args).then(function (r) { if (!r || r.ok !== true) throw 0; })
+    .catch(function () { sbQueueAdd({ fn: 'practice_add', args: args, day: todayStr() }); });
+}
+var ODAI_THEME = { yoyaku: 311, manner: 102, moji: 104, shot: 106, photo: 202, ai: 206 };
+/* 今日のおすすめ(日替わり3つ・19k§6-2) */
+var RECO = [
+  { n: 'LINEの練習', w: '講座の復習に', fn: 'startLine', chip: '#E4F3E6', ink: '#1E8A46', ic: 'ic-bubble' },
+  { n: '聞き取りチャレンジ', w: '耳の体操', fn: 'startKiki', chip: '#FBE9D6', ink: '#B96A2C', ic: 'ic-ear' },
+  { n: 'あやしいメッセージ', w: '見分けの合言葉', fn: 'startSagi', chip: '#FDEBE7', ink: '#B0452F', ic: 'ic-phone' },
+  { n: 'ふるさとクイズ', w: '思い出をたどる', fn: 'startQuiz', chip: '#E7F3E8', ink: '#2E8B57', ic: 'ic-kofun' },
+  { n: '記憶の順番', w: '光った順に', fn: 'startKioku', chip: '#DFF2FA', ink: '#1E7A9C', ic: 'ic-spark' },
+  { n: 'スマホでやってみる', w: 'お題をひとつ', fn: 'startOdai', chip: '#EEE8F6', ink: '#6B4FA1', ic: 'ic-phone' },
+  { n: 'お釣り計算', w: '買い物のお釣り', fn: 'startOtsuri', chip: '#F5EDD6', ink: '#9A7B2D', ic: 'ic-coin' },
+  { n: '上の句・下の句', w: '札を合わせる', fn: 'startKami', chip: '#F0F2DF', ink: '#5F6B2B', ic: 'ic-tanzaku' },
+  { n: 'ことわざクイズ', w: 'つづきを当てる', fn: 'startKotowaza', chip: '#F6E7EB', ink: '#963E52', ic: 'ic-maki' }
+];
+function renderReco() {
+  var el = document.getElementById('reco-grid'); if (!el) return;
+  var d = new Date(); var start = new Date(d.getFullYear(), 0, 0); var doy = Math.floor((d - start) / 86400000);
+  var html = '';
+  for (var i = 0; i < 3; i++) {
+    var r = RECO[(doy * 3 + i) % RECO.length];
+    html += '<div class="reco" onclick="' + r.fn + '()"><span class="chip" style="background:' + r.chip + '; color:' + r.ink + ';"><svg viewBox="0 0 24 24"><use href="#' + r.ic + '"></use></svg></span>' +
+      '<span class="tx"><b>' + r.n + '</b><span>' + r.w + '</span></span></div>';
+  }
+  el.innerHTML = html;
 }
 function kanjiNum(n) {
   var k = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
@@ -2418,8 +2631,9 @@ function showSeki(tab) {
   if (!session.m) { goHome(); return; }
   sekiShowPrev = false;
   renderSeki();
-  switchRecTab(tab === 'manabi' ? 'manabi' : 'seki');
+  switchRecTab(tab === 'manabi' ? 'manabi' : (tab === 'map' ? 'map' : 'seki'));
   show('scr-seki');
+  loadProgress().then(function () { if (recTab === 'map') renderMap(); if (recTab === 'manabi') renderManabi(); });
 }
 function sekiTogglePrev() {
   sekiShowPrev = !sekiShowPrev;
@@ -2864,6 +3078,7 @@ function odaiDone() {
   if (odaiCurrent && record.odaiDone.indexOf(odaiCurrent.name) < 0) {
     record.odaiDone.push(odaiCurrent.name);
     gameCompleted('odai', 1);
+    if (typeof ODAI_THEME !== 'undefined' && ODAI_THEME[odaiCurrent.id]) sendPractice(ODAI_THEME[odaiCurrent.id], 'odai');
   }
   renderOdaiList();
 }
