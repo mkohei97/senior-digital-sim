@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ここスマ 料金シミュレーション v0.5</title>
+<title>ここスマ 料金シミュレーション v0.7</title>
 <style>
   :root {
     --ink: #16181D; --sub: #6E7379; --faint: #6F747A;
@@ -30,6 +30,7 @@
     background: linear-gradient(rgba(255,255,255,0), #FFF); pointer-events: none; }
   @media (max-width: 640px) {
     .wrap { padding: 0 18px 170px; }
+    .hero h1 { font-size: 27px; }
     .hoyen { width: auto; min-width: 120px; }
     .horow { flex-wrap: wrap; gap: 10px; }
     .stick-in { gap: 18px; padding: 10px 16px; }
@@ -58,7 +59,8 @@
   /* ===== cards / chips ===== */
   .card { background: var(--bg); border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px; }
   .rowlab { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 10px 0; }
-  .rowlab .lb { width: 96px; flex-shrink: 0; font-size: 13.5px; font-weight: 700; color: var(--sub); }
+  .rowlab .lb { width: 112px; flex-shrink: 0; font-size: 13.5px; font-weight: 700; color: var(--sub); }
+  .rowlab .lb .nw { white-space: nowrap; }
   .chips { display: flex; gap: 8px; flex-wrap: wrap; }
   .chip { border: 1.5px solid var(--line); background: #FFF; color: var(--ink);
     border-radius: 999px; padding: 8px 18px; font-size: 14.5px; font-weight: 700;
@@ -265,7 +267,9 @@ body { background: var(--bg); }
 .badge.fut { background: var(--acc-soft); border-color: var(--acc); color: var(--acc-ink); }
 .step-tag { background: var(--acc-soft); color: var(--acc-ink); display: inline-block; padding: 3px 12px; letter-spacing: .22em; }
 .hero { text-align: left; padding: 48px 0 34px; }
-.hero h1 { font-size: 40px; line-height: 1.3; max-width: 640px; }
+.hero h1 { font-size: 40px; line-height: 1.3; max-width: 700px; }
+.hero h1 .nb { display: inline-block; }
+@media (max-width: 640px) { .hero h1 { font-size: 27px; line-height: 1.35; } }
 .hero p { margin: 10px 0 0; max-width: 560px; }
 #demoRow { justify-content: flex-start; }
 .diffhero { text-align: left; border-left: 6px solid var(--acc); padding-left: 20px; }
@@ -291,15 +295,15 @@ header.top { background: rgba(239,236,229,.94); border-bottom: 1px solid #C9C4B6
 
 <header class="top"><div class="top-in">
   <span class="logo">ここスマ</span>
-  <span class="ttl">料金シミュレーション<small>v0.5</small></span>
-  <span class="meta">試験公開中(仮ページ)|料金取得日 2026年8月7〜8日|金額は税込の目安・各社公式サイトで要確認</span>
+  <span class="ttl">料金シミュレーション<small>v0.7</small></span>
+  <span class="meta">試験公開中(仮ページ)|料金取得日 2026年8月7〜8日(端末・補償は9月12日に再取得)|金額は税込の目安・各社公式サイトで要確認</span>
 </div></header>
 
 <div class="wrap">
 
   <div class="hero">
-    <h1>いまと、これからを、ならべてみる。</h1>
-    <p>当店から特定のプランをおすすめするものではありません。お客さまがくらべて選ぶための物差しです。</p>
+    <h1><span class="nb">「いま」と「これから」を</span><span class="nb">比較する。</span></h1>
+    <p>当店から特定のプランをおすすめするものではありません。お客さまが比べて選ぶための物差しです。</p>
   </div>
 
   <!-- ============ STEP 1 ============ -->
@@ -345,7 +349,7 @@ header.top { background: rgba(239,236,229,.94); border-bottom: 1px solid #C9C4B6
       <div class="v num" id="planDiff">―</div>
       <div class="c" id="planDiffCap"></div>
     </div>
-    <div class="note" style="text-align:center; margin-top:10px;">プラン名・金額は2026年8月7日時点の公式サイト調べ。通話オプション・割引は一律の仮定で計算しています。最新の内容は各社公式サイトでご確認ください。</div>
+    <div class="note" style="text-align:center; margin-top:10px;">プラン名・金額は2026年8月7日(端末・補償は9月12日)時点の公式サイト調べ。通話オプション・割引は一律の仮定で計算しています。最新の内容は各社公式サイトでご確認ください。</div>
   </section>
 
   <hr class="rule">
@@ -356,16 +360,22 @@ header.top { background: rgba(239,236,229,.94); border-bottom: 1px solid #C9C4B6
     <h2>スマホの購入の仕方</h2>
 
     <div class="card" id="step2sel">
-      <div class="rowlab"><span class="lb">くらべる端末</span><span class="chips" id="devChips"></span></div>
+      <div class="rowlab"><span class="lb">比べる端末<br><small style="font-weight:600;color:var(--sub);">iPhone</small></span><span class="chips" id="devChipsI"></span></div>
+      <div class="rowlab"><span class="lb"><small style="font-weight:600;color:var(--sub);">Android・その他</small></span><span class="chips" id="devChipsA"></span></div>
+      <div class="note" id="devNote" style="margin-top:-4px;"></div>
       <div class="rowlab" id="manualDev" style="display:none;"><span class="lb"></span>
         <input type="number" id="manualOfficial" placeholder="公式ストア価格(円)">
         <input type="number" id="manualCarrier" placeholder="キャリア価格(円)">
       </div>
       <div class="rowlab"><span class="lb">キャリア</span><span class="chips" id="carChips"></span></div>
-      <div class="rowlab"><span class="lb"><span class="badge now">現状</span>の買い方</span><span class="chips" id="buyNowChips"></span></div>
-      <div class="rowlab"><span class="lb"><span class="badge fut">将来</span>の買い方</span><span class="chips" id="buyFutChips"></span></div>
+      <div class="rowlab"><span class="lb"><span class="nw"><span class="badge now">現状</span>の買い方</span></span><span class="chips" id="buyNowChips"></span></div>
+      <div class="rowlab"><span class="lb"><span class="nw"><span class="badge fut">将来</span>の買い方</span></span><span class="chips" id="buyFutChips"></span></div>
+      <div class="rowlab" id="restBox" style="display:none;"><span class="lb">分割の残り</span>
+        <input type="number" id="restM" placeholder="月々の分割額(円)">
+        <input type="number" id="restN" placeholder="残りの回数">
+      </div>
       <div class="rowlab"><span class="lb">みる年数</span><span class="chips" id="yrChips"></span></div>
-      <div class="note">「買い方」は、これから<b>みる年数のあいだの買い替え方針</b>の比較です。返却プログラム=2年ごとに買い替えを続ける/キャリア・公式ストア=買って長く使う/<b>買わない=いまの端末をそのまま使い続ける(端末費用0円)</b>。端末は替えずプランだけ見直す相談なら、現状・将来とも「買わない」のままで大丈夫です。買い替えを検討中なら、将来の買い方にA・B・Cを選ぶと下の表とSTEP3に反映されます。</div>
+      <div class="note">「買い方」は、これから<b>みる年数のあいだに端末へいくら払うか</b>の比較です(過去に買ったかどうかではありません)。<b>買い替えない</b>=支払いが済んだ端末をそのまま使う → この先の端末代0円/<b>分割の途中</b>=支払いが残っている端末をそのまま使う → 残りの回数分だけ計上/<b>A 返却プログラム</b>=2年ごとに買い替えを続ける/<b>B キャリア・C 公式ストア</b>=買って長く使う。端末は替えずプランだけ見直す相談なら、現状・将来とも同じ選択のままで大丈夫です。買い替えを検討中なら、将来の買い方にA・B・Cを選ぶと下の表とSTEP3に反映されます。</div>
     </div>
 
     <div class="tscroll"><table class="cmp" id="buyTable"></table></div>
@@ -374,7 +384,7 @@ header.top { background: rgba(239,236,229,.94); border-bottom: 1px solid #C9C4B6
     <div class="assump" id="calcBasis" style="background:#F6FAFF;"></div>
     <div class="assump" id="assumpBox"></div>
 
-    <h3 style="margin:36px 0 14px; font-size:19px;">端末の補償サービスもくらべる</h3>
+    <h3 style="margin:36px 0 14px; font-size:19px;">端末の補償サービスも比べる</h3>
     <div class="card" id="hoshoSel">
       <div class="rowlab"><span class="lb"><span class="badge now">現状</span>の補償</span><span class="chips" id="hoNowChips"></span><input class="inline-in num" style="width:110px;" type="number" id="hoNowIn" title="月額(円)"><span class="note">円/月</span></div>
       <div class="rowlab"><span class="lb"><span class="badge fut">将来</span>の補償</span><span class="chips" id="hoFutChips"></span><input class="inline-in num" style="width:110px;" type="number" id="hoFutIn" title="月額(円)"><span class="note">円/月</span></div>
@@ -390,7 +400,7 @@ header.top { background: rgba(239,236,229,.94); border-bottom: 1px solid #C9C4B6
   <!-- ============ STEP 3 ============ -->
   <section class="step" id="s3">
     <div class="step-tag">STEP 3</div>
-    <h2>トータル費用 ― 現状とくらべる</h2>
+    <h2>トータル費用 ― 現状と比べる</h2>
 
     <div class="s3ctrl">
       <span class="chips" id="yrChips2"></span>
@@ -412,15 +422,17 @@ header.top { background: rgba(239,236,229,.94); border-bottom: 1px solid #C9C4B6
       ・実際の請求額は、ご契約内容・割引の適用条件・キャンペーン・使い方により変わります。<b>ご契約の前に、必ず各社の公式サイトまたは窓口でご確認ください。</b><br>
       ・ポイント還元・期間限定キャンペーン・通話料の従量分(22円/30秒)・ユニバーサル料等は含んでいません。頭金は店舗により異なるため仮の金額です。<br>
       ・当店は各通信会社の代理店ではありません。この試算による契約・解約等の結果について、当店は責任を負いかねます。<br>
-      <span style="display:inline-block; margin-top:4px;"><b>ここスマ|スマホの相談窓口</b> 発行日: <span id="printDate" class="num"></span>(料金データ取得日: 2026年8月7〜8日)</span>
+      <span style="display:inline-block; margin-top:4px;"><b>ここスマ|スマホの相談窓口</b> 発行日: <span id="printDate" class="num"></span>(料金データ取得日: 2026年8月7〜8日(端末・補償は9月12日に再取得))</span>
     </div>
   </div>
 
   <footer class="foot">
     <b>ここスマ|スマホの相談窓口</b> ― 試験公開中の仮ページ(店内相談用)。金額はすべて取得日時点の税込目安であり、契約条件・キャンペーンにより変わります。ご契約前に必ず各社公式サイトでご確認ください。<br>
-    出典: 各社公式サイト(詳細は 22_料金プラン調査_2026-08 v1.4 / 02_調査_3キャリア店頭費用)。料金取得日 2026年8月7〜8日。ご契約前に必ず当日の各社公式ページでご確認ください。<br>
+    出典: 各社公式サイト(詳細は 22_料金プラン調査_2026-08 v1.6 / 02_調査_3キャリア店頭費用)。料金取得日 2026年8月7〜8日(端末・補償は9月12日に再取得)。ご契約前に必ず当日の各社公式ページでご確認ください。<br>
     返却プログラムの実質負担は「残価=端末価格の45%(楽天は48回払い・25か月目返却で50%)」と仮定した概算です。機種・時期・査定条件により変わります。頭金は店舗独自(5,000〜22,000円)のため仮の金額です。iPhone 17e のドコモ・au価格は二次情報照合の概算。<br>
     v0.4(2026-08-08): 3ステップ構成に再設計(通信プラン現状/将来→買い方比較→トータル)/楽天モバイルを端末比較に追加/頭金・設定サポートの内訳を明示/デザイン=Claude Design「ここスマ料金シミュレーション設計」(白基調ミニマル・v0.4)/同日データ更新: 日本通信SIMを4プラン(シンプル290・みんなの20GB・50GB・ネットだけ)に拡充(公式サイト2026-08-08確認)/頭金を02調査の実務値19,800円に統一・C列にここスマ ネット購入サポート19,800円を標準計上・積み重なる費用の計算根拠を表下に明示/端末の補償サービス比較を追加(キャリア4社・AppleCare+/Pixel Care+・@nifty安心メールパック・モバイル保険。2026-08-08公式調べ・選択でSTEP3に反映)/補償は選択中の機種ごとの確定額で表示(ドコモ補償料金検索・au公式・SB公式・楽天価格帯区分で裏取り)/ドコモMAX系に「家族間通話無料」注記(5分通話はオプション880円を公式確認)・上位カード(dカードGOLD−550/PayPayゴールドSB−550/Y!m−770⚠)トグル追加・プラン一覧を会社名ファースト表示に/印刷をお客様お渡し用に(前提条件・免責事項・発行日を印字、A4縦1枚)/22fレビュー全21項目を反映(買い方「買わない」追加・乗換手数料の店頭統合・公式ストア×キャリア補償の警告・手入力の分解入力・例ボタン・データ専用警告・スマホ幅対応・注記コントラストAA・印刷A4縦1枚要約・チップ✓/aria対応ほか)<br>
+    v0.7(2026-09-12): <b>Appleの9/10改定を反映</b>(iPhone 17 142,800→159,800円・iPhone 17e 107,800→124,800円)。キャリア側の改定も反映(17e=au127,900/SB133,200/楽天117,200円・17=SB180,720/楽天159,800円)/<b>iPhone 18 Proを追加</b>(2026-09-18発売・256GB始まり・Apple219,800円/ドコモ263,230/au268,800/SB268,560/楽天255,900円)。無印iPhone 18は未発売・iPhone 17 Pro系はApple公式で販売終了/<b>売れ筋上位の参考機種を追加</b>(BCN月次_全体 2026-08の上位10に合わせてiPhone 17 Pro・iPhone Air・iPhone 16・Galaxy S26・arrows We3・Galaxy A25 5G・OPPO A5 5Gを⚠付きで。端末チップをiPhone行とAndroid行の2段に)/<b>端末データの正本をCSVに移した</b>(22h_端末データ_devices.csv → 22i_build_devices.pyで差し込み。価格が未取得のキャリアは「―」と表示し計算しない)/補償はドコモ公式の補償料金検索で9/12に再取得(iPhone 17/17e=1,100・iPhone Air/17 Pro=1,460・iPhone 16=880・Galaxy S26=1,100・arrows We3=490・Pixel 10a=990・Pixel 11=1,100円)<br>
+    v0.6(2026-08-27): Pixel 11を追加(2026年8月20日発売・256GB始まり。Googleストア136,800円/ドコモ152,680円/au156,800円/SB167,040円/楽天139,900円)・補償も機種別確定額で追加(ドコモ1,100円=公式検索/au726円/SB1,190円/楽天1,580円/Pixel Care+1,280円)/あわせてSBのPixel 10a補償を990→1,190円に訂正・楽天の補償名称を「スマホ交換保証プラス&家電補償」(2026-06-17改定)に更新/買い方の「買わない」を<b>「買い替えない(支払い済み)」</b>に改名し、<b>「分割の途中(残りあり)」</b>を新設(月々の分割額×残り回数を年数の範囲で計上)/見出しの文言を変更<br>
     v0.5(2026-08-18): デザインをモダニスト・ティール(Claude Design v3案の黒・朱色をここスマ色=ティール#0F766E系・生成り地へ置換)に正式採用し、白×青ミニマル版から一本化。計算エンジン・データはv0.4と同一
   </footer>
 </div>
@@ -487,12 +499,493 @@ var PLANS = [
   { g: 'mvno', prov: '日本通信SIM', plan: '合理的50GB', gb: '50GB', base: 2178, disc: {}, call: { incl: 5, five: 0, full: 1600 }, init: 3300, initNote: '3,300円', win: 'オンラインのみ', note: '5分/回か月70分無料の選択制込み' },
   { g: 'mvno', prov: '日本通信SIM', plan: 'ネットだけ(20GB)', gb: '20GB', base: 1200, disc: {}, dataOnly: true, call: { incl: 0, five: 0, full: 0 }, init: 3300, initNote: '3,300円', win: 'オンラインのみ', note: 'データ専用・1GB以下の月は119円' }
 ];
+/* @@DEVICES_BEGIN@@ */
+/* ↑↓この間は自動生成です。手で直さないこと。
+   正本 = 22h_端末データ_devices.csv / 生成 = python3 22i_build_devices.py
+   取得日 = 2026-09-12 */
 var DEVICES = [
-  { id: 'ip17', name: 'iPhone 17', official: 142800, carrier: { d: 178552, a: 168300, s: 164160, r: 146800 } },
-  { id: 'ip17e', name: 'iPhone 17e', official: 107800, carrier: { d: 139810, a: 119900, s: 124560, r: 109200 }, est: true },
-  { id: 'px10a', name: 'Pixel 10a', official: 79900, carrier: { d: 88440, a: 89800, s: 93600, r: 89760 } },
-  { id: 'manual', name: 'その他(手入力)', official: 0, carrier: { d: 0, a: 0, s: 0, r: 0 } }
+ {
+  "id": "ip17",
+  "name": "iPhone 17",
+  "os": "iphone",
+  "tier": "A",
+  "cap": "256GB",
+  "official": 159800,
+  "carrier": {
+   "d": 178552,
+   "a": 168300,
+   "s": 180720,
+   "r": 159800
+  },
+  "est": [
+   "s",
+   "r"
+  ],
+  "note": "Apple公式は2026-09-10に142800→159800へ改定。ドコモ/auは据え置き"
+ },
+ {
+  "id": "ip17e",
+  "name": "iPhone 17e",
+  "os": "iphone",
+  "tier": "A",
+  "cap": "256GB",
+  "official": 124800,
+  "carrier": {
+   "d": 139810,
+   "a": 127900,
+   "s": 133200,
+   "r": 117200
+  },
+  "est": [
+   "a",
+   "s",
+   "r"
+  ],
+  "note": "Apple公式は2026-09-10に107800→124800へ改定。楽天の値上げで補償が1380→1580円の区分に"
+ },
+ {
+  "id": "px10a",
+  "name": "Pixel 10a",
+  "os": "android",
+  "tier": "A",
+  "cap": "128GB",
+  "official": 79900,
+  "carrier": {
+   "d": 88440,
+   "a": 89800,
+   "s": 93600,
+   "r": 89760
+  },
+  "est": [],
+  "note": "ドコモ補償=公式検索で990円を再確認(2026-09-12)"
+ },
+ {
+  "id": "px11",
+  "name": "Pixel 11",
+  "os": "android",
+  "tier": "A",
+  "cap": "256GB",
+  "official": 136800,
+  "carrier": {
+   "d": 152680,
+   "a": 156800,
+   "s": 167040,
+   "r": 139900
+  },
+  "est": [
+   "a"
+  ],
+  "note": "2026-08-20発売。ドコモ補償=公式検索で1100円を再確認"
+ },
+ {
+  "id": "ip18pro",
+  "name": "iPhone 18 Pro",
+  "os": "iphone",
+  "tier": "A",
+  "cap": "256GB",
+  "official": 219800,
+  "carrier": {
+   "d": 263230,
+   "a": 268800,
+   "s": 268560,
+   "r": 255900
+  },
+  "est": [],
+  "note": "2026-09-18発売・9/12予約開始。ドコモはMNPで-22000=241230円。キャリア補償は発売前で未掲載"
+ },
+ {
+  "id": "ip17pro",
+  "name": "iPhone 17 Pro",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "256GB",
+  "official": null,
+  "carrier": {
+   "d": 230340,
+   "a": 232800,
+   "s": 229680,
+   "r": 222900
+  },
+  "est": [
+   "d",
+   "a",
+   "s",
+   "r"
+  ],
+  "note": "Apple公式は2026-09に販売終了(改定前は194800円)。キャリアは在庫分"
+ },
+ {
+  "id": "ipair",
+  "name": "iPhone Air",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "256GB",
+  "official": 189800,
+  "carrier": {
+   "d": 212300,
+   "a": 193900,
+   "s": 200160,
+   "r": 185900
+  },
+  "est": [
+   "d",
+   "a",
+   "s",
+   "r"
+  ],
+  "note": "Apple公式は2026-09-10に177800→189800へ改定"
+ },
+ {
+  "id": "ip16",
+  "name": "iPhone 16",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "128GB",
+  "official": 139800,
+  "carrier": {
+   "d": 156266,
+   "a": null,
+   "s": null,
+   "r": 141700
+  },
+  "est": [
+   "d",
+   "r"
+  ],
+  "note": "Apple公式は2026-09-10に124800→139800へ改定。auは取扱終了・SBは在庫切れ"
+ },
+ {
+  "id": "gs26",
+  "name": "Galaxy S26",
+  "os": "android",
+  "tier": "B",
+  "cap": "256GB",
+  "official": 136400,
+  "carrier": {
+   "d": 152790,
+   "a": 152900,
+   "s": 159840,
+   "r": null
+  },
+  "est": [],
+  "note": "公式=Samsungオンラインショップ。楽天は未取扱/未取得。au補償はAndroid一律726円の規則"
+ },
+ {
+  "id": "we3",
+  "name": "arrows We3",
+  "os": "android",
+  "tier": "B",
+  "cap": "4GB/64GB",
+  "official": 42000,
+  "carrier": {
+   "d": 22000,
+   "a": 33000,
+   "s": null,
+   "r": 34980
+  },
+  "est": [
+   "a",
+   "r"
+  ],
+  "note": "公式=SIMフリー(IIJmio/Amazon)。ドコモF-52Gが最安22000円。ドコモ補償は490円(公式検索)"
+ },
+ {
+  "id": "ga25",
+  "name": "Galaxy A25 5G",
+  "os": "android",
+  "tier": "B",
+  "cap": "128GB",
+  "official": 29900,
+  "carrier": {
+   "d": 22000,
+   "a": 22001,
+   "s": 21888,
+   "r": null
+  },
+  "est": [
+   "d",
+   "a",
+   "s"
+  ],
+  "note": "公式=Samsungオンラインショップ。キャリア価格は2025-02発売時の額で要確認。楽天は未取扱/未取得"
+ },
+ {
+  "id": "a5",
+  "name": "OPPO A5 5G",
+  "os": "android",
+  "tier": "B",
+  "cap": "128GB",
+  "official": 32800,
+  "carrier": {
+   "d": null,
+   "a": 22001,
+   "s": 26640,
+   "r": 26990
+  },
+  "est": [
+   "s",
+   "r"
+  ],
+  "note": "公式=OPPO直販。ドコモは取扱なし。SBはワイモバイル扱い26640円"
+ },
+ {
+  "id": "manual",
+  "name": "その他(手入力)",
+  "os": "manual",
+  "tier": "A",
+  "cap": "",
+  "official": 0,
+  "carrier": {
+   "d": 0,
+   "a": 0,
+   "s": 0,
+   "r": 0
+  },
+  "est": [],
+  "note": "公式ストア価格とキャリア価格を手で入れる欄"
+ }
 ];
+var HOSHO = {
+ "ip17": {
+  "d": {
+   "nm": "ドコモ smartあんしん補償",
+   "m": 1100,
+   "sub": "",
+   "ded": "交換 4,950円〜(Web申込10%OFF)"
+  },
+  "a": {
+   "nm": "au 故障紛失サポート",
+   "m": 1690,
+   "sub": "",
+   "ded": "交換時 自己負担あり"
+  },
+  "s": {
+   "nm": "ソフトバンク あんしん保証パック",
+   "m": 1340,
+   "sub": "",
+   "ded": "修理 0円/配送交換 8,250円"
+  },
+  "r": {
+   "nm": "楽天 スマホ交換保証プラス&家電補償",
+   "m": 1580,
+   "sub": "",
+   "ded": "交換 6,600円/12,900円"
+  },
+  "mk": {
+   "nm": "Apple AppleCare+",
+   "m": 992,
+   "sub": "2年一括 23800円 ÷24か月",
+   "ded": "画面 3700円/その他 12900円",
+   "loss": "盗難・紛失プランは 26800円/2年"
+  }
+ },
+ "ip17e": {
+  "d": {
+   "nm": "ドコモ smartあんしん補償",
+   "m": 1100,
+   "sub": "",
+   "ded": "交換 4,950円〜(Web申込10%OFF)"
+  },
+  "a": {
+   "nm": "au 故障紛失サポート",
+   "m": 1580,
+   "sub": "",
+   "ded": "交換時 自己負担あり"
+  },
+  "s": {
+   "nm": "ソフトバンク あんしん保証パック",
+   "m": 1340,
+   "sub": "",
+   "ded": "修理 0円/配送交換 8,250円"
+  },
+  "r": {
+   "nm": "楽天 スマホ交換保証プラス&家電補償",
+   "m": 1580,
+   "sub": "",
+   "ded": "交換 6,600円/12,900円"
+  },
+  "mk": {
+   "nm": "Apple AppleCare+",
+   "m": 825,
+   "sub": "2年一括 19800円 ÷24か月",
+   "ded": "画面 3700円/その他 12900円",
+   "loss": "盗難・紛失プランは 22800円/2年"
+  }
+ },
+ "px10a": {
+  "d": {
+   "nm": "ドコモ smartあんしん補償",
+   "m": 990,
+   "sub": "",
+   "ded": "交換 4,950円〜(Web申込10%OFF)"
+  },
+  "a": {
+   "nm": "au 故障紛失サポート",
+   "m": 726,
+   "sub": "",
+   "ded": "交換時 自己負担あり"
+  },
+  "s": {
+   "nm": "ソフトバンク あんしん保証パック",
+   "m": 1190,
+   "sub": "",
+   "ded": "修理 0円/配送交換 8,250円"
+  },
+  "r": {
+   "nm": "楽天 スマホ交換保証プラス&家電補償",
+   "m": 1380,
+   "sub": "",
+   "ded": "交換 6,600円/12,900円"
+  },
+  "mk": {
+   "nm": "Google Pixel Care+",
+   "m": 780,
+   "sub": "2年一括なら 15800円",
+   "ded": "交換 7700円",
+   "loss": "紛失・盗難プランは 880円/月"
+  }
+ },
+ "px11": {
+  "d": {
+   "nm": "ドコモ smartあんしん補償",
+   "m": 1100,
+   "sub": "",
+   "ded": "交換 4,950円〜(Web申込10%OFF)"
+  },
+  "a": {
+   "nm": "au 故障紛失サポート",
+   "m": 726,
+   "sub": "",
+   "ded": "交換時 自己負担あり"
+  },
+  "s": {
+   "nm": "ソフトバンク あんしん保証パック",
+   "m": 1190,
+   "sub": "",
+   "ded": "修理 0円/配送交換 8,250円"
+  },
+  "r": {
+   "nm": "楽天 スマホ交換保証プラス&家電補償",
+   "m": 1580,
+   "sub": "",
+   "ded": "交換 6,600円/12,900円"
+  },
+  "mk": {
+   "nm": "Google Pixel Care+",
+   "m": 1280,
+   "sub": "2年一括なら 25800円",
+   "ded": "交換 9900円",
+   "loss": "紛失・盗難プランは 1380円/月"
+  }
+ },
+ "ip18pro": {
+  "r": {
+   "nm": "楽天 スマホ交換保証プラス&家電補償",
+   "m": 1580,
+   "sub": "",
+   "ded": "交換 6,600円/12,900円"
+  },
+  "mk": {
+   "nm": "Apple AppleCare+ 盗難・紛失プラン",
+   "m": 1940,
+   "sub": "年払い 19400円(月払いの10か月分)",
+   "ded": "画面 3700円/その他 12900円",
+   "loss": "この機種はApple公式に盗難・紛失プランのみ掲載"
+  }
+ },
+ "ip17pro": {
+  "d": {
+   "nm": "ドコモ smartあんしん補償",
+   "m": 1460,
+   "sub": "",
+   "ded": "交換 4,950円〜(Web申込10%OFF)"
+  },
+  "r": {
+   "nm": "楽天 スマホ交換保証プラス&家電補償",
+   "m": 1580,
+   "sub": "",
+   "ded": "交換 6,600円/12,900円"
+  }
+ },
+ "ipair": {
+  "d": {
+   "nm": "ドコモ smartあんしん補償",
+   "m": 1460,
+   "sub": "",
+   "ded": "交換 4,950円〜(Web申込10%OFF)"
+  },
+  "r": {
+   "nm": "楽天 スマホ交換保証プラス&家電補償",
+   "m": 1580,
+   "sub": "",
+   "ded": "交換 6,600円/12,900円"
+  }
+ },
+ "ip16": {
+  "d": {
+   "nm": "ドコモ smartあんしん補償",
+   "m": 880,
+   "sub": "",
+   "ded": "交換 4,950円〜(Web申込10%OFF)"
+  },
+  "r": {
+   "nm": "楽天 スマホ交換保証プラス&家電補償",
+   "m": 1580,
+   "sub": "",
+   "ded": "交換 6,600円/12,900円"
+  }
+ },
+ "gs26": {
+  "d": {
+   "nm": "ドコモ smartあんしん補償",
+   "m": 1100,
+   "sub": "",
+   "ded": "交換 4,950円〜(Web申込10%OFF)"
+  },
+  "a": {
+   "nm": "au 故障紛失サポート",
+   "m": 726,
+   "sub": "",
+   "ded": "交換時 自己負担あり"
+  }
+ },
+ "we3": {
+  "d": {
+   "nm": "ドコモ smartあんしん補償",
+   "m": 490,
+   "sub": "",
+   "ded": "交換 4,950円〜(Web申込10%OFF)"
+  },
+  "a": {
+   "nm": "au 故障紛失サポート",
+   "m": 726,
+   "sub": "",
+   "ded": "交換時 自己負担あり"
+  },
+  "r": {
+   "nm": "楽天 スマホ交換保証プラス&家電補償",
+   "m": 1180,
+   "sub": "",
+   "ded": "交換 6,600円/12,900円"
+  }
+ },
+ "ga25": {},
+ "a5": {
+  "a": {
+   "nm": "au 故障紛失サポート",
+   "m": 726,
+   "sub": "",
+   "ded": "交換時 自己負担あり"
+  },
+  "r": {
+   "nm": "楽天 スマホ交換保証プラス&家電補償",
+   "m": 1180,
+   "sub": "",
+   "ded": "交換 6,600円/12,900円"
+  }
+ }
+};
+/* @@DEVICES_END@@ */
 var CARRIERS = [ { id: 'd', name: 'ドコモ' }, { id: 'a', name: 'au' }, { id: 's', name: 'ソフトバンク' }, { id: 'r', name: '楽天モバイル' } ];
 var FEES = {
   adminStore: { d: 4950, a: 4950, s: 4950, r: 0 },
@@ -506,8 +999,9 @@ var BUYS = [
   { id: 'carrier', mark: 'B', name: 'キャリアで購入', sub: '一括や分割で買って長く使う' },
   { id: 'official', mark: 'C', name: '公式ストアで購入', sub: 'Apple/Google直販で買って長く使う' }
 ];
-var BUY_NONE = { id: 'none', mark: '―', name: '買わない', sub: 'いまの端末を使い続ける' };
-function buyDef(id) { return id === 'none' ? BUY_NONE : BUYS.find(function (b) { return b.id === id; }); }
+var BUY_NONE = { id: 'none', mark: '―', name: '買い替えない', sub: '支払いが済んだ端末を使い続ける' };
+var BUY_REST = { id: 'rest', mark: '残', name: '分割の途中', sub: '支払いが残っている端末を使い続ける' };
+function buyDef(id) { return id === 'none' ? BUY_NONE : (id === 'rest' ? BUY_REST : BUYS.find(function (b) { return b.id === id; })); }
 var PROGNAME = { d: 'いつでもカエドキ+', a: 'スマホトクする+', s: '新トクするサポート', r: '買い替え超トク' };
 
 /* ===== 端末補償サービス(機種別の確定額・2026-08-08 各社公式調べ) ===== */
@@ -515,38 +1009,18 @@ var HOSHO_KINDS = [
   { id: 'none', name: '補償なし' }, { id: 'carrier', name: 'キャリアの補償' },
   { id: 'maker', name: 'メーカーの補償' }, { id: 'nifty', name: '@nifty安心メールパック' }, { id: 'mobile', name: 'モバイル保険' }
 ];
-/* 出典: ドコモ=補償料金検索(機種名で確定) / au=故障紛失サポート ワイド with ACS & iCloud+ ・故障紛失サポート(Android 5G一律726円)
-   SB=あんしん保証パック with ACS(iPhone)・あんしん保証パックネクスト(Pixel) / 楽天=製品価格帯区分(税別)
-   Apple=2年一括÷24 / Google=Pixel Care+公式 */
-var HOSHO = {
-  ip17: {
-    d: { nm: 'ドコモ smartあんしん補償', m: 1100, sub: '', ded: '交換 4,950円〜(Web申込10%OFF)' },
-    a: { nm: 'au 故障紛失サポート ワイド', m: 1690, sub: 'with AppleCare Services & iCloud+ 50GB', ded: '画面 3,700円/交換 12,900円' },
-    s: { nm: 'ソフトバンク あんしん保証パック', m: 1340, sub: 'with AppleCare Services', ded: '過失の画面等 12,900円', est: true },
-    r: { nm: '楽天 スマホ交換保証プラス', m: 1580, sub: '端末10万円超の区分', ded: '交換 6,600円/12,900円' },
-    mk: { nm: 'Apple AppleCare+', m: 992, sub: '2年一括 23,800円 ÷24か月', ded: '画面 3,700円/その他 12,900円', est: true, loss: '盗難・紛失プランは 26,800円/2年' }
-  },
-  ip17e: {
-    d: { nm: 'ドコモ smartあんしん補償', m: 1100, sub: '', ded: '交換 4,950円〜(Web申込10%OFF)' },
-    a: { nm: 'au 故障紛失サポート ワイド', m: 1580, sub: 'with AppleCare Services & iCloud+ 50GB', ded: '画面 3,700円/交換 12,900円', est: true },
-    s: { nm: 'ソフトバンク あんしん保証パック', m: 1340, sub: 'with AppleCare Services', ded: '過失の画面等 12,900円', est: true },
-    r: { nm: '楽天 スマホ交換保証プラス', m: 1380, sub: '端末5〜10万円の区分', ded: '交換 6,600円/12,900円' },
-    mk: { nm: 'Apple AppleCare+', m: 825, sub: '2年一括 19,800円 ÷24か月', ded: '画面 3,700円/その他 12,900円', est: true, loss: '盗難・紛失プランは 22,800円/2年' }
-  },
-  px10a: {
-    d: { nm: 'ドコモ smartあんしん補償', m: 990, sub: '', ded: '交換 4,950円〜(Web申込10%OFF)' },
-    a: { nm: 'au 故障紛失サポート', m: 726, sub: 'ワイド with Cloudは990円〜(機種区分)', ded: '交換時 自己負担あり' },
-    s: { nm: 'ソフトバンク あんしん保証パックネクスト', m: 990, sub: 'Pixel専用・即日修理あり', ded: '修理 0円/配送交換 8,250円' },
-    r: { nm: '楽天 スマホ交換保証プラス', m: 1380, sub: '端末5〜10万円の区分', ded: '交換 6,600円/12,900円' },
-    mk: { nm: 'Google Pixel Care+', m: 780, sub: '2年一括なら 15,800円', ded: '交換 7,700円', loss: '紛失・盗難プランは 880円/月' }
-  }
-};
-function hoshoDev() { return HOSHO[st.dev] || HOSHO.ip17e; }
+function hoshoDev() { return HOSHO[st.dev] || {}; }
+function hoshoHas(kind) {
+  var H = hoshoDev();
+  if (kind === 'carrier') return !!H[st.car];
+  if (kind === 'maker') return !!H.mk;
+  return true;
+}
 function hoshoInfo(kind, carId) {
   if (kind === 'none') return { label: '補償なし', m: 0 };
   var H = hoshoDev();
-  if (kind === 'carrier') { var x = H[carId] || H.d; return { label: x.nm, m: x.m }; }
-  if (kind === 'maker') return { label: H.mk.nm, m: H.mk.m };
+  if (kind === 'carrier') { var x = H[carId]; return x ? { label: x.nm, m: x.m } : { label: 'キャリアの補償(月額未取得)', m: 0, miss: true }; }
+  if (kind === 'maker') return H.mk ? { label: H.mk.nm, m: H.mk.m } : { label: 'メーカーの補償(月額未取得)', m: 0, miss: true };
   if (kind === 'nifty') return { label: '@nifty安心メールパック Bプラン', m: 1408 };
   return { label: 'モバイル保険', m: 700 };
 }
@@ -557,6 +1031,7 @@ var st = { call: 'few', fam: false, hik: false, card: false, cardGold: false, se
   futG: 'docomo', futKey: null,
   dev: 'ip17e', car: 'd', buyNow: 'none', buyFut: 'none', yr: 4,
   showMnp: false, loyal: false, atamakin: 19800, kokoC: true, kokoSim: false,
+  restM: 0, restN: 0,
   hoNow: 'none', hoFut: 'none', hoNowM: 0, hoFutM: 0, hoNowOv: false, hoFutOv: false };
 
 function yen(n) { return Math.round(n).toLocaleString('ja-JP') + '円'; }
@@ -614,10 +1089,16 @@ function devPrices() {
     return { official: +document.getElementById('manualOfficial').value || 0,
              carrier: +document.getElementById('manualCarrier').value || 0, name: 'その他(手入力)' };
   }
-  return { official: d.official, carrier: d.carrier[st.car], name: d.name, est: d.est };
+  return { official: d.official, carrier: d.carrier[st.car], name: d.name,
+           est: (d.est || []).indexOf(st.car) >= 0, estOff: false, cap: d.cap, tier: d.tier, note: d.note };
 }
+/* その機種×そのキャリアの価格が未取得か(=A/Bの買い方が計算できない) */
+function carMissing() { var p = devPrices(); return st.dev !== 'manual' && (p.carrier === null || p.carrier === undefined); }
+function offMissing() { var p = devPrices(); return st.dev !== 'manual' && (p.official === null || p.official === undefined); }
 function buyCalc(method, Y) {
   var p = devPrices();
+  var miss = (method === 'return' || method === 'carrier') ? carMissing() : (method === 'official' ? offMissing() : false);
+  if (miss) return { method: method, missing: true, dev: 0, atamakin: 0, admin: 0, setup: 0, prog: 0, battery: 0, koko: 0, fees: 0, total: 0, perMonth: 0, keep: method !== 'return' };
   var car = st.car, cycles = Y / 2;
   var admin = FEES.adminStore[car], setup = FEES.setup[car], prog = FEES.prog[car];
   var progWaived = (car !== 'r' && st.loyal);
@@ -625,6 +1106,7 @@ function buyCalc(method, Y) {
   var battery = Y >= 6 ? FEES.battery : 0;
   var r = { method: method, dev: 0, atamakin: 0, admin: 0, setup: 0, prog: 0, battery: 0, koko: 0, keep: false };
   if (method === 'none') { r.keep = true; }
+  else if (method === 'rest') { r.dev = (st.restM || 0) * Math.min(st.restN || 0, Y * 12); r.keep = true; }
   else if (method === 'return') {
     r.dev = p.carrier * FEES.burden[car] * cycles;
     r.atamakin = atk * cycles; r.admin = admin * cycles; r.setup = setup * cycles;
@@ -721,14 +1203,17 @@ function renderBuyTable() {
 
   function row(cls, label, fn) {
     return '<tr class="' + cls + '"><th class="rh">' + label + '</th>' + cols.map(function (c) {
+      if (c['calc' + Y].missing) return '<td class="' + (c.def.ref ? 'refc ' : '') + 'num">―</td>';
       return '<td class="' + (c.def.ref ? 'refc ' : '') + 'num">' + fn(c) + '</td>';
     }).join('') + '</tr>';
   }
   [2, 4, 6].forEach(function (y) {
-    var mins = Math.min.apply(null, cols.filter(function (c) { return !c.def.ref; }).map(function (c) { return c['calc' + y].total; }));
+    var ok = cols.filter(function (c) { return !c.def.ref && !c['calc' + y].missing; });
+    var mins = ok.length ? Math.min.apply(null, ok.map(function (c) { return c['calc' + y].total; })) : null;
     h += '<tr class="total' + (y === Y ? ' ysel' : '') + '"><th class="rh">' + y + '年でみた合計' + (y === Y ? ' <small>▶ 選択中</small>' : '') + '</th>' + cols.map(function (c) {
       var v = c['calc' + y];
-      return '<td class="num' + (c.def.ref ? ' refc' : '') + (y === Y && !c.def.ref && v.total === mins ? ' best' : '') + '">' + yen(v.total) + '<span class="pm">月あたり ' + yen(v.perMonth) + '</span></td>';
+      if (v.missing) return '<td class="num' + (c.def.ref ? ' refc' : '') + '">―<span class="pm">価格未取得</span></td>';
+      return '<td class="num' + (c.def.ref ? ' refc' : '') + (y === Y && !c.def.ref && mins !== null && v.total === mins ? ' best' : '') + '">' + yen(v.total) + '<span class="pm">月あたり ' + yen(v.perMonth) + '</span></td>';
     }).join('') + '</tr>';
   });
 
@@ -752,7 +1237,8 @@ function renderBuyTable() {
   var prg2 = (st.car !== 'r' && st.loyal) ? 0 : FEES.prog[st.car];
   var perCycleFee = atk2 + adm2 + set2 + prg2;
   BASIS_LINES = {
-    none: '買わない: いまの端末を使い続けるため端末費用は0円',
+    none: '買い替えない: 支払いが済んだ端末を使い続けるため、この先の端末代は0円',
+    rest: '分割の途中: 月々' + yen(st.restM || 0) + ' × 残り' + (st.restN || 0) + '回のうち、' + Y + '年間に払う' + Math.min(st.restN || 0, Y * 12) + '回分 = ' + yen((st.restM || 0) * Math.min(st.restN || 0, Y * 12)),
     'return': 'A 返却プログラム: 端末 ' + yen(p.carrier) + '×実質負担' + Math.round(FEES.burden[st.car] * 100) + '%×' + N + '回 = ' + yen(p.carrier * FEES.burden[st.car] * N) +
       ' + 店頭費用(頭金' + yen(atk2) + '+事務手数料' + yen(adm2) + '+設定サポート' + yen(set2) + '+プログラム利用料' + yen(prg2) + ')×' + N + '回 = ' + yen(perCycleFee * N),
     carrier: 'B キャリアで購入: 端末 ' + yen(p.carrier) + ' + 店頭費用(頭金' + yen(atk2) + '+事務手数料' + yen(adm2) + '+設定サポート' + yen(set2) + ')×1回だけ' + (Y >= 6 ? ' + 電池交換' + yen(FEES.battery) : ''),
@@ -792,14 +1278,17 @@ function renderHosho() {
   var warns = [];
   if (st.hoNow === 'carrier' && st.buyNow === 'official') warns.push('現状: 公式ストアで購入した端末は、キャリアの補償に原則入れません(購入時加入のため)。');
   if (st.hoFut === 'carrier' && st.buyFut === 'official') warns.push('将来: 公式ストアで購入する端末は、キャリアの補償に原則入れません。メーカーの補償かネット保険をご検討ください。');
-  document.getElementById('hoshoWarn').innerHTML = warns.length ? '<div class="warn" style="margin:4px 0 8px;">⚠ ' + warns.join('<br>⚠ ') + '</div>' : '';
-
   var H = hoshoDev(), devName = DEVICES.find(function (x) { return x.id === st.dev; }).name;
+  var missKinds = [];
+  if (!H[st.car]) missKinds.push('キャリアの補償');
+  if (!H.mk) missKinds.push('メーカーの補償');
+  if (missKinds.length) warns.push(devName + 'の「' + missKinds.join('」「') + '」の月額は未取得です。選ぶと0円で計算されるので、店頭で確認した額を右の欄に手入力してください。');
+  document.getElementById('hoshoWarn').innerHTML = warns.length ? '<div class="warn" style="margin:4px 0 8px;">⚠ ' + warns.join('<br>⚠ ') + '</div>' : '';
   function hrow(t, d, m, sub, tou, fun, est, hl) {
     return '<div class="horow"' + (hl ? ' style="background:#F6FAFF;"' : '') + '><span class="hn"><span class="t">' + t + (hl ? ' <span style="font-size:11px;color:var(--acc-ink);font-weight:800;">選択中のキャリア</span>' : '') + '</span><br><span class="d">' + d + '</span></span>' +
       '<span class="hochip ' + (tou ? 'ok' : 'ng') + '">盗難' + (tou ? '○' : '×') + '</span>' +
       '<span class="hochip ' + (fun ? 'ok' : 'ng') + '">紛失' + (fun ? '○' : '×') + '</span>' +
-      '<span class="hoyen num"><span class="y">' + yen(m) + '<span style="font-size:12px;font-weight:700;color:var(--sub);">/月</span></span>' +
+      '<span class="hoyen num"><span class="y">' + (m === null ? '―' : yen(m) + '<span style="font-size:12px;font-weight:700;color:var(--sub);">/月</span>') + '</span>' +
       (sub || est ? '<br><span class="s">' + (est ? '⚠ ' : '') + (sub || '要確認') + '</span>' : '') + '</span></div>';
   }
   var h =
@@ -807,12 +1296,15 @@ function renderHosho() {
     '<div class="holist">' +
     ['d', 'a', 's', 'r'].map(function (k) {
       var x = H[k];
+      if (!x) return hrow(CARRIERS.find(function (c) { return c.id === k; }).name + ' ― 月額未取得',
+        'この機種の額は各社公式で未確認です。店頭で確認して手入力してください', null, '', true, true, true, st.car === k);
       return hrow(x.nm, x.ded + (x.sub ? '・' + x.sub : ''), x.m, x.est ? '公式未掲載のため近い区分' : '', true, true, x.est, st.car === k);
     }).join('') +
     '</div>' +
     '<div class="ghead"><span class="gt">メーカーの補償</span><span class="gn">どの会社で契約中でも入れます(購入時または30日以内に加入)</span></div>' +
     '<div class="holist">' +
-    hrow(H.mk.nm, H.mk.ded + '・' + H.mk.loss, H.mk.m, H.mk.sub, false, false, H.mk.est, false) +
+    (H.mk ? hrow(H.mk.nm, H.mk.ded + (H.mk.loss ? '・' + H.mk.loss : ''), H.mk.m, H.mk.sub, false, false, H.mk.est, false)
+          : hrow('メーカーの補償 ― 月額未取得', 'この機種のメーカー補償(AppleCare+ / Pixel Care+等)は未確認です', null, '', false, false, true, false)) +
     '</div>' +
     '<div class="ghead"><span class="gt">ネットで入れる保険</span><span class="gn">自己負担0円・修理は自分で手配して保険金を請求する方式</span></div>' +
     '<div class="holist">' +
@@ -849,9 +1341,9 @@ function renderTotal() {
   var futTotal = fut ? (fut.m + hoFutM) * months + bFut.total + futInit + koko : null;
 
   function card(cls, badge, title, plan, mo, planM, buy, bd, extra) {
-    var devDesc = bd.id === 'none' ? 'いまの端末を使い続ける(端末費用なし)' : p.name + '・' + bd.name + '(' + bd.sub + ')';
+    var devDesc = (bd.id === 'none' || bd.id === 'rest') ? bd.name + '(' + bd.sub + ')' : p.name + '・' + bd.name + '(' + bd.sub + ')';
     var devLine = bd.id === 'none'
-      ? '<div class="ln"><span class="k">端末代</span><span class="v num">0円(買わない)</span></div>'
+      ? '<div class="ln"><span class="k">端末代</span><span class="v num">0円(支払い済み)</span></div>'
       : '<div class="ln"><span class="k">端末(' + Y + '年ならし)</span><span class="v num">' + yen(buy.perMonth) + '/月</span></div>';
     return '<div class="tot ' + cls + '">' +
       '<div class="bighead"><span class="badge ' + (cls === 'fut' ? 'fut' : 'now') + '">' + badge + '</span><b>' + title + '</b></div>' +
@@ -953,16 +1445,38 @@ function renderChips() {
     }, null, true);
   chips('curGChips', GROUPS, function (it) { return st.curG === it.id; }, function (it) { st.curG = it.id; st.curKey = null; st.curManualMode = false; });
   chips('futGChips', GROUPS, function (it) { return st.futG === it.id; }, function (it) { st.futG = it.id; st.futKey = null; });
-  chips('devChips', DEVICES, function (it) { return st.dev === it.id; }, function (it) { st.dev = it.id; },
-    function (it) { return it.id === 'manual' ? '' : yen(it.official); });
+  var devI = DEVICES.filter(function (d) { return d.os === 'iphone'; });
+  var devA = DEVICES.filter(function (d) { return d.os !== 'iphone'; });
+  function devSub(it) {
+    if (it.id === 'manual') return '';
+    return (it.official ? yen(it.official) : '公式終了') + (it.tier === 'B' ? ' ⚠' : '');
+  }
+  chips('devChipsI', devI, function (it) { return st.dev === it.id; }, function (it) { st.dev = it.id; }, devSub);
+  chips('devChipsA', devA, function (it) { return st.dev === it.id; }, function (it) { st.dev = it.id; }, devSub);
+  /* 選択中の機種についての案内(容量・⚠・未取得) */
+  (function () {
+    var d = DEVICES.find(function (x) { return x.id === st.dev; });
+    var el = document.getElementById('devNote');
+    if (!d || d.id === 'manual') { el.innerHTML = '公式ストア価格とキャリア価格を手で入れてお使いください。'; return; }
+    var miss = ['d', 'a', 's', 'r'].filter(function (c) { return d.carrier[c] === null || d.carrier[c] === undefined; })
+      .map(function (c) { return CARRIERS.find(function (x) { return x.id === c; }).name; });
+    var txt = '<b>' + d.name + '</b>' + (d.cap ? '(' + d.cap + ')' : '') +
+      (d.tier === 'B' ? ' ― <b>売れ筋上位の参考機種</b>です。価格は取得できた分だけを表示しています(⚠=二次情報で照合)。' : '');
+    if (!d.official) txt += ' 公式ストアでの販売は終了しています(キャリアの在庫分のみ)。';
+    if (miss.length) txt += ' <b>' + miss.join('・') + 'の価格は未取得</b>のため、そのキャリアを選ぶと買い方A・Bは「―」になります(店頭で確認して「その他(手入力)」でお使いください)。';
+    if (d.note) txt += '<br><span style="color:var(--sub);">' + d.note + '</span>';
+    el.innerHTML = txt;
+  })();
   chips('carChips', CARRIERS, function (it) { return st.car === it.id; }, function (it) { st.car = it.id; });
-  var buySel = [ { id: 'none', name: '買わない(いまの端末)' } ].concat(BUYS.map(function (b) { return { id: b.id, name: b.mark + '. ' + b.name }; }));
+  var buySel = [ { id: 'none', name: '買い替えない(支払い済み)' }, { id: 'rest', name: '分割の途中(残りあり)' } ]
+    .concat(BUYS.map(function (b) { return { id: b.id, name: b.mark + '. ' + b.name }; }));
   chips('buyNowChips', buySel, function (it) { return st.buyNow === it.id; }, function (it) { st.buyNow = it.id; });
   chips('buyFutChips', buySel, function (it) { return st.buyFut === it.id; }, function (it) { st.buyFut = it.id; });
   var yrs = [ { id: 2, name: '2年' }, { id: 4, name: '4年' }, { id: 6, name: '6年' } ];
   chips('yrChips', yrs, function (it) { return st.yr === it.id; }, function (it) { st.yr = it.id; });
   chips('yrChips2', yrs.map(function (y) { return { id: y.id, name: y.name + 'でみる' }; }), function (it) { return st.yr === it.id; }, function (it) { st.yr = it.id; });
   document.getElementById('manualDev').style.display = st.dev === 'manual' ? 'flex' : 'none';
+  document.getElementById('restBox').style.display = (st.buyNow === 'rest' || st.buyFut === 'rest') ? 'flex' : 'none';
 }
 
 function applyDemo() {
@@ -1009,6 +1523,8 @@ window.addEventListener('beforeprint', renderPrintMeta);
 });
 document.addEventListener('input', function (e) {
   if (!e.target) return;
+  if (e.target.id === 'restM') { st.restM = +e.target.value || 0; renderBuyTable(); renderTotal(); renderPrintMeta(); }
+  if (e.target.id === 'restN') { st.restN = +e.target.value || 0; renderBuyTable(); renderTotal(); renderPrintMeta(); }
   if (e.target.id === 'hoNowIn') { st.hoNowM = +e.target.value || 0; st.hoNowOv = true; renderTotal(); }
   if (e.target.id === 'hoFutIn') { st.hoFutM = +e.target.value || 0; st.hoFutOv = true; renderTotal(); }
 });
