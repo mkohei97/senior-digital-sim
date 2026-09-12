@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>ここスマ サービスのご案内</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+  :root { --g:#1E4D3E; --t:#11866D; --ink:#1E3A30; --note:#6E6A5B; --line:#E3DFD2; --warm:#F3F0E8; --cream:#FAF8F2; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; background: var(--cream); overflow: hidden; }
+  body { font-family: 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif; color: var(--ink); -webkit-user-select: none; user-select: none; }
+  .serif { font-family: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif; }
+  #stage { position: absolute; left: 50%; top: 50%; width: 1180px; height: 820px; transform-origin: 0 0; display: flex; flex-direction: column; background: var(--cream); }
+  .top { display: flex; align-items: center; justify-content: space-between; padding: 14px 28px 0; flex: none; }
+  .brand { display: flex; align-items: baseline; gap: 12px; }
+  .pill { display: inline-block; border: 1px solid var(--g); color: var(--g); border-radius: 999px; padding: 4px 12px; font-size: 11px; letter-spacing: .18em; line-height: 1.2; }
+  .logo { font-size: 24px; letter-spacing: .12em; color: var(--g); font-weight: 600; line-height: 1; }
+  .meta { font-size: 11px; color: var(--note); letter-spacing: .2em; }
+  .tabs { display: flex; gap: 8px; padding: 12px 28px 0; flex: none; }
+  .tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; flex: 1; min-height: 58px; border-radius: 14px; cursor: pointer; border: 1px solid var(--line); background: #fff; color: var(--ink); transition: transform .08s; }
+  .tab:active { transform: scale(.98); }
+  .tab.on { background: var(--g); color: var(--cream); border-color: var(--g); }
+  .tab .k { font-size: 11px; letter-spacing: .15em; opacity: .75; }
+  .tab .l { font-size: 16px; font-weight: 700; letter-spacing: .04em; }
+  .rule { height: 1px; background: var(--g); opacity: .45; margin: 12px 28px 0; flex: none; }
+  .view { display: none; flex-direction: column; padding: 12px 28px 14px; flex: 1; min-height: 0; }
+  .view.on { display: flex; }
+  /* menu */
+  .cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; }
+  .sec { display: flex; flex-direction: column; margin-bottom: 16px; }
+  .sech { display: flex; align-items: center; gap: 10px; margin-bottom: 2px; }
+  .kick { display: inline-block; background: var(--g); color: var(--cream); border-radius: 999px; padding: 3px 14px; font-size: 12px; letter-spacing: .2em; line-height: 1.5; }
+  .hl { flex: 1; height: 1px; background: var(--line); }
+  .tag { font-size: 12px; color: var(--g); letter-spacing: .1em; }
+  .row { display: flex; justify-content: space-between; align-items: center; padding: 7px 6px; border-bottom: 1px solid var(--line); min-height: 46px; }
+  .row .n { font-size: 17px; font-weight: 700; letter-spacing: .05em; }
+  .row .n.ind { padding-left: 20px; } .row .n.mu { color: var(--note); }
+  .row .s { font-size: 12px; color: var(--note); margin-left: 10px; font-weight: 400; }
+  .row .a { white-space: nowrap; line-height: 1; font-size: 24px; color: var(--g); }
+  .row .a.mu { font-size: 15px; color: var(--note); letter-spacing: .1em; }
+  .row .a .pre { font-size: 12px; margin-right: 5px; } .row .a .u { font-size: 12px; margin-left: 3px; }
+  .foot { margin-top: auto; font-size: 12.5px; color: var(--note); letter-spacing: .05em; text-align: center; padding-top: 8px; }
+  /* service */
+  .head { display: flex; justify-content: space-between; align-items: stretch; flex: none; }
+  .head .name { font-size: 30px; letter-spacing: .08em; color: var(--g); font-weight: 600; line-height: 1.2; }
+  .head .lead { font-size: 14.5px; letter-spacing: .03em; line-height: 1.6; max-width: 780px; margin-top: 6px; }
+  .price { flex: none; text-align: right; border-left: 1px solid var(--line); padding-left: 22px; margin-left: 22px; }
+  .price .lab { font-size: 11px; letter-spacing: .25em; color: var(--note); }
+  .price .amt { font-size: 40px; color: var(--g); line-height: 1.05; white-space: nowrap; margin-top: 4px; }
+  .price .amt .pre { font-size: 14px; margin-right: 6px; letter-spacing: .1em; } .price .amt .u { font-size: 18px; margin-left: 4px; }
+  .price .sub { font-size: 12px; color: var(--note); margin-top: 6px; letter-spacing: .04em; white-space: nowrap; }
+  .flow { display: flex; align-items: center; gap: 8px; margin: 10px 0 8px; flex: none; }
+  .flow .t { font-size: 14px; letter-spacing: .15em; color: var(--g); white-space: nowrap; }
+  .steps { display: grid; gap: 14px; flex: none; }
+  .step { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 10px 14px; display: flex; flex-direction: column; gap: 5px; box-shadow: 0 8px 22px rgba(30,77,62,.06); }
+  .step .h { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .step .num { display: inline-flex; width: 30px; height: 30px; border-radius: 50%; background: var(--g); color: var(--cream); align-items: center; justify-content: center; font-size: 16px; flex: none; }
+  .step .tt { font-size: 16px; font-weight: 700; letter-spacing: .04em; white-space: nowrap; }
+  .step .tm { display: inline-block; background: var(--warm); color: var(--g); border-radius: 999px; padding: 2px 10px; font-size: 12px; letter-spacing: .1em; white-space: nowrap; line-height: 1.5; }
+  .step .b { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; flex: 1; }
+  .step .tx { font-size: 13.5px; color: var(--note); line-height: 1.55; }
+  .step .pr { font-size: 21px; color: var(--g); white-space: nowrap; line-height: 1; } .step .pr .u { font-size: 12px; margin-left: 2px; }
+  .band { display: flex; align-items: center; gap: 16px; background: var(--g); color: var(--cream); border-radius: 14px; padding: 10px 20px; margin-top: 12px; flex: none; font-size: 13px; }
+  .band .big { font-size: 26px; line-height: 1; white-space: nowrap; } .band .sep { width: 1px; height: 22px; background: rgba(250,248,242,.35); flex: none; }
+  .courses { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 12px; flex: none; }
+  .course { display: flex; align-items: center; justify-content: space-between; border-radius: 12px; padding: 8px 14px; background: var(--warm); font-size: 14px; letter-spacing: .06em; }
+  .course.main { background: var(--g); color: var(--cream); }
+  .course .s { font-size: 12px; margin-left: 6px; opacity: .8; } .course .a { font-size: 20px; line-height: 1; } .course .a .u { font-size: 12px; }
+  .panels { display: grid; grid-template-columns: 1.05fr 1fr; gap: 18px; margin-top: 10px; flex: 1; min-height: 0; grid-auto-rows: minmax(0, 1fr); }
+  .col { display: flex; flex-direction: column; gap: 7px; min-height: 0; }
+  .colh { display: flex; align-items: center; gap: 8px; } .colh .t { font-size: 15px; letter-spacing: .15em; white-space: nowrap; }
+  .it { display: flex; align-items: center; gap: 12px; border-radius: 14px; padding: 6px 14px; flex: 1; min-height: 52px; max-height: 86px; }
+  .it.in { background: #fff; border: 1px solid var(--line); } .it.ex { border: 1px dashed #CFCABA; }
+  .it .ic { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex: none; }
+  .it.in .ic { background: var(--warm); }
+  .it .tt { font-size: 15.5px; font-weight: 700; letter-spacing: .04em; } .it.ex .tt { color: var(--note); }
+  .it .sb { font-size: 12.5px; color: var(--note); line-height: 1.5; }
+  svg { display: block; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="top">
+    <div class="brand"><span class="pill">スマホの相談窓口</span><span class="logo serif">ここスマ</span></div>
+    <div class="meta">サービスのご案内　表示価格はすべて税込</div>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div class="rule"></div>
+  <div class="view" id="v-menu"></div>
+  <div class="view" id="v-sv"></div>
+</div>
+<script>
+const DATA = {"services": [{"id": "soudan", "kind": "相談する", "name": "料金見直し相談", "short": "料金見直し相談", "price": "3,000", "pre": "", "psub": "30分・お一人ごと", "lead": "今のプランが合っているか、一緒に確認します。「そのままでよい」「やめる」も含めて、率直にお伝えします。", "flow": "ご相談の流れ（30分）", "steps": [{"n": "1", "title": "いまの使い方をうかがう", "time": "10分", "text": "通話・データ・家族の契約など。お手元のスマホでご一緒に確認します。", "price": ""}, {"n": "2", "title": "プランを並べて比べる", "time": "15分", "text": "いまのプランと、大手のオンラインプラン・格安SIMを、同じ使い方で比べます。", "price": ""}, {"n": "3", "title": "結論をお伝えする", "time": "5分", "text": "「そのままでよい」「変えると月いくら」「やめる」――理由とあわせて。", "price": ""}], "inc": [{"d": "M3 5h7v14H3zM14 5h7v14h-7zM5 9h3M5 12h3M16 9h3M16 12h3", "title": "プランの比較", "sub": "大手も格安SIMも、同じ物差しで並べます"}, {"d": "M6 2h9l4 4v16H6zM14 2v5h5M9 12h6M9 16h6", "title": "ご請求の内訳の読み解き", "sub": "スマホの画面から一緒に確認します"}, {"d": "M4 6h16v10H9l-5 4z", "title": "率直なご提案", "sub": "変えなくてよいなら、そう言います"}], "exc": [{"d": "M12 9a3 3 0 1 0 .01 0M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2", "title": "変更・乗り換えの手続き", "sub": "→「格安SIMへの移行」または各社の窓口へ"}, {"d": "M12 3a9 9 0 1 0 .01 0M12 7v5l3 2", "title": "30分で結論が出ないとき", "sub": "続きの日を決めて、あらためて"}, {"d": "M5 10h14v11H5zM8 10V7a4 4 0 0 1 8 0v3", "title": "パスワード・本人確認書類", "sub": "お預かりも記録もしません"}], "band": null}, {"id": "kounyu", "kind": "買う", "name": "ネット購入サポート", "short": "ネット購入サポート", "price": "19,800", "pre": "セット", "psub": "単品でも承ります（①②③）", "lead": "買い方の相談から、届いた端末が使えるようになるまで。ご来店は2〜3回、あわせて約2時間45分。買う先はメーカー公式ストアが基本です。", "flow": "ご利用の流れ＝単品でもお受けします", "steps": [{"n": "①", "title": "機種選び・買い方相談", "time": "45分", "text": "使い方の聞き取り、料金と買う先の比較、総額のご提示。", "price": "7,000"}, {"n": "②", "title": "注文のご同席", "time": "30分", "text": "画面を一緒に見ながら、ご本人が入力。同じ日でも、別の日でも。", "price": "4,000"}, {"n": "③", "title": "開通・データ移行・設定", "time": "90分", "text": "端末が届いてから。開通、データ移行、アプリ・アカウントの設定。", "price": "12,000"}], "inc": [{"d": "M3 5h7v14H3zM14 5h7v14h-7zM5 9h3M5 12h3M16 9h3M16 12h3", "title": "料金と買う先の比較", "sub": "メーカー公式ストアを基本に、総額で比べます"}, {"d": "M12 4a4 4 0 1 0 .01 0M4 21c0-4 4-6 8-6s8 2 8 6", "title": "注文に同席", "sub": "どこを押すかを隣でお伝えします"}, {"d": "M12 9a3 3 0 1 0 .01 0M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2", "title": "開通からデータ移行・設定まで", "sub": "写真・連絡先・LINEなどを新しい端末へ"}, {"d": "M6 2h9l4 4v16H6zM14 2v5h5M9 12h6M9 16h6", "title": "「ここスマひかえ」のお渡し", "sub": "申し込んだ内容と設定をA4 1枚に"}], "exc": [{"d": "M7 3l5 8 5-8M12 11v10M8 14h8M8 17h8", "title": "端末代金・回線の料金", "sub": "お客様とメーカー・通信会社とのご契約です"}, {"d": "M12 3a9 9 0 1 0 .01 0M6 6l12 12", "title": "購入の代行", "sub": "申し込み・本人確認・支払いの登録は、すべてご本人が操作します"}, {"d": "M5 10h14v11H5zM8 10V7a4 4 0 0 1 8 0v3", "title": "パスワード・本人確認書類", "sub": "お預かりも撮影も記録もしません"}, {"d": "M3 21V10l6 4v-4l6 4V4h6v17z", "title": "端末の初期不良の対応", "sub": "窓口はメーカー・販売元です。ご連絡には同席します"}], "band": {"kind": "set", "label": "①②③をまとめて", "amount": "19,800", "note": "別々だと 23,000円", "text": "①だけ受けて、買うのはご自分で、もできます。よそで買った端末の設定だけ（③）も承ります。"}}, {"id": "sim", "kind": "買う", "name": "格安SIMへの移行", "short": "格安SIMへの移行", "price": "12,800", "pre": "", "psub": "購入とセットなら 29,800円", "lead": "いまのスマホ・電話番号のまま、通信会社を乗り換えて月々の料金を見直します。所要は約3時間（来店1〜2回）。", "flow": "ご利用の流れ（約3時間）", "steps": [{"n": "1", "title": "ご契約と使い方の確認", "time": "", "text": "いまの契約・端末がそのまま使えるか、電波の状況もご一緒に確認します。", "price": ""}, {"n": "2", "title": "乗り換え先を決める", "time": "", "text": "大手のオンラインプランと格安SIMを、同じ使い方で並べます。", "price": ""}, {"n": "3", "title": "お申し込みに同席", "time": "", "text": "電話番号を引き継ぐ手続きも含めて、ご本人が操作します。", "price": ""}, {"n": "4", "title": "開通と、使えることの確認", "time": "", "text": "SIMまたはeSIMを開通。電話・メール・LINEが今までどおり使えるまで。", "price": ""}], "inc": [{"d": "M3 5h7v14H3zM14 5h7v14h-7zM5 9h3M5 12h3M16 9h3M16 12h3", "title": "乗り換え先の比較", "sub": "大手と格安SIMの両方を並べて"}, {"d": "M6 2h8l4 4v16H6zM9 11h6v7H9z", "title": "SIM／eSIMの開通", "sub": "電話番号はそのまま引き継ぎます"}, {"d": "M7 2h10v20H7zM11 18h2", "title": "使えることの確認", "sub": "電話・メール・LINE・よく使うアプリまで"}], "exc": [{"d": "M7 3l5 8 5-8M12 11v10M8 14h8M8 17h8", "title": "通信会社の料金・手数料・違約金", "sub": "お客様と通信会社とのご契約です"}, {"d": "M3 4h3l2.5 12h10l2-8H7M10 20a.5.5 0 1 0 .01 0M17 20a.5.5 0 1 0 .01 0", "title": "端末の買い替え", "sub": "必要なら「購入＋SIM移行セット」をご案内します"}, {"d": "M4 20v-4M9 20v-8M14 20V8M19 20V4", "title": "乗り換え後の通信品質", "sub": "通信会社の提供範囲です。事前に電波を一緒に確認します"}], "band": null}, {"id": "kyoshitsu", "kind": "使いこなす", "name": "スマホ教室", "short": "スマホ教室", "price": "10,000", "pre": "月4回", "psub": "体験 1,000円（1回）／入会金 3,000円（当日入会は 0円）", "lead": "少人数で、ゆっくり。一覧から受けたい講座を選んで予約し、店内タブレットで復習できます。習うより、楽しむ。", "flow": "1回の流れ（講座60分＋質問・雑談 最大20分）", "steps": [{"n": "1", "title": "講座を予約", "time": "来店前", "text": "基本・応用・生活の中の活用・季節の講座から、コース回数ぶん選べます。", "price": ""}, {"n": "2", "title": "講座", "time": "60分", "text": "少人数で、ご自分のスマホを使いながら。", "price": ""}, {"n": "3", "title": "質問・雑談", "time": "最大20分", "text": "その場で聞きそびれたことを。お茶を飲みながらでも。", "price": ""}, {"n": "4", "title": "自習で復習", "time": "別の日でも", "text": "店内タブレットで繰り返し練習。教室のない時間でも使えます。", "price": ""}], "inc": [{"d": "M3 5c4-2 7-2 9 0v15c-2-2-5-2-9 0zM21 5c-4-2-7-2-9 0v15c2-2 5-2 9 0z", "title": "コース回数ぶんの講座", "sub": "同じ講座をもう一度受けることも、予約を変えて振替もできます"}, {"d": "M3 4h18v16H3zM11 17h2", "title": "店内タブレットでの自習", "sub": "コースごとに月2・4・8時間。教室のない時間でも"}, {"d": "M3 5h18v14H3zM7 14l3 3 7-7", "title": "「できることカード」", "sub": "習ったこと・できるようになったことの記録"}, {"d": "M8 6a3 3 0 1 0 .01 0M16 6a3 3 0 1 0 .01 0M2 21c0-4 3-6 6-6s6 2 6 6M12 21c0-4 3-6 6-6s4 1 4 3", "title": "ご紹介の特典", "sub": "紹介した方・された方、お二人とも月額が1か月分 半額"}], "exc": [{"d": "M12 3a9 9 0 1 0 .01 0M12 7v5l3 2", "title": "自習時間の超過分", "sub": "30分ごとに500円で追加できます"}, {"d": "M14 6a4 4 0 0 0 5 5l-9 9-3-3 9-9zM14 6l4 4", "title": "お一人ずつのトラブル対応・設定", "sub": "教室の時間には含みません →料金見直し相談・各サポートへ"}, {"d": "M3 5h18v16H3zM3 10h18M8 3v4M16 3v4", "title": "コース回数を超える受講", "sub": "上のコースへの変更で。1回受講（5,000円）は空席のあるときのみ"}, {"d": "M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z", "title": "体験は1人1回", "sub": "通常の講座に混ざっていただきます。ご入会はご家族に相談されてからでも"}], "band": {"kind": "courses", "items": [["月2回コース", "自習 月2時間", "6,000", false], ["月4回コース", "自習 月4時間", "10,000", true], ["月8回コース", "自習 月8時間", "18,500", false]]}}, {"id": "houmon", "kind": "使いこなす", "name": "ご自宅への訪問サポート", "short": "訪問サポート", "price": "9,800", "pre": "", "psub": "60分・出張費込み・当店から3km以内", "lead": "ご来店が難しいとき、ご自宅の環境を見ながらのサポートに。Wi-Fiやテレビ・プリンターとの接続など、お店では確かめにくいことに向いています。", "flow": "ご利用の流れ", "steps": [{"n": "1", "title": "お電話・ご来店でご予約", "time": "", "text": "お困りごとと、ご住所（当店からの距離）をうかがいます。", "price": ""}, {"n": "2", "title": "ご自宅で60分", "time": "60分", "text": "設定・使い方・ご自宅の機器との接続。作業内容はその場でご説明します。", "price": ""}, {"n": "3", "title": "延長・追加", "time": "30分ごと", "text": "必要なときだけ。ご了解をいただいてから延長します。", "price": ""}], "inc": [{"d": "M3 11l9-8 9 8v10H3zM10 21v-6h4v6", "title": "ご自宅での作業60分", "sub": "設定・使い方・Wi-Fiやご自宅の機器との接続"}, {"d": "M3 14l2-6h14l2 6v5H3zM7 18a.5.5 0 1 0 .01 0M17 18a.5.5 0 1 0 .01 0M3 14h18", "title": "出張費", "sub": "当店から3km以内は料金に含みます"}, {"d": "M6 2h9l4 4v16H6zM14 2v5h5M9 12h6M9 16h6", "title": "当日の内容のご説明", "sub": "何をどう設定したかをお伝えします"}], "exc": [{"d": "M12 3a9 9 0 1 0 .01 0M12 7v5l3 2", "title": "延長は30分ごと＋3,000円", "sub": "3〜6kmは＋2,000円／6kmを超える地域はご相談ください"}, {"d": "M12 4a8 8 0 1 0 .01 0M9 10h6M9 14h6M12 8v8", "title": "機器・部品・ケーブル等の代金", "sub": "ご自宅の回線工事も含みません"}, {"d": "M3 5h18v16H3zM3 10h18M8 3v4M16 3v4", "title": "日程はご相談のうえ", "sub": "出られるのは1名のため。日曜・水曜は伺えません"}], "band": null}], "menu": [{"label": "相談する", "tag": "", "rows": [{"name": "料金見直し相談", "sub": "30分", "amt": "3,000", "pre": "", "muted": false, "indent": false}]}, {"label": "買う", "tag": "ネットの価格を、対面の安心で。", "rows": [{"name": "ネット購入サポート", "sub": "①②③のセット", "amt": "19,800", "pre": "", "muted": false, "indent": false}, {"name": "① 機種選び・買い方相談", "sub": "45分", "amt": "7,000", "pre": "", "muted": false, "indent": true}, {"name": "② 注文のご同席", "sub": "30分", "amt": "4,000", "pre": "", "muted": false, "indent": true}, {"name": "③ 開通・データ移行・設定", "sub": "90分", "amt": "12,000", "pre": "", "muted": false, "indent": true}, {"name": "格安SIMへの移行", "sub": "", "amt": "12,800", "pre": "", "muted": false, "indent": false}, {"name": "購入＋SIM移行セット", "sub": "", "amt": "29,800", "pre": "", "muted": false, "indent": false}]}, {"label": "使いこなす", "tag": "習うより、楽しむ。", "rows": [{"name": "スマホ教室　月2回コース", "sub": "自習 月2時間込み", "amt": "6,000", "pre": "月額", "muted": false, "indent": false}, {"name": "スマホ教室　月4回コース", "sub": "自習 月4時間込み", "amt": "10,000", "pre": "月額", "muted": false, "indent": false}, {"name": "スマホ教室　月8回コース", "sub": "自習 月8時間込み", "amt": "18,500", "pre": "月額", "muted": false, "indent": false}, {"name": "スマホ教室　体験", "sub": "はじめての方・1回", "amt": "1,000", "pre": "", "muted": false, "indent": false}, {"name": "スマホ教室　1回受講", "sub": "空席のあるとき", "amt": "5,000", "pre": "", "muted": false, "indent": false}, {"name": "入会金", "sub": "その日にご入会なら 0円", "amt": "3,000", "pre": "", "muted": false, "indent": false}, {"name": "ご自宅への訪問サポート", "sub": "60分・3km以内", "amt": "9,800", "pre": "", "muted": false, "indent": false}]}, {"label": "直す", "tag": "買い替える前に、「直す」という選択肢。", "rows": [{"name": "修理　／　中古端末", "sub": "", "amt": "来年度 提供予定", "pre": "", "muted": true, "indent": false}]}]};
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const svg = (d, col) => `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${col}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"></path></svg>`;
+const CHECK = 'M4 12.5l5 5L20 6.5', MINUS = 'M5 12h14';
+let cur = 'menu';
+function tabs() {
+  const list = [{id:'menu', kind:'一覧', label:'メニュー'}].concat(DATA.services.map(s => ({id:s.id, kind:s.kind, label:s.short})));
+  $('#tabs').innerHTML = list.map(t => `<div class="tab ${t.id===cur?'on':''}" data-id="${t.id}"><span class="k">${esc(t.kind)}</span><span class="l">${esc(t.label)}</span></div>`).join('');
+  $('#tabs').querySelectorAll('.tab').forEach(el => el.addEventListener('click', () => { cur = el.dataset.id; render(); }));
+}
+function menuHtml() {
+  const sec = (s) => `<div class="sec"><div class="sech"><span class="kick">${esc(s.label)}</span><span class="hl"></span><span class="tag serif">${esc(s.tag)}</span></div>` +
+    s.rows.map(r => `<div class="row"><div class="n ${r.indent?'ind':''} ${r.muted?'mu':''}">${esc(r.name)}${r.sub?`<span class="s">${esc(r.sub)}</span>`:''}</div><div class="a serif ${r.muted?'mu':''}">${r.pre?`<span class="pre">${esc(r.pre)}</span>`:''}${esc(r.amt)}${r.muted?'':'<span class="u">円</span>'}</div></div>`).join('') + '</div>';
+  return `<div class="cols"><div>${DATA.menu.slice(0,2).map(sec).join('')}</div><div>${DATA.menu.slice(2).map(sec).join('')}</div></div>
+  <div class="foot">上のボタンから、サービスをお選びください。営業時間 10:00〜19:00（日曜は〜18:00）／定休日 水曜日（祝日は営業）</div>`;
+}
+function svHtml(s) {
+  const steps = `<div class="steps" style="grid-template-columns: repeat(${s.steps.length}, minmax(0, 1fr));">` + s.steps.map(st => `<div class="step"><div class="h"><div style="display:flex;align-items:center;gap:10px;min-width:0"><span class="num serif">${esc(st.n)}</span><span class="tt">${esc(st.title)}</span></div>${st.time?`<span class="tm">${esc(st.time)}</span>`:''}</div><div class="b"><div class="tx">${esc(st.text)}</div>${st.price?`<div class="pr serif">${esc(st.price)}<span class="u">円</span></div>`:''}</div></div>`).join('') + '</div>';
+  let band = '';
+  if (s.band && s.band.kind === 'set') band = `<div class="band"><span style="letter-spacing:.15em;white-space:nowrap">${esc(s.band.label)}</span><span class="big serif">${esc(s.band.amount)}<span style="font-size:13px;margin-left:3px">円</span></span><span style="font-size:12.5px;opacity:.9;white-space:nowrap">（${esc(s.band.note)}）</span><span class="sep"></span><span>${esc(s.band.text)}</span></div>`;
+  if (s.band && s.band.kind === 'courses') band = `<div class="courses">` + s.band.items.map(c => `<div class="course ${c[3]?'main':''}"><span>${esc(c[0])}<span class="s">${esc(c[1])}</span></span><span class="a serif">${esc(c[2])}<span class="u">円</span></span></div>`).join('') + '</div>';
+  const items = (arr, on) => arr.map(it => `<div class="it ${on?'in':'ex'}"><div class="ic">${svg(it.d, on?'#1E4D3E':'#6E6A5B')}</div><div><div class="tt">${esc(it.title)}</div><div class="sb">${esc(it.sub)}</div></div></div>`).join('');
+  return `<div class="head"><div><div class="name serif">${esc(s.name)}</div><div class="lead">${esc(s.lead)}</div></div>
+    <div class="price"><div class="lab">料金（税込）</div><div class="amt serif">${s.pre?`<span class="pre">${esc(s.pre)}</span>`:''}${esc(s.price)}<span class="u">円</span></div><div class="sub">${esc(s.psub)}</div></div></div>
+    <div class="flow"><span class="t serif">${esc(s.flow)}</span><span class="hl"></span></div>${steps}${band}
+    <div class="panels"><div class="col"><div class="colh">${svg(CHECK,'#1E4D3E').replace('width="24" height="24"','width="18" height="18"')}<span class="t serif" style="color:var(--g)">料金に含まれるもの</span><span class="hl"></span></div>${items(s.inc,true)}</div>
+    <div class="col"><div class="colh">${svg(MINUS,'#6E6A5B').replace('width="24" height="24"','width="18" height="18"')}<span class="t serif" style="color:var(--note)">含まれないもの・ご注意</span><span class="hl"></span></div>${items(s.exc,false)}</div></div>`;
+}
+function render() {
+  tabs();
+  const m = $('#v-menu'), v = $('#v-sv');
+  if (cur === 'menu') { m.innerHTML = menuHtml(); m.classList.add('on'); v.classList.remove('on'); }
+  else { v.innerHTML = svHtml(DATA.services.find(s => s.id === cur)); v.classList.add('on'); m.classList.remove('on'); }
+}
+function fit() {
+  const w = window.innerWidth, h = window.innerHeight, sc = Math.min(w / 1180, h / 820);
+  const st = $('#stage'); st.style.transform = `translate(${-590 * sc}px, ${-410 * sc}px) scale(${sc})`;
+}
+window.addEventListener('resize', fit); window.addEventListener('orientationchange', () => setTimeout(fit, 150));
+render(); fit();
+</script>
+</body>
+</html>
