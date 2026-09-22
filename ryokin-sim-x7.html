@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ここスマ 料金シミュレーション v0.8</title>
+<title>ここスマ 料金シミュレーション v0.9</title>
 <style>
   :root {
     --ink: #16181D; --sub: #6E7379; --faint: #6F747A;
@@ -295,7 +295,7 @@ header.top { background: rgba(239,236,229,.94); border-bottom: 1px solid #C9C4B6
 
 <header class="top"><div class="top-in">
   <span class="logo">ここスマ</span>
-  <span class="ttl">料金シミュレーション<small>v0.8</small></span>
+  <span class="ttl">料金シミュレーション<small>v0.9</small></span>
   <span class="meta">試験公開中(仮ページ)|料金取得日 プラン=2026年9月13日確認/端末・補償=9月12日|金額は税込の目安・各社公式サイトで要確認</span>
 </div></header>
 
@@ -375,7 +375,7 @@ header.top { background: rgba(239,236,229,.94); border-bottom: 1px solid #C9C4B6
         <input type="number" id="restN" placeholder="残りの回数">
       </div>
       <div class="rowlab"><span class="lb">みる年数</span><span class="chips" id="yrChips"></span></div>
-      <div class="note">「買い方」は、これから<b>みる年数のあいだに端末へいくら払うか</b>の比較です(過去に買ったかどうかではありません)。<b>買い替えない</b>=支払いが済んだ端末をそのまま使う → この先の端末代0円/<b>分割の途中</b>=支払いが残っている端末をそのまま使う → 残りの回数分だけ計上/<b>A 返却プログラム</b>=2年ごとに買い替えを続ける/<b>B キャリア・C 公式ストア</b>=買って長く使う。端末は替えずプランだけ見直す相談なら、現状・将来とも同じ選択のままで大丈夫です。買い替えを検討中なら、将来の買い方にA・B・Cを選ぶと下の表とSTEP3に反映されます。</div>
+      <div class="note">「買い方」は、これから<b>みる年数のあいだに端末へいくら払うか</b>の比較です(過去に買ったかどうかではありません)。<b>買い替えない</b>=支払いが済んだ端末をそのまま使う → この先の端末代0円/<b>分割の途中</b>=支払いが残っている端末をそのまま使う → 残りの回数分だけ計上/<b>A 返却プログラム</b>=2年ごとに買い替えを続ける/<b>B キャリアで購入</b>=店頭で回線ごと買って長く使う(頭金・事務手数料・設定サポートがかかる)/<b>C 公式ストア・D キャリアのオンラインショップ</b>=<b>端末だけを買って</b>長く使う(回線契約をしないので頭金・事務手数料・設定サポートは0円)。<b>CとDは同じ「単体で買う」でも、値段の出どころが違います</b>=CはApple/Googleなどメーカーの直販価格、Dは各社オンラインショップの単体購入価格。<b>キャリアでしか売っていない機種はCに値段がなく、Dのほうが安いこともあります</b>(例: arrows We3はドコモ22,000円/SIMフリー42,000円)。のりかえ割や一括1円のような<b>回線契約を条件とする値引きは、どちらにも入れていません</b>(2026-09-17裁定)。端末は替えずプランだけ見直す相談なら、現状・将来とも同じ選択のままで大丈夫です。買い替えを検討中なら、将来の買い方にA・B・Cを選ぶと下の表とSTEP3に反映されます。</div>
     </div>
 
     <div class="tscroll"><table class="cmp" id="buyTable"></table></div>
@@ -428,9 +428,10 @@ header.top { background: rgba(239,236,229,.94); border-bottom: 1px solid #C9C4B6
 
   <footer class="foot">
     <b>ここスマ|スマホの相談窓口</b> ― 試験公開中の仮ページ(店内相談用)。金額はすべて取得日時点の税込目安であり、契約条件・キャンペーンにより変わります。ご契約前に必ず各社公式サイトでご確認ください。<br>
-    出典: 各社公式サイト(詳細は 22_料金プラン調査_2026-08 v1.7 / 02_調査_3キャリア店頭費用)。料金取得日 プラン=2026年9月13日確認/端末・補償=9月12日。ご契約前に必ず当日の各社公式ページでご確認ください。<br>
+    出典: 各社公式サイト(詳細は 22_料金プラン調査_2026-08 v1.8 / 02_調査_3キャリア店頭費用)。料金取得日 プラン=2026年9月13日確認/端末・補償=9月12日。ご契約前に必ず当日の各社公式ページでご確認ください。<br>
     返却プログラムの実質負担は「残価=端末価格の45%(楽天は48回払い・25か月目返却で50%)」と仮定した概算です。機種・時期・査定条件により変わります。頭金は店舗独自(5,000〜22,000円)のため仮の金額です。iPhone 17e のドコモ・au価格は二次情報照合の概算。<br>
     v0.4(2026-08-08): 3ステップ構成に再設計(通信プラン現状/将来→買い方比較→トータル)/楽天モバイルを端末比較に追加/頭金・設定サポートの内訳を明示/デザイン=Claude Design「ここスマ料金シミュレーション設計」(白基調ミニマル・v0.4)/同日データ更新: 日本通信SIMを4プラン(シンプル290・みんなの20GB・50GB・ネットだけ)に拡充(公式サイト2026-08-08確認)/頭金を02調査の実務値19,800円に統一・C列にここスマ ネット購入サポート19,800円を標準計上・積み重なる費用の計算根拠を表下に明示/端末の補償サービス比較を追加(キャリア4社・AppleCare+/Pixel Care+・@nifty安心メールパック・モバイル保険。2026-08-08公式調べ・選択でSTEP3に反映)/補償は選択中の機種ごとの確定額で表示(ドコモ補償料金検索・au公式・SB公式・楽天価格帯区分で裏取り)/ドコモMAX系に「家族間通話無料」注記(5分通話はオプション880円を公式確認)・上位カード(dカードGOLD−550/PayPayゴールドSB−550/Y!m−770⚠)トグル追加・プラン一覧を会社名ファースト表示に/印刷をお客様お渡し用に(前提条件・免責事項・発行日を印字、A4縦1枚)/22fレビュー全21項目を反映(買い方「買わない」追加・乗換手数料の店頭統合・公式ストア×キャリア補償の警告・手入力の分解入力・例ボタン・データ専用警告・スマホ幅対応・注記コントラストAA・印刷A4縦1枚要約・チップ✓/aria対応ほか)<br>
+    v0.9(2026-09-22): <b>買い方に「D キャリアのオンラインショップ」を新設</b>(2026-09-17の購入先ルールの裁定を反映)。<b>回線契約をしない端末だけの購入</b>として、各社オンラインショップの単体購入価格で計算する(頭金・事務手数料・設定サポートは0円)。CとDの違いは値段の出どころだけ=Cはメーカー直販・Dはキャリアの単体購入価格。<b>キャリアでしか売っていない機種はCに値段がなくDだけで比べられる</b>(arrows We3=ドコモ22,000円/SIMフリー42,000円など)。<b>のりかえ割・一括1円など回線契約を条件とする値引きは比較に入れない</b>(入れると「どの携帯会社にも属していない」が成り立たなくなるため)。ここスマ ネット購入サポートのトグルはC・Dの両方に効く。キャリア補償の警告もDに適用<br>
     v0.8(2026-09-13): <b>月次のプラン点検を実施(鮮度台帳#1・#7)</b>。ドコモMAX/mini・auバリューリンク/スマホミニプラン+/シニアバリュー・ソフトバンク全プラン・楽天・日本通信SIMを各社公式で照合し、<b>料金と割引額に変更なし</b>を確認(取得日をプラン=9月13日に更新)。ahamo40GB・ドコモmini増量も継続中(終了日は未公表のまま)/<b>楽天モバイルの行に注記を追加</b>=2026年10月からKDDIのローミング提供が終了(ルーラルの一部を除く。KDDI 2026-08-07発表)。将来候補に楽天を選ぶ場合の「つながりやすさ」は店頭で必ず確認する<br>
     v0.7(2026-09-12): <b>Appleの9/10改定を反映</b>(iPhone 17 142,800→159,800円・iPhone 17e 107,800→124,800円)。キャリア側の改定も反映(17e=au127,900/SB133,200/楽天117,200円・17=SB180,720/楽天159,800円)/<b>iPhone 18 Proを追加</b>(2026-09-18発売・256GB始まり・Apple219,800円/ドコモ263,230/au268,800/SB268,560/楽天255,900円)。無印iPhone 18は未発売・iPhone 17 Pro系はApple公式で販売終了/<b>売れ筋上位の参考機種を追加</b>(BCN月次_全体 2026-08の上位10に合わせてiPhone 17 Pro・iPhone Air・iPhone 16・Galaxy S26・arrows We3・Galaxy A25 5G・OPPO A5 5Gを⚠付きで。端末チップをiPhone行とAndroid行の2段に)/<b>端末データの正本をCSVに移した</b>(22h_端末データ_devices.csv → 22i_build_devices.pyで差し込み。価格が未取得のキャリアは「―」と表示し計算しない)/補償はドコモ公式の補償料金検索で9/12に再取得(iPhone 17/17e=1,100・iPhone Air/17 Pro=1,460・iPhone 16=880・Galaxy S26=1,100・arrows We3=490・Pixel 10a=990・Pixel 11=1,100円)<br>
     v0.6(2026-08-27): Pixel 11を追加(2026年8月20日発売・256GB始まり。Googleストア136,800円/ドコモ152,680円/au156,800円/SB167,040円/楽天139,900円)・補償も機種別確定額で追加(ドコモ1,100円=公式検索/au726円/SB1,190円/楽天1,580円/Pixel Care+1,280円)/あわせてSBのPixel 10a補償を990→1,190円に訂正・楽天の補償名称を「スマホ交換保証プラス&家電補償」(2026-06-17改定)に更新/買い方の「買わない」を<b>「買い替えない(支払い済み)」</b>に改名し、<b>「分割の途中(残りあり)」</b>を新設(月々の分割額×残り回数を年数の範囲で計上)/見出しの文言を変更<br>
@@ -998,7 +999,8 @@ var FEES = {
 var BUYS = [
   { id: 'return', mark: 'A', name: '返却プログラム', sub: '2年ごとに買い替え・端末は返す' },
   { id: 'carrier', mark: 'B', name: 'キャリアで購入', sub: '一括や分割で買って長く使う' },
-  { id: 'official', mark: 'C', name: '公式ストアで購入', sub: 'Apple/Google直販で買って長く使う' }
+  { id: 'official', mark: 'C', name: '公式ストアで購入', sub: 'Apple/Google直販で買って長く使う' },
+  { id: 'conline', mark: 'D', name: 'キャリアのオンラインショップ', sub: '回線契約なしで端末だけ買って長く使う' }
 ];
 var BUY_NONE = { id: 'none', mark: '―', name: '買い替えない', sub: '支払いが済んだ端末を使い続ける' };
 var BUY_REST = { id: 'rest', mark: '残', name: '分割の途中', sub: '支払いが残っている端末を使い続ける' };
@@ -1098,7 +1100,7 @@ function carMissing() { var p = devPrices(); return st.dev !== 'manual' && (p.ca
 function offMissing() { var p = devPrices(); return st.dev !== 'manual' && (p.official === null || p.official === undefined); }
 function buyCalc(method, Y) {
   var p = devPrices();
-  var miss = (method === 'return' || method === 'carrier') ? carMissing() : (method === 'official' ? offMissing() : false);
+  var miss = (method === 'return' || method === 'carrier' || method === 'conline') ? carMissing() : (method === 'official' ? offMissing() : false);
   if (miss) return { method: method, missing: true, dev: 0, atamakin: 0, admin: 0, setup: 0, prog: 0, battery: 0, koko: 0, fees: 0, total: 0, perMonth: 0, keep: method !== 'return' };
   var car = st.car, cycles = Y / 2;
   var admin = FEES.adminStore[car], setup = FEES.setup[car], prog = FEES.prog[car];
@@ -1116,6 +1118,9 @@ function buyCalc(method, Y) {
     r.dev = p.carrier; r.atamakin = atk; r.admin = admin; r.setup = setup; r.battery = battery; r.keep = true;
   } else if (method === 'official') {
     r.dev = p.official; r.koko = st.kokoC ? FEES.kokoNet : 0; r.battery = battery; r.keep = true;
+  } else if (method === 'conline') {
+    /* 回線契約をしない端末だけの購入=契約事務手数料も頭金も設定サポートもかからない */
+    r.dev = p.carrier; r.koko = st.kokoC ? FEES.kokoNet : 0; r.battery = battery; r.keep = true;
   } else if (method === 'mnp') {
     r.dev = FEES.mnpDev * cycles; r.admin = 4950 * cycles; r.prog = 22000 * cycles;
   }
@@ -1243,10 +1248,11 @@ function renderBuyTable() {
     'return': 'A 返却プログラム: 端末 ' + yen(p.carrier) + '×実質負担' + Math.round(FEES.burden[st.car] * 100) + '%×' + N + '回 = ' + yen(p.carrier * FEES.burden[st.car] * N) +
       ' + 店頭費用(頭金' + yen(atk2) + '+事務手数料' + yen(adm2) + '+設定サポート' + yen(set2) + '+プログラム利用料' + yen(prg2) + ')×' + N + '回 = ' + yen(perCycleFee * N),
     carrier: 'B キャリアで購入: 端末 ' + yen(p.carrier) + ' + 店頭費用(頭金' + yen(atk2) + '+事務手数料' + yen(adm2) + '+設定サポート' + yen(set2) + ')×1回だけ' + (Y >= 6 ? ' + 電池交換' + yen(FEES.battery) : ''),
-    official: 'C 公式ストアで購入: 端末 ' + yen(p.official) + '(頭金・事務手数料なし)' + (st.kokoC ? ' + ここスマ ネット購入サポート' + yen(FEES.kokoNet) + '×1回だけ' : '') + (Y >= 6 ? ' + 電池交換' + yen(FEES.battery) : '')
+    official: 'C 公式ストアで購入: 端末 ' + yen(p.official) + '(頭金・事務手数料なし)' + (st.kokoC ? ' + ここスマ ネット購入サポート' + yen(FEES.kokoNet) + '×1回だけ' : '') + (Y >= 6 ? ' + 電池交換' + yen(FEES.battery) : ''),
+    conline: 'D キャリアのオンラインショップ: 端末 ' + yen(p.carrier) + '(' + CARRIERS.find(function (c) { return c.id === st.car; }).name + 'の単体購入価格。回線契約をしないので頭金・事務手数料・設定サポートは0円)' + (st.kokoC ? ' + ここスマ ネット購入サポート' + yen(FEES.kokoNet) + '×1回だけ' : '') + (Y >= 6 ? ' + 電池交換' + yen(FEES.battery) : '')
   };
   var basis = '<b>計算根拠(' + Y + '年でみた場合)</b><br>' +
-    BASIS_LINES['return'] + '<br>' + BASIS_LINES.carrier + '<br>' + BASIS_LINES.official;
+    BASIS_LINES['return'] + '<br>' + BASIS_LINES.carrier + '<br>' + BASIS_LINES.official + '<br>' + BASIS_LINES.conline;
   if (st.showMnp) basis += '<br>参考MNP: 端末1円×' + N + '回 + (事務手数料4,950円+プログラム利用料22,000円)×' + N + '回 = ' + yen((4950 + 22000) * N);
   document.getElementById('calcBasis').innerHTML = basis;
 
@@ -1259,7 +1265,7 @@ function renderBuyTable() {
     '設定サポートは02調査の店頭実額=データ移行+アプリ設定(ドコモ2,200+3,300=5,500円/au3,960+2,420=6,380円/SB3,960円・LINE設定は無料)。' +
     'オンライン購入なら頭金0円・事務手数料はドコモ0円/au・SB3,850円になります。ポイント還元・下取りは含みません。<br>' +
     '<span class="tglrow" onclick="st.loyal=!st.loyal;refresh();"><span class="sw' + (st.loyal ? ' on' : '') + '"></span><b>同じキャリアで買い替え続ける</b>(ONでプログラム利用料が買替特典で実質免除・楽天を除く)</span>' +
-    '<span class="tglrow" style="margin-left:18px;" onclick="st.kokoC=!st.kokoC;refresh();"><span class="sw' + (st.kokoC ? ' on' : '') + '"></span><b>Cにここスマ ネット購入サポート(19,800円)を含める</b></span>';
+    '<span class="tglrow" style="margin-left:18px;" onclick="st.kokoC=!st.kokoC;refresh();"><span class="sw' + (st.kokoC ? ' on' : '') + '"></span><b>C・Dにここスマ ネット購入サポート(19,800円)を含める</b></span>';
 }
 
 /* ===== 補償 描画 ===== */
@@ -1277,8 +1283,8 @@ function renderHosho() {
 
   /* 買い方×キャリア補償の整合チェック */
   var warns = [];
-  if (st.hoNow === 'carrier' && st.buyNow === 'official') warns.push('現状: 公式ストアで購入した端末は、キャリアの補償に原則入れません(購入時加入のため)。');
-  if (st.hoFut === 'carrier' && st.buyFut === 'official') warns.push('将来: 公式ストアで購入する端末は、キャリアの補償に原則入れません。メーカーの補償かネット保険をご検討ください。');
+  if (st.hoNow === 'carrier' && (st.buyNow === 'official' || st.buyNow === 'conline')) warns.push('現状: 回線契約なしで端末だけ買った場合、キャリアの補償には原則入れません(回線契約とセットの購入時にしか加入できないため)。');
+  if (st.hoFut === 'carrier' && (st.buyFut === 'official' || st.buyFut === 'conline')) warns.push('将来: 回線契約なしで端末だけ買う場合、キャリアの補償には原則入れません。メーカーの補償かネットで入れる保険をご検討ください。');
   var H = hoshoDev(), devName = DEVICES.find(function (x) { return x.id === st.dev; }).name;
   var missKinds = [];
   if (!H[st.car]) missKinds.push('キャリアの補償');
@@ -1331,7 +1337,7 @@ function renderTotal() {
   if (futInit > 0 && (st.buyFut === 'return' || st.buyFut === 'carrier') && fut && fut.pl && fut.pl.win.indexOf('店頭') >= 0) {
     initMerged = true; futInit = 0;
   }
-  var kokoSet = st.kokoSim && st.kokoC && st.buyFut === 'official';
+  var kokoSet = st.kokoSim && st.kokoC && (st.buyFut === 'official' || st.buyFut === 'conline');
   var koko = st.kokoSim ? (kokoSet ? FEES.kokoSet - FEES.kokoNet : FEES.kokoSim) : 0;
 
   var hoNowM = st.hoNow === 'none' ? 0 : st.hoNowM;
