@@ -253,7 +253,8 @@
 <div class="ovl" id="ovl-reg">
   <div class="sheet">
     <h2>新規登録<button class="close" onclick="closeOvl('ovl-reg')">閉じる ✕</button></h2>
-    <label>会員番号(次の番号は顧客台帳の「次の番号」欄で確認)</label>
+    <div class="note" style="margin:0 0 12px;">先に受付で、この方を探してください(電話の下4桁)。台帳の行に<b>会員番号がもう入っていれば、新規登録はしません</b>(会員証の出し直しは、一覧からその方を開いて「QRを表示する」)。</div>
+    <label>会員番号(次の番号が自動で入っています。ふだんは変えません)</label>
     <input type="number" id="r-id" min="1" max="9999" placeholder="例: 1">
     <label>呼び名(カタカナなど・本名でなくてよい)</label>
     <input type="text" id="r-name" maxlength="10" placeholder="ハナ" autocomplete="off">
@@ -264,7 +265,7 @@
     </div>
     <div class="msg" id="r-msg"></div>
     <div id="r-qrbox"></div>
-    <div class="note">登録したら: ①この画面のQRをご本人のスマホで読み取り ②玄関ページの「ホーム画面に追加」を一緒に実施 ③顧客台帳に本名・連絡先を記入。</div>
+    <div class="note">登録したら: ①この画面のQRをご本人のスマホで読み取り ②玄関ページの「ホーム画面に追加」を一緒に実施 ③<b>顧客台帳のその方の行に、この会員番号</b>と本名・連絡先を記入(台帳の番号とこの番号は必ず同じにする)。</div>
   </div>
 </div>
 
@@ -2594,6 +2595,8 @@ function errText(e) {
   if (e === 'locked') return '間違いが続いたため、15分ほど休んでからもう一度お試しください。';
   if (e === 'bad_pass') return 'パスコードが違います。';
   if (e === 'not_found') return 'その番号の会員が見つかりません。';
+  if (e === 'id_taken') return 'その番号は、たった今ほかの端末で使われました。一覧を更新したので、もう一度「登録してQRを出す」を押してください(番号は自動で入れ直します)。';
+  if (e === 'bad_course') return 'コースを選び直してください。';
   return '通信できませんでした。電波を確かめて「更新」を押してください。';
 }
 
@@ -2785,8 +2788,14 @@ function renderQrInto(boxId, id, name, token) {
 
 /* ---- 新規登録 ---- */
 var regCourse = 'c1'; // 2026-09-22: 契約席の50%が月1回(40 v1.13 §2)
+function nextMemberId() {
+  // テスト用の9000番台を除いた最大＋1(退会・休会の番号も使い回さない)
+  var max = 0;
+  members.forEach(function (m) { if (m.id < 9000 && m.id > max) max = m.id; });
+  return max + 1;
+}
 function openRegister() {
-  document.getElementById('r-id').value = '';
+  document.getElementById('r-id').value = String(nextMemberId());
   document.getElementById('r-name').value = '';
   document.getElementById('r-msg').textContent = '';
   document.getElementById('r-qrbox').innerHTML = '';
@@ -2809,27 +2818,46 @@ function doRegister() {
   var id = parseInt(document.getElementById('r-id').value, 10);
   var name = (document.getElementById('r-name').value || '').trim().slice(0, 10);
   var msg = document.getElementById('r-msg');
+  msg.className = 'msg';
   if (!id || id < 1 || id > 9999) { msg.textContent = '会員番号(1〜9999)を入れてください。'; return; }
+  // 2026-09-24: 新規登録では、使っている番号を通さない(以前は2回押すと上書きできた＝別の方の会員証を渡してしまう)
   var exists = members.find(function (m) { return m.id === id; });
-  if (exists && !window.__regConfirm) {
-    window.__regConfirm = true;
-    msg.textContent = 'No.' + pad4(id) + '(' + exists.nickname + 'さん)は登録済みです。再発行するならもう一度押してください。';
+  if (exists) {
+    msg.textContent = 'No.' + pad4(id) + '(' + exists.nickname + 'さん)はもう使われています。新しい方には No.' + pad4(nextMemberId()) + ' を使ってください。会員証の出し直しは、一覧からその方を開いて「QRを表示する」。';
+    document.getElementById('r-id').value = String(nextMemberId());
     return;
   }
-  window.__regConfirm = false;
+  var go = document.getElementById('r-go');
+  go.disabled = true;
   msg.textContent = '登録しています…';
-  sbRpc('member_register', { p_pass: pass(), p_id: id, p_nickname: name }).then(function (r) {
-    if (!(r && r.ok)) { msg.textContent = errText(r && r.error); return; }
-    var after = function () {
-      msg.textContent = '登録しました。ご本人のスマホでQRを読み取ってください。';
-      msg.className = 'msg ok-msg';
-      renderQrInto('r-qrbox', r.member_id, name || r.nickname, r.token);
-      loadList();
-    };
-    if (regCourse !== r.course) {
-      sbRpc('member_update', { p_pass: pass(), p_id: id, p_course: regCourse }).then(after).catch(after);
-    } else after();
-  }).catch(function () { msg.textContent = errText(); });
+  var done = function (r, nm) {
+    go.disabled = false;
+    msg.textContent = '登録しました(No.' + pad4(r.member_id) + ')。ご本人のスマホでQRを読み取ってください。';
+    msg.className = 'msg ok-msg';
+    renderQrInto('r-qrbox', r.member_id, nm || r.nickname, r.token);
+    loadList();
+  };
+  var fail = function (e) { go.disabled = false; msg.textContent = errText(e); };
+  sbRpc('member_create', { p_pass: pass(), p_id: id, p_nickname: name, p_course: regCourse }).then(function (r) {
+    if (r && r.ok) { done(r, name); return; }
+    if (r && r.error) {
+      if (r.error === 'id_taken') {
+        fail('id_taken');
+        sbRpc('staff_list', { p_pass: pass() }).then(function (l) {
+          if (l && l.ok) { members = l.members; renderList(); document.getElementById('r-id').value = String(nextMemberId()); }
+        }).catch(function () {});
+      } else fail(r.error);
+      return;
+    }
+    // member_create がまだ無い(patch11の前)＝これまでの登録口へ。使っている番号は上で止めている
+    sbRpc('member_register', { p_pass: pass(), p_id: id, p_nickname: name }).then(function (r2) {
+      if (!(r2 && r2.ok)) { fail(r2 && r2.error); return; }
+      if (regCourse !== r2.course) {
+        sbRpc('member_update', { p_pass: pass(), p_id: id, p_course: regCourse })
+          .then(function () { done(r2, name); }).catch(function () { done(r2, name); });
+      } else done(r2, name);
+    }).catch(function () { fail(); });
+  }).catch(function () { fail(); });
 }
 
 /* ---- モーダル ---- */
