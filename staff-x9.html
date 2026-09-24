@@ -2576,7 +2576,7 @@ var SUPA_KEY = 'sb_publishable_kxqrgfxUIyZk-pQmU8Jpbw_r9lmxb1E';
 var PORTAL_URL = 'https://mkohei97.github.io/senior-digital-sim/p.html';
 var DAICHO_URL = 'https://docs.google.com/spreadsheets/d/1VodW8nNml7A16kDQYBxJWHOOxqTtnz8dqvnDhsaAvpY/edit'; // ここスマ顧客台帳(19u)
 var TENPO_URL = 'https://docs.google.com/spreadsheets/d/1xoi8ODDGZ4jOUmJMGU9kXWB0KjpHA6CVpOFkLeEQs68/edit'; // ここスマ店舗画面(ミラーの控え・19t)
-var COURSE_NAME = { c2: '月2回', c4: '月4回', c8: '月8回' };
+var COURSE_NAME = { c1: '月1回', c2: '月2回', c3: '月3回', c4: '月4回' }; // 2026-09-22: 40 v1.13の改定(月8回は廃止)
 
 function sbRpc(fn, args) {
   return fetch(SUPA_URL + '/rest/v1/rpc/' + fn, {
@@ -2683,7 +2683,7 @@ function openDetail(id) {
   /* コース */
   var cb = document.getElementById('d-courses');
   cb.innerHTML = '';
-  ['c2', 'c4', 'c8'].forEach(function (c) {
+  ['c1', 'c2', 'c3', 'c4'].forEach(function (c) {
     var b = document.createElement('button');
     b.className = 'btn small ghost' + (cur.course === c ? ' sel' : '');
     b.textContent = COURSE_NAME[c];
@@ -2784,20 +2784,20 @@ function renderQrInto(boxId, id, name, token) {
 }
 
 /* ---- 新規登録 ---- */
-var regCourse = 'c4';
+var regCourse = 'c1'; // 2026-09-22: 契約席の50%が月1回(40 v1.13 §2)
 function openRegister() {
   document.getElementById('r-id').value = '';
   document.getElementById('r-name').value = '';
   document.getElementById('r-msg').textContent = '';
   document.getElementById('r-qrbox').innerHTML = '';
-  regCourse = 'c4';
+  regCourse = 'c1';
   renderRegCourses();
   openOvl('ovl-reg');
 }
 function renderRegCourses() {
   var cb = document.getElementById('r-courses');
   cb.innerHTML = '';
-  ['c2', 'c4', 'c8'].forEach(function (c) {
+  ['c1', 'c2', 'c3', 'c4'].forEach(function (c) {
     var b = document.createElement('button');
     b.className = 'btn small ghost' + (regCourse === c ? ' sel' : '');
     b.textContent = COURSE_NAME[c];
