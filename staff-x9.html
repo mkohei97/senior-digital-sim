@@ -98,6 +98,11 @@
   .rrow .st .btn.on.ab { background: #8A6D1F; box-shadow: 0 2px 0 #6B540F; }
   .addrow { display: flex; gap: 8px; align-items: center; padding-top: 10px; border-top: 1px dashed var(--line); margin-top: 4px; }
   .addrow input { max-width: 110px; font-size: 15px; padding: 8px 10px; }
+  .addrow.wk { flex-wrap: wrap; }
+  .addrow.wk .kind .btn { padding: 6px 12px; font-size: 13.5px; }
+  .addrow.wk .kind .btn.sel { background: var(--deep); color: #fff; border: none; }
+  .chip.wk { background: #F3EAD8; color: #8A6D1F; }
+  .slotq { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
   .formgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; }
   .formgrid label { margin: 0 0 2px; }
   select { width: 100%; font-size: 16px; font-family: inherit; padding: 11px 12px; border: 1.5px solid var(--line); border-radius: 12px; background: #fff; }
@@ -149,7 +154,7 @@
         <div id="ky-list"></div>
         <div class="msg" id="ky-msg"></div>
       </div>
-      <div class="note">出席の確定は<b>当日中だけ</b>できます(翌日以降は直せません)。飛び入り・電話の方は「番号で追加」でどうぞ。無断欠席(取消なしの欠席)も1回分の消化として数えます。</div>
+      <div class="note">出席の確定は<b>当日中だけ</b>できます(翌日以降は直せません)。飛び入り・電話の会員は「番号で追加」、<b>体験・単発の方</b>は「体験・単発を入れる」でどうぞ(会員より後・残席があるときだけ)。無断欠席(取消なしの欠席)も1回分の消化として数えます。</div>
     </div>
 
     <!-- 開催予定 -->
@@ -160,10 +165,11 @@
       </div>
       <div class="card">
         <b style="font-size:17px;">コマを作る・直す</b>
+        <div class="slotq"><span style="font-size:14px; color:var(--sub); align-self:center;">時間帯:</span><button class="btn small ghost" onclick="quickSlot('朝', '10:00')">朝 10:00</button><button class="btn small ghost" onclick="quickSlot('昼', '13:00')">昼 13:00</button><span style="font-size:13px; color:var(--sub); align-self:center;">(お客さまに見せる時刻。講座は60分、後ろ20分は質問の時間)</span></div>
         <div class="formgrid" style="margin-top:10px;">
           <div><label>日付</label><input type="date" id="yt-date"></div>
-          <div><label>時間帯の名前</label><input type="text" id="yt-slot" placeholder="平日1" maxlength="8"></div>
-          <div><label>開始時刻</label><input type="time" id="yt-start" value="10:30"></div>
+          <div><label>時間帯の名前</label><input type="text" id="yt-slot" placeholder="朝" maxlength="8"></div>
+          <div><label>開始時刻</label><input type="time" id="yt-start" value="10:00"></div>
           <div><label>講座</label><select id="yt-course"></select></div>
           <div><label>定員</label><input type="number" id="yt-cap" value="8" min="1" max="20"></div>
           <div><label>状態</label><select id="yt-status"><option value="open">開講</option><option value="cancelled">中止</option></select></div>
@@ -2900,7 +2906,7 @@ function loadKyoshitsu() {
     if (!r.sessions.length) { el.innerHTML = '<div style="padding:14px 4px; color:var(--sub);">今日の開催予定はありません。</div>'; return; }
     var html = '';
     r.sessions.forEach(function (s) {
-      var taken = s.roster.filter(function (x) { return x.status !== 'absent'; }).length;
+      var taken = takenOf(s);
       html += '<div class="srow"><div class="head"><b>' + s.start_time + '</b><span>' + esc(s.slot) + '</span>' +
         '<span class="tt">' + esc(s.title || '(講座未定)') + '</span>' +
         (s.status === 'cancelled' ? '<span class="chip left">中止</span>' : '') +
@@ -2914,8 +2920,20 @@ function loadKyoshitsu() {
           (x.status !== 'reserved' ? '<button class="btn small ghost" onclick="doAttend(' + x.reservation_id + ', \'reserved\')">戻す</button>' : '') +
           '</span></div>';
       });
+      (s.walkins || []).forEach(function (w) {
+        html += '<div class="rrow"><b>' + (w.label ? esc(w.label) + 'さん' : KIND_NAME[w.kind] + 'の方') + '</b>' +
+          '<span class="chip wk">' + KIND_NAME[w.kind] + '</span>' +
+          '<span style="color:var(--sub); font-size:13px;">' + (w.source === 'phone' ? '電話' : '店頭') + '</span>' +
+          '<span class="st">' +
+          '<button class="btn small ghost' + (w.status === 'attended' ? ' on' : '') + '" onclick="doWalkin(' + w.walkin_id + ', \'attended\', \'ky\')">出席</button>' +
+          '<button class="btn small ghost' + (w.status === 'absent' ? ' on ab' : '') + '" onclick="doWalkin(' + w.walkin_id + ', \'absent\', \'ky\')">欠席</button>' +
+          (w.status !== 'reserved' ? '<button class="btn small ghost" onclick="doWalkin(' + w.walkin_id + ', \'reserved\', \'ky\')">戻す</button>' : '') +
+          '<button class="btn small ghost" onclick="doWalkin(' + w.walkin_id + ', \'cancelled\', \'ky\')">取消</button>' +
+          '</span></div>';
+      });
       html += '<div class="addrow"><input type="number" id="ky-add-' + s.id + '" placeholder="会員番号" min="1" max="9999">' +
         '<button class="btn small ghost" onclick="doStaffReserve(' + s.id + ')">番号で追加(飛び入り・電話)</button></div>';
+      html += walkinForm(s.id, 'ky');
       html += '</div>';
     });
     el.innerHTML = html;
@@ -2942,6 +2960,51 @@ function doStaffReserve(sid) {
   }).catch(function () { document.getElementById('ky-msg').textContent = errText(); });
 }
 
+/* ---- 体験・単発の方の席(2026-09-24・patch12・`41b`) ---- */
+var KIND_NAME = { trial: '体験', single: '単発' };
+var wkKind = {};
+function takenOf(s) {
+  var a = s.roster.filter(function (x) { return x.status !== 'absent'; }).length;
+  var b = (s.walkins || []).filter(function (w) { return w.status !== 'absent'; }).length;
+  return a + b;
+}
+function walkinForm(sid, where) {
+  var k = wkKind[sid] || 'trial';
+  return '<div class="addrow wk"><span class="kind">' +
+    '<button class="btn small ghost' + (k === 'trial' ? ' sel' : '') + '" onclick="setWkKind(' + sid + ', \'trial\', \'' + where + '\')">体験</button> ' +
+    '<button class="btn small ghost' + (k === 'single' ? ' sel' : '') + '" onclick="setWkKind(' + sid + ', \'single\', \'' + where + '\')">単発</button></span>' +
+    '<input type="text" id="wk-name-' + where + '-' + sid + '" placeholder="呼び名(任意)" maxlength="10" style="max-width:150px;">' +
+    '<select id="wk-src-' + where + '-' + sid + '" style="width:auto; font-size:14px; padding:7px 8px;"><option value="phone">電話</option><option value="store">店頭</option></select>' +
+    '<button class="btn small ghost" onclick="doWalkinAdd(' + sid + ', \'' + where + '\')">体験・単発を入れる</button></div>';
+}
+function setWkKind(sid, k, where) {
+  wkKind[sid] = k;
+  var box = document.getElementById('wk-name-' + where + '-' + sid).parentNode;
+  box.querySelectorAll('.kind .btn').forEach(function (b, i) { b.classList.toggle('sel', (i === 0) === (k === 'trial')); });
+}
+function wkMsg(where, t) { document.getElementById(where === 'ky' ? 'ky-msg' : 'yt-msg').textContent = t; }
+function wkReload(where) { if (where === 'ky') loadKyoshitsu(); else loadYotei(); }
+function doWalkinAdd(sid, where) {
+  var name = (document.getElementById('wk-name-' + where + '-' + sid).value || '').trim().slice(0, 10);
+  var src = document.getElementById('wk-src-' + where + '-' + sid).value;
+  sbRpc('staff_walkin_add', { p_pass: pass(), p_session: sid, p_kind: wkKind[sid] || 'trial', p_label: name, p_source: src }).then(function (r) {
+    if (r && r.ok) { wkMsg(where, ''); wkReload(where); return; }
+    if (r && r.code === 'PGRST202') { wkMsg(where, 'まだ使えません(データベースの準備=patch12の前です)。'); return; }
+    var t = { full: '満席です。体験・単発の方は、会員の予約より後・残席があるときだけお受けします。', past: '過ぎた日のコマには入れられません。', no_session: '中止のコマには入れられません。' }[r && r.error];
+    wkMsg(where, t || errText(r && r.error));
+  }).catch(function () { wkMsg(where, errText()); });
+}
+function doWalkin(wid, st, where) {
+  sbRpc('staff_walkin_set', { p_pass: pass(), p_walkin: wid, p_status: st }).then(function (r) {
+    if (r && r.ok) { wkMsg(where, ''); wkReload(where); }
+    else wkMsg(where, r && r.error === 'not_today' ? '出席・欠席の確定は当日中だけです。' : errText(r && r.error));
+  }).catch(function () { wkMsg(where, errText()); });
+}
+function quickSlot(name, time) {
+  document.getElementById('yt-slot').value = name;
+  document.getElementById('yt-start').value = time;
+}
+
 /* ---- 開催予定 ---- */
 function loadYotei() {
   sbRpc('staff_sessions', { p_pass: pass(), p_from: todayStr(), p_to: plusDays(60) }).then(function (r) {
@@ -2953,12 +3016,21 @@ function loadYotei() {
     if (!r.sessions.length) { el.innerHTML = '<div style="padding:14px 4px; color:var(--sub);">開催予定がまだありません。下のフォームから作れます。</div>'; return; }
     var html = '';
     r.sessions.forEach(function (s) {
-      var taken = s.roster.filter(function (x) { return x.status !== 'absent'; }).length;
+      var taken = takenOf(s);
+      var wks = (s.walkins || []).filter(function (w) { return w.status !== 'absent'; });
       html += '<div class="srow" style="cursor:pointer;" onclick="fillSession(\'' + s.held_on + '\', \'' + esc(s.slot) + '\', \'' + s.start_time + '\', ' + (s.course_id || 'null') + ', ' + s.capacity + ', \'' + s.status + '\')">' +
         '<div class="head"><b>' + s.held_on.slice(5).replace('-', '/') + '</b><span>' + s.start_time + '</span><span>' + esc(s.slot) + '</span>' +
         '<span class="tt">' + esc(s.title || '(講座未定)') + '</span>' +
         (s.status === 'cancelled' ? '<span class="chip left">中止</span>' : '') +
-        '<span class="cap">予約' + taken + '/' + s.capacity + '</span></div></div>';
+        '<span class="cap">予約' + taken + '/' + s.capacity + (wks.length ? '(うち体験・単発' + wks.length + ')' : '') + '</span></div>' +
+        wks.map(function (w) {
+          return '<div class="rrow" onclick="event.stopPropagation()"><b>' + (w.label ? esc(w.label) + 'さん' : KIND_NAME[w.kind] + 'の方') + '</b>' +
+            '<span class="chip wk">' + KIND_NAME[w.kind] + '</span>' +
+            '<span style="color:var(--sub); font-size:13px;">' + (w.source === 'phone' ? '電話' : '店頭') + '</span>' +
+            '<span class="st"><button class="btn small ghost" onclick="doWalkin(' + w.walkin_id + ', \'cancelled\', \'yt\')">取消</button></span></div>';
+        }).join('') +
+        (s.status === 'cancelled' ? '' : '<div onclick="event.stopPropagation()">' + walkinForm(s.id, 'yt') + '</div>') +
+        '</div>';
     });
     el.innerHTML = html;
   }).catch(function () {});
