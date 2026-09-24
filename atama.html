@@ -1052,7 +1052,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.28(ここスマ自習システム・使用確認の反映)</div>
+    <div class="footer">試作版 v1.29(ここスマ自習システム・店で1つの紅葉)</div>
   </div>
 </div>
 
@@ -1813,6 +1813,18 @@ function getSakura() {
   if (!data || data.month !== monthKey()) data = { month: monthKey(), count: 0 };
   return data;
 }
+/* v1.29(19z B8): みんなの紅葉は店で1つの数。正本はSupabaseの tree_log(patch10)。
+   端末の数はその控え(オフラインでもすぐ1枚増えて見える)。patch10が無い環境では、これまでどおり端末で数える */
+function treeApply(r) {
+  if (!r || r.ok !== true || typeof r.count !== 'number' || r.month !== monthKey()) return;
+  storeSet('kokosuma_sakura', JSON.stringify({ month: r.month, count: r.count }));
+  updateHome();
+}
+function treeSync() { sbRpc('tree_month', {}).then(treeApply).catch(function () {}); }
+function treeAdd(game) {
+  if (!session.t) return;
+  sbRpc('tree_add', { p_token: session.t, p_game: game }).then(treeApply).catch(function () {});
+}
 function addSakura(n) {
   var data = getSakura();
   data.count += n;
@@ -1836,6 +1848,7 @@ function gameCompleted(game, quality) {
   record.flowersByGame[game] = (record.flowersByGame[game] || 0) + 1;
   if (q >= 2) record.perfect[game] = true;
   addSakura(1);
+  treeAdd(game);
   addKenteiPoint(game, q);
   /* v1.26: 前回の自分(記録帳)と練習しました(できる地図)を送る。既存の処理には触らない */
   try {
@@ -2030,7 +2043,7 @@ function renderMap() {
     h += '<div class="map-cell ' + cls + '"' + (fn ? ' onclick="' + fn + '()"' : '') + '><span class="st">' + st + '</span><span class="nm">' + x.t.n + '</span></div>';
   });
   h += '</div>';
-  h += '<div class="map-note">升を押すと、その練習をはじめられます。</div>';
+  h += '<div class="map-note">升を押すと、その練習をはじめられます。<br>「できるようになった」は、ご自分のスマホの「できる地図」で押せます。</div>';
   el.innerHTML = h;
 }
 /* 記録帳: 級(既存) + 前回の自分 + 伸びの線 */
@@ -16448,6 +16461,8 @@ function sbQueueFlush() {
 }
 window.addEventListener('online', sbQueueFlush);
 setInterval(sbQueueFlush, 120000);
+setTimeout(treeSync, 1500);
+setInterval(treeSync, 300000);
 /* ----- 自習時間の実測(19r§8-3)。会員には表示しない(19r§5-4) ----- */
 var sbStudy = { sid: null, lastLog: 0 };
 function sbStudyStart(t) {

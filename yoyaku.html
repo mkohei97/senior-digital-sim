@@ -61,12 +61,17 @@ button{font-family:inherit}
 .sumline{font-size:23px;font-weight:700;margin:2px 0 14px;color:var(--ink-soft)}
 .sumline b{font-size:34px;color:var(--brand);font-weight:800;margin:0 4px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.cell{position:relative;aspect-ratio:1/1;border-radius:14px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;padding:8px;font-size:15px;font-weight:700;
-  line-height:1.35;cursor:pointer;border:2px dashed #C9D6D3;background:#fff;color:#A7B5B1}
+.cell{position:relative;min-height:104px;border-radius:14px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:8px 6px;font-size:18px;font-weight:700;
+  line-height:1.3;cursor:pointer;border:2px dashed #C9D6D3;background:#fff;color:#8A9A96}
+.cell .st{font-size:15px;font-weight:700;margin-bottom:4px;color:#8A9A96}
+.cell.prac{border:2px solid var(--c);background:color-mix(in srgb,var(--c) 7%,#fff);color:var(--c)}
+.cell.prac .st,.cell.got .st{color:var(--c)}
+.cell.up{border:2px solid #0071E3;background:#E4F0FC;color:#0B4F8C} .cell.up .st{color:#0071E3}
+.sumsub{font-size:20px;font-weight:700;color:var(--ink-soft);margin:-6px 0 14px}
 .cell.got{border:2px solid var(--c);background:color-mix(in srgb,var(--c) 12%,#fff);color:var(--c)}
 .cell.done{border:3px solid var(--c);background:color-mix(in srgb,var(--c) 26%,#fff);color:#14231F}
-.cell .mark{font-size:22px;line-height:1;margin-bottom:4px}
+.cell .mark{font-size:24px;line-height:1;margin-bottom:4px}
 .cell.done .mark{color:var(--c)}
 .cat-head{display:flex;align-items:center;gap:9px;margin:22px 0 10px;font-size:21px;font-weight:800}
 .cat-head .chip{width:16px;height:16px;border-radius:5px;background:var(--c)}
@@ -138,14 +143,13 @@ button{font-family:inherit}
   </div>
 
   <div class="card">
-    <h2><span class="bar"></span>できることカード</h2>
+    <h2><span class="bar"></span>できる地図</h2>
     <div class="sumline">できるようになったこと <b id="sum-done">0</b> 個</div>
-    <div class="grid" id="mini-grid"></div>
-    <div style="height:14px"></div>
-    <button class="btn sub" onclick="go('s-card')">ぜんぶ見る</button>
+    <div class="sumsub" id="sum-sub"></div>
+    <button class="btn sub" onclick="go('s-card')">できる地図を見る</button>
   </div>
 
-  <div class="foot">ここスマ 会員ページ v0.1</div>
+  <div class="foot">ここスマ 会員ページ v0.2</div>
 </section>
 
 <!-- ========== 予約の入口 ========== -->
@@ -204,16 +208,18 @@ button{font-family:inherit}
   </div>
 </section>
 
-<!-- ========== できることカード ========== -->
+<!-- ========== できる地図(v0.2: お店のタブレットと同じ20テーマ・同じ段階) ========== -->
 <section id="s-card" class="screen">
-  <div class="top"><button class="back" onclick="go('s-home')">もどる</button><div class="title">できることカード</div></div>
+  <div class="top"><button class="back" onclick="go('s-home')">もどる</button><div class="title">できる地図</div></div>
   <div class="card">
     <div class="sumline">できるようになったこと <b id="sum-done2">0</b> 個</div>
     <div class="legend">
       <span><i style="border:2px dashed #C9D6D3;background:#fff"></i>これから</span>
-      <span><i style="border:2px solid var(--brand);background:#E9F3F1"></i>習いました</span>
+      <span><i style="border:2px solid var(--brand);background:#fff"></i>習いました</span>
+      <span><i style="border:2px solid var(--brand);background:#E9F3F1"></i>練習しました</span>
       <span><i style="border:3px solid var(--ok);background:#CFE9DA"></i>できるようになった</span>
     </div>
+    <div style="font-size:18px;color:var(--ink-soft);margin-top:8px">升を押すと、「できるようになりました」を押せます。</div>
   </div>
   <div id="card-body"></div>
   <div style="height:20px"></div>
@@ -247,7 +253,7 @@ button{font-family:inherit}
 
 <script>
 /* =====================================================================
-   ここスマ 会員ページ(予約・できることカード) v0.1  2026-08-18
+   ここスマ 会員ページ(予約・できる地図) v0.2  2026-09-24 (v0.1=2026-08-18)
    ・データは Supabase の RPC(yoyaku_data / reserve / cancel_reservation /
      mark_can_do)から。HTMLに入れてよいのは公開キーだけ(19r§9-7)
    ・空席は「空きあり/満席」の2値だけ表示(43§4-4。残り数は出さない)
@@ -287,6 +293,17 @@ var COURSES = [];      // {id,t,k,pre}
 var SESSIONS = [];     // {id,d,t,cid,title,k,full,mine,mineId,mineExtra,heldOn,startTime}
 var RESV = [];         // 自分の予約(SESSIONSの部分集合)
 var LEARNED = [], MARKED = [];
+/* v0.2(19z B6): お店のタブレット(19a)の「できる地図」と同じ20テーマ。IDは42のテーマID=講座ID */
+var THEMES = [
+  {id:101,t:'文字入力',up:true},{id:102,t:'電話'},{id:103,t:'あやしいメール・SMS'},{id:104,t:'見やすくする'},{id:105,t:'Wi-Fiとギガ'},
+  {id:106,t:'スマホの基本操作'},{id:107,t:'パスワードと安全'},
+  {id:201,t:'LINEの基本'},{id:202,t:'カメラと写真'},{id:203,t:'マップ'},{id:204,t:'スマホの困りごと'},{id:205,t:'キャッシュレス'},{id:206,t:'検索とAIに聞く'},
+  {id:301,t:'孫とビデオ通話'},{id:302,t:'家族グループ'},{id:304,t:'緊急連絡先'},{id:305,t:'スマホ代の見直し'},{id:306,t:'災害への備え'},
+  {id:307,t:'昔の写真の残し方'},{id:311,t:'予約を取る'}
+];
+THEMES.forEach(function(x){ x.k = catKey(x.id); });
+var PRACTICE = {};   // テーマID → 練習した回数(my_progress)
+function T(id){ return THEMES.find(function(x){return x.id===id;}) || C(id); }
 
 var CAT = {
   kihon:{name:"基本",     c:"var(--cat-kihon)"},
@@ -327,6 +344,12 @@ function loadData(){
     showLoad('この画面は、ここスマの<b>会員さま用</b>です。<br>お店でお渡しした<b>会員証(QRコード)</b>から<br>お開きください。<br><br><span style="font-size:19px">分からないときは、お店でお声かけください。<br>お電話でもご予約いただけます。</span>');
     return Promise.resolve(false);
   }
+  /* 練習の記録はお店のタブレットと同じところ(my_progress)から。届かなくても地図は出す */
+  rpc('my_progress', {p_token: TOKEN}).then(function(p){
+    PRACTICE = {};
+    if (p && p.ok && p.practice) p.practice.forEach(function(x){ PRACTICE[x.theme_id] = x.times; });
+    renderHomeSafe(); if (document.getElementById('s-card').classList.contains('on')) renderCard();
+  }).catch(function(){});
   return rpc('yoyaku_data', {p_token: TOKEN}).then(function(r){
     if(!r || !r.ok){
       if(r && r.error==='bad_token'){
@@ -357,7 +380,7 @@ function loadData(){
 }
 function boot(){
   showLoad('読み込んでいます…');
-  loadData().then(function(ok){ if(ok) go('s-home'); });
+  loadData().then(function(ok){ if(ok) go(location.hash==='#map' ? 's-card' : 's-home'); });
 }
 
 /* ---------- 画面遷移 ---------- */
@@ -374,7 +397,8 @@ function go(id){
 
 /* ---------- ホーム ---------- */
 function stateOf(cid){
-  if(MARKED.indexOf(cid)>=0) return 2;
+  if(MARKED.indexOf(cid)>=0) return 3;
+  if(PRACTICE[cid]) return 2;
   if(LEARNED.indexOf(cid)>=0) return 1;
   return 0;
 }
@@ -395,10 +419,11 @@ function renderHome(){
           + '<button class="btn quiet" style="min-height:56px;font-size:21px" onclick="openCancel('+s.id+')">取り消す</button>'
           + '</div>';
       }).join('');
-  var done = MARKED.length;
+  var done = THEMES.filter(function(x){return stateOf(x.id)===3;}).length;
+  var prac = THEMES.filter(function(x){return stateOf(x.id)===2;}).length;
+  var got  = THEMES.filter(function(x){return stateOf(x.id)===1;}).length;
   document.getElementById('sum-done').textContent = done;
-  document.getElementById('mini-grid').innerHTML =
-    COURSES.slice(0,6).map(function(c){return cellHTML(c,true);}).join('');
+  document.getElementById('sum-sub').textContent = '練習しました ' + prac + '・習いました ' + got;
 }
 
 /* ---------- 取消 ---------- */
@@ -540,49 +565,55 @@ function addToCalendar(){
   document.body.appendChild(a); a.click(); a.remove();
 }
 
-/* ---------- できることカード ---------- */
-function cellHTML(c,mini){
+/* ---------- できる地図 ---------- */
+function cellHTML(c){
   var st=stateOf(c.id);
-  var cls = st===2?'done':(st===1?'got':'');
-  var mk  = st===2?'✓':(st===1?'●':'');
+  var up = c.up && st===2;
+  var cls = st===3?'done':(up?'up':(st===2?'prac':(st===1?'got':'')));
+  var lab = st===3?'✓ できる':(up?'練習中 '+PRACTICE[c.id]+'回':(st===2?'練習しました':(st===1?'習いました':'これから')));
   return '<div class="cell '+cls+'" style="--c:'+CAT[c.k].c+'" onclick="openSheet('+c.id+')">'
-       + (mk?'<span class="mark">'+mk+'</span>':'')+'<span>'+esc(c.t)+'</span></div>';
+       + '<span class="st">'+lab+'</span><span>'+esc(c.t)+'</span></div>';
 }
 function renderCard(){
-  document.getElementById('sum-done2').textContent = MARKED.length;
+  THEMES.forEach(function(x){ x.k = catKey(x.id); });
+  var all = THEMES.concat(COURSES.filter(function(c){ return c.k==='event' && !THEMES.some(function(x){return x.id===c.id;}); }));
+  document.getElementById('sum-done2').textContent = all.filter(function(c){return stateOf(c.id)===3;}).length;
   var h='';
   ['kihon','ouyou','katsu','event'].forEach(function(k){
-    var list=COURSES.filter(function(c){return c.k===k;});
+    var list=all.filter(function(c){return c.k===k;});
     if(list.length===0) return;
-    var d=list.filter(function(c){return stateOf(c.id)===2;}).length;
-    var g=list.filter(function(c){return stateOf(c.id)>=1;}).length;
+    var d=list.filter(function(c){return stateOf(c.id)===3;}).length;
+    var p=list.filter(function(c){return stateOf(c.id)===2;}).length;
+    var g=list.filter(function(c){return stateOf(c.id)===1;}).length;
     h += '<div class="cat-head" style="--c:'+CAT[k].c+'">'
        + '<span class="chip"></span>'+CAT[k].name
-       + '<span class="cnt">習いました '+g+' ・ できるように '+d+'</span></div>'
+       + '<span class="cnt">できる '+d+'・練習 '+p+'・習った '+g+'</span></div>'
        + '<div class="grid">'+list.map(function(c){return cellHTML(c);}).join('')+'</div>';
   });
-  document.getElementById('card-body').innerHTML = h || '<div class="none">講座の一覧は、じゅんび中です。</div>';
+  document.getElementById('card-body').innerHTML = h;
 }
 
 /* ---------- 講座の詳細シート ---------- */
 var shId=null;
 function openSheet(id){
-  shId=id; var c=C(id); if(!c) return;
+  shId=id; var c=T(id); if(!c) return;
+  c.k = c.k || catKey(id);
   var st=stateOf(id);
+  var bookable = !!C(id);   // 予約できる講座(公開中)か
   document.getElementById('sh-cat').innerHTML='<span class="cat2" '+catStyle(c.k)+'>'+CAT[c.k].name+'</span>';
   document.getElementById('sh-title').textContent=c.t;
   var S=document.getElementById('sh-state');
   var B=document.getElementById('sh-btns');
+  var book = bookable ? '<button class="btn sub" onclick="closeSheet();go(\'s-bycourse\')">'+(st===0?'この講座を予約する':'もう一度受ける')+'</button>' : '';
   if(st===0){
-    S.className='state yet'; S.textContent='これから受けられます';
-    B.innerHTML='<button class="btn" onclick="closeSheet();go(\'s-bycourse\')">この講座を予約する</button>';
-  }else if(st===1){
-    S.className='state got'; S.textContent='習いました';
-    B.innerHTML='<button class="btn ok" onclick="markDone()">できるようになりました！</button>'
-              + '<button class="btn sub" onclick="closeSheet();go(\'s-bycourse\')">もう一度受ける</button>';
+    S.className='state yet'; S.textContent = bookable ? 'これから受けられます' : 'お店のタブレットの自習でも練習できます';
+    B.innerHTML = book;
+  }else if(st===1 || st===2){
+    S.className='state got'; S.textContent = st===2 ? '練習しました' : '習いました';
+    B.innerHTML='<button class="btn ok" onclick="markDone()">できるようになりました！</button>' + book;
   }else{
     S.className='state done'; S.textContent='✓ できるようになりました';
-    B.innerHTML='<button class="btn sub" onclick="closeSheet();go(\'s-bycourse\')">もう一度受ける</button>';
+    B.innerHTML = book;
   }
   document.getElementById('sheet').classList.add('on');
 }
@@ -591,7 +622,12 @@ function markDone(){
   closeSheet();
   if(MARKED.indexOf(id)<0) MARKED.push(id);   // 先に画面へ反映
   renderCard(); renderHomeSafe();
-  rpc('mark_can_do',{p_token:TOKEN,p_course:id,p_on:true}).catch(function(){});
+  rpc('mark_can_do',{p_token:TOKEN,p_course:id,p_on:true}).then(function(r){
+    if(r && r.ok===false){   // まだ講座の一覧に無いテーマ(patch10の前)なら、元に戻す
+      MARKED = MARKED.filter(function(x){return x!==id;});
+      renderCard(); renderHomeSafe();
+    }
+  }).catch(function(){});
 }
 function renderHomeSafe(){ try{ if(D) renderHome(); }catch(e){} }
 function closeSheet(){ document.getElementById('sheet').classList.remove('on'); }
