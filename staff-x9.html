@@ -97,6 +97,17 @@
   .rrow .st .btn.on { background: var(--deep); color: #fff; border: none; box-shadow: 0 2px 0 #06382E; }
   .rrow .st .btn.on.ab { background: #8A6D1F; box-shadow: 0 2px 0 #6B540F; }
   .addrow { display: flex; gap: 8px; align-items: center; padding-top: 10px; border-top: 1px dashed var(--line); margin-top: 4px; }
+  /* 自習のようす */
+  .jhd { font-size: 15px; font-weight: 700; margin-bottom: 4px; color: var(--ink, #222); }
+  .jrow { display: flex; align-items: center; gap: 10px; font-size: 15px; padding: 3px 0; }
+  .jrow > b { width: 64px; }
+  .jbar { position: relative; flex: 1; height: 12px; border-radius: 999px; background: #EFEBE0; overflow: hidden; max-width: 260px; }
+  .jbar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; } .jbar i.n { background: #0B5345; } .jbar i.f { background: #BFDCD6; z-index: 1; }
+  .jv { width: 130px; } .jv.none { color: var(--sub); } .jv em.dn { font-style: normal; font-size: 12px; background: #F3EAD8; color: #8A6D1F; border-radius: 999px; padding: 1px 6px; margin-left: 6px; }
+  .jd { font-size: 13px; color: var(--sub); }
+  .jsum { font-size: 14px; margin-top: 8px; }
+  .jtips { background: #F5FAF8; border: 1px solid #D7E8E3; border-radius: 10px; padding: 8px 12px; margin-top: 8px; font-size: 14.5px; line-height: 1.7; }
+  .jpick { margin-top: 10px; font-size: 14.5px; }
   .addrow input { max-width: 110px; font-size: 15px; padding: 8px 10px; }
   .addrow.wk { flex-wrap: wrap; }
   .addrow.wk .kind .btn { padding: 6px 12px; font-size: 13.5px; }
@@ -231,6 +242,11 @@
     <h2><span id="d-name"></span><span class="chip c" id="d-course"></span><button class="close" onclick="closeOvl('ovl-detail')">閉じる ✕</button></h2>
     <div class="kv" id="d-kv"></div>
     <div class="msg" id="d-msg"></div>
+
+    <div class="sec" id="d-jishu">
+      <div class="t">自習のようす(声かけの材料・ご本人には点数を見せない)</div>
+      <div id="j-body" style="font-size:15px;color:var(--sub);">読み込んでいます…</div>
+    </div>
 
     <div class="sec">
       <div class="t">コース変更</div>
@@ -2689,6 +2705,7 @@ function openDetail(id) {
   document.getElementById('d-msg').textContent = '';
   document.getElementById('d-msg').className = 'msg';
   document.getElementById('qrbox').innerHTML = '';
+  loadJishu(cur.id);
   /* コース */
   var cb = document.getElementById('d-courses');
   cb.innerHTML = '';
@@ -2790,6 +2807,55 @@ function renderQrInto(boxId, id, name, token) {
   qr.make();
   document.getElementById(boxId).innerHTML =
     '<div id="qrbox">' + qr.createImgTag(6, 8).replace('<img ', '<img style="width:260px;height:260px;image-rendering:pixelated;" alt="会員専用QR" ') + '</div>';
+}
+
+
+/* ---- 自習のようす(2026-09-25・patch13・19ya) ---- */
+var J_DOM = [['kiku', '聞く', 'kiki', '聞き取りチャレンジ'], ['oboeru', '覚える', 'kioku', '記憶の順番'], ['mitsukeru', '見つける', 'tile', '順番タップ'], ['kazu', '数', 'otsuri', 'お釣り計算'], ['kotoba', 'ことば', 'kotowaza', 'ことわざクイズ']];
+var J_ACTS = [['', '(おすすめなし)'], ['kiki', '聞き取りチャレンジ'], ['kioku', '記憶の順番'], ['cards', 'カード合わせ'], ['tile', '順番タップ'], ['otsuri', 'お釣り計算'], ['kotowaza', 'ことわざクイズ'], ['kofun', 'ふるさとクイズ'], ['kami', '上の句・下の句'], ['line', 'LINEの練習'], ['sagi', 'あやしいメッセージ'], ['odai', 'スマホでやってみる']];
+function jDays(d) { if (!d) return 999; return Math.round((new Date(todayStr() + 'T00:00:00') - new Date(String(d).slice(0, 10) + 'T00:00:00')) / 86400000); }
+function loadJishu(id) {
+  var el = document.getElementById('j-body');
+  el.textContent = '読み込んでいます…';
+  sbRpc('staff_skill', { p_pass: pass(), p_member: id }).then(function (r) {
+    if (!r || !r.ok) { el.textContent = (r && r.code === 'PGRST202') ? 'まだ使えません(データベースの準備=patch13の前です)。' : '記録を読めませんでした。'; return; }
+    var dm = {}; (r.domains || []).forEach(function (x) { dm[x.d] = x; });
+    var rows = J_DOM.map(function (d) {
+      var x = dm[d[0]];
+      if (!x) return '<div class="jrow"><b>' + d[1] + '</b><span class="jbar"></span><span class="jv none">まだ</span></div>';
+      var trend = x.recent < x.dan - 1 ? '<em class="dn">最近' + x.recent + '段</em>' : '';
+      return '<div class="jrow"><b>' + d[1] + '</b><span class="jbar"><i class="f" style="width:' + x.first * 10 + '%"></i><i class="n" style="width:' + x.dan * 10 + '%"></i></span>' +
+        '<span class="jv">' + x.first + '→<b>' + x.dan + '段</b>' + trend + '</span><span class="jd">' + (x.last_on ? x.last_on.slice(5).replace('-', '/') : '') + '</span></div>';
+    }).join('');
+    var pr = r.practice || [], learned = r.learned || [], marked = r.marked || [];
+    var sumaho = '<div class="jsum">スマホ習得：練習したテーマ <b>' + pr.length + '</b>・講座で習った <b>' + learned.length + '</b>・ご本人が「できる」を押した <b>' + marked.length + '</b></div>';
+    /* 声かけの一言(候補) */
+    var tips = [];
+    var ups = J_DOM.map(function (d) { var x = dm[d[0]]; return x && x.dan > x.first && jDays(x.last_on) <= 30 ? { d: d, x: x } : null; }).filter(Boolean)
+      .sort(function (a, b) { return (b.x.dan - b.x.first) - (a.x.dan - a.x.first); });
+    if (ups[0]) tips.push('「' + ups[0].d[3] + '、上達していますね」(' + ups[0].d[1] + ' はじめ' + ups[0].x.first + '段→いま' + ups[0].x.dan + '段)');
+    var low = J_DOM.map(function (d) { return { d: d, dan: dm[d[0]] ? dm[d[0]].dan : 0 }; }).sort(function (a, b) { return a.dan - b.dan; })[0];
+    if (low) tips.push('「次は“' + low.d[3] + '”をやってみませんか」' + (low.dan ? '(' + low.d[1] + 'がいちばん伸ばしどころ)' : '(まだ手つかず)'));
+    var notPr = learned.filter(function (c) { return !pr.some(function (p) { return p.theme_id === c; }); });
+    if (notPr.length) tips.push('「講座でやったところ、タブレットでも復習できますよ」(習ったのに未練習のテーマ ' + notPr.length + ')');
+    var slump = J_DOM.filter(function (d) { var x = dm[d[0]]; return x && x.recent < x.dan - 1; });
+    if (slump.length) tips.push('(スタッフだけ)' + slump.map(function (d) { return d[1]; }).join('・') + 'は最近いつもより苦戦中。ほめる所から入る');
+    var tipHtml = tips.length ? '<div class="jtips"><b>声かけの一言(候補)</b>' + tips.map(function (t) { return '<div>・' + esc(t) + '</div>'; }).join('') + '</div>' : '';
+    var pick = r.pick;
+    var sel = '<select id="j-pick" style="width:auto;font-size:15px;padding:7px 8px;">' + J_ACTS.map(function (a) { return '<option value="' + a[0] + '"' + (pick && pick.game === a[0] ? ' selected' : '') + '>' + a[1] + '</option>'; }).join('') + '</select>';
+    var pickHtml = '<div class="jpick"><b>次回の「今日のメニュー」に1つ入れる</b><div class="row" style="gap:8px;flex-wrap:wrap;margin-top:6px;">' + sel +
+      '<input type="text" id="j-note" maxlength="30" placeholder="ひとこと(任意・画面に出ます)" value="' + esc(pick ? pick.note : '') + '" style="max-width:260px;font-size:15px;padding:7px 10px;">' +
+      '<button class="btn small ghost" onclick="saveJPick()">入れる</button></div>' +
+      (pick ? '<div style="font-size:14px;color:var(--sub);margin-top:4px;">いま入っています(' + String(pick.on).slice(5, 10).replace('-', '/') + ')。ご本人がその種目をやると、メニューから外れます。</div>' : '') + '</div>';
+    el.innerHTML = '<div class="jhd">脳トレの段(はじめ→いま・下がらない)　今月 ' + (r.month_sessions || 0) + '回</div>' + rows + sumaho + tipHtml + pickHtml;
+  }).catch(function () { el.textContent = '記録を読めませんでした。'; });
+}
+function saveJPick() {
+  var g = document.getElementById('j-pick').value, n = (document.getElementById('j-note').value || '').trim();
+  sbRpc('staff_pick', { p_pass: pass(), p_member: cur.id, p_game: g, p_note: n }).then(function (r) {
+    if (r && r.ok) { setDMsg(g ? '次回のメニューに入れました。' : 'おすすめを外しました。', true); loadJishu(cur.id); }
+    else setDMsg(errText(r && r.error), false);
+  }).catch(function () { setDMsg(errText(), false); });
 }
 
 /* ---- 新規登録 ---- */

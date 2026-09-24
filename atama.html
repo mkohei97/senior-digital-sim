@@ -338,6 +338,25 @@
   .cat-grid .catcard .items { gap: 2px 14px; }
   /* v1.27: 種目が問う力(小さな札。効能ではなく「何を使うか」) */
   em.abil { font-style: normal; font-size: 14px; line-height: 1; color: #6B6559; background: #F3F0E9; border: 1px solid #E4DED2; border-radius: 999px; padding: 4px 9px; white-space: nowrap; margin-left: 8px; vertical-align: 2px; }
+  /* v1.31 今日のメニュー・脳トレの段 */
+  .reco.done { opacity: 0.72; }
+  .menu-note { font-size: 17px; color: var(--accent-deep); min-height: 0; }
+  .menu-note:empty { display: none; }
+  .reco { position: relative; }
+  .reco .ck { position: absolute; top: 8px; right: 12px; font-size: 22px; font-weight: 700; color: var(--action); }
+  .menu-done, .menu-prog { margin-left: 10px; font-size: 16px; font-weight: 700; border-radius: 999px; padding: 2px 12px; vertical-align: 2px; }
+  .menu-done { background: var(--accent-deep); color: #FFFFFF; } .menu-prog { background: #E3F2F0; color: var(--accent-deep); }
+  .dan-box { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 18px; padding: 12px 18px; margin-bottom: 12px; }
+  .dan-hd { font-size: 20px; font-weight: 700; margin-bottom: 6px; } .dan-hd span { font-size: 17px; font-weight: 400; color: #555555; margin-left: 10px; }
+  .drow { display: flex; align-items: center; gap: 12px; padding: 4px 0; font-size: 19px; }
+  .drow b { width: 88px; flex-shrink: 0; }
+  .dbar { position: relative; flex: 1; height: 16px; border-radius: 999px; background: #EFEBE0; overflow: hidden; }
+  .dbar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; }
+  .dbar i.n { background: var(--action); } .dbar i.f { background: #CFE7E2; z-index: 1; }
+  .dbar i.n { z-index: 0; }
+  .dv { width: 92px; text-align: right; font-weight: 700; color: var(--accent-deep); } .dv .none { color: #8B857A; font-weight: 400; font-size: 17px; }
+  .dv em { font-style: normal; font-size: 13px; background: #FFE9A8; color: #7A5A28; border-radius: 999px; padding: 1px 7px; margin-left: 5px; vertical-align: 2px; }
+  .dan-note { font-size: 16px; color: #8B857A; margin-top: 4px; }
   .reco-wrap { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
   .reco-cap { font-size: 20px; font-weight: 700; color: #555555; }
   .reco-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
@@ -507,6 +526,46 @@
   .kiki-result .a { font-size: 24px; color: #555555; }
   .kiki-result .b { font-size: 72px; font-weight: 700; color: var(--action); line-height: 1.1; }
   .kiki-result .c { font-size: 27px; font-weight: 700; }
+  /* v1.30 聞き取りチャレンジ2種類(19ma) */
+  .kk-modes { display: flex; flex-direction: column; gap: 16px; width: 100%; max-width: 600px; }
+  .kk-mode { display: flex; align-items: center; gap: 18px; background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 22px; padding: 20px 24px; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,0.06); }
+  .kk-mode:active { transform: translateY(2px); }
+  .kk-mode.sub { padding: 14px 24px; background: transparent; box-shadow: none; }
+  .kk-mi { width: 64px; height: 64px; border-radius: 999px; background: #FBE9D6; color: #B96A2C; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .kk-mi svg { width: 38px; height: 38px; }
+  .kk-mt { display: flex; flex-direction: column; gap: 4px; }
+  .kk-mt b { font-size: 27px; }
+  .kk-mt span { font-size: 19px; color: #555555; line-height: 1.5; }
+  .kk-mode.sub .kk-mt b { font-size: 22px; }
+  .kk-scene { font-size: 23px; font-weight: 700; color: var(--accent-deep); background: #E3F2F0; border-radius: 999px; padding: 6px 22px; }
+  .kk-hint { font-size: 18px; color: #8A6D1F; min-height: 24px; }
+  .kk-pad { display: grid; grid-template-columns: repeat(3, 110px); gap: 14px; }
+  .kk-key { height: 86px; border-radius: 20px; background: #FFFFFF; border: 2px solid var(--season-border); font-size: 38px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .kk-key:active { transform: translateY(2px); }
+  .kk-key.ok { border: 3px solid var(--action); background: #E3F2F0; }
+  .kk-key.ng { border: 3px solid #C25E00; background: #FBF3E4; }
+  .kk-text { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 20px; padding: 18px 22px; font-size: 21px; line-height: 1.9; width: 100%; max-width: 640px; }
+  .kk-text mark { background: #FFE9A8; color: inherit; padding: 0 2px; border-radius: 4px; font-weight: 700; }
+  .kk-line { margin: 4px 0; } .kk-line b { color: var(--accent-deep); margin-right: 8px; }
+  .kk-reslist { width: 100%; max-width: 640px; display: flex; flex-direction: column; gap: 6px; }
+  .kk-res { font-size: 19px; } .kk-res.ok { color: var(--accent-deep); } .kk-res.ng { color: #C25E00; }
+  .mk-book { display: flex; gap: 22px; align-items: center; background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 22px; padding: 22px 26px; width: 100%; max-width: 600px; }
+  .mk-spine { width: 70px; height: 150px; border-radius: 8px; background: #7A2E2E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-size: 20px; font-weight: 700; letter-spacing: 4px; flex-shrink: 0; }
+  .mk-info { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .mk-info b { font-size: 29px; } .mk-info span { font-size: 19px; color: #555555; }
+  .mk-bar, .mk-prog { height: 12px; border-radius: 999px; background: #EFEBE0; overflow: hidden; width: 100%; }
+  .mk-bar i, .mk-prog i { display: block; height: 100%; width: 0; background: var(--action); }
+  .mk-prog { max-width: 520px; }
+  .mk-time { font-size: 18px; color: #555555; min-height: 22px; }
+  .mk-st { font-weight: 700; color: var(--accent-deep) !important; }
+  .mk-syn { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 16px; padding: 12px 18px; font-size: 20px; line-height: 1.7; max-width: 640px; }
+  .mk-syn b { color: var(--accent-deep); margin-right: 10px; }
+  .mk-rates { font-size: 19px; color: #555555; display: flex; gap: 10px; align-items: center; }
+  .mk-rate { border: 2px solid var(--season-border); border-radius: 999px; padding: 6px 16px; cursor: pointer; background: #FFFFFF; }
+  .mk-rate.on { border-color: var(--accent-deep); color: var(--accent-deep); font-weight: 700; }
+  .mk-read { width: 100%; max-width: 640px; font-size: 19px; }
+  .mk-read summary { cursor: pointer; color: var(--accent-deep); font-weight: 700; font-size: 20px; }
+  .mk-read div { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 16px; padding: 14px 18px; line-height: 1.9; max-height: 280px; overflow-y: auto; margin-top: 8px; }
   .kiki-pill { background: #E3F2F0; border: 1px solid #B8DAD4; border-radius: 999px; padding: 12px 34px; font-size: 22px; font-weight: 700; color: var(--accent-deep); }
   .game-card:active { transform: translateY(4px); box-shadow: none !important; }
 
@@ -1045,6 +1104,7 @@
     <div class="reco-wrap">
       <div class="reco-cap">今日のおすすめ</div>
       <div class="reco-grid" id="reco-grid"></div>
+      <div class="menu-note" id="menu-note"></div>
     </div>
     <div style="display:flex; justify-content:center;">
       <div class="btn btn-white" onclick="endDay()">
@@ -1052,7 +1112,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.29(ここスマ自習システム・店で1つの紅葉)</div>
+    <div class="footer">試作版 v1.31(ここスマ自習システム・今日のメニューと脳トレの段)</div>
   </div>
 </div>
 
@@ -1852,12 +1912,13 @@ function gameCompleted(game, quality) {
   addKenteiPoint(game, q);
   /* v1.26: 前回の自分(記録帳)と練習しました(できる地図)を送る。既存の処理には触らない */
   try {
-    var v = { kiki: record.kikiTop, tile: record.numsMax, kioku: record.kiokuBest, otsuri: record.otsuriCorrect, kofun: record.quizCorrect,
+    var v = { kiki: (record.kikiTop || undefined), tile: record.numsMax, kioku: record.kiokuBest, otsuri: record.otsuriCorrect, kofun: record.quizCorrect,
               kotowaza: record.kotoCorrect, sagi: record.sagiCorrect, line: record.lineCorrect }[game];
     if (typeof RESULT_METRIC !== 'undefined' && RESULT_METRIC[game] && v !== undefined) sendResult(game, RESULT_METRIC[game][0], v);
     if (game === 'sagi') sendPractice(103, 'sagi');
     if (game === 'line') sendPractice(201, 'line');
   } catch (e) {}
+  try { skillAfterGame(game); } catch (e) {}
 }
 // 出来の判定(共通のものさし: ミスなし=2・おおむね出来た=1・それ未満=0)
 function qualityByCorrect(correct, total) {
@@ -1979,7 +2040,8 @@ function loadProgress() {
   if (!session.t) return Promise.resolve(progressData);
   return Promise.all([
     sbRpc('my_progress', { p_token: session.t }).catch(function () { return null; }),
-    sbRpc('yoyaku_data', { p_token: session.t }).catch(function () { return null; })
+    sbRpc('yoyaku_data', { p_token: session.t }).catch(function () { return null; }),
+    loadSkill()
   ]).then(function (rs) {
     var p = rs[0], y = rs[1];
     var d = progressData || { practice: [], results: [], learned: [], marked: [] };
@@ -1987,6 +2049,7 @@ function loadProgress() {
     if (y && y.ok) { d.learned = y.learned || []; d.marked = y.marked || []; }
     progressData = d;
     storeSet(progressCacheKey(), JSON.stringify(d));
+    try { var mk0 = null; try { mk0 = JSON.parse(storeGet(menuKey()) || 'null'); } catch (e) {} if (!(mk0 && mk0.day === todayStr())) { menu = null; storeSet(menuKey(), ''); } renderReco(); } catch (e) {}
     return d;
   });
 }
@@ -2081,9 +2144,15 @@ function renderManabi() {
   }
   var recent = days.filter(function (k) { var d = new Date(k); return (today - d) / 86400000 < 28; }).length;
   var html = '<div class="log-streak"><div class="tx"><b>続けている証</b><span>この4週間で <b>' + recent + '</b> 回</span></div><div class="wk">' + wk + '</div></div>';
-  html += '<div class="sub-tabs two">' +
+  html += '<div class="sub-tabs three">' +
+    '<div class="sub-tab' + (logCat === 'dan' ? ' on' : '') + '" onclick="setLogCat(\'dan\')">脳トレの段</div>' +
     '<div class="sub-tab' + (logCat === 'nokatsu' ? ' on' : '') + '" onclick="setLogCat(\'nokatsu\')">脳活トレーニング</div>' +
-    '<div class="sub-tab' + (logCat === 'sumaho' ? ' on' : '') + '" onclick="setLogCat(\'sumaho\')">スマホ習得トレーニング</div></div>';
+    '<div class="sub-tab' + (logCat === 'sumaho' ? ' on' : '') + '" onclick="setLogCat(\'sumaho\')">スマホ習得</div></div>';
+  if (logCat === 'dan') {
+    html += brainDanHtml() + '<div class="log-note">段は、種目の出来から毎回計算しています。いちばん良かった回の段が残ります。</div>';
+    document.getElementById('manabi-panel').innerHTML = html;
+    return;
+  }
   var two = logCat === 'nokatsu';
   html += '<div class="log-grid' + (two ? ' two' : '') + '">';
   groups[logCat].forEach(function (k) {
@@ -2132,29 +2201,190 @@ function sendPractice(theme, game) {
     .catch(function () { sbQueueAdd({ fn: 'practice_add', args: args, day: todayStr() }); });
 }
 var ODAI_THEME = { yoyaku: 311, manner: 102, moji: 104, shot: 106, photo: 202, ai: 206 };
-/* 今日のおすすめ(日替わり3つ・19k§6-2) */
-var RECO = [
-  { n: 'LINEの練習', w: '講座の復習に', fn: 'startLine', chip: '#E4F3E6', ink: '#1E8A46', ic: 'ic-bubble' },
-  { n: '聞き取りチャレンジ', w: '耳の体操', fn: 'startKiki', chip: '#FBE9D6', ink: '#B96A2C', ic: 'ic-ear' },
-  { n: 'あやしいメッセージ', w: '見分けの合言葉', fn: 'startSagi', chip: '#FDEBE7', ink: '#B0452F', ic: 'ic-phone' },
-  { n: 'ふるさとクイズ', w: '思い出をたどる', fn: 'startQuiz', chip: '#E7F3E8', ink: '#2E8B57', ic: 'ic-kofun' },
-  { n: '記憶の順番', w: '光った順に', fn: 'startKioku', chip: '#DFF2FA', ink: '#1E7A9C', ic: 'ic-spark' },
-  { n: 'スマホでやってみる', w: 'お題をひとつ', fn: 'startOdai', chip: '#EEE8F6', ink: '#6B4FA1', ic: 'ic-phone' },
-  { n: 'お釣り計算', w: '買い物のお釣り', fn: 'startOtsuri', chip: '#F5EDD6', ink: '#9A7B2D', ic: 'ic-coin' },
-  { n: '上の句・下の句', w: '札を合わせる', fn: 'startKami', chip: '#F0F2DF', ink: '#5F6B2B', ic: 'ic-tanzaku' },
-  { n: 'ことわざクイズ', w: 'つづきを当てる', fn: 'startKotowaza', chip: '#F6E7EB', ink: '#963E52', ic: 'ic-maki' }
+/* ===== v1.31 脳トレの分野の段・今日のメニュー（19ya v0.2・patch13） ===== */
+var BRAIN = [
+  { d: 'kiku', n: '聞く', games: ['kiki'] },
+  { d: 'oboeru', n: '覚える', games: ['kioku', 'cards'] },
+  { d: 'mitsukeru', n: '見つける', games: ['tile'] },
+  { d: 'kazu', n: '数', games: ['otsuri'] },
+  { d: 'kotoba', n: 'ことば', games: ['kotowaza', 'kofun', 'kami'] }
 ];
+function brainOf(game) { for (var i = 0; i < BRAIN.length; i++) if (BRAIN[i].games.indexOf(game) >= 0) return BRAIN[i].d; return null; }
+var skillData = null; // my_skill の返り値
+function mDay() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+function sessM() { return (typeof session !== 'undefined' && session) ? session.m : ''; }
+/* 種目の開始時点を覚える(1回ぶんの差分で段を出す) */
+var gs = {};
+function gsMark(game) {
+  gs[game] = { t: Date.now(), oc: record.otsuriCorrect, oa: record.otsuriAnswered, nm: record.numsMiss, cm: record.cardsMiss,
+    kc: record.kotoCorrect, qc: record.quizCorrect, km: record.kamiMiss };
+}
+(function () {
+  var wrap = { startNums: 'tile', startOtsuri: 'otsuri', startCards: 'cards', startKotowaza: 'kotowaza', startQuiz: 'kofun', startKami: 'kami', startKioku: 'kioku' };
+  Object.keys(wrap).forEach(function (fn) {
+    var orig = window[fn]; if (typeof orig !== 'function') return;
+    window[fn] = function () { gsMark(wrap[fn]); menuStartedGame = wrap[fn]; return orig.apply(this, arguments); };
+  });
+})();
+function effDan(eff, th) { var n = 1; for (var i = 0; i < th.length; i++) if (eff <= th[i]) n++; return Math.min(10, n); }
+var pendingDan = {}; // 聞き取りは画面側で決めて入れる(null=段なし・名作)
+/* 1回ぶんの段(1〜10)。ことばは正解の数(pts)を返す。暫定のものさし＝開店後の実測で直す(19ya§6) */
+function danOfPlay(game) {
+  var g = gs[game] || { t: Date.now() }, secs = (Date.now() - g.t) / 1000;
+  if (game === 'kiki') { var v = pendingDan.kiki; pendingDan.kiki = undefined; return v === null || v === undefined ? null : { dan: v }; }
+  if (game === 'kioku') { var b = (typeof kioku !== 'undefined' && kioku && kioku.best) || record.kiokuBest || 0; return b > 0 ? { dan: Math.max(1, Math.min(10, b - 2)) } : null; }
+  if (game === 'tile') return { dan: effDan(secs + 5 * (record.numsMiss - (g.nm || 0)), [240, 200, 170, 145, 125, 110, 95, 85, 75]) };
+  if (game === 'cards') return { dan: effDan(secs + 3 * (record.cardsMiss - (g.cm || 0)), [300, 240, 200, 170, 145, 125, 110, 95, 85]) };
+  if (game === 'otsuri') {
+    var c = record.otsuriCorrect - (g.oc || 0), a = record.otsuriAnswered - (g.oa || 0);
+    if (a <= 0) return null;
+    if (c < a) return { dan: Math.max(1, c) };
+    return { dan: Math.min(10, 4 + effDan(secs, [150, 120, 100, 80, 65])) }; // 全問正解=5〜10
+  }
+  if (game === 'kotowaza') return { pts: Math.max(0, record.kotoCorrect - (g.kc || 0)) };
+  if (game === 'kofun') return { pts: Math.max(0, record.quizCorrect - (g.qc || 0)) };
+  if (game === 'kami') return { pts: Math.max(0, KAMI_PAIRS - (record.kamiMiss - (g.km || 0))) };
+  return null;
+}
+/* 種目の終わりに呼ばれる(gameCompletedから) */
+function skillAfterGame(game) {
+  var dm = brainOf(game);
+  if (dm) {
+    var r = danOfPlay(game);
+    if (r && session.t) {
+      if (r.dan !== undefined) sendResult(game, 'dan', r.dan);
+      if (r.pts !== undefined) sendResult(game, 'pts', r.pts);
+    }
+    if (r && session.m) skillLocalAdd(dm, r);
+  }
+  menuMarkDone(game);
+}
+/* 送ったぶんを手元にも反映(次に読み込むまでのあいだ) */
+function skillLocalAdd(dm, r) {
+  if (!skillData) skillData = { domains: [], last_game: {}, last_theme: {} };
+  var row = null; skillData.domains.forEach(function (x) { if (x.d === dm) row = x; });
+  if (dm === 'kotoba') {
+    var tot = (row && row._pts !== undefined) ? row._pts : ((row ? row.dan - 1 : 0) * 15);
+    tot += (r.pts || 0);
+    var dan = Math.min(10, 1 + Math.floor(tot / 15));
+    if (!row) { row = { d: dm, dan: dan, first: dan, recent: dan, n: 0 }; skillData.domains.push(row); }
+    row._pts = tot; if (dan > row.dan) { row._up = true; row.dan = dan; } row.recent = row.dan; row.n++;
+  } else {
+    if (!row) { row = { d: dm, dan: r.dan, first: r.dan, recent: r.dan, n: 0 }; skillData.domains.push(row); }
+    else if (r.dan > row.dan) { row._up = true; row.dan = r.dan; }
+    row.recent = r.dan; row.n++;
+  }
+}
+function skillRow(dm) { var r = null; (skillData && skillData.domains || []).forEach(function (x) { if (x.d === dm) r = x; }); return r; }
+function loadSkill() {
+  if (!session.t) { skillData = null; return Promise.resolve(null); }
+  return sbRpc('my_skill', { p_token: session.t }).then(function (r) {
+    if (r && r.ok) skillData = r; return skillData;
+  }).catch(function () { return skillData; });
+}
+
+/* ---- 今日のメニュー(3つ・約10分) ---- */
+var ACT = {
+  kiki: { n: '聞き取りチャレンジ', fn: 'startKiki', chip: '#FBE9D6', ink: '#B96A2C', ic: 'ic-ear' },
+  kioku: { n: '記憶の順番', fn: 'startKioku', chip: '#DFF2FA', ink: '#1E7A9C', ic: 'ic-spark' },
+  cards: { n: 'カード合わせ', fn: 'startCards', chip: '#E3EEF8', ink: '#2A6496', ic: 'ic-cards' },
+  tile: { n: '順番タップ', fn: 'startNums', chip: '#FBE7EF', ink: '#C22E63', ic: 'ic-tile' },
+  otsuri: { n: 'お釣り計算', fn: 'startOtsuri', chip: '#F5EDD6', ink: '#9A7B2D', ic: 'ic-coin' },
+  kotowaza: { n: 'ことわざクイズ', fn: 'startKotowaza', chip: '#F6E7EB', ink: '#963E52', ic: 'ic-maki' },
+  kofun: { n: 'ふるさとクイズ', fn: 'startQuiz', chip: '#E7F3E8', ink: '#2E8B57', ic: 'ic-kofun' },
+  kami: { n: '上の句・下の句', fn: 'startKami', chip: '#F0F2DF', ink: '#5F6B2B', ic: 'ic-tanzaku' },
+  line: { n: 'LINEの練習', fn: 'startLine', chip: '#E4F3E6', ink: '#1E8A46', ic: 'ic-bubble', theme: 201 },
+  sagi: { n: 'あやしいメッセージ', fn: 'startSagi', chip: '#FDEBE7', ink: '#B0452F', ic: 'ic-phone', theme: 103 },
+  odai: { n: 'スマホでやってみる', fn: 'startOdai', chip: '#EEE8F6', ink: '#6B4FA1', ic: 'ic-phone' }
+};
+var SUMAHO_ACTS = ['line', 'sagi', 'odai'];
+var menu = null, menuStartedGame = null;
+function daysSince(d) { if (!d) return 99; var t = new Date(mDay() + 'T00:00:00'), x = new Date(String(d).slice(0, 10) + 'T00:00:00'); return Math.max(0, Math.round((t - x) / 86400000)); }
+function lastPlayed(game) {
+  var s = skillData && skillData.last_game ? skillData.last_game[game] : null;
+  return s || null;
+}
+function buildMenu() {
+  var items = [], used = {};
+  function add(game, why) { if (!game || used[game] || !ACT[game]) return false; used[game] = true; items.push({ g: game, why: why, done: false }); return true; }
+  var doy = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+  if (!sessM() || !skillData) {
+    // はじめて・ゲスト：必ずできるものから
+    add('odai', 'まずは画面を見やすく'); add('kiki', '耳ならしから'); add('otsuri', '買い物のお釣り');
+    return items;
+  }
+  var doms = BRAIN.map(function (b) { var r = skillRow(b.d); return { b: b, dan: r ? r.dan : 0, last: Math.min.apply(null, b.games.map(function (g) { return daysSince(lastPlayed(g)); })) }; });
+  // 1) ウォームアップ＝段がいちばん高い分野(同じなら最近やったほう)
+  var warm = doms.slice().sort(function (a, b) { return (b.dan - a.dan) || (a.last - b.last); })[0];
+  add(warm.b.games.slice().sort(function (x, y) { return daysSince(lastPlayed(y)) - daysSince(lastPlayed(x)); })[0], (warm.dan ? '得意な「' + warm.b.n + '」でウォームアップ' : 'まずはウォームアップ'));
+  // 2) 伸ばしどころ＝スタッフのおすすめ ＞ 講座の復習(14日以内) ＞ 段がいちばん低い分野
+  var p = skillData.pick;
+  if (p && !p.done && ACT[p.game]) add(p.game, 'スタッフのおすすめ');
+  else {
+    var lc = skillData.last_course;
+    var review = null;
+    if (lc && daysSince(lc.on) <= 14) {
+      SUMAHO_ACTS.forEach(function (g) { if (!review && ACT[g].theme === lc.course_id) review = g; });
+      if (!review && lc.course_id >= 100) review = 'odai';
+    }
+    if (review) add(review, '講座の復習に');
+    else {
+      var low = doms.filter(function (x) { return !used[x.b.games[0]]; }).sort(function (a, b) { return (a.dan - b.dan) || (b.last - a.last); })[0];
+      if (low) add(low.b.games[(doy) % low.b.games.length], low.dan ? '「' + low.b.n + '」の伸ばしどころ' : 'はじめての「' + low.b.n + '」');
+    }
+  }
+  // 3) しめくくり＝スマホ習得でしばらくやっていないもの
+  var sm = SUMAHO_ACTS.filter(function (g) { return !used[g]; }).map(function (g) {
+    var th = ACT[g].theme, d = th && skillData.last_theme ? skillData.last_theme[th] : lastPlayed(g);
+    return { g: g, last: daysSince(d) };
+  }).sort(function (a, b) { return b.last - a.last; })[0];
+  if (sm) add(sm.g, sm.last >= 99 ? 'スマホの練習をひとつ' : 'しばらくやっていない練習');
+  // 足りなければ埋める
+  ['kiki', 'otsuri', 'kioku', 'sagi', 'line'].forEach(function (g) { if (items.length < 3) add(g, 'もうひとつ'); });
+  return items.slice(0, 3);
+}
+function menuMarkDone(game) {
+  if (!menu) return;
+  menu.forEach(function (it) { if (it.g === game) it.done = true; });
+  try { storeSet(menuKey(), JSON.stringify({ day: mDay(), items: menu })); } catch (e) {}
+}
+function menuKey() { return 'kokosuma_menu_' + (sessM() || 'guest'); }
+function ensureMenu() {
+  var saved = null; try { saved = JSON.parse(storeGet(menuKey()) || 'null'); } catch (e) {}
+  if (saved && saved.day === mDay() && saved.items && saved.items.length) { menu = saved.items; return; }
+  menu = buildMenu();
+  storeSet(menuKey(), JSON.stringify({ day: mDay(), items: menu }));
+}
 function renderReco() {
   var el = document.getElementById('reco-grid'); if (!el) return;
-  var d = new Date(); var start = new Date(d.getFullYear(), 0, 0); var doy = Math.floor((d - start) / 86400000);
-  var html = '';
-  for (var i = 0; i < 3; i++) {
-    var r = RECO[(doy * 3 + i) % RECO.length];
-    html += '<div class="reco" onclick="' + r.fn + '()"><span class="chip" style="background:' + r.chip + '; color:' + r.ink + ';"><svg viewBox="0 0 24 24"><use href="#' + r.ic + '"></use></svg></span>' +
-      '<span class="tx"><b>' + r.n + '</b><span>' + r.w + '</span></span></div>';
-  }
-  el.innerHTML = html;
+  ensureMenu();
+  var done = menu.filter(function (x) { return x.done; }).length;
+  var cap = document.querySelector('.reco-cap');
+  if (cap) cap.innerHTML = '今日のメニュー <span style="font-weight:400;color:#8B857A;font-size:17px;">3つ・約10分</span>' +
+    (done >= menu.length ? '<span class="menu-done">できました</span>' : (done ? '<span class="menu-prog">' + done + '／' + menu.length + '</span>' : ''));
+  el.innerHTML = menu.map(function (it) {
+    var r = ACT[it.g];
+    return '<div class="reco' + (it.done ? ' done' : '') + '" onclick="' + r.fn + '()"><span class="chip" style="background:' + r.chip + '; color:' + r.ink + ';"><svg viewBox="0 0 24 24"><use href="#' + r.ic + '"></use></svg></span>' +
+      '<span class="tx"><b>' + r.n + '</b><span>' + (it.done ? 'できました' : it.why) + '</span></span>' + (it.done ? '<span class="ck">✓</span>' : '') + '</div>';
+  }).join('');
+  var p = skillData && skillData.pick, nt = document.getElementById('menu-note');
+  var pDone = p && menu.some(function (x) { return x.g === p.game && x.done; });
+  if (nt) nt.textContent = (p && !p.done && !pDone && p.note) ? 'スタッフより：' + p.note : '';
 }
+/* ---- 分野の段(記録帳の脳活タブの上に出す) ---- */
+function brainDanHtml() {
+  if (!sessM()) return '';
+  var rows = BRAIN.map(function (b) {
+    var r = skillRow(b.d);
+    var dan = r ? r.dan : 0, first = r ? r.first : 0;
+    var bar = '<span class="dbar"><i class="f" style="width:' + (first * 10) + '%;"></i><i class="n" style="width:' + (dan * 10) + '%;"></i></span>';
+    return '<div class="drow"><b>' + b.n + '</b>' + bar + '<span class="dv">' + (dan ? dan + '段' + (r._up ? '<em>UP</em>' : '') : '<span class="none">これから</span>') + '</span></div>';
+  }).join('');
+  var sum = BRAIN.reduce(function (s, b) { var r = skillRow(b.d); return s + (r ? r.dan : 0); }, 0);
+  return '<div class="dan-box"><div class="dan-hd">脳トレの段 <span>5つの分野で あわせて ' + sum + '段</span></div>' + rows +
+    '<div class="dan-note">うすい線＝はじめたとき／こい線＝いま。段は下がりません。</div></div>';
+}
+
 function kanjiNum(n) {
   var k = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
   if (n <= 10) return (n === 10 ? '十' : k[n]);
@@ -3726,19 +3956,309 @@ function startKiki() {
   kikiRenderStart();
   show('scr-kiki');
 }
-function kikiExit() { kikiStopVoice(); goHome(); }
+function kikiExit() { kikiStopVoice(); kkStop(); goHome(); }
+var KURASHI = [{"id": "k01", "title": "留守番電話（歯医者さん）", "level": 2, "kind": "text", "text": "もしもし、さくら歯科です。明日のご予約の件でお電話しました。先生の都合で、午前十時のご予約を、午後二時に変えていただけますでしょうか。保険証をお忘れなくお持ちください。よろしくお願いいたします。", "q": [{"q": "明日は何時に行けばいい？", "c": ["午後2時", "午前10時", "午後3時"], "hint": "午後二時"}, {"q": "持っていくものは？", "c": ["保険証", "診察券", "お薬手帳"], "hint": "保険証"}]}, {"id": "k02", "title": "駅のアナウンス", "level": 2, "kind": "text", "text": "まもなく、二番のりばに、急行が参ります。この電車は、次の駅には止まりません。次の駅でお降りのお客様は、あとから参ります普通電車をご利用ください。", "q": [{"q": "次の駅で降りたい人は、どうすればいい？", "c": ["あとから来る普通電車に乗る", "この急行に乗る", "1番のりばへ移る"], "hint": "普通電車をご利用ください"}, {"q": "急行が来るのは何番のりば？", "c": ["2番", "1番", "3番"], "hint": "二番のりば"}]}, {"id": "k03", "title": "天気予報", "level": 2, "kind": "text", "text": "あすの天気です。朝のうちは晴れますが、昼過ぎから雲が広がり、夕方には雨が降り出すでしょう。最高気温はきょうより三度低く、風も冷たくなりそうです。", "q": [{"q": "傘が要りそうなのは、いつごろ？", "c": ["夕方", "朝", "昼前"], "hint": "夕方には雨"}, {"q": "あすの気温は、きょうと比べて？", "c": ["3度低い", "3度高い", "同じくらい"], "hint": "三度低く"}]}, {"id": "k04", "title": "宅配の不在連絡（留守番電話）", "level": 3, "kind": "text", "text": "こちら、みどり運送です。本日お届けに伺いましたが、お留守でしたので、荷物を持ち帰りました。再配達は、あすの午前中か、夕方六時以降でしたらお伺いできます。ご希望の時間を、この番号に折り返しお電話ください。なお、保管期限は一週間です。", "q": [{"q": "再配達を頼める時間は？", "c": ["あすの午前中か、夕方6時以降", "あすの午後ならいつでも", "きょうの夜"], "hint": "あすの午前中か、夕方六時以降"}, {"q": "何をすればいい？", "c": ["この番号に電話をかけ直す", "営業所に取りに行く", "何もしなくてよい"], "hint": "折り返しお電話ください"}, {"q": "荷物を預かってもらえるのは、どれくらい？", "c": ["1週間", "3日", "1か月"], "hint": "一週間"}]}, {"id": "k05", "title": "料理の手順（テレビの料理コーナー）", "level": 3, "kind": "text", "text": "きょうは、ほうれん草のおひたしです。まず、たっぷりのお湯に塩をひとつまみ入れます。ほうれん草は、根元から入れて、三十秒ほどゆでたら、すぐに冷たい水にとってください。水気をよくしぼって、食べやすい長さに切り、だし醤油をかけたら出来上がりです。", "q": [{"q": "ほうれん草をゆでる時間は？", "c": ["30秒ほど", "3分ほど", "10秒ほど"], "hint": "三十秒ほど"}, {"q": "お湯に入れるときは、どこから？", "c": ["根元から", "葉のほうから", "切ってから入れる"], "hint": "根元から"}, {"q": "ゆでたあと、すぐにすることは？", "c": ["冷たい水にとる", "しぼる", "しょうゆをかける"], "hint": "冷たい水にとって"}]}, {"id": "k06", "title": "町内のお知らせ（放送）", "level": 3, "kind": "text", "text": "町内会からのお知らせです。来週の月曜日は祝日のため、燃えるごみの収集は、火曜日に変わります。また、今月の資源ごみは、第三水曜日から第四水曜日に変わります。お間違えのないよう、お願いいたします。", "q": [{"q": "来週の燃えるごみは、何曜日に出す？", "c": ["火曜日", "月曜日", "水曜日"], "hint": "火曜日に変わります"}, {"q": "今月の資源ごみは？", "c": ["第4水曜日", "第3水曜日", "第4木曜日"], "hint": "第四水曜日に変わります"}]}, {"id": "k07", "title": "電話の自動音声（通信販売）", "level": 0, "kind": "push", "text": "お電話ありがとうございます。ご注文は一番、お届け日の変更は二番、返品のご相談は三番、それ以外のお問い合わせは、九番を押してください。", "push": [{"task": "届く日を変えたい", "key": "2", "hint": "お届け日の変更は二番"}, {"task": "買った服を返したい", "key": "3", "hint": "返品のご相談は三番"}]}, {"id": "k08", "title": "電話の自動音声（病院の予約センター）", "level": 0, "kind": "push", "text": "こちらは、みなみ総合病院、予約センターです。新しく予約を取る方は一番、予約の日を変えたい方は二番、予約を取り消したい方は三番を押してください。もう一度お聞きになる場合は、米印を押してください。", "push": [{"task": "予約をやめたい", "key": "3", "hint": "予約を取り消したい方は三番"}, {"task": "もう一度聞きたい", "key": "*", "hint": "米印を押してください"}]}, {"id": "k09", "title": "2人の会話（お店で）", "level": 4, "kind": "conv", "conv": [["店員", "いらっしゃいませ。本日は、お米が一割引きになっております。"], ["お客さん", "あら、ほんと。十キロのも安くなるの？"], ["店員", "はい。ただ、十キロのほうは、午後三時までの限定なんです。"], ["お客さん", "じゃあ、帰りに寄るわね。いま二時半だから、急がなくちゃ。"]], "q": [{"q": "10キロのお米が安いのは、何時まで？", "c": ["午後3時", "午後2時半", "閉店まで"], "hint": "午後三時までの限定"}, {"q": "お客さんは、このあとどうする？", "c": ["3時までに急いで戻ってくる", "あした買いに来る", "いますぐ買う"], "hint": "帰りに寄るわね"}]}, {"id": "k10", "title": "2人の会話（母と息子の電話）", "level": 4, "kind": "conv", "conv": [["息子", "もしもし、お母さん。日曜日のお花見、どうする？"], ["母", "駅前の公園にしましょうか。十時に、改札の前で待ち合わせでどう？"], ["息子", "いいね。お弁当は、お母さんにお願いしてもいい？"], ["母", "ええ、作っていくわ。"], ["息子", "ありがとう。じゃあ僕は、飲み物とシートを持っていくよ。雨だったら、次の日曜日にしよう。"]], "q": [{"q": "待ち合わせの場所は？", "c": ["駅の改札の前", "公園の入口", "お母さんの家"], "hint": "改札の前で待ち合わせ"}, {"q": "雨が降ったら？", "c": ["次の日曜日にする", "公園の近くのお店に行く", "中止にする"], "hint": "次の日曜日にしよう"}, {"q": "飲み物を持ってくるのは？", "c": ["息子", "お母さん", "2人とも"], "hint": "飲み物とシートを持っていくよ"}]}];
+var MEISAKU = [{"ready": 1, "id": "melos", "title": "走れメロス", "author": "太宰治", "source": "青空文庫（底本：「太宰治全集3」ちくま文庫）", "voice": "Charon", "eps": [{"scene": "静まりかえった市", "syn": "", "text": "メロスは激怒した。必ず、かの邪智暴虐の王を除かなければならぬと決意した。メロスには政治がわからぬ。メロスは、村の牧人である。笛を吹き、羊と遊んで暮して来た。けれども邪悪に対しては、人一倍に敏感であった。きょう未明メロスは村を出発し、野を越え山越え、十里はなれた此のシラクスの市にやって来た。メロスには父も、母も無い。女房も無い。十六の、内気な妹と二人暮しだ。この妹は、村の或る律気な一牧人を、近々、花婿として迎える事になっていた。結婚式も間近かなのである。メロスは、それゆえ、花嫁の衣裳やら祝宴の御馳走やらを買いに、はるばる市にやって来たのだ。先ず、その品々を買い集め、それから都の大路をぶらぶら歩いた。メロスには竹馬の友があった。セリヌンティウスである。今は此のシラクスの市で、石工をしている。その友を、これから訪ねてみるつもりなのだ。久しく逢わなかったのだから、訪ねて行くのが楽しみである。歩いているうちにメロスは、まちの様子を怪しく思った。ひっそりしている。もう既に日も落ちて、まちの暗いのは当りまえだが、けれども、なんだか、夜のせいばかりでは無く、市全体が、やけに寂しい。のんきなメロスも、だんだん不安になって来た。路で逢った若い衆をつかまえて、何かあったのか、二年まえに此の市に来たときは、夜でも皆が歌をうたって、まちは賑やかであった筈だが、と質問した。若い衆は、首を振って答えなかった。しばらく歩いて老爺に逢い、こんどはもっと、語勢を強くして質問した。老爺は答えなかった。メロスは両手で老爺のからだをゆすぶって質問を重ねた。老爺は、あたりをはばかる低声で、わずか答えた。\n「王様は、人を殺します。」\n「なぜ殺すのだ。」\n「悪心を抱いている、というのですが、誰もそんな、悪心を持っては居りませぬ。」\n「たくさんの人を殺したのか。」\n「はい、はじめは王様の妹婿さまを。それから、御自身のお世嗣を。それから、妹さまを。それから、妹さまの御子さまを。それから、皇后さまを。それから、賢臣のアレキス様を。」\n「おどろいた。国王は乱心か。」\n「いいえ、乱心ではございませぬ。人を、信ずる事が出来ぬ、というのです。このごろは、臣下の心をも、お疑いになり、少しく派手な暮しをしている者には、人質ひとりずつ差し出すことを命じて居ります。御命令を拒めば十字架にかけられて、殺されます。きょうは、六人殺されました。」", "q": [{"q": "メロスが市に来た目的は？", "c": ["妹の結婚式の買い物", "友に会うため", "王に会うため"]}, {"q": "市の人たちが静かだったのは？", "c": ["王が人を殺しているから", "お祭りの前だから", "夜で眠っているから"]}]}, {"scene": "王との対面", "syn": "妹の結婚式の買い物に来たメロスは、王が人を信じられず、次々に人を殺していると聞きました。", "text": "　聞いて、メロスは激怒した。「呆れた王だ。生かして置けぬ。」\n　メロスは、単純な男であった。買い物を、背負ったままで、のそのそ王城にはいって行った。たちまち彼は、巡邏の警吏に捕縛された。調べられて、メロスの懐中からは短剣が出て来たので、騒ぎが大きくなってしまった。メロスは、王の前に引き出された。\n「この短刀で何をするつもりであったか。言え！」暴君ディオニスは静かに、けれども威厳を以て問いつめた。その王の顔は蒼白で、眉間の皺は、刻み込まれたように深かった。\n「市を暴君の手から救うのだ。」とメロスは悪びれずに答えた。\n「おまえがか？」王は、憫笑した。「仕方の無いやつじゃ。おまえには、わしの孤独がわからぬ。」\n「言うな！」とメロスは、いきり立って反駁した。「人の心を疑うのは、最も恥ずべき悪徳だ。王は、民の忠誠をさえ疑って居られる。」\n「疑うのが、正当の心構えなのだと、わしに教えてくれたのは、おまえたちだ。人の心は、あてにならない。人間は、もともと私慾のかたまりさ。信じては、ならぬ。」暴君は落着いて呟き、ほっと溜息をついた。「わしだって、平和を望んでいるのだが。」\n「なんの為の平和だ。自分の地位を守る為か。」こんどはメロスが嘲笑した。「罪の無い人を殺して、何が平和だ。」\n「だまれ、下賤の者。」王は、さっと顔を挙げて報いた。「口では、どんな清らかな事でも言える。わしには、人の腹綿の奥底が見え透いてならぬ。おまえだって、いまに、磔になってから、泣いて詫びたって聞かぬぞ。」\n「ああ、王は悧巧だ。自惚れているがよい。私は、ちゃんと死ぬる覚悟で居るのに。命乞いなど決してしない。ただ、――」と言いかけて、メロスは足もとに視線を落し瞬時ためらい、「ただ、私に情をかけたいつもりなら、処刑までに三日間の日限を与えて下さい。たった一人の妹に、亭主を持たせてやりたいのです。三日のうちに、私は村で結婚式を挙げさせ、必ず、ここへ帰って来ます。」\n「ばかな。」と暴君は、嗄れた声で低く笑った。「とんでもない嘘を言うわい。逃がした小鳥が帰って来るというのか。」\n「そうです。帰って来るのです。」メロスは必死で言い張った。「私は約束を守ります。私を、三日間だけ許して下さい。妹が、私の帰りを待っているのだ。そんなに私を信じられないならば、よろしい、この市にセリヌンティウスという石工がいます。私の無二の友人だ。あれを、人質としてここに置いて行こう。私が逃げてしまって、三日目の日暮まで、ここに帰って来なかったら、あの友人を絞め殺して下さい。たのむ、そうして下さい。」", "q": [{"q": "王が人を殺すわけは？（王の言い分）", "c": ["人を信じられないから", "お金が欲しいから", "戦に備えるため"]}, {"q": "メロスが人質にと申し出たのは？", "c": ["友のセリヌンティウス", "妹", "村の羊飼い"]}]}, {"scene": "友を人質に、村へ", "syn": "メロスは王に「三日だけ待ってほしい。友のセリヌンティウスを人質に置いていく」と願い出ました。", "text": "　それを聞いて王は、残虐な気持で、そっと北叟笑んだ。生意気なことを言うわい。どうせ帰って来ないにきまっている。この嘘つきに騙された振りして、放してやるのも面白い。そうして身代りの男を、三日目に殺してやるのも気味がいい。人は、これだから信じられぬと、わしは悲しい顔して、その身代りの男を磔刑に処してやるのだ。世の中の、正直者とかいう奴輩にうんと見せつけてやりたいものさ。\n「願いを、聞いた。その身代りを呼ぶがよい。三日目には日没までに帰って来い。おくれたら、その身代りを、きっと殺すぞ。ちょっとおくれて来るがいい。おまえの罪は、永遠にゆるしてやろうぞ。」\n「なに、何をおっしゃる。」\n「はは。いのちが大事だったら、おくれて来い。おまえの心は、わかっているぞ。」\n　メロスは口惜しく、地団駄踏んだ。ものも言いたくなくなった。\n　竹馬の友、セリヌンティウスは、深夜、王城に召された。暴君ディオニスの面前で、佳き友と佳き友は、二年ぶりで相逢うた。メロスは、友に一切の事情を語った。セリヌンティウスは無言で首肯き、メロスをひしと抱きしめた。友と友の間は、それでよかった。セリヌンティウスは、縄打たれた。メロスは、すぐに出発した。初夏、満天の星である。\n　メロスはその夜、一睡もせず十里の路を急ぎに急いで、村へ到着したのは、翌る日の午前、陽は既に高く昇って、村人たちは野に出て仕事をはじめていた。メロスの十六の妹も、きょうは兄の代りに羊群の番をしていた。よろめいて歩いて来る兄の、疲労困憊の姿を見つけて驚いた。そうして、うるさく兄に質問を浴びせた。\n「なんでも無い。」メロスは無理に笑おうと努めた。「市に用事を残して来た。またすぐ市に行かなければならぬ。あす、おまえの結婚式を挙げる。早いほうがよかろう。」\n　妹は頬をあからめた。\n「うれしいか。綺麗な衣裳も買って来た。さあ、これから行って、村の人たちに知らせて来い。結婚式は、あすだと。」\n　メロスは、また、よろよろと歩き出し、家へ帰って神々の祭壇を飾り、祝宴の席を調え、間もなく床に倒れ伏し、呼吸もせぬくらいの深い眠りに落ちてしまった。", "q": [{"q": "王がメロスの願いを聞いたわけは？", "c": ["どうせ帰って来ないと思ったから", "メロスを気に入ったから", "友に頼まれたから"]}, {"q": "村に着いたメロスが、妹に告げたことは？", "c": ["あす結婚式を挙げる", "市に引っ越す", "しばらく旅に出る"]}]}, {"scene": "妹の結婚式", "syn": "友を人質に残し、メロスは一晩かけて村へ帰りました。妹に「あす結婚式を挙げる」と告げました。", "text": "　眼が覚めたのは夜だった。メロスは起きてすぐ、花婿の家を訪れた。そうして、少し事情があるから、結婚式を明日にしてくれ、と頼んだ。婿の牧人は驚き、それはいけない、こちらには未だ何の仕度も出来ていない、葡萄の季節まで待ってくれ、と答えた。メロスは、待つことは出来ぬ、どうか明日にしてくれ給え、と更に押してたのんだ。婿の牧人も頑強であった。なかなか承諾してくれない。夜明けまで議論をつづけて、やっと、どうにか婿をなだめ、すかして、説き伏せた。結婚式は、真昼に行われた。新郎新婦の、神々への宣誓が済んだころ、黒雲が空を覆い、ぽつりぽつり雨が降り出し、やがて車軸を流すような大雨となった。祝宴に列席していた村人たちは、何か不吉なものを感じたが、それでも、めいめい気持を引きたて、狭い家の中で、むんむん蒸し暑いのも怺え、陽気に歌をうたい、手を拍った。メロスも、満面に喜色を湛え、しばらくは、王とのあの約束をさえ忘れていた。祝宴は、夜に入っていよいよ乱れ華やかになり、人々は、外の豪雨を全く気にしなくなった。メロスは、一生このままここにいたい、と思った。この佳い人たちと生涯暮して行きたいと願ったが、いまは、自分のからだで、自分のものでは無い。ままならぬ事である。メロスは、わが身に鞭打ち、ついに出発を決意した。あすの日没までには、まだ十分の時が在る。ちょっと一眠りして、それからすぐに出発しよう、と考えた。その頃には、雨も小降りになっていよう。少しでも永くこの家に愚図愚図とどまっていたかった。メロスほどの男にも、やはり未練の情というものは在る。今宵呆然、歓喜に酔っているらしい花嫁に近寄り、\n「おめでとう。私は疲れてしまったから、ちょっとご免こうむって眠りたい。眼が覚めたら、すぐに市に出かける。大切な用事があるのだ。私がいなくても、もうおまえには優しい亭主があるのだから、決して寂しい事は無い。おまえの兄の、一ばんきらいなものは、人を疑う事と、それから、嘘をつく事だ。おまえも、それは、知っているね。亭主との間に、どんな秘密でも作ってはならぬ。おまえに言いたいのは、それだけだ。おまえの兄は、たぶん偉い男なのだから、おまえもその誇りを持っていろ。」", "q": [{"q": "花婿がはじめ結婚式を延ばしたがった理由は？", "c": ["まだ何の仕度もできていないから", "雨が降るから", "親が反対しているから"]}, {"q": "結婚式の最中、天気はどうなった？", "c": ["大雨になった", "雪が降った", "よく晴れた"]}]}, {"scene": "旅立ちと濁流", "syn": "結婚式は大雨の中で祝われました。メロスは名残を惜しみながら、出発を決めました。", "text": "　花嫁は、夢見心地で首肯いた。メロスは、それから花婿の肩をたたいて、\n「仕度の無いのはお互さまさ。私の家にも、宝といっては、妹と羊だけだ。他には、何も無い。全部あげよう。もう一つ、メロスの弟になったことを誇ってくれ。」\n　花婿は揉み手して、てれていた。メロスは笑って村人たちにも会釈して、宴席から立ち去り、羊小屋にもぐり込んで、死んだように深く眠った。\n　眼が覚めたのは翌る日の薄明の頃である。メロスは跳ね起き、南無三、寝過したか、いや、まだまだ大丈夫、これからすぐに出発すれば、約束の刻限までには十分間に合う。きょうは是非とも、あの王に、人の信実の存するところを見せてやろう。そうして笑って磔の台に上ってやる。メロスは、悠々と身仕度をはじめた。雨も、いくぶん小降りになっている様子である。身仕度は出来た。さて、メロスは、ぶるんと両腕を大きく振って、雨中、矢の如く走り出た。\n　私は、今宵、殺される。殺される為に走るのだ。身代りの友を救う為に走るのだ。王の奸佞邪智を打ち破る為に走るのだ。走らなければならぬ。そうして、私は殺される。若い時から名誉を守れ。さらば、ふるさと。若いメロスは、つらかった。幾度か、立ちどまりそうになった。えい、えいと大声挙げて自身を叱りながら走った。村を出て、野を横切り、森をくぐり抜け、隣村に着いた頃には、雨も止み、日は高く昇って、そろそろ暑くなって来た。メロスは額の汗をこぶしで払い、ここまで来れば大丈夫、もはや故郷への未練は無い。妹たちは、きっと佳い夫婦になるだろう。私には、いま、なんの気がかりも無い筈だ。まっすぐに王城に行き着けば、それでよいのだ。そんなに急ぐ必要も無い。ゆっくり歩こう、と持ちまえの呑気さを取り返し、好きな小歌をいい声で歌い出した。ぶらぶら歩いて二里行き三里行き、そろそろ全里程の半ばに到達した頃、降って湧いた災難、メロスの足は、はたと、とまった。見よ、前方の川を。きのうの豪雨で山の水源地は氾濫し、濁流滔々と下流に集り、猛勢一挙に橋を破壊し、どうどうと響きをあげる激流が、木葉微塵に橋桁を跳ね飛ばしていた。彼は茫然と、立ちすくんだ。あちこちと眺めまわし、また、声を限りに呼びたててみたが、繋舟は残らず浪に浚われて影なく、渡守りの姿も見えない。流れはいよいよ、ふくれ上り、海のようになっている。メロスは川岸にうずくまり、男泣きに泣きながらゼウスに手を挙げて哀願した。「ああ、鎮めたまえ、荒れ狂う流れを！　時は刻々に過ぎて行きます。太陽も既に真昼時です。あれが沈んでしまわぬうちに、王城に行き着くことが出来なかったら、あの佳い友達が、私のために死ぬのです。」", "q": [{"q": "メロスが目を覚ましたのは？", "c": ["翌日の薄明のころ", "真昼", "前の晩"]}, {"q": "途中でメロスの足が止まったのは？", "c": ["川があふれて橋が流されていたから", "道に迷ったから", "足をけがしたから"]}]}, {"scene": "山賊、そして力尽きる", "syn": "出発したメロスの前で、大雨で増えた川が橋を流していました。", "text": "　濁流は、メロスの叫びをせせら笑う如く、ますます激しく躍り狂う。浪は浪を呑み、捲き、煽り立て、そうして時は、刻一刻と消えて行く。今はメロスも覚悟した。泳ぎ切るより他に無い。ああ、神々も照覧あれ！　濁流にも負けぬ愛と誠の偉大な力を、いまこそ発揮して見せる。メロスは、ざんぶと流れに飛び込み、百匹の大蛇のようにのた打ち荒れ狂う浪を相手に、必死の闘争を開始した。満身の力を腕にこめて、押し寄せ渦巻き引きずる流れを、なんのこれしきと掻きわけ掻きわけ、めくらめっぽう獅子奮迅の人の子の姿には、神も哀れと思ったか、ついに憐愍を垂れてくれた。押し流されつつも、見事、対岸の樹木の幹に、すがりつく事が出来たのである。ありがたい。メロスは馬のように大きな胴震いを一つして、すぐにまた先きを急いだ。一刻といえども、むだには出来ない。陽は既に西に傾きかけている。ぜいぜい荒い呼吸をしながら峠をのぼり、のぼり切って、ほっとした時、突然、目の前に一隊の山賊が躍り出た。\n「待て。」\n「何をするのだ。私は陽の沈まぬうちに王城へ行かなければならぬ。放せ。」\n「どっこい放さぬ。持ちもの全部を置いて行け。」\n「私にはいのちの他には何も無い。その、たった一つの命も、これから王にくれてやるのだ。」\n「その、いのちが欲しいのだ。」\n「さては、王の命令で、ここで私を待ち伏せしていたのだな。」\n　山賊たちは、ものも言わず一斉に棍棒を振り挙げた。メロスはひょいと、からだを折り曲げ、飛鳥の如く身近かの一人に襲いかかり、その棍棒を奪い取って、\n「気の毒だが正義のためだ！」と猛然一撃、たちまち、三人を殴り倒し、残る者のひるむ隙に、さっさと走って峠を下った。一気に峠を駈け降りたが、流石に疲労し、折から午後の灼熱の太陽がまともに、かっと照って来て、メロスは幾度となく眩暈を感じ、これではならぬ、と気を取り直しては、よろよろ二、三歩あるいて、ついに、がくりと膝を折った。立ち上る事が出来ぬのだ。天を仰いで、くやし泣きに泣き出した。ああ、あ、濁流を泳ぎ切り、山賊を三人も撃ち倒し韋駄天、ここまで突破して来たメロスよ。真の勇者、メロスよ。今、ここで、疲れ切って動けなくなるとは情無い。愛する友は、おまえを信じたばかりに、やがて殺されなければならぬ。おまえは、稀代の不信の人間、まさしく王の思う壺だぞ、と自分を叱ってみるのだが、全身萎えて、もはや芋虫ほどにも前進かなわぬ。路傍の草原にごろりと寝ころがった。", "q": [{"q": "峠でメロスの前に現れたのは？", "c": ["山賊", "王の兵士", "友の弟子"]}, {"q": "峠を下りたあと、メロスはどうなった？", "c": ["疲れて倒れた", "馬に乗った", "道を引き返した"]}]}, {"scene": "「もう、どうでもいい」", "syn": "川を泳ぎ切り、山賊を倒したメロスは、ついに力尽きて草原に倒れました。", "text": "身体疲労すれば、精神も共にやられる。もう、どうでもいいという、勇者に不似合いな不貞腐れた根性が、心の隅に巣喰った。私は、これほど努力したのだ。約束を破る心は、みじんも無かった。神も照覧、私は精一ぱいに努めて来たのだ。動けなくなるまで走って来たのだ。私は不信の徒では無い。ああ、できる事なら私の胸を截ち割って、真紅の心臓をお目に掛けたい。愛と信実の血液だけで動いているこの心臓を見せてやりたい。けれども私は、この大事な時に、精も根も尽きたのだ。私は、よくよく不幸な男だ。私は、きっと笑われる。私の一家も笑われる。私は友を欺いた。中途で倒れるのは、はじめから何もしないのと同じ事だ。ああ、もう、どうでもいい。これが、私の定った運命なのかも知れない。セリヌンティウスよ、ゆるしてくれ。君は、いつでも私を信じた。私も君を、欺かなかった。私たちは、本当に佳い友と友であったのだ。いちどだって、暗い疑惑の雲を、お互い胸に宿したことは無かった。いまだって、君は私を無心に待っているだろう。ああ、待っているだろう。ありがとう、セリヌンティウス。よくも私を信じてくれた。それを思えば、たまらない。友と友の間の信実は、この世で一ばん誇るべき宝なのだからな。セリヌンティウス、私は走ったのだ。君を欺くつもりは、みじんも無かった。信じてくれ！　私は急ぎに急いでここまで来たのだ。濁流を突破した。山賊の囲みからも、するりと抜けて一気に峠を駈け降りて来たのだ。私だから、出来たのだよ。ああ、この上、私に望み給うな。放って置いてくれ。どうでも、いいのだ。私は負けたのだ。だらしが無い。笑ってくれ。王は私に、ちょっとおくれて来い、と耳打ちした。おくれたら、身代りを殺して、私を助けてくれると約束した。私は王の卑劣を憎んだ。けれども、今になってみると、私は王の言うままになっている。私は、おくれて行くだろう。王は、ひとり合点して私を笑い、そうして事も無く私を放免するだろう。そうなったら、私は、死ぬよりつらい。私は、永遠に裏切者だ。地上で最も、不名誉の人種だ。セリヌンティウスよ、私も死ぬぞ。君と一緒に死なせてくれ。君だけは私を信じてくれるにちがい無い。いや、それも私の、ひとりよがりか？　ああ、もういっそ、悪徳者として生き伸びてやろうか。村には私の家が在る。羊も居る。妹夫婦は、まさか私を村から追い出すような事はしないだろう。正義だの、信実だの、愛だの、考えてみれば、くだらない。人を殺して自分が生きる。それが人間世界の定法ではなかったか。ああ、何もかも、ばかばかしい。私は、醜い裏切り者だ。どうとも、勝手にするがよい。やんぬる哉。――四肢を投げ出して、うとうと、まどろんでしまった。", "q": [{"q": "倒れたメロスが、ふと思ったことは？", "c": ["もう、どうでもいい", "すぐに走ろう", "村へ帰ろう"]}, {"q": "メロスが思い出した王の言葉は？", "c": ["ちょっと遅れて来い", "必ず間に合え", "友を連れて来い"]}]}, {"scene": "走れ！メロス", "syn": "倒れたメロスの心に、「もう、どうでもいい」という弱い気持ちが巣くいました。", "text": "　ふと耳に、潺々、水の流れる音が聞えた。そっと頭をもたげ、息を呑んで耳をすました。すぐ足もとで、水が流れているらしい。よろよろ起き上って、見ると、岩の裂目から滾々と、何か小さく囁きながら清水が湧き出ているのである。その泉に吸い込まれるようにメロスは身をかがめた。水を両手で掬って、一くち飲んだ。ほうと長い溜息が出て、夢から覚めたような気がした。歩ける。行こう。肉体の疲労恢復と共に、わずかながら希望が生れた。義務遂行の希望である。わが身を殺して、名誉を守る希望である。斜陽は赤い光を、樹々の葉に投じ、葉も枝も燃えるばかりに輝いている。日没までには、まだ間がある。私を、待っている人があるのだ。少しも疑わず、静かに期待してくれている人があるのだ。私は、信じられている。私の命なぞは、問題ではない。死んでお詫び、などと気のいい事は言って居られぬ。私は、信頼に報いなければならぬ。いまはただその一事だ。走れ！　メロス。", "q": [{"q": "メロスを立ち上がらせたものは？", "c": ["岩のすき間から湧く水", "友の声", "村人の励まし"]}, {"q": "湧き水を飲んだあと、メロスの心に生まれたのは？", "c": ["待っている人に応えようという希望", "村へ帰りたい気持ち", "王への怒り"]}]}, {"scene": "日没へ", "syn": "湧き水を飲んで立ち上がったメロスは、再び走り出しました。", "text": "　私は信頼されている。私は信頼されている。先刻の、あの悪魔の囁きは、あれは夢だ。悪い夢だ。忘れてしまえ。五臓が疲れているときは、ふいとあんな悪い夢を見るものだ。メロス、おまえの恥ではない。やはり、おまえは真の勇者だ。再び立って走れるようになったではないか。ありがたい！　私は、正義の士として死ぬ事が出来るぞ。ああ、陽が沈む。ずんずん沈む。待ってくれ、ゼウスよ。私は生れた時から正直な男であった。正直な男のままにして死なせて下さい。\n　路行く人を押しのけ、跳ねとばし、メロスは黒い風のように走った。野原で酒宴の、その宴席のまっただ中を駈け抜け、酒宴の人たちを仰天させ、犬を蹴とばし、小川を飛び越え、少しずつ沈んでゆく太陽の、十倍も早く走った。一団の旅人と颯っとすれちがった瞬間、不吉な会話を小耳にはさんだ。「いまごろは、あの男も、磔にかかっているよ。」ああ、その男、その男のために私は、いまこんなに走っているのだ。その男を死なせてはならない。急げ、メロス。おくれてはならぬ。愛と誠の力を、いまこそ知らせてやるがよい。風態なんかは、どうでもいい。メロスは、いまは、ほとんど全裸体であった。呼吸も出来ず、二度、三度、口から血が噴き出た。見える。はるか向うに小さく、シラクスの市の塔楼が見える。塔楼は、夕陽を受けてきらきら光っている。\n「ああ、メロス様。」うめくような声が、風と共に聞えた。\n「誰だ。」メロスは走りながら尋ねた。\n「フィロストラトスでございます。貴方のお友達セリヌンティウス様の弟子でございます。」その若い石工も、メロスの後について走りながら叫んだ。「もう、駄目でございます。むだでございます。走るのは、やめて下さい。もう、あの方をお助けになることは出来ません。」\n「いや、まだ陽は沈まぬ。」\n「ちょうど今、あの方が死刑になるところです。ああ、あなたは遅かった。おうらみ申します。ほんの少し、もうちょっとでも、早かったなら！」\n「いや、まだ陽は沈まぬ。」メロスは胸の張り裂ける思いで、赤く大きい夕陽ばかりを見つめていた。走るより他は無い。\n「やめて下さい。走るのは、やめて下さい。いまはご自分のお命が大事です。あの方は、あなたを信じて居りました。刑場に引き出されても、平気でいました。王様が、さんざんあの方をからかっても、メロスは来ます、とだけ答え、強い信念を持ちつづけている様子でございました。」\n「それだから、走るのだ。信じられているから走るのだ。間に合う、間に合わぬは問題でないのだ。人の命も問題でないのだ。私は、なんだか、もっと恐ろしく大きいものの為に走っているのだ。ついて来い！　フィロストラトス。」\n「ああ、あなたは気が狂ったか。それでは、うんと走るがいい。ひょっとしたら、間に合わぬものでもない。走るがいい。」", "q": [{"q": "メロスに「もう走るのはやめて」と言ったのは？", "c": ["友の弟子", "妹", "王"]}, {"q": "それでもメロスが走ったわけは？", "c": ["信じられているから", "王をこらしめたいから", "ほうびがほしいから"]}]}, {"scene": "刑場へ", "syn": "友の弟子に「もう間に合わない」と止められても、メロスは走り続けました。", "text": "　言うにや及ぶ。まだ陽は沈まぬ。最後の死力を尽して、メロスは走った。メロスの頭は、からっぽだ。何一つ考えていない。ただ、わけのわからぬ大きな力にひきずられて走った。陽は、ゆらゆら地平線に没し、まさに最後の一片の残光も、消えようとした時、メロスは疾風の如く刑場に突入した。間に合った。\n「待て。その人を殺してはならぬ。メロスが帰って来た。約束のとおり、いま、帰って来た。」と大声で刑場の群衆にむかって叫んだつもりであったが、喉がつぶれて嗄れた声が幽かに出たばかり、群衆は、ひとりとして彼の到着に気がつかない。すでに磔の柱が高々と立てられ、縄を打たれたセリヌンティウスは、徐々に釣り上げられてゆく。メロスはそれを目撃して最後の勇、先刻、濁流を泳いだように群衆を掻きわけ、掻きわけ、\n「私だ、刑吏！　殺されるのは、私だ。メロスだ。彼を人質にした私は、ここにいる！」と、かすれた声で精一ぱいに叫びながら、ついに磔台に昇り、釣り上げられてゆく友の両足に、齧りついた。群衆は、どよめいた。あっぱれ。ゆるせ、と口々にわめいた。セリヌンティウスの縄は、ほどかれたのである。\n「セリヌンティウス。」メロスは眼に涙を浮べて言った。「私を殴れ。ちから一ぱいに頬を殴れ。私は、途中で一度、悪い夢を見た。君が若し私を殴ってくれなかったら、私は君と抱擁する資格さえ無いのだ。殴れ。」\n　セリヌンティウスは、すべてを察した様子で首肯き、刑場一ぱいに鳴り響くほど音高くメロスの右頬を殴った。殴ってから優しく微笑み、\n「メロス、私を殴れ。同じくらい音高く私の頬を殴れ。私はこの三日の間、たった一度だけ、ちらと君を疑った。生れて、はじめて君を疑った。君が私を殴ってくれなければ、私は君と抱擁できない。」\n　メロスは腕に唸りをつけてセリヌンティウスの頬を殴った。\n「ありがとう、友よ。」二人同時に言い、ひしと抱き合い、それから嬉し泣きにおいおい声を放って泣いた。\n　群衆の中からも、歔欷の声が聞えた。暴君ディオニスは、群衆の背後から二人の様を、まじまじと見つめていたが、やがて静かに二人に近づき、顔をあからめて、こう言った。\n「おまえらの望みは叶ったぞ。おまえらは、わしの心に勝ったのだ。信実とは、決して空虚な妄想ではなかった。どうか、わしをも仲間に入れてくれまいか。どうか、わしの願いを聞き入れて、おまえらの仲間の一人にしてほしい。」\n　どっと群衆の間に、歓声が起った。\n「万歳、王様万歳。」\n　ひとりの少女が、緋のマントをメロスに捧げた。メロスは、まごついた。佳き友は、気をきかせて教えてやった。\n「メロス、君は、まっぱだかじゃないか。早くそのマントを着るがいい。この可愛い娘さんは、メロスの裸体を、皆に見られるのが、たまらなく口惜しいのだ。」\n　勇者は、ひどく赤面した。\n（古伝説と、シルレルの詩から。）", "q": [{"q": "刑場で、メロスと友がしたことは？", "c": ["お互いの頬を殴った", "すぐに逃げた", "王に謝った"]}, {"q": "最後に王は、何と言った？", "c": ["仲間に入れてほしい", "二人とも罰する", "国を出て行け"]}]}]}];
+/* ===== v1.30 聞き取りチャレンジ 2種類(19ma): 暮らしの会話・名作を聞く。耳ならし(旧12文)はそのまま ===== */
+var KK_DIR = 'kiki_audio/';
+var KK_SPEED_NAME = ['ふつう', 'はきはき', '早口'];
+var KK_SPEED_VALUE = [1.0, 1.3, 1.7]; // 記録帳の「◯倍」(実測: ふつう比 1.0/1.3/1.7)
+var KK_PER_SESSION = 3;
+var kk = null, mk = null, kkAudio = null;
+function kkStop() { try { if (kkAudio) { kkAudio.onended = null; kkAudio.ontimeupdate = null; kkAudio.pause(); } } catch (e) {} }
+function kkEsc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function kkVisHtml(lead) {
+  var bars = [28, 44, 56, 38, 52, 60, 42, 54, 30], h = '';
+  for (var i = 0; i < bars.length; i++) h += '<span style="height:' + bars[i] + 'px; animation-duration:' + (0.8 + (i % 4) * 0.13) + 's; animation-delay:' + (i * 0.09) + 's;"></span>';
+  return '<div class="kiki-vis" id="kiki-vis" style="width:190px;height:190px;"><span class="ring"></span><span class="ring r2"></span>' +
+    '<span class="core" style="width:140px;height:140px;"><svg viewBox="0 0 24 24" style="width:76px;height:76px;"><use href="#ic-spk"></use></svg></span></div>' +
+    '<div class="kiki-bars" id="kiki-bars">' + h + '</div><div class="kiki-lead" id="kiki-lead">' + lead + '</div>';
+}
+function kkUi(on, lead) {
+  var v = document.getElementById('kiki-vis'), b = document.getElementById('kiki-bars'), l = document.getElementById('kiki-lead');
+  if (v) v.classList.toggle('on', on); if (b) b.classList.toggle('on', on); if (l && lead) l.textContent = lead;
+}
+function kkPlay(src, rate, onEnd, onTime) {
+  kkStop(); kikiStopVoice();
+  if (!kkAudio) kkAudio = new Audio();
+  kkAudio.onended = function () { if (onEnd) onEnd(); };
+  kkAudio.ontimeupdate = function () { if (onTime) onTime(); };
+  kkAudio.onerror = function () { if (onEnd) onEnd(true); };
+  if (kkAudio.getAttribute('data-src') !== src) { kkAudio.src = src; kkAudio.setAttribute('data-src', src); }
+  kkAudio.currentTime = 0;
+  try { kkAudio.preservesPitch = true; kkAudio.webkitPreservesPitch = true; } catch (e) {}
+  kkAudio.playbackRate = rate || 1;
+  var p = kkAudio.play(); if (p && p.catch) p.catch(function () { if (onEnd) onEnd(true); });
+}
+
+/* ---- 入口(3つ) ---- */
 function kikiRenderStart() {
   kikiBadge('');
-  var extra = kikiCanSpeak() ? '' :
-    '<div class="kiki-note" style="color:#C25E00;">この端末では音声が使えないため、文を画面に表示します。</div>';
+  kkStop();
+  var ep = mkEpisode('melos');
+  var epTx = ep > 10 ? '聞き終えました（もう一度も聞けます）' : (ep > 1 ? '第' + ep + '回から（全10回）' : '全10回・1回およそ2〜4分');
   document.getElementById('kiki-body').innerHTML =
-    '<span class="kiki-earchip" style="width:130px;height:130px;"><svg viewBox="0 0 24 24" style="width:80px;height:80px;"><use href="#ic-ear"></use></svg></span>' +
-    '<div style="font-size:36px;font-weight:700;">耳の体操</div>' +
-    '<div class="kiki-card">タブレットが短い文を読み上げます。<br>よく聞いて、問題に答えてください。<br>だんだん速くなります。</div>' +
-    '<div class="btn btn-primary" style="padding:18px 84px;font-size:30px;" onclick="kikiNextSentence()">はじめる</div>' +
-    '<div class="kiki-note"><svg viewBox="0 0 24 24"><use href="#ic-spk"></use></svg>音が出ます。まわりの音量にご注意ください。</div>' +
-    (kikiVoiceMode() === 'rec' ? '<div style="font-size:15px;color:#8B857A;">音声: VOICEVOX:麒ヶ島宗麟</div>' : '') + extra;
+    '<div style="font-size:34px;font-weight:700;">耳の体操</div>' +
+    '<div class="kk-modes">' +
+    '<div class="kk-mode" onclick="kkStart()"><span class="kk-mi"><svg viewBox="0 0 24 24"><use href="#ic-ear"></use></svg></span><span class="kk-mt"><b>暮らしの会話</b><span>留守番電話・駅のアナウンス・お店での会話など。聞いて、答えます</span></span></div>' +
+    '<div class="kk-mode" onclick="mkShelf()"><span class="kk-mi"><svg viewBox="0 0 24 24"><use href="#ic-spk"></use></svg></span><span class="kk-mt"><b>名作を聞く</b><span>太宰治「走れメロス」を朗読で。' + epTx + '</span></span></div>' +
+    '<div class="kk-mode sub" onclick="kikiNextSentence()"><span class="kk-mt"><b>耳ならし（短い文）</b><span>短い文を、だんだん速く</span></span></div>' +
+    '</div>' +
+    '<div class="kiki-note"><svg viewBox="0 0 24 24"><use href="#ic-spk"></use></svg>音が出ます。まわりの音量にご注意ください。</div>';
 }
+
+/* ---- 暮らしの会話 ---- */
+function kkStartSpeed() {
+  var prev = lastResultValue('kiki', 'speed');
+  if (prev === null) { var raw = storeGet('kokosuma_kk_speed'); prev = raw ? parseFloat(raw) : null; }
+  if (prev === null) return 0;
+  if (prev >= 1.7) return 1; // 前回の一段下から
+  if (prev >= 1.3) return 0;
+  return 0;
+}
+function kkPick() {
+  var used = []; try { used = JSON.parse(storeGet('kokosuma_kk_used') || '[]'); } catch (e) {}
+  var pool = KURASHI.map(function (x, i) { return i; }).filter(function (i) { return used.indexOf(KURASHI[i].id) < 0; });
+  if (pool.length < KK_PER_SESSION) { used = []; pool = KURASHI.map(function (x, i) { return i; }); }
+  pool = shuffle(pool).slice(0, KK_PER_SESSION);
+  pool.sort(function (a, b) { return (KURASHI[a].level || 5) - (KURASHI[b].level || 5); }); // 易しい順
+  pool.forEach(function (i) { used.push(KURASHI[i].id); });
+  storeSet('kokosuma_kk_used', JSON.stringify(used));
+  return pool;
+}
+function kkStart() {
+  kk = { list: kkPick(), n: 0, speed: kkStartSpeed(), top: -1, correct: 0, total: 0, replays: 0 };
+  kkListen();
+}
+function kkItem() { return KURASHI[kk.list[kk.n]]; }
+function kkSrc() { return KK_DIR + 'kurashi/' + kkItem().id + '_s' + kk.speed + '.mp3'; }
+function kkListen() {
+  var it = kkItem();
+  kk.replays = 0; kk.qi = 0; kk.okThis = 0; kk.nThis = 0;
+  kikiBadge(KK_SPEED_NAME[kk.speed] + 'の速さ ・ ' + (kk.n + 1) + '題め／' + KK_PER_SESSION + '題');
+  document.getElementById('kiki-body').innerHTML =
+    '<div class="kk-scene">' + kkEsc(it.title) + '</div>' + kkVisHtml('よく聞いてください') +
+    '<div class="kiki-btnrow">' +
+    '<div class="btn-outline" id="kk-re" onclick="kkReplay()"><svg viewBox="0 0 24 24"><use href="#ic-replay"></use></svg>もう一度聞く</div>' +
+    '<div class="btn btn-primary" style="margin:0;padding:15px 40px;font-size:25px;" onclick="kkQuiz()">' + (it.kind === 'push' ? 'ボタンを押す' : '問題に進む') + '</div></div>' +
+    '<div class="kk-hint" id="kk-hint">' + (it.level >= 3 ? 'この題は「もう一度聞く」が1回までです' : '') + '</div>' +
+    '<div style="font-size:15px;color:#8B857A;">音声: Gemini（AIで作った声）</div>';
+  setTimeout(kkPlayItem, 400);
+}
+function kkPlayItem() {
+  kkUi(true, 'よく聞いてください');
+  kkPlay(kkSrc(), 1, function (err) { kkUi(false, err ? '音声を読み込めませんでした。もう一度お試しください' : '聞き取れましたか'); });
+}
+function kkReplay() {
+  var it = kkItem();
+  if (it.level >= 3 && kk.replays >= 1) { var h = document.getElementById('kk-hint'); if (h) h.textContent = 'この題は、もう聞けません。覚えているところで答えてみましょう'; return; }
+  kk.replays++; kkPlayItem();
+}
+function kkQuiz() {
+  kkStop();
+  var it = kkItem();
+  if (it.kind === 'push') return kkPush();
+  var q = it.q[kk.qi];
+  var order = shuffle([0, 1, 2]);
+  kikiBadge((kk.n + 1) + '題め ・ 問' + (kk.qi + 1) + '／' + it.q.length);
+  document.getElementById('kiki-body').innerHTML =
+    '<div class="kk-scene">' + kkEsc(it.title) + '</div>' +
+    '<div class="kiki-q">' + kkEsc(q.q) + '</div>' +
+    '<div class="kiki-choices" id="kiki-choices">' + order.map(function (i) { return '<div class="q-choice" onclick="kkAnswer(' + i + ', this)">' + kkEsc(q.c[i]) + '</div>'; }).join('') + '</div>' +
+    '<div class="msg" id="kiki-msg"></div>';
+}
+function kkAnswer(i, el) {
+  var ch = document.getElementById('kiki-choices');
+  if (!ch || ch.getAttribute('data-done')) return;
+  ch.setAttribute('data-done', '1');
+  var it = kkItem(), q = it.q[kk.qi], ok = (i === 0), msg = document.getElementById('kiki-msg');
+  q.last = ok; kk.nThis++; kk.total++;
+  if (ok) { kk.okThis++; kk.correct++; el.style.border = '3px solid var(--action)'; msg.textContent = '正解です'; }
+  else { msg.textContent = '正解は「' + q.c[0] + '」でした'; msg.style.color = '#C25E00'; }
+  setTimeout(function () {
+    kk.qi++;
+    if (kk.qi < it.q.length) kkQuiz(); else kkReveal();
+  }, ok ? 1100 : 1900);
+}
+/* 聞いて押す(自動音声) */
+function kkPush() {
+  var it = kkItem(), t = it.push[kk.qi];
+  kikiBadge((kk.n + 1) + '題め ・ ' + (kk.qi + 1) + '／' + it.push.length);
+  var keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'];
+  document.getElementById('kiki-body').innerHTML =
+    '<div class="kk-scene">' + kkEsc(it.title) + '</div>' +
+    '<div class="kiki-q">「' + kkEsc(t.task) + '」<br>何番を押しますか？</div>' +
+    '<div class="kk-pad" id="kiki-choices">' + keys.map(function (k) { return '<div class="kk-key" onclick="kkPushAns(\'' + k + '\', this)">' + (k === '*' ? '＊' : k === '#' ? '＃' : k) + '</div>'; }).join('') + '</div>' +
+    '<div class="msg" id="kiki-msg"></div>' +
+    '<div class="kiki-relisten" onclick="kkReplayPush()"><svg viewBox="0 0 24 24"><use href="#ic-replay"></use></svg><span>もう一度聞く</span></div>';
+}
+function kkReplayPush() { kkPlay(kkSrc(), 1, function () {}); }
+function kkPushAns(k, el) {
+  var ch = document.getElementById('kiki-choices');
+  if (!ch || ch.getAttribute('data-done')) return;
+  ch.setAttribute('data-done', '1'); kkStop();
+  var it = kkItem(), t = it.push[kk.qi], ok = (k === t.key), msg = document.getElementById('kiki-msg');
+  t.last = ok; kk.nThis++; kk.total++;
+  if (ok) { kk.okThis++; kk.correct++; el.classList.add('ok'); msg.textContent = '正解です。うまく押せました'; }
+  else { el.classList.add('ng'); msg.textContent = '正解は「' + (t.key === '*' ? '＊（米印）' : t.key + '番') + '」でした'; msg.style.color = '#C25E00'; }
+  setTimeout(function () { kk.qi++; if (kk.qi < it.push.length) kkPush(); else kkReveal(); }, ok ? 1100 : 1900);
+}
+/* 答え合わせ: 台本を文字で出し、答えのところに色 */
+function kkMark(text, hints) {
+  var s = kkEsc(text);
+  hints.forEach(function (h) { if (!h) return; var e = kkEsc(h); s = s.split(e).join('<mark>' + e + '</mark>'); });
+  return s;
+}
+function kkReveal() {
+  var it = kkItem();
+  var items = it.kind === 'push' ? it.push : it.q;
+  var hints = items.map(function (x) { return x.hint; });
+  var body = it.kind === 'conv'
+    ? it.conv.map(function (c) { return '<div class="kk-line"><b>' + kkEsc(c[0]) + '</b>' + kkMark(c[1], hints) + '</div>'; }).join('')
+    : '<div class="kk-line">' + kkMark(it.text, hints) + '</div>';
+  var res = items.map(function (x, i) {
+    var label = it.kind === 'push' ? '「' + x.task + '」→ ' + (x.key === '*' ? '＊' : x.key) : x.q + ' → ' + x.c[0];
+    return '<div class="kk-res ' + (x.last ? 'ok' : 'ng') + '">' + (x.last ? '○' : '・') + ' ' + kkEsc(label) + '</div>';
+  }).join('');
+  kikiBadge('');
+  var last = (kk.n + 1 >= KK_PER_SESSION);
+  document.getElementById('kiki-body').innerHTML =
+    '<div class="kk-scene">' + kkEsc(it.title) + '　読み上げた文</div>' +
+    '<div class="kk-text">' + body + '</div>' +
+    '<div class="kk-reslist">' + res + '</div>' +
+    '<div class="btn btn-primary" style="margin:0;padding:15px 52px;font-size:26px;" onclick="kkNext()">' + (last ? '結果を見る' : '次の題へ') + '</div>';
+}
+function kkNext() {
+  var allOk = (kk.okThis === kk.nThis);
+  if (allOk && kk.speed > kk.top) kk.top = kk.speed;
+  if (allOk) kk.topLevel = Math.max(kk.topLevel || 0, kkItem().level || 2);
+  if (allOk && kk.speed < 2) kk.speed++;
+  else if (!allOk && kk.speed > 0) kk.speed--;
+  kk.n++;
+  if (kk.n < KK_PER_SESSION) kkListen(); else kkResult();
+}
+function kkResult() {
+  kikiBadge('');
+  var topIdx = kk.top >= 0 ? kk.top : 0;
+  var val = KK_SPEED_VALUE[topIdx];
+  record.kikiSets += 1; record.kikiCorrect += kk.correct;
+  if (val > record.kikiTop) record.kikiTop = val;
+  storeSet('kokosuma_kk_speed', String(val));
+  pendingDan.kiki = kk.top >= 0 ? Math.min(10, [2, 4, 6][topIdx] + ((kk.topLevel || 0) >= 3 ? 1 : 0) + ((kk.topLevel || 0) >= 4 ? 1 : 0)) : 1;
+  gameCompleted('kiki', qualityByCorrect(kk.correct, kk.total));
+  document.getElementById('kiki-body').innerHTML =
+    '<div class="kiki-done">できました</div>' +
+    '<div class="kiki-result"><span class="a">' + KK_PER_SESSION + '題で</span><span class="b">' + kk.correct + '<span style="font-size:36px;">／' + kk.total + '</span></span><span class="c">聞き取れました</span></div>' +
+    '<div class="kiki-pill">' + (kk.top >= 0 ? '「' + KK_SPEED_NAME[topIdx] + '」の速さまで聞けました' : 'ふつうの速さで、じっくり聞きました') + '</div>' +
+    '<div class="msg">' + sakuraIconHtml(34) + SKIN.name.replace('みんなの', '') + 'が 1' + SKIN.unit + ' ' + SKIN.verb + '</div>' +
+    '<div class="kiki-btnrow">' +
+    '<div class="btn btn-primary" style="margin:0;padding:17px 52px;font-size:27px;" onclick="kkStart()">もう一回</div>' +
+    '<div class="btn-outline" style="padding:14px 52px;font-size:27px;" onclick="kikiRenderStart()">耳の体操へ</div></div>';
+}
+
+/* ---- 名作を聞く(しおり＝会員は記録帳のresult、ゲストは端末) ---- */
+function mkWork(id) { for (var i = 0; i < MEISAKU.length; i++) if (MEISAKU[i].id === id) return MEISAKU[i]; return null; }
+function mkEpisode(id) {
+  var v = lastResultValue(id, 'ep');
+  var loc = parseInt(storeGet('kokosuma_mk_' + id + '_' + (session.m || 'guest')) || '0', 10) || 0;
+  var done = Math.max(v === null ? 0 : v, loc);
+  return done + 1; // 次に聞く回(11=聞き終えた)
+}
+function mkShelf() {
+  kkStop(); kikiBadge('');
+  var w = mkWork('melos'), ep = mkEpisode('melos'), fin = ep > w.eps.length;
+  var pct = Math.round(Math.min(ep - 1, w.eps.length) / w.eps.length * 100);
+  document.getElementById('kiki-body').innerHTML =
+    '<div style="font-size:30px;font-weight:700;">名作を聞く</div>' +
+    '<div class="mk-book">' +
+    '<div class="mk-spine"><span>' + kkEsc(w.title) + '</span></div>' +
+    '<div class="mk-info"><b>' + kkEsc(w.title) + '</b><span>' + kkEsc(w.author) + '　全' + w.eps.length + '回</span>' +
+    '<div class="mk-bar"><i style="width:' + pct + '%;"></i></div>' +
+    '<span class="mk-st">' + (fin ? '聞き終えました' : (ep > 1 ? '第' + (ep - 1) + '回まで聞きました' : 'これから')) + '</span></div></div>' +
+    '<div class="kiki-btnrow">' +
+    (fin ? '' : (ep > (w.ready || w.eps.length) ? '<div class="kiki-pill">第' + ep + '回は、ただいま準備中です</div>' : '<div class="btn btn-primary" style="margin:0;padding:17px 44px;font-size:27px;" onclick="mkOpen(' + ep + ')">' + (ep > 1 ? '第' + ep + '回を聞く' : '第1回から聞く') + '</div>')) +
+    ((ep > 1) ? '<div class="btn-outline" style="padding:14px 36px;font-size:24px;" onclick="mkOpen(1)">はじめから</div>' : '') +
+    '</div>' +
+    '<div style="font-size:15px;color:#8B857A;">' + kkEsc(w.source) + '／音声: Gemini（AIで作った声）</div>';
+}
+function mkOpen(n) {
+  var w = mkWork('melos'), e = w.eps[n - 1];
+  mk = { w: w, n: n, rate: 1, qi: 0, ok: 0 };
+  kikiBadge(kkEsc(w.title) + ' 第' + n + '回／' + w.eps.length);
+  document.getElementById('kiki-body').innerHTML =
+    '<div class="kk-scene">第' + n + '回「' + kkEsc(e.scene) + '」</div>' +
+    (e.syn ? '<div class="mk-syn"><b>前回まで</b>' + kkEsc(e.syn) + '</div>' : '') +
+    kkVisHtml('再生ボタンを押してください') +
+    '<div class="mk-prog"><i id="mk-bar"></i></div><div class="mk-time" id="mk-time"></div>' +
+    '<div class="kiki-btnrow">' +
+    '<div class="btn btn-primary" id="mk-pp" style="margin:0;padding:15px 44px;font-size:26px;" onclick="mkToggle()">再生</div>' +
+    '<div class="btn-outline" onclick="mkQuiz()">問題に進む</div></div>' +
+    '<div class="mk-rates">速さ：' + [[0.9, 'ゆっくり'], [1, 'ふつう'], [1.15, '少し速く']].map(function (r) { return '<span class="mk-rate' + (r[0] === 1 ? ' on' : '') + '" onclick="mkRate(' + r[0] + ', this)">' + r[1] + '</span>'; }).join('') + '</div>';
+}
+function mkSrc() { return KK_DIR + 'meisaku/' + mk.w.id + '_' + ('0' + mk.n).slice(-2) + '.mp3'; }
+function mkTime() {
+  if (!kkAudio || !kkAudio.duration) return;
+  var b = document.getElementById('mk-bar'), t = document.getElementById('mk-time');
+  if (b) b.style.width = Math.min(100, kkAudio.currentTime / kkAudio.duration * 100) + '%';
+  function f(s) { s = Math.floor(s); return Math.floor(s / 60) + '分' + ('0' + (s % 60)).slice(-2) + '秒'; }
+  if (t) t.textContent = f(kkAudio.currentTime) + ' ／ ' + f(kkAudio.duration);
+}
+function mkToggle() {
+  var pp = document.getElementById('mk-pp');
+  if (kkAudio && kkAudio.getAttribute('data-src') === mkSrc() && !kkAudio.ended && kkAudio.currentTime > 0) {
+    if (kkAudio.paused) { kkAudio.play(); kkUi(true, '朗読しています'); if (pp) pp.textContent = '一時停止'; }
+    else { kkAudio.pause(); kkUi(false, '止めています'); if (pp) pp.textContent = '続きから'; }
+    return;
+  }
+  kkUi(true, '朗読しています'); if (pp) pp.textContent = '一時停止';
+  kkPlay(mkSrc(), mk.rate, function (err) {
+    kkUi(false, err ? '音声を読み込めませんでした' : '聞き終えました。「問題に進む」を押してください');
+    if (pp) pp.textContent = 'もう一度聞く';
+  }, mkTime);
+}
+function mkRate(r, el) {
+  mk.rate = r; if (kkAudio) { try { kkAudio.preservesPitch = true; } catch (e) {} kkAudio.playbackRate = r; }
+  document.querySelectorAll('.mk-rate').forEach(function (x) { x.classList.remove('on'); }); el.classList.add('on');
+}
+function mkQuiz() {
+  kkStop();
+  var e = mk.w.eps[mk.n - 1], q = e.q[mk.qi], order = shuffle([0, 1, 2]);
+  kikiBadge(kkEsc(mk.w.title) + ' 第' + mk.n + '回 ・ 問' + (mk.qi + 1) + '／' + e.q.length);
+  document.getElementById('kiki-body').innerHTML =
+    '<div class="kiki-q">' + kkEsc(q.q) + '</div>' +
+    '<div class="kiki-choices" id="kiki-choices">' + order.map(function (i) { return '<div class="q-choice" onclick="mkAnswer(' + i + ', this)">' + kkEsc(q.c[i]) + '</div>'; }).join('') + '</div>' +
+    '<div class="msg" id="kiki-msg"></div>';
+}
+function mkAnswer(i, el) {
+  var ch = document.getElementById('kiki-choices');
+  if (!ch || ch.getAttribute('data-done')) return;
+  ch.setAttribute('data-done', '1');
+  var e = mk.w.eps[mk.n - 1], q = e.q[mk.qi], ok = (i === 0), msg = document.getElementById('kiki-msg');
+  if (ok) { mk.ok++; el.style.border = '3px solid var(--action)'; msg.textContent = '正解です'; }
+  else { msg.textContent = '正解は「' + q.c[0] + '」でした'; msg.style.color = '#C25E00'; }
+  setTimeout(function () { mk.qi++; if (mk.qi < e.q.length) mkQuiz(); else mkDone(); }, ok ? 1100 : 1900);
+}
+function mkDone() {
+  var w = mk.w, n = mk.n, e = w.eps[n - 1], fin = (n >= w.eps.length);
+  var key = 'kokosuma_mk_' + w.id + '_' + (session.m || 'guest');
+  var prev = parseInt(storeGet(key) || '0', 10) || 0;
+  if (n > prev) storeSet(key, String(n));
+  if (session.t) sendResult(w.id, 'ep', n);
+  if (progressData && progressData.results) progressData.results.unshift({ game: w.id, metric: 'ep', value: n, on: todayStr() });
+  record.kikiSets += 1;
+  pendingDan.kiki = null; // 名作は段に数えない(楽しむもの)
+  gameCompleted('kiki', qualityByCorrect(mk.ok, e.q.length));
+  kikiBadge('');
+  document.getElementById('kiki-body').innerHTML =
+    '<div class="kiki-done">' + (fin ? '聞き終えました' : '第' + n + '回を聞きました') + '</div>' +
+    (fin ? '<div class="kiki-pill">「' + kkEsc(w.title) + '」を最後まで聞きました。本棚に1冊ならびました</div>' : '<div class="kiki-pill">問題 ' + mk.ok + '／' + e.q.length + '　しおりをはさみました</div>') +
+    '<div class="msg">' + sakuraIconHtml(34) + SKIN.name.replace('みんなの', '') + 'が 1' + SKIN.unit + ' ' + SKIN.verb + '</div>' +
+    '<details class="mk-read"><summary>この回を文字で読む</summary><div>' + kkEsc(e.text).replace(/\n/g, '<br>') + '</div></details>' +
+    '<div class="kiki-btnrow">' +
+    (fin || n + 1 > (w.ready || w.eps.length) ? '' : '<div class="btn btn-primary" style="margin:0;padding:17px 44px;font-size:27px;" onclick="mkOpen(' + (n + 1) + ')">第' + (n + 1) + '回へ</div>') +
+    '<div class="btn-outline" style="padding:14px 40px;font-size:25px;" onclick="mkShelf()">本棚へ</div></div>';
+}
+
 function kikiPickTask() {
   var pool = [];
   for (var i = 0; i < KIKI_TASKS.length; i++) { if (kiki.used.indexOf(i) < 0) pool.push(i); }
@@ -3860,6 +4380,7 @@ function kikiRenderResult() {
   else pill = '今日はゆっくり確かめました';
   record.kikiSets += 1;
   if (top > record.kikiTop) record.kikiTop = top;
+  pendingDan.kiki = okAny ? ({ 0.9: 1, 1: 2, 1.15: 3, 1.3: 4, 1.5: 5, 1.75: 6, 2: 7 }[top] || 1) : 1;
   gameCompleted('kiki', qualityByCorrect(record.kikiCorrect, KIKI_QUESTIONS));
   var line = okAny ? 'まで聞けました' : 'に挑戦しました';
   document.getElementById('kiki-body').innerHTML =
