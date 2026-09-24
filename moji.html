@@ -273,7 +273,7 @@
       <span id="last-line-tx"></span>
     </div>
     <div class="quietlink" onclick="location.href='p.html'">会員証・メニューにもどる</div>
-    <div class="footer">ここスマ・文字入力の練習 試作版 v0.8</div>
+    <div class="footer">ここスマ・文字入力の練習 試作版 v0.9</div>
   </div>
 </div>
 
@@ -450,6 +450,35 @@ var memberNo = '';
     if (nm && nm.length <= 20) { storeSet('kokosuma_name', nm); }
   } catch (e) {}
 })();
+// ------- v0.9: 自習システム(Supabase)へ「練習しました」と「1分の字数」を送る(19z A2) -------
+// 会員証(p.html)と同じ場所で動くので、会員証が覚えているトークンをそのまま使う(URLの ?t= も受け取る)。
+// 送れなくても練習はそのまま続けられる(記録が残らないだけ)。公開キーだけをHTMLに書く(19r§9-7)。
+var SUPA_URL = 'https://kravngifhbxywmpoydur.supabase.co';
+var SUPA_KEY = 'sb_publishable_kxqrgfxUIyZk-pQmU8Jpbw_r9lmxb1E';
+var memberToken = '';
+(function () {
+  try {
+    var t = new URLSearchParams(location.search).get('t');
+    if (t && /^[0-9a-fA-F-]{36}$/.test(t)) { memberToken = t; storeSet('kokosuma_token', t); }
+    else { memberToken = storeGet('kokosuma_token') || ''; }
+  } catch (e) {}
+})();
+function sbRpc(fn, args) {
+  return fetch(SUPA_URL + '/rest/v1/rpc/' + fn, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY },
+    body: JSON.stringify(args || {})
+  }).then(function (r) { return r.json(); });
+}
+function sendProgress(course, cpm) {
+  if (!memberToken) return;
+  // 文字入力=テーマ101。どの練習でも「練習しました」は1日1件にまとまる(practice_add側)
+  sbRpc('practice_add', { p_token: memberToken, p_theme: 101, p_game: 'moji' }).catch(function () {});
+  // 伸びは「お手本を見て打つ」の1分の字数だけで見る(声や打ち直しは速さの意味が違うため)
+  if (course === 'type' && cpm > 0) {
+    sbRpc('result_add', { p_token: memberToken, p_game: 'moji', p_metric: 'cpm', p_value: cpm }).catch(function () {});
+  }
+}
 function sendKiroku(course, method, cpm, fixes) {
   if (!KIROKU_URL || !memberNo) return;
   try {
@@ -580,6 +609,7 @@ function finishPractice() {
   log.last[cur.course] = { cpm: cpm, fixes: cur.fixes, at: new Date().toISOString().slice(0, 10) };
   saveLog(log);
   sendKiroku(COURSE_TITLES[cur.course] || cur.course, cur.course === 'voice' ? '声' : '打ち', cpm, cur.fixes);
+  sendProgress(cur.course, cpm);
   // 開花アニメを毎回再生
   var f = document.querySelector('.bigflower');
   f.style.animation = 'none';
