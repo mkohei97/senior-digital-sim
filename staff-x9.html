@@ -100,7 +100,7 @@
   /* 自習のようす */
   .jhd { font-size: 15px; font-weight: 700; margin-bottom: 4px; color: var(--ink, #222); }
   .jrow { display: flex; align-items: center; gap: 10px; font-size: 15px; padding: 3px 0; }
-  .jrow > b { width: 64px; }
+  .jrow > b { width: 150px; white-space: nowrap; }
   .jbar { position: relative; flex: 1; height: 12px; border-radius: 999px; background: #EFEBE0; overflow: hidden; max-width: 260px; }
   .jbar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; } .jbar i.n { background: #0B5345; } .jbar i.f { background: #BFDCD6; z-index: 1; }
   .jv { width: 130px; } .jv.none { color: var(--sub); } .jv em.dn { font-style: normal; font-size: 12px; background: #F3EAD8; color: #8A6D1F; border-radius: 999px; padding: 1px 6px; margin-left: 6px; }
@@ -205,7 +205,7 @@
       <div class="card lk">
         <div class="lk-head"><span class="chip today">お客さま</span><b>お客さまが見る画面</b><span class="hint">動作チェック用。お客さまはQRやホーム画面のアイコンから開く</span></div>
         <div class="lk-item"><div><b>会員証・玄関ページ</b><small>会員の入口。予約・練習もここから</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/p.html" target="_blank" rel="noopener">開く</a></div>
-        <div class="lk-item"><div><b>ここスマ自習システム</b><small>店内タブレット用。スマホ習得と脳活（文字入力の練習を含む）</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/atama.html" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>ここスマ自習システム</b><small>店内タブレット用。スマホ習得と脳トレ（文字入力の練習を含む）</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/atama.html" target="_blank" rel="noopener">開く</a></div>
         <div class="lk-item"><div><b>思い出ムービー・受付</b><small>お客さまが写真を送る画面。試作（課金なし）</small></div><a class="btn small ghost" href="https://omoide-movie.mk0907.workers.dev" target="_blank" rel="noopener">開く</a></div>
       </div>
       <div class="card lk">
@@ -2811,8 +2811,9 @@ function renderQrInto(boxId, id, name, token) {
 
 
 /* ---- 自習のようす(2026-09-25・patch13・19ya) ---- */
-var J_DOM = [['kiku', '聞く', 'kiki', '聞き取りチャレンジ'], ['oboeru', '覚える', 'kioku', '記憶の順番'], ['mitsukeru', '見つける', 'tile', '順番タップ'], ['kazu', '数', 'otsuri', 'お釣り計算'], ['kotoba', 'ことば', 'kotowaza', 'ことわざクイズ']];
-var J_ACTS = [['', '(おすすめなし)'], ['kiki', '聞き取りチャレンジ'], ['kioku', '記憶の順番'], ['cards', 'カード合わせ'], ['tile', '順番タップ'], ['otsuri', 'お釣り計算'], ['kotowaza', 'ことわざクイズ'], ['kofun', 'ふるさとクイズ'], ['kami', '上の句・下の句'], ['line', 'LINEの練習'], ['sagi', 'あやしいメッセージ'], ['odai', 'スマホでやってみる']];
+/* v1.36(19ya v0.3§5c): 7分野＝動詞＋熟語 */
+var J_DOM = [['kiku', '聞く（聴覚）', 'kiki', '聞き取りチャレンジ'], ['yomu', '読む（読解）', 'yomu', '読むチャレンジ'], ['oboeru', '覚える（記憶）', 'kioku', '記憶の順番'], ['mitsukeru', '見つける（注意）', 'tile', '順番タップ'], ['kazu', '計算する（数的処理）', 'otsuri', 'お釣り計算'], ['kotoba', '思い出す（想起）', 'kotowaza', 'ことわざクイズ'], ['handan', '見きわめる（判断）', 'handan', 'とっさの判断']];
+var J_ACTS = [['', '(おすすめなし)'], ['kiki', '聞き取りチャレンジ'], ['yomu', '読むチャレンジ'], ['handan', 'とっさの判断'], ['kioku', '記憶の順番'], ['cards', 'カード合わせ'], ['tile', '順番タップ'], ['otsuri', 'お釣り計算'], ['kotowaza', 'ことわざクイズ'], ['kofun', 'ふるさとクイズ'], ['kami', '上の句・下の句'], ['line', 'LINEの練習'], ['sagi', 'あやしいメッセージ'], ['odai', 'スマホでやってみる']];
 function jDays(d) { if (!d) return 999; return Math.round((new Date(todayStr() + 'T00:00:00') - new Date(String(d).slice(0, 10) + 'T00:00:00')) / 86400000); }
 function loadJishu(id) {
   var el = document.getElementById('j-body');

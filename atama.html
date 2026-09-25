@@ -526,6 +526,76 @@
   .kiki-result .a { font-size: 24px; color: #555555; }
   .kiki-result .b { font-size: 72px; font-weight: 700; color: var(--action); line-height: 1.1; }
   .kiki-result .c { font-size: 27px; font-weight: 700; }
+  /* v1.36 脳トレ7分野・今日の脳トレ・ふりかえり・7つの階段 */
+  .nt-chip { border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .nt-la { position: relative; display: inline-block; padding: 10px 24px 0 0; white-space: nowrap; }
+  .nt-la i { position: absolute; right: -6px; top: -6px; font-style: normal; font-weight: 700; letter-spacing: .12em; opacity: .17; white-space: nowrap; }
+  .nt-la b { position: relative; color: #333A38; letter-spacing: .02em; }
+  .nt-lb { display: inline-flex; align-items: flex-start; gap: 5px; white-space: nowrap; }
+  .nt-lb b { color: #333A38; line-height: 1.2; letter-spacing: .02em; }
+  .nt-lb i { font-style: normal; color: #8B857A; letter-spacing: .35em; margin-top: 2px; }
+  .nt-lead { font-size: 27px; font-weight: 700; text-align: center; line-height: 1.7; }
+  .nt-sub { font-size: 20px; color: #555555; }
+  .course-card { background: #FFFFFF; border: 2px solid var(--action); border-radius: 22px; padding: 12px 18px 14px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
+  .cs-hd { display: flex; align-items: baseline; gap: 12px; } .cs-hd b { font-size: 27px; } .cs-hd span { font-size: 16px; color: #555555; }
+  .cs-aim { font-size: 17px; color: var(--accent-deep); } .cs-aim b { font-weight: 700; }
+  .cs-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 8px; }
+  .cs-step { position: relative; border: 1px solid var(--season-border); border-radius: 16px; padding: 12px 6px 6px; display: flex; flex-direction: column; align-items: center; gap: 3px; text-align: center; }
+  .cs-step.done { background: #F2F8F6; }
+  .cs-n { position: absolute; top: -10px; left: 10px; background: var(--accent-deep); color: #FFFFFF; font-size: 13px; font-weight: 700; border-radius: 999px; padding: 0 9px; line-height: 20px; }
+  .cs-g { font-size: 13px; color: #555555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+  .cs-foot { display: flex; align-items: center; gap: 14px; margin-top: 4px; } .cs-foot .btn { margin: 0; } .cs-note { font-size: 14px; color: #8B857A; }
+  #scr-home .cat-grid { flex-direction: row; flex: 0 0 auto; } #scr-home .cat-grid .catcard { min-height: 0; padding-top: 12px; padding-bottom: 12px; }
+  #scr-home .cat-grid .catcard .tx b { font-size: 24px; } #scr-home .cat-grid .catcard .tx .sub { font-size: 15px; }
+  #scr-home .cat-grid .catcard .chip { width: 56px; height: 56px; border-radius: 16px; } #scr-home .cat-grid .catcard .chip svg { width: 32px; height: 32px; }
+  #scr-home .pad { gap: 10px; } #scr-home .tree-compact { padding: 4px 18px; } #scr-home .tree-compact svg.minitree { width: 76px; height: 56px; }
+  #scr-home .tree-compact .name { font-size: 20px; } #scr-home .tree-compact .line { font-size: 17px; } #scr-home .tree-compact .info { flex-direction: row; align-items: baseline; gap: 16px; }
+  #scr-home .home-head h1 { font-size: 36px; line-height: 1.25; }
+  .cat-menu.nt-two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cat-menu.nt-two .gcard { padding: 12px 14px; } .cat-menu.nt-two .gcard .tx b { font-size: 21px; } .cat-menu.nt-two .gcard .tx span { font-size: 14px; }
+  .cat-menu.nt-two .gcard .chip { width: 48px; height: 48px; } .cat-menu.nt-two .goa { display: none; }
+  .cat-menu.nt-two .gcard { position: relative; } .cat-menu.nt-two .gcard .tx { padding-right: 70px; } .cat-menu.nt-two em.abil { position: absolute; top: 12px; right: 12px; margin: 0; }
+  .hd-demo { display: flex; align-items: center; gap: 12px; font-size: 22px; color: #555555; }
+  .hd-dot { width: 46px; height: 46px; border-radius: 999px; display: inline-block; }
+  .hd-dot.g { background: #1F9D55; } .hd-dot.r { background: #D64545; }
+  .hd-stage { width: 100%; max-width: 560px; height: 330px; border-radius: 28px; background: #FFFFFF; border: 1px solid var(--season-border); display: flex; align-items: center; justify-content: center; touch-action: manipulation; user-select: none; -webkit-user-select: none; cursor: pointer; }
+  .hd-dot.big { width: 190px; height: 190px; background: transparent; }
+  .hd-dot.big.on.g { background: #1F9D55; } .hd-dot.big.on.r { background: #D64545; }
+  .hd-count { font-size: 20px; color: #555555; }
+  .ym-text { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 20px; padding: 20px 26px; font-size: 24px; line-height: 2.0; max-width: 680px; width: 100%; letter-spacing: .02em; box-sizing: border-box; }
+  .ym-text.small { font-size: 18px; line-height: 1.8; padding: 12px 18px; }
+  .course-bar { position: fixed; right: 12px; bottom: 12px; z-index: 50; background: rgba(255,255,255,.96); border: 1px solid var(--season-border); border-radius: 999px; padding: 6px 16px; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(60,48,36,.12); font-size: 15px; }
+  .course-bar b { color: var(--accent-deep); margin-right: 4px; } .course-bar i { width: 26px; height: 8px; border-radius: 999px; background: #EFEBE0; display: inline-block; } .course-bar i.d { background: var(--action); } .course-bar i.c { background: #9ED3C6; }
+  .course-sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; justify-content: center; padding: 0 12px 12px; }
+  .csh-in { background: #FFFFFF; border: 2px solid var(--action); border-radius: 22px; box-shadow: 0 -4px 20px rgba(60,48,36,.15); padding: 14px 22px; display: flex; align-items: center; gap: 18px; max-width: 900px; width: 100%; }
+  .csh-in .btn { margin: 0; }
+  .csh-tx { display: flex; flex-direction: column; gap: 4px; flex: 1; } .csh-tx b { font-size: 22px; color: var(--accent-deep); } .csh-tx span { font-size: 18px; color: #555555; display: flex; align-items: center; gap: 8px; }
+  .csh-quit { font-size: 17px; color: #555555; text-decoration: underline; cursor: pointer; white-space: nowrap; }
+  .screen.nt-wide { max-width: 1000px; }
+  .rv-body { display: flex; flex-direction: column; gap: 10px; }
+  .rv-hd { display: flex; align-items: baseline; gap: 16px; } .rv-hd b { font-size: 32px; color: var(--accent-deep); } .rv-hd span { font-size: 19px; color: #555555; }
+  .rv-cap { font-size: 17px; color: #555555; }
+  .rv-lamps { display: flex; justify-content: space-between; background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 20px; padding: 12px 22px; }
+  .rv-lamp { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 16px; opacity: .45; } .rv-lamp.on { opacity: 1; font-weight: 700; }
+  .rv-up { align-self: flex-start; background: #FFF4D6; border-radius: 999px; padding: 8px 24px; font-size: 20px; font-weight: 700; color: #8A6D1F; }
+  .rv-list { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 20px; padding: 4px 20px; }
+  .rv-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid #E3DFD2; } .rv-row:first-child { border-top: 0; }
+  .rv-lb { width: 170px; flex-shrink: 0; } .rv-k { width: 140px; flex-shrink: 0; font-size: 16px; color: #555555; white-space: nowrap; }
+  .rv-v { flex: 1; font-size: 24px; font-weight: 700; color: var(--accent-deep); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rv-p { font-size: 15px; color: #8B857A; white-space: nowrap; } .rv-s { width: 110px; flex-shrink: 0; text-align: right; font-size: 17px; font-weight: 700; white-space: nowrap; }
+  .rv-btns { display: flex; align-items: center; gap: 16px; margin-top: 6px; } .rv-btns .btn { margin: 0; } .rv-note { font-size: 15px; color: #8B857A; }
+  .br-hd { display: flex; align-items: baseline; gap: 16px; } .br-hd b { font-size: 30px; } .br-hd span { font-size: 17px; color: #555555; }
+  .br-wrap { display: flex; gap: 16px; margin-top: 8px; }
+  .br-left { width: 360px; flex-shrink: 0; background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 20px; padding: 10px 8px; display: flex; flex-direction: column; align-items: center; box-sizing: border-box; }
+  .br-cap { font-size: 18px; font-weight: 700; color: var(--accent-deep); } .nt-radar { width: 330px; height: auto; }
+  .br-leg { display: flex; gap: 16px; font-size: 14px; color: #555555; } .br-leg i { display: inline-block; width: 18px; height: 10px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
+  .br-leg i.f { border-top: 2px dashed rgba(17,134,109,.5); height: 0; } .br-leg i.n { background: rgba(17,134,109,.4); }
+  .br-sum { font-size: 16px; margin-top: 6px; } .br-sum b { color: var(--accent-deep); font-size: 22px; } .br-sum em { font-style: normal; color: var(--action); font-weight: 700; }
+  .br-right { flex: 1; display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+  .br-row { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 16px; padding: 4px 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .br-row:active { transform: translateY(1px); } .br-lb { width: 118px; flex-shrink: 0; }
+  .br-v { display: flex; flex-direction: column; min-width: 0; } .br-v b { font-size: 19px; } .br-v i { font-style: normal; font-size: 12px; color: #555555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px; }
+  .br-go { margin-left: auto; font-size: 15px; color: var(--accent-deep); white-space: nowrap; } .br-note { font-size: 14px; color: #8B857A; }
   /* v1.30 聞き取りチャレンジ2種類(19ma) */
   .kk-modes { display: flex; flex-direction: column; gap: 16px; width: 100%; max-width: 600px; }
   .kk-mode { display: flex; align-items: center; gap: 18px; background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 22px; padding: 20px 24px; cursor: pointer; box-shadow: 0 3px 0 rgba(0,0,0,0.06); }
@@ -1023,6 +1093,8 @@
       <stop offset="1" stop-color="#96714E"></stop>
     </linearGradient>
   </defs>
+  <symbol id="ic-book" viewBox="0 0 24 24"><path d="M3 5.5c3-1.2 6-1.2 9 1 3-2.2 6-2.2 9-1V19c-3-1.2-6-1.2-9 1-3-2.2-6-2.2-9-1z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path><path d="M12 6.5V20" stroke="currentColor" stroke-width="1.5"></path></symbol>
+  <symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"></circle><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.5"></circle><circle cx="12" cy="12" r="1.4" fill="currentColor"></circle></symbol>
   <symbol id="ic-sakura-a" viewBox="0 0 24 24">
     <path d="M12 11.4 C9.8 10.3 8.8 7.9 9.6 5.5 C10.1 4.1 10.9 3 11.6 2.4 L12 4.2 L12.4 2.4 C13.1 3 13.9 4.1 14.4 5.5 C15.2 7.9 14.2 10.3 12 11.4 Z" fill="#E9A3C2" opacity="0.45" transform="rotate(11 12 12)"></path>
     <path d="M12 11.4 C9.8 10.3 8.8 7.9 9.6 5.5 C10.1 4.1 10.9 3 11.6 2.4 L12 4.2 L12.4 2.4 C13.1 3 13.9 4.1 14.4 5.5 C15.2 7.9 14.2 10.3 12 11.4 Z" fill="#E9A3C2" opacity="0.45" transform="rotate(83 12 12)"></path>
@@ -1097,31 +1169,28 @@
     <div class="cat-grid">
       <div class="catcard" onclick="showQr()">
         <span class="chip" style="background:#EEE8F6; color:#6B4FA1;"><svg viewBox="0 0 24 24"><use href="#ic-phone"></use></svg></span>
-        <div class="tx"><b>スマホ習得トレーニング</b>
-          <span class="sub">講座で習ったことを、自分のスマホで使えるように</span>
+        <div class="tx"><b>スマホ習得</b>
+          <span class="sub">講座の復習を、自分のスマホで</span>
         </div>
         <span class="goa" style="background:#EEE8F6; color:#6B4FA1;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="catcard" onclick="showCat('nokatsu')">
         <span class="chip" style="background:#F3EAD8; color:#8A6A3B;"><svg viewBox="0 0 24 24"><use href="#ic-koma"></use></svg></span>
-        <div class="tx"><b>脳活トレーニング</b>
-          <span class="sub">頭と指の体操。続けるほど記録帳が育ちます</span>
+        <div class="tx"><b>脳トレ</b>
+          <span class="sub">7つの力を、好きな種目で</span>
         </div>
         <span class="goa" style="background:#F3EAD8; color:#8A6A3B;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
     </div>
-    <div class="reco-wrap">
-      <div class="reco-cap">今日のおすすめ</div>
-      <div class="reco-grid" id="reco-grid"></div>
-      <div class="menu-note" id="menu-note"></div>
-    </div>
+    <div class="course-card" id="course-card"></div>
+    <div class="menu-note" id="menu-note"></div>
     <div style="display:flex; justify-content:center;">
       <div class="btn btn-white" onclick="endDay()">
         <svg class="ic" viewBox="0 0 24 24"><use href="#ic-yunomi"></use></svg>
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.35(ここスマ自習システム・暮らしの会話45題)</div>
+    <div class="footer">試作版 v1.36(ここスマ自習システム・脳トレ7分野と今日の脳トレ)</div>
   </div>
 </div>
 
@@ -1140,17 +1209,17 @@
     <div class="cat-menu">
       <div class="gcard" onclick="startQuiz()">
         <span class="chip" style="background:#E7F3E8; color:#2E8B57;"><svg viewBox="0 0 24 24"><use href="#ic-kofun"></use></svg></span>
-        <div class="tx"><b>ふるさとクイズ</b><span>思い出をたどる三択<em class="abil">知識・思い出す</em></span></div>
+        <div class="tx"><b>ふるさとクイズ</b><span>思い出をたどる三択<em class="abil">思い出す</em></span></div>
         <span class="goa" style="background:#E7F3E8; color:#2E8B57;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startKotowaza()">
         <span class="chip" style="background:#F6E7EB; color:#963E52;"><svg viewBox="0 0 24 24"><use href="#ic-maki"></use></svg></span>
-        <div class="tx"><b>ことわざクイズ</b><span>つづきを当てる・意味から当てる<em class="abil">ことば</em></span></div>
+        <div class="tx"><b>ことわざクイズ</b><span>つづきを当てる・意味から当てる<em class="abil">思い出す</em></span></div>
         <span class="goa" style="background:#F6E7EB; color:#963E52;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startOtsuri()">
         <span class="chip" style="background:#F5EDD6; color:#9A7B2D;"><svg viewBox="0 0 24 24"><use href="#ic-coin"></use></svg></span>
-        <div class="tx"><b>お釣り計算</b><span>買い物のお釣りを当てる<em class="abil">計算</em></span></div>
+        <div class="tx"><b>お釣り計算</b><span>買い物のお釣りを当てる<em class="abil">計算する</em></span></div>
         <span class="goa" style="background:#F5EDD6; color:#9A7B2D;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
     </div>
@@ -1165,50 +1234,60 @@
       </div>
       <div class="left" style="gap:12px;">
         <span class="icchip" style="background:#F3EAD8;"><svg viewBox="0 0 24 24" style="color:#8A6A3B;"><use href="#ic-koma"></use></svg></span>
-        <span class="t">脳活トレーニング</span>
+        <span class="t">脳トレ</span>
       </div>
     </div>
-    <div class="cat-menu">
+    <div class="cat-menu nt-two">
       <div class="gcard" onclick="startQuiz()">
         <span class="chip" style="background:#E7F3E8; color:#2E8B57;"><svg viewBox="0 0 24 24"><use href="#ic-kofun"></use></svg></span>
-        <div class="tx"><b>ふるさとクイズ</b><span>思い出をたどる三択<em class="abil">知識・思い出す</em></span></div>
+        <div class="tx"><b>ふるさとクイズ</b><span>思い出をたどる三択<em class="abil">思い出す</em></span></div>
         <span class="goa" style="background:#E7F3E8; color:#2E8B57;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startKotowaza()">
         <span class="chip" style="background:#F6E7EB; color:#963E52;"><svg viewBox="0 0 24 24"><use href="#ic-maki"></use></svg></span>
-        <div class="tx"><b>ことわざクイズ</b><span>つづきを当てる・意味から当てる<em class="abil">ことば</em></span></div>
+        <div class="tx"><b>ことわざクイズ</b><span>つづきを当てる・意味から当てる<em class="abil">思い出す</em></span></div>
         <span class="goa" style="background:#F6E7EB; color:#963E52;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startOtsuri()">
         <span class="chip" style="background:#F5EDD6; color:#9A7B2D;"><svg viewBox="0 0 24 24"><use href="#ic-coin"></use></svg></span>
-        <div class="tx"><b>お釣り計算</b><span>買い物のお釣りを当てる<em class="abil">計算</em></span></div>
+        <div class="tx"><b>お釣り計算</b><span>買い物のお釣りを当てる<em class="abil">計算する</em></span></div>
         <span class="goa" style="background:#F5EDD6; color:#9A7B2D;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
 
       <div class="gcard" onclick="startCards()">
         <span class="chip" style="background:#E3EEF8; color:#2A6496;"><svg viewBox="0 0 24 24"><use href="#ic-cards"></use></svg></span>
-        <div class="tx"><b>カード合わせ</b><span>同じ絵柄をさがす・3組から8組へ<em class="abil">記憶・注意</em></span></div>
+        <div class="tx"><b>カード合わせ</b><span>同じ絵柄をさがす・3組から8組へ<em class="abil">覚える</em></span></div>
         <span class="goa" style="background:#E3EEF8; color:#2A6496;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startNums()">
         <span class="chip" style="background:#FBE7EF; color:#C22E63;"><svg viewBox="0 0 24 24"><use href="#ic-tile"></use></svg></span>
-        <div class="tx"><b>順番タップ</b><span>数字を順に押す・最後は数字とかなを交互に<em class="abil">注意・目と指</em></span></div>
+        <div class="tx"><b>順番タップ</b><span>数字を順に押す・最後は数字とかなを交互に<em class="abil">見つける</em></span></div>
         <span class="goa" style="background:#FBE7EF; color:#C22E63;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startKioku()">
         <span class="chip" style="background:#DFF2FA; color:#1E7A9C;"><svg viewBox="0 0 24 24"><use href="#ic-spark"></use></svg></span>
-        <div class="tx"><b>記憶の順番</b><span>光った順に押す・前回の続きから<em class="abil">記憶・順番</em></span></div>
+        <div class="tx"><b>記憶の順番</b><span>光った順に押す・前回の続きから<em class="abil">覚える</em></span></div>
         <span class="goa" style="background:#DFF2FA; color:#1E7A9C;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startKiki()">
         <span class="chip" style="background:#FBE9D6; color:#B96A2C;"><svg viewBox="0 0 24 24"><use href="#ic-ear"></use></svg></span>
-        <div class="tx"><b>聞き取りチャレンジ</b><span>だんだん速くなる文を聞き取る・二択<em class="abil">聞く・覚える</em></span></div>
+        <div class="tx"><b>聞き取りチャレンジ</b><span>暮らしの会話・名作を聞く<em class="abil">聞く</em></span></div>
         <span class="goa" style="background:#FBE9D6; color:#B96A2C;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startKami()">
         <span class="chip" style="background:#F0F2DF; color:#5F6B2B;"><svg viewBox="0 0 24 24"><use href="#ic-tanzaku"></use></svg></span>
-        <div class="tx"><b>上の句・下の句</b><span>上の句と下の句を合わせる・逆向きの回も<em class="abil">ことば・記憶</em></span></div>
+        <div class="tx"><b>上の句・下の句</b><span>上の句と下の句を合わせる・逆向きの回も<em class="abil">思い出す</em></span></div>
         <span class="goa" style="background:#F0F2DF; color:#5F6B2B;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard" onclick="startYomu()">
+        <span class="chip" style="background:#E6EEF9; color:#2F5E9E;"><svg viewBox="0 0 24 24"><use href="#ic-book"></use></svg></span>
+        <div class="tx"><b>読むチャレンジ</b><span>声に出さずに読んで答える<em class="abil">読む</em></span></div>
+        <span class="goa" style="background:#E6EEF9; color:#2F5E9E;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard" onclick="startHandan()">
+        <span class="chip" style="background:#E3F2F0; color:#0B4F42;"><svg viewBox="0 0 24 24"><use href="#ic-target"></use></svg></span>
+        <div class="tx"><b>とっさの判断</b><span>緑は押す・赤は押さない<em class="abil">見きわめる</em></span></div>
+        <span class="goa" style="background:#E3F2F0; color:#0B4F42;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
     </div>
   </div>
@@ -1569,6 +1648,39 @@
 </div>
 
 <!-- 桜の木 -->
+<!-- v1.36 脳トレ：見きわめる・読む・ふりかえり・7つの階段・種目を選ぶ -->
+<div class="screen" id="scr-handan">
+  <div class="pad">
+    <div class="appbar"><div class="left"><span class="icchip" style="background:#E3F2F0;color:#0B4F42;"><svg viewBox="0 0 24 24" style="width:34px;height:34px;"><use href="#ic-target"></use></svg></span><span class="t">とっさの判断</span></div><span class="badge">見きわめる</span></div>
+    <div class="kiki-body" id="hd-body"></div>
+    <div style="display:flex; justify-content:center;"><div class="btn btn-white" onclick="hdExit()">最初の画面に戻る</div></div>
+  </div>
+</div>
+<div class="screen" id="scr-yomu">
+  <div class="pad">
+    <div class="appbar"><div class="left"><span class="icchip" style="background:#E6EEF9;color:#2F5E9E;"><svg viewBox="0 0 24 24" style="width:34px;height:34px;"><use href="#ic-book"></use></svg></span><span class="t">読むチャレンジ</span></div><span class="badge" id="ym-badge" style="display:none;"></span></div>
+    <div class="kiki-body" id="ym-body"></div>
+    <div style="display:flex; justify-content:center;"><div class="btn btn-white" onclick="ntExitGame()">最初の画面に戻る</div></div>
+  </div>
+</div>
+<div class="screen nt-wide" id="scr-review">
+  <div class="pad"><div id="rv-body" class="rv-body"></div></div>
+</div>
+<div class="screen nt-wide" id="scr-brain">
+  <div class="pad">
+    <div id="br-body"></div>
+    <div style="display:flex; justify-content:center; gap:16px;"><div class="btn btn-white" style="margin:0;" onclick="showSeki()">わたしの記録へ</div><div class="btn btn-white" style="margin:0;" onclick="goHome()">ホームへ</div></div>
+  </div>
+</div>
+<div class="screen" id="scr-pick">
+  <div class="pad">
+    <div class="appbar"><div class="left"><div class="btn btn-white" style="padding:10px 22px; font-size:20px;" onclick="showBrain()">7つの階段へ</div></div><div class="left" id="pk-title"></div></div>
+    <div class="cat-menu" id="pk-body"></div>
+  </div>
+</div>
+<div class="course-bar" id="course-bar" style="display:none;"></div>
+<div class="course-sheet" id="course-sheet" style="display:none;"></div>
+
 <div class="screen" id="scr-tree">
   <div class="pad">
     <div class="appbar">
@@ -2154,8 +2266,8 @@ function renderManabi() {
   var recent = days.filter(function (k) { var d = new Date(k); return (today - d) / 86400000 < 28; }).length;
   var html = '<div class="log-streak"><div class="tx"><b>続けている証</b><span>この4週間で <b>' + recent + '</b> 回</span></div><div class="wk">' + wk + '</div></div>';
   html += '<div class="sub-tabs three">' +
-    '<div class="sub-tab' + (logCat === 'dan' ? ' on' : '') + '" onclick="setLogCat(\'dan\')">脳トレの段</div>' +
-    '<div class="sub-tab' + (logCat === 'nokatsu' ? ' on' : '') + '" onclick="setLogCat(\'nokatsu\')">脳活トレーニング</div>' +
+    '<div class="sub-tab' + (logCat === 'dan' ? ' on' : '') + '" onclick="showBrain()">脳トレの7つの階段</div>' +
+    '<div class="sub-tab' + (logCat === 'nokatsu' ? ' on' : '') + '" onclick="setLogCat(\'nokatsu\')">脳トレ</div>' +
     '<div class="sub-tab' + (logCat === 'sumaho' ? ' on' : '') + '" onclick="setLogCat(\'sumaho\')">スマホ習得</div></div>';
   if (logCat === 'dan') {
     html += brainDanHtml() + '<div class="log-note">段は、種目の出来から毎回計算しています。いちばん良かった回の段が残ります。</div>';
@@ -2211,12 +2323,15 @@ function sendPractice(theme, game) {
 }
 var ODAI_THEME = { yoyaku: 311, manner: 102, moji: 104, shot: 106, photo: 202, ai: 206 };
 /* ===== v1.31 脳トレの分野の段・今日のメニュー（19ya v0.2・patch13） ===== */
+/* v1.36: 7分野。見出しは動詞＋熟語（19ya v0.3 §5c）。内部キーkiku〜kotobaは据え置き・yomu/handanを追加 */
 var BRAIN = [
-  { d: 'kiku', n: '聞く', games: ['kiki'] },
-  { d: 'oboeru', n: '覚える', games: ['kioku', 'cards'] },
-  { d: 'mitsukeru', n: '見つける', games: ['tile'] },
-  { d: 'kazu', n: '数', games: ['otsuri'] },
-  { d: 'kotoba', n: 'ことば', games: ['kotowaza', 'kofun', 'kami'] }
+  { d: 'kiku', n: '聞く', j: '聴覚', ink: '#B96A2C', chip: '#FBE9D6', ic: 'ic-ear', games: ['kiki'] },
+  { d: 'yomu', n: '読む', j: '読解', ink: '#2F5E9E', chip: '#E6EEF9', ic: 'ic-book', games: ['yomu'] },
+  { d: 'oboeru', n: '覚える', j: '記憶', ink: '#7A4A9E', chip: '#F0E6F7', ic: 'ic-spark', games: ['kioku', 'cards'] },
+  { d: 'mitsukeru', n: '見つける', j: '注意', ink: '#A9436E', chip: '#FBE3EC', ic: 'ic-tile', games: ['tile'] },
+  { d: 'kazu', n: '計算する', j: '数的処理', ink: '#8A6D1F', chip: '#F4ECD9', ic: 'ic-coin', games: ['otsuri'] },
+  { d: 'kotoba', n: '思い出す', j: '想起', ink: '#2E7D4F', chip: '#E3F2E6', ic: 'ic-bubble', games: ['kotowaza', 'kofun', 'kami'] },
+  { d: 'handan', n: '見きわめる', j: '判断', ink: '#0B4F42', chip: '#E3F2F0', ic: 'ic-target', games: ['handan'] }
 ];
 function brainOf(game) { for (var i = 0; i < BRAIN.length; i++) if (BRAIN[i].games.indexOf(game) >= 0) return BRAIN[i].d; return null; }
 var skillData = null; // my_skill の返り値
@@ -2241,6 +2356,7 @@ var pendingDan = {}; // 聞き取りは画面側で決めて入れる(null=段�
 function danOfPlay(game) {
   var g = gs[game] || { t: Date.now() }, secs = (Date.now() - g.t) / 1000;
   if (game === 'kiki') { var v = pendingDan.kiki; pendingDan.kiki = undefined; return v === null || v === undefined ? null : { dan: v }; }
+  if (game === 'handan' || game === 'yomu') { var w = pendingDan[game]; pendingDan[game] = undefined; return w ? { dan: w } : null; }
   if (game === 'kioku') { var b = (typeof kioku !== 'undefined' && kioku && kioku.best) || record.kiokuBest || 0; return b > 0 ? { dan: Math.max(1, Math.min(10, b - 2)) } : null; }
   if (game === 'tile') return { dan: effDan(secs + 5 * (record.numsMiss - (g.nm || 0)), [240, 200, 170, 145, 125, 110, 95, 85, 75]) };
   if (game === 'cards') return { dan: effDan(secs + 3 * (record.cardsMiss - (g.cm || 0)), [300, 240, 200, 170, 145, 125, 110, 95, 85]) };
@@ -2265,6 +2381,7 @@ function skillAfterGame(game) {
       if (r.pts !== undefined) sendResult(game, 'pts', r.pts);
     }
     if (r && session.m) skillLocalAdd(dm, r);
+    try { var real = ntRealOfPlay(game, r), prev = ntPrev(game); ntSaveReal(game, real.v); courseOnDone(game, r, real, prev); } catch (e) {}
   }
   menuMarkDone(game);
 }
@@ -2294,14 +2411,16 @@ function loadSkill() {
 
 /* ---- 今日のメニュー(3つ・約10分) ---- */
 var ACT = {
-  kiki: { n: '聞き取りチャレンジ', fn: 'startKiki', chip: '#FBE9D6', ink: '#B96A2C', ic: 'ic-ear' },
-  kioku: { n: '記憶の順番', fn: 'startKioku', chip: '#DFF2FA', ink: '#1E7A9C', ic: 'ic-spark' },
-  cards: { n: 'カード合わせ', fn: 'startCards', chip: '#E3EEF8', ink: '#2A6496', ic: 'ic-cards' },
-  tile: { n: '順番タップ', fn: 'startNums', chip: '#FBE7EF', ink: '#C22E63', ic: 'ic-tile' },
-  otsuri: { n: 'お釣り計算', fn: 'startOtsuri', chip: '#F5EDD6', ink: '#9A7B2D', ic: 'ic-coin' },
-  kotowaza: { n: 'ことわざクイズ', fn: 'startKotowaza', chip: '#F6E7EB', ink: '#963E52', ic: 'ic-maki' },
-  kofun: { n: 'ふるさとクイズ', fn: 'startQuiz', chip: '#E7F3E8', ink: '#2E8B57', ic: 'ic-kofun' },
-  kami: { n: '上の句・下の句', fn: 'startKami', chip: '#F0F2DF', ink: '#5F6B2B', ic: 'ic-tanzaku' },
+  kiki: { n: '聞き取りチャレンジ', fn: 'startKiki', chip: '#FBE9D6', ink: '#B96A2C', ic: 'ic-ear', desc: '暮らしの会話・名作を聞く' },
+  yomu: { n: '読むチャレンジ', fn: 'startYomu', chip: '#E6EEF9', ink: '#2F5E9E', ic: 'ic-book', desc: '声に出さずに読んで、中身を答える' },
+  handan: { n: 'とっさの判断', fn: 'startHandan', chip: '#E3F2F0', ink: '#0B4F42', ic: 'ic-target', desc: '緑は押す・赤は押さない' },
+  kioku: { n: '記憶の順番', fn: 'startKioku', chip: '#DFF2FA', ink: '#1E7A9C', ic: 'ic-spark', desc: '光った順に押す' },
+  cards: { n: 'カード合わせ', fn: 'startCards', chip: '#E3EEF8', ink: '#2A6496', ic: 'ic-cards', desc: '同じ絵柄をさがす' },
+  tile: { n: '順番タップ', fn: 'startNums', chip: '#FBE7EF', ink: '#C22E63', ic: 'ic-tile', desc: '数字を順に押す' },
+  otsuri: { n: 'お釣り計算', fn: 'startOtsuri', chip: '#F5EDD6', ink: '#9A7B2D', ic: 'ic-coin', desc: '買い物のお釣りを当てる' },
+  kotowaza: { n: 'ことわざクイズ', fn: 'startKotowaza', chip: '#F6E7EB', ink: '#963E52', ic: 'ic-maki', desc: 'つづきを当てる' },
+  kofun: { n: 'ふるさとクイズ', fn: 'startQuiz', chip: '#E7F3E8', ink: '#2E8B57', ic: 'ic-kofun', desc: '思い出をたどる三択' },
+  kami: { n: '上の句・下の句', fn: 'startKami', chip: '#F0F2DF', ink: '#5F6B2B', ic: 'ic-tanzaku', desc: '上の句と下の句を合わせる' },
   line: { n: 'LINEの練習', fn: 'startLine', chip: '#E4F3E6', ink: '#1E8A46', ic: 'ic-bubble', theme: 201 },
   sagi: { n: 'あやしいメッセージ', fn: 'startSagi', chip: '#FDEBE7', ink: '#B0452F', ic: 'ic-phone', theme: 103 },
   odai: { n: 'スマホでやってみる', fn: 'startOdai', chip: '#EEE8F6', ink: '#6B4FA1', ic: 'ic-phone' }
@@ -2365,6 +2484,12 @@ function ensureMenu() {
   storeSet(menuKey(), JSON.stringify({ day: mDay(), items: menu }));
 }
 function renderReco() {
+  if (document.getElementById('course-card')) {
+    renderCourseCard();
+    var pp = skillData && skillData.pick, nn = document.getElementById('menu-note');
+    if (nn) nn.textContent = (pp && !pp.done && pp.note) ? 'スタッフより：' + pp.note : '';
+    return;
+  }
   var el = document.getElementById('reco-grid'); if (!el) return;
   ensureMenu();
   var done = menu.filter(function (x) { return x.done; }).length;
@@ -2393,6 +2518,425 @@ function brainDanHtml() {
   return '<div class="dan-box"><div class="dan-hd">脳トレの段 <span>5つの分野で あわせて ' + sum + '段</span></div>' + rows +
     '<div class="dan-note">うすい線＝はじめたとき／こい線＝いま。段は下がりません。</div></div>';
 }
+
+/* v1.36 読むチャレンジの文章（黙読）。L=1短め・2ふつう・3長め。q=[問い,[正解,ほか,ほか]]。文章はすべてここスマのオリジナル */
+var YOMU = [
+ { id: 'y01', L: 1, title: '回覧板', text: '回覧板でお知らせします。今月の地域の清掃は、第二日曜日の朝八時からです。集合場所は、公民館の前です。軍手は各自でご用意ください。雨の場合は、翌週に延期します。',
+   q: [['清掃はいつ？', ['第2日曜日の朝8時', '第1日曜日の朝8時', '第2土曜日の朝9時']], ['雨のときは？', ['翌週に延期', '中止', '午後に変更']]] },
+ { id: 'y02', L: 1, title: '薬の説明', text: 'このお薬は、一日三回、毎食後に一錠ずつ飲んでください。飲むと眠くなることがあるので、車の運転は控えてください。お酒と一緒に飲むのは、やめましょう。',
+   q: [['1回に何錠飲む？', ['1錠', '2錠', '3錠']], ['控えることは？', ['車の運転', '散歩', 'お風呂']]] },
+ { id: 'y03', L: 1, title: 'お店の貼り紙', text: 'お客様へ。年末年始の営業のお知らせです。十二月三十一日は、午後五時で閉店いたします。一月一日から三日まではお休みをいただき、四日の朝十時から、通常どおり営業いたします。',
+   q: [['12月31日は何時まで？', ['午後5時', '午後7時', '午後3時']], ['新年はいつから営業？', ['1月4日', '1月3日', '1月5日']]] },
+ { id: 'y04', L: 1, title: '家族からのはがき', text: 'お元気ですか。こちらはみんな元気にしています。来月の十日に、子どもたちを連れて、そちらへ遊びに行きます。お昼ごろに着く予定です。お父さんの好きなおせんべいを持っていきますね。',
+   q: [['来るのはいつ？', ['来月の10日', '来月の1日', '今月の10日']], ['持ってくるものは？', ['おせんべい', 'おまんじゅう', '果物']]] },
+ { id: 'y05', L: 1, title: '季節の話', text: '今年の秋は、例年より気温の高い日が続いています。紅葉の見ごろも少し遅れて、十一月の下旬になりそうです。朝と夜は冷えこむので、上着を一枚持って出かけると安心です。',
+   q: [['紅葉の見ごろは？', ['11月の下旬', '11月の上旬', '10月の下旬']], ['持って出かけるとよいものは？', ['上着', '傘', '水筒']]] },
+ { id: 'y06', L: 2, title: '市からのお知らせ', text: '市からのお知らせです。今年の健康診断の受付が始まりました。受診できる期間は、十月一日から十二月二十日までです。受診には、同封の受診券と保険証が必要です。予約は、各医療機関に直接お電話ください。費用は無料です。',
+   q: [['受診できるのは、いつまで？', ['12月20日', '12月2日', '11月20日']], ['予約の方法は？', ['医療機関に電話する', '市役所に行く', 'はがきを送る']]] },
+ { id: 'y07', L: 2, title: '電気ストーブの注意書き', text: 'ご使用上の注意。本体の近くに、カーテンや洗濯物など、燃えやすいものを置かないでください。寝るときや外出するときは、必ず電源を切ってください。お手入れは、電源プラグを抜き、本体が冷えてから行ってください。',
+   q: [['寝るときは？', ['電源を切る', '弱くする', 'タイマーにする']], ['お手入れは、いつする？', ['プラグを抜いて冷えてから', '使いながら', '朝いちばんに']]] },
+ { id: 'y08', L: 2, title: 'スーパーのチラシ', text: '秋の感謝セールのご案内。期間は、今週の金曜日から日曜日までの三日間です。お買い上げ二千円ごとに、抽選券を一枚お渡しします。一等は、お米十キロです。土曜日の朝十時からは、店頭で焼きいもの販売も行います。',
+   q: [['抽選券がもらえるのは？', ['2000円ごとに1枚', '1000円ごとに1枚', '3000円ごとに1枚']], ['焼きいもの販売は？', ['土曜日の朝10時から', '金曜日の朝10時から', '日曜日の午後から']]] },
+ { id: 'y09', L: 2, title: '駅の掲示', text: '工事のお知らせ。十一月十五日の夜十時から、翌朝五時まで、線路の工事を行います。この時間は、上りの電車が、一番線から二番線に変わります。お客様にはご迷惑をおかけしますが、ご協力をお願いいたします。',
+   q: [['工事は何時から？', ['夜10時', '夜11時', '夜9時']], ['工事のあいだ、上りの電車は何番線？', ['2番線', '1番線', '3番線']]] },
+ { id: 'y10', L: 2, title: '散歩の話', text: '毎朝の散歩を続けて、もうすぐ一年になります。はじめは家の近くを十五分ほど歩くだけでしたが、今では川沿いの道を、四十分かけて歩いています。季節ごとに咲く花が変わるのを見るのが、いちばんの楽しみです。',
+   q: [['いまは何分歩いている？', ['40分', '15分', '1時間']], ['いちばんの楽しみは？', ['季節ごとの花', '川の魚', '朝ごはん']]] },
+ { id: 'y11', L: 3, title: '自治会の総会', text: '自治会の総会のご案内です。日時は、十二月七日の日曜日、午後二時からです。場所は、集会所の二階です。当日は、来年度の役員の選出と、夏祭りの収支報告を行います。出席できない方は、同封の委任状に名前を書いて、十二月一日までに班長さんへお渡しください。会場には駐車場がありませんので、お車でのご来場はご遠慮ください。',
+   q: [['総会の日時は？', ['12月7日の午後2時', '12月1日の午後2時', '12月7日の午前10時']], ['出席できないときは？', ['委任状を班長さんに渡す', '集会所に電話する', '何もしなくてよい']]] },
+ { id: 'y12', L: 3, title: 'お薬手帳の案内', text: 'お薬手帳についてのご案内です。お薬手帳には、これまでに出されたお薬の名前や、飲む量が記録されています。病院や薬局に行くときは、必ずお持ちください。いくつかの病院にかかっている場合も、手帳は一冊にまとめると、飲み合わせの確認がしやすくなります。スマートフォンのアプリでも管理できますので、ご希望の方は薬剤師にお声がけください。',
+   q: [['手帳は何冊にまとめるとよい？', ['1冊', '病院ごとに1冊', '2冊']], ['アプリを使いたいときは？', ['薬剤師に声をかける', '病院に電話する', '市役所で申し込む']]] },
+ { id: 'y13', L: 3, title: 'バス旅行の案内', text: '日帰りバス旅行のご案内です。行き先は、紅葉が見ごろの、山あいの温泉地です。出発は十一月二十日で、朝八時に、市役所前の広場に集合してください。お昼は、地元の食材を使ったお弁当をご用意しています。帰りは、夕方五時ごろに市役所前に着く予定です。参加費はお一人様六千円で、当日、受付でお支払いください。',
+   q: [['集合は？', ['朝8時・市役所前', '朝9時・市役所前', '朝8時・駅前']], ['参加費は？', ['6000円', '5000円', '8000円']]] },
+ { id: 'y14', L: 3, title: '銀行からのお知らせ', text: 'お客様へ、大切なお知らせです。最近、銀行員や警察官を名乗る人から電話があり、キャッシュカードをだまし取られる被害が増えています。銀行や警察が、電話で暗証番号を聞いたり、カードを預かりに来たりすることは、絶対にありません。おかしな電話があったときは、一度電話を切り、家族や警察に相談してください。',
+   q: [['銀行や警察が絶対にしないことは？', ['電話で暗証番号を聞く', '窓口で本人を確かめる', 'お知らせの手紙を送る']], ['おかしな電話があったら？', ['一度切って家族や警察に相談', '番号だけ教える', 'カードを渡す']]] },
+ { id: 'y15', L: 3, title: '思い出の喫茶店', text: '駅前の小さな喫茶店が、今月で閉店することになりました。学生のころから、四十年近く通ったお店です。いつも窓ぎわの席に座り、マスターのいれる少し苦いコーヒーを飲みながら、本を読むのが好きでした。最後の日には、昔の仲間と待ち合わせて、あの窓ぎわの席で、もう一度同じコーヒーを飲もうと約束しています。',
+   q: [['何年くらい通った？', ['40年近く', '20年近く', '10年ほど']], ['最後の日にすることは？', ['仲間と同じコーヒーを飲む', 'お店を手伝う', 'マスターに手紙を書く']]] }
+];
+
+/* ===== v1.36 脳トレ7分野・今日の脳トレ・ふりかえり・7つの階段（19ya v0.3 §5c） ===== */
+function ntB(d) { for (var i = 0; i < BRAIN.length; i++) if (BRAIN[i].d === d) return BRAIN[i]; return null; }
+function ntEsc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function ntChip(b, s, i) { s = s || 48; i = i || 28; return '<span class="nt-chip" style="width:' + s + 'px;height:' + s + 'px;background:' + b.chip + ';color:' + b.ink + ';"><svg viewBox="0 0 24 24" style="width:' + i + 'px;height:' + i + 'px;"><use href="#' + b.ic + '"></use></svg></span>'; }
+/* 見出し A＝熟語を背景にずらして薄く（記録）／B＝右上に小さく字間を広く（ホーム・ふりかえり） */
+function ntLabelA(b, size) { size = size || 24; return '<span class="nt-la"><i style="font-size:' + Math.round(size * 0.95) + 'px;color:' + b.ink + ';">' + b.j + '</i><b style="font-size:' + size + 'px;">' + b.n + '</b></span>'; }
+function ntLabelB(b, size) { size = size || 22; return '<span class="nt-lb"><b style="font-size:' + size + 'px;">' + b.n + '</b><i style="font-size:' + Math.max(12, Math.round(size * 0.45)) + 'px;">' + b.j + '</i></span>'; }
+function ntPower(b) { return b.n + '力'; }
+
+/* ---- 実力の数字（1回ぶん）。v=比べる値・txt=見せる文・hi=大きいほど良い ---- */
+var KK_ON = [300, 360, 430, 500];
+function ntFmt(game, v) {
+  if (v === null || v === undefined || isNaN(v)) return '';
+  if (game === 'kiki') { var st = Math.max(1, Math.min(10, Math.round(v))); return kkStepName(st) + '（1分に' + KK_ON[KK_STEPS[st].S] + '音）'; }
+  if (game === 'kioku') return v + '個';
+  if (game === 'tile' || game === 'cards' || game === 'otsuri') return Math.round(v) + '秒';
+  if (game === 'handan') return v.toFixed(2) + '秒';
+  if (game === 'yomu') return '1分に' + Math.round(v) + '字';
+  return v + '問正解';
+}
+var NT_REAL_LABEL = { kiki: '聞き取れた段', kioku: '覚えられた数', cards: 'そろえるまで', tile: '押し終わるまで', otsuri: '全問を解いた時間', kotowaza: '正解の数', kofun: '正解の数', kami: '合わせられた数', handan: '反応の速さ', yomu: '読めた速さ' };
+function ntRealOfPlay(game, r) {
+  var g = gs[game] || { t: Date.now() }, secs = Math.round((Date.now() - g.t) / 1000);
+  var o = { v: null, txt: '', hi: true };
+  if (game === 'kiki') { if (kk && kk.cleared > 0) { o.v = kk.cleared; o.txt = ntFmt('kiki', kk.cleared); } else o.txt = 'じっくり聞きました'; }
+  else if (game === 'kioku') { var b = (typeof kioku !== 'undefined' && kioku && kioku.best) || 0; if (b > 0) { o.v = b; o.txt = b + '個'; } }
+  else if (game === 'tile' || game === 'cards') { o.v = secs; o.txt = secs + '秒'; o.hi = false; }
+  else if (game === 'otsuri') {
+    var c = record.otsuriCorrect - (g.oc || 0), a = record.otsuriAnswered - (g.oa || 0); o.hi = false;
+    if (a > 0 && c === a) { o.v = secs; o.txt = a + '問 ' + secs + '秒'; } else o.txt = a + '問中 ' + c + '問';
+  }
+  else if (game === 'kotowaza' || game === 'kofun' || game === 'kami') { if (r && r.pts !== undefined) { o.v = r.pts; o.txt = r.pts + (game === 'kami' ? '組' : '問') + '正解'; } }
+  else if (game === 'handan' && hd && hd.real) { o.hi = false; o.txt = '正しさ ' + Math.floor(hd.real.acc * 10) + '割・' + (hd.real.rt ? hd.real.rt.toFixed(2) + '秒' : '—'); if (hd.real.acc >= 0.8 && hd.real.rt) o.v = Math.round(hd.real.rt * 100) / 100; }
+  else if (game === 'yomu' && ym) { if (ym.best > 0) { o.v = ym.best; o.txt = '1分に' + ym.best + '字'; } else o.txt = 'じっくり読みました'; }
+  return o;
+}
+function ntPrev(game) {
+  var v = null;
+  if (sessM()) v = lastResultValue(game, 'real');
+  if (v === null) { var raw = storeGet('kokosuma_real_' + (sessM() || 'guest') + '_' + game); v = raw ? parseFloat(raw) : null; }
+  return (v === null || isNaN(v)) ? null : v;
+}
+function ntSaveReal(game, v) {
+  if (v === null || v === undefined) return;
+  storeSet('kokosuma_real_' + (sessM() || 'guest') + '_' + game, String(v));
+  if (session.t) sendResult(game, 'real', v);
+}
+
+/* ================= 見きわめる：とっさの判断 ================= */
+var hd = null, HD_N = 20, HD_WIN = 1200;
+function startHandan() { gsMark('handan'); menuStartedGame = 'handan'; show('scr-handan'); hdIntro(); }
+function hdIntro() {
+  hd = null;
+  document.getElementById('hd-body').innerHTML =
+    '<div class="nt-lead">緑の丸が出たら、すぐに押す。<br>赤い丸のときは、押さない。</div>' +
+    '<div class="hd-demo"><span class="hd-dot g"></span><span>押す</span><span class="hd-dot r"></span><span>押さない</span></div>' +
+    '<div class="nt-sub">全部で20回・約40秒</div>' +
+    '<div class="btn btn-primary" style="margin:0;padding:16px 60px;font-size:27px;" onclick="hdStart()">はじめる</div>';
+}
+function hdStart() {
+  var seq = []; for (var i = 0; i < HD_N; i++) seq.push(i < 14 ? 'g' : 'r');
+  seq = shuffle(seq); if (seq[0] === 'r') { var j = seq.indexOf('g'); seq[j] = 'r'; seq[0] = 'g'; }
+  hd = { seq: seq, i: -1, hits: 0, miss: 0, fa: 0, cr: 0, rts: [], on: false, t: 0, timer: null, done: false };
+  document.getElementById('hd-body').innerHTML =
+    '<div class="hd-count" id="hd-count"></div>' +
+    '<div class="hd-stage" id="hd-stage" onpointerdown="hdTap(event)"><span class="hd-dot big" id="hd-dot"></span></div>' +
+    '<div class="msg" id="hd-msg" style="min-height:34px;"></div>';
+  hd.timer = setTimeout(hdNext, 900);
+}
+function hdNext() {
+  if (!hd || hd.done) return;
+  hd.i++;
+  if (hd.i >= hd.seq.length) return hdEnd();
+  var c = document.getElementById('hd-count'); if (c) c.textContent = (hd.i + 1) + '／' + hd.seq.length;
+  var dot = document.getElementById('hd-dot'); if (dot) dot.className = 'hd-dot big';
+  hd.timer = setTimeout(function () {
+    if (!hd || hd.done) return;
+    var d = document.getElementById('hd-dot'); if (d) d.className = 'hd-dot big on ' + hd.seq[hd.i];
+    hd.on = true; hd.t = performance.now();
+    hd.timer = setTimeout(hdTimeout, HD_WIN);
+  }, 500 + Math.random() * 800);
+}
+function hdMsg(t, ok) { var m = document.getElementById('hd-msg'); if (m) { m.textContent = t; m.style.color = ok ? 'var(--accent-deep)' : '#C25E00'; } }
+function hdTap(e) {
+  if (e && e.preventDefault) e.preventDefault();
+  if (!hd || hd.done || !hd.on) return;
+  hd.on = false; clearTimeout(hd.timer);
+  if (hd.seq[hd.i] === 'g') { hd.hits++; hd.rts.push((performance.now() - hd.t) / 1000); hdMsg('いいですね', true); }
+  else { hd.fa++; hdMsg('赤は押さずに待ちます', false); }
+  var d = document.getElementById('hd-dot'); if (d) d.className = 'hd-dot big';
+  hd.timer = setTimeout(hdNext, 380);
+}
+function hdTimeout() {
+  if (!hd || hd.done) return;
+  hd.on = false;
+  if (hd.seq[hd.i] === 'g') { hd.miss++; hdMsg('緑はすぐに押します', false); } else { hd.cr++; hdMsg('押さずに待てました', true); }
+  var d = document.getElementById('hd-dot'); if (d) d.className = 'hd-dot big';
+  hd.timer = setTimeout(hdNext, 320);
+}
+function hdDan(acc, rt) {
+  if (acc < 0.75) return Math.max(1, Math.min(3, Math.round((acc - 0.45) / 0.1)));
+  var n = 3; [0.80, 0.72, 0.65, 0.60, 0.55, 0.51, 0.48].forEach(function (t) { if (rt && rt <= t) n++; });
+  if (acc < 0.9) n = Math.min(n, 5);
+  return Math.min(10, n);
+}
+function hdEnd() {
+  hd.done = true; clearTimeout(hd.timer);
+  var n = hd.seq.length, ok = hd.hits + hd.cr, acc = ok / n;
+  var rt = hd.rts.length ? hd.rts.reduce(function (s, x) { return s + x; }, 0) / hd.rts.length : null;
+  hd.real = { acc: acc, rt: rt };
+  pendingDan.handan = hdDan(acc, rt);
+  gameCompleted('handan', qualityByCorrect(ok, n));
+  document.getElementById('hd-body').innerHTML =
+    '<div class="kiki-done">できました</div>' +
+    '<div class="kiki-result"><span class="a">20回のうち</span><span class="b">' + ok + '<span style="font-size:36px;">／' + n + '</span></span><span class="c">正しく見きわめました</span></div>' +
+    '<div class="kiki-pill">緑を押すまで　平均 ' + (rt ? rt.toFixed(2) : '—') + '秒</div>' +
+    '<div class="msg">' + sakuraIconHtml(34) + SKIN.name.replace('みんなの', '') + 'が 1' + SKIN.unit + ' ' + SKIN.verb + '</div>' +
+    '<div class="kiki-btnrow"><div class="btn btn-primary" style="margin:0;padding:17px 52px;font-size:27px;" onclick="hdIntro()">もう一回</div>' +
+    '<div class="btn-outline" style="padding:14px 44px;font-size:27px;" onclick="ntExitGame()">脳トレへ</div></div>';
+}
+function hdExit() { if (hd) { hd.done = true; clearTimeout(hd.timer); } ntExitGame(); }
+
+/* ================= 読む：読むチャレンジ（黙読） ================= */
+var ym = null, YM_PER = 3, YM_TH = [250, 300, 350, 400, 450, 500, 560, 620, 700];
+function ymChars(t) { return t.replace(/[、。「」『』！？!?,.\s・（）()]/g, '').length; }
+function ymLevel() {
+  var d = null;
+  if (sessM()) { var r = skillRow('yomu'); d = r ? r.dan : null; }
+  if (d === null) { var raw = storeGet('kokosuma_ym_dan'); d = raw ? parseInt(raw, 10) : 1; }
+  return d <= 3 ? 1 : (d <= 6 ? 2 : 3);
+}
+function startYomu() { gsMark('yomu'); menuStartedGame = 'yomu'; show('scr-yomu'); ymIntro(); }
+function ymIntro() {
+  ym = null;
+  document.getElementById('ym-body').innerHTML =
+    '<div class="nt-lead">文章を、声に出さずに読みます。<br>読み終えたら「読み終えた」を押してください。</div>' +
+    '<div class="nt-sub">そのあと、中身について2問。3つの文章・約3分</div>' +
+    '<div class="btn btn-primary" style="margin:0;padding:16px 60px;font-size:27px;" onclick="ymStart()">はじめる</div>';
+}
+function ymStart() {
+  var L = ymLevel(), used = []; try { used = JSON.parse(storeGet('kokosuma_ym_used') || '[]'); } catch (e) {}
+  var all = YOMU.filter(function (x) { return x.L === L; });
+  var pool = all.filter(function (x) { return used.indexOf(x.id) < 0; });
+  if (pool.length < YM_PER) { used = used.filter(function (id) { return !all.some(function (x) { return x.id === id; }); }); pool = all; }
+  pool = shuffle(pool.slice()).slice(0, YM_PER);
+  pool.forEach(function (x) { used.push(x.id); }); storeSet('kokosuma_ym_used', JSON.stringify(used.slice(-30)));
+  ym = { list: pool, n: 0, qi: 0, t0: 0, secs: 0, ok: 0, total: 0, best: 0, okThis: 0, L: L };
+  ymShow();
+}
+function ymItem() { return ym.list[ym.n]; }
+function ymShow() {
+  var it = ymItem(); ym.qi = 0; ym.okThis = 0;
+  document.getElementById('ym-badge').style.display = 'inline-block';
+  document.getElementById('ym-badge').textContent = (ym.n + 1) + '／' + ym.list.length;
+  document.getElementById('ym-body').innerHTML =
+    '<div class="kk-scene">' + ntEsc(it.title) + '</div>' +
+    '<div class="ym-text">' + ntEsc(it.text) + '</div>' +
+    '<div class="btn btn-primary" style="margin:0;padding:15px 56px;font-size:26px;" onclick="ymDone()">読み終えた</div>';
+  ym.t0 = Date.now();
+}
+function ymDone() { ym.secs = Math.max(1, (Date.now() - ym.t0) / 1000); ymQuiz(); }
+function ymQuiz() {
+  var it = ymItem(), q = it.q[ym.qi], order = shuffle([0, 1, 2]);
+  document.getElementById('ym-body').innerHTML =
+    '<div class="kk-scene">' + ntEsc(it.title) + '</div>' +
+    '<div class="kiki-q">' + ntEsc(q[0]) + '</div>' +
+    '<div class="kiki-choices" id="ym-choices">' + order.map(function (i) { return '<div class="q-choice" onclick="ymAnswer(' + i + ', this)">' + ntEsc(q[1][i]) + '</div>'; }).join('') + '</div>' +
+    '<div class="msg" id="ym-msg"></div>';
+}
+function ymAnswer(i, el) {
+  var ch = document.getElementById('ym-choices'); if (!ch || ch.getAttribute('data-done')) return; ch.setAttribute('data-done', '1');
+  var it = ymItem(), q = it.q[ym.qi], ok = (i === 0), msg = document.getElementById('ym-msg');
+  ym.total++; if (ok) { ym.ok++; ym.okThis++; el.style.border = '3px solid var(--action)'; msg.textContent = '正解です'; }
+  else { msg.textContent = '正解は「' + q[1][0] + '」でした'; msg.style.color = '#C25E00'; }
+  setTimeout(function () { ym.qi++; if (ym.qi < it.q.length) ymQuiz(); else ymAfter(); }, ok ? 1000 : 1800);
+}
+function ymAfter() {
+  var it = ymItem(), chars = ymChars(it.text), cpm = Math.round(chars / ym.secs * 60), all = ym.okThis === it.q.length;
+  var fair = cpm <= 1500, line;
+  if (all && fair) { if (cpm > ym.best) ym.best = cpm; line = 'この文章は <b>1分に' + cpm + '字</b> の速さで読めました'; }
+  else if (all) line = 'とても速く読めました。次は、ふつうの速さで読んでみましょう';
+  else line = '読みながら、数字や日にちに気をつけてみましょう';
+  var last = ym.n + 1 >= ym.list.length;
+  document.getElementById('ym-body').innerHTML =
+    '<div class="kk-scene">' + ntEsc(it.title) + '</div>' +
+    '<div class="ym-text small">' + ntEsc(it.text) + '</div>' +
+    '<div class="kiki-pill" style="font-weight:400;">' + line + '</div>' +
+    '<div class="btn btn-primary" style="margin:0;padding:15px 52px;font-size:26px;" onclick="ymNext()">' + (last ? '結果を見る' : '次の文章へ') + '</div>';
+}
+function ymNext() { ym.n++; if (ym.n < ym.list.length) ymShow(); else ymEnd(); }
+function ymEnd() {
+  document.getElementById('ym-badge').style.display = 'none';
+  var dan = null;
+  if (ym.best > 0) { dan = 1; YM_TH.forEach(function (t) { if (ym.best >= t) dan++; }); dan = Math.min(10, dan); }
+  else if (ym.ok > 0) dan = 1;
+  if (dan) storeSet('kokosuma_ym_dan', String(Math.max(dan, parseInt(storeGet('kokosuma_ym_dan') || '0', 10))));
+  pendingDan.yomu = dan;
+  gameCompleted('yomu', qualityByCorrect(ym.ok, ym.total));
+  document.getElementById('ym-body').innerHTML =
+    '<div class="kiki-done">できました</div>' +
+    '<div class="kiki-result"><span class="a">' + ym.total + '問で</span><span class="b">' + ym.ok + '<span style="font-size:36px;">／' + ym.total + '</span></span><span class="c">読み取れました</span></div>' +
+    '<div class="kiki-pill">' + (ym.best > 0 ? '読めた速さ　1分に ' + ym.best + '字' : 'じっくり読みました') + '</div>' +
+    '<div class="msg">' + sakuraIconHtml(34) + SKIN.name.replace('みんなの', '') + 'が 1' + SKIN.unit + ' ' + SKIN.verb + '</div>' +
+    '<div class="kiki-btnrow"><div class="btn btn-primary" style="margin:0;padding:17px 52px;font-size:27px;" onclick="ymIntro()">もう一回</div>' +
+    '<div class="btn-outline" style="padding:14px 44px;font-size:27px;" onclick="ntExitGame()">脳トレへ</div></div>';
+}
+function ntExitGame() { if (course && course.active) { goHome(); } else { show('scr-cat-asobi'); } }
+
+/* ================= 今日の脳トレ（4つ・約7分） ================= */
+var course = null;
+function courseKey() { return 'kokosuma_course_' + (sessM() || 'guest'); }
+function buildCourse() {
+  var items = [], used = {};
+  function lastOf(b) { return Math.min.apply(null, b.games.map(function (g) { return daysSince(lastPlayed(g)); })); }
+  function pickGame(b) { return b.games.slice().sort(function (x, y) { return daysSince(lastPlayed(y)) - daysSince(lastPlayed(x)); })[0]; }
+  function add(d, why, g) { var b = ntB(d); if (!b || used[d]) return false; used[d] = true; items.push({ d: d, g: g || pickGame(b), why: why, done: false }); return true; }
+  add('handan', '準備体操');
+  var aim = null;
+  if (!sessM() || !skillData) {
+    add('kiku', '暮らしの会話を聞き取る'); add('oboeru', '光った順を覚える'); add('kazu', '買い物のお釣り'); aim = 'oboeru';
+  } else {
+    var doms = BRAIN.map(function (b) { var r = skillRow(b.d); return { b: b, dan: r ? r.dan : 0, last: lastOf(b) }; });
+    var p = skillData.pick;
+    if (p && !p.done && brainOf(p.game)) { add(brainOf(p.game), 'スタッフのおすすめ', p.game); aim = brainOf(p.game); }
+    var low = doms.filter(function (x) { return !used[x.b.d]; }).sort(function (a, b) { return (a.dan - b.dan) || (b.last - a.last); })[0];
+    if (low && add(low.b.d, low.dan ? '伸ばしどころ' : 'はじめての分野') && !aim) aim = low.b.d;
+    var stale = doms.filter(function (x) { return !used[x.b.d]; }).sort(function (a, b) { return b.last - a.last; })[0];
+    if (stale) add(stale.b.d, !stale.dan ? 'はじめての分野' : 'しばらくぶり');
+    var best = doms.filter(function (x) { return !used[x.b.d]; }).sort(function (a, b) { return b.dan - a.dan; })[0];
+    if (best && items.length < 4) add(best.b.d, best.dan ? 'しめくくりは得意な分野で' : 'しめくくり');
+  }
+  ['kiku', 'oboeru', 'kazu', 'mitsukeru'].forEach(function (d) { if (items.length < 4) add(d, 'もうひとつ'); });
+  return { day: mDay(), items: items.slice(0, 4), aim: aim || items[1].d, i: 0, t0: 0, secs: 0, res: [], active: false, finished: false };
+}
+function ensureCourse() {
+  var c = null; try { c = JSON.parse(storeGet(courseKey()) || 'null'); } catch (e) {}
+  if (c && c.day === mDay() && c.items && c.items.length) { course = c; return course; }
+  course = buildCourse(); courseSave(); return course;
+}
+function courseSave() { try { storeSet(courseKey(), JSON.stringify(course)); } catch (e) {} }
+function renderCourseCard() {
+  var el = document.getElementById('course-card'); if (!el) return;
+  ensureCourse();
+  var b = ntB(course.aim), doneN = course.items.filter(function (x) { return x.done; }).length;
+  var steps = course.items.map(function (it, i) {
+    var bb = ntB(it.d), a = ACT[it.g] || { n: '' };
+    return '<div class="cs-step' + (it.done ? ' done' : '') + '"><span class="cs-n">' + (it.done ? '✓' : (i + 1)) + '</span>' + ntChip(bb, 42, 24) + ntLabelB(bb, 20) + '<span class="cs-g">' + ntEsc(a.n) + '</span></div>';
+  }).join('');
+  var btn = course.finished ? '<div class="btn-outline" style="margin:0;padding:10px 34px;font-size:22px;" onclick="courseReview()">ふりかえりを見る</div>'
+    : '<div class="btn btn-primary" style="margin:0;padding:13px 50px;font-size:25px;white-space:nowrap;" onclick="courseStart()">' + (doneN ? '続きから（' + (doneN + 1) + '／4）' : 'はじめる') + '</div>';
+  el.innerHTML = '<div class="cs-hd"><b>今日の脳トレ</b><span>' + (course.finished ? 'できました' : '4つ・約7分　続けて流れます') + '</span></div>' +
+    '<div class="cs-aim">今日は<b>「' + ntPower(b) + '」</b>を伸ばしましょう。</div>' +
+    '<div class="cs-steps">' + steps + '</div><div class="cs-foot">' + btn + '<span class="cs-note">途中でやめても大丈夫。できたところまで記録します。</span></div>';
+}
+function courseStart() {
+  ensureCourse();
+  if (course.finished) return courseReview();
+  course.active = true;
+  if (!course.t0) { course.t0 = Date.now(); course.before = {}; BRAIN.forEach(function (b) { var r = skillRow(b.d); course.before[b.d] = r ? r.dan : 0; }); }
+  course.i = 0; while (course.i < course.items.length && course.items[course.i].done) course.i++;
+  courseSave(); courseRun();
+}
+var kkPerSaved = null;
+function courseRun() {
+  var it = course.items[course.i]; if (!it) return courseReview();
+  if (it.g === 'kiki') { if (kkPerSaved === null) kkPerSaved = KK_PER_SESSION; KK_PER_SESSION = 2; startKiki(); kkIntro(); }
+  else { var a = ACT[it.g]; if (a && typeof window[a.fn] === 'function') window[a.fn](); }
+  courseBarSync();
+}
+function courseOnDone(game, r, real, prev) {
+  if (!course || !course.active) return;
+  var it = course.items[course.i]; if (!it || it.g !== game || it.done) return;
+  it.done = true;
+  course.res.push({ d: it.d, g: game, dan: r && r.dan !== undefined ? r.dan : null, v: real.v, txt: real.txt, hi: real.hi, prev: prev });
+  if (game === 'kiki' && kkPerSaved !== null) { KK_PER_SESSION = kkPerSaved; kkPerSaved = null; }
+  courseSave(); courseSheet();
+}
+function courseSheet() {
+  var el = document.getElementById('course-sheet'); if (!el) return;
+  var n = course.items.filter(function (x) { return x.done; }).length, nx = course.items[course.i + 1];
+  el.innerHTML = '<div class="csh-in"><div class="csh-tx"><b>✓ できました（' + n + '／4）</b>' + (nx ? '<span>次は ' + ntLabelB(ntB(nx.d), 20) + '</span>' : '<span>今日の脳トレは、これでおしまいです</span>') + '</div>' +
+    (nx ? '<div class="btn btn-primary" style="margin:0;padding:12px 40px;font-size:24px;" onclick="courseNext()">次へ</div><div class="csh-quit" onclick="courseQuit()">今日はここまで</div>'
+        : '<div class="btn btn-primary" style="margin:0;padding:12px 40px;font-size:24px;" onclick="courseNext()">ふりかえりを見る</div>') + '</div>';
+  el.style.display = 'flex';
+}
+function courseSheetHide() { var el = document.getElementById('course-sheet'); if (el) el.style.display = 'none'; }
+function courseNext() { courseSheetHide(); try { kkStop(); } catch (e) {} course.i++; courseSave(); if (course.i < course.items.length) courseRun(); else courseReview(); }
+function courseQuit() { courseSheetHide(); courseReview(); }
+function courseBarSync() {
+  var bar = document.getElementById('course-bar'); if (!bar) return;
+  var on = course && course.active && curScreen !== 'scr-home' && curScreen !== 'scr-review' && curScreen !== 'scr-brain';
+  if (!on) { bar.style.display = 'none'; return; }
+  bar.innerHTML = '<b>今日の脳トレ</b>' + course.items.map(function (it, i) { return '<i class="' + (it.done ? 'd' : (i === course.i ? 'c' : '')) + '"></i>'; }).join('') +
+    '<span>' + Math.min(4, course.i + 1) + '／4</span>';
+  bar.style.display = 'flex';
+}
+function courseReview() {
+  courseSheetHide();
+  if (!course) ensureCourse();
+  if (course.active) { course.secs += Math.round((Date.now() - (course.t0 || Date.now())) / 1000); course.t0 = 0; }
+  course.active = false; if (course.items.every(function (x) { return x.done; })) course.finished = true;
+  if (kkPerSaved !== null) { KK_PER_SESSION = kkPerSaved; kkPerSaved = null; }
+  courseSave();
+  var usedD = {}; course.res.forEach(function (x) { usedD[x.d] = true; });
+  var lamps = BRAIN.map(function (b) { return '<div class="rv-lamp' + (usedD[b.d] ? ' on' : '') + '">' + ntChip(usedD[b.d] ? b : { chip: '#EFEBE0', ink: '#B5AFA4', ic: b.ic }, 54, 30) + '<span>' + b.n + '</span></div>'; }).join('');
+  var ups = [];
+  BRAIN.forEach(function (b) { var r = skillRow(b.d), bef = (course.before || {})[b.d] || 0; if (r && r.dan > bef && usedD[b.d]) ups.push(bef ? ntPower(b) + 'が' + (r.dan - bef === 1 ? '一段' : (r.dan - bef) + '段') + '上がりました（' + bef + '段 → ' + r.dan + '段）' : ntPower(b) + 'は ' + r.dan + '段からのスタートです'); });
+  var rows = course.res.map(function (x) {
+    var b = ntB(x.d), st = '前回なみ', col = '#8B857A';
+    if (x.v === null || x.v === undefined) { st = ''; }
+    else if (x.prev === null || x.prev === undefined) { st = 'はじめての記録'; col = 'var(--accent-deep)'; }
+    else if ((x.hi && x.v > x.prev) || (!x.hi && x.v < x.prev)) { st = '伸びました'; col = 'var(--action)'; }
+    return '<div class="rv-row">' + ntChip(b, 42, 24) + '<span class="rv-lb">' + ntLabelB(b, 21) + '</span><span class="rv-k">' + (NT_REAL_LABEL[x.g] || '') + '</span>' +
+      '<span class="rv-v">' + ntEsc(x.txt || '—') + '</span><span class="rv-p">' + (x.prev !== null && x.prev !== undefined ? '前回 ' + ntEsc(ntFmt(x.g, x.prev)) : '') + '</span>' +
+      '<span class="rv-s" style="color:' + col + ';">' + st + '</span></div>';
+  }).join('');
+  var s = course.secs || 0;
+  document.getElementById('rv-body').innerHTML =
+    '<div class="rv-hd"><b>今日の脳トレ、' + (course.finished ? 'できました' : 'ここまでできました') + '</b><span>' + Math.floor(s / 60) + '分' + ('0' + (s % 60)).slice(-2) + '秒</span></div>' +
+    '<div class="rv-cap">今日使った力</div><div class="rv-lamps">' + lamps + '</div>' +
+    (ups.length ? ups.map(function (u) { return '<div class="rv-up">' + u + '</div>'; }).join('') : '') +
+    (rows ? '<div class="rv-list">' + rows + '</div>' : '<div class="nt-sub">まだ記録はありません</div>') +
+    '<div class="rv-btns">' + (sessM() ? '<div class="btn btn-primary" style="margin:0;padding:13px 44px;font-size:24px;" onclick="showBrain()">わたしの記録を見る</div>' : '') +
+    '<div class="btn-outline" style="padding:10px 40px;font-size:24px;" onclick="goHome()">ホームへ</div>' +
+    (sessM() ? '<span class="rv-note">会員証（ご自分のスマホ）でも見られます</span>' : '') + '</div>';
+  show('scr-review');
+}
+
+/* ================= わたしの記録：脳トレの7つの階段＋全体の形 ================= */
+function ntStairs(first, now, ink, w, h) {
+  w = w || 150; h = h || 56; var bw = (w - 27) / 10, s = '';
+  for (var i = 1; i <= 10; i++) {
+    var x = (i - 1) * (bw + 3), hh = 8 + i * 4.8, y = h - hh;
+    s += '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + hh.toFixed(1) + '" rx="2.5" fill="' + (i <= now ? ink : '#EFEBE0') + '"></rect>';
+    if (i === first && now) s += '<circle cx="' + (x + bw / 2).toFixed(1) + '" cy="' + (y - 6).toFixed(1) + '" r="3" fill="#C2410C"></circle>';
+  }
+  return '<svg width="' + w + '" height="' + (h + 10) + '" viewBox="0 -10 ' + w + ' ' + (h + 10) + '">' + s + '</svg>';
+}
+function ntRadar(size) {
+  var n = BRAIN.length, W = size || 330, cx = W / 2, cy = W / 2 - 4, R = W * 0.3;
+  function pt(i, v) { var a = -Math.PI / 2 + 2 * Math.PI * i / n, r = R * v / 10; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
+  function poly(vals) { return vals.map(function (v, i) { var p = pt(i, v); return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' '); }
+  var s = '';
+  [2, 4, 6, 8, 10].forEach(function (lv) { s += '<polygon points="' + poly(BRAIN.map(function () { return lv; })) + '" fill="none" stroke="#E3DFD2"></polygon>'; });
+  BRAIN.forEach(function (b, i) { var p = pt(i, 10); s += '<line x1="' + cx + '" y1="' + cy + '" x2="' + p[0].toFixed(1) + '" y2="' + p[1].toFixed(1) + '" stroke="#E3DFD2"></line>'; });
+  var fv = BRAIN.map(function (b) { var r = skillRow(b.d); return r ? r.first : 0; }), nv = BRAIN.map(function (b) { var r = skillRow(b.d); return r ? r.dan : 0; });
+  s += '<polygon points="' + poly(fv) + '" fill="#11866D" fill-opacity=".12" stroke="#11866D" stroke-opacity=".4" stroke-dasharray="4 4" stroke-width="1.5"></polygon>';
+  s += '<polygon points="' + poly(nv) + '" fill="#11866D" fill-opacity=".28" stroke="#11866D" stroke-width="2.5"></polygon>';
+  BRAIN.forEach(function (b, i) {
+    var p = pt(i, nv[i]); if (nv[i]) s += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="4.5" fill="' + b.ink + '"></circle>';
+    var q = pt(i, 12.4), an = Math.abs(q[0] - cx) < 20 ? 'middle' : (q[0] > cx ? 'start' : 'end');
+    s += '<text x="' + q[0].toFixed(1) + '" y="' + (q[1] + 6).toFixed(1) + '" text-anchor="' + an + '" font-size="16" font-weight="700" fill="#333A38">' + b.n + '</text>';
+  });
+  return '<svg class="nt-radar" viewBox="-40 0 ' + (W + 80) + ' ' + (W - 10) + '" role="img" aria-label="脳トレの全体の形">' + s + '</svg>';
+}
+function showBrain() {
+  var sum = 0, sumF = 0;
+  var rows = BRAIN.map(function (b) {
+    var r = skillRow(b.d), dan = r ? r.dan : 0, first = r ? r.first : 0; sum += dan; sumF += first;
+    var g = b.games[0], v = ntPrev(g);
+    b.games.forEach(function (x) { if (v === null) v = ntPrev(x), g = x; });
+    return '<div class="br-row" onclick="ntPick(\'' + b.d + '\')"><span class="br-lb">' + ntLabelA(b, 21) + '</span>' + ntStairs(first, dan, b.ink) +
+      '<span class="br-v"><b style="color:' + b.ink + ';">' + (dan ? dan + '段' : 'これから') + '</b><i>' + (v !== null ? ntEsc(ntFmt(g, v)) : '') + '</i></span><span class="br-go">選ぶ ›</span></div>';
+  }).join('');
+  document.getElementById('br-body').innerHTML =
+    '<div class="br-hd"><b>脳トレの7つの階段</b><span>段は下がりません</span></div>' +
+    '<div class="br-wrap"><div class="br-left"><div class="br-cap">全体の形</div>' + ntRadar(330) +
+    '<div class="br-leg"><span><i class="f"></i>はじめ</span><span><i class="n"></i>いま</span></div>' +
+    '<div class="br-sum">合計 <b>' + sum + '段</b>' + (sum > sumF && sumF ? '　はじめから <em>+' + (sum - sumF) + '段</em>' : '') + '</div></div>' +
+    '<div class="br-right">' + rows + '<div class="br-note">階段を押すと、その分野の種目を選んで始められます。<span style="color:#C2410C;">●</span>＝はじめの段</div></div></div>';
+  show('scr-brain');
+}
+function ntPick(d) {
+  var b = ntB(d);
+  document.getElementById('pk-title').innerHTML = ntLabelA(b, 30);
+  document.getElementById('pk-body').innerHTML = b.games.map(function (g) {
+    var a = ACT[g]; if (!a) return '';
+    return '<div class="gcard" onclick="' + a.fn + '()"><span class="chip" style="background:' + a.chip + '; color:' + a.ink + ';"><svg viewBox="0 0 24 24"><use href="#' + a.ic + '"></use></svg></span>' +
+      '<div class="tx"><b>' + a.n + '</b><span>' + (a.desc || '') + '</span></div><span class="goa" style="background:' + a.chip + '; color:' + a.ink + ';"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span></div>';
+  }).join('');
+  show('scr-pick');
+}
+
+(function () { var o = show; show = function (id) { o(id); try { courseBarSync(); } catch (e) {} }; })();
 
 function kanjiNum(n) {
   var k = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
