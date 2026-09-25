@@ -553,6 +553,10 @@
   .kk-ask { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 20px; padding: 14px 24px; width: 100%; max-width: 620px; }
   .kk-ask-h { font-size: 18px; font-weight: 700; color: var(--accent-deep); margin-bottom: 4px; }
   .kk-ask ul { margin: 0; padding-left: 1.2em; } .kk-ask li { font-size: 23px; line-height: 1.7; font-weight: 700; }
+  .kk-stairs { width: 100%; max-width: 600px; height: auto; }
+  .kk-st-new { animation: kkRise 0.9s ease-out both; transform-origin: bottom; transform-box: fill-box; }
+  @keyframes kkRise { from { transform: scaleY(0.2); opacity: 0.2; } to { transform: scaleY(1); opacity: 1; } }
+  .kk-sub { font-size: 21px; color: #555555; }
   .kk-up { font-size: 21px; font-weight: 700; color: #8A6D1F; background: #FFF4D6; border-radius: 999px; padding: 6px 22px; }
   .mk-book { display: flex; gap: 22px; align-items: center; background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 22px; padding: 22px 26px; width: 100%; max-width: 600px; }
   .mk-spine { width: 70px; height: 150px; border-radius: 8px; background: #7A2E2E; color: #FFFFFF; display: flex; align-items: center; justify-content: center; writing-mode: vertical-rl; font-size: 20px; font-weight: 700; letter-spacing: 4px; flex-shrink: 0; }
@@ -1117,7 +1121,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.32(ここスマ自習システム・聞き取りの段＝長さ×速さ)</div>
+    <div class="footer">試作版 v1.33(ここスマ自習システム・聞き取りの階段)</div>
   </div>
 </div>
 
@@ -4012,14 +4016,54 @@ function kikiRenderStart() {
   document.getElementById('kiki-body').innerHTML =
     '<div style="font-size:34px;font-weight:700;">耳の体操</div>' +
     '<div class="kk-modes">' +
-    '<div class="kk-mode" onclick="kkStart()"><span class="kk-mi"><svg viewBox="0 0 24 24"><use href="#ic-ear"></use></svg></span><span class="kk-mt"><b>暮らしの会話</b><span>電話・駅のアナウンス・お店での会話など。' +
-    (st > 1 ? '前回の続き＝' + st + '段（' + kkStepName(st) + '）から' : 'ひとことから、少しずつ長く・速く') + '</span></span></div>' +
+    '<div class="kk-mode" onclick="kkIntro()"><span class="kk-mi"><svg viewBox="0 0 24 24"><use href="#ic-ear"></use></svg></span><span class="kk-mt"><b>暮らしの会話</b><span>電話・駅のアナウンス・お店での会話など。' +
+    (st > 1 ? '前回の続き＝「' + kkStepName(st) + '」から' : 'ひとことから、少しずつ長く・速く') + '</span></span></div>' +
     '<div class="kk-mode" onclick="mkShelf()"><span class="kk-mi"><svg viewBox="0 0 24 24"><use href="#ic-spk"></use></svg></span><span class="kk-mt"><b>名作を聞く</b><span>太宰治「走れメロス」を朗読で。' + epTx + '</span></span></div>' +
     '</div>' +
     '<div class="kiki-note"><svg viewBox="0 0 24 24"><use href="#ic-spk"></use></svg>音が出ます。まわりの音量にご注意ください。</div>';
 }
 
 /* ---- 暮らしの会話：段のはしご ---- */
+/* v1.33 階段の絵：できた段(下がらない)まで色、start=今日のはじめの段に印 */
+var kkMemBest = {};
+function kkBest() {
+  var b = 0;
+  if (session.m) {
+    if (progressData && progressData.results) progressData.results.forEach(function (r) { if (r.game === 'kiki' && (r.metric === 'dan' || r.metric === 'step')) b = Math.max(b, Math.round(parseFloat(r.value) || 0)); });
+    if (kkMemBest[session.m]) b = Math.max(b, kkMemBest[session.m]);
+  } else { var raw = storeGet('kokosuma_kk_best'); b = raw ? parseInt(raw, 10) || 0 : 0; }
+  return Math.max(0, Math.min(10, b));
+}
+function kkSetBest(v) {
+  if (session.m) kkMemBest[session.m] = Math.max(kkMemBest[session.m] || 0, v);
+  else storeSet('kokosuma_kk_best', String(Math.max(kkBest(), v)));
+}
+function kkStairsHtml(best, mark, fresh) {
+  var W = 600, H = 210, base = 170, bw = 50, gap = 6, x0 = 12, h = '';
+  for (var i = 1; i <= 10; i++) {
+    var x = x0 + (i - 1) * (bw + gap), top = base - (22 + i * 13);
+    var on = i <= best, nw = fresh && i > fresh[0] && i <= fresh[1];
+    h += '<rect class="' + (nw ? 'kk-st-new' : '') + '" x="' + x + '" y="' + top + '" width="' + bw + '" height="' + (base - top) + '" rx="6" fill="' + (on ? 'var(--action)' : '#EFEBE0') + '"' + (on ? '' : ' stroke="#E3DFD2"') + '></rect>';
+    h += '<text x="' + (x + bw / 2) + '" y="' + (base - 10) + '" text-anchor="middle" font-size="18" font-weight="700" fill="' + (on ? '#FFFFFF' : '#6B665C') + '">' + i + '</text>';
+    if (i === mark) h += '<circle cx="' + (x + bw / 2) + '" cy="' + (top - 16) + '" r="11" fill="#C2410C"></circle><text x="' + (x + bw / 2) + '" y="' + (top - 32) + '" text-anchor="middle" font-size="15" font-weight="700" fill="#C2410C">ここから</text>';
+  }
+  [[1, 2, 'ひとこと'], [3, 4, '短い文'], [5, 7, 'ふつうの長さ'], [8, 10, '長い話']].forEach(function (g) {
+    var a = x0 + (g[0] - 1) * (bw + gap), b = x0 + g[1] * (bw + gap) - gap;
+    h += '<line x1="' + a + '" y1="' + (base + 8) + '" x2="' + b + '" y2="' + (base + 8) + '" stroke="#E3DFD2" stroke-width="2"></line>' +
+      '<text x="' + ((a + b) / 2) + '" y="' + (base + 30) + '" text-anchor="middle" font-size="17" fill="#555555">' + g[2] + '</text>';
+  });
+  return '<svg class="kk-stairs" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="聞き取りの階段 ' + best + '段まで">' + h + '</svg>';
+}
+function kkIntro() {
+  kikiBadge(''); kkStop();
+  var st = kkStartStep(), best = kkBest();
+  document.getElementById('kiki-body').innerHTML =
+    '<div style="font-size:30px;font-weight:700;">暮らしの会話</div>' +
+    '<div class="kk-sub">聞き取れるたびに、一段ずつ昇ります（全10段）</div>' +
+    kkStairsHtml(best, st) +
+    '<div class="kiki-pill">今日は「' + kkStepName(st) + '」から</div>' +
+    '<div class="btn btn-primary" style="margin:0;padding:16px 60px;font-size:27px;" onclick="kkStart()">はじめる</div>';
+}
 function kkStartStep() {
   var v = null;
   if (session.m) v = (kkMemStart[session.m] !== undefined) ? kkMemStart[session.m] : lastResultValue('kiki', 'step');
@@ -4054,7 +4098,7 @@ function kkListen() {
   kk.cur = kkPickFor(kkCfg().L); kk.done.push(kk.cur);
   var it = kkItem(), c = kkCfg();
   kk.replays = 0; kk.qi = 0; kk.okThis = 0; kk.nThis = 0;
-  kikiBadge(kk.step + '段（' + kkStepName(kk.step) + '） ' + (kk.n + 1) + '／' + KK_PER_SESSION + '題');
+  kikiBadge(kkStepName(kk.step) + ' ・ ' + (kk.n + 1) + '／' + KK_PER_SESSION + '題');
   document.getElementById('kiki-body').innerHTML =
     (kk.up ? '<div class="kk-up">一段上がりました。' + kkStepName(kk.step) + 'です</div>' : '') +
     '<div class="kk-scene">' + kkEsc(it.title) + '</div>' +
@@ -4083,7 +4127,7 @@ function kkQuiz() {
   if (it.kind === 'push') return kkPush();
   var q = it.q[kk.qi];
   var order = shuffle([0, 1, 2]);
-  kikiBadge(kk.step + '段 ・ ' + (kk.n + 1) + '題め ・ 問' + (kk.qi + 1) + '／' + it.q.length);
+  kikiBadge((kk.n + 1) + '題め ・ 問' + (kk.qi + 1) + '／' + it.q.length);
   document.getElementById('kiki-body').innerHTML =
     '<div class="kk-scene">' + kkEsc(it.title) + '</div>' +
     '<div class="kiki-q">' + kkEsc(q.q) + '</div>' +
@@ -4106,7 +4150,7 @@ function kkAnswer(i, el) {
 /* 聞いて押す(自動音声) */
 function kkPush() {
   var it = kkItem(), t = it.push[kk.qi];
-  kikiBadge(kk.step + '段 ・ ' + (kk.n + 1) + '題め ・ ' + (kk.qi + 1) + '／' + it.push.length);
+  kikiBadge((kk.n + 1) + '題め ・ ' + (kk.qi + 1) + '／' + it.push.length);
   var keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'];
   document.getElementById('kiki-body').innerHTML =
     '<div class="kk-scene">' + kkEsc(it.title) + '</div>' +
@@ -4156,11 +4200,13 @@ function kkReveal() {
     '<div class="btn btn-primary" style="margin:0;padding:15px 52px;font-size:26px;" onclick="kkNext()">' + (last ? '結果を見る' : '次の題へ') + '</div>';
 }
 /* 2題続けて全問正解＝一段上へ／2題続けて取りこぼし＝ひとつ前の段へ(表示はしない) */
+/* v1.33: 長い話(3問)は2問で正解扱い／1題目が正解ならすぐ一段上(前回できた段から始めているため) */
 function kkNext() {
-  var allOk = (kk.okThis === kk.nThis);
+  var it = kkItem(), need = (it.L === 3 && kk.nThis >= 3) ? kk.nThis - 1 : kk.nThis;
+  var allOk = (kk.okThis >= need);
   if (allOk) {
     kk.cleared = Math.max(kk.cleared, kk.step); kk.okRun++; kk.ngRun = 0;
-    if (kk.okRun >= 2 && kk.step < 10) { kk.step++; kk.okRun = 0; kk.up = true; }
+    if ((kk.okRun >= 2 || kk.n === 0) && kk.step < 10) { kk.step++; kk.okRun = 0; kk.up = true; }
   } else {
     kk.ngRun++; kk.okRun = 0;
     if (kk.ngRun >= 2 && kk.step > 1) { kk.step--; kk.ngRun = 0; }
@@ -4171,6 +4217,7 @@ function kkNext() {
 function kkResult() {
   kikiBadge('');
   var next = kk.cleared > 0 ? kk.cleared : Math.max(1, kk.start - 1);
+  var before = kkBest(); if (kk.cleared > 0) kkSetBest(kk.cleared); var best = kkBest();
   if (session.m) kkMemStart[session.m] = next; else storeSet('kokosuma_kk_step', String(next));
   record.kikiSets += 1; record.kikiCorrect += kk.correct;
   if (kk.cleared > (record.kikiStep || 0)) record.kikiStep = kk.cleared;
@@ -4180,12 +4227,12 @@ function kkResult() {
   kkLastSend = undefined;
   document.getElementById('kiki-body').innerHTML =
     '<div class="kiki-done">できました</div>' +
-    '<div class="kiki-result"><span class="a">' + KK_PER_SESSION + '題で</span><span class="b">' + kk.correct + '<span style="font-size:36px;">／' + kk.total + '</span></span><span class="c">聞き取れました</span></div>' +
-    '<div class="kiki-pill">' + (kk.cleared > 0 ? kk.cleared + '段（' + kkStepName(kk.cleared) + '）まで聞けました' : 'じっくり聞きました') + '</div>' +
-    '<div style="font-size:20px;color:#555555;">次は ' + next + '段（' + kkStepName(next) + '）から始めます</div>' +
+    '<div class="kk-sub"><b style="font-size:30px;color:var(--action);">' + kk.correct + '</b>／' + kk.total + '問 聞き取れました</div>' +
+    kkStairsHtml(best, 0, best > before ? [before, best] : null) +
+    '<div class="kiki-pill">' + (best > before ? '新しく ' + best + '段（' + kkStepName(best) + '）まで昇りました' : (best > 0 ? best + '段（' + kkStepName(best) + '）まで昇っています' : 'じっくり聞きました。次もこの続きから')) + '</div>' +
     '<div class="msg">' + sakuraIconHtml(34) + SKIN.name.replace('みんなの', '') + 'が 1' + SKIN.unit + ' ' + SKIN.verb + '</div>' +
     '<div class="kiki-btnrow">' +
-    '<div class="btn btn-primary" style="margin:0;padding:17px 52px;font-size:27px;" onclick="kkStart()">もう一回</div>' +
+    '<div class="btn btn-primary" style="margin:0;padding:17px 52px;font-size:27px;" onclick="kkIntro()">もう一回</div>' +
     '<div class="btn-outline" style="padding:14px 52px;font-size:27px;" onclick="kikiRenderStart()">耳の体操へ</div></div>';
 }
 
