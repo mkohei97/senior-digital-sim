@@ -3,6 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<script>
+/* v1.37 画面に合わせる：横置き＝高さ768相当・縦置き＝幅800相当の見え方にそろえ、大きいiPadほど全体が大きく映る */
+(function () {
+  var meta = document.querySelector('meta[name="viewport"]');
+  function fit() {
+    var sw = screen.width, sh = screen.height, L = Math.max(sw, sh), S = Math.min(sw, sh), W = 0;
+    var touch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    var land = window.matchMedia ? window.matchMedia('(orientation: landscape)').matches : (window.innerWidth > window.innerHeight);
+    if (touch && S >= 700) {
+      if (land) { var w = Math.max(1024, Math.round(L * 768 / S)); if (w < L - 8) W = w; }
+      else if (S > 808) W = 800;
+    }
+    var c = W ? 'width=' + W + ', user-scalable=no' : 'width=device-width, initial-scale=1.0, user-scalable=no';
+    if (meta && meta.getAttribute('content') !== c) meta.setAttribute('content', c);
+    window.__fit = { W: W, dev: S + 'x' + L, land: land };
+  }
+  fit();
+  window.addEventListener('orientationchange', function () { setTimeout(fit, 60); setTimeout(fit, 450); });
+  window.addEventListener('resize', fit);
+})();
+</script>
 <title>ここスマ自習システム</title>
 <style>
   :root {
@@ -111,7 +132,7 @@
   /* v1.16: お釣り計算(Claude Design「お釣り計算とホーム7種目」) */
   .otsuri-scene { display: flex; align-items: center; justify-content: center; gap: 18px; margin-bottom: 10px; }
   .otsuri-buy { background: #F8F3E9; border: 1px solid #E3D9C2; border-radius: 14px; padding: 8px 18px 10px; text-align: center; }
-  .otsuri-buy .cap2 { font-size: 17px; color: #8A6A3B; letter-spacing: 1px; }
+  .otsuri-buy .cap2 { font-size: 18px; color: #8A6A3B; letter-spacing: 1px; }
   .otsuri-buy .v { font-size: 24px; font-weight: 700; color: #333A38; }
   .otsuri-arrow { color: #8A8378; flex-shrink: 0; }
   .otsuri-pay { position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -133,7 +154,7 @@
   .otsuri-pay .komi span { font-size: 13px; color: #8A6A3B; }
   .otsuri-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .otsuri-choices .q-choice { font-size: 42px; font-weight: 700; letter-spacing: 0.5px; position: relative; overflow: visible; }
-  .otsuri-choices .q-choice .tag { position: absolute; top: -14px; left: 14px; font-size: 17px; font-weight: 700; letter-spacing: 0.5px;
+  .otsuri-choices .q-choice .tag { position: absolute; top: -14px; left: 14px; font-size: 18px; font-weight: 700; letter-spacing: 0.5px;
     border-radius: 999px; padding: 3px 12px; line-height: 1.3; }
   .otsuri-choices .q-choice.correct .tag { background: var(--accent-deep); color: #FFFFFF; }
   .otsuri-choices .q-choice.picked { border-color: #C98A3D; background: #FBF3E4; color: #7A5A28; }
@@ -163,8 +184,8 @@
   .cat-menu .gcard { flex: 1 1 0; min-height: 0; }
   .cat-menu .gcard .tx b { font-size: 27px; }
   .cat-menu .gcard .tx span { font-size: 21px; }
-  .newbadge { background: #DFF2FA; color: #1E7A9C; font-size: 17px; font-weight: 700; border-radius: 999px; padding: 3px 12px; margin-left: 10px; }
-  .done-row .mig { background: #F5EDD6; border: 1px solid #D8BE72; color: #8A6A3B; font-size: 17px; font-weight: 700;
+  .newbadge { background: #DFF2FA; color: #1E7A9C; font-size: 18px; font-weight: 700; border-radius: 999px; padding: 3px 12px; margin-left: 10px; }
+  .done-row .mig { background: #F5EDD6; border: 1px solid #D8BE72; color: #8A6A3B; font-size: 18px; font-weight: 700;
     border-radius: 999px; padding: 2px 10px; margin-left: 10px; vertical-align: middle; }
   #scr-summary .pad.dense .done-row .mig { font-size: 15px; padding: 1px 8px; }
   /* v1.19: 検定・級と学びの記録(Claude Design「検定と学びの記録」) */
@@ -264,7 +285,7 @@
   .kioku-tile .nm { font-size: 25px; font-weight: 700; color: #333A38; }
   .kioku-tile:active { transform: translateY(2px); }
   .kioku-tile.lit { border-color: #C7A94F; box-shadow: 0 0 0 4px rgba(199, 169, 79, 0.25), 0 8px 20px rgba(60, 48, 36, 0.10); background: #FFFDF4; }
-  .kioku-tile .lit-tag { position: absolute; top: 10px; right: 12px; font-size: 17px; font-weight: 700; color: #8A6A3B; display: none; }
+  .kioku-tile .lit-tag { position: absolute; top: 10px; right: 12px; font-size: 18px; font-weight: 700; color: #8A6A3B; display: none; }
   .kioku-tile.lit .lit-tag { display: block; }
   .kioku-tile .num { position: absolute; top: 10px; left: 12px; width: 34px; height: 34px; border-radius: 999px; background: var(--action);
     color: #FFFFFF; font-size: 20px; font-weight: 700; display: none; align-items: center; justify-content: center; }
@@ -337,26 +358,26 @@
   .cat-grid .catcard .tx .sub { font-size: 21px; color: #555555; line-height: 1.4; }
   .cat-grid .catcard .items { gap: 2px 14px; }
   /* v1.27: 種目が問う力(小さな札。効能ではなく「何を使うか」) */
-  em.abil { font-style: normal; font-size: 14px; line-height: 1; color: #6B6559; background: #F3F0E9; border: 1px solid #E4DED2; border-radius: 999px; padding: 4px 9px; white-space: nowrap; margin-left: 8px; vertical-align: 2px; }
+  em.abil { font-style: normal; font-size: 17px; line-height: 1; color: #6B6559; background: #F3F0E9; border: 1px solid #E4DED2; border-radius: 999px; padding: 4px 9px; white-space: nowrap; margin-left: 8px; vertical-align: 2px; }
   /* v1.31 今日のメニュー・脳トレの段 */
   .reco.done { opacity: 0.72; }
-  .menu-note { font-size: 17px; color: var(--accent-deep); min-height: 0; }
+  .menu-note { font-size: 20px; color: var(--accent-deep); min-height: 0; }
   .menu-note:empty { display: none; }
   .reco { position: relative; }
   .reco .ck { position: absolute; top: 8px; right: 12px; font-size: 22px; font-weight: 700; color: var(--action); }
-  .menu-done, .menu-prog { margin-left: 10px; font-size: 16px; font-weight: 700; border-radius: 999px; padding: 2px 12px; vertical-align: 2px; }
+  .menu-done, .menu-prog { margin-left: 10px; font-size: 18px; font-weight: 700; border-radius: 999px; padding: 2px 12px; vertical-align: 2px; }
   .menu-done { background: var(--accent-deep); color: #FFFFFF; } .menu-prog { background: #E3F2F0; color: var(--accent-deep); }
   .dan-box { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 18px; padding: 12px 18px; margin-bottom: 12px; }
-  .dan-hd { font-size: 20px; font-weight: 700; margin-bottom: 6px; } .dan-hd span { font-size: 17px; font-weight: 400; color: #555555; margin-left: 10px; }
+  .dan-hd { font-size: 20px; font-weight: 700; margin-bottom: 6px; } .dan-hd span { font-size: 18px; font-weight: 400; color: #555555; margin-left: 10px; }
   .drow { display: flex; align-items: center; gap: 12px; padding: 4px 0; font-size: 19px; }
   .drow b { width: 88px; flex-shrink: 0; }
   .dbar { position: relative; flex: 1; height: 16px; border-radius: 999px; background: #EFEBE0; overflow: hidden; }
   .dbar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; }
   .dbar i.n { background: var(--action); } .dbar i.f { background: #CFE7E2; z-index: 1; }
   .dbar i.n { z-index: 0; }
-  .dv { width: 92px; text-align: right; font-weight: 700; color: var(--accent-deep); } .dv .none { color: #8B857A; font-weight: 400; font-size: 17px; }
+  .dv { width: 92px; text-align: right; font-weight: 700; color: var(--accent-deep); } .dv .none { color: #8B857A; font-weight: 400; font-size: 18px; }
   .dv em { font-style: normal; font-size: 13px; background: #FFE9A8; color: #7A5A28; border-radius: 999px; padding: 1px 7px; margin-left: 5px; vertical-align: 2px; }
-  .dan-note { font-size: 16px; color: #8B857A; margin-top: 4px; }
+  .dan-note { font-size: 18px; color: #8B857A; margin-top: 4px; }
   .reco-wrap { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
   .reco-cap { font-size: 20px; font-weight: 700; color: #555555; }
   .reco-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
@@ -367,7 +388,7 @@
   .reco .chip svg { width: 30px; height: 30px; }
   .reco .tx { display: flex; flex-direction: column; min-width: 0; }
   .reco .tx b { font-size: 20px; line-height: 1.3; }
-  .reco .tx span { font-size: 16px; color: #555555; line-height: 1.4; }
+  .reco .tx span { font-size: 18px; color: #555555; line-height: 1.4; }
   .rec-tabs { grid-template-columns: 1fr 1fr 1fr; }
   .rec-tab { font-size: 22px; }
   .map-panel { display: flex; flex-direction: column; gap: 12px; flex: 1 1 auto; min-height: 0; overflow: hidden; }
@@ -669,7 +690,7 @@
   .qr-note { display: flex; align-items: center; justify-content: center; gap: 12px; font-size: 24px; color: #555555; }
   .qr-note svg { width: 36px; height: 36px; flex-shrink: 0; }
 
-  .footer { padding: 6px 0 12px; font-size: 14px; color: #B08FA0; text-align: center; }
+  .footer { padding: 6px 0 12px; font-size: 16px; color: #B08FA0; text-align: center; }
 
   /* メッセージ */
   .msg { min-height: 64px; font-size: 25px; font-weight: 700; text-align: center; color: var(--ok); letter-spacing: -0.3px;
@@ -720,7 +741,7 @@
   .numgrid.wide .numbtn { aspect-ratio: 1 / 0.72; font-size: 44px; border-radius: 18px; }
   .cardgrid.many { gap: 11px; }
   .cardgrid.many .card { aspect-ratio: 3 / 3.15; }
-  .cardgrid.many .card .lbl { font-size: 17px; }
+  .cardgrid.many .card .lbl { font-size: 18px; }
   .cardgrid.full { gap: 9px; }
   .cardgrid.full .card { aspect-ratio: 3 / 2.55; border-radius: 16px; }
   .cardgrid.full .card .lbl { font-size: 16px; }
@@ -783,7 +804,7 @@
   #scr-summary .pad.dense .stamp-band .cell .seal { width: 62px; height: 62px; margin-left: -31px; margin-top: -28px; }
   #scr-summary .pad.dense .stamp-band .tx .a { font-size: 18px; }
   #scr-summary .pad.dense .stamp-band .tx .b { font-size: 24px; } #scr-summary .pad.dense .stamp-band .tx .b i { font-size: 34px; }
-  #scr-summary .pad.dense .stamp-band .tx .c { font-size: 17px; }
+  #scr-summary .pad.dense .stamp-band .tx .c { font-size: 18px; }
   #scr-summary .pad.dense .btn-primary { padding: 13px 38px; font-size: 24px; }
   #scr-summary .pad.xdense { gap: 8px; padding-top: 12px; padding-bottom: 14px; }
   #scr-summary .pad.xdense .guide { display: none; }
@@ -813,7 +834,7 @@
   .member-start:active { transform: translateY(3px); box-shadow: none; }
   .member-badge { background: var(--action); border-radius: 999px; padding: 8px 22px; display: inline-flex; align-items: center; gap: 10px;
     font-size: 21px; font-weight: 700; color: #FFFFFF; cursor: pointer; box-shadow: 0 4px 0 var(--action-edge); }
-  .member-badge small { font-size: 17px; font-weight: 400; opacity: 0.9; }
+  .member-badge small { font-size: 18px; font-weight: 400; opacity: 0.9; }
   .member-badge:active { transform: translateY(3px); box-shadow: none; }
   .cam-wrap { background: #3A3440; border-radius: 28px; padding: 18px; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 420px; overflow: hidden; }
   .cam-wrap video { width: 100%; max-height: 480px; border-radius: 16px; object-fit: cover; }
@@ -858,6 +879,126 @@
   .ovl .l2 { font-size: 26px; color: var(--season-deep); opacity: 0.75; }
   .ovl .fall { position: absolute; top: -60px; animation: petalFall linear infinite; opacity: 0.85; }
   @keyframes petalFall { 0% { transform: translateY(0) rotate(-10deg); } 100% { transform: translateY(1150px) rotate(50deg); } }
+  /* ===== v1.37 画面に合わせる・文字の下限18px・ホーム＝木＋扉2枚・脳トレの部屋 ===== */
+  @media (orientation: portrait) { .screen, .screen.nt-wide { max-width: none; } }
+  /* --- ホーム：扉2枚が残りの高さを使う --- */
+  #scr-home .pad { gap: 14px; }
+  #scr-home .home-head h1 { font-size: 38px; }
+  #scr-home .tree-compact { padding: 8px 24px; }
+  #scr-home .tree-compact svg.minitree { width: 112px; height: 84px; }
+  #scr-home .tree-compact .name { font-size: 24px; } #scr-home .tree-compact .line { font-size: 21px; }
+  #scr-home .cat-grid { flex: 1 1 auto; flex-direction: row; gap: 18px; min-height: 250px; }
+  #scr-home .cat-grid .catcard { flex-direction: column; align-items: flex-start; gap: 14px; padding: 22px 24px 22px; min-height: 0; }
+  #scr-home .cat-grid .catcard .chip { width: 80px; height: 80px; border-radius: 22px; } #scr-home .cat-grid .catcard .chip svg { width: 46px; height: 46px; }
+  #scr-home .cat-grid .catcard .tx { flex: 1; width: 100%; padding-right: 44px; gap: 6px; }
+  #scr-home .cat-grid .catcard .tx b { font-size: 34px; line-height: 1.3; }
+  #scr-home .cat-grid .catcard .tx .sub { font-size: 22px; line-height: 1.5; }
+  .door-st { margin-top: auto; padding-top: 8px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .door-st:empty { display: none; }
+  .dr-num { font-size: 21px; color: #555555; white-space: nowrap; } .dr-num b { font-size: 29px; color: var(--accent-deep); margin: 0 2px; }
+  #scr-home .cat-grid .catcard .tx .dr-num b { font-size: 29px; color: var(--accent-deep); letter-spacing: 0; line-height: 1; }
+  .dr-pill { font-size: 20px; font-weight: 700; border-radius: 999px; padding: 5px 18px; background: #F4F1EA; color: #555555; white-space: nowrap; }
+  .dr-pill.go { background: #E3F2EE; color: var(--accent-deep); } .dr-pill.ok { background: #FFF4D6; color: #8A6D1F; }
+  @media (orientation: portrait) {
+    #scr-home .pad { gap: 18px; }
+    #scr-home .home-head h1 { font-size: 42px; }
+    #scr-home .tree-compact { padding: 14px 28px; gap: 28px; }
+    #scr-home .tree-compact svg.minitree { width: 210px; height: 158px; }
+    #scr-home .tree-compact .info { flex-direction: column; align-items: flex-start; gap: 6px; }
+    #scr-home .tree-compact .name { font-size: 28px; } #scr-home .tree-compact .line { font-size: 23px; } #scr-home .tree-compact .line .num { font-size: 36px; }
+    #scr-home .cat-grid { flex-direction: column; gap: 20px; }
+    #scr-home .cat-grid .catcard { flex-direction: row; align-items: center; gap: 30px; padding: 26px 34px; }
+    #scr-home .cat-grid .catcard .chip { width: 112px; height: 112px; border-radius: 30px; } #scr-home .cat-grid .catcard .chip svg { width: 64px; height: 64px; }
+    #scr-home .cat-grid .catcard .tx { padding-right: 56px; }
+    #scr-home .cat-grid .catcard .tx b { font-size: 40px; } #scr-home .cat-grid .catcard .tx .sub { font-size: 24px; }
+    #scr-home .cat-grid .catcard .goa { width: 52px; height: 52px; right: 22px; bottom: auto; top: 50%; margin-top: -26px; }
+    .door-st { margin-top: 6px; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px 20px; }
+    .dr-pill { font-size: 22px; } .dr-num { font-size: 22px; }
+  }
+  /* --- 脳トレの部屋 --- */
+  .nt-hub { display: flex; flex-direction: column; gap: 16px; flex: 1; }
+  #scr-nt .course-card { padding: 20px 28px 22px; gap: 8px; border-radius: 26px; }
+  .nt-lb i { letter-spacing: .12em; }
+  .cs-hd b { font-size: 32px; } .cs-hd span { font-size: 20px; }
+  .cs-aim { font-size: 23px; }
+  .cs-steps { gap: 14px; margin-top: 14px; }
+  .cs-step { padding: 20px 8px 12px; gap: 6px; border-radius: 18px; }
+  .cs-n { font-size: 18px; line-height: 28px; top: -15px; padding: 0 12px; }
+  .cs-g { font-size: 18px; white-space: normal; line-height: 1.35; }
+  .cs-foot { flex-wrap: wrap; gap: 12px 20px; margin-top: 8px; } .cs-note { font-size: 18px; }
+  .hub-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .hub-door { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 24px; box-shadow: 0 8px 20px rgba(60,48,36,.10);
+    padding: 16px 24px; display: flex; align-items: center; gap: 18px; cursor: pointer; position: relative; min-height: 170px; }
+  .hub-door:active { transform: translateY(3px); box-shadow: 0 2px 8px rgba(60,48,36,.10); }
+  .hub-door .nt-radar.mini { width: 136px; height: 136px; flex-shrink: 0; }
+  .hub-ic { flex-shrink: 0; }
+  .hub-tx { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .hub-tx b { font-size: 29px; line-height: 1.3; } .hub-tx span { font-size: 20px; color: #555555; line-height: 1.5; }
+  .hub-tx em { font-style: normal; font-size: 27px; font-weight: 700; color: var(--accent-deep); }
+  .hub-tx i { font-style: normal; font-size: 20px; font-weight: 700; color: var(--accent-deep); margin-top: 4px; }
+  .hub-chips { display: grid; grid-template-columns: repeat(3, 50px); gap: 6px; flex-shrink: 0; }
+  @media (orientation: portrait) {
+    .nt-hub { gap: 20px; }
+    .hub-row { grid-template-columns: 1fr; gap: 20px; }
+    .hub-door { min-height: 190px; padding: 20px 30px; gap: 26px; }
+    .hub-door .nt-radar.mini { width: 160px; height: 160px; }
+    .hub-tx b { font-size: 32px; } .hub-tx span { font-size: 22px; } .hub-tx i { font-size: 22px; }
+  }
+  /* --- 種目の一覧：横は3列・縦は2列。力の札は説明の下に --- */
+  #scr-cat-asobi .cat-menu.nt-two { grid-template-columns: repeat(3, 1fr); gap: 14px; flex: 0 0 auto; align-content: start; grid-auto-rows: auto; }
+  #scr-cat-asobi .cat-menu.nt-two .gcard { flex: none; min-height: 0; }
+  #scr-cat-asobi .cat-menu.nt-two .gcard { padding: 14px 16px; align-items: flex-start; }
+  #scr-cat-asobi .cat-menu.nt-two .gcard .chip { width: 52px; height: 52px; }
+  #scr-cat-asobi .cat-menu.nt-two .gcard .tx { padding-right: 0; gap: 2px; }
+  #scr-cat-asobi .cat-menu.nt-two .gcard .tx b { font-size: 23px; line-height: 1.35; }
+  #scr-cat-asobi .cat-menu.nt-two .gcard .tx span { font-size: 18px; line-height: 1.5; }
+  #scr-cat-asobi .cat-menu.nt-two em.abil { position: static; display: table; margin: 6px 0 0; font-size: 17px; }
+  @media (orientation: portrait) {
+    #scr-cat-asobi .cat-menu.nt-two { grid-template-columns: 1fr 1fr; gap: 16px; }
+    #scr-cat-asobi .cat-menu.nt-two .gcard { padding: 18px 20px; }
+    #scr-cat-asobi .cat-menu.nt-two .gcard .tx b { font-size: 25px; } #scr-cat-asobi .cat-menu.nt-two .gcard .tx span { font-size: 19px; }
+  }
+  @media (orientation: landscape) {
+    #scr-nt .pad { padding-top: 18px; gap: 12px; } #scr-nt .course-card { padding: 16px 26px 18px; } .cs-steps { margin-top: 12px; } .cs-step { padding: 18px 8px 10px; }
+    .hub-door { min-height: 150px; padding: 14px 22px; } .hub-door .nt-radar.mini { width: 124px; height: 124px; }
+    #scr-cat-asobi .pad { padding-top: 18px; gap: 12px; }
+    #scr-cat-asobi .cat-menu.nt-two { gap: 12px; }
+    #scr-cat-asobi .cat-menu.nt-two .gcard { padding: 12px 14px; gap: 12px; }
+    #scr-cat-asobi .cat-menu.nt-two .gcard .tx b { font-size: 22px; }
+    #scr-cat-asobi .cat-menu.nt-two em.abil { display: inline-block; margin: 0 0 0 8px; vertical-align: 1px; }
+    #scr-brain .pad { padding-top: 16px; gap: 10px; } .br-right { gap: 6px; } .br-row { padding: 1px 12px; } .br-left .nt-radar { width: 350px; }
+  }
+  /* --- とっさの判断：赤は四角に×（色だけに頼らない） --- */
+  .hd-dot.r { border-radius: 22%; position: relative; }
+  .hd-dot.r::before, .hd-dot.r::after { content: ''; position: absolute; left: 50%; top: 50%; width: 66%; height: 13%; background: #FFFFFF; border-radius: 4px; }
+  .hd-dot.r::before { transform: translate(-50%, -50%) rotate(45deg); } .hd-dot.r::after { transform: translate(-50%, -50%) rotate(-45deg); }
+  .hd-dot.big.on.r { border-radius: 22%; }
+  /* --- できました帯・進み具合 --- */
+  .csh-quit { font-size: 19px; } .csh-tx span { font-size: 19px; }
+  .course-bar { font-size: 18px; padding: 8px 18px; }
+  /* --- ふりかえり --- */
+  .rv-cap { font-size: 20px; } .rv-lamp { font-size: 18px; } .rv-k { font-size: 18px; width: 150px; } .rv-p { font-size: 18px; } .rv-s { font-size: 19px; width: 120px; }
+  .rv-hd span { font-size: 20px; }
+  @media (orientation: portrait) {
+    .rv-lamps { flex-wrap: wrap; gap: 8px; justify-content: space-around; padding: 14px 16px; }
+    .rv-row { display: grid; grid-template-columns: 48px auto 1fr auto; grid-template-areas: "c l k s" "c v v p"; column-gap: 14px; row-gap: 0; align-items: center; padding: 12px 0; }
+    .rv-row > .nt-chip { grid-area: c; } .rv-row > .rv-lb { grid-area: l; width: auto; } .rv-row > .rv-k { grid-area: k; width: auto; }
+    .rv-row > .rv-v { grid-area: v; white-space: normal; } .rv-row > .rv-p { grid-area: p; } .rv-row > .rv-s { grid-area: s; width: auto; }
+  }
+  /* --- 7つの階段 --- */
+  .br-hd span { font-size: 19px; } .br-leg { font-size: 18px; } .br-sum { font-size: 20px; } .br-sum b { font-size: 26px; }
+  .br-cap { font-size: 20px; } .br-lb { width: 128px; }
+  .br-v b { font-size: 22px; } .br-v i { font-size: 18px; max-width: 230px; }
+  .br-go { font-size: 18px; } .br-note { font-size: 18px; }
+  @media (orientation: portrait) {
+    .br-wrap { flex-direction: column; }
+    .br-left { width: 100%; display: grid; grid-template-columns: 330px 1fr; grid-template-areas: "g c" "g l" "g s"; align-items: center; justify-items: start; column-gap: 20px; padding: 10px 24px; }
+    .br-left > .nt-radar { grid-area: g; width: 330px; } .br-left > .br-cap { grid-area: c; align-self: end; font-size: 24px; }
+    .br-left > .br-leg { grid-area: l; } .br-left > .br-sum { grid-area: s; align-self: start; font-size: 22px; } .br-left > .br-sum b { font-size: 32px; }
+    .br-right { gap: 8px; } .br-v i { max-width: none; }
+  }
+  body.in-course .screen.active .pad { padding-bottom: 84px; }
+
 </style>
 </head>
 <body>
@@ -1171,6 +1312,7 @@
         <span class="chip" style="background:#EEE8F6; color:#6B4FA1;"><svg viewBox="0 0 24 24"><use href="#ic-phone"></use></svg></span>
         <div class="tx"><b>スマホ習得</b>
           <span class="sub">講座の復習を、自分のスマホで</span>
+          <span class="door-st" id="door-sm-st"></span>
         </div>
         <span class="goa" style="background:#EEE8F6; color:#6B4FA1;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
@@ -1178,19 +1320,18 @@
         <span class="chip" style="background:#F3EAD8; color:#8A6A3B;"><svg viewBox="0 0 24 24"><use href="#ic-koma"></use></svg></span>
         <div class="tx"><b>脳トレ</b>
           <span class="sub">7つの力を、好きな種目で</span>
+          <span class="door-st" id="door-nt-st"></span>
         </div>
         <span class="goa" style="background:#F3EAD8; color:#8A6A3B;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
     </div>
-    <div class="course-card" id="course-card"></div>
-    <div class="menu-note" id="menu-note"></div>
     <div style="display:flex; justify-content:center;">
       <div class="btn btn-white" onclick="endDay()">
         <svg class="ic" viewBox="0 0 24 24"><use href="#ic-yunomi"></use></svg>
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.36(ここスマ自習システム・脳トレ7分野と今日の脳トレ)</div>
+    <div class="footer">試作版 v1.37(ここスマ自習システム・画面に合わせる・脳トレの部屋)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -1226,7 +1367,8 @@
   </div>
 </div>
 
-<div class="screen" id="scr-cat-asobi">
+<!-- v1.37 脳トレの部屋：今日の脳トレ → 7つの階段 → 自分で選ぶ -->
+<div class="screen nt-wide" id="scr-nt">
   <div class="pad">
     <div class="appbar">
       <div class="left">
@@ -1237,23 +1379,44 @@
         <span class="t">脳トレ</span>
       </div>
     </div>
-    <div class="cat-menu nt-two">
-      <div class="gcard" onclick="startQuiz()">
-        <span class="chip" style="background:#E7F3E8; color:#2E8B57;"><svg viewBox="0 0 24 24"><use href="#ic-kofun"></use></svg></span>
-        <div class="tx"><b>ふるさとクイズ</b><span>思い出をたどる三択<em class="abil">思い出す</em></span></div>
-        <span class="goa" style="background:#E7F3E8; color:#2E8B57;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+    <div class="nt-hub">
+      <div class="course-card" id="course-card"></div>
+      <div class="menu-note" id="menu-note"></div>
+      <div class="hub-row">
+        <div class="hub-door" id="hub-brain" onclick="showBrain()"></div>
+        <div class="hub-door" id="hub-pick" onclick="show('scr-cat-asobi')"></div>
       </div>
-      <div class="gcard" onclick="startKotowaza()">
-        <span class="chip" style="background:#F6E7EB; color:#963E52;"><svg viewBox="0 0 24 24"><use href="#ic-maki"></use></svg></span>
-        <div class="tx"><b>ことわざクイズ</b><span>つづきを当てる・意味から当てる<em class="abil">思い出す</em></span></div>
-        <span class="goa" style="background:#F6E7EB; color:#963E52;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
-      </div>
-      <div class="gcard" onclick="startOtsuri()">
-        <span class="chip" style="background:#F5EDD6; color:#9A7B2D;"><svg viewBox="0 0 24 24"><use href="#ic-coin"></use></svg></span>
-        <div class="tx"><b>お釣り計算</b><span>買い物のお釣りを当てる<em class="abil">計算する</em></span></div>
-        <span class="goa" style="background:#F5EDD6; color:#9A7B2D;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
-      </div>
+    </div>
+  </div>
+</div>
 
+<div class="screen nt-wide" id="scr-cat-asobi">
+  <div class="pad">
+    <div class="appbar">
+      <div class="left">
+        <div class="btn btn-white" style="padding:10px 22px; font-size:20px;" onclick="showNt()">脳トレへ戻る</div>
+      </div>
+      <div class="left" style="gap:12px;">
+        <span class="icchip" style="background:#F3EAD8;"><svg viewBox="0 0 24 24" style="color:#8A6A3B;"><use href="#ic-koma"></use></svg></span>
+        <span class="t">種目を選ぶ</span>
+      </div>
+    </div>
+    <div class="cat-menu nt-two">
+      <div class="gcard" onclick="startKiki()">
+        <span class="chip" style="background:#FBE9D6; color:#B96A2C;"><svg viewBox="0 0 24 24"><use href="#ic-ear"></use></svg></span>
+        <div class="tx"><b>聞き取りチャレンジ</b><span>暮らしの会話・名作を聞く<em class="abil">聞く</em></span></div>
+        <span class="goa" style="background:#FBE9D6; color:#B96A2C;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard" onclick="startYomu()">
+        <span class="chip" style="background:#E6EEF9; color:#2F5E9E;"><svg viewBox="0 0 24 24"><use href="#ic-book"></use></svg></span>
+        <div class="tx"><b>読むチャレンジ</b><span>声に出さずに読んで答える<em class="abil">読む</em></span></div>
+        <span class="goa" style="background:#E6EEF9; color:#2F5E9E;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard" onclick="startKioku()">
+        <span class="chip" style="background:#DFF2FA; color:#1E7A9C;"><svg viewBox="0 0 24 24"><use href="#ic-spark"></use></svg></span>
+        <div class="tx"><b>記憶の順番</b><span>光った順に押す・前回の続きから<em class="abil">覚える</em></span></div>
+        <span class="goa" style="background:#DFF2FA; color:#1E7A9C;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
       <div class="gcard" onclick="startCards()">
         <span class="chip" style="background:#E3EEF8; color:#2A6496;"><svg viewBox="0 0 24 24"><use href="#ic-cards"></use></svg></span>
         <div class="tx"><b>カード合わせ</b><span>同じ絵柄をさがす・3組から8組へ<em class="abil">覚える</em></span></div>
@@ -1264,29 +1427,29 @@
         <div class="tx"><b>順番タップ</b><span>数字を順に押す・最後は数字とかなを交互に<em class="abil">見つける</em></span></div>
         <span class="goa" style="background:#FBE7EF; color:#C22E63;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
-      <div class="gcard" onclick="startKioku()">
-        <span class="chip" style="background:#DFF2FA; color:#1E7A9C;"><svg viewBox="0 0 24 24"><use href="#ic-spark"></use></svg></span>
-        <div class="tx"><b>記憶の順番</b><span>光った順に押す・前回の続きから<em class="abil">覚える</em></span></div>
-        <span class="goa" style="background:#DFF2FA; color:#1E7A9C;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      <div class="gcard" onclick="startOtsuri()">
+        <span class="chip" style="background:#F5EDD6; color:#9A7B2D;"><svg viewBox="0 0 24 24"><use href="#ic-coin"></use></svg></span>
+        <div class="tx"><b>お釣り計算</b><span>買い物のお釣りを当てる<em class="abil">計算する</em></span></div>
+        <span class="goa" style="background:#F5EDD6; color:#9A7B2D;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
-      <div class="gcard" onclick="startKiki()">
-        <span class="chip" style="background:#FBE9D6; color:#B96A2C;"><svg viewBox="0 0 24 24"><use href="#ic-ear"></use></svg></span>
-        <div class="tx"><b>聞き取りチャレンジ</b><span>暮らしの会話・名作を聞く<em class="abil">聞く</em></span></div>
-        <span class="goa" style="background:#FBE9D6; color:#B96A2C;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      <div class="gcard" onclick="startQuiz()">
+        <span class="chip" style="background:#E7F3E8; color:#2E8B57;"><svg viewBox="0 0 24 24"><use href="#ic-kofun"></use></svg></span>
+        <div class="tx"><b>ふるさとクイズ</b><span>思い出をたどる三択<em class="abil">思い出す</em></span></div>
+        <span class="goa" style="background:#E7F3E8; color:#2E8B57;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard" onclick="startKotowaza()">
+        <span class="chip" style="background:#F6E7EB; color:#963E52;"><svg viewBox="0 0 24 24"><use href="#ic-maki"></use></svg></span>
+        <div class="tx"><b>ことわざクイズ</b><span>つづきを当てる・意味から当てる<em class="abil">思い出す</em></span></div>
+        <span class="goa" style="background:#F6E7EB; color:#963E52;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startKami()">
         <span class="chip" style="background:#F0F2DF; color:#5F6B2B;"><svg viewBox="0 0 24 24"><use href="#ic-tanzaku"></use></svg></span>
         <div class="tx"><b>上の句・下の句</b><span>上の句と下の句を合わせる・逆向きの回も<em class="abil">思い出す</em></span></div>
         <span class="goa" style="background:#F0F2DF; color:#5F6B2B;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
-      <div class="gcard" onclick="startYomu()">
-        <span class="chip" style="background:#E6EEF9; color:#2F5E9E;"><svg viewBox="0 0 24 24"><use href="#ic-book"></use></svg></span>
-        <div class="tx"><b>読むチャレンジ</b><span>声に出さずに読んで答える<em class="abil">読む</em></span></div>
-        <span class="goa" style="background:#E6EEF9; color:#2F5E9E;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
-      </div>
       <div class="gcard" onclick="startHandan()">
         <span class="chip" style="background:#E3F2F0; color:#0B4F42;"><svg viewBox="0 0 24 24"><use href="#ic-target"></use></svg></span>
-        <div class="tx"><b>とっさの判断</b><span>緑は押す・赤は押さない<em class="abil">見きわめる</em></span></div>
+        <div class="tx"><b>とっさの判断</b><span>緑の丸は押す・赤い×は押さない<em class="abil">見きわめる</em></span></div>
         <span class="goa" style="background:#E3F2F0; color:#0B4F42;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
     </div>
@@ -1669,7 +1832,7 @@
 <div class="screen nt-wide" id="scr-brain">
   <div class="pad">
     <div id="br-body"></div>
-    <div style="display:flex; justify-content:center; gap:16px;"><div class="btn btn-white" style="margin:0;" onclick="showSeki()">わたしの記録へ</div><div class="btn btn-white" style="margin:0;" onclick="goHome()">ホームへ</div></div>
+    <div style="display:flex; justify-content:center; gap:16px;"><div class="btn btn-white" style="margin:0;" onclick="showSeki()">わたしの記録へ</div><div class="btn btn-white" style="margin:0;" onclick="showNt()">脳トレへ</div></div>
   </div>
 </div>
 <div class="screen" id="scr-pick">
@@ -1935,7 +2098,7 @@ function show(id) {
   window.scrollTo(0, 0);
 }
 function goHome() { updateHome(); show('scr-home'); }
-function showCat(c) { show('scr-cat-asobi'); }
+function showCat(c) { showNt(); }
 function showQr() { show('scr-qr'); }
 
 function shuffle(a) {
@@ -2413,7 +2576,7 @@ function loadSkill() {
 var ACT = {
   kiki: { n: '聞き取りチャレンジ', fn: 'startKiki', chip: '#FBE9D6', ink: '#B96A2C', ic: 'ic-ear', desc: '暮らしの会話・名作を聞く' },
   yomu: { n: '読むチャレンジ', fn: 'startYomu', chip: '#E6EEF9', ink: '#2F5E9E', ic: 'ic-book', desc: '声に出さずに読んで、中身を答える' },
-  handan: { n: 'とっさの判断', fn: 'startHandan', chip: '#E3F2F0', ink: '#0B4F42', ic: 'ic-target', desc: '緑は押す・赤は押さない' },
+  handan: { n: 'とっさの判断', fn: 'startHandan', chip: '#E3F2F0', ink: '#0B4F42', ic: 'ic-target', desc: '緑の丸は押す・赤い×は押さない' },
   kioku: { n: '記憶の順番', fn: 'startKioku', chip: '#DFF2FA', ink: '#1E7A9C', ic: 'ic-spark', desc: '光った順に押す' },
   cards: { n: 'カード合わせ', fn: 'startCards', chip: '#E3EEF8', ink: '#2A6496', ic: 'ic-cards', desc: '同じ絵柄をさがす' },
   tile: { n: '順番タップ', fn: 'startNums', chip: '#FBE7EF', ink: '#C22E63', ic: 'ic-tile', desc: '数字を順に押す' },
@@ -2515,7 +2678,7 @@ function brainDanHtml() {
     return '<div class="drow"><b>' + b.n + '</b>' + bar + '<span class="dv">' + (dan ? dan + '段' + (r._up ? '<em>UP</em>' : '') : '<span class="none">これから</span>') + '</span></div>';
   }).join('');
   var sum = BRAIN.reduce(function (s, b) { var r = skillRow(b.d); return s + (r ? r.dan : 0); }, 0);
-  return '<div class="dan-box"><div class="dan-hd">脳トレの段 <span>5つの分野で あわせて ' + sum + '段</span></div>' + rows +
+  return '<div class="dan-box"><div class="dan-hd">脳トレの段 <span>' + BRAIN.length + 'つの分野で あわせて ' + sum + '段</span></div>' + rows +
     '<div class="dan-note">うすい線＝はじめたとき／こい線＝いま。段は下がりません。</div></div>';
 }
 
@@ -2559,7 +2722,7 @@ function ntEsc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'
 function ntChip(b, s, i) { s = s || 48; i = i || 28; return '<span class="nt-chip" style="width:' + s + 'px;height:' + s + 'px;background:' + b.chip + ';color:' + b.ink + ';"><svg viewBox="0 0 24 24" style="width:' + i + 'px;height:' + i + 'px;"><use href="#' + b.ic + '"></use></svg></span>'; }
 /* 見出し A＝熟語を背景にずらして薄く（記録）／B＝右上に小さく字間を広く（ホーム・ふりかえり） */
 function ntLabelA(b, size) { size = size || 24; return '<span class="nt-la"><i style="font-size:' + Math.round(size * 0.95) + 'px;color:' + b.ink + ';">' + b.j + '</i><b style="font-size:' + size + 'px;">' + b.n + '</b></span>'; }
-function ntLabelB(b, size) { size = size || 22; return '<span class="nt-lb"><b style="font-size:' + size + 'px;">' + b.n + '</b><i style="font-size:' + Math.max(12, Math.round(size * 0.45)) + 'px;">' + b.j + '</i></span>'; }
+function ntLabelB(b, size) { size = size || 22; return '<span class="nt-lb"><b style="font-size:' + size + 'px;">' + b.n + '</b><i style="font-size:' + Math.max(18, Math.round(size * 0.62)) + 'px;">' + b.j + '</i></span>'; }
 function ntPower(b) { return b.n + '力'; }
 
 /* ---- 実力の数字（1回ぶん）。v=比べる値・txt=見せる文・hi=大きいほど良い ---- */
@@ -2607,7 +2770,7 @@ function startHandan() { gsMark('handan'); menuStartedGame = 'handan'; show('scr
 function hdIntro() {
   hd = null;
   document.getElementById('hd-body').innerHTML =
-    '<div class="nt-lead">緑の丸が出たら、すぐに押す。<br>赤い丸のときは、押さない。</div>' +
+    '<div class="nt-lead">緑の丸が出たら、すぐに押す。<br>赤い×のときは、押さない。</div>' +
     '<div class="hd-demo"><span class="hd-dot g"></span><span>押す</span><span class="hd-dot r"></span><span>押さない</span></div>' +
     '<div class="nt-sub">全部で20回・約40秒</div>' +
     '<div class="btn btn-primary" style="margin:0;padding:16px 60px;font-size:27px;" onclick="hdStart()">はじめる</div>';
@@ -2677,11 +2840,12 @@ function hdExit() { if (hd) { hd.done = true; clearTimeout(hd.timer); } ntExitGa
 
 /* ================= 読む：読むチャレンジ（黙読） ================= */
 var ym = null, YM_PER = 3, YM_TH = [250, 300, 350, 400, 450, 500, 560, 620, 700];
+function ymKey(k) { return 'kokosuma_ym_' + k + '_' + (sessM() || 'guest'); }
 function ymChars(t) { return t.replace(/[、。「」『』！？!?,.\s・（）()]/g, '').length; }
 function ymLevel() {
   var d = null;
   if (sessM()) { var r = skillRow('yomu'); d = r ? r.dan : null; }
-  if (d === null) { var raw = storeGet('kokosuma_ym_dan'); d = raw ? parseInt(raw, 10) : 1; }
+  if (d === null) { var raw = storeGet(ymKey('dan')); d = raw ? parseInt(raw, 10) : 1; }
   return d <= 3 ? 1 : (d <= 6 ? 2 : 3);
 }
 function startYomu() { gsMark('yomu'); menuStartedGame = 'yomu'; show('scr-yomu'); ymIntro(); }
@@ -2693,12 +2857,12 @@ function ymIntro() {
     '<div class="btn btn-primary" style="margin:0;padding:16px 60px;font-size:27px;" onclick="ymStart()">はじめる</div>';
 }
 function ymStart() {
-  var L = ymLevel(), used = []; try { used = JSON.parse(storeGet('kokosuma_ym_used') || '[]'); } catch (e) {}
+  var L = ymLevel(), used = []; try { used = JSON.parse(storeGet(ymKey('used')) || '[]'); } catch (e) {}
   var all = YOMU.filter(function (x) { return x.L === L; });
   var pool = all.filter(function (x) { return used.indexOf(x.id) < 0; });
   if (pool.length < YM_PER) { used = used.filter(function (id) { return !all.some(function (x) { return x.id === id; }); }); pool = all; }
   pool = shuffle(pool.slice()).slice(0, YM_PER);
-  pool.forEach(function (x) { used.push(x.id); }); storeSet('kokosuma_ym_used', JSON.stringify(used.slice(-30)));
+  pool.forEach(function (x) { used.push(x.id); }); storeSet(ymKey('used'), JSON.stringify(used.slice(-30)));
   ym = { list: pool, n: 0, qi: 0, t0: 0, secs: 0, ok: 0, total: 0, best: 0, okThis: 0, L: L };
   ymShow();
 }
@@ -2748,7 +2912,7 @@ function ymEnd() {
   var dan = null;
   if (ym.best > 0) { dan = 1; YM_TH.forEach(function (t) { if (ym.best >= t) dan++; }); dan = Math.min(10, dan); }
   else if (ym.ok > 0) dan = 1;
-  if (dan) storeSet('kokosuma_ym_dan', String(Math.max(dan, parseInt(storeGet('kokosuma_ym_dan') || '0', 10))));
+  if (dan) storeSet(ymKey('dan'), String(Math.max(dan, parseInt(storeGet(ymKey('dan')) || '0', 10))));
   pendingDan.yomu = dan;
   gameCompleted('yomu', qualityByCorrect(ym.ok, ym.total));
   document.getElementById('ym-body').innerHTML =
@@ -2759,7 +2923,7 @@ function ymEnd() {
     '<div class="kiki-btnrow"><div class="btn btn-primary" style="margin:0;padding:17px 52px;font-size:27px;" onclick="ymIntro()">もう一回</div>' +
     '<div class="btn-outline" style="padding:14px 44px;font-size:27px;" onclick="ntExitGame()">脳トレへ</div></div>';
 }
-function ntExitGame() { if (course && course.active) { goHome(); } else { show('scr-cat-asobi'); } }
+function ntExitGame() { if (course && course.active) { showNt(); } else { show('scr-cat-asobi'); } }
 
 /* ================= 今日の脳トレ（4つ・約7分） ================= */
 var course = null;
@@ -2799,7 +2963,7 @@ function renderCourseCard() {
   var b = ntB(course.aim), doneN = course.items.filter(function (x) { return x.done; }).length;
   var steps = course.items.map(function (it, i) {
     var bb = ntB(it.d), a = ACT[it.g] || { n: '' };
-    return '<div class="cs-step' + (it.done ? ' done' : '') + '"><span class="cs-n">' + (it.done ? '✓' : (i + 1)) + '</span>' + ntChip(bb, 42, 24) + ntLabelB(bb, 20) + '<span class="cs-g">' + ntEsc(a.n) + '</span></div>';
+    return '<div class="cs-step' + (it.done ? ' done' : '') + '"><span class="cs-n">' + (it.done ? '✓' : (i + 1)) + '</span>' + ntChip(bb, 52, 30) + ntLabelB(bb, 23) + '<span class="cs-g">' + ntEsc(a.n) + '</span></div>';
   }).join('');
   var btn = course.finished ? '<div class="btn-outline" style="margin:0;padding:10px 34px;font-size:22px;" onclick="courseReview()">ふりかえりを見る</div>'
     : '<div class="btn btn-primary" style="margin:0;padding:13px 50px;font-size:25px;white-space:nowrap;" onclick="courseStart()">' + (doneN ? '続きから（' + (doneN + 1) + '／4）' : 'はじめる') + '</div>';
@@ -2833,7 +2997,7 @@ function courseOnDone(game, r, real, prev) {
 function courseSheet() {
   var el = document.getElementById('course-sheet'); if (!el) return;
   var n = course.items.filter(function (x) { return x.done; }).length, nx = course.items[course.i + 1];
-  el.innerHTML = '<div class="csh-in"><div class="csh-tx"><b>✓ できました（' + n + '／4）</b>' + (nx ? '<span>次は ' + ntLabelB(ntB(nx.d), 20) + '</span>' : '<span>今日の脳トレは、これでおしまいです</span>') + '</div>' +
+  el.innerHTML = '<div class="csh-in"><div class="csh-tx"><b>✓ できました（' + n + '／4）</b>' + (nx ? '<span>次は ' + ntLabelB(ntB(nx.d), 22) + '</span>' : '<span>今日の脳トレは、これでおしまいです</span>') + '</div>' +
     (nx ? '<div class="btn btn-primary" style="margin:0;padding:12px 40px;font-size:24px;" onclick="courseNext()">次へ</div><div class="csh-quit" onclick="courseQuit()">今日はここまで</div>'
         : '<div class="btn btn-primary" style="margin:0;padding:12px 40px;font-size:24px;" onclick="courseNext()">ふりかえりを見る</div>') + '</div>';
   el.style.display = 'flex';
@@ -2843,7 +3007,7 @@ function courseNext() { courseSheetHide(); try { kkStop(); } catch (e) {} course
 function courseQuit() { courseSheetHide(); courseReview(); }
 function courseBarSync() {
   var bar = document.getElementById('course-bar'); if (!bar) return;
-  var on = course && course.active && curScreen !== 'scr-home' && curScreen !== 'scr-review' && curScreen !== 'scr-brain';
+  var on = course && course.active && curScreen !== 'scr-home' && curScreen !== 'scr-review' && curScreen !== 'scr-brain' && curScreen !== 'scr-nt';
   if (!on) { bar.style.display = 'none'; return; }
   bar.innerHTML = '<b>今日の脳トレ</b>' + course.items.map(function (it, i) { return '<i class="' + (it.done ? 'd' : (i === course.i ? 'c' : '')) + '"></i>'; }).join('') +
     '<span>' + Math.min(4, course.i + 1) + '／4</span>';
@@ -2876,8 +3040,8 @@ function courseReview() {
     (ups.length ? ups.map(function (u) { return '<div class="rv-up">' + u + '</div>'; }).join('') : '') +
     (rows ? '<div class="rv-list">' + rows + '</div>' : '<div class="nt-sub">まだ記録はありません</div>') +
     '<div class="rv-btns">' + (sessM() ? '<div class="btn btn-primary" style="margin:0;padding:13px 44px;font-size:24px;" onclick="showBrain()">わたしの記録を見る</div>' : '') +
-    '<div class="btn-outline" style="padding:10px 40px;font-size:24px;" onclick="goHome()">ホームへ</div>' +
-    (sessM() ? '<span class="rv-note">会員証（ご自分のスマホ）でも見られます</span>' : '') + '</div>';
+    '<div class="btn-outline" style="padding:10px 40px;font-size:24px;" onclick="showNt()">脳トレへ</div>' +
+    '</div>';
   show('scr-review');
 }
 
@@ -2891,7 +3055,7 @@ function ntStairs(first, now, ink, w, h) {
   }
   return '<svg width="' + w + '" height="' + (h + 10) + '" viewBox="0 -10 ' + w + ' ' + (h + 10) + '">' + s + '</svg>';
 }
-function ntRadar(size) {
+function ntRadar(size, mini) {
   var n = BRAIN.length, W = size || 330, cx = W / 2, cy = W / 2 - 4, R = W * 0.3;
   function pt(i, v) { var a = -Math.PI / 2 + 2 * Math.PI * i / n, r = R * v / 10; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
   function poly(vals) { return vals.map(function (v, i) { var p = pt(i, v); return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' '); }
@@ -2903,10 +3067,12 @@ function ntRadar(size) {
   s += '<polygon points="' + poly(nv) + '" fill="#11866D" fill-opacity=".28" stroke="#11866D" stroke-width="2.5"></polygon>';
   BRAIN.forEach(function (b, i) {
     var p = pt(i, nv[i]); if (nv[i]) s += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="4.5" fill="' + b.ink + '"></circle>';
+    if (mini) return;
     var q = pt(i, 12.4), an = Math.abs(q[0] - cx) < 20 ? 'middle' : (q[0] > cx ? 'start' : 'end');
-    s += '<text x="' + q[0].toFixed(1) + '" y="' + (q[1] + 6).toFixed(1) + '" text-anchor="' + an + '" font-size="16" font-weight="700" fill="#333A38">' + b.n + '</text>';
+    s += '<text x="' + q[0].toFixed(1) + '" y="' + (q[1] + 8).toFixed(1) + '" text-anchor="' + an + '" font-size="22" font-weight="700" fill="#333A38">' + b.n + '</text>';
   });
-  return '<svg class="nt-radar" viewBox="-40 0 ' + (W + 80) + ' ' + (W - 10) + '" role="img" aria-label="脳トレの全体の形">' + s + '</svg>';
+  if (mini) return '<svg class="nt-radar mini" viewBox="' + (W * 0.15) + ' ' + (W * 0.15) + ' ' + (W * 0.7) + ' ' + (W * 0.7) + '" aria-hidden="true">' + s + '</svg>';
+  return '<svg class="nt-radar" viewBox="-60 -6 ' + (W + 120) + ' ' + (W + 4) + '" role="img" aria-label="脳トレの全体の形">' + s + '</svg>';
 }
 function showBrain() {
   var sum = 0, sumF = 0;
@@ -4652,7 +4818,7 @@ function kkListen() {
     (c.re ? '<div class="btn-outline" id="kk-re" onclick="kkReplay()"><svg viewBox="0 0 24 24"><use href="#ic-replay"></use></svg>もう一度聞く</div>' : '') +
     '<div class="btn btn-primary" style="margin:0;padding:15px 40px;font-size:25px;" onclick="kkQuiz()">' + (it.kind === 'push' ? 'ボタンを押す' : (c.pre ? '答える' : '問題に進む')) + '</div></div>' +
     '<div class="kk-hint" id="kk-hint">' + (c.re ? '聞いたあとに問題が出ます。聞き直しは1回までです' : '聞いたあとに問題が出ます。1回で聞き取りましょう') + '</div>' +
-    '<div style="font-size:15px;color:#8B857A;">音声: Gemini（AIで作った声）</div>';
+    '<div style="font-size:18px;color:#8B857A;">音声: Gemini（AIで作った声）</div>';
   kk.up = false;
   setTimeout(kkPlayItem, 500);
 }
@@ -4804,7 +4970,7 @@ function mkShelf() {
     (fin ? '' : (ep > (w.ready || w.eps.length) ? '<div class="kiki-pill">第' + ep + '回は、ただいま準備中です</div>' : '<div class="btn btn-primary" style="margin:0;padding:17px 44px;font-size:27px;" onclick="mkOpen(' + ep + ')">' + (ep > 1 ? '第' + ep + '回を聞く' : '第1回から聞く') + '</div>')) +
     ((ep > 1) ? '<div class="btn-outline" style="padding:14px 36px;font-size:24px;" onclick="mkOpen(1)">はじめから</div>' : '') +
     '</div>' +
-    '<div style="font-size:15px;color:#8B857A;">' + kkEsc(w.source) + '／音声: Gemini（AIで作った声）</div>';
+    '<div style="font-size:18px;color:#8B857A;">' + kkEsc(w.source) + '／音声: Gemini（AIで作った声）</div>';
 }
 function mkOpen(n) {
   var w = mkWork('melos'), e = w.eps[n - 1];
@@ -18026,6 +18192,67 @@ sbQueueFlush(); /* 前回オフラインだった打刻を送る(当日分のみ
   var s = (m >= 3 && m <= 5) ? 'spring' : (m >= 6 && m <= 8) ? 'summer' : (m >= 9 && m <= 11) ? 'autumn' : 'winter';
   document.body.setAttribute('data-season', (typeof SEASON !== 'undefined') ? SEASON : s);
 })();
+
+/* ===== v1.37 脳トレの部屋・ホームの扉・認定証の順番待ち ===== */
+function showNt() { renderReco(); show('scr-nt'); }
+function ntSumDan() {
+  var s = 0, f = 0;
+  BRAIN.forEach(function (b) { var r = skillRow(b.d); if (r) { s += r.dan || 0; f += r.first || 0; } });
+  return { s: s, f: f };
+}
+/* ホームの扉：1行だけの現在地（図やグラフは部屋の中に置く） */
+function ntDoorSync() {
+  var el = document.getElementById('door-nt-st'); if (!el) return;
+  ensureCourse();
+  var n = course.items.filter(function (x) { return x.done; }).length, h = '';
+  if (sessM() && skillData) { var t = ntSumDan(); if (t.s) h += '<span class="dr-num">7つの階段　合計 <b>' + t.s + '</b>段</span>'; }
+  h += course.finished ? '<span class="dr-pill ok">今日の脳トレ　できました ✓</span>'
+    : (n ? '<span class="dr-pill go">今日の脳トレ　あと' + (4 - n) + 'つ</span>' : '<span class="dr-pill go">今日の脳トレ　4つ・約7分</span>');
+  el.innerHTML = h;
+}
+/* 部屋の扉2枚：7つの階段／自分で選ぶ */
+function ntHubSync() {
+  var a = document.getElementById('hub-brain'), p = document.getElementById('hub-pick'); if (!a || !p) return;
+  var t = ntSumDan(), mem = !!sessM();
+  a.innerHTML = (mem && t.s ? ntRadar(300, true) : '<span class="hub-ic">' + ntChip({ chip: '#E3F2F0', ink: '#0B4F42', ic: 'ic-target' }, 84, 48) + '</span>') +
+    '<span class="hub-tx"><b>7つの階段</b>' +
+    (mem ? (t.s ? '<span>合計 <em>' + t.s + '段</em></span>' + (t.f && t.s > t.f ? '<span>はじめから +' + (t.s - t.f) + '段</span>' : '') : '<span>種目をすると、段がつきます</span>')
+         : '<span>会員証ではじめると、段が記録に残ります</span>') +
+    '<i>くわしく見る ›</i></span>';
+  var gs7 = ['kiki', 'yomu', 'kioku', 'tile', 'otsuri', 'kami'];
+  p.innerHTML = '<span class="hub-chips">' + gs7.map(function (g) { var x = ACT[g]; return x ? ntChip({ chip: x.chip, ink: x.ink, ic: x.ic }, 50, 28) : ''; }).join('') + '</span>' +
+    '<span class="hub-tx"><b>種目を自分で選ぶ</b><span>10の種目から</span><i>選ぶ ›</i></span>';
+}
+(function () {
+  var _rr = renderReco;
+  renderReco = function () { _rr(); try { ntDoorSync(); ntHubSync(); } catch (e) {} };
+})();
+/* 今日の脳トレの途中は認定証で流れを止めない。ふりかえりの画面で順に見せる（改善4） */
+var ntCertQ = [];
+(function () {
+  var _kc = showKenteiCert;
+  showKenteiCert = function (g, lv) { if (course && course.active) { ntCertQ.push([g, lv]); return; } _kc(g, lv); };
+  var _cr = courseReview;
+  courseReview = function () {
+    _cr();
+    var q = ntCertQ.splice(0); if (!q.length) return;
+    q.forEach(function (x, i) { setTimeout(function () { _kc(x[0], x[1]); }, 700 + i * 4200); });
+  };
+})();
+/* 表示の控え（フッター）：どの幅で映っているかを確かめる */
+function ntFitInfo() {
+  var el = document.getElementById('fit-info'); if (!el) return;
+  var f = window.__fit || {};
+  el.textContent = '　表示 ' + window.innerWidth + '×' + window.innerHeight + (f.W ? '（' + (f.land ? '横' : '縦') + '・拡大）' : '');
+}
+window.addEventListener('resize', function () { setTimeout(ntFitInfo, 200); });
+setTimeout(ntFitInfo, 300);
+/* 今日の脳トレの途中は、下の進み具合の帯とボタンが重ならないよう余白をとる */
+(function () {
+  var _cb = courseBarSync;
+  courseBarSync = function () { _cb(); try { var bar = document.getElementById('course-bar'); document.body.classList.toggle('in-course', !!(bar && bar.style.display !== 'none')); } catch (e) {} };
+})();
+
 </script>
 </body>
 </html>
