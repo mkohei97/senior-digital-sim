@@ -25,6 +25,10 @@
 })();
 </script>
 <title>ここスマ自習システム</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ここスマ自習">
 <style>
   :root {
     /* ①ブランド(不変) */
@@ -999,6 +1003,48 @@
   }
   body.in-course .screen.active .pad { padding-bottom: 84px; }
 
+  .cs-stx { display: flex; flex-direction: column; align-items: center; gap: 3px; min-width: 0; }
+  @media (orientation: landscape) { #scr-nt .cs-stx { align-items: flex-start; } }
+  /* ===== v1.38 横置きを基準に（アーム・スタンド）。縦はv1.37のまま ===== */
+  @media (orientation: landscape) {
+    #scr-home.screen, #scr-nt.screen { max-width: 1060px; }
+    /* ホーム：上＝見出しと会員の帯／左＝木（いまの姿）／右＝扉2枚 */
+    #scr-home .pad { display: grid; grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); grid-template-rows: auto minmax(0, 1fr) auto auto;
+      grid-template-areas: "head head" "tree doors" "end end" "foot foot"; column-gap: 22px; row-gap: 16px; padding-top: 18px; padding-bottom: 8px; }
+    #scr-home .home-head { grid-area: head; }
+    #scr-home .home-head h1 { font-size: 38px; }
+    #scr-home .tree-compact { grid-area: tree; flex-direction: column; justify-content: center; gap: 10px; padding: 18px 22px 22px; }
+    #scr-home .tree-compact svg.minitree { width: 100%; max-width: 330px; height: auto; aspect-ratio: 4 / 3; }
+    #scr-home .tree-compact .info { flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+    #scr-home .tree-compact .name { font-size: 27px; } #scr-home .tree-compact .line { font-size: 22px; } #scr-home .tree-compact .line .num { font-size: 36px; }
+    #scr-home .cat-grid { grid-area: doors; flex-direction: column; gap: 16px; min-height: 0; }
+    #scr-home .cat-grid .catcard { flex-direction: row; align-items: center; gap: 24px; padding: 18px 26px; }
+    #scr-home .cat-grid .catcard .chip { width: 96px; height: 96px; border-radius: 26px; } #scr-home .cat-grid .catcard .chip svg { width: 56px; height: 56px; }
+    #scr-home .cat-grid .catcard .tx { padding-right: 52px; }
+    #scr-home .cat-grid .catcard .tx b { font-size: 36px; } #scr-home .cat-grid .catcard .tx .sub { font-size: 22px; }
+    #scr-home .cat-grid .catcard .goa { width: 48px; height: 48px; right: 20px; bottom: auto; top: 50%; margin-top: -24px; }
+    #scr-home .door-st { margin-top: 6px; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
+    #scr-home .home-end { grid-area: end; } #scr-home .home-end .btn { margin: 0; }
+    #scr-home .footer { grid-area: foot; padding: 0 0 4px; }
+    /* 脳トレの部屋：左＝今日の脳トレ／右＝7つの階段と自分で選ぶ */
+    #scr-nt .nt-hub { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); grid-template-rows: auto auto auto; column-gap: 20px; row-gap: 14px;
+      grid-template-areas: "course brain" "course pick" "note note"; align-content: start; }
+    #scr-nt .course-card { grid-area: course; } #scr-nt .menu-note { grid-area: note; }
+    #scr-nt .hub-row { display: contents; }
+    #scr-nt #hub-brain { grid-area: brain; } #scr-nt #hub-pick { grid-area: pick; }
+    #scr-nt .cs-hd { flex-wrap: wrap; row-gap: 0; } #scr-nt .cs-hd b { white-space: nowrap; }
+    #scr-nt .cs-steps { grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
+    #scr-nt .cs-step { flex-direction: row; align-items: center; text-align: left; gap: 14px; padding: 8px 18px 8px 14px; }
+    #scr-nt .cs-n { position: static; flex-shrink: 0; }
+    #scr-nt .cs-stx { flex: 1; flex-direction: row; align-items: baseline; justify-content: space-between; gap: 12px; }
+    #scr-nt .cs-g { text-align: right; white-space: nowrap; }
+    #scr-nt .hub-door { min-height: 0; padding: 16px 20px; gap: 16px; }
+    #scr-nt .hub-tx b { font-size: 27px; }
+    #scr-nt .hub-chips { grid-template-columns: repeat(3, 42px); gap: 5px; }
+    #scr-nt .hub-chips .nt-chip { width: 42px !important; height: 42px !important; }
+    #scr-nt .hub-door .nt-radar.mini { width: 120px; height: 120px; }
+  }
+
 </style>
 </head>
 <body>
@@ -1325,13 +1371,13 @@
         <span class="goa" style="background:#F3EAD8; color:#8A6A3B;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
     </div>
-    <div style="display:flex; justify-content:center;">
+    <div class="home-end" style="display:flex; justify-content:center;">
       <div class="btn btn-white" onclick="endDay()">
         <svg class="ic" viewBox="0 0 24 24"><use href="#ic-yunomi"></use></svg>
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.37(ここスマ自習システム・画面に合わせる・脳トレの部屋)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.38(ここスマ自習システム・横置きを基準に・脳トレの部屋)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -2963,7 +3009,7 @@ function renderCourseCard() {
   var b = ntB(course.aim), doneN = course.items.filter(function (x) { return x.done; }).length;
   var steps = course.items.map(function (it, i) {
     var bb = ntB(it.d), a = ACT[it.g] || { n: '' };
-    return '<div class="cs-step' + (it.done ? ' done' : '') + '"><span class="cs-n">' + (it.done ? '✓' : (i + 1)) + '</span>' + ntChip(bb, 52, 30) + ntLabelB(bb, 23) + '<span class="cs-g">' + ntEsc(a.n) + '</span></div>';
+    return '<div class="cs-step' + (it.done ? ' done' : '') + '"><span class="cs-n">' + (it.done ? '✓' : (i + 1)) + '</span>' + ntChip(bb, 52, 30) + '<span class="cs-stx">' + ntLabelB(bb, 23) + '<span class="cs-g">' + ntEsc(a.n) + '</span></span></div>';
   }).join('');
   var btn = course.finished ? '<div class="btn-outline" style="margin:0;padding:10px 34px;font-size:22px;" onclick="courseReview()">ふりかえりを見る</div>'
     : '<div class="btn btn-primary" style="margin:0;padding:13px 50px;font-size:25px;white-space:nowrap;" onclick="courseStart()">' + (doneN ? '続きから（' + (doneN + 1) + '／4）' : 'はじめる') + '</div>';
