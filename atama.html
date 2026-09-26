@@ -1073,6 +1073,18 @@
   .gd-skip { font-size: 20px; color: #555555; text-decoration: underline; cursor: pointer; padding: 8px 10px; }
   .nt-howto { padding: 10px 22px !important; font-size: 20px !important; margin: 0 !important; }
   @media (orientation: portrait) { .gd-pws { grid-template-columns: 1fr; } .gd-sts { grid-template-columns: 1fr 1fr; row-gap: 26px; } .gd-dan { flex-direction: column; gap: 20px; } .gd-lead { font-size: 32px; } }
+  /* ===== v1.41 レベル1〜10 ===== */
+  .numgrid.w5 { grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .numgrid.w5 .numbtn { aspect-ratio: 1 / 0.7; font-size: 36px; border-radius: 16px; }
+  .hd-dot.bl { background: #2F6FD6; }
+  .hd-dot.y { background: #E0A800; border-radius: 0; clip-path: polygon(50% 4%, 97% 94%, 3% 94%); }
+  .hd-dot.big.on.bl { background: #2F6FD6; }
+  .hd-dot.big.on.y { background: #E0A800; border-radius: 0; clip-path: polygon(50% 4%, 97% 94%, 3% 94%); }
+  @media (orientation: landscape) {
+    .numgrid.w5 { max-width: 560px; margin: 0 auto; } .numgrid.w5 .numbtn { aspect-ratio: 1 / 0.66; }
+    .numgrid.wide { max-width: 600px; margin: 0 auto; }
+    .cardgrid.full { max-width: 560px; margin: 0 auto; } .cardgrid.many:not(.full) { max-width: 700px; margin: 0 auto; }
+  }
 </style>
 </head>
 <body>
@@ -1405,7 +1417,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.40(ここスマ自習システム・横置きを基準に・脳トレのしくみ)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.41(ここスマ自習システム・レベル1〜10：お釣り・順番タップ・カード・とっさの判断・記憶の順番)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -18385,6 +18397,388 @@ function ntGuideDone() { ntGuideMark(); if (ntGuideBack === 'scr-nt') showNt(); 
 (function () {
   var _sn = showNt;
   showNt = function () { if (!ntGuideSeen()) { renderReco(); ntGuide(0, 'scr-nt'); return; } _sn(); };
+})();
+
+
+/* ===== v1.41 レベル1〜10（体を動かす5種目：お釣り・順番タップ・カード合わせ・とっさの判断・記憶の順番）＝19ya §15 ===== */
+var LV_GAMES = ['otsuri', 'tile', 'cards', 'handan'];
+var LVS = {}; // 種目ごとの今回の状態 { lv, before, best, active }
+function lvKey(g) { return 'kokosuma_lvl_' + (sessM() || 'guest') + '_' + g; }
+function lvBest(g) {
+  var v = sessM() ? lastResultValue(g, 'lvl') : null, raw = storeGet(lvKey(g)), l = raw ? parseInt(raw, 10) : 0;
+  return Math.max(v || 0, l || 0);
+}
+function lvSave(g, lv) {
+  if (lv <= lvBest(g)) return;
+  storeSet(lvKey(g), String(lv));
+  if (session.t) sendResult(g, 'lvl', lv);
+}
+/* 次の回は「できたレベル」から。まだ記録がなければ、その力のいまのレベルの少し下から */
+function lvStart(g) {
+  var b = lvBest(g);
+  if (b) return Math.max(1, Math.min(10, b));
+  var r = sessM() ? skillRow(brainOf(g)) : null;
+  return r && r.dan ? Math.max(1, Math.min(6, r.dan - 1)) : 1;
+}
+function lvBegin(g) { var s = lvStart(g); LVS[g] = { lv: s, start: s, before: lvBest(g) || null, best: 0, fails: 0, oks: 0, active: true }; return LVS[g]; }
+/* 1回ぶんの結果を入れる。ok＝できた。戻り値＝'up' / 'same' / 'down'（下げたことは画面に出さない） */
+function lvStep(g, ok, need) {
+  var s = LVS[g]; need = need || 1;
+  if (ok) {
+    s.fails = 0; s.oks++;
+    if (s.oks >= need) { s.oks = 0; s.best = Math.max(s.best, s.lv); lvSave(g, s.lv); if (s.lv < 10) { s.lv++; return 'up'; } return 'top'; }
+    return 'same';
+  }
+  s.oks = 0; s.fails++;
+  if (s.fails >= 2 && s.lv > 1) { s.fails = 0; s.lv--; return 'down'; }
+  return 'same';
+}
+function lvEnd(g) { if (LVS[g]) setTimeout(function () { if (LVS[g]) LVS[g].active = false; }, 0); }
+/* 記録・ふりかえりでの数字＝到達レベル */
+(function () {
+  var _real = ntRealOfPlay, _prev = ntPrev, _save = ntSaveReal, _fmt = ntFmt;
+  ntRealOfPlay = function (game, r) {
+    if (LV_GAMES.indexOf(game) >= 0 && LVS[game]) { var b = LVS[game].best; return b ? { v: b, txt: 'レベル' + b, hi: true } : { v: null, txt: 'レベル' + LVS[game].lv + 'に挑戦', hi: true }; }
+    return _real(game, r);
+  };
+  ntPrev = function (game) {
+    if (LV_GAMES.indexOf(game) >= 0) { if (LVS[game] && LVS[game].active) return LVS[game].before; var b = lvBest(game); return b || null; }
+    return _prev(game);
+  };
+  ntSaveReal = function (game, v) { if (LV_GAMES.indexOf(game) >= 0) return; _save(game, v); };
+  ntFmt = function (game, v) { if (LV_GAMES.indexOf(game) >= 0 && v !== null && v !== undefined && !isNaN(v)) return 'レベル' + Math.round(v); return _fmt(game, v); };
+  var _dan = danOfPlay;
+  danOfPlay = function (game) {
+    if (LV_GAMES.indexOf(game) >= 0 && LVS[game]) { var b = LVS[game].best; pendingDan[game] = undefined; return b ? { dan: b } : null; }
+    return _dan(game);
+  };
+})();
+NT_REAL_LABEL.tile = '到達したレベル'; NT_REAL_LABEL.cards = '到達したレベル'; NT_REAL_LABEL.otsuri = '到達したレベル'; NT_REAL_LABEL.handan = '到達したレベル';
+
+/* ================= 順番タップ ================= */
+var NUM_KANA12 = ['あ', 'い', 'う', 'え', 'お', 'か', 'き', 'く', 'け', 'こ', 'さ', 'し'];
+var TILE_LV = [null,
+  { n: 9, slots: 9, t: '1から9まで' }, { n: 12, slots: 16, t: '1から12まで' }, { n: 16, slots: 16, t: '1から16まで' },
+  { n: 20, slots: 25, t: '1から20まで' }, { n: 25, slots: 25, t: '1から25まで' },
+  { n: 12, slots: 16, alt: true, t: '数字とかなを交互に（6まで）' }, { n: 16, slots: 16, alt: true, t: '数字とかなを交互に（8まで）' },
+  { n: 20, slots: 25, alt: true, t: '数字とかなを交互に（10まで）' }, { n: 25, slots: 25, rev: true, t: '25から1へ、逆の順に' },
+  { n: 24, slots: 25, alt: true, t: '数字とかなを交互に（12まで）' }];
+var TILE_ROUNDS = 3, tileR = 0;
+startNums = function () { lvBegin('tile'); tileR = 0; record._tileMiss0 = record.numsMiss; nextNumRound(); show('scr-nums'); };
+nextNumRound = function () {
+  var s = LVS.tile, c = TILE_LV[s.lv];
+  nextNum = 1; numMistakes = 0; numSeq = [];
+  if (c.alt) { for (var a = 0; a < c.n / 2; a++) { numSeq.push(String(a + 1)); numSeq.push(NUM_KANA12[a]); } }
+  else if (c.rev) { for (var r = c.n; r >= 1; r--) numSeq.push(String(r)); }
+  else { for (var n = 1; n <= c.n; n++) numSeq.push(String(n)); }
+  document.getElementById('nums-progress').textContent = 'レベル' + s.lv + '　' + (tileR + 1) + '／' + TILE_ROUNDS + '回';
+  setMsg('nums-msg', c.alt ? '1→あ→2→い の順に、数字とかなを交互に押してください。' : (c.rev ? c.n + 'から順に、小さい数へ押してください。' : '1から順に、数字を押してください。'), false);
+  var cells = numSeq.slice().concat(new Array(c.slots - c.n).fill(null)); shuffle(cells);
+  var grid = document.getElementById('numgrid');
+  grid.classList.toggle('wide', c.slots === 16); grid.classList.toggle('w5', c.slots === 25);
+  grid.innerHTML = '';
+  cells.forEach(function (lb) {
+    var el = document.createElement('div');
+    if (lb === null) el.className = 'numbtn hidden';
+    else { el.className = 'numbtn'; el.textContent = lb; el.onclick = function () { tapNum(el, lb); }; }
+    grid.appendChild(el);
+  });
+  var note = document.getElementById('nums-note'); if (note) note.textContent = 'レベル' + s.lv + '：' + c.t + '。まちがいが1回までなら「できた」です。';
+};
+numRoundClear = function () {
+  var s = LVS.tile, ok = numMistakes <= 1, lvWas = s.lv;
+  record.numsMax = Math.max(record.numsMax, TILE_LV[lvWas].n);
+  var st = lvStep('tile', ok, 1);
+  tileR++;
+  if (tileR < TILE_ROUNDS && !(st === 'top')) {
+    setMsg('nums-msg', ok ? (st === 'up' ? 'できました。次はレベル' + s.lv + 'です。' : 'できました。') : 'もう一度やってみましょう。ゆっくりで大丈夫です。', !ok);
+    setTimeout(nextNumRound, 1800);
+  } else {
+    var tq = qualityByMiss(record.numsMiss - (record._tileMiss0 || 0), 3);
+    setMsg('nums-msg', s.best ? 'レベル' + s.best + 'までできました。お見事です。' : 'よく挑戦しました。次もこの続きからです。', false);
+    gameCompleted('tile', tq); lvEnd('tile');
+    setTimeout(showSummary, 1800);
+  }
+};
+
+/* ================= カード合わせ ================= */
+var CARD_LV = [null, { p: 3, m: 3 }, { p: 4, m: 4 }, { p: 5, m: 5 }, { p: 6, m: 6 }, { p: 8, m: 8 }, { p: 8, m: 6 },
+  { p: 8, m: 4, pv: 5 }, { p: 8, m: 3, pv: 4 }, { p: 8, m: 2, pv: 3 }, { p: 8, m: 1, pv: 2 }];
+var CARD_ROUNDS = 3, cardMiss0 = 0;
+startCards = function () { lvBegin('cards'); cardRound = 0; record._cardMiss0 = record.cardsMiss; nextCardRound(); show('scr-cards'); };
+nextCardRound = function () {
+  var s = LVS.cards, c = CARD_LV[s.lv], pairs = c.p;
+  remainingPairs = pairs; openCards = []; lock = false; cardMiss0 = record.cardsMiss;
+  document.getElementById('cards-progress').textContent = 'レベル' + s.lv + '　' + (cardRound + 1) + '／' + CARD_ROUNDS + '回';
+  document.getElementById('cards-note').innerHTML = 'レベル' + s.lv + '：' + pairs + '組・まちがいは' + c.m + '回まで' + (c.pv ? '・はじめに' + c.pv + '秒だけ全部見せます' : '');
+  var faces = shuffle(FACES.slice()).slice(0, pairs), deck = shuffle(faces.concat(faces));
+  var grid = document.getElementById('cardgrid');
+  grid.innerHTML = '';
+  grid.style.gridTemplateColumns = 'repeat(' + (pairs === 3 ? 3 : (pairs === 5 ? 5 : 4)) + ', 1fr)';
+  grid.classList.toggle('many', pairs >= 5); grid.classList.toggle('full', pairs >= 8);
+  var els = [];
+  deck.forEach(function (face) {
+    var el = document.createElement('div');
+    el.className = 'card'; el.innerHTML = backHtml(); el.dataset.face = face.id; el.dataset.label = face.label;
+    el.onclick = function () { flipCard(el, face); };
+    grid.appendChild(el); els.push([el, face]);
+  });
+  if (c.pv) {
+    lock = true;
+    setMsg('cards-msg', 'よく見て、場所を覚えてください。', false);
+    els.forEach(function (x) { x[0].classList.add('open'); x[0].innerHTML = faceHtml(x[1]); });
+    setTimeout(function () {
+      els.forEach(function (x) { x[0].classList.remove('open'); x[0].innerHTML = backHtml(); });
+      lock = false; setMsg('cards-msg', '同じ絵柄の札を、二枚めくってください。', false);
+    }, c.pv * 1000);
+  } else setMsg('cards-msg', '同じ絵柄の札を、二枚めくってください。', false);
+};
+cardRoundClear = function () {
+  record.cardsRounds++;
+  var s = LVS.cards, c = CARD_LV[s.lv], miss = record.cardsMiss - cardMiss0, ok = miss <= c.m;
+  var st = lvStep('cards', ok, 1);
+  cardRound++;
+  if (cardRound < CARD_ROUNDS && st !== 'top') {
+    setMsg('cards-msg', ok ? (st === 'up' ? 'できました。次はレベル' + s.lv + 'です。' : 'できました。') : 'そろいました。まちがいが少し多かったので、もう一度。', !ok);
+    setTimeout(nextCardRound, 1900);
+  } else {
+    var cq = qualityByMiss(record.cardsMiss - (record._cardMiss0 || 0), 6);
+    setMsg('cards-msg', s.best ? 'レベル' + s.best + 'までできました。お見事です。' : 'よく挑戦しました。次もこの続きからです。', false);
+    gameCompleted('cards', cq); lvEnd('cards');
+    setTimeout(showSummary, 1900);
+  }
+};
+
+/* ================= とっさの判断 ================= */
+var HD_LV = [null, { w: 1400 }, { w: 1200 }, { w: 1050 }, { w: 950 }, { w: 850 },
+  { w: 950, y: 1 }, { w: 850, y: 1 }, { w: 750, y: 1 }, { w: 800, y: 1, b: 1 }, { w: 680, y: 1, b: 1 }];
+var HD_BLOCK = 10, HD_BLOCKS = 3;
+function hdRule(c) {
+  if (c.b) return '丸は押す（緑も青も）。それ以外は、押さない。';
+  if (c.y) return '緑の丸は押す。赤い×と黄色の三角は、押さない。';
+  return '緑の丸が出たら、すぐに押す。赤い×のときは、押さない。';
+}
+function hdDemo(c) {
+  return '<div class="hd-demo"><span class="hd-dot g"></span>' + (c.b ? '<span class="hd-dot bl"></span>' : '') + '<span>押す</span>' +
+    '<span class="hd-dot r"></span>' + (c.y ? '<span class="hd-dot y"></span>' : '') + '<span>押さない</span></div>';
+}
+startHandan = function () { gsMark('handan'); menuStartedGame = 'handan'; lvBegin('handan'); show('scr-handan'); hdIntro(); };
+hdIntro = function () {
+  var s = LVS.handan || lvBegin('handan'), c = HD_LV[s.lv];
+  if (hd && hd.timer) clearTimeout(hd.timer);
+  hd = { block: 0, done: false, tot: 0, ok: 0, rts: [] };
+  document.getElementById('hd-body').innerHTML =
+    '<div class="nt-lead">' + hdRule(c).replace('。', '。<br>') + '</div>' + hdDemo(c) +
+    '<div class="nt-sub">レベル' + s.lv + 'から・10回を3組（約1分）。1組でまちがいが1回までなら「できた」です。</div>' +
+    '<div class="btn btn-primary" style="margin:0;padding:16px 60px;font-size:27px;" onclick="hdStart()">はじめる</div>';
+};
+hdStart = function () {
+  var s = LVS.handan, c = HD_LV[s.lv], seq = [];
+  for (var i = 0; i < HD_BLOCK; i++) {
+    if (i < 7) seq.push(c.b && i % 2 ? 'bl' : 'g');
+    else seq.push(c.y && i === 9 ? 'y' : 'r');
+  }
+  seq = shuffle(seq); if (seq[0] !== 'g' && seq[0] !== 'bl') { var j = seq.indexOf('g'); seq[j] = seq[0]; seq[0] = 'g'; }
+  hd.seq = seq; hd.i = -1; hd.err = 0; hd.on = false; hd.win = c.w;
+  document.getElementById('hd-body').innerHTML =
+    '<div class="hd-count" id="hd-count"></div>' +
+    '<div class="hd-stage" id="hd-stage" onpointerdown="hdTap(event)"><span class="hd-dot big" id="hd-dot"></span></div>' +
+    '<div class="msg" id="hd-msg" style="min-height:34px;"></div>';
+  hd.timer = setTimeout(hdNext, 900);
+};
+function hdGo(k) { return k === 'g' || k === 'bl'; }
+hdNext = function () {
+  if (!hd || hd.done) return;
+  hd.i++;
+  if (hd.i >= hd.seq.length) return hdBlockEnd();
+  var c = document.getElementById('hd-count'); if (c) c.textContent = 'レベル' + LVS.handan.lv + '　' + (hd.block + 1) + '組目　' + (hd.i + 1) + '／' + hd.seq.length;
+  var dot = document.getElementById('hd-dot'); if (dot) dot.className = 'hd-dot big';
+  hd.timer = setTimeout(function () {
+    if (!hd || hd.done) return;
+    var d = document.getElementById('hd-dot'); if (d) d.className = 'hd-dot big on ' + hd.seq[hd.i];
+    hd.on = true; hd.t = performance.now();
+    hd.timer = setTimeout(hdTimeout, hd.win);
+  }, 500 + Math.random() * 800);
+};
+hdTap = function (e) {
+  if (e && e.preventDefault) e.preventDefault();
+  if (!hd || hd.done || !hd.on) return;
+  hd.on = false; clearTimeout(hd.timer); hd.tot++;
+  if (hdGo(hd.seq[hd.i])) { hd.ok++; hd.rts.push((performance.now() - hd.t) / 1000); hdMsg('いいですね', true); }
+  else { hd.err++; hdMsg('これは押さずに待ちます', false); }
+  var d = document.getElementById('hd-dot'); if (d) d.className = 'hd-dot big';
+  hd.timer = setTimeout(hdNext, 380);
+};
+hdTimeout = function () {
+  if (!hd || hd.done) return;
+  hd.on = false; hd.tot++;
+  if (hdGo(hd.seq[hd.i])) { hd.err++; hdMsg('丸は、すぐに押します', false); } else { hd.ok++; hdMsg('押さずに待てました', true); }
+  var d = document.getElementById('hd-dot'); if (d) d.className = 'hd-dot big';
+  hd.timer = setTimeout(hdNext, 320);
+};
+function hdBlockEnd() {
+  var s = LVS.handan, ok = hd.err <= 1, st = lvStep('handan', ok, 1);
+  hd.block++;
+  if (hd.block < HD_BLOCKS && st !== 'top') {
+    var c = HD_LV[s.lv];
+    document.getElementById('hd-body').innerHTML =
+      '<div class="kiki-done" style="font-size:34px;">' + (ok ? (st === 'up' ? 'できました。次はレベル' + s.lv + 'です' : 'できました') : 'もう一度、同じ組をやってみましょう') + '</div>' +
+      '<div class="nt-lead" style="font-size:24px;">' + hdRule(c).replace('。', '。<br>') + '</div>' + hdDemo(c) +
+      '<div class="btn btn-primary" style="margin:0;padding:15px 56px;font-size:26px;" onclick="hdStart()">次の組へ</div>';
+  } else hdEnd();
+}
+hdEnd = function () {
+  hd.done = true; clearTimeout(hd.timer);
+  var s = LVS.handan, rt = hd.rts.length ? hd.rts.reduce(function (a, x) { return a + x; }, 0) / hd.rts.length : null;
+  hd.real = { acc: hd.tot ? hd.ok / hd.tot : 0, rt: rt };
+  gameCompleted('handan', qualityByCorrect(hd.ok, hd.tot)); lvEnd('handan');
+  document.getElementById('hd-body').innerHTML =
+    '<div class="kiki-done">できました</div>' +
+    '<div class="kiki-result"><span class="a">今日の到達</span><span class="b">' + (s.best ? 'レベル' + s.best : '—') + '</span><span class="c">' + hd.tot + '回のうち ' + hd.ok + '回 正しく見きわめました</span></div>' +
+    '<div class="kiki-pill">丸を押すまで　平均 ' + (rt ? rt.toFixed(2) : '—') + '秒</div>' +
+    '<div class="msg">' + sakuraIconHtml(34) + SKIN.name.replace('みんなの', '') + 'が 1' + SKIN.unit + ' ' + SKIN.verb + '</div>' +
+    '<div class="kiki-btnrow"><div class="btn btn-primary" style="margin:0;padding:17px 52px;font-size:27px;" onclick="startHandan()">もう一回</div>' +
+    '<div class="btn-outline" style="padding:14px 44px;font-size:27px;" onclick="ntExitGame()">脳トレへ</div></div>';
+};
+
+/* ================= お釣り計算 ================= */
+var OTS_ITEMS = [['りんご', 120], ['食パン', 200], ['牛乳', 230], ['お茶', 150], ['おにぎり', 130], ['たまご', 250], ['お豆腐', 120], ['みかん', 380],
+  ['せんべい', 340], ['お弁当', 550], ['コロッケ', 80], ['ケーキ', 460], ['ぶどう', 680], ['お惣菜', 730], ['コーヒー', 450], ['バナナ', 190], ['納豆', 90], ['トマト', 270]];
+var OTS_BIG = [['うなぎ弁当', 1280], ['お刺身の盛り合わせ', 1580], ['すき焼き肉', 2380], ['メロン', 1800], ['お寿司', 1450], ['洗剤', 980], ['タオル', 1200], ['お米', 2480]];
+function otsPick(list, n) { return shuffle(list.slice()).slice(0, n).map(function (x) { return [x[0], x[1]]; }); }
+function otsBillFor(sum) { if (sum < 500) return { pay: 500, pk: 'coin', pv: 500, pc: 1, lb: '500円玉' }; if (sum < 1000) return { pay: 1000, pk: 'bill', pv: 1000, pc: 1, lb: '千円札' }; if (sum < 2000) return { pay: 2000, pk: 'bill', pv: 1000, pc: 2, lb: '千円札2枚' }; if (sum < 3000) return { pay: 3000, pk: 'bill', pv: 1000, pc: 3, lb: '千円札3枚' }; return { pay: 5000, pk: 'bill', pv: 5000, pc: 1, lb: '五千円札' }; }
+function otsFromOld(o) {
+  var q = { items: [[o.item, o.price]], pay: o.pay, extra: o.extra || 0, pk: o.pk, pv: o.pv, pc: o.pc, lb: o.payLabel };
+  if (o.item2) q.items.push([o.item2, o.price2]);
+  if (q.extra) q.lb = o.payLabel.replace(/と\d+円$/, '');
+  return q;
+}
+function otsMake(lv) {
+  var q, tries = 0;
+  while (tries++ < 200) {
+    if (lv <= 3) { var pool = OTSURI.filter(function (x) { return x.lvl === lv; }); q = otsFromOld(pool[Math.floor(Math.random() * pool.length)]); }
+    else if (lv === 4) { var p4 = OTSURI.filter(function (x) { return x.kind === 'two'; }); q = otsFromOld(p4[Math.floor(Math.random() * p4.length)]); }
+    else if (lv === 5) { var p5 = OTSURI.filter(function (x) { return x.kind === 'exact'; }); q = otsFromOld(p5[Math.floor(Math.random() * p5.length)]); }
+    else {
+      var items = lv === 6 || lv === 10 ? otsPick(OTS_ITEMS, 3) : (lv === 8 ? otsPick(OTS_BIG, 1).concat(otsPick(OTS_ITEMS, 1)) : otsPick(OTS_ITEMS, 2));
+      if (lv === 9) items = otsPick(OTS_BIG.filter(function (x) { return x[1] % 100 === 0; }), 1).concat(otsPick(OTS_ITEMS.filter(function (x) { return x[1] % 100 === 0; }), 1));
+      var sum = items.reduce(function (a, x) { return a + x[1]; }, 0), disc = lv === 9 ? 0.1 : 0, cost = Math.round(sum * (1 - disc));
+      var b = otsBillFor(cost); if (lv === 8 && cost < 2000) continue;
+      if (lv === 8) b = { pay: 5000, pk: 'bill', pv: 5000, pc: 1, lb: '五千円札' };
+      q = { items: items, pay: b.pay, extra: 0, pk: b.pk, pv: b.pv, pc: b.pc, lb: b.lb, disc: disc, plain: lv === 10 };
+      if (lv === 7 || lv === 10) { var r = cost % 100; if (!r || cost + (100 - r) > b.pay) continue; q.extra = r; }
+    }
+    var ans = q.pay + q.extra - otsCostQ(q); if (ans > 0) return q;
+  }
+  return otsFromOld(OTSURI[0]);
+}
+function otsCostQ(q) { var s = q.items.reduce(function (a, x) { return a + x[1]; }, 0); return Math.round(s * (1 - (q.disc || 0))); }
+function otsAns(q) { return q.pay + (q.extra || 0) - otsCostQ(q); }
+function otsChoicesQ(q) {
+  var ans = otsAns(q), paid = q.pay + (q.extra || 0), cand = [], sum = q.items.reduce(function (a, x) { return a + x[1]; }, 0);
+  function push(v) { if (v >= 10 && v !== ans && v < paid && cand.indexOf(v) < 0) cand.push(v); }
+  if (q.disc) push(paid - sum);
+  if (q.extra) push(q.pay - otsCostQ(q));
+  if (q.items.length > 1) push(paid - q.items[0][1]);
+  push(ans + 100); push(ans - 100); push(ans + 10); push(ans - 10); push(ans + 50); push(ans - 50);
+  return shuffle([ans].concat(cand.slice(0, 3 + 2).sort(function () { return Math.random() - 0.5; }).slice(0, 3)));
+}
+var otsQ = null, OTS_N = 6, otsN = 0;
+startOtsuri = function () { lvBegin('otsuri'); otsN = 0; record._ots0 = [record.otsuriCorrect, record.otsuriAnswered]; show('scr-otsuri'); otsNextQ(); };
+function otsNextQ() { otsQ = otsMake(LVS.otsuri.lv); renderOtsuriQ(); }
+renderOtsuriQ = function () {
+  var q = otsQ, s = LVS.otsuri;
+  document.getElementById('ots-progress').textContent = 'レベル' + s.lv + '　' + (otsN + 1) + '／' + OTS_N + '問';
+  var names = q.items.map(function (x) { return x[0] + ' ' + x[1] + '円'; });
+  var scene = document.querySelector('#scr-otsuri .otsuri-scene');
+  if (scene) scene.style.display = q.plain ? 'none' : '';
+  var buy = document.getElementById('ots-buy');
+  buy.innerHTML = names.join('<br>') + (q.disc ? '<br><b style="color:#C2410C;">合計から1割引き</b>' : '');
+  buy.parentNode.classList.toggle('two', q.items.length > 1);
+  document.getElementById('ots-pay').innerHTML = otsuriPayHtml({ pk: q.pk, pv: q.pv, pc: q.pc, extra: q.extra });
+  var what = q.items.map(function (x) { return x[0]; }).join('と'), payTx = q.lb + (q.extra ? 'と' + q.extra + '円' : '');
+  var qt = q.plain ? names.join('、') + 'を買います。' + payTx + 'を出すと、お釣りはいくら?'
+    : (q.items.length > 1 ? what + 'を買います。' : otsCostQ(q) + '円の買い物。') + (q.disc ? '合計から1割引きです。' : '') + payTx + (q.extra ? 'を出すと' : 'で払うと') + '、お釣りはいくら?';
+  document.getElementById('ots-q').textContent = qt;
+  document.getElementById('ots-shiki').style.display = 'none';
+  document.getElementById('ots-msg').innerHTML = '';
+  document.getElementById('ots-next').style.display = 'none';
+  var box = document.getElementById('ots-choices'); box.innerHTML = '';
+  otsChoicesQ(q).forEach(function (v) {
+    var el = document.createElement('div'); el.className = 'q-choice'; el.dataset.v = v;
+    el.innerHTML = '<span class="tag" style="display:none;"></span>' + v + '円';
+    el.onclick = function () { otsAnswer(el, v); };
+    box.appendChild(el);
+  });
+};
+function otsAnswer(el, picked) {
+  var q = otsQ, ans = otsAns(q), ok = picked === ans, s = LVS.otsuri;
+  var chs = document.querySelectorAll('#ots-choices .q-choice');
+  for (var i = 0; i < chs.length; i++) {
+    var c = chs[i], v = parseInt(c.dataset.v, 10), tag = c.querySelector('.tag'); c.onclick = null;
+    if (v === ans) { c.classList.add('correct'); if (!ok) { tag.style.display = 'inline-block'; tag.textContent = '正しいお釣り'; } }
+    else if (v === picked) { c.classList.add('picked'); tag.style.display = 'inline-block'; tag.textContent = '選んだ答え'; }
+    else c.classList.add('dim');
+  }
+  record.otsuriAnswered++; if (ok) record.otsuriCorrect++;
+  var lvWas = s.lv, st = lvStep('otsuri', ok, 2);
+  var msg = document.getElementById('ots-msg');
+  msg.innerHTML = ok ? sakuraIconHtml(36) + '<span style="color:var(--accent-deep);">正解です。' + (st === 'up' ? '次はレベル' + s.lv + 'です。' : 'お見事。') + '</span>' : '<span>お釣りは ' + ans + '円でした。</span>';
+  msg.className = ok ? 'msg' : 'msg gentle';
+  var sum = q.items.reduce(function (a, x) { return a + x[1]; }, 0), paid = q.pay + (q.extra || 0), sh = '';
+  if (q.items.length > 1) sh += q.items.map(function (x) { return x[1] + '円'; }).join(' + ') + ' = ' + sum + '円。';
+  if (q.disc) sh += sum + '円の1割引きは ' + otsCostQ(q) + '円。';
+  if (q.extra) sh += q.pay + '円 + ' + q.extra + '円 = ' + paid + '円。';
+  sh += paid + '円 − ' + otsCostQ(q) + '円 = ' + ans + '円。';
+  document.getElementById('ots-shiki-tx').textContent = sh;
+  document.getElementById('ots-shiki').style.display = 'block';
+  otsN++;
+  var last = otsN >= OTS_N || st === 'top';
+  document.getElementById('ots-next-tx').textContent = last ? '結果を見る' : '次の問題へ';
+  document.getElementById('ots-next').style.display = 'flex';
+}
+nextOtsuriQ = function () {
+  if (otsN < OTS_N && !(LVS.otsuri.best === 10)) { otsNextQ(); return; }
+  var c0 = record._ots0 || [0, 0];
+  gameCompleted('otsuri', qualityByCorrect(record.otsuriCorrect - c0[0], record.otsuriAnswered - c0[1])); lvEnd('otsuri');
+  showSummary();
+};
+
+/* ================= 記憶の順番（レベル＝個数−2・3個〜12個） ================= */
+KIOKU_GOAL = 12;
+kiokuStartLevel = function () {
+  var prev = lastResultValue('kioku', 'count');
+  if (prev === null) { var raw = storeGet('kokosuma_kioku_last'); prev = raw ? parseInt(raw, 10) : 0; }
+  var lv = lvBest('kioku');
+  var n = Math.max(lv ? lv + 2 : 0, prev || 0);
+  return n >= 3 ? Math.min(KIOKU_GOAL, n) : 3;
+};
+kiokuBadgeUpdate = function () { document.getElementById('kio-badge').textContent = 'レベル' + (kioku.level - 2) + '（' + kioku.level + '個）'; };
+(function () {
+  var _tap = tapKiokuTile;
+  tapKiokuTile = function (i) {
+    var was = kioku && kioku.best;
+    _tap(i);
+    if (kioku && kioku.best && kioku.best !== was) {
+      lvSave('kioku', kioku.best - 2);
+      if (kioku.state === 'wait' && kioku.level > kioku.best) kiokuStatus('turn', 'その調子です。次はレベル' + (kioku.level - 2) + '（' + kioku.level + '個）です');
+    }
+  };
+  var _begin = beginKiokuRound;
+  beginKiokuRound = function (newSeq) {
+    _begin(newSeq);
+    if (kioku.level >= 10) { /* 10個以上はさらに速く */
+      kiokuClearTimers();
+      if (newSeq === undefined) newSeq = false;
+      var ON = 450, GAP = 170, HEAD = 900;
+      kioku.state = 'watch';
+      kioku.seq.forEach(function (tile, i) {
+        kiokuLater(function () { kiokuLight(tile, true); kiokuOrderRender(i + 1, 'watch'); }, HEAD + i * (ON + GAP));
+        kiokuLater(function () { kiokuLight(tile, false); }, HEAD + i * (ON + GAP) + ON);
+      });
+      kiokuLater(function () { kioku.state = 'turn'; kiokuStatus('turn', '同じ順に押してください'); kiokuOrderRender(0, 'turn'); }, HEAD + kioku.seq.length * (ON + GAP) + 200);
+    }
+  };
 })();
 
 </script>
