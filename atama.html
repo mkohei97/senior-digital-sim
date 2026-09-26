@@ -1248,6 +1248,69 @@
     #scr-nt #hub-brain, #scr-nt #hub-pick { flex-direction: column; align-items: flex-start; padding: 16px 24px; gap: 8px; min-height: 0; }
     #scr-nt #hub-brain .nt-radar.mini { width: 104px; height: 104px; }
   }
+  /* ===== v1.45 基本練習 ===== */
+  .gcard.drl-door { grid-column: span 2; background: linear-gradient(135deg, rgba(227,242,238,.95), rgba(255,255,255,.9)); border: 2px solid rgba(17,134,109,.35); }
+  .drl-door .tx b { color: #0B4F42; } .drl-door .drl-mini { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .drl-door .drl-mini i { font-style: normal; font-size: 16px; background: #fff; border-radius: 999px; padding: 3px 12px; color: #0B4F42; border: 1px solid rgba(17,134,109,.2); white-space: nowrap; }
+  #drl-list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .drl-card { position: relative; align-items: center; }
+  .drl-card .tx { display: flex; flex-direction: column; gap: 2px; }
+  .drl-card .tx b { font-size: 26px; } .drl-card .tx span { font-size: 18px; color: #5A6360; line-height: 1.5; }
+  .drl-of { font-style: normal; font-size: 16px; color: #6B7773; letter-spacing: .08em; }
+  .drl-lv { position: absolute; right: 16px; top: 12px; font-size: 17px; font-weight: 700; color: #0B4F42; background: rgba(17,134,109,.10); border-radius: 999px; padding: 3px 12px; }
+  .drl-intro { font-size: 20px; color: #5A6360; margin: 4px 4px 14px; }
+  .drl-hd-ic { width: 52px; height: 52px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; } .drl-hd-ic svg { width: 30px; height: 30px; }
+  .drl-now { font-size: 20px; font-weight: 700; color: #0B4F42; background: rgba(17,134,109,.10); border-radius: 999px; padding: 4px 16px; }
+  .drl-area { gap: 18px; }
+  .drl-price { display: flex; flex-direction: column; align-items: center; gap: 4px; background: rgba(255,255,255,.9); border-radius: 26px; padding: 16px 60px; box-shadow: 0 10px 28px rgba(24,48,42,.08); }
+  .drl-price span { font-size: 22px; color: #5A6360; } .drl-price b { font-size: 64px; line-height: 1.2; color: #1F2A28; }
+  .drl-timer { width: 100%; max-width: 640px; height: 12px; border-radius: 999px; background: rgba(31,42,40,.08); overflow: hidden; }
+  .drl-timer i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #1A9B7F, #0F7A63); border-radius: 999px; animation: drlBar linear forwards; }
+  @keyframes drlBar { from { width: 100%; } to { width: 0%; } }
+  .drl-area .otsuri-choices { width: 100%; max-width: 640px; }
+  .drl-stage { width: 100%; max-width: 760px; height: 260px; border-radius: 28px; background: rgba(255,255,255,.9); box-shadow: 0 12px 34px rgba(24,48,42,.08); display: flex; align-items: center; justify-content: center; position: relative; }
+  .drl-stage.wide { max-width: 940px; }
+  .drl-big { font-size: 96px; color: #1F2A28; letter-spacing: .04em; } .drl-big.on { animation: cdPop .4s ease-out; }
+  .drl-digits { font-size: 84px; letter-spacing: .12em; font-variant-numeric: tabular-nums; }
+  .drl-fix { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 34px; color: rgba(31,42,40,.35); }
+  .drl-word { font-size: 50px; color: #1F2A28; white-space: nowrap; background: rgba(255,255,255,.96); padding: 0 8px; z-index: 1; }
+  .drl-word.l { position: absolute; left: 30px; } .drl-word.r { position: absolute; right: 30px; } .drl-word.mk { color: #9AA3A0; }
+  .drl-boxes { display: flex; gap: 10px; margin-top: 6px; }
+  .drl-box { width: 60px; height: 76px; border-radius: 14px; background: rgba(255,255,255,.95); border: 2px solid rgba(31,42,40,.14); display: flex; align-items: center; justify-content: center; font-size: 44px; font-weight: 700; }
+  .drl-box.f { border-color: #11866D; }
+  .drl-pad { display: grid; grid-template-columns: repeat(3, 150px); gap: 10px; }
+  .drl-pad .numbtn { height: 76px; font-size: 40px; display: flex; align-items: center; justify-content: center; }
+  .drl-pad .numbtn.sm { font-size: 22px; } .drl-pad .numbtn.go { background: linear-gradient(180deg, #1A9B7F, #0F7A63); color: #fff; } .drl-pad .numbtn.go.off { opacity: .35; }
+  .drl-lr { width: 100%; max-width: 940px; height: 240px; border-radius: 28px; background: rgba(255,255,255,.9); box-shadow: 0 12px 34px rgba(24,48,42,.08); position: relative; }
+  .drl-sl { position: absolute; top: 50%; width: 130px; height: 130px; margin-top: -65px; display: flex; align-items: center; justify-content: center; }
+  .drl-sl svg { width: 120px; height: 120px; }
+  .drl-lr.w1 .drl-sl.l { left: calc(50% - 250px); } .drl-lr.w1 .drl-sl.r { left: calc(50% + 120px); }
+  .drl-lr.w2 .drl-sl.l { left: calc(50% - 340px); } .drl-lr.w2 .drl-sl.r { left: calc(50% + 210px); }
+  .drl-lr.w3 .drl-sl.l { left: 20px; } .drl-lr.w3 .drl-sl.r { right: 20px; }
+  .drl-mask { display: block; width: 110px; height: 110px; border-radius: 18px; background: repeating-linear-gradient(45deg, #D9DEDC 0 10px, #EEF1F0 10px 20px); }
+  .drl-pairs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; max-width: 900px; }
+  .drl-pair { display: flex; justify-content: center; gap: 22px; padding: 16px 10px !important; }
+  .drl-pair span { display: flex; flex-direction: column; align-items: center; gap: 2px; } .drl-pair svg { width: 76px; height: 76px; } .drl-pair i { font-style: normal; font-size: 16px; color: #6B7773; }
+  .drl-field { width: 100%; max-width: 960px; height: 440px; border-radius: 28px; background: rgba(255,255,255,.85); box-shadow: 0 12px 34px rgba(24,48,42,.08); position: relative; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+  .drl-dotn { position: absolute; width: 96px; height: 96px; margin: -48px 0 0 -48px; border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 42px; font-weight: 700; color: #fff; background: linear-gradient(180deg, #D14D7F, #B23466); box-shadow: 0 8px 20px rgba(178,52,102,.3); cursor: pointer; }
+  .drl-dotn.on { display: flex; animation: cdPop .25s ease-out; }
+  .drl-rt { max-width: 620px; height: 340px; }
+  .drl-fb { font-size: 24px; font-weight: 700; padding: 4px 22px; border-radius: 999px; animation: cdPop .4s ease-out; pointer-events: none; }
+  .drl-fb.ok { background: #11866D; color: #fff; } .drl-fb.ng { background: #FBEBDD; color: #8A4B22; }
+  .drl-res { margin: 30px auto 0; min-width: 460px; padding: 26px 50px; border-radius: 28px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+  .drl-res > b { font-size: 60px; color: #0B4F42; line-height: 1.2; } .drl-det { font-size: 24px; color: #1F2A28; } .drl-was { font-size: 20px; color: #5A6360; }
+  @media (orientation: landscape) {
+    #scr-drl .drl-field { height: 470px; }
+    #scr-drl .drl-pad { grid-template-columns: repeat(3, 130px); } #scr-drl .drl-pad .numbtn { height: 64px; }
+    #scr-drl .drl-box { height: 66px; }
+  }
+  @media (orientation: portrait) {
+    #drl-list { grid-template-columns: 1fr; }
+    .drl-field { height: 640px; }
+    .gcard.drl-door { grid-column: 1 / -1; padding-top: 10px; padding-bottom: 10px; } .drl-door .drl-mini { display: none; }
+    #scr-cat-asobi .cat-menu.nt-two { gap: 10px; } #scr-cat-asobi .cat-menu.nt-two .gcard { padding-top: 9px; padding-bottom: 9px; }
+    #scr-drl .chk-area { margin-top: 50px; } #scr-drl .drl-res { margin-top: 70px; }
+  }
 </style>
 </head>
 <body>
@@ -1581,7 +1644,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.44(ここスマ自習システム・白とガラス・力だめし（7つの力を約4分で）)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.45(ここスマ自習システム・白とガラス・基本練習（7つ）)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -1651,6 +1714,15 @@
 <div id="nt-demo" onclick="if(event.target===this)ntDemoClose()"><div class="dm-in"><b id="dm-title">お手本</b><div id="dm-stage"></div><div id="dm-cap"></div>
   <div style="display:flex;gap:16px;"><div class="btn btn-white" style="margin:0;padding:12px 34px;font-size:22px;" onclick="ntDemoClose()">閉じる</div></div></div></div>
 
+<!-- v1.45 基本練習 -->
+<div class="screen nt-wide" id="scr-drill"><div class="pad">
+  <div class="appbar"><div class="left"><div class="btn btn-white" style="padding:10px 22px; font-size:20px;" onclick="show('scr-cat-asobi')">種目の一覧へ</div></div>
+    <div class="left" style="gap:12px;"><span class="icchip" style="background:#E3F2EE;"><svg viewBox="0 0 24 24" style="color:#0B4F42;"><use href="#ic-gauge"></use></svg></span><span class="t">基本練習</span></div></div>
+  <div class="drl-intro">種目を、いくつかの力に分けた練習です。1つ1分ほど。種目の前の準備にもどうぞ。</div>
+  <div id="drl-list"></div>
+</div></div>
+<div class="screen nt-wide" id="scr-drl"><div class="pad"><div id="drl-body"></div></div></div>
+
 <!-- v1.44 力だめし -->
 <div class="screen nt-wide" id="scr-chk"><div class="pad"><div id="chk-body"></div></div></div>
 
@@ -1715,6 +1787,10 @@
         <span class="chip" style="background:#E3F2F0; color:#0B4F42;"><svg viewBox="0 0 24 24"><use href="#ic-target"></use></svg></span>
         <div class="tx"><b>とっさの判断</b><span>緑の丸は押す・赤い×は押さない<em class="abil">見きわめる</em></span></div>
         <span class="goa" style="background:#E3F2F0; color:#0B4F42;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard drl-door" onclick="drList()">
+        <span class="chip" style="background:#E3F2EE; color:#0B4F42;"><svg viewBox="0 0 24 24"><use href="#ic-gauge"></use></svg></span>
+        <div class="tx"><b>基本練習</b><span>種目を分けた、1分ほどの短い練習</span><span class="drl-mini"><i>一瞬で読む</i><i>目で追う</i><i>千円のお釣り</i><i>ほか4つ</i></span></div>
       </div>
     </div>
   </div>
@@ -19509,6 +19585,341 @@ function chkEnd() {
   };
 })();
 (function () { var _lo = logoutMember; logoutMember = function (q) { chkGuest = null; return _lo(q); }; })();
+/* ===== v1.45 基本練習（種目を分けた、1分ほどの練習）＝19ya §16-3 ===== */
+var DRL = [
+  { id: 'sen', g: 'otsuri', n: '千円のお釣り', d: '千円札で払ったときのお釣りを、すばやく出します。',
+    lines: ['値段が出ます。千円札で払ったときの、お釣りを選びます。', '時間の帯がなくなる前に選びます。レベルが上がると、帯が短くなり、値段も細かくなります。'], meta: ['10問・約1分', '2問続けて正解で、レベルが1つ上'], cd: true },
+  { id: 'tasu', g: 'otsuri', n: '次々足す', d: '値段が1つずつ出ます。全部でいくらか、足していきます。',
+    lines: ['買い物かごに入れる値段が、1つずつ出ます。', '全部でいくらになったか、4つの中から選びます。'], meta: ['6問・約1分半', '2問続けて正解で、レベルが1つ上'], cd: true },
+  { id: 'kazu', g: 'kioku', n: '一瞬の数字', d: '数字が一瞬だけ出ます。同じ数字を押します。',
+    lines: ['数字が一瞬だけ出て、消えます。', '同じ数字を、下の数字ボタンで押します。電話番号を一度で覚えるつもりで。'], meta: ['8回・約1分半', '2回続けて正解で、けたが増えたり、速くなったりします'], cd: true },
+  { id: 'lr', g: 'cards', n: '左右に一瞬', d: '左右に絵が一瞬だけ出ます。どの組み合わせだったか選びます。',
+    lines: ['まん中を見ていてください。左と右に、絵が一瞬だけ出ます。', '左と右に何が出たか、3つの中から選びます。'], meta: ['10回・約1分', '2回続けて正解で、速く・外側になります'], cd: true },
+  { id: 'ou', g: 'tile', n: '目で追う', d: '数字が1つずつ、別の場所に出ます。出たらすぐ押します。',
+    lines: ['数字が1つずつ、画面のどこかに出ます。', '出たら、すぐに押します。押すと、次が別の場所に出ます。'], meta: ['16回・約30秒', '押すまでの時間で、レベルを出します'], cd: true },
+  { id: 'fl', g: 'yomu', n: '一瞬で読む', d: '言葉が一瞬だけ出ます。何と書いてあったか選びます。',
+    lines: ['まん中に、言葉が一瞬だけ出ます。', '何と書いてあったか、3つの中から選びます。レベルが上がると、長く・速くなります。'], meta: ['10回・約1分', '2回続けて正解で、レベルが1つ上'], cd: true },
+  { id: 'rt', g: 'handan', n: '出たら押す', d: '丸が出たら、すぐ押します。出る前に押さないように。',
+    lines: ['画面を見ていてください。緑の丸が出たら、すぐに押します。', '丸が出る前に押したときは、その回をやり直します。'], meta: ['10回・約40秒', '押すまでの時間で、レベルを出します'], cd: true }
+];
+function drlOf(id) { for (var i = 0; i < DRL.length; i++) if (DRL[i].id === id) return DRL[i]; return null; }
+/* 記録：会員は端末とサーバーに（game='d_'+id, metric='lvl'）。会員証なしは画面を開いているあいだだけ */
+var drlGuest = {};
+function drlKey() { return 'kokosuma_drl_' + sessM(); }
+function drlRecs() {
+  if (!sessM()) return drlGuest;
+  var o = {}; try { o = JSON.parse(storeGet(drlKey()) || '{}') || {}; } catch (e) {}
+  if (progressData && progressData.results) progressData.results.forEach(function (r) {
+    if (r.game && r.game.indexOf('d_') === 0 && r.metric === 'lvl') { var id = r.game.slice(2), v = parseFloat(r.value) || 0; o[id] = o[id] || {}; o[id].best = Math.max(o[id].best || 0, v); if (!o[id].last) o[id].last = v; }
+  });
+  return o;
+}
+function drlSave(id, lv) {
+  var o = drlRecs(), r = o[id] || {}, was = r.best || 0;
+  r.best = Math.max(was, lv); r.last = lv; r.on = todayStr(); o[id] = r;
+  if (sessM()) { try { storeSet(drlKey(), JSON.stringify(o)); } catch (e) {} if (session.t) sendResult('d_' + id, 'lvl', lv); }
+  else drlGuest = o;
+  return was;
+}
+function drlStartLv(id) { var r = drlRecs()[id]; return r && r.last ? Math.max(1, Math.min(10, Math.round(r.last))) : 1; }
+(function () { var _lo = logoutMember; logoutMember = function (q) { drlGuest = {}; return _lo(q); }; })();
+
+/* ---- 一覧 ---- */
+function drList() {
+  drlStop();
+  var recs = drlRecs();
+  document.getElementById('drl-list').innerHTML = DRL.map(function (x) {
+    var a = ACT[x.g], r = recs[x.id];
+    return '<div class="gcard drl-card" onclick="drlExplain(\'' + x.id + '\')">' +
+      '<span class="chip" style="background:' + a.chip + ';color:' + a.ink + ';"><svg viewBox="0 0 24 24"><use href="#' + a.ic + '"></use></svg></span>' +
+      '<div class="tx"><i class="drl-of">' + ntEsc(a.n) + 'の基本</i><b>' + ntEsc(x.n) + '</b><span>' + ntEsc(x.d) + '</span></div>' +
+      (r && r.best ? '<span class="drl-lv">レベル' + Math.round(r.best) + '</span>' : '') + '</div>';
+  }).join('');
+  show('scr-drill');
+}
+function drlExplain(id) {
+  var x = drlOf(id), a = ACT[x.g], lv = (id === 'ou' || id === 'rt') ? 0 : drlStartLv(id);
+  document.getElementById('ex-body').innerHTML =
+    '<div class="ex-hd"><span class="icchip" style="background:' + a.chip + ';color:' + a.ink + ';"><svg viewBox="0 0 24 24"><use href="#' + a.ic + '"></use></svg></span><b>' + ntEsc(x.n) + '</b><span class="ex-tag">' + (lv ? 'レベル' + lv + 'から' : '基本練習') + '</span></div>' +
+    '<div class="panel ex-box"><div class="ex-lbl">トレーニングの説明</div><div class="ex-rule"></div>' +
+    '<div class="ex-tx">' + x.lines.map(ntEsc).join('<br>') + '</div>' +
+    '<div class="ex-meta">' + x.meta.map(function (m) { return '<span>' + ntEsc(m) + '</span>'; }).join('') + '<span>' + ntEsc(a.n) + 'の基本</span></div></div>' +
+    '<div class="ex-btns"><div class="btn btn-primary" style="margin:0;padding:18px 70px;font-size:28px;" onclick="drlGo(\'' + id + '\')">はじめる</div></div>' +
+    '<div class="ex-foot"><span class="ex-back" onclick="drList()">もどる</span></div>';
+  show('scr-explain');
+}
+function drlGo(id) { ntCountdown(function () { drlRun(id); }); }
+
+/* ---- 共通の進め方 ---- */
+var drl = null;
+function drlStop() { if (drl) { drl.t.forEach(clearTimeout); drl.t = []; drl.dead = true; } }
+function drlLater(fn, ms) { var d = drl; d.t.push(setTimeout(function () { if (!d.dead) fn(); }, ms)); }
+function drlRun(id) {
+  drlStop();
+  drl = { id: id, x: drlOf(id), t: [], k: 0, lv: drlStartLv(id), streak: 0, cleared: 0, oks: 0, dead: false, lock: false };
+  show('scr-drl');
+  DRL_RUN[id]();
+}
+function drlHead(total) {
+  var x = drl.x, a = ACT[x.g];
+  return '<div class="chk-hd"><span class="drl-hd-ic" style="background:' + a.chip + ';color:' + a.ink + ';"><svg viewBox="0 0 24 24"><use href="#' + a.ic + '"></use></svg></span><b>' + ntEsc(x.n) + '</b>' +
+    (total ? '<span class="chk-n">' + Math.min(drl.k + 1, total) + '／' + total + '</span>' : '') +
+    (drl.lv && drl.adapt ? '<span class="drl-now">レベル' + drl.lv + '</span>' : '') +
+    '<span class="chk-quit" onclick="drlQuit()">やめる</span></div>';
+}
+function drlQuit() { drlStop(); drList(); }
+function drlArea(total, html) { document.getElementById('drl-body').innerHTML = drlHead(total) + '<div class="chk-area drl-area">' + html + '</div>'; }
+/* 2回続けて正解でレベル＋1・まちがいでレベル−1。結果＝2回続けて正解できた一番上のレベル */
+function drlAdapt(ok) {
+  if (ok) { drl.oks++; drl.streak++; if (drl.streak >= 2) { drl.cleared = Math.max(drl.cleared, drl.lv); drl.streak = 0; if (drl.lv < 10) drl.lv++; } }
+  else { drl.streak = 0; if (drl.lv > 1) drl.lv--; }
+}
+function drlFlashOk(ok, cb) {
+  var el = document.createElement('div'); el.className = 'drl-fb ' + (ok ? 'ok' : 'ng'); el.textContent = ok ? '正解' : 'ざんねん';
+  var hd = document.querySelector('#drl-body .chk-hd'), q = hd && hd.querySelector('.chk-quit'); if (hd) hd.insertBefore(el, q); else document.getElementById('drl-body').appendChild(el);
+  drlLater(cb, ok ? 550 : 1100);
+}
+function drlEnd(lv, detail) {
+  drlStop();
+  var x = drl.x, a = ACT[x.g], was = drlSave(x.id, lv), idx = DRL.indexOf(x), nx = DRL[(idx + 1) % DRL.length];
+  var msg = !was ? 'はじめての記録です' : (lv > was ? 'これまでで一番のレベルです' : (lv === Math.round(was) ? 'これまでの一番と同じレベルです' : 'これまでの一番は レベル' + Math.round(was) + ' です'));
+  document.getElementById('drl-body').innerHTML =
+    '<div class="chk-hd"><span class="drl-hd-ic" style="background:' + a.chip + ';color:' + a.ink + ';"><svg viewBox="0 0 24 24"><use href="#' + a.ic + '"></use></svg></span><b>' + ntEsc(x.n) + '　おしまい</b></div>' +
+    '<div class="panel drl-res"><div class="ex-lbl">今回</div><b>レベル' + lv + '</b>' + (detail ? '<span class="drl-det">' + detail + '</span>' : '') + '<span class="drl-was">' + msg + '</span></div>' +
+    '<div class="ex-btns"><div class="btn btn-primary" style="margin:0;padding:16px 50px;font-size:26px;" onclick="drlGo(\'' + x.id + '\')">もう一回</div>' +
+    '<div class="btn btn-white" style="margin:0;padding:15px 36px;font-size:24px;" onclick="drList()">基本練習の一覧へ</div></div>' +
+    '<div class="ex-foot"><span class="ex-back" onclick="drlExplain(\'' + nx.id + '\')">次の練習：' + ntEsc(nx.n) + ' ›</span></div>';
+}
+function drlSec(ms) { return (Math.round(ms / 10) / 100).toFixed(2).replace(/0$/, '') + '秒'; }
+var DRL_RUN = {};
+
+/* ---- 千円のお釣り ---- */
+var SEN_LV = [null, [100, 10], [100, 6], [50, 8], [10, 10], [10, 7], [10, 5], [1, 10], [1, 8], [1, 6], [1, 4.5]];
+function senMake(lv) {
+  var u = SEN_LV[lv][0], p;
+  do { p = u * (1 + Math.floor(Math.random() * (990 / u))); } while (p >= 1000 || p < 50 || (u === 1 && p % 10 === 0) || (u === 10 && p % 100 === 0));
+  var ans = 1000 - p, c = [ans];
+  function push(v) { if (v > 0 && v < 1000 && c.indexOf(v) < 0) c.push(v); }
+  var s = String(p); while (s.length < 3) s = '0' + s;
+  var noBorrow = parseInt(s.split('').map(function (d) { return String((10 - parseInt(d, 10)) % 10); }).join(''), 10);
+  push(noBorrow); if (u === 100) { push(ans + 100); push(ans - 100); push(ans + 200); } else { push(ans + 10); push(ans - 10); push(ans + 100); push(ans - 100); if (u === 1) push(ans + 1); }
+  var ch = [ans].concat(shuffle(c.slice(1)).slice(0, 3));
+  return { p: p, ans: ans, ch: shuffle(ch) };
+}
+DRL_RUN.sen = function () {
+  drl.adapt = true; var N = 10;
+  function q() {
+    if (drl.k >= N) return drlEnd(Math.max(1, drl.cleared), '正解 ' + drl.oks + '／' + N + '問');
+    var m = senMake(drl.lv), secs = SEN_LV[drl.lv][1], done = false; drl.ans = m.ans;
+    drlArea(N, '<div class="drl-price"><span>お会計</span><b>' + m.p + '円</b><span>千円札で払うと、お釣りは？</span></div>' +
+      '<div class="drl-timer"><i id="drl-tm" style="animation-duration:' + secs + 's"></i></div>' +
+      '<div class="otsuri-choices" id="drl-ch">' + m.ch.map(function (v) { return '<div class="q-choice" data-v="' + v + '">' + v + '円</div>'; }).join('') + '</div>');
+    function fin(ok, el) {
+      if (done) return; done = true; drl.k++; var tm = document.getElementById('drl-tm'); if (tm) tm.style.animationPlayState = 'paused';
+      Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .q-choice'), function (e) { if (parseInt(e.getAttribute('data-v'), 10) === m.ans) e.classList.add('correct'); else e.classList.add('dim'); });
+      drlAdapt(ok); drlFlashOk(ok, q);
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .q-choice'), function (el) { el.onclick = function () { fin(parseInt(el.getAttribute('data-v'), 10) === m.ans, el); }; });
+    drlLater(function () { fin(false); }, secs * 1000);
+  }
+  q();
+};
+
+/* ---- 次々足す ---- */
+var TASU_LV = [null, { n: 3, k: 'one', ms: 1300 }, { n: 4, k: 'one', ms: 1100 }, { n: 3, k: 'ten', ms: 1500 }, { n: 4, k: 'ten', ms: 1300 }, { n: 5, k: 'ten', ms: 1200 },
+  { n: 3, k: 'yen', ms: 1600 }, { n: 4, k: 'yen', ms: 1400 }, { n: 5, k: 'yen', ms: 1300 }, { n: 5, k: 'yen', ms: 1050 }, { n: 6, k: 'yen', ms: 950 }];
+function tasuMake(lv) {
+  var L = TASU_LV[lv], xs = [];
+  for (var i = 0; i < L.n; i++) {
+    var v; if (L.k === 'one') v = 1 + Math.floor(Math.random() * 9); else if (L.k === 'ten') v = 10 * (1 + Math.floor(Math.random() * 5)) + Math.floor(Math.random() * 10); else v = 10 * (10 + Math.floor(Math.random() * 41));
+    xs.push(v);
+  }
+  var ans = xs.reduce(function (a, b) { return a + b; }, 0), step = L.k === 'yen' ? 10 : 1, c = [ans];
+  [step, -step, 10 * step, -10 * step, xs[xs.length - 1], -xs[0]].forEach(function (d) { var v = ans + d; if (v > 0 && c.indexOf(v) < 0) c.push(v); });
+  return { xs: xs, ans: ans, ms: L.ms, unit: L.k === 'yen' ? '円' : '', ch: shuffle([ans].concat(shuffle(c.slice(1)).slice(0, 3))) };
+}
+DRL_RUN.tasu = function () {
+  drl.adapt = true; var N = 6;
+  function q() {
+    if (drl.k >= N) return drlEnd(Math.max(1, drl.cleared || 1), '正解 ' + drl.oks + '／' + N + '問');
+    var m = tasuMake(drl.lv), i = 0; drl.ans = m.ans;
+    drlArea(N, '<div class="drl-stage"><b class="drl-big" id="drl-x"></b></div><div class="chk-msg" id="drl-msg">' + m.xs.length + 'つ出ます</div>');
+    function one() {
+      var el = document.getElementById('drl-x');
+      if (i >= m.xs.length) {
+        drlArea(N, '<div class="kiki-q">全部で いくら？</div><div class="otsuri-choices" id="drl-ch">' + m.ch.map(function (v) { return '<div class="q-choice" data-v="' + v + '">' + v + m.unit + '</div>'; }).join('') + '</div>');
+        Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .q-choice'), function (b) {
+          b.onclick = function () {
+            if (drl.lock) return; drl.lock = true; var ok = parseInt(b.getAttribute('data-v'), 10) === m.ans; drl.k++;
+            Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .q-choice'), function (e) { e.classList.add(parseInt(e.getAttribute('data-v'), 10) === m.ans ? 'correct' : 'dim'); });
+            drlAdapt(ok); drlFlashOk(ok, function () { drl.lock = false; q(); });
+          };
+        });
+        return;
+      }
+      el.textContent = (i ? '＋' : '') + m.xs[i] + m.unit; el.classList.remove('on'); void el.offsetWidth; el.classList.add('on');
+      i++; drlLater(function () { el.textContent = ''; drlLater(one, 180); }, m.ms);
+    }
+    drlLater(one, 500);
+  }
+  q();
+};
+
+/* ---- 一瞬の数字 ---- */
+var KAZU_LV = [null, [3, 1500], [4, 1500], [4, 1000], [5, 1300], [5, 900], [6, 1300], [6, 900], [7, 1300], [7, 900], [8, 1000]];
+DRL_RUN.kazu = function () {
+  drl.adapt = true; var N = 8;
+  function q() {
+    if (drl.k >= N) return drlEnd(Math.max(1, drl.cleared || 1), KAZU_LV[Math.max(1, drl.cleared || 1)][0] + 'けたを ' + drlSec(KAZU_LV[Math.max(1, drl.cleared || 1)][1]) + 'で');
+    var L = KAZU_LV[drl.lv], s = '', inp = '';
+    for (var i = 0; i < L[0]; i++) { var d; do { d = Math.floor(Math.random() * 10); } while (i && String(d) === s[i - 1]); s += d; }
+    drl.ans = s;
+    drlArea(N, '<div class="drl-stage"><b class="drl-big drl-digits" id="drl-x"></b></div><div class="chk-msg">' + L[0] + 'けたの数字が出ます</div>');
+    drlLater(function () {
+      document.getElementById('drl-x').textContent = s.replace(/(\d{4})(?=\d)/g, '$1 ');
+      drlLater(function () {
+        document.getElementById('drl-x').textContent = s.replace(/\d/g, '＊').replace(/(＊{4})(?=＊)/g, '$1 ');
+        drlLater(input, 250);
+      }, L[1]);
+    }, 500);
+    function draw() {
+      var boxes = ''; for (var i = 0; i < s.length; i++) boxes += '<span class="drl-box' + (i < inp.length ? ' f' : '') + '">' + (inp[i] || '') + '</span>';
+      document.getElementById('drl-boxes').innerHTML = boxes;
+      document.getElementById('drl-ok').classList.toggle('off', inp.length !== s.length);
+    }
+    function input() {
+      var keys = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'del', 0, 'ok'];
+      drlArea(N, '<div class="drl-boxes" id="drl-boxes"></div><div class="drl-pad">' + keys.map(function (k) {
+        return k === 'del' ? '<div class="numbtn drl-k sm" data-k="del">1つ消す</div>' : (k === 'ok' ? '<div class="numbtn drl-k sm go off" id="drl-ok" data-k="ok">決定</div>' : '<div class="numbtn drl-k" data-k="' + k + '">' + k + '</div>');
+      }).join('') + '</div>');
+      draw();
+      Array.prototype.forEach.call(document.querySelectorAll('.drl-k'), function (b) {
+        b.onclick = function () {
+          var k = b.getAttribute('data-k');
+          if (k === 'del') inp = inp.slice(0, -1);
+          else if (k === 'ok') { if (inp.length !== s.length || drl.lock) return; drl.lock = true; var ok = inp === s; drl.k++; drlAdapt(ok);
+            document.getElementById('drl-boxes').insertAdjacentHTML('afterend', ok ? '' : '<div class="chk-msg">正しくは <b style="font-size:30px;color:#1F2A28;letter-spacing:.1em;">' + s + '</b></div>');
+            drlFlashOk(ok, function () { drl.lock = false; q(); }); return; }
+          else if (inp.length < s.length) inp += k;
+          draw();
+        };
+      });
+    }
+  }
+  q();
+};
+
+/* ---- 左右に一瞬 ---- */
+var LR_LV = [null, [1200, 1], [1000, 1], [850, 1], [700, 2], [600, 2], [500, 2], [420, 2], [350, 3], [300, 3], [250, 3]];
+function lrFace(f) { return '<svg viewBox="0 0 24 24"><use href="#ic-' + f.id + '"></use></svg>'; }
+DRL_RUN.lr = function () {
+  drl.adapt = true; var N = 10;
+  function q() {
+    if (drl.k >= N) { var c = Math.max(1, drl.cleared || 1); return drlEnd(c, drlSec(LR_LV[c][0]) + 'で見分けられました'); }
+    var L = LR_LV[drl.lv], fs = shuffle(FACES.slice()), A = fs[0], B = fs[1], C = fs[2];
+    var opts = shuffle([[A, B], [B, A], Math.random() < 0.5 ? [A, C] : [C, B]]); drl.ans = opts.findIndex(function (o) { return o[0] === A && o[1] === B; });
+    drlArea(N, '<div class="drl-lr w' + L[1] + '"><span class="drl-fix">＋</span><span class="drl-sl l" id="drl-l"></span><span class="drl-sl r" id="drl-r"></span></div><div class="chk-msg">まん中の＋を見ていてください</div>');
+    drlLater(function () {
+      document.getElementById('drl-l').innerHTML = lrFace(A); document.getElementById('drl-r').innerHTML = lrFace(B);
+      drlLater(function () {
+        document.getElementById('drl-l').innerHTML = '<i class="drl-mask"></i>'; document.getElementById('drl-r').innerHTML = '<i class="drl-mask"></i>';
+        drlLater(function () {
+          drlArea(N, '<div class="kiki-q">左と右に出たのは？</div><div class="drl-pairs" id="drl-ch">' + opts.map(function (o, i) {
+            return '<div class="q-choice drl-pair" data-i="' + i + '"><span>' + lrFace(o[0]) + '<i>左</i></span><span>' + lrFace(o[1]) + '<i>右</i></span></div>';
+          }).join('') + '</div>');
+          Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .q-choice'), function (b) {
+            b.onclick = function () {
+              if (drl.lock) return; drl.lock = true; var o = opts[parseInt(b.getAttribute('data-i'), 10)], ok = o[0] === A && o[1] === B; drl.k++;
+              Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .q-choice'), function (e) { var oo = opts[parseInt(e.getAttribute('data-i'), 10)]; e.classList.add(oo[0] === A && oo[1] === B ? 'correct' : 'dim'); });
+              drlAdapt(ok); drlFlashOk(ok, function () { drl.lock = false; q(); });
+            };
+          });
+        }, 300);
+      }, L[0]);
+    }, 700 + Math.random() * 500);
+  }
+  q();
+};
+
+/* ---- 目で追う ---- */
+DRL_RUN.ou = function () {
+  drl.adapt = false; var N = 16, times = [], px = 0.5, py = 0.5, t0 = 0;
+  drlArea(0, '<div class="drl-field" id="drl-f"><span class="drl-dotn" id="drl-t"></span></div><div class="chk-msg" id="drl-msg">出たら、すぐ押します　0／' + N + '</div>');
+  var f = document.getElementById('drl-f'), t = document.getElementById('drl-t');
+  function next() {
+    if (times.length >= N) {
+      var s = times.slice().sort(function (a, b) { return a - b; }), med = s[Math.floor(s.length / 2)] / 1000, lv = 1;
+      [1.5, 1.3, 1.15, 1.0, 0.9, 0.8, 0.72, 0.65, 0.58].forEach(function (th) { if (med <= th) lv++; });
+      return drlEnd(lv, '押すまで 1回あたり 約' + drlSec(med * 1000));
+    }
+    var x, y, tries = 0; do { x = 0.06 + Math.random() * 0.88; y = 0.1 + Math.random() * 0.8; tries++; } while (tries < 50 && Math.hypot(x - px, (y - py) * 0.5) < 0.35);
+    px = x; py = y; t.style.left = (x * 100) + '%'; t.style.top = (y * 100) + '%'; t.textContent = times.length + 1; t.className = 'drl-dotn on'; t0 = performance.now();
+  }
+  t.onpointerdown = function (e) { e.preventDefault(); if (!/on/.test(t.className)) return; times.push(performance.now() - t0); t.className = 'drl-dotn'; document.getElementById('drl-msg').textContent = '出たら、すぐ押します　' + times.length + '／' + N; drlLater(next, 150); };
+  drlLater(next, 400);
+};
+
+/* ---- 一瞬で読む ---- */
+var FLW = {
+  s: [['病院', '病気', '入院'], ['郵便', '郵送', '便利'], ['銀行', '旅行', '行列'], ['電話', '電車', '会話'], ['時計', '時間', '会計'], ['新聞', '新米', '見聞'], ['薬局', '薬味', '結局'],
+    ['天気', '元気', '天国'], ['お茶', 'お酒', 'お湯'], ['財布', '財産', '毛布'], ['眼鏡', '手鏡', '眼科'], ['切手', '切符', '上手'], ['年金', '年末', '貯金'], ['区役所', '市役所', '町役場'],
+    ['駐車場', '駐輪場', '停車場'], ['めがね', 'めだか', 'かがみ'], ['はがき', 'はかま', 'はがね'], ['ラジオ', 'ライン', 'ワイン'], ['カメラ', 'カルテ', 'カーテン'], ['買い物', '忘れ物', '買い手']],
+  m: [['乗り換え', '乗り越し', '乗り遅れ'], ['暗証番号', '電話番号', '受付番号'], ['予約受付', '予約変更', '受付終了'], ['本日休業', '本日限り', '臨時休業'], ['振り込み', '引き落とし', '払い込み'],
+    ['機種変更', '料金変更', '機種代金'], ['健康診断', '健康保険', '定期診断'], ['燃えるごみ', '燃えないごみ', '資源ごみ'], ['年賀はがき', '往復はがき', '年賀状'], ['お申し込み', 'お問い合わせ', 'お支払い'],
+    ['写真を送る', '写真を撮る', '動画を送る'], ['予定を確認', '予約を確認', '予定を変更'], ['左に曲がる', '右に曲がる', '左に寄る'], ['充電ケーブル', '電源ケーブル', '充電器'], ['特売セール', '決算セール', '特別セール']],
+  l: [['明日は雨が降ります', '明日は雪が降ります', '今日は雨が降ります'], ['午後三時に集合です', '午後二時に集合です', '午後三時に解散です'], ['お薬は食後に飲む', 'お薬は食前に飲む', 'お茶は食後に飲む'],
+    ['駅の北口で待つ', '駅の南口で待つ', '駅の北口で会う'], ['燃えるごみは月曜日', '燃えるごみは木曜日', '資源ごみは月曜日'], ['バスは十分おきに出る', 'バスは五分おきに出る', '電車は十分おきに出る'],
+    ['保険証を忘れずに', '診察券を忘れずに', '保険証を出さずに'], ['二階の窓口へどうぞ', '三階の窓口へどうぞ', '二階の受付へどうぞ'], ['玄関の鍵をかける', '玄関の鍵をあける', '裏口の鍵をかける'],
+    ['孫の運動会は土曜日', '孫の運動会は日曜日', '孫の発表会は土曜日'], ['雨の日は中止です', '雨の日も開催です', '雪の日は中止です'], ['電源ボタンを長く押す', '電源ボタンを短く押す', '音量ボタンを長く押す']]
+};
+var FL_LV = [null, ['s', 700, 0], ['s', 550, 0], ['s', 420, 0], ['m', 500, 0], ['m', 400, 0], ['m', 320, 0], ['l', 650, 0], ['l', 520, 0], ['l', 450, 1], ['l', 380, 1]];
+DRL_RUN.fl = function () {
+  drl.adapt = true; var N = 10, used = {};
+  function q() {
+    if (drl.k >= N) { var c = Math.max(1, drl.cleared || 1), L = FL_LV[c]; return drlEnd(c, ({ s: '短い言葉', m: '4〜6字の言葉', l: '短い文' })[L[0]] + 'を ' + drlSec(L[1]) + 'で'); }
+    var L = FL_LV[drl.lv], pool = FLW[L[0]], it, tries = 0; do { it = pool[Math.floor(Math.random() * pool.length)]; tries++; } while (used[it[0]] && tries < 30); used[it[0]] = 1;
+    var side = L[2] ? (Math.random() < 0.5 ? 'l' : 'r') : 'c', ch = shuffle([0, 1, 2]);
+    drlArea(N, '<div class="drl-stage wide"><span class="drl-fix">＋</span><b class="drl-word ' + side + '" id="drl-x"></b></div><div class="chk-msg">' + (L[2] ? '＋を見たまま。左か右に出ます' : 'まん中の＋を見ていてください') + '</div>');
+    drlLater(function () {
+      var el = document.getElementById('drl-x'); el.textContent = it[0];
+      drlLater(function () { el.textContent = it[0].replace(/./g, '■'); el.classList.add('mk');
+        drlLater(function () {
+          drlArea(N, '<div class="kiki-q">何と書いてありましたか？</div><div class="kiki-choices" id="drl-ch">' + ch.map(function (i) { return '<div class="q-choice" data-i="' + i + '">' + ntEsc(it[i]) + '</div>'; }).join('') + '</div>');
+          Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .q-choice'), function (b) {
+            b.onclick = function () {
+              if (drl.lock) return; drl.lock = true; var ok = b.getAttribute('data-i') === '0'; drl.k++;
+              Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .q-choice'), function (e) { e.classList.add(e.getAttribute('data-i') === '0' ? 'correct' : 'dim'); });
+              drlAdapt(ok); drlFlashOk(ok, function () { drl.lock = false; q(); });
+            };
+          });
+        }, 280);
+      }, L[1]);
+    }, 700 + Math.random() * 500);
+  }
+  q();
+};
+
+/* ---- 出たら押す ---- */
+DRL_RUN.rt = function () {
+  drl.adapt = false; var N = 10, rts = [], st = 'idle', t0 = 0, early = 0;
+  drlArea(0, '<div class="hd-stage drl-rt" id="drl-st"><span class="hd-dot big" id="drl-dot"></span></div><div class="chk-msg" id="drl-msg">0／' + N + '</div>');
+  var stg = document.getElementById('drl-st'), dot = document.getElementById('drl-dot'), msg = document.getElementById('drl-msg');
+  function arm() {
+    if (rts.length >= N) {
+      var s = rts.slice().sort(function (a, b) { return a - b; }), med = (s[4] + s[5]) / 2 / 1000, lv = 1;
+      [0.62, 0.55, 0.49, 0.45, 0.41, 0.38, 0.35, 0.32, 0.30].forEach(function (th) { if (med <= th) lv++; });
+      return drlEnd(lv, '丸が出てから押すまで 約' + drlSec(med * 1000));
+    }
+    st = 'wait'; dot.className = 'hd-dot big';
+    drlLater(function () { if (st !== 'wait') return; st = 'on'; dot.className = 'hd-dot big on g'; t0 = performance.now(); }, 1000 + Math.random() * 2000);
+  }
+  stg.onpointerdown = function (e) {
+    e.preventDefault();
+    if (st === 'on') { st = 'idle'; rts.push(performance.now() - t0); dot.className = 'hd-dot big'; msg.textContent = rts.length + '／' + N + '　' + drlSec(rts[rts.length - 1]); drlLater(arm, 600); }
+    else if (st === 'wait') { st = 'idle'; early++; drl.t.forEach(clearTimeout); drl.t = []; msg.textContent = 'まだです。丸が出てから押します'; drlLater(arm, 1200); }
+  };
+  drlLater(arm, 500);
+};
 </script>
 </body>
 </html>
