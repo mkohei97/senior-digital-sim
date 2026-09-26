@@ -1311,6 +1311,33 @@
     #scr-cat-asobi .cat-menu.nt-two { gap: 10px; } #scr-cat-asobi .cat-menu.nt-two .gcard { padding-top: 9px; padding-bottom: 9px; }
     #scr-drl .chk-area { margin-top: 50px; } #scr-drl .drl-res { margin-top: 70px; }
   }
+  /* ===== v1.46 脳トレのしくみ（3枚） ===== */
+  .gd-center { text-align: center; line-height: 1.9; }
+  .gd-c7s { display: flex; justify-content: center; gap: 22px; flex-wrap: wrap; }
+  .gd-c7 { display: flex; flex-direction: column; align-items: center; gap: 6px; } .gd-c7 b { font-size: 20px; }
+  .gd-3c { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
+  .gd-cd { position: relative; background: rgba(255,255,255,.88); border: 1px solid rgba(255,255,255,.95); box-shadow: 0 12px 34px rgba(24,48,42,.08); border-radius: 26px; padding: 26px 22px 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+  .gd-cd .gd-n { top: -15px; color: #FFFFFF; background: #0F7A63; }
+  .gd-ck { font-size: 20px; font-weight: 700; color: #6B7773; letter-spacing: .06em; }
+  .gd-cd > b { font-size: 36px; color: var(--accent-deep); line-height: 1.2; }
+  .gd-cd > span { font-size: 19px; color: #444; line-height: 1.65; text-align: left; }
+  .gd-cv { display: flex; gap: 6px; height: 44px; align-items: center; }
+  .gd-in { color: var(--accent-deep); }
+  .gd-bars.sm { height: 44px; gap: 4px; } .gd-bars.sm i { width: 14px; }
+  .gd-lfs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+  .gd-lf { background: rgba(255,255,255,.88); border: 1px solid rgba(255,255,255,.95); box-shadow: 0 8px 22px rgba(24,48,42,.06); border-radius: 20px; padding: 6px 16px; display: flex; align-items: center; gap: 14px; }
+  .gd-lf:last-child { grid-column: 1 / -1; justify-self: center; width: calc(50% - 8px); }
+  .gd-lft { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .gd-lfu { font-size: 19px; color: #1F2A28; line-height: 1.45; } .gd-lfe { font-size: 16px; color: #6B7773; line-height: 1.45; }
+  @media (orientation: landscape) { #scr-guide .gd-lfs { gap: 8px 14px; } #scr-guide .gd-lft .nt-lb b { font-size: 21px !important; } }
+  @media (orientation: portrait) {
+    .gd-3c { grid-template-columns: 1fr; row-gap: 26px; } .gd-cd { flex-direction: row; flex-wrap: wrap; text-align: left; align-items: center; column-gap: 18px; }
+    .gd-cd > span { flex-basis: 100%; }
+    .gd-lfs { grid-template-columns: 1fr; } .gd-lf:last-child { width: auto; justify-self: stretch; }
+    .gd-c7s { gap: 16px; }
+  }
+  .gd-keep { margin: 0 auto; max-width: 820px; background: rgba(227,242,238,.9); border: 1px solid rgba(17,134,109,.25); border-radius: 26px; padding: 16px 34px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  .gd-keep b { font-size: 28px; color: #0B4F42; } .gd-keep span { font-size: 21px; line-height: 1.8; color: #1F2A28; }
 </style>
 </head>
 <body>
@@ -1644,7 +1671,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.45(ここスマ自習システム・白とガラス・基本練習（7つ）)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.46(ここスマ自習システム・白とガラス・脳トレのしくみを3枚に)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -19920,6 +19947,45 @@ DRL_RUN.rt = function () {
   };
   drlLater(arm, 500);
 };
+/* ===== v1.46 脳トレのしくみを3枚に（ねらい／すすめ方／7つの力と暮らし） ===== */
+var NT_LIFE = {
+  kiku: ['電話や窓口の説明を、一度で聞き取る', '留守番電話・薬の飲み方の説明'],
+  yomu: ['お知らせや説明書きを、読んで分かる', '回覧板・スマホのお知らせ'],
+  oboeru: ['用事や番号を、少しのあいだ覚えておく', '買う物のメモ・暗証番号'],
+  mitsukeru: ['たくさんの中から、目当てのものを探す', 'お店の棚・スマホのアプリ'],
+  kazu: ['買い物の合計やお釣りを、頭の中で出す', 'レジでの支払い・割引の値段'],
+  kotoba: ['名前や言葉を、すっと思い出す', '知り合いの名前・昔の出来事'],
+  handan: ['進む・止まるを、とっさに決める', '信号・あやしいメッセージ']
+};
+ntGuidePages = function () {
+  var chips = BRAIN.map(function (b) { return '<span class="gd-c7">' + ntChip(b, 64, 36) + '<b>' + b.n + '</b></span>'; }).join('');
+  var steps4 = ['handan', 'yomu', 'oboeru', 'kotoba'].map(function (d) { return ntChip(ntB(d), 40, 24); }).join('');
+  var demo = ''; for (var i = 1; i <= 10; i++) demo += '<i style="height:' + (6 + i * 4) + 'px;" class="' + (i <= 6 ? 'on' : '') + '"></i>';
+  var life = BRAIN.map(function (b) {
+    var u = NT_LIFE[b.d];
+    return '<div class="gd-lf">' + ntChip(b, 46, 26) + '<div class="gd-lft"><div class="gd-lfh">' + ntLabelB(b, 23) + '</div><span class="gd-lfu">' + u[0] + '</span><span class="gd-lfe">たとえば　' + u[1] + '</span></div></div>';
+  }).join('');
+  return [
+    { t: 'ここスマの脳トレ', b:
+        '<div class="gd-lead">暮らしを支える<b>7つの力</b>を、<br>楽しみながら養う、頭と指の体操です。</div>' +
+        '<div class="gd-c7s">' + chips + '</div>' +
+        '<div class="gd-sub gd-center">大切なのは、7つの力をまんべんなく使い、続けていくこと。<br>ここスマは、その積み重ねをいっしょに見守り、いきいきとした毎日を応援します。</div>' +
+        '' },
+    { t: '短く、選んで、いつでも見える', b:
+        '<div class="gd-3c">' +
+          '<div class="gd-cd"><span class="gd-n">1</span><div class="gd-ck">短い時間で</div><b>約7分</b><span>「今日の脳トレ」は4つで約7分。短めなら2つで約3分。続けやすい長さです。途中でひと休みもできます。</span></div>' +
+          '<div class="gd-cd"><span class="gd-n">2</span><div class="gd-ck">その日に合わせて選ぶ</div><div class="gd-cv">' + steps4 + '</div><span><b class="gd-in">おまかせ</b>　7つの力から、その日の4つを自動で選びます。<br><b class="gd-in">自分で</b>　やりたい種目を、好きなだけ。</span></div>' +
+          '<div class="gd-cd"><span class="gd-n">3</span><div class="gd-ck">いまの力が見える</div><div class="gd-bars sm">' + demo + '</div><span>力ごとにレベル1〜10。「7つの力の記録」でいつでも見られます。ひと月ごとの「力だめし」で、はじめといまを比べます。</span></div>' +
+        '</div>' +
+        '<div class="gd-note">会員証ではじめると、どのタブレットでも同じ記録が続きます。</div>' },
+    { t: '7つの力は、暮らしのここで', b: '<div class="gd-sub">どの力も、ふだんの暮らしの中で使っています。</div><div class="gd-lfs">' + life + '</div>' }
+  ];
+};
+ntGuideGo = function (d) { var n = ntGuidePages().length; ntGuideP = Math.max(0, Math.min(n - 1, ntGuideP + d)); ntGuideRender(); };
+(function () {
+  var _hs = ntHubSync;
+  ntHubSync = function () { _hs(); var p = document.getElementById('hub-pick'); if (p) p.innerHTML = p.innerHTML.replace('<span>10の種目から</span>', '<span>やりたい種目・基本練習</span>'); };
+})();
 </script>
 </body>
 </html>
