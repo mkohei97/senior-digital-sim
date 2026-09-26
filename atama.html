@@ -1163,6 +1163,26 @@
   .rest-box { margin: 60px auto 0; max-width: 620px; padding: 36px 40px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
   .rest-ic svg { width: 72px; height: 72px; color: #0B4F42; } .rest-box > b { font-size: 34px; } .rest-box > span { font-size: 22px; color: #5A6360; }
   .rest-btns { display: flex; gap: 18px; margin-top: 16px; } .rest-btns .btn { margin: 0; }
+  /* v1.43 脳トレの部屋（横）：しっかり4つでも1画面に収める */
+  @media (orientation: landscape) {
+    #scr-nt .cs-hd { flex-wrap: nowrap; align-items: center; } #scr-nt .cs-hd > span:not(.cs-len) { display: none; }
+    #scr-nt .cs-len span { padding: 6px 14px; font-size: 18px; }
+    #scr-nt .cs-hd b { font-size: 28px; } #scr-nt .cs-len { flex-shrink: 0; }
+    #scr-nt .cs-aim { font-size: 21px; margin-top: 2px; }
+    #scr-nt .cs-steps { gap: 8px; margin-top: 8px; }
+    #scr-nt .cs-step { padding: 5px 16px 5px 12px; } #scr-nt .cs-step .nt-chip { width: 44px !important; height: 44px !important; }
+    #scr-nt .cs-foot { flex-wrap: nowrap; margin-top: 10px; } #scr-nt .cs-note { font-size: 18px; line-height: 1.5; }
+    #scr-nt .cs-foot .btn { padding: 13px 44px !important; font-size: 25px !important; }
+  }
+  /* ===== v1.43 流れる文字を読む ===== */
+  .ymf-box { width: 100%; max-width: 860px; box-sizing: border-box; background: rgba(255,255,255,.88); border: 1px solid rgba(255,255,255,.95); border-radius: 28px; box-shadow: 0 12px 34px rgba(24,48,42,.08), inset 0 1px 0 #fff; padding: 26px 40px 30px; }
+  .ymf-ttl { font-size: 19px; color: #6B7773; letter-spacing: .3em; font-weight: 700; }
+  .ymf-tx { font-size: 30px; line-height: 2.15; letter-spacing: .04em; margin-top: 6px; }
+  .ymf-tx .rd { color: #9AA39F; } .ymf-tx .now { background: linear-gradient(transparent 55%, rgba(26,155,127,.30) 55%); color: #1F2A28; font-weight: 700; } .ymf-tx .up { color: rgba(31,42,40,.22); }
+  .ymf-bar { width: 80%; max-width: 700px; height: 10px; border-radius: 999px; background: rgba(31,42,40,.08); overflow: hidden; } .ymf-bar i { display: block; height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, #8FD3C1, #1A9B7F); transition: width .3s linear; }
+  .ymf-cap { font-size: 19px; color: #5A6360; }
+  #scr-yomu .kiki-body { gap: 18px; }
+  @media (orientation: landscape) { #scr-yomu.screen { max-width: 960px; } }
 </style>
 </head>
 <body>
@@ -1495,7 +1515,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.42(ここスマ自習システム・白とガラス・種目の説明とお手本・短め約3分・ひと休み)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.43(ここスマ自習システム・白とガラス・流れる文字を読む（読むのレベル1〜10）)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -19000,7 +19020,7 @@ function courseSetLen(n) {
     var go = el.querySelector('.cs-foot .btn'); if (go && doneN && !course.finished) go.textContent = '続きから（' + (doneN + 1) + '／' + n + '）';
     var tg = '<div class="cs-len' + (locked ? ' locked' : '') + '"><span class="' + (n === 4 ? 'on' : '') + '" onclick="' + (locked ? '' : 'courseSetLen(4)') + '">しっかり 約7分</span><span class="' + (n === 2 ? 'on' : '') + '" onclick="' + (locked ? '' : 'courseSetLen(2)') + '">短め 約3分</span></div>';
     var h = el.querySelector('.cs-hd'); if (h) h.insertAdjacentHTML('beforeend', tg);
-    var note = el.querySelector('.cs-note'); if (note) note.textContent = '途中で「ひと休み」できます。できたところまで記録します。';
+    var note = el.querySelector('.cs-note'); if (note) note.textContent = '途中で「ひと休み」できます。';
   };
   var _sh = courseSheet;
   courseSheet = function () { _sh(); var el = document.getElementById('course-sheet'), n = course.items.length; if (el) el.innerHTML = el.innerHTML.replace(/（(\d)／4）/, '（$1／' + n + '）'); };
@@ -19037,6 +19057,149 @@ function ntRestBack() { courseRun(); }
     if (curScreen === 'scr-rest' || curScreen === 'scr-explain') bar.style.display = curScreen === 'scr-rest' ? 'none' : 'flex';
   };
 })();
+
+
+/* ===== v1.43 流れる文字を読む＝読むのレベル1〜10（19ya §16） ===== */
+YOMU.push(
+ { id: 'y16', L: 1, title: 'ゴミの出し方', text: '燃えるゴミは、月曜日と木曜日の朝八時半までに出してください。缶とびんは、第一水曜日です。ネットは使い終わったら、たたんでください。',
+   q: [['燃えるゴミの日は？', ['月曜日と木曜日', '月曜日と金曜日', '火曜日と木曜日']], ['缶とびんの日は？', ['第一水曜日', '第三水曜日', '毎週水曜日']]] },
+ { id: 'y17', L: 1, title: '病院の受付', text: '本日の午後の診察は、二時から五時までです。受付は、四時半で終わります。診察券と保険証を、受付の箱に入れてお待ちください。',
+   q: [['受付は何時まで？', ['4時半', '5時', '2時']], ['診察券はどうする？', ['受付の箱に入れる', '手に持って待つ', '窓口の人に渡す']]] },
+ { id: 'y18', L: 1, title: '孫からのメッセージ', text: 'おばあちゃん、この前はお小遣いをありがとう。そのお金で、ずっとほしかった青いリュックを買いました。夏休みに、そのリュックで遊びに行くね。',
+   q: [['何を買った？', ['青いリュック', '赤いリュック', '青い帽子']], ['いつ遊びに来る？', ['夏休み', '冬休み', '春休み']]] },
+ { id: 'y19', L: 1, title: '天気予報', text: '明日は朝から晴れますが、夕方から雲が広がり、夜には雨が降るでしょう。最高気温は、二十四度の予想です。出かけるときは、折りたたみの傘があると安心です。',
+   q: [['雨が降るのは？', ['夜', '朝', '昼すぎ']], ['最高気温は？', ['24度', '22度', '28度']]] },
+ { id: 'y20', L: 1, title: '図書館', text: '市立図書館は、毎週月曜日がお休みです。本は一人十冊まで、二週間借りることができます。返すときは、入口の返却ポストも使えます。',
+   q: [['お休みの日は？', ['毎週月曜日', '毎週火曜日', '毎週日曜日']], ['何冊まで借りられる？', ['10冊', '5冊', '20冊']]] },
+ { id: 'y21', L: 2, title: 'スマホの料金', text: '今月のご利用料金は、三千二百八十円です。お支払いは、二十六日に、ご登録の口座から引き落とされます。くわしい明細は、アプリの「ご利用料金」のところで確かめることができます。',
+   q: [['今月の料金は？', ['3280円', '2380円', '3820円']], ['引き落としの日は？', ['26日', '16日', '25日']]] },
+ { id: 'y22', L: 2, title: '絵手紙教室', text: '公民館で、はじめての方のための絵手紙教室を開きます。日にちは十月九日と二十三日で、どちらも午前十時からです。材料費は一回五百円です。申し込みは、公民館の窓口か電話で受け付けています。',
+   q: [['材料費は？', ['1回500円', '1回1000円', '無料']], ['申し込みの方法は？', ['窓口か電話', 'はがきだけ', 'インターネットだけ']]] },
+ { id: 'y23', L: 2, title: 'バスの時刻', text: '駅前行きのバスは、朝は十五分おきに出ています。昼の間は三十分おきになり、最終のバスは夜九時十分です。日曜日と祝日は、本数が少なくなりますので、ご注意ください。',
+   q: [['昼の間は何分おき？', ['30分おき', '15分おき', '1時間おき']], ['最終のバスは？', ['夜9時10分', '夜10時10分', '夜9時50分']]] },
+ { id: 'y24', L: 2, title: '肉じゃがの作り方', text: 'じゃがいもと玉ねぎ、にんじんを、食べやすい大きさに切ります。鍋で牛肉を炒め、色が変わったら野菜を加えます。水と調味料を入れてふたをし、弱火で二十分煮たらできあがりです。',
+   q: [['弱火で煮る時間は？', ['20分', '10分', '40分']], ['最初に鍋で炒めるのは？', ['牛肉', 'じゃがいも', '玉ねぎ']]] },
+ { id: 'y25', L: 2, title: 'ラジオ体操', text: '夏休みの朝のラジオ体操は、七月二十一日から八月十日まで、毎朝六時半から公園で行います。出席カードを持ってきた人には、はんこを押します。雨の日はお休みです。',
+   q: [['何時から？', ['6時半', '6時', '7時']], ['雨の日は？', ['お休み', '公民館で行う', '時間を遅らせる']]] },
+ { id: 'y26', L: 3, title: '電気ポットの説明書', text: 'この電気ポットは、水を入れて「沸とう」ボタンを押すと、約六分でお湯がわきます。わいたあとは、九十度で保温します。水は、目盛りの「満水」の線より上に入れないでください。一か月に一度、クエン酸を使ってなかを掃除すると、長くきれいに使えます。',
+   q: [['お湯がわくまでの時間は？', ['約6分', '約3分', '約10分']], ['なかの掃除は？', ['1か月に1度・クエン酸で', '毎日・洗剤で', '1年に1度・水だけで']]] },
+ { id: 'y27', L: 3, title: '防災訓練', text: '十一月の防災訓練のお知らせです。当日は朝九時に、それぞれの家で身を守る姿勢をとったあと、近くの小学校の校庭に集まってください。校庭では、消防署の方から消火器の使い方を教わります。参加された方には、非常食の試食もあります。動きやすい服装でお越しください。',
+   q: [['集まる場所は？', ['近くの小学校の校庭', '公民館', '駅前の広場']], ['教わることは？', ['消火器の使い方', '包帯の巻き方', '非常食の作り方']]] },
+ { id: 'y28', L: 3, title: '旅の思い出', text: '若いころ、友人と三人で北海道を旅しました。フェリーで一晩かけて小樽に着き、そこから列車で富良野へ向かいました。ちょうどラベンダーの季節で、丘一面がむらさき色に染まっていました。そのとき撮った写真は、今でも居間に飾っています。',
+   q: [['何人で旅した？', ['3人', '2人', '4人']], ['富良野で見た花は？', ['ラベンダー', 'ひまわり', 'さくら']]] },
+ { id: 'y29', L: 3, title: 'ベランダの家庭菜園', text: 'ベランダで、ミニトマトを育てています。春に苗を二本植えて、毎朝水をやりました。六月の終わりに最初の実が赤くなり、今では毎日十個ほど収穫できます。来年は、きゅうりにも挑戦してみようと思っています。',
+   q: [['植えた苗は何本？', ['2本', '3本', '1本']], ['来年育てたいものは？', ['きゅうり', 'なす', 'ピーマン']]] },
+ { id: 'y30', L: 3, title: '秋祭りのお知らせ', text: '秋祭りのお知らせです。十月十二日と十三日の二日間、神社の境内で行います。十二日の夕方六時からは子ども神輿が、十三日の午後一時からは大人の神輿が町内を回ります。夜店は、両日とも夜九時までです。当日は神社のまわりが通行止めになりますので、車でのお越しはご遠慮ください。',
+   q: [['大人の神輿は？', ['13日の午後1時から', '12日の夕方6時から', '13日の夕方6時から']], ['夜店は何時まで？', ['夜9時', '夜8時', '夜10時']]] }
+);
+LV_GAMES.push('yomu'); NT_REAL_LABEL.yomu = '到達したレベル';
+var YMF_CPM = [0, 250, 300, 350, 400, 450, 500, 560, 620, 700, 800];
+function ymfL(lv) { return lv <= 3 ? 1 : (lv <= 6 ? 2 : 3); }
+var ymf = null;
+function ymfChunks(t) {
+  var out = [], cur = '', P = 'はがをにでともへや', hira = /[ぁ-ゖー]/, PU = '、。」';
+  function toPunct(i) { for (var j = i + 1; j < t.length; j++) if (PU.indexOf(t[j]) >= 0) return j - i; return t.length - i; }
+  for (var i = 0; i < t.length; i++) {
+    cur += t[i]; var nx = t[i + 1] || '';
+    var brk = PU.indexOf(t[i]) >= 0 && PU.indexOf(nx) < 0;
+    if (!brk && cur.length >= 6 && P.indexOf(t[i]) >= 0 && nx && !hira.test(nx) && PU.indexOf(nx) < 0 && toPunct(i) > 3) brk = true;
+    if (!brk && cur.length >= 16 && hira.test(t[i]) && nx && !hira.test(nx) && PU.indexOf(nx) < 0 && toPunct(i) > 3) brk = true;
+    if (brk) { out.push(cur); cur = ''; }
+  }
+  if (cur) out.push(cur);
+  return out;
+}
+function ymfPick(L) {
+  var used = []; try { used = JSON.parse(storeGet(ymKey('used')) || '[]'); } catch (e) {}
+  var all = YOMU.filter(function (x) { return x.L === L; }), pool = all.filter(function (x) { return used.indexOf(x.id) < 0 && (!ymf || ymf.done.indexOf(x.id) < 0); });
+  if (!pool.length) pool = all.filter(function (x) { return !ymf || ymf.done.indexOf(x.id) < 0; });
+  if (!pool.length) pool = all;
+  var it = pool[Math.floor(Math.random() * pool.length)];
+  used.push(it.id); storeSet(ymKey('used'), JSON.stringify(used.slice(-24)));
+  return it;
+}
+ymIntro = function () { document.getElementById('ym-body').innerHTML = ''; };
+ymStart = function () {
+  if (ymf && ymf.timer) clearTimeout(ymf.timer);
+  lvBegin('yomu');
+  ymf = { n: 0, N: 3, done: [], ok: 0, total: 0, timer: null };
+  ym = { best: 0, ok: 0, total: 0 };
+  ymfShow();
+};
+function ymfShow() {
+  var s = LVS.yomu, it = ymfPick(ymfL(s.lv)), cpm = YMF_CPM[s.lv];
+  ymf.it = it; ymf.done.push(it.id); ymf.qi = 0; ymf.okThis = 0; ymf.ch = ymfChunks(it.text); ymf.k = 0;
+  var b = document.getElementById('ym-badge'); b.style.display = 'inline-block'; b.textContent = 'レベル' + s.lv + '　1分に' + cpm + '字　' + (ymf.n + 1) + '／' + ymf.N;
+  document.getElementById('ym-body').innerHTML =
+    '<div class="ymf-box"><div class="ymf-ttl">' + ntEsc(it.title) + '</div><div class="ymf-tx" id="ymf-tx"></div></div>' +
+    '<div class="ymf-bar"><i id="ymf-prog"></i></div><div class="ymf-cap">色の付いたところを、目で追って読みます</div>';
+  ymfPaint();
+  ymf.timer = setTimeout(ymfTick, 900);
+}
+function ymfPaint() {
+  var c = ymf.ch, k = ymf.k;
+  var html = '<span class="rd">' + ntEsc(c.slice(0, k).join('')) + '</span>' + (k < c.length ? '<span class="now">' + ntEsc(c[k]) + '</span>' : '') + '<span class="up">' + ntEsc(c.slice(k + 1).join('')) + '</span>';
+  var el = document.getElementById('ymf-tx'); if (el) el.innerHTML = html;
+  var p = document.getElementById('ymf-prog'); if (p) p.style.width = Math.round(Math.min(k, c.length) / c.length * 100) + '%';
+}
+function ymfTick() {
+  if (!ymf || curScreen !== 'scr-yomu') return;
+  var c = ymf.ch; if (ymf.k >= c.length) { ymf.timer = setTimeout(ymfQuiz, 500); return; }
+  var chunk = c[ymf.k], n = ymChars(chunk) || 1, ms = n / YMF_CPM[LVS.yomu.lv] * 60000;
+  ymfPaint();
+  ymf.k++;
+  ymf.timer = setTimeout(ymfTick, Math.max(180, ms));
+}
+function ymfQuiz() {
+  if (!ymf || curScreen !== 'scr-yomu') return;
+  var it = ymf.it, q = it.q[ymf.qi], order = shuffle([0, 1, 2]);
+  document.getElementById('ym-body').innerHTML =
+    '<div class="kk-scene">' + ntEsc(it.title) + '　' + (ymf.qi + 1) + '／' + it.q.length + '問</div>' +
+    '<div class="kiki-q">' + ntEsc(q[0]) + '</div>' +
+    '<div class="kiki-choices" id="ym-choices">' + order.map(function (i) { return '<div class="q-choice" onclick="ymfAnswer(' + i + ', this)">' + ntEsc(q[1][i]) + '</div>'; }).join('') + '</div>' +
+    '<div class="msg" id="ym-msg"></div>';
+}
+function ymfAnswer(i, el) {
+  var ch = document.getElementById('ym-choices'); if (!ch || ch.getAttribute('data-done')) return; ch.setAttribute('data-done', '1');
+  var it = ymf.it, q = it.q[ymf.qi], ok = i === 0, msg = document.getElementById('ym-msg');
+  ymf.total++; ym.total++;
+  if (ok) { ymf.ok++; ym.ok++; ymf.okThis++; el.classList.add('correct'); msg.textContent = '正解です'; }
+  else { msg.textContent = '正解は「' + q[1][0] + '」でした'; msg.style.color = '#C25E00'; }
+  setTimeout(function () { ymf.qi++; if (ymf.qi < it.q.length) ymfQuiz(); else ymfAfter(); }, ok ? 900 : 1800);
+}
+function ymfAfter() {
+  var s = LVS.yomu, all = ymf.okThis === ymf.it.q.length, lvWas = s.lv, st = lvStep('yomu', all, 1);
+  ym.best = s.best;
+  ymf.n++;
+  var last = ymf.n >= ymf.N || st === 'top';
+  var line = all ? (st === 'up' ? '2問とも正解。次はレベル' + s.lv + '（1分に' + YMF_CPM[s.lv] + '字）です' : '2問とも正解です') : 'もう一度、同じ速さで読んでみましょう';
+  document.getElementById('ym-body').innerHTML =
+    '<div class="kk-scene">' + ntEsc(ymf.it.title) + '</div>' +
+    '<div class="ym-text small">' + ntEsc(ymf.it.text) + '</div>' +
+    '<div class="kiki-pill" style="font-weight:700;">' + line + '</div>' +
+    '<div class="btn btn-primary" style="margin:0;padding:15px 52px;font-size:26px;" onclick="' + (last ? 'ymfEnd()' : 'ymfShow()') + '">' + (last ? '結果を見る' : '次の文章へ') + '</div>';
+}
+function ymfEnd() {
+  document.getElementById('ym-badge').style.display = 'none';
+  var s = LVS.yomu;
+  gameCompleted('yomu', qualityByCorrect(ymf.ok, ymf.total)); lvEnd('yomu');
+  document.getElementById('ym-body').innerHTML =
+    '<div class="kiki-done">できました</div>' +
+    '<div class="kiki-result"><span class="a">今日の到達</span><span class="b">' + (s.best ? 'レベル' + s.best : '—') + '</span><span class="c">' + (s.best ? '1分に' + YMF_CPM[s.best] + '字の速さで読めました' : ymf.total + '問中 ' + ymf.ok + '問 正解') + '</span></div>' +
+    '<div class="msg">' + sakuraIconHtml(34) + SKIN.name.replace('みんなの', '') + 'が 1' + SKIN.unit + ' ' + SKIN.verb + '</div>' +
+    '<div class="kiki-btnrow"><div class="btn btn-primary" style="margin:0;padding:17px 52px;font-size:27px;" onclick="startYomu()">もう一回</div>' +
+    '<div class="btn-outline" style="padding:14px 44px;font-size:27px;" onclick="ntExitGame()">脳トレへ</div></div>';
+}
+/* 説明とお手本を「流れる文字」に合わせる */
+ACT.yomu.n = '読むチャレンジ'; ACT.yomu.desc = '流れる文字を目で追って読み、中身を答える';
+EXPLAIN.yomu = { lines: ['文章が、一定の速さで現れます。', '色が付いたところを目で追って読み、読み終えたら中身について2問答えます。'], meta: ['3つの文章・約3分', '2問とも正解で、レベルが1つ上（速くなります）'], cd: true };
+DEMO.yomu = function () {
+  var c = ['回覧板で', 'お知らせします。', '今月の清掃は、', '第二日曜日の', '朝八時からです。'];
+  function s(k) { return '<div class="dm-read">' + c.map(function (x, i) { return '<span style="' + (i < k ? 'color:#9AA39F' : (i === k ? 'background:linear-gradient(transparent 55%,rgba(26,155,127,.3) 55%);font-weight:700' : 'color:rgba(31,42,40,.2)')) + '">' + x + '</span>'; }).join('') + '</div>'; }
+  return [[s(0), '色の付いたところを読みます', 900], [s(1), '一定の速さで進みます', 900], [s(2), '', 900], [s(3), '目で追いかけます', 900], [s(4), '', 900],
+    ['<div class="dm-read">清掃はいつ？</div><div class="dm-grid g2c"><span class="dm-ch ok">第2日曜日の朝8時</span><span class="dm-ch">第1日曜日の朝8時</span></div>', '読み終えたら、中身を答えます', 1600]];
+};
+(function () { var _s = ntStopGames; ntStopGames = function () { _s(); try { if (ymf && ymf.timer) clearTimeout(ymf.timer); } catch (e) {} }; })();
 
 </script>
 </body>
