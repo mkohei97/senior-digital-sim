@@ -1338,6 +1338,36 @@
   }
   .gd-keep { margin: 0 auto; max-width: 820px; background: rgba(227,242,238,.9); border: 1px solid rgba(17,134,109,.25); border-radius: 26px; padding: 16px 34px; display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
   .gd-keep b { font-size: 28px; color: #0B4F42; } .gd-keep span { font-size: 21px; line-height: 1.8; color: #1F2A28; }
+  /* ===== v1.47 基本練習（追加3つ・種目とのつながり） ===== */
+  .drl-masu { display: grid; gap: 10px; }
+  .drl-masu.g3 { grid-template-columns: repeat(3, 110px); } .drl-masu.g4 { grid-template-columns: repeat(4, 92px); } .drl-masu.g5 { grid-template-columns: repeat(5, 76px); }
+  .drl-mc { aspect-ratio: 1; border-radius: 14px; background: rgba(255,255,255,.92); border: 1px solid rgba(31,42,40,.12); box-shadow: 0 4px 12px rgba(24,48,42,.06); cursor: pointer; transition: background .15s; }
+  .drl-mc.lit { background: #F2B84B; box-shadow: 0 0 0 4px rgba(242,184,75,.35); }
+  .drl-mc.ok { background: #11866D; } .drl-mc.ng { background: #E7C9B4; } .drl-mc.miss { box-shadow: inset 0 0 0 4px #F2B84B; }
+  .drl-hiro { height: 380px; }
+  .drl-hx { position: absolute; transform: translate(-50%, -50%); font-size: 56px; color: #1F2A28; line-height: 1; } .drl-hx.mk { color: #C9CFCD; }
+  .drl-sgq { font-size: 30px; font-weight: 700; } .drl-sgq b { color: #0B4F42; background: rgba(17,134,109,.10); padding: 0 10px; border-radius: 8px; }
+  .drl-sg { display: grid; grid-template-columns: 1fr; gap: 10px; width: 100%; max-width: 640px; } .drl-sg.two { grid-template-columns: 1fr 1fr; max-width: 940px; }
+  .drl-sgl { font-size: 23px !important; padding: 12px 18px !important; text-align: left; justify-content: flex-start; }
+  .ex-drl { margin-top: 6px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 6px; font-size: 20px; color: #5A6360; }
+  #drl-body .ex-foot { display: flex; justify-content: center; gap: 24px; }
+  @media (orientation: landscape) {
+    #drl-list { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    #drl-list .drl-card { padding: 12px 14px; } #drl-list .drl-card .tx b { font-size: 23px; } #drl-list .drl-card .tx span { font-size: 16px; line-height: 1.45; }
+    #drl-list .drl-card .chip { width: 46px; height: 46px; } #drl-list .drl-lv { font-size: 15px; top: 8px; right: 10px; }
+    #scr-drl .drl-sg.two .drl-sgl { padding: 9px 16px !important; font-size: 21px !important; }
+  }
+  #drl-list { display: flex !important; flex-direction: column; gap: 10px; }
+  .drl-row { display: grid; grid-template-columns: 250px minmax(0, 1fr); align-items: center; gap: 16px; background: rgba(255,255,255,.86); border: 1px solid rgba(255,255,255,.95); box-shadow: 0 8px 22px rgba(24,48,42,.06); border-radius: 22px; padding: 8px 12px; }
+  .drl-rg { display: flex; align-items: center; gap: 12px; } .drl-rg .chip { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; } .drl-rg .chip svg { width: 28px; height: 28px; }
+  .drl-rg > span:last-child { display: flex; flex-direction: column-reverse; } .drl-rg b { font-size: 21px; line-height: 1.25; } .drl-rg .drl-of { font-size: 15px; }
+  .drl-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .drl-b { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: #FFFFFF; border: 1px solid rgba(17,134,109,.22); border-radius: 16px; padding: 12px 18px; cursor: pointer; box-shadow: 0 4px 12px rgba(24,48,42,.05); }
+  .drl-b:active { transform: translateY(2px); }
+  .drl-b b { font-size: 23px; color: #1F2A28; } .drl-b em { font-style: normal; font-size: 16px; font-weight: 700; color: #0B4F42; background: rgba(17,134,109,.10); border-radius: 999px; padding: 3px 12px; white-space: nowrap; }
+  .drl-b em.new { color: #6B7773; background: rgba(31,42,40,.06); font-weight: 400; }
+  @media (orientation: portrait) { .drl-row { grid-template-columns: 190px minmax(0, 1fr); gap: 10px; padding: 12px 12px; } .drl-rg .chip { width: 42px; height: 42px; } .drl-rg b { font-size: 19px; }
+    .drl-btns { grid-template-columns: 1fr; gap: 8px; } .drl-b { padding: 12px 16px; } }
 </style>
 </head>
 <body>
@@ -1671,7 +1701,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.46(ここスマ自習システム・白とガラス・脳トレのしくみを3枚に)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.47(ここスマ自習システム・白とガラス・基本練習10)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -1817,7 +1847,7 @@
       </div>
       <div class="gcard drl-door" onclick="drList()">
         <span class="chip" style="background:#E3F2EE; color:#0B4F42;"><svg viewBox="0 0 24 24"><use href="#ic-gauge"></use></svg></span>
-        <div class="tx"><b>基本練習</b><span>種目を分けた、1分ほどの短い練習</span><span class="drl-mini"><i>一瞬で読む</i><i>目で追う</i><i>千円のお釣り</i><i>ほか4つ</i></span></div>
+        <div class="tx"><b>基本練習</b><span>種目を分けた、1分ほどの短い練習</span><span class="drl-mini"><i>一瞬で読む</i><i>光ったマス</i><i>千円のお釣り</i><i>ほか7つ</i></span></div>
       </div>
     </div>
   </div>
@@ -19595,7 +19625,7 @@ function chkEnd() {
     '<div class="chk-hd"><b>力だめしの結果</b><span class="chk-sub">' + chkMD(todayStr()) + (base ? '　はじめ（' + chkMD(base.on) + '）と比べて' : '　はじめての力だめし') + '</span></div>' +
     '<div class="chk-res"><div class="panel chk-rows">' + rows + '<div class="chk-note">' + (base ? 'うすい帯＝はじめ　こい帯＝いま（レベル）' : 'この結果から、種目のはじめのレベルを決めます') + '</div></div>' +
     '<div class="chk-side">' + cpmBox + sumBox + '<div class="btn btn-primary" style="margin:0;padding:15px 0;font-size:24px;" onclick="chk=null;showNt()">今日の脳トレへ</div></div></div>' +
-    '<div class="chk-foot">比べるのは、前の自分だけです。次の力だめしは、ひと月後がおすすめです。' + (sessM() ? '' : '（会員証ではじめると、記録が残ります）') + '</div>';
+    '<div class="chk-foot">比べるのは、以前の自分。次の力だめしは、ひと月後がおすすめです。' + (sessM() ? '' : '（会員証ではじめると、記録が残ります）') + '</div>';
 }
 /* ---- 脳トレの部屋に「力だめし」の扉 ---- */
 (function () {
@@ -19986,6 +20016,148 @@ ntGuideGo = function (d) { var n = ntGuidePages().length; ntGuideP = Math.max(0,
   var _hs = ntHubSync;
   ntHubSync = function () { _hs(); var p = document.getElementById('hub-pick'); if (p) p.innerHTML = p.innerHTML.replace('<span>10の種目から</span>', '<span>やりたい種目・基本練習</span>'); };
 })();
+/* ===== v1.47 基本練習を3つ足す（探し読み・光ったマス・まわりも見る）＋種目とのつながり ===== */
+DRL.splice(DRL.findIndex(function (x) { return x.id === 'kazu'; }) + 1, 0,
+  { id: 'masu', g: 'kioku', n: '光ったマス', d: 'いくつかのマスが一度に光ります。光った場所を押します。',
+    lines: ['いくつかのマスが、一度に光って消えます。', '光ったマスを、順番は気にせず、全部押します。'], meta: ['8回・約1分半', '2回続けて正解で、マスや数が増えます'], cd: true });
+DRL.splice(DRL.findIndex(function (x) { return x.id === 'ou'; }) + 1, 0,
+  { id: 'hiro', g: 'tile', n: 'まわりも見る', d: 'まん中を見たまま、まわりに一瞬出る数字を読みます。',
+    lines: ['まん中の＋を見ていてください。まわりのどこかに、数字が一瞬だけ出ます。', '出た数字を、下の数字ボタンで押します。レベルが上がると、外側に・速くなります。'], meta: ['10回・約1分', '2回続けて正解で、レベルが1つ上'], cd: true });
+DRL.splice(DRL.findIndex(function (x) { return x.id === 'fl'; }) + 1, 0,
+  { id: 'sagasu', g: 'yomu', n: '探し読み', d: '並んだ行の中から、言われた言葉がある行を探します。',
+    lines: ['短い文が何行か並びます。上に出た言葉が入っている行を、1つ探して押します。', '時間の帯がなくなる前に押します。レベルが上がると、行が増えて、帯が短くなります。'], meta: ['10問・約1分半', '2問続けて正解で、レベルが1つ上'], cd: false });
+
+/* ---- 光ったマス ---- */
+var MASU_LV = [null, [3, 3, 1500], [3, 4, 1500], [4, 4, 1500], [4, 5, 1500], [4, 6, 1500], [5, 6, 1500], [5, 7, 1500], [5, 8, 1500], [5, 8, 1000], [5, 9, 1000]];
+DRL_RUN.masu = function () {
+  drl.adapt = true; var N = 8;
+  function q() {
+    if (drl.k >= N) { var c = Math.max(1, drl.cleared); return drlEnd(c, MASU_LV[c][0] + '×' + MASU_LV[c][0] + 'のマスで ' + MASU_LV[c][1] + 'か所'); }
+    var L = MASU_LV[drl.lv], n = L[0] * L[0], on = shuffle(Array.apply(null, { length: n }).map(function (x, i) { return i; })).slice(0, L[1]), got = [], live = false;
+    drl.ans = on.slice();
+    var cells = ''; for (var i = 0; i < n; i++) cells += '<span class="drl-mc" data-i="' + i + '"></span>';
+    drlArea(N, '<div class="drl-masu g' + L[0] + '" id="drl-m">' + cells + '</div><div class="chk-msg" id="drl-msg">よく見ていてください（' + L[1] + 'か所）</div>');
+    var els = document.querySelectorAll('#drl-m .drl-mc');
+    drlLater(function () {
+      on.forEach(function (i) { els[i].classList.add('lit'); });
+      drlLater(function () {
+        on.forEach(function (i) { els[i].classList.remove('lit'); });
+        live = true; document.getElementById('drl-msg').textContent = '光ったマスを押してください　0／' + L[1];
+      }, L[2]);
+    }, 600);
+    Array.prototype.forEach.call(els, function (el) {
+      el.onclick = function () {
+        if (!live) return; var i = parseInt(el.getAttribute('data-i'), 10); if (got.indexOf(i) >= 0) return;
+        if (on.indexOf(i) < 0) {
+          live = false; el.classList.add('ng'); on.forEach(function (j) { if (got.indexOf(j) < 0) els[j].classList.add('miss'); });
+          drl.k++; drlAdapt(false); return drlFlashOk(false, function () { drlLater(q, 400); });
+        }
+        got.push(i); el.classList.add('ok'); document.getElementById('drl-msg').textContent = '光ったマスを押してください　' + got.length + '／' + L[1];
+        if (got.length === on.length) { live = false; drl.k++; drlAdapt(true); drlFlashOk(true, q); }
+      };
+    });
+  }
+  q();
+};
+
+/* ---- まわりも見る ---- */
+var HIRO_LV = [null, [110, 700], [150, 600], [190, 550], [230, 500], [270, 450], [310, 400], [350, 350], [380, 300], [410, 260], [430, 220]];
+DRL_RUN.hiro = function () {
+  drl.adapt = true; var N = 10;
+  function q() {
+    if (drl.k >= N) { var c = Math.max(1, drl.cleared); return drlEnd(c, 'まん中から ' + (c <= 3 ? '近いところ' : (c <= 6 ? '少し離れたところ' : '外側')) + 'を ' + drlSec(HIRO_LV[c][1]) + 'で'); }
+    var L = HIRO_LV[drl.lv], d = 1 + Math.floor(Math.random() * 9), ang = Math.floor(Math.random() * 8) * Math.PI / 4 + (Math.random() - 0.5) * 0.3;
+    drl.ans = d;
+    var x = Math.round(Math.cos(ang) * L[0]), y = Math.round(Math.sin(ang) * L[0] * 0.42);
+    drlArea(N, '<div class="drl-lr drl-hiro"><span class="drl-fix">＋</span><b class="drl-hx" id="drl-x" style="left:calc(50% + ' + x + 'px);top:calc(50% + ' + y + 'px);"></b></div><div class="chk-msg">まん中の＋を見ていてください</div>');
+    drlLater(function () {
+      var el = document.getElementById('drl-x'); el.textContent = d;
+      drlLater(function () { el.textContent = '■'; el.classList.add('mk');
+        drlLater(function () {
+          var keys = ''; for (var k = 1; k <= 9; k++) keys += '<div class="numbtn drl-k" data-k="' + k + '">' + k + '</div>';
+          drlArea(N, '<div class="kiki-q">まわりに出た数字は？</div><div class="drl-pad" id="drl-ch">' + keys + '</div>');
+          Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .drl-k'), function (b) {
+            b.onclick = function () {
+              if (drl.lock) return; drl.lock = true; var ok = parseInt(b.getAttribute('data-k'), 10) === d; drl.k++;
+              Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .drl-k'), function (e) { if (parseInt(e.getAttribute('data-k'), 10) === d) e.classList.add('done'); });
+              drlAdapt(ok); drlFlashOk(ok, function () { drl.lock = false; q(); });
+            };
+          });
+        }, 250);
+      }, L[1]);
+    }, 700 + Math.random() * 600);
+  }
+  q();
+};
+
+/* ---- 探し読み ---- */
+var SG_LINES = ['明日の朝は雨の予報です', '駅前のスーパーは九時に開店', '病院の受付は午後二時まで', '土曜日は図書館がお休み', '郵便局で切手を買いました', '銀行の窓口は三時まで', '公園で朝の体操があります',
+  'バスは十分おきに来ます', '薬は食後に一錠飲みます', '電話で歯医者を予約しました', '孫から写真が届きました', '回覧板を隣の家へ回します', '燃えるごみは月曜日です', '町内会の集まりは日曜日',
+  '新聞の集金は月末です', '桜の花が咲き始めました', '夕方から風が強くなります', '市役所で書類をもらいます', 'スマホの充電が少なくなった', '来週は水道の点検があります', '眼鏡を新しくしました',
+  '牛乳とパンを買って帰る', '夜は冷えるので上着を持つ', '郵便受けに手紙が一通', '駐車場は建物の裏にあります', '美容院は金曜日に行きます', '温泉旅行の計画を立てる', '天気がよいので散歩に出る',
+  '友だちと喫茶店で会う', '誕生日にケーキを買う', '電車が五分遅れています', 'お米を十キロ注文した', '植木に水をやりました', '年賀状の準備を始める', 'テレビの番組表を見る', '財布を忘れずに持つ'];
+var SG_KEYS = ['雨', '駅', '病院', '土曜日', '切手', '銀行', '公園', 'バス', '薬', '電話', '写真', '回覧板', '月曜日', '日曜日', '新聞', '桜', '風', '市役所', '充電', '水道', '眼鏡', '牛乳', '上着',
+  '手紙', '駐車場', '金曜日', '温泉', '散歩', '喫茶店', 'ケーキ', '電車', 'お米', '年賀状', 'テレビ', '財布', '予約', '郵便', '朝', '午後', '買', '九時', '三時', '五分', '十分', '夜', '孫', '友だち', '図書館'];
+var SG_LV = [null, [4, 12], [5, 11], [6, 10], [6, 8], [7, 8], [8, 8], [8, 6.5], [9, 6], [10, 6], [10, 4.5]];
+function sgMake(n) {
+  for (var t = 0; t < 60; t++) {
+    var ls = shuffle(SG_LINES.slice()).slice(0, n);
+    var ks = shuffle(SG_KEYS.slice()).filter(function (k) { return ls.filter(function (l) { return l.indexOf(k) >= 0; }).length === 1; });
+    if (ks.length) { var k = ks[0]; return { ls: ls, k: k, ans: ls.findIndex(function (l) { return l.indexOf(k) >= 0; }) }; }
+  }
+  return null;
+}
+DRL_RUN.sagasu = function () {
+  drl.adapt = true; var N = 10;
+  function q() {
+    if (drl.k >= N) { var c = Math.max(1, drl.cleared); return drlEnd(c, SG_LV[c][0] + '行から ' + SG_LV[c][1] + '秒以内に'); }
+    var L = SG_LV[drl.lv], m = sgMake(L[0]), done = false; drl.ans = m.ans;
+    drlArea(N, '<div class="drl-sgq">「<b>' + ntEsc(m.k) + '</b>」がある行は？</div><div class="drl-timer"><i id="drl-tm" style="animation-duration:' + L[1] + 's"></i></div>' +
+      '<div class="drl-sg' + (L[0] > 6 ? ' two' : '') + '" id="drl-ch">' + m.ls.map(function (l, i) { return '<div class="q-choice drl-sgl" data-i="' + i + '">' + ntEsc(l) + '</div>'; }).join('') + '</div>');
+    function fin(ok) {
+      if (done) return; done = true; drl.k++; var tm = document.getElementById('drl-tm'); if (tm) tm.style.animationPlayState = 'paused';
+      Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .q-choice'), function (e) { e.classList.add(parseInt(e.getAttribute('data-i'), 10) === m.ans ? 'correct' : 'dim'); });
+      drlAdapt(ok); drlFlashOk(ok, q);
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .q-choice'), function (el) { el.onclick = function () { fin(parseInt(el.getAttribute('data-i'), 10) === m.ans); }; });
+    drlLater(function () { fin(false); }, L[1] * 1000);
+  }
+  q();
+};
+
+/* ---- 練習と種目をつなぐ ---- */
+function drlForGame(g) { return DRL.filter(function (x) { return x.g === g; }); }
+(function () {
+  var _de = drlEnd;
+  drlEnd = function (lv, detail) {
+    var x = drl.x; _de(lv, detail);
+    var a = ACT[x.g], f = document.querySelector('#drl-body .ex-foot');
+    if (f && a) f.insertAdjacentHTML('afterbegin', '<span class="ex-back" onclick="drlToGame(\'' + x.g + '\')">' + ntEsc(a.n) + 'へ ›</span>');
+  };
+  var _ne = ntExplain;
+  ntExplain = function (g, orig) {
+    _ne(g, orig);
+    if (course && course.active) return;
+    var ds = drlForGame(g), f = document.querySelector('#ex-body .ex-foot'); if (!ds.length || !f) return;
+    f.insertAdjacentHTML('beforeend', '<div class="ex-drl"><span>先に基本練習（1分ほど）：</span>' + ds.map(function (x) { return '<span class="ex-back" onclick="drlExplain(\'' + x.id + '\')">' + ntEsc(x.n) + '</span>'; }).join('') + '</div>');
+  };
+})();
+function drlToGame(g) { var a = ACT[g]; if (a && typeof window[a.fn] === 'function') { ntExplainLast[g] = 0; window[a.fn](); } }
+/* 一覧：種目ごとに1行（10になって2列の札では入りきらないため） */
+drList = function () {
+  drlStop();
+  var recs = drlRecs(), order = [];
+  DRL.forEach(function (x) { if (order.indexOf(x.g) < 0) order.push(x.g); });
+  document.getElementById('drl-list').innerHTML = order.map(function (g) {
+    var a = ACT[g];
+    return '<div class="drl-row"><div class="drl-rg"><span class="chip" style="background:' + a.chip + ';color:' + a.ink + ';"><svg viewBox="0 0 24 24"><use href="#' + a.ic + '"></use></svg></span><span><i class="drl-of">の基本</i><b>' + ntEsc(a.n) + '</b></span></div>' +
+      '<div class="drl-btns">' + drlForGame(g).map(function (x) {
+        var r = recs[x.id];
+        return '<div class="drl-b" onclick="drlExplain(\'' + x.id + '\')"><b>' + ntEsc(x.n) + '</b>' + (r && r.best ? '<em>レベル' + Math.round(r.best) + '</em>' : '<em class="new">はじめて</em>') + '</div>';
+      }).join('') + '</div></div>';
+  }).join('');
+  show('scr-drill');
+};
 </script>
 </body>
 </html>
