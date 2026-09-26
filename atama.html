@@ -1183,6 +1183,71 @@
   .ymf-cap { font-size: 19px; color: #5A6360; }
   #scr-yomu .kiki-body { gap: 18px; }
   @media (orientation: landscape) { #scr-yomu.screen { max-width: 960px; } }
+  /* ===== v1.44 力だめし ===== */
+  #scr-chk .pad { display: flex; flex-direction: column; min-height: 100%; }
+  #chk-body { display: flex; flex-direction: column; gap: 18px; flex: 1; }
+  .chk-hd { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; padding: 6px 4px 0; }
+  .chk-hd > b { font-size: 32px; }
+  .chk-dots { display: flex; gap: 8px; } .chk-dots i { width: 14px; height: 14px; border-radius: 50%; background: rgba(31,42,40,.14); }
+  .chk-dots i.d { background: #11866D; } .chk-dots i.c { background: #fff; box-shadow: 0 0 0 3px #11866D; }
+  .chk-n { font-size: 22px; color: #5A6360; display: flex; align-items: center; gap: 6px; }
+  .chk-sub { font-size: 21px; color: #5A6360; }
+  .chk-quit { margin-left: auto; font-size: 21px; color: #5A6360; text-decoration: underline; cursor: pointer; padding: 8px 12px; }
+  .chk-card { margin: 18px auto 0; width: 100%; max-width: 820px; box-sizing: border-box; padding: 28px 40px; border-radius: 28px; }
+  .chk-lead { text-align: center; font-size: 24px; color: #0B4F42; font-weight: 700; margin-top: 14px; }
+  .chk-smp { display: flex; align-items: center; gap: 14px; margin-top: 16px; font-size: 22px; color: #5A6360; flex-wrap: wrap; }
+  .chk-smp .hd-dot { width: 40px; height: 40px; }
+  .chk-mini { width: 44px; height: 38px; border-radius: 10px; border: 1px solid rgba(31,42,40,.10); }
+  .chk-mini.lit { box-shadow: 0 0 0 4px #F2B84B; }
+  .chk-num { min-width: 52px; height: 44px; border-radius: 12px; background: #fff; border: 1px solid rgba(31,42,40,.12); display: inline-flex; align-items: center; justify-content: center; font-size: 24px; color: #1F2A28; }
+  .chk-ok { margin: 90px auto 0; font-size: 40px; font-weight: 700; color: #0B4F42; background: rgba(255,255,255,.9); border-radius: 999px; padding: 18px 50px; box-shadow: 0 12px 30px rgba(24,48,42,.10); animation: cdPop .6s ease-out; }
+  .chk-area { display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%; max-width: 900px; margin: 6px auto 0; }
+  .chk-area .kiki-choices, .chk-area .otsuri-choices { width: 100%; max-width: 640px; }
+  .chk-area .otsuri-choices .q-choice { font-size: 36px; }
+  .chk-area .kiki-q { font-size: 28px; }
+  .chk-tiles { display: grid; grid-template-columns: repeat(2, 150px); gap: 18px; }
+  .chk-tile { height: 130px; border-radius: 22px; border: 1px solid rgba(31,42,40,.10); box-shadow: 0 6px 16px rgba(24,48,42,.08); cursor: pointer; transition: filter .15s, box-shadow .15s; }
+  .chk-tile.lit { filter: brightness(1.04) saturate(1.6); box-shadow: 0 0 0 6px #F2B84B, 0 10px 26px rgba(242,184,75,.5); }
+  .chk-msg { font-size: 23px; color: #5A6360; text-align: center; min-height: 34px; }
+  .chk-listen { margin-top: 50px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .chk-listen svg { width: 96px; height: 96px; color: #0B4F42; animation: chkPulse 1.6s ease-in-out infinite; }
+  @keyframes chkPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+  .chk-listen b { font-size: 30px; }
+  .chk-res { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+  .chk-rows { padding: 18px 26px; border-radius: 28px; display: flex; flex-direction: column; gap: 10px; }
+  .chk-row { display: grid; grid-template-columns: 170px minmax(0, 1fr) 96px; align-items: center; gap: 12px; }
+  .chk-bar { position: relative; height: 18px; border-radius: 999px; background: rgba(31,42,40,.07); overflow: hidden; }
+  .chk-bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; }
+  .chk-bar i.f { background: rgba(31,42,40,.16); z-index: 1; } .chk-bar i.n { opacity: .85; top: 4px; bottom: 4px; z-index: 2; }
+  .chk-v { font-size: 20px; color: #5A6360; text-align: right; white-space: nowrap; } .chk-v b { font-size: 28px; color: #1F2A28; }
+  .chk-note { font-size: 18px; color: #6B7773; margin-top: 4px; }
+  .chk-side { display: flex; flex-direction: column; gap: 16px; }
+  .chk-big { padding: 18px 26px; border-radius: 28px; display: flex; flex-direction: column; gap: 4px; }
+  .chk-big b { font-size: 38px; color: #0B4F42; } .chk-big span { font-size: 20px; color: #5A6360; } .chk-big em { font-style: normal; font-weight: 700; color: #8A4B22; font-size: 24px; }
+  .chk-foot { text-align: center; font-size: 20px; color: #5A6360; }
+  #hub-chk .hub-tx em { line-height: 1.4; }
+  @media (orientation: landscape) {
+    #scr-nt .nt-hub { grid-template-areas: "course chk" "course brain" "course pick" "note note"; }
+    #scr-nt #hub-chk { grid-area: chk; }
+    #scr-nt #hub-chk .nt-chip { width: 52px !important; height: 52px !important; }
+    #scr-nt .hub-door { padding: 12px 20px; }
+    #scr-nt .hub-tx b { font-size: 26px; line-height: 1.25; } #scr-nt .hub-tx span { font-size: 19px; line-height: 1.4; } #scr-nt .hub-tx i { margin-top: 0; }
+    #scr-nt .hub-door .nt-radar.mini { width: 104px; height: 104px; }
+  }
+  @media (orientation: portrait) {
+    .chk-res { grid-template-columns: 1fr; }
+    .chk-tiles { grid-template-columns: repeat(2, 180px); } .chk-tile { height: 160px; }
+  }
+  @media (orientation: portrait) {
+    #scr-nt .cs-hd { flex-wrap: nowrap; align-items: center; } #scr-nt .cs-hd b { white-space: nowrap; } #scr-nt .cs-hd > span:not(.cs-len) { display: none; }
+    #scr-nt .cs-len { flex-shrink: 0; }
+    #scr-nt .hub-row { grid-template-columns: 1fr 1fr; gap: 18px; }
+    #scr-nt #hub-chk { grid-column: 1 / -1; min-height: 0; padding: 12px 28px; }
+    #scr-nt .nt-hub { gap: 16px; } #scr-nt .hub-tx b { font-size: 29px; }
+    #scr-nt #hub-chk .nt-chip { width: 56px !important; height: 56px !important; }
+    #scr-nt #hub-brain, #scr-nt #hub-pick { flex-direction: column; align-items: flex-start; padding: 16px 24px; gap: 8px; min-height: 0; }
+    #scr-nt #hub-brain .nt-radar.mini { width: 104px; height: 104px; }
+  }
 </style>
 </head>
 <body>
@@ -1419,6 +1484,7 @@
     </linearGradient>
   </defs>
   <symbol id="ic-book" viewBox="0 0 24 24"><path d="M3 5.5c3-1.2 6-1.2 9 1 3-2.2 6-2.2 9-1V19c-3-1.2-6-1.2-9 1-3-2.2-6-2.2-9-1z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path><path d="M12 6.5V20" stroke="currentColor" stroke-width="1.5"></path></symbol>
+  <symbol id="ic-gauge" viewBox="0 0 24 24"><path d="M3.8 16.5 A8.4 8.4 0 0 1 20.2 16.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M6 11.2 L7.1 12 M12 7.6 V9 M18 11.2 L16.9 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12 16.5 L15.6 11.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path><circle cx="12" cy="16.5" r="1.6" fill="currentColor"></circle></symbol>
   <symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"></circle><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.5"></circle><circle cx="12" cy="12" r="1.4" fill="currentColor"></circle></symbol>
   <symbol id="ic-sakura-a" viewBox="0 0 24 24">
     <path d="M12 11.4 C9.8 10.3 8.8 7.9 9.6 5.5 C10.1 4.1 10.9 3 11.6 2.4 L12 4.2 L12.4 2.4 C13.1 3 13.9 4.1 14.4 5.5 C15.2 7.9 14.2 10.3 12 11.4 Z" fill="#E9A3C2" opacity="0.45" transform="rotate(11 12 12)"></path>
@@ -1515,7 +1581,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.43(ここスマ自習システム・白とガラス・流れる文字を読む（読むのレベル1〜10）)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.44(ここスマ自習システム・白とガラス・力だめし（7つの力を約4分で）)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -1584,6 +1650,9 @@
 <div id="nt-cd"></div>
 <div id="nt-demo" onclick="if(event.target===this)ntDemoClose()"><div class="dm-in"><b id="dm-title">お手本</b><div id="dm-stage"></div><div id="dm-cap"></div>
   <div style="display:flex;gap:16px;"><div class="btn btn-white" style="margin:0;padding:12px 34px;font-size:22px;" onclick="ntDemoClose()">閉じる</div></div></div></div>
+
+<!-- v1.44 力だめし -->
+<div class="screen nt-wide" id="scr-chk"><div class="pad"><div id="chk-body"></div></div></div>
 
 <div class="screen nt-wide" id="scr-cat-asobi">
   <div class="pad">
@@ -19201,6 +19270,245 @@ DEMO.yomu = function () {
 };
 (function () { var _s = ntStopGames; ntStopGames = function () { _s(); try { if (ymf && ymf.timer) clearTimeout(ymf.timer); } catch (e) {} }; })();
 
+/* ===== v1.44 力だめし（7つの力を約4分で・はじめ→いま）＝19ya §16-4の3 ===== */
+var CHK_ORDER = ['handan', 'yomu', 'oboeru', 'mitsukeru', 'kazu', 'kotoba', 'kiku'];
+var CHK_INFO = {
+  handan: { t: '緑の丸が出たら、すぐ押します。赤い×は押しません。', n: '10回' },
+  yomu: { t: '文章を、ふだんの速さで読みます。読み終えたら押して、1問答えます。', n: '1つの文章' },
+  oboeru: { t: '4つの札が順に光ります。同じ順に押します。1回まちがえたら、おしまいです。', n: '3個から' },
+  mitsukeru: { t: '1から16まで、順に押します。', n: '1回' },
+  kazu: { t: 'お釣りはいくらか、選びます。だんだん難しくなります。', n: '5問' },
+  kotoba: { t: 'ことわざの【？】に入る言葉を選びます。', n: '4問' },
+  kiku: { t: '短い話を聞いて、1問答えます。2回目は少し速くなります。', n: '2つ' }
+};
+var CHK_SAMPLE = {
+  handan: '<div class="chk-smp"><span class="hd-dot g"></span><span>押す</span><span class="hd-dot r"></span><span>押さない</span></div>',
+  oboeru: '<div class="chk-smp"><span class="chk-mini" style="background:#F8D7DA;"></span><span class="chk-mini lit" style="background:#D6EAF8;"></span><span class="chk-mini" style="background:#FCF3CF;"></span><span class="chk-mini" style="background:#D5F5E3;"></span><span>光った札を、同じ順に</span></div>',
+  mitsukeru: '<div class="chk-smp"><b class="chk-num">1</b><span>→</span><b class="chk-num">2</b><span>→</span><b class="chk-num">3</b><span>…</span><b class="chk-num">16</b></div>'
+};
+var chk = null;
+/* 会員証なしの結果は、この画面を開いているあいだだけ（店のタブレットは共用のため、端末に残さない） */
+var chkGuest = null;
+function chkKey() { return 'kokosuma_chk_' + sessM(); }
+function chkLocal() { if (!sessM()) return chkGuest; try { return JSON.parse(storeGet(chkKey()) || 'null'); } catch (e) { return null; } }
+function chkFromServer(game) {
+  if (!sessM() || !progressData || !progressData.results) return null;
+  var rows = progressData.results.filter(function (r) { return r.game === game; }); if (!rows.length) return null;
+  var o = { on: '' };
+  rows.sort(function (a, b) { return a.on < b.on ? 1 : -1; });
+  rows.forEach(function (r) { if (o[r.metric] === undefined) o[r.metric] = parseFloat(r.value); if (!o.on) o.on = r.on; });
+  return o;
+}
+function chkData() {
+  var loc = chkLocal() || {}, f = chkFromServer('chk0') || loc.first || null, l = chkFromServer('chk') || loc.last || null;
+  if (loc.last && l && loc.last.on > l.on) l = loc.last;
+  return { first: f, last: l };
+}
+function chkDays(on) { if (!on) return 999; var d = new Date(on + 'T00:00:00'); return Math.floor((Date.now() - d.getTime()) / 86400000); }
+function chkMD(on) { if (!on) return ''; var p = on.split('-'); return parseInt(p[1], 10) + '月' + parseInt(p[2], 10) + '日'; }
+/* 種目のはじめのレベルに、力だめしの結果を使う（まだ種目の記録がないとき） */
+(function () {
+  var _ls = lvStart;
+  lvStart = function (g) {
+    if (lvBest(g)) return _ls(g);
+    var c = chkData().last, d = brainOf(g);
+    if (c && d && c[d]) return Math.max(1, Math.min(8, Math.round(c[d])));
+    return _ls(g);
+  };
+  var _ks = kiokuStartLevel;
+  kiokuStartLevel = function () { var n = _ks(); if (n > 3) return n; var c = chkData().last; return c && c.oboeru ? Math.min(10, Math.round(c.oboeru) + 2) : n; };
+})();
+/* ---- 入口 ---- */
+function chkStart() {
+  chk = { i: 0, res: {}, t: [] };
+  chkStep();
+  show('scr-chk');
+}
+function chkClear() { if (chk) chk.t.forEach(clearTimeout); if (chk) chk.t = []; try { kkStop(); } catch (e) {} }
+function chkQuit() { chkClear(); chk = null; showNt(); }
+function chkHead() {
+  var d = CHK_ORDER[chk.i], b = ntB(d);
+  var dots = CHK_ORDER.map(function (x, i) { return '<i class="' + (i < chk.i ? 'd' : (i === chk.i ? 'c' : '')) + '"></i>'; }).join('');
+  return '<div class="chk-hd"><b>力だめし</b><span class="chk-dots">' + dots + '</span><span class="chk-n">' + (chk.i + 1) + '／7　' + ntLabelB(b, 24) + '</span><span class="chk-quit" onclick="chkQuit()">やめる</span></div>';
+}
+function chkStep() {
+  chkClear();
+  if (chk.i >= CHK_ORDER.length) return chkEnd();
+  var d = CHK_ORDER[chk.i], inf = CHK_INFO[d];
+  document.getElementById('chk-body').innerHTML = chkHead() +
+    (chk.i === 0 ? '<div class="chk-lead">7つの種目を、1つずつ短く測ります。全部で約4分です。</div>' : '') +
+    '<div class="panel chk-card"><div class="ex-lbl">' + ntEsc(ntB(d).n) + '　' + inf.n + '</div><div class="ex-rule"></div><div class="ex-tx">' + ntEsc(inf.t) + '</div>' + (CHK_SAMPLE[d] || '') + '</div>' +
+    '<div class="ex-btns"><div class="btn btn-primary" style="margin:0;padding:18px 70px;font-size:28px;" onclick="chkGo()">はじめる</div></div>';
+}
+function chkGo() { var d = CHK_ORDER[chk.i]; var cd = ['handan', 'oboeru', 'mitsukeru'].indexOf(d) >= 0; if (cd) ntCountdown(function () { CHK_RUN[d](); }); else CHK_RUN[d](); }
+function chkDone(d, lv, extra) {
+  chk.res[d] = Math.max(1, Math.min(10, Math.round(lv)));
+  if (extra) Object.keys(extra).forEach(function (k) { chk.res[k] = extra[k]; });
+  chkClear();
+  document.getElementById('chk-body').innerHTML = chkHead() + '<div class="chk-ok">✓ できました</div>';
+  chk.i++;
+  chk.t.push(setTimeout(chkStep, 1100));
+}
+function chkArea(html) { document.getElementById('chk-body').innerHTML = chkHead() + '<div class="chk-area" id="chk-area">' + html + '</div>'; }
+function chkLater(fn, ms) { chk.t.push(setTimeout(fn, ms)); }
+var CHK_RUN = {};
+/* 見きわめる：10回・出ている時間1.0秒 */
+CHK_RUN.handan = function () {
+  var seq = shuffle(['g', 'g', 'g', 'g', 'g', 'g', 'g', 'r', 'r', 'r']); if (seq[0] === 'r') { var j = seq.indexOf('g'); seq[j] = 'r'; seq[0] = 'g'; }
+  var st = { i: -1, on: false, ok: 0, rts: [], t0: 0 };
+  chkArea('<div class="hd-stage" id="chk-hd" style="max-width:520px;height:300px;"><span class="hd-dot big" id="chk-dot"></span></div>');
+  var stage = document.getElementById('chk-hd');
+  stage.onpointerdown = function (e) { e.preventDefault(); if (!st.on) return; st.on = false; if (seq[st.i] === 'g') { st.ok++; st.rts.push((performance.now() - st.t0) / 1000); } document.getElementById('chk-dot').className = 'hd-dot big'; chkLater(next, 350); };
+  function next() {
+    st.i++; if (st.i >= seq.length) { var acc = st.ok / seq.length, rt = st.rts.length ? st.rts.reduce(function (a, x) { return a + x; }, 0) / st.rts.length : null; return chkDone('handan', hdDan(acc, rt), { rt: rt ? Math.round(rt * 100) / 100 : null }); }
+    document.getElementById('chk-dot').className = 'hd-dot big';
+    chkLater(function () {
+      document.getElementById('chk-dot').className = 'hd-dot big on ' + seq[st.i]; st.on = true; st.t0 = performance.now();
+      chkLater(function () { if (!st.on) return; st.on = false; if (seq[st.i] === 'r') st.ok++; document.getElementById('chk-dot').className = 'hd-dot big'; chkLater(next, 300); }, 1000);
+    }, 500 + Math.random() * 700);
+  }
+  chkLater(next, 600);
+};
+/* 読む：自分の速さで読む（1分に何字） */
+CHK_RUN.yomu = function () {
+  var pool = YOMU.filter(function (x) { return x.L === 2; }), it = pool[Math.floor(Math.random() * pool.length)], t0 = Date.now();
+  chkArea('<div class="ymf-box"><div class="ymf-ttl">' + ntEsc(it.title) + '</div><div class="ymf-tx" style="color:#1F2A28;">' + ntEsc(it.text) + '</div></div>' +
+    '<div class="btn btn-primary" style="margin:0;padding:15px 56px;font-size:26px;" id="chk-read">読み終えた</div>');
+  document.getElementById('chk-read').onclick = function () {
+    var secs = Math.max(1, (Date.now() - t0) / 1000), cpm = Math.round(ymChars(it.text) / secs * 60), q = it.q[0], order = shuffle([0, 1, 2]);
+    chkArea('<div class="kiki-q">' + ntEsc(q[0]) + '</div><div class="kiki-choices" id="chk-ch">' + order.map(function (i) { return '<div class="q-choice" data-i="' + i + '">' + ntEsc(q[1][i]) + '</div>'; }).join('') + '</div>');
+    Array.prototype.forEach.call(document.querySelectorAll('#chk-ch .q-choice'), function (el) {
+      el.onclick = function () {
+        var ok = el.getAttribute('data-i') === '0', fair = cpm <= 1500, lv = 1;
+        for (var L = 1; L <= 10; L++) if (cpm >= YMF_CPM[L]) lv = L;
+        if (!ok) lv = Math.min(lv, 3);
+        chkDone('yomu', lv, ok && fair ? { cpm: cpm } : {});
+      };
+    });
+  };
+};
+/* 覚える：光った順に押す（1回まちがえたらおしまい） */
+CHK_RUN.oboeru = function () {
+  var C = ['#F8D7DA', '#D6EAF8', '#FCF3CF', '#D5F5E3'], n = 3, best = 0, seq = [], idx = 0, turn = false;
+  chkArea('<div class="chk-tiles" id="chk-tiles">' + C.map(function (c, i) { return '<span class="chk-tile" data-i="' + i + '" style="background:' + c + ';"></span>'; }).join('') + '</div><div class="chk-msg" id="chk-msg">よく見ていてください</div>');
+  var tiles = document.querySelectorAll('#chk-tiles .chk-tile');
+  function lit(i, on) { tiles[i].classList.toggle('lit', on); }
+  function round() {
+    seq = []; for (var k = 0; k < n; k++) { var c; do { c = Math.floor(Math.random() * 4); } while (k && c === seq[k - 1]); seq.push(c); }
+    idx = 0; turn = false; document.getElementById('chk-msg').textContent = n + '個　よく見ていてください';
+    var ON = n >= 7 ? 520 : 650, GAP = n >= 7 ? 200 : 250;
+    seq.forEach(function (tl, i) { chkLater(function () { lit(tl, true); }, 700 + i * (ON + GAP)); chkLater(function () { lit(tl, false); }, 700 + i * (ON + GAP) + ON); });
+    chkLater(function () { turn = true; document.getElementById('chk-msg').textContent = '同じ順に押してください'; }, 700 + n * (ON + GAP) + 150);
+  }
+  Array.prototype.forEach.call(tiles, function (el) {
+    el.onclick = function () {
+      if (!turn) return; var i = parseInt(el.getAttribute('data-i'), 10);
+      lit(i, true); chkLater(function () { lit(i, false); }, 250);
+      if (seq[idx] !== i) { turn = false; return chkLater(function () { chkDone('oboeru', Math.max(1, best - 2)); }, 700); }
+      idx++;
+      if (idx === seq.length) { turn = false; best = n; if (n >= 12) return chkLater(function () { chkDone('oboeru', 10); }, 700); n++; chkLater(round, 1000); }
+    };
+  });
+  round();
+};
+/* 見つける：1から16を順に（時間） */
+CHK_RUN.mitsukeru = function () {
+  var nums = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]), nx = 1, miss = 0, t0 = Date.now();
+  chkArea('<div class="numgrid wide" id="chk-nums" style="max-width:560px;">' + nums.map(function (n) { return '<div class="numbtn" data-n="' + n + '">' + n + '</div>'; }).join('') + '</div><div class="chk-msg" id="chk-msg">1から順に押してください</div>');
+  Array.prototype.forEach.call(document.querySelectorAll('#chk-nums .numbtn'), function (el) {
+    el.onclick = function () {
+      var n = parseInt(el.getAttribute('data-n'), 10);
+      if (n !== nx) { miss++; document.getElementById('chk-msg').textContent = '次は ' + nx + ' です'; return; }
+      el.classList.add('done'); nx++;
+      if (nx > 16) { var s = (Date.now() - t0) / 1000 + miss * 2, lv = 1; [36, 30, 25, 21, 18, 15, 13, 11, 9].forEach(function (th) { if (s <= th) lv++; }); chkDone('mitsukeru', lv, { secs: Math.round(s) }); }
+    };
+  });
+};
+/* 計算する：お釣り5問（やさしい→むずかしい） */
+CHK_RUN.kazu = function () {
+  var lvs = [2, 3, 4, 5, 7], k = 0, ok = 0;
+  function q() {
+    var qq = otsMake(lvs[k]), ans = otsAns(qq), names = qq.items.map(function (x) { return x[0] + ' ' + x[1] + '円'; }).join('、');
+    chkArea('<div class="kiki-q">' + ntEsc(names) + (qq.disc ? '（合計から1割引き）' : '') + '<br>' + ntEsc(qq.lb + (qq.extra ? 'と' + qq.extra + '円を出す' : 'で払う')) + '。お釣りは？</div>' +
+      '<div class="otsuri-choices" id="chk-ch">' + otsChoicesQ(qq).map(function (v) { return '<div class="q-choice" data-v="' + v + '">' + v + '円</div>'; }).join('') + '</div><div class="chk-msg">' + (k + 1) + '／5問</div>');
+    Array.prototype.forEach.call(document.querySelectorAll('#chk-ch .q-choice'), function (el) {
+      el.onclick = function () { if (parseInt(el.getAttribute('data-v'), 10) === ans) ok++; k++; if (k < lvs.length) q(); else chkDone('kazu', [1, 2, 4, 6, 8, 10][ok]); };
+    });
+  }
+  q();
+};
+/* 思い出す：ことわざ4問 */
+CHK_RUN.kotoba = function () {
+  var qs = shuffle(KOTOWAZA.slice()).slice(0, 4), k = 0, ok = 0;
+  function q() {
+    var it = qs[k], order = shuffle(it.c.map(function (x, i) { return i; }));
+    chkArea('<div class="kiki-q">' + ntEsc(it.q) + '</div><div class="kiki-choices" id="chk-ch">' + order.map(function (i) { return '<div class="q-choice" data-i="' + i + '">' + ntEsc(it.c[i]) + '</div>'; }).join('') + '</div><div class="chk-msg">' + (k + 1) + '／4問</div>');
+    Array.prototype.forEach.call(document.querySelectorAll('#chk-ch .q-choice'), function (el) {
+      el.onclick = function () { if (parseInt(el.getAttribute('data-i'), 10) === it.a) ok++; k++; if (k < qs.length) q(); else chkDone('kotoba', [1, 3, 5, 8, 10][ok]); };
+    });
+  }
+  q();
+};
+/* 聞く：短い話を2つ（ふつう→速い） */
+CHK_RUN.kiku = function () {
+  var pool = shuffle(KURASHI.filter(function (x) { return x.L === 1 && x.kind === 'text'; })).slice(0, 2), sp = [1, 2], k = 0, hits = [false, false];
+  function one() {
+    var it = pool[k];
+    chkArea('<div class="chk-listen"><svg viewBox="0 0 24 24"><use href="#ic-ear"></use></svg><b>' + (k === 0 ? '1つ目　ふつうの速さ' : '2つ目　速く') + '</b><span id="chk-msg">よく聞いてください</span></div>');
+    kkPlay(KK_DIR + 'kurashi/' + it.id + '_v' + sp[k] + '.mp3', 1, function (err) {
+      var q = it.q[0], order = shuffle([0, 1, 2]);
+      chkArea((err ? '<div class="chk-msg">音声を読み込めませんでした。わかる範囲で答えてください</div>' : '') + '<div class="kiki-q">' + ntEsc(q.q) + '</div><div class="kiki-choices" id="chk-ch">' + order.map(function (i) { return '<div class="q-choice" data-i="' + i + '">' + ntEsc(q.c[i]) + '</div>'; }).join('') + '</div>');
+      Array.prototype.forEach.call(document.querySelectorAll('#chk-ch .q-choice'), function (el) {
+        el.onclick = function () { hits[k] = el.getAttribute('data-i') === '0'; k++; if (k < 2) one(); else chkDone('kiku', hits[0] && hits[1] ? 6 : (hits[0] || hits[1] ? 4 : 2)); };
+      });
+    });
+  }
+  one();
+};
+/* ---- 結果 ---- */
+function chkSave(res) {
+  var today = todayStr(), loc = chkLocal() || {}, had = chkData().first;
+  var rec = { on: today }; CHK_ORDER.forEach(function (d) { rec[d] = res[d]; }); if (res.cpm) rec.cpm = res.cpm;
+  if (!had) loc.first = rec;
+  loc.last = rec; storeSet(chkKey(), JSON.stringify(loc));
+  if (session.t) {
+    CHK_ORDER.forEach(function (d) { sendResult('chk', d, res[d]); if (!had) sendResult('chk0', d, res[d]); });
+    if (res.cpm) { sendResult('chk', 'cpm', res.cpm); if (!had) sendResult('chk0', 'cpm', res.cpm); }
+  }
+  return had;
+}
+function chkEnd() {
+  var res = chk.res, first = chkData().first, had = sessM() ? chkSave(res) : null;
+  if (!sessM()) { var g = chkGuest || {}, rec = { on: todayStr() }; Object.keys(res).forEach(function (k) { rec[k] = res[k]; }); had = g.first || null; if (!g.first) g.first = rec; g.last = rec; chkGuest = g; }
+  var base = had || null, sum = 0, sumF = 0;
+  var rows = CHK_ORDER.map(function (d) {
+    var b = ntB(d), now = res[d], f = base ? base[d] : null; sum += now; if (f) sumF += f;
+    return '<div class="chk-row"><span class="chk-lb">' + ntLabelB(b, 22) + '</span><span class="chk-bar"><i class="f" style="width:' + ((f || 0) * 10) + '%"></i><i class="n" style="width:' + (now * 10) + '%;background:' + b.ink + ';"></i></span>' +
+      '<span class="chk-v">' + (f ? f + ' → ' : '') + '<b>' + now + '</b></span></div>';
+  }).join('');
+  var cpmBox = res.cpm ? '<div class="panel chk-big"><div class="ex-lbl">読む速さ</div><b>1分に ' + res.cpm + '字</b>' + (base && base.cpm ? '<span>はじめ ' + Math.round(base.cpm) + '字' + (res.cpm >= base.cpm * 1.05 ? ' → <em>' + (Math.round(res.cpm / base.cpm * 10) / 10) + '倍</em>' : '') + '</span>' : '<span>はじめての記録です</span>') + '</div>' : '';
+  var sumBox = '<div class="panel chk-big"><div class="ex-lbl">合計レベル</div><b>' + sum + '</b>' + (base ? '<span>はじめ ' + sumF + (sum > sumF ? ' → <em>+' + (sum - sumF) + '</em>' : '') + '</span>' : '<span>ここから始めます</span>') + '</div>';
+  document.getElementById('chk-body').innerHTML =
+    '<div class="chk-hd"><b>力だめしの結果</b><span class="chk-sub">' + chkMD(todayStr()) + (base ? '　はじめ（' + chkMD(base.on) + '）と比べて' : '　はじめての力だめし') + '</span></div>' +
+    '<div class="chk-res"><div class="panel chk-rows">' + rows + '<div class="chk-note">' + (base ? 'うすい帯＝はじめ　こい帯＝いま（レベル）' : 'この結果から、種目のはじめのレベルを決めます') + '</div></div>' +
+    '<div class="chk-side">' + cpmBox + sumBox + '<div class="btn btn-primary" style="margin:0;padding:15px 0;font-size:24px;" onclick="chk=null;showNt()">今日の脳トレへ</div></div></div>' +
+    '<div class="chk-foot">比べるのは、前の自分だけです。次の力だめしは、ひと月後がおすすめです。' + (sessM() ? '' : '（会員証ではじめると、記録が残ります）') + '</div>';
+}
+/* ---- 脳トレの部屋に「力だめし」の扉 ---- */
+(function () {
+  var _hs = ntHubSync;
+  ntHubSync = function () {
+    _hs();
+    var row = document.querySelector('#scr-nt .hub-row'); if (!row) return;
+    var el = document.getElementById('hub-chk');
+    if (!el) { el = document.createElement('div'); el.className = 'hub-door'; el.id = 'hub-chk'; el.onclick = chkStart; row.insertBefore(el, row.firstChild); }
+    var c = chkData().last, days = c ? chkDays(c.on) : 999;
+    el.innerHTML = '<span class="hub-ic">' + ntChip({ chip: '#E3F2EE', ink: '#0B4F42', ic: 'ic-gauge' }, 64, 36) + '</span><span class="hub-tx"><b>力だめし</b>' +
+      (c ? '<span>前回 ' + chkMD(c.on) + (c.cpm ? '　読む速さ 1分に' + Math.round(c.cpm) + '字' : '') + '</span>' + (days >= 28 ? '<em style="font-size:20px;color:#8A4B22;">そろそろ、ひと月です</em>' : '<i>もう一度 測る ›</i>')
+         : '<span>7つの力を、約4分で測ります</span><em style="font-size:20px;color:#8A4B22;">はじめに一度どうぞ</em>') + '</span>';
+  };
+})();
+(function () { var _lo = logoutMember; logoutMember = function (q) { chkGuest = null; return _lo(q); }; })();
 </script>
 </body>
 </html>
