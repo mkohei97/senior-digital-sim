@@ -1085,6 +1085,84 @@
     .numgrid.wide { max-width: 600px; margin: 0 auto; }
     .cardgrid.full { max-width: 560px; margin: 0 auto; } .cardgrid.many:not(.full) { max-width: 700px; margin: 0 auto; }
   }
+  /* ===== v1.42 白とガラス（下絵v0.2・2026-09-26裁定）。パネルは白86%＝文字のコントラスト優先 ===== */
+  body { color: #1F2A28;
+    background:
+      radial-gradient(560px 460px at -4% -6%, rgba(207,239,230,.85), transparent 70%),
+      radial-gradient(520px 420px at 104% 62%, var(--season-pale), transparent 72%),
+      radial-gradient(460px 360px at 38% 110%, rgba(220,232,250,.8), transparent 70%),
+      linear-gradient(160deg, #FBFCFB 0%, #F2F5F4 55%, #EEF3F1 100%);
+    background-attachment: fixed; }
+  .petals { opacity: .45; }
+  .panel, .catcard, .gcard, .hub-door, .course-card, .rv-list, .rv-lamps, .br-row, .br-left, .gd-pts > div, .gd-pw, .gd-st, .trivia, .cs-step,
+  .q-choice, .numbtn, .badge, .log-row, .map-cell, .kiki-result, .ym-text, .hd-stage, .game-card {
+    background: rgba(255,255,255,.86); border: 1px solid rgba(255,255,255,.95);
+    box-shadow: 0 12px 34px rgba(24,48,42,.08), inset 0 1px 0 #FFFFFF; }
+  .panel, .catcard, .hub-door, .course-card, .br-left, .rv-list { -webkit-backdrop-filter: blur(22px) saturate(160%); backdrop-filter: blur(22px) saturate(160%); }
+  .catcard, .gcard, .hub-door { border-radius: 28px; }
+  .course-card { border: 2px solid rgba(17,134,109,.45); }
+  .cs-step { box-shadow: 0 4px 14px rgba(24,48,42,.06), inset 0 1px 0 #FFFFFF; }
+  .cs-step.done { background: rgba(227,242,238,.9); }
+  .q-choice.correct { border: 3px solid var(--ok); box-shadow: 0 8px 22px rgba(46,139,87,.18); }
+  .q-choice.dim { box-shadow: 0 4px 12px rgba(24,48,42,.05); }
+  .q-choice:active, .numbtn:not(.done):active { transform: translateY(2px); box-shadow: 0 4px 10px rgba(24,48,42,.08); }
+  .numbtn.done { background: rgba(227,242,238,.95); border: 3px solid var(--action); box-shadow: 0 4px 12px rgba(17,134,109,.15); }
+  .btn-primary { background: linear-gradient(180deg, #1A9B7F 0%, #0F7A63 100%); box-shadow: 0 10px 22px rgba(15,122,99,.28), inset 0 1px 0 rgba(255,255,255,.35); }
+  .btn-primary:active { transform: translateY(2px); box-shadow: 0 4px 10px rgba(15,122,99,.25); }
+  .btn-white { background: rgba(255,255,255,.9); border: 1px solid rgba(11,79,66,.16); box-shadow: 0 8px 20px rgba(24,48,42,.08); color: #0B4F42; }
+  .btn-white:active { transform: translateY(2px); box-shadow: 0 3px 8px rgba(24,48,42,.08); }
+  .btn-outline { background: rgba(255,255,255,.9); border: 2px solid rgba(11,79,66,.55); }
+  /* 会員の帯＝すりガラスの帯 */
+  .member-band { background: rgba(255,255,255,.86); border: 1px solid rgba(255,255,255,.95); box-shadow: 0 10px 28px rgba(24,48,42,.08); border-radius: 22px; margin: 6px 0 0; padding: 8px 12px 8px 16px;
+    -webkit-backdrop-filter: blur(22px) saturate(160%); backdrop-filter: blur(22px) saturate(160%); }
+  .member-band .flo { background: var(--season-pale); }
+  .member-band .t { color: #1F2A28; font-size: 24px; } .member-band .t b { font-size: 26px; }
+  .member-band .sekibtn { background: rgba(17,134,109,.10); box-shadow: none; }
+  .member-band .endbtn { background: rgba(255,255,255,.95); border: 1px solid rgba(138,75,34,.25); box-shadow: none; color: #8A4B22; }
+  .dr-pill.go { background: rgba(17,134,109,.10); } .dr-pill.ok { background: rgba(232,168,124,.18); color: #8A4B22; }
+  .appbar .icchip { box-shadow: 0 6px 16px rgba(24,48,42,.08); }
+  .course-bar { background: rgba(255,255,255,.9); border: 1px solid rgba(255,255,255,.95); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+  .csh-in { background: rgba(255,255,255,.94); border: 2px solid rgba(17,134,109,.45); -webkit-backdrop-filter: blur(22px); backdrop-filter: blur(22px); }
+  /* 種目の説明 */
+  .ex-hd { display: flex; align-items: center; gap: 16px; } .ex-hd .icchip { width: 60px; height: 60px; border-radius: 999px; display: flex; align-items: center; justify-content: center; } .ex-hd .icchip svg { width: 36px; height: 36px; }
+  .ex-hd b { font-size: 34px; } .ex-tag { margin-left: auto; background: rgba(17,134,109,.10); color: #0B4F42; font-weight: 700; font-size: 22px; border-radius: 999px; padding: 8px 22px; white-space: nowrap; }
+  .ex-box { margin: 22px 40px 0; padding: 28px 40px; border-radius: 28px; }
+  .ex-lbl { font-size: 18px; font-weight: 700; letter-spacing: .5em; color: #6B7773; } .ex-rule { height: 1px; background: rgba(31,42,40,.08); margin: 12px 0 16px; }
+  .ex-tx { font-size: 26px; line-height: 2.0; } .ex-meta { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 14px; font-size: 20px; color: #5A6360; }
+  .ex-btns { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 30px; }
+  .ex-foot { text-align: center; margin-top: 18px; } .ex-back { font-size: 20px; color: #5A6360; text-decoration: underline; cursor: pointer; padding: 8px 12px; }
+  /* 3・2・1 */
+  #nt-cd { position: fixed; inset: 0; z-index: 70; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 18px; background: rgba(246,248,247,.72); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  .cd-ring { width: 280px; height: 280px; border-radius: 50%; background: rgba(255,255,255,.92); box-shadow: 0 16px 40px rgba(24,48,42,.12), inset 0 1px 0 #fff; display: flex; align-items: center; justify-content: center; animation: cdPop .75s ease-out; }
+  .cd-ring b { font-size: 170px; color: #0F7A63; line-height: 1; } .cd-tx { font-size: 26px; color: #5A6360; }
+  @keyframes cdPop { 0% { transform: scale(.8); opacity: .3; } 30% { transform: scale(1); opacity: 1; } 100% { transform: scale(1); } }
+  /* お手本 */
+  #nt-demo { position: fixed; inset: 0; z-index: 72; display: none; align-items: center; justify-content: center; background: rgba(246,248,247,.78); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  .dm-in { width: 620px; max-width: 92vw; background: rgba(255,255,255,.95); border-radius: 30px; box-shadow: 0 20px 50px rgba(24,48,42,.15); padding: 24px 30px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .dm-in > b { font-size: 26px; align-self: flex-start; }
+  #dm-stage { width: 100%; min-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+  #dm-cap { font-size: 24px; font-weight: 700; color: #0B4F42; min-height: 36px; }
+  .dm-grid { display: grid; gap: 10px; } .dm-grid.g3 { grid-template-columns: repeat(3, 84px); } .dm-grid.g4 { grid-template-columns: repeat(4, 96px); } .dm-grid.g2 { grid-template-columns: repeat(2, 120px); } .dm-grid.g2c { grid-template-columns: repeat(2, 1fr); width: 100%; }
+  .dm-cell, .dm-card, .dm-tile, .dm-ch { position: relative; display: flex; align-items: center; justify-content: center; border-radius: 16px; background: #FFFFFF; border: 1px solid rgba(31,42,40,.10); box-shadow: 0 4px 12px rgba(24,48,42,.06); font-weight: 700; }
+  .dm-cell { height: 70px; font-size: 34px; } .dm-cell.ok { background: rgba(227,242,238,.95); border: 3px solid var(--action); color: #0B4F42; }
+  .dm-card { height: 120px; font-size: 48px; } .dm-card.bk { background: var(--season-pale); } .dm-card.ok { border: 3px solid var(--action); }
+  .dm-tile { height: 100px; transition: filter .2s; } .dm-tile.lit { filter: brightness(1.05); box-shadow: 0 0 0 5px #F2B84B, 0 8px 22px rgba(242,184,75,.45); }
+  .dm-ch { height: 64px; font-size: 24px; } .dm-ch.ok { border: 3px solid var(--ok); }
+  .dm-ots { display: flex; gap: 18px; align-items: center; } .dm-buy, .dm-pay { font-size: 24px; font-weight: 700; background: #F8F3E9; border-radius: 14px; padding: 10px 18px; }
+  .dm-stage { width: 300px; height: 220px; border-radius: 22px; background: #FFFFFF; border: 1px solid rgba(31,42,40,.10); display: flex; align-items: center; justify-content: center; position: relative; }
+  .dm-read { font-size: 24px; line-height: 1.9; background: #FFFFFF; border-radius: 16px; padding: 14px 20px; border: 1px solid rgba(31,42,40,.10); }
+  .dm-btn { position: relative; background: linear-gradient(180deg, #1A9B7F, #0F7A63); color: #fff; font-weight: 700; font-size: 22px; border-radius: 999px; padding: 12px 36px; }
+  .dm-tap { position: absolute; right: -6px; bottom: -8px; width: 38px; height: 38px; border-radius: 50%; background: rgba(15,122,99,.35); border: 3px solid #0F7A63; animation: dmTap .8s ease-out infinite; }
+  @keyframes dmTap { 0% { transform: scale(.6); opacity: 1; } 100% { transform: scale(1.4); opacity: .2; } }
+  /* 短め・ひと休み */
+  .cs-len { margin-left: auto; display: flex; background: rgba(31,42,40,.06); border-radius: 999px; padding: 4px; }
+  .cs-len span { padding: 7px 18px; border-radius: 999px; font-size: 19px; color: #5A6360; cursor: pointer; white-space: nowrap; }
+  .cs-len span.on { background: #FFFFFF; box-shadow: 0 2px 8px rgba(0,0,0,.08); font-weight: 700; color: #0B4F42; }
+  .cs-len.locked span:not(.on) { opacity: .45; cursor: default; }
+  .cb-rest { margin-left: 8px; background: rgba(17,134,109,.10); color: #0B4F42; font-weight: 700; border-radius: 999px; padding: 8px 16px; cursor: pointer; }
+  .rest-box { margin: 60px auto 0; max-width: 620px; padding: 36px 40px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+  .rest-ic svg { width: 72px; height: 72px; color: #0B4F42; } .rest-box > b { font-size: 34px; } .rest-box > span { font-size: 22px; color: #5A6360; }
+  .rest-btns { display: flex; gap: 18px; margin-top: 16px; } .rest-btns .btn { margin: 0; }
 </style>
 </head>
 <body>
@@ -1417,7 +1495,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.41(ここスマ自習システム・レベル1〜10：お釣り・順番タップ・カード・とっさの判断・記憶の順番)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.42(ここスマ自習システム・白とガラス・種目の説明とお手本・短め約3分・ひと休み)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -1479,6 +1557,13 @@
 
 <!-- v1.40 脳トレのしくみ -->
 <div class="screen nt-wide" id="scr-guide"><div class="pad"><div class="gd-body" id="gd-body"></div></div></div>
+
+<!-- v1.42 種目の説明・ひと休み・3・2・1・お手本 -->
+<div class="screen nt-wide" id="scr-explain"><div class="pad"><div id="ex-body"></div></div></div>
+<div class="screen nt-wide" id="scr-rest"><div class="pad"><div id="rest-body"></div></div></div>
+<div id="nt-cd"></div>
+<div id="nt-demo" onclick="if(event.target===this)ntDemoClose()"><div class="dm-in"><b id="dm-title">お手本</b><div id="dm-stage"></div><div id="dm-cap"></div>
+  <div style="display:flex;gap:16px;"><div class="btn btn-white" style="margin:0;padding:12px 34px;font-size:22px;" onclick="ntDemoClose()">閉じる</div></div></div></div>
 
 <div class="screen nt-wide" id="scr-cat-asobi">
   <div class="pad">
@@ -18371,10 +18456,10 @@ function ntGuidePages() {
   for (var i = 1; i <= 10; i++) demo += '<i style="height:' + (10 + i * 7) + 'px;" class="' + (i <= 6 ? 'on' : '') + '"></i>';
   return [
     { t: '脳トレとは', b: '<div class="gd-lead">暮らしの中で使う<b>7つの力</b>を、<br>短い時間で、少しずつ。</div>' +
-        '<div class="gd-pts"><div><b>約7分</b><span>1回の来店で「今日の脳トレ」4つ</span></div><div><b>10の種目</b><span>自分で選んで、好きなだけ</span></div><div><b>レベル1〜10</b><span>力ごとに、レベルで記録します</span></div></div>' +
+        '<div class="gd-pts"><div><b>約7分</b><span>「今日の脳トレ」4つ（短めは2つ・約3分）</span></div><div><b>10の種目</b><span>自分で選んで、好きなだけ</span></div><div><b>レベル1〜10</b><span>力ごとに、レベルで記録します</span></div></div>' +
         '<div class="gd-note">点数や順位を、ほかの人と比べることはありません。比べるのは、前の自分です。</div>' },
     { t: '7つの力', b: '<div class="gd-sub">脳トレの10の種目は、暮らしの中で使う7つの力に分けてあります。</div><div class="gd-pws">' + powers + '</div>' },
-    { t: '今日の脳トレ', b: '<div class="gd-sub">来店のたびに、その日の4つを組み立てます。続けて流れるので、「次へ」を押すだけです。</div><div class="gd-sts">' + steps + '</div>' +
+    { t: '今日の脳トレ', b: '<div class="gd-sub">来店のたびに、その日の4つ（短めは2つ）を組み立てます。続けて流れるので、「次へ」を押すだけです。</div><div class="gd-sts">' + steps + '</div>' +
         '<div class="gd-note">途中でやめても大丈夫です。できたところまで記録します。<br>終わると「ふりかえり」で、今日使った力と前回との比べが出ます。</div>' },
     { t: 'レベルのしくみ', b: '<div class="gd-dan"><div class="gd-bars">' + demo + '</div><div class="gd-dtx">' +
         '<p>力ごとに<b>レベル1からレベル10</b>まであります。</p><p>種目の出来からレベルがつきます。<b>レベルは下がりません。</b></p><p>いまのレベルは「<b>7つの力の記録</b>」で、いつでも見られます。</p></div></div>' +
@@ -18778,6 +18863,178 @@ kiokuBadgeUpdate = function () { document.getElementById('kio-badge').textConten
       });
       kiokuLater(function () { kioku.state = 'turn'; kiokuStatus('turn', '同じ順に押してください'); kiokuOrderRender(0, 'turn'); }, HEAD + kioku.seq.length * (ON + GAP) + 200);
     }
+  };
+})();
+
+
+/* ===== v1.42 種目の説明（SOKUNOUの型）・お手本・3・2・1・短め約3分・ひと休み ===== */
+var EXPLAIN = {
+  tile: { lines: ['画面に散らばった数字を、1から順に押します。', 'レベルが上がると、数が増えたり、数字とかなを交互に押したりします。'], meta: ['約1分・3回', 'まちがい1回までなら「できた」'], cd: true },
+  cards: { lines: ['札を2枚ずつめくって、同じ絵柄をそろえます。', '絵柄と場所を覚えておくと、早くそろいます。'], meta: ['約2分・3回', 'まちがいが決まった回数までなら「できた」'], cd: true },
+  kioku: { lines: ['4つの絵が、順番に光ります。', '光った順に、同じように押します。できるたびに1つ増えます。'], meta: ['約1〜2分', '2回まちがえたら、おしまい'], cd: true },
+  otsuri: { lines: ['買い物の金額と、出したお金を見ます。', 'お釣りはいくらか、4つの中から選びます。'], meta: ['6問・約2分', '2問続けて正解で、レベルが1つ上'], cd: false },
+  handan: { lines: ['丸が出たら、すぐに押します。', 'それ以外（赤い×・黄色の三角）は、押さずに待ちます。'], meta: ['10回×3組・約1分', '1組でまちがい1回までなら「できた」'], cd: true },
+  yomu: { lines: ['文章を、声に出さずに読みます。', '読み終えたら「読み終えた」を押し、中身について2問答えます。'], meta: ['3つの文章・約3分', '読んだ速さと、答えで記録します'], cd: false },
+  kofun: { lines: ['大阪や藤井寺・羽曳野のことを、3つの中から選びます。', '答えのあとに、ひとことの説明が出ます。'], meta: ['5問・約2分'], cd: false },
+  kotowaza: { lines: ['ことわざの【？】に入る言葉を選びます。', '後半は、意味からことわざを当てます。'], meta: ['5問・約2分'], cd: false },
+  kami: { lines: ['上の句と下の句を、線で結ぶように合わせます。', '左を押してから、右の合う方を押します。'], meta: ['5組・約2分'], cd: false }
+};
+var DEMO_GAMES = ['tile', 'cards', 'kioku', 'otsuri', 'handan', 'yomu'];
+var ntExplainLast = {};
+function ntLvTag(g) {
+  if (typeof LV_GAMES !== 'undefined' && LV_GAMES.indexOf(g) >= 0) return 'レベル' + lvStart(g) + 'から';
+  if (g === 'kioku') { var n = kiokuStartLevel(); return 'レベル' + (n - 2) + '（' + n + '個）から'; }
+  return '';
+}
+function ntExplain(g, orig) {
+  var a = ACT[g], e = EXPLAIN[g]; if (!a || !e) return orig();
+  var t = ntLvTag(g);
+  document.getElementById('ex-body').innerHTML =
+    '<div class="ex-hd"><span class="icchip" style="background:' + a.chip + ';color:' + a.ink + ';"><svg viewBox="0 0 24 24"><use href="#' + a.ic + '"></use></svg></span><b>' + a.n + '</b>' + (t ? '<span class="ex-tag">' + t + '</span>' : '') + '</div>' +
+    '<div class="panel ex-box"><div class="ex-lbl">トレーニングの説明</div><div class="ex-rule"></div>' +
+    '<div class="ex-tx">' + e.lines.map(ntEsc).join('<br>') + '</div>' +
+    '<div class="ex-meta">' + e.meta.map(function (m) { return '<span>' + ntEsc(m) + '</span>'; }).join('') + '</div></div>' +
+    '<div class="ex-btns"><div class="btn btn-primary" style="margin:0;padding:18px 70px;font-size:28px;" id="ex-go">はじめる</div>' +
+    (DEMO_GAMES.indexOf(g) >= 0 ? '<div class="btn btn-white" style="margin:0;padding:16px 40px;font-size:24px;" onclick="ntDemo(\'' + g + '\')">お手本を見る</div>' : '') + '</div>' +
+    '<div class="ex-foot"><span class="ex-back" onclick="ntExplainBack()">もどる</span></div>';
+  document.getElementById('ex-go').onclick = function () { ntExplainLast[g] = Date.now(); if (e.cd) ntCountdown(orig); else orig(); };
+  show('scr-explain');
+}
+function ntExplainBack() { if (course && course.active) showNt(); else show('scr-cat-asobi'); }
+/* 各種目の入口を「説明→（3・2・1）→開始」にする。続けてもう一回のときは説明を省く */
+(function () {
+  Object.keys(EXPLAIN).forEach(function (g) {
+    var fn = ACT[g] && ACT[g].fn; if (!fn || typeof window[fn] !== 'function') return;
+    var orig = window[fn];
+    var start = orig;
+    if (g === 'handan') start = function () { orig(); hdStart(); };
+    if (g === 'yomu') start = function () { orig(); ymStart(); };
+    window[fn] = function () {
+      var recent = ntExplainLast[g] && Date.now() - ntExplainLast[g] < 15 * 60 * 1000 && curScreen !== 'scr-cat-asobi' && curScreen !== 'scr-pick' && !(course && course.active);
+      if (recent) { ntExplainLast[g] = Date.now(); if (EXPLAIN[g].cd) ntCountdown(start); else start(); return; }
+      ntExplain(g, start);
+    };
+  });
+})();
+/* ---- 3・2・1 ---- */
+function ntCountdown(cb) {
+  var el = document.getElementById('nt-cd'), n = 3;
+  el.style.display = 'flex';
+  function tick() {
+    if (n === 0) { el.style.display = 'none'; cb(); return; }
+    el.innerHTML = '<div class="cd-ring"><b>' + n + '</b></div><div class="cd-tx">まん中を見て、準備してください</div>';
+    n--; setTimeout(tick, 750);
+  }
+  tick();
+}
+/* ---- お手本（小さな画面が動いて、やり方を見せる） ---- */
+var ntDemoT = [];
+function ntDemoClear() { ntDemoT.forEach(clearTimeout); ntDemoT = []; }
+function ntDemo(g) {
+  var ov = document.getElementById('nt-demo'); ov.style.display = 'flex';
+  document.getElementById('dm-title').textContent = 'お手本　' + ACT[g].n;
+  var steps = DEMO[g](), st = document.getElementById('dm-stage'), cap = document.getElementById('dm-cap'), t = 400, loops = 2;
+  ntDemoClear();
+  for (var l = 0; l < loops; l++) steps.forEach(function (s) {
+    (function (s, at) { ntDemoT.push(setTimeout(function () { st.innerHTML = s[0]; cap.textContent = s[1]; }, at)); })(s, t);
+    t += s[2] || 1100;
+  });
+  ntDemoT.push(setTimeout(function () { cap.textContent = 'これで、やり方はおしまいです'; }, t));
+}
+function ntDemoClose() { ntDemoClear(); document.getElementById('nt-demo').style.display = 'none'; }
+function dmTap() { return '<span class="dm-tap"></span>'; }
+var DEMO = {
+  tile: function () {
+    var nums = [5, 2, 8, 1, 9, 4, 7, 3, 6];
+    function grid(done, tap) { return '<div class="dm-grid g3">' + nums.map(function (n) { return '<span class="dm-cell' + (n <= done ? ' ok' : '') + '">' + n + (n === tap ? dmTap() : '') + '</span>'; }).join('') + '</div>'; }
+    return [[grid(0, 0), '1から順に探します'], [grid(0, 1), '1を押す', 900], [grid(1, 2), '次は2', 900], [grid(2, 3), '次は3', 900], [grid(3, 4), 'この調子で最後まで', 1200]];
+  },
+  cards: function () {
+    function c(face, st, tap) { return '<span class="dm-card ' + st + '">' + (st === 'bk' ? '' : face) + (tap ? dmTap() : '') + '</span>'; }
+    var F = ['🍎', '🐟', '🍎', '🐟'];
+    function row(s, tap) { return '<div class="dm-grid g4">' + F.map(function (f, i) { return c(f, s[i], tap === i); }).join('') + '</div>'; }
+    return [[row(['bk', 'bk', 'bk', 'bk']), '札を2枚めくります'], [row(['up', 'bk', 'bk', 'bk'], 0), '1枚目', 900], [row(['up', 'up', 'bk', 'bk'], 1), '2枚目。ちがう絵…', 1200],
+      [row(['bk', 'bk', 'bk', 'bk']), '裏にもどります。場所を覚えておきます', 1500], [row(['up', 'bk', 'bk', 'bk'], 0), 'りんごはここ', 900], [row(['ok', 'bk', 'ok', 'bk'], 2), 'そろいました', 1400]];
+  },
+  kioku: function () {
+    var C = ['#F8D7DA', '#D6EAF8', '#FCF3CF', '#D5F5E3'];
+    function g(lit, tap) { return '<div class="dm-grid g2">' + C.map(function (c, i) { return '<span class="dm-tile' + (lit === i ? ' lit' : '') + '" style="background:' + c + ';">' + (tap === i ? dmTap() : '') + '</span>'; }).join('') + '</div>'; }
+    return [[g(-1), 'よく見ていてください'], [g(0), '1つ目が光る', 800], [g(3), '2つ目が光る', 800], [g(-1), '同じ順に押します', 900], [g(0, 0), '1つ目', 800], [g(3, 3), '2つ目。できたら1つ増えます', 1300]];
+  },
+  otsuri: function () {
+    function s(pick) {
+      return '<div class="dm-ots"><div class="dm-buy">みかん 380円</div><div class="dm-pay">500円玉</div></div><div class="dm-grid g2c">' +
+        [120, 220, 130, 110].map(function (v) { return '<span class="dm-ch' + (pick && v === 120 ? ' ok' : '') + '">' + v + '円' + (pick && v === 120 ? dmTap() : '') + '</span>'; }).join('') + '</div>';
+    }
+    return [[s(false), '380円の買い物に、500円玉を出します'], [s(false), '500 − 380 は？', 1500], [s(true), '120円を選びます', 1500]];
+  },
+  handan: function () {
+    function s(k, tap) { return '<div class="dm-stage">' + (k ? '<span class="hd-dot big on ' + k + '" style="width:120px;height:120px;"></span>' : '') + (tap ? dmTap() : '') + '</div>'; }
+    return [[s(''), 'まん中に出ます'], [s('g'), '緑の丸', 700], [s('g', 1), 'すぐに押す', 900], [s(''), '', 500], [s('r'), '赤い×', 900], [s('r'), '押さずに待つ', 1200]];
+  },
+  yomu: function () {
+    var tx = '回覧板でお知らせします。今月の地域の清掃は、第二日曜日の朝八時からです。';
+    function s(k) { return '<div class="dm-read">' + tx + '</div>' + (k ? '<span class="dm-btn">読み終えた' + dmTap() + '</span>' : ''); }
+    return [[s(0), '声に出さずに読みます', 2200], [s(1), '読み終えたら押します', 1400], ['<div class="dm-read">清掃はいつ？</div><div class="dm-grid g2c"><span class="dm-ch ok">第2日曜日の朝8時</span><span class="dm-ch">第1日曜日の朝8時</span></div>', '中身について答えます', 1600]];
+  }
+};
+/* ---- 短め（約3分）＝2つ ---- */
+function courseLenKey() { return 'kokosuma_course_len_' + (sessM() || 'guest'); }
+function courseLen() { var v = parseInt(storeGet(courseLenKey()) || '4', 10); return v === 2 ? 2 : 4; }
+function courseSetLen(n) {
+  storeSet(courseLenKey(), String(n));
+  ensureCourse();
+  if (!course.items.some(function (x) { return x.done; }) && !course.active && !course.finished) { course = buildCourse(); courseSave(); }
+  renderReco();
+}
+(function () {
+  var _b = buildCourse;
+  buildCourse = function () { var c = _b(); var n = courseLen(); if (c.items.length > n) { c.items = c.items.slice(0, n); if (!c.items.some(function (x) { return x.d === c.aim; })) c.aim = c.items[c.items.length - 1].d; } return c; };
+  var _rc = renderCourseCard;
+  renderCourseCard = function () {
+    _rc();
+    var el = document.getElementById('course-card'); if (!el || !course) return;
+    var n = course.items.length, doneN = course.items.filter(function (x) { return x.done; }).length, locked = doneN > 0 || course.active || course.finished;
+    var hd = el.querySelector('.cs-hd span');
+    if (hd && !course.finished) hd.textContent = (n === 2 ? '2つ・約3分' : '4つ・約7分') + '　続けて流れます';
+    var go = el.querySelector('.cs-foot .btn'); if (go && doneN && !course.finished) go.textContent = '続きから（' + (doneN + 1) + '／' + n + '）';
+    var tg = '<div class="cs-len' + (locked ? ' locked' : '') + '"><span class="' + (n === 4 ? 'on' : '') + '" onclick="' + (locked ? '' : 'courseSetLen(4)') + '">しっかり 約7分</span><span class="' + (n === 2 ? 'on' : '') + '" onclick="' + (locked ? '' : 'courseSetLen(2)') + '">短め 約3分</span></div>';
+    var h = el.querySelector('.cs-hd'); if (h) h.insertAdjacentHTML('beforeend', tg);
+    var note = el.querySelector('.cs-note'); if (note) note.textContent = '途中で「ひと休み」できます。できたところまで記録します。';
+  };
+  var _sh = courseSheet;
+  courseSheet = function () { _sh(); var el = document.getElementById('course-sheet'), n = course.items.length; if (el) el.innerHTML = el.innerHTML.replace(/（(\d)／4）/, '（$1／' + n + '）'); };
+  var _dr = ntDoorSync;
+  ntDoorSync = function () { _dr(); var el = document.getElementById('door-nt-st'); if (!el || !course) return; var n = course.items.length, d = course.items.filter(function (x) { return x.done; }).length;
+    el.innerHTML = el.innerHTML.replace('4つ・約7分', n === 2 ? '2つ・約3分' : '4つ・約7分').replace(/あと\d+つ/, 'あと' + (n - d) + 'つ'); };
+})();
+/* ---- ひと休み（今日の脳トレの途中） ---- */
+function ntStopGames() {
+  try { kkStop(); } catch (e) {}
+  try { if (typeof kikiStopVoice === 'function') kikiStopVoice(); } catch (e) {}
+  try { if (kioku) kiokuClearTimers(); } catch (e) {}
+  try { if (hd) { hd.done = true; clearTimeout(hd.timer); } } catch (e) {}
+  try { document.getElementById('nt-cd').style.display = 'none'; } catch (e) {}
+}
+function ntRest() {
+  if (!course || !course.active) return;
+  ntStopGames(); courseSheetHide();
+  var it = course.items[course.i], n = course.items.length, d = course.items.filter(function (x) { return x.done; }).length;
+  document.getElementById('rest-body').innerHTML =
+    '<div class="panel rest-box"><div class="rest-ic"><svg viewBox="0 0 24 24"><use href="#ic-yunomi"></use></svg></div>' +
+    '<b>ひと休み中です</b><span>今日の脳トレ　' + d + '／' + n + ' まで できました</span>' +
+    '<div class="rest-btns"><div class="btn btn-primary" style="margin:0;padding:16px 56px;font-size:26px;" onclick="ntRestBack()">続きから</div>' +
+    '<div class="btn btn-white" style="margin:0;padding:14px 40px;font-size:23px;" onclick="courseQuit()">今日はここまで</div></div></div>';
+  show('scr-rest');
+}
+function ntRestBack() { courseRun(); }
+(function () {
+  var _cb = courseBarSync;
+  courseBarSync = function () {
+    _cb();
+    var bar = document.getElementById('course-bar'); if (!bar || bar.style.display === 'none') return;
+    bar.innerHTML = bar.innerHTML.replace(/<span>(\d)／4<\/span>/, '<span>$1／' + course.items.length + '</span>') + '<span class="cb-rest" onclick="ntRest()">ひと休み</span>';
+    if (curScreen === 'scr-rest' || curScreen === 'scr-explain') bar.style.display = curScreen === 'scr-rest' ? 'none' : 'flex';
   };
 })();
 
