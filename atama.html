@@ -1045,6 +1045,7 @@
     #scr-nt .hub-door .nt-radar.mini { width: 120px; height: 120px; }
   }
 
+  .otsuri-pay .ots-one { position: relative; display: inline-flex; align-items: center; } .otsuri-pay .ots-one + .plus { margin: 0 4px 0 18px; }
 </style>
 </head>
 <body>
@@ -1377,7 +1378,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.38(ここスマ自習システム・横置きを基準に・脳トレの部屋)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.39(ここスマ自習システム・横置きを基準に・内容の点検)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -1698,6 +1699,7 @@
         </div>
         <div class="lm-bar">
           <span class="tool">＋<span class="mark">①</span></span>
+          <span class="tool"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4A5C58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 17 L9 11 L13 15 L16 12 L21 17"></path><circle cx="16" cy="9" r="1.5"></circle></svg><span class="mark">⑤</span></span>
           <span class="lm-input">メッセージを入力<span class="mark">②</span></span>
           <span class="tool"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4A5C58" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><circle cx="9" cy="10" r="0.8" fill="#4A5C58"></circle><circle cx="15" cy="10" r="0.8" fill="#4A5C58"></circle><path d="M8.5 14.5 C10 16.2 14 16.2 15.5 14.5"></path></svg><span class="mark">③</span></span>
         </div>
@@ -1883,7 +1885,7 @@
 </div>
 <div class="screen" id="scr-pick">
   <div class="pad">
-    <div class="appbar"><div class="left"><div class="btn btn-white" style="padding:10px 22px; font-size:20px;" onclick="showBrain()">7つの階段へ</div></div><div class="left" id="pk-title"></div></div>
+    <div class="appbar"><div class="left"><div class="btn btn-white" style="padding:10px 22px; font-size:20px;" onclick="showBrain()">7つの力の記録へ</div></div><div class="left" id="pk-title"></div></div>
     <div class="cat-menu" id="pk-body"></div>
   </div>
 </div>
@@ -2475,7 +2477,7 @@ function renderManabi() {
   var recent = days.filter(function (k) { var d = new Date(k); return (today - d) / 86400000 < 28; }).length;
   var html = '<div class="log-streak"><div class="tx"><b>続けている証</b><span>この4週間で <b>' + recent + '</b> 回</span></div><div class="wk">' + wk + '</div></div>';
   html += '<div class="sub-tabs three">' +
-    '<div class="sub-tab' + (logCat === 'dan' ? ' on' : '') + '" onclick="showBrain()">脳トレの7つの階段</div>' +
+    '<div class="sub-tab' + (logCat === 'dan' ? ' on' : '') + '" onclick="showBrain()">脳トレ 7つの力の記録</div>' +
     '<div class="sub-tab' + (logCat === 'nokatsu' ? ' on' : '') + '" onclick="setLogCat(\'nokatsu\')">脳トレ</div>' +
     '<div class="sub-tab' + (logCat === 'sumaho' ? ' on' : '') + '" onclick="setLogCat(\'sumaho\')">スマホ習得</div></div>';
   if (logCat === 'dan') {
@@ -2750,7 +2752,7 @@ var YOMU = [
    q: [['工事は何時から？', ['夜10時', '夜11時', '夜9時']], ['工事のあいだ、上りの電車は何番線？', ['2番線', '1番線', '3番線']]] },
  { id: 'y10', L: 2, title: '散歩の話', text: '毎朝の散歩を続けて、もうすぐ一年になります。はじめは家の近くを十五分ほど歩くだけでしたが、今では川沿いの道を、四十分かけて歩いています。季節ごとに咲く花が変わるのを見るのが、いちばんの楽しみです。',
    q: [['いまは何分歩いている？', ['40分', '15分', '1時間']], ['いちばんの楽しみは？', ['季節ごとの花', '川の魚', '朝ごはん']]] },
- { id: 'y11', L: 3, title: '自治会の総会', text: '自治会の総会のご案内です。日時は、十二月七日の日曜日、午後二時からです。場所は、集会所の二階です。当日は、来年度の役員の選出と、夏祭りの収支報告を行います。出席できない方は、同封の委任状に名前を書いて、十二月一日までに班長さんへお渡しください。会場には駐車場がありませんので、お車でのご来場はご遠慮ください。',
+ { id: 'y11', L: 3, title: '自治会の総会', text: '自治会の総会のご案内です。日時は、十二月七日、午後二時からです。場所は、集会所の二階です。当日は、来年度の役員の選出と、夏祭りの収支報告を行います。出席できない方は、同封の委任状に名前を書いて、十二月一日までに班長さんへお渡しください。会場には駐車場がありませんので、お車でのご来場はご遠慮ください。',
    q: [['総会の日時は？', ['12月7日の午後2時', '12月1日の午後2時', '12月7日の午前10時']], ['出席できないときは？', ['委任状を班長さんに渡す', '集会所に電話する', '何もしなくてよい']]] },
  { id: 'y12', L: 3, title: 'お薬手帳の案内', text: 'お薬手帳についてのご案内です。お薬手帳には、これまでに出されたお薬の名前や、飲む量が記録されています。病院や薬局に行くときは、必ずお持ちください。いくつかの病院にかかっている場合も、手帳は一冊にまとめると、飲み合わせの確認がしやすくなります。スマートフォンのアプリでも管理できますので、ご希望の方は薬剤師にお声がけください。',
    q: [['手帳は何冊にまとめるとよい？', ['1冊', '病院ごとに1冊', '2冊']], ['アプリを使いたいときは？', ['薬剤師に声をかける', '病院に電話する', '市役所で申し込む']]] },
@@ -3130,7 +3132,7 @@ function showBrain() {
       '<span class="br-v"><b style="color:' + b.ink + ';">' + (dan ? dan + '段' : 'これから') + '</b><i>' + (v !== null ? ntEsc(ntFmt(g, v)) : '') + '</i></span><span class="br-go">選ぶ ›</span></div>';
   }).join('');
   document.getElementById('br-body').innerHTML =
-    '<div class="br-hd"><b>脳トレの7つの階段</b><span>段は下がりません</span></div>' +
+    '<div class="br-hd"><b>7つの力の記録</b><span>力ごとの、いまの段（1〜10段）。段は下がりません</span></div>' +
     '<div class="br-wrap"><div class="br-left"><div class="br-cap">全体の形</div>' + ntRadar(330) +
     '<div class="br-leg"><span><i class="f"></i>はじめ</span><span><i class="n"></i>いま</span></div>' +
     '<div class="br-sum">合計 <b>' + sum + '段</b>' + (sum > sumF && sumF ? '　はじめから <em>+' + (sum - sumF) + '段</em>' : '') + '</div></div>' +
@@ -3290,7 +3292,7 @@ var QUIZ = [
   { region: '藤井寺・羽曳野', q: '藤井寺市の名前のもとになったお寺「葛井寺」。なんと読むでしょう?', c: ['ふじいでら', 'くずいでら', 'かつらいでら'], a: 0, t: '西国三十三所の第五番札所。国宝の千手観音さまで有名です。' },
   { region: '藤井寺・羽曳野', q: '古市古墳群が世界遺産に登録されたのは、いつでしょう?', c: ['2019年(令和元年)', '1999年(平成11年)', '2009年(平成21年)'], a: 0, t: '「百舌鳥・古市古墳群」として大阪府初の世界遺産になりました。' },
   { region: '藤井寺・羽曳野', q: '羽曳野市の特産のくだものは、どちらでしょう?', c: ['いちじく', 'みかん', 'さくらんぼ'], a: 0, t: 'いちじくとぶどうが特産。市の「いちじくMap」もあるほどです。' },
-  { region: '藤井寺・羽曳野', q: 'かつて藤井寺球場を本拠地にしていたプロ野球チームは?', c: ['近鉄バファローズ', '阪急ブレーブス', '阪神タイガース'], a: 0, t: '藤井寺球場は2005年まで存在。多くのファンで賑わいました。' },
+  { region: '藤井寺・羽曳野', q: 'かつて藤井寺球場を本拠地にしていたプロ野球チームは?', c: ['近鉄バファローズ', '阪急ブレーブス', '阪神タイガース'], a: 0, t: '藤井寺球場は2005年に閉鎖。1997年に大阪ドームへ移るまで、多くのファンで賑わいました。' },
   { region: '藤井寺・羽曳野', q: '羽曳野市に古墳が残る「白鳥伝説」の主人公は、だれでしょう?', c: ['ヤマトタケル', '聖徳太子', 'オオクニヌシ'], a: 0, t: '白鳥になって羽を曳くように飛んだ姿が「羽曳野」の地名の由来と伝わります。' },
   { region: '藤井寺・羽曳野', q: '全国で2番目に大きい古墳「応神天皇陵古墳」があるのは?', c: ['羽曳野市', '堺市', '藤井寺市'], a: 0, t: '誉田(こんだ)にあります。1番大きい仁徳天皇陵古墳は堺市です。' },
   { region: '藤井寺・羽曳野', q: '羽曳野市の駒ヶ谷地区で、ぶどうから作られている飲みものは?', c: ['ワイン', '日本酒', 'ビール'], a: 0, t: '羽曳野は「ぶどうとワインの街」。河内ワインで知られています。' },
@@ -3746,7 +3748,7 @@ var KOTOWAZA = [
   { q: '猿も木から 【？】', c: ['落ちる', '滑る', '転げる'], a: 0, t: 'その道の名人でも、時には失敗することがある、というたとえです。' },
   { q: '石の上にも 【？】', c: ['三年', '五年', '十年'], a: 0, t: '冷たい石も三年座れば温まる。辛抱強く続ければ必ず実を結ぶ、という意味です。' },
   { q: '急がば 【？】', c: ['回れ', '走れ', '戻れ'], a: 0, t: '急ぐときこそ、遠回りでも安全で確実な道を選ぶほうがよい、という教えです。' },
-  { q: '犬も歩けば 【？】に当たる', c: ['棒', '塀', '石'], a: 0, t: '出歩けば思いがけない出来事(幸運)に出会うものだ、という意味で使われます。' },
+  { q: '犬も歩けば 【？】に当たる', c: ['棒', '塀', '石'], a: 0, t: 'もとは「出歩くと災難にあう」、今は「思いがけない幸運に出会う」の意味でも使われます。' },
   { q: '七転び 【？】', c: ['八起き', '七起き', '九起き'], a: 0, t: '何度失敗しても、くじけずに立ち上がることのたとえです。' },
   { q: '花より 【？】', c: ['団子', '餅', '煎餅'], a: 0, t: '風流を眺めるより、実際に役に立つもののほうがよい、という意味です。' },
   { q: '塵も積もれば 【？】となる', c: ['山', '川', '岩'], a: 0, t: 'わずかなものでも、積み重なれば大きなものになる、というたとえです。' },
@@ -3862,8 +3864,8 @@ function nextKotoQ() {
 // 事実関係は警察庁・消費者庁の一般的な注意喚起の範囲。作問の追加は神崎さん領域。
 var SAGI = [
   { from: '知らない番号', body: 'お荷物をお届けしましたが、不在のため持ち帰りました。こちらからご確認ください。<span class="lnk">https://takuhai…</span>',
-    c: ['開かずに、送り状の控えや公式アプリで確かめる', '書かれたリンクを開いて手続きする', '書かれた番号に電話する'], a: 0,
-    t: '宅配業者が、SMSのリンクから手続きをさせることはありません。荷物に心当たりがあるときも、送り状の控えや公式アプリで確かめれば安心です。' },
+    c: ['開かずに、ポストの不在票や公式アプリで確かめる', '書かれたリンクを開いて手続きする', '書かれた番号に電話する'], a: 0,
+    t: '宅配業者を名乗るSMSのリンクは、まず偽物と考えて開かないのが安全です。心当たりがあるときも、ポストの不在票や公式アプリ・公式サイトで確かめましょう。' },
   { from: '知らない番号', body: 'ご利用料金についてお話があります。本日中にこちらへご連絡ください。',
     c: ['連絡しない。気になるときは公式窓口に自分からかける', '急いで、書かれた番号に電話する', 'とりあえず返信して事情を聞く'], a: 0,
     t: '「本日中に」と急がせるのは、考える時間を与えないための手口です。心当たりがなければ連絡せず、気になるときは請求書や公式アプリにある番号へ自分からかけます。' },
@@ -3974,9 +3976,9 @@ var LINEQ = [
   { mock: true, q: 'スタンプ(絵で気持ちを送るもの)を送りたい。押すのはどれですか？',
     c: ['③ 顔のマーク', '② まん中の「メッセージを入力」', '④ 右上の受話器のマーク'], a: 0,
     t: 'スタンプは、文字を打たなくても気持ちが伝わる便利な機能です。押しまちがいもないので、返事に迷ったらスタンプで大丈夫です。' },
-  { mock: true, q: 'アルバムの写真を送りたい。押すのはどれですか？',
-    c: ['① 左はしの「＋」', '③ 顔のマーク', '② まん中の「メッセージを入力」'], a: 0,
-    t: '「＋」を押すと、写真やアルバムを選ぶ画面が出ます。孫の運動会の写真も、ここから送れます。' },
+  { mock: true, q: 'スマホの中の写真を送りたい。押すのはどれですか？',
+    c: ['⑤ 入力欄の横の、山の絵のマーク', '① 左はしの「＋」', '③ 顔のマーク'], a: 0,
+    t: '山の絵のマークを押すと、スマホの写真が並びます。選んで送るだけです。孫の運動会の写真も、ここから送れます。' },
   { mock: true, q: 'ハナさんと、声で話したい(通話したい)。押すのはどれですか？',
     c: ['④ 右上の受話器のマーク', '① 左はしの「＋」', '③ 顔のマーク'], a: 0,
     t: 'LINEどうしの通話は通話料がかかりません(そのかわりギガ=通信量を使います)。Wi-Fiのある場所なら、時間を気にせず話せます。' },
@@ -4252,7 +4254,7 @@ function otsuriPayHtml(q) {
   var inner = q.pk === 'coin'
     ? '<div class="coin"><b>' + q.pv + '</b><span>円玉</span></div>'
     : '<div class="bill"><b>' + q.pv + '</b><span>円札</span></div>';
-  var html = inner + (q.pc > 1 ? '<span class="cnt">×' + q.pc + '</span>' : '');
+  var html = '<span class="ots-one">' + inner + (q.pc > 1 ? '<span class="cnt">×' + q.pc + '</span>' : '') + '</span>';
   if (q.extra) html += '<span class="plus">+</span><div class="komi"><b>' + q.extra + '</b><span>円</span></div>';
   return html;
 }
@@ -18251,7 +18253,7 @@ function ntDoorSync() {
   var el = document.getElementById('door-nt-st'); if (!el) return;
   ensureCourse();
   var n = course.items.filter(function (x) { return x.done; }).length, h = '';
-  if (sessM() && skillData) { var t = ntSumDan(); if (t.s) h += '<span class="dr-num">7つの階段　合計 <b>' + t.s + '</b>段</span>'; }
+  if (sessM() && skillData) { var t = ntSumDan(); if (t.s) h += '<span class="dr-num">7つの力　合計 <b>' + t.s + '</b>段</span>'; }
   h += course.finished ? '<span class="dr-pill ok">今日の脳トレ　できました ✓</span>'
     : (n ? '<span class="dr-pill go">今日の脳トレ　あと' + (4 - n) + 'つ</span>' : '<span class="dr-pill go">今日の脳トレ　4つ・約7分</span>');
   el.innerHTML = h;
@@ -18261,7 +18263,7 @@ function ntHubSync() {
   var a = document.getElementById('hub-brain'), p = document.getElementById('hub-pick'); if (!a || !p) return;
   var t = ntSumDan(), mem = !!sessM();
   a.innerHTML = (mem && t.s ? ntRadar(300, true) : '<span class="hub-ic">' + ntChip({ chip: '#E3F2F0', ink: '#0B4F42', ic: 'ic-target' }, 84, 48) + '</span>') +
-    '<span class="hub-tx"><b>7つの階段</b>' +
+    '<span class="hub-tx"><b>7つの力の記録</b>' +
     (mem ? (t.s ? '<span>合計 <em>' + t.s + '段</em></span>' + (t.f && t.s > t.f ? '<span>はじめから +' + (t.s - t.f) + '段</span>' : '') : '<span>種目をすると、段がつきます</span>')
          : '<span>会員証ではじめると、段が記録に残ります</span>') +
     '<i>くわしく見る ›</i></span>';
