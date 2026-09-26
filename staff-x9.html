@@ -2824,9 +2824,9 @@ function loadJishu(id) {
     var rows = J_DOM.map(function (d) {
       var x = dm[d[0]];
       if (!x) return '<div class="jrow"><b>' + d[1] + '</b><span class="jbar"></span><span class="jv none">まだ</span></div>';
-      var trend = x.recent < x.dan - 1 ? '<em class="dn">最近' + x.recent + '段</em>' : '';
+      var trend = x.recent < x.dan - 1 ? '<em class="dn">最近 レベル' + x.recent + '</em>' : '';
       return '<div class="jrow"><b>' + d[1] + '</b><span class="jbar"><i class="f" style="width:' + x.first * 10 + '%"></i><i class="n" style="width:' + x.dan * 10 + '%"></i></span>' +
-        '<span class="jv">' + x.first + '→<b>' + x.dan + '段</b>' + trend + '</span><span class="jd">' + (x.last_on ? x.last_on.slice(5).replace('-', '/') : '') + '</span></div>';
+        '<span class="jv">' + 'レベル' + x.first + '→<b>' + x.dan + '</b>' + trend + '</span><span class="jd">' + (x.last_on ? x.last_on.slice(5).replace('-', '/') : '') + '</span></div>';
     }).join('');
     var pr = r.practice || [], learned = r.learned || [], marked = r.marked || [];
     var sumaho = '<div class="jsum">スマホ習得：練習したテーマ <b>' + pr.length + '</b>・講座で習った <b>' + learned.length + '</b>・ご本人が「できる」を押した <b>' + marked.length + '</b></div>';
@@ -2834,7 +2834,7 @@ function loadJishu(id) {
     var tips = [];
     var ups = J_DOM.map(function (d) { var x = dm[d[0]]; return x && x.dan > x.first && jDays(x.last_on) <= 30 ? { d: d, x: x } : null; }).filter(Boolean)
       .sort(function (a, b) { return (b.x.dan - b.x.first) - (a.x.dan - a.x.first); });
-    if (ups[0]) tips.push('「' + ups[0].d[3] + '、上達していますね」(' + ups[0].d[1] + ' はじめ' + ups[0].x.first + '段→いま' + ups[0].x.dan + '段)');
+    if (ups[0]) tips.push('「' + ups[0].d[3] + '、上達していますね」(' + ups[0].d[1] + ' はじめ レベル' + ups[0].x.first + '→いま レベル' + ups[0].x.dan + ')');
     var low = J_DOM.map(function (d) { return { d: d, dan: dm[d[0]] ? dm[d[0]].dan : 0 }; }).sort(function (a, b) { return a.dan - b.dan; })[0];
     if (low) tips.push('「次は“' + low.d[3] + '”をやってみませんか」' + (low.dan ? '(' + low.d[1] + 'がいちばん伸ばしどころ)' : '(まだ手つかず)'));
     var notPr = learned.filter(function (c) { return !pr.some(function (p) { return p.theme_id === c; }); });
@@ -2848,7 +2848,7 @@ function loadJishu(id) {
       '<input type="text" id="j-note" maxlength="30" placeholder="ひとこと(任意・画面に出ます)" value="' + esc(pick ? pick.note : '') + '" style="max-width:260px;font-size:15px;padding:7px 10px;">' +
       '<button class="btn small ghost" onclick="saveJPick()">入れる</button></div>' +
       (pick ? '<div style="font-size:14px;color:var(--sub);margin-top:4px;">いま入っています(' + String(pick.on).slice(5, 10).replace('-', '/') + ')。ご本人がその種目をやると、メニューから外れます。</div>' : '') + '</div>';
-    el.innerHTML = '<div class="jhd">脳トレの段(はじめ→いま・下がらない)　今月 ' + (r.month_sessions || 0) + '回</div>' + rows + sumaho + tipHtml + pickHtml;
+    el.innerHTML = '<div class="jhd">脳トレのレベル(はじめ→いま・下がらない)　今月 ' + (r.month_sessions || 0) + '回</div>' + rows + sumaho + tipHtml + pickHtml;
   }).catch(function () { el.textContent = '記録を読めませんでした。'; });
 }
 function saveJPick() {

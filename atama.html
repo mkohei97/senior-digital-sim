@@ -1046,6 +1046,33 @@
   }
 
   .otsuri-pay .ots-one { position: relative; display: inline-flex; align-items: center; } .otsuri-pay .ots-one + .plus { margin: 0 4px 0 18px; }
+  /* ===== v1.40 脳トレのしくみ ===== */
+  .gd-body { display: flex; flex-direction: column; gap: 16px; flex: 1; }
+  .gd-hd { display: flex; flex-direction: column; gap: 2px; } .gd-k { font-size: 19px; color: var(--accent-deep); font-weight: 700; letter-spacing: .08em; } .gd-hd b { font-size: 36px; line-height: 1.3; }
+  .gd-main { flex: 1; display: flex; flex-direction: column; gap: 16px; justify-content: center; }
+  .gd-lead { font-size: 34px; font-weight: 700; line-height: 1.6; text-align: center; } .gd-lead b { color: var(--accent-deep); }
+  .gd-pts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .gd-pts > div { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 22px; padding: 18px 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+  .gd-pts b { font-size: 32px; color: var(--accent-deep); } .gd-pts span { font-size: 20px; color: #555555; line-height: 1.5; }
+  .gd-note { font-size: 20px; color: #555555; line-height: 1.8; text-align: center; }
+  .gd-sub { font-size: 22px; line-height: 1.7; }
+  .gd-pws { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+  .gd-pw { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 18px; padding: 10px 16px; display: flex; align-items: center; gap: 14px; }
+  .gd-pwt { display: flex; flex-direction: column; gap: 2px; min-width: 0; } .gd-pwt > span { font-size: 19px; color: #555555; line-height: 1.45; }
+  .gd-sts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .gd-st { background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 20px; padding: 22px 14px 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; position: relative; }
+  .gd-st b { font-size: 25px; } .gd-st > span:last-child { font-size: 19px; color: #555555; line-height: 1.5; }
+  .gd-n { position: absolute; top: -15px; background: var(--accent-deep); color: #FFFFFF; font-size: 18px; font-weight: 700; border-radius: 999px; padding: 0 13px; line-height: 30px; }
+  .gd-dan { display: flex; align-items: center; justify-content: center; gap: 40px; }
+  .gd-bars { display: flex; align-items: flex-end; gap: 6px; height: 90px; } .gd-bars i { width: 22px; border-radius: 4px; background: #EFEBE0; } .gd-bars i.on { background: var(--action); }
+  .gd-dtx p { font-size: 23px; line-height: 1.9; } .gd-dtx b { color: var(--accent-deep); }
+  .gd-dtx { flex: 1; max-width: 640px; }
+  .gd-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .gd-dots { display: flex; gap: 10px; } .gd-dots i { width: 14px; height: 14px; border-radius: 999px; background: #E3DFD2; } .gd-dots i.on { background: var(--action); }
+  .gd-btns { display: flex; align-items: center; gap: 18px; } .gd-btns .btn { margin: 0; }
+  .gd-skip { font-size: 20px; color: #555555; text-decoration: underline; cursor: pointer; padding: 8px 10px; }
+  .nt-howto { padding: 10px 22px !important; font-size: 20px !important; margin: 0 !important; }
+  @media (orientation: portrait) { .gd-pws { grid-template-columns: 1fr; } .gd-sts { grid-template-columns: 1fr 1fr; row-gap: 26px; } .gd-dan { flex-direction: column; gap: 20px; } .gd-lead { font-size: 32px; } }
 </style>
 </head>
 <body>
@@ -1378,7 +1405,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.39(ここスマ自習システム・横置きを基準に・内容の点検)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.40(ここスマ自習システム・横置きを基準に・脳トレのしくみ)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -1420,6 +1447,7 @@
     <div class="appbar">
       <div class="left">
         <div class="btn btn-white" style="padding:10px 22px; font-size:20px;" onclick="goHome()">最初の画面に戻る</div>
+        <div class="btn btn-white nt-howto" onclick="ntGuide(0)">脳トレのしくみ</div>
       </div>
       <div class="left" style="gap:12px;">
         <span class="icchip" style="background:#F3EAD8;"><svg viewBox="0 0 24 24" style="color:#8A6A3B;"><use href="#ic-koma"></use></svg></span>
@@ -1436,6 +1464,9 @@
     </div>
   </div>
 </div>
+
+<!-- v1.40 脳トレのしくみ -->
+<div class="screen nt-wide" id="scr-guide"><div class="pad"><div class="gd-body" id="gd-body"></div></div></div>
 
 <div class="screen nt-wide" id="scr-cat-asobi">
   <div class="pad">
@@ -2442,7 +2473,7 @@ function renderMap() {
   el.innerHTML = h;
 }
 /* 記録帳: 級(既存) + 前回の自分 + 伸びの線 */
-var RESULT_METRIC = { moji: ['cpm', '字/分'], kiki: ['step', '段'], tile: ['count', 'まで'], kioku: ['count', '個'], otsuri: ['correct', '問'], kofun: ['correct', '問'],
+var RESULT_METRIC = { moji: ['cpm', '字/分'], kiki: ['step', 'レベル'], tile: ['count', 'まで'], kioku: ['count', '個'], otsuri: ['correct', '問'], kofun: ['correct', '問'],
                       kotowaza: ['correct', '問'], sagi: ['correct', '問'], line: ['correct', '問'] };
 function sparkSvg(vals, color) {
   var w = 140, h = 40, mx = Math.max.apply(null, vals), mn = Math.min.apply(null, vals), rng = (mx - mn) || 1;
@@ -2481,7 +2512,7 @@ function renderManabi() {
     '<div class="sub-tab' + (logCat === 'nokatsu' ? ' on' : '') + '" onclick="setLogCat(\'nokatsu\')">脳トレ</div>' +
     '<div class="sub-tab' + (logCat === 'sumaho' ? ' on' : '') + '" onclick="setLogCat(\'sumaho\')">スマホ習得</div></div>';
   if (logCat === 'dan') {
-    html += brainDanHtml() + '<div class="log-note">段は、種目の出来から毎回計算しています。いちばん良かった回の段が残ります。</div>';
+    html += brainDanHtml() + '<div class="log-note">レベルは、種目の出来から毎回計算しています。いちばん良かった回のレベルが残ります。</div>';
     document.getElementById('manabi-panel').innerHTML = html;
     return;
   }
@@ -2494,7 +2525,8 @@ function renderManabi() {
     var rs = m ? results.filter(function (x) { return x.game === k && x.metric === m[0]; }).map(function (x) { return Number(x.value); }) : [];
     var line = '', spark = '';
     if (rs.length >= 1) {
-      line = (rs[1] !== undefined ? '前回 ' + rs[1] + m[1] + ' → ' : '') + '今回 <b>' + rs[0] + m[1] + '</b>';
+      var fu = function (v) { return m[1] === 'レベル' ? 'レベル' + v : v + m[1]; };
+      line = (rs[1] !== undefined ? '前回 ' + fu(rs[1]) + ' → ' : '') + '今回 <b>' + fu(rs[0]) + '</b>';
       if (rs.length >= 2) spark = sparkSvg(rs.slice(0, 8).reverse(), g.ink);
     }
     var badge;
@@ -2723,11 +2755,11 @@ function brainDanHtml() {
     var r = skillRow(b.d);
     var dan = r ? r.dan : 0, first = r ? r.first : 0;
     var bar = '<span class="dbar"><i class="f" style="width:' + (first * 10) + '%;"></i><i class="n" style="width:' + (dan * 10) + '%;"></i></span>';
-    return '<div class="drow"><b>' + b.n + '</b>' + bar + '<span class="dv">' + (dan ? dan + '段' + (r._up ? '<em>UP</em>' : '') : '<span class="none">これから</span>') + '</span></div>';
+    return '<div class="drow"><b>' + b.n + '</b>' + bar + '<span class="dv">' + (dan ? 'レベル' + dan + (r._up ? '<em>UP</em>' : '') : '<span class="none">これから</span>') + '</span></div>';
   }).join('');
   var sum = BRAIN.reduce(function (s, b) { var r = skillRow(b.d); return s + (r ? r.dan : 0); }, 0);
-  return '<div class="dan-box"><div class="dan-hd">脳トレの段 <span>' + BRAIN.length + 'つの分野で あわせて ' + sum + '段</span></div>' + rows +
-    '<div class="dan-note">うすい線＝はじめたとき／こい線＝いま。段は下がりません。</div></div>';
+  return '<div class="dan-box"><div class="dan-hd">脳トレのレベル <span>' + BRAIN.length + 'つの力で あわせて ' + sum + '</span></div>' + rows +
+    '<div class="dan-note">うすい線＝はじめたとき／こい線＝いま。レベルは下がりません。</div></div>';
 }
 
 /* v1.36 読むチャレンジの文章（黙読）。L=1短め・2ふつう・3長め。q=[問い,[正解,ほか,ほか]]。文章はすべてここスマのオリジナル */
@@ -2784,7 +2816,7 @@ function ntFmt(game, v) {
   if (game === 'yomu') return '1分に' + Math.round(v) + '字';
   return v + '問正解';
 }
-var NT_REAL_LABEL = { kiki: '聞き取れた段', kioku: '覚えられた数', cards: 'そろえるまで', tile: '押し終わるまで', otsuri: '全問を解いた時間', kotowaza: '正解の数', kofun: '正解の数', kami: '合わせられた数', handan: '反応の速さ', yomu: '読めた速さ' };
+var NT_REAL_LABEL = { kiki: '聞き取れたレベル', kioku: '覚えられた数', cards: 'そろえるまで', tile: '押し終わるまで', otsuri: '全問を解いた時間', kotowaza: '正解の数', kofun: '正解の数', kami: '合わせられた数', handan: '反応の速さ', yomu: '読めた速さ' };
 function ntRealOfPlay(game, r) {
   var g = gs[game] || { t: Date.now() }, secs = Math.round((Date.now() - g.t) / 1000);
   var o = { v: null, txt: '', hi: true };
@@ -2990,11 +3022,11 @@ function buildCourse() {
     var p = skillData.pick;
     if (p && !p.done && brainOf(p.game)) { add(brainOf(p.game), 'スタッフのおすすめ', p.game); aim = brainOf(p.game); }
     var low = doms.filter(function (x) { return !used[x.b.d]; }).sort(function (a, b) { return (a.dan - b.dan) || (b.last - a.last); })[0];
-    if (low && add(low.b.d, low.dan ? '伸ばしどころ' : 'はじめての分野') && !aim) aim = low.b.d;
+    if (low && add(low.b.d, low.dan ? '伸ばしたい力' : 'はじめての力') && !aim) aim = low.b.d;
     var stale = doms.filter(function (x) { return !used[x.b.d]; }).sort(function (a, b) { return b.last - a.last; })[0];
-    if (stale) add(stale.b.d, !stale.dan ? 'はじめての分野' : 'しばらくぶり');
+    if (stale) add(stale.b.d, !stale.dan ? 'はじめての力' : '間があいた力');
     var best = doms.filter(function (x) { return !used[x.b.d]; }).sort(function (a, b) { return b.dan - a.dan; })[0];
-    if (best && items.length < 4) add(best.b.d, best.dan ? 'しめくくりは得意な分野で' : 'しめくくり');
+    if (best && items.length < 4) add(best.b.d, best.dan ? '締めくくりは得意な力で' : '締めくくり');
   }
   ['kiku', 'oboeru', 'kazu', 'mitsukeru'].forEach(function (d) { if (items.length < 4) add(d, 'もうひとつ'); });
   return { day: mDay(), items: items.slice(0, 4), aim: aim || items[1].d, i: 0, t0: 0, secs: 0, res: [], active: false, finished: false };
@@ -3071,7 +3103,7 @@ function courseReview() {
   var usedD = {}; course.res.forEach(function (x) { usedD[x.d] = true; });
   var lamps = BRAIN.map(function (b) { return '<div class="rv-lamp' + (usedD[b.d] ? ' on' : '') + '">' + ntChip(usedD[b.d] ? b : { chip: '#EFEBE0', ink: '#B5AFA4', ic: b.ic }, 54, 30) + '<span>' + b.n + '</span></div>'; }).join('');
   var ups = [];
-  BRAIN.forEach(function (b) { var r = skillRow(b.d), bef = (course.before || {})[b.d] || 0; if (r && r.dan > bef && usedD[b.d]) ups.push(bef ? ntPower(b) + 'が' + (r.dan - bef === 1 ? '一段' : (r.dan - bef) + '段') + '上がりました（' + bef + '段 → ' + r.dan + '段）' : ntPower(b) + 'は ' + r.dan + '段からのスタートです'); });
+  BRAIN.forEach(function (b) { var r = skillRow(b.d), bef = (course.before || {})[b.d] || 0; if (r && r.dan > bef && usedD[b.d]) ups.push(bef ? ntPower(b) + 'が、レベル' + bef + ' → レベル' + r.dan + ' に上がりました' : ntPower(b) + 'は、レベル' + r.dan + 'からのスタートです'); });
   var rows = course.res.map(function (x) {
     var b = ntB(x.d), st = '前回なみ', col = '#8B857A';
     if (x.v === null || x.v === undefined) { st = ''; }
@@ -3129,14 +3161,14 @@ function showBrain() {
     var g = b.games[0], v = ntPrev(g);
     b.games.forEach(function (x) { if (v === null) v = ntPrev(x), g = x; });
     return '<div class="br-row" onclick="ntPick(\'' + b.d + '\')"><span class="br-lb">' + ntLabelA(b, 21) + '</span>' + ntStairs(first, dan, b.ink) +
-      '<span class="br-v"><b style="color:' + b.ink + ';">' + (dan ? dan + '段' : 'これから') + '</b><i>' + (v !== null ? ntEsc(ntFmt(g, v)) : '') + '</i></span><span class="br-go">選ぶ ›</span></div>';
+      '<span class="br-v"><b style="color:' + b.ink + ';">' + (dan ? 'レベル' + dan : 'これから') + '</b><i>' + (v !== null ? ntEsc(ntFmt(g, v)) : '') + '</i></span><span class="br-go">選ぶ ›</span></div>';
   }).join('');
   document.getElementById('br-body').innerHTML =
-    '<div class="br-hd"><b>7つの力の記録</b><span>力ごとの、いまの段（1〜10段）。段は下がりません</span></div>' +
+    '<div class="br-hd"><b>7つの力の記録</b><span>力ごとの、いまのレベル（1〜10）。レベルは下がりません</span></div>' +
     '<div class="br-wrap"><div class="br-left"><div class="br-cap">全体の形</div>' + ntRadar(330) +
     '<div class="br-leg"><span><i class="f"></i>はじめ</span><span><i class="n"></i>いま</span></div>' +
-    '<div class="br-sum">合計 <b>' + sum + '段</b>' + (sum > sumF && sumF ? '　はじめから <em>+' + (sum - sumF) + '段</em>' : '') + '</div></div>' +
-    '<div class="br-right">' + rows + '<div class="br-note">階段を押すと、その分野の種目を選んで始められます。<span style="color:#C2410C;">●</span>＝はじめの段</div></div></div>';
+    '<div class="br-sum">合計 <b>' + (sum ? 'レベル' + sum : 'これから') + '</b>' + (sum > sumF && sumF ? '　はじめから <em>+' + (sum - sumF) + '</em>' : '') + '</div></div>' +
+    '<div class="br-right">' + rows + '<div class="br-note">力を押すと、その力の種目を選んで始められます。<span style="color:#C2410C;">●</span>＝はじめたときのレベル</div></div></div>';
   show('scr-brain');
 }
 function ntPick(d) {
@@ -4641,7 +4673,7 @@ function kiokuExit() {
 // ------- 聞き取りチャレンジ(v1.9・19k裁定: 速度を上げながら二択チェック) -------
 var KIKI_SPEEDS = [0.9, 1.0, 1.15, 1.3, 1.5, 1.75, 2.0]; // 19m: 上限を1.5→2.0倍に
 var KIKI_QUESTIONS = 5; // v1.27: 4→5問(前回の一段下から始めて2.0倍まで届く)
-function kikiTopLabel() { return record.kikiStep ? record.kikiStep + '段' : kikiSpeedLabel(record.kikiTop); }
+function kikiTopLabel() { return record.kikiStep ? 'レベル' + record.kikiStep : kikiSpeedLabel(record.kikiTop); }
 function kikiSpeedLabel(s) { return (s === 1 ? '1' : String(s)) + '倍'; }
 var KIKI_TASKS = [
   { text: '山梨県は、ぶどうの産地として有名です。', q: '今の文で、ぶどうの産地は<br>どこでしたか？', c: ['山梨県', '青森県'], a: 0 },
@@ -4811,14 +4843,14 @@ function kkStairsHtml(best, mark, fresh) {
     h += '<line x1="' + a + '" y1="' + (base + 8) + '" x2="' + b + '" y2="' + (base + 8) + '" stroke="#E3DFD2" stroke-width="2"></line>' +
       '<text x="' + ((a + b) / 2) + '" y="' + (base + 30) + '" text-anchor="middle" font-size="17" fill="#555555">' + g[2] + '</text>';
   });
-  return '<svg class="kk-stairs" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="聞き取りの階段 ' + best + '段まで">' + h + '</svg>';
+  return '<svg class="kk-stairs" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="聞き取りのレベル ' + best + 'まで">' + h + '</svg>';
 }
 function kkIntro() {
   kikiBadge(''); kkStop();
   var st = kkStartStep(), best = kkBest();
   document.getElementById('kiki-body').innerHTML =
     '<div style="font-size:30px;font-weight:700;">暮らしの会話</div>' +
-    '<div class="kk-sub">聞き取れるたびに、一段ずつ昇ります（全10段）</div>' +
+    '<div class="kk-sub">聞き取れるたびに、レベルが1つずつ上がります（レベル1〜10）</div>' +
     kkStairsHtml(best, st) +
     '<div class="kiki-pill">今日は「' + kkStepName(st) + '」から</div>' +
     '<div class="btn btn-primary" style="margin:0;padding:16px 60px;font-size:27px;" onclick="kkStart()">はじめる</div>';
@@ -4859,7 +4891,7 @@ function kkListen() {
   kk.replays = 0; kk.qi = 0; kk.okThis = 0; kk.nThis = 0;
   kikiBadge(kkStepName(kk.step) + ' ・ ' + (kk.n + 1) + '／' + KK_PER_SESSION + '題');
   document.getElementById('kiki-body').innerHTML =
-    (kk.up ? '<div class="kk-up">一段上がりました。' + kkStepName(kk.step) + 'です</div>' : '') +
+    (kk.up ? '<div class="kk-up">レベルが1つ上がりました。' + kkStepName(kk.step) + 'です</div>' : '') +
     '<div class="kk-scene">' + kkEsc(it.title) + '</div>' +
     (c.pre ? kkAskHtml(it) : '') + kkVisHtml('よく聞いてください', kk.up) +
     '<div class="kiki-btnrow">' +
@@ -4875,7 +4907,7 @@ function kkPlayItem() {
   kkPlay(kkSrc(), 1, function (err) { kkUi(false, err ? '音声を読み込めませんでした。もう一度お試しください' : '聞き取れましたか'); });
 }
 function kkReplay() {
-  if (!kkCfg().pre && kk.replays >= (kkCfg().re || 0)) { var h = document.getElementById('kk-hint'); if (h) h.textContent = 'この段では、もう聞けません。覚えているところで答えてみましょう'; return; }
+  if (!kkCfg().pre && kk.replays >= (kkCfg().re || 0)) { var h = document.getElementById('kk-hint'); if (h) h.textContent = 'このレベルでは、もう聞けません。覚えているところで答えてみましょう'; return; }
   kk.replays++; kkPlayItem();
 }
 function kkRelistenHtml() { return kkCfg().pre ? '<div class="kiki-relisten" onclick="kkReplayAny()"><svg viewBox="0 0 24 24"><use href="#ic-replay"></use></svg><span>もう一度聞く</span></div>' : ''; }
@@ -4919,7 +4951,7 @@ function kkPush() {
     (kkCfg().re ? '<div class="kiki-relisten" onclick="kkReplayPush()"><svg viewBox="0 0 24 24"><use href="#ic-replay"></use></svg><span>もう一度聞く</span></div>' : '');
 }
 function kkReplayPush() {
-  if (!kkCfg().pre && kk.replays >= (kkCfg().re || 0)) { var m = document.getElementById('kiki-msg'); if (m && !m.textContent) m.textContent = 'この段では、もう聞けません'; return; }
+  if (!kkCfg().pre && kk.replays >= (kkCfg().re || 0)) { var m = document.getElementById('kiki-msg'); if (m && !m.textContent) m.textContent = 'このレベルでは、もう聞けません'; return; }
   if (!kkCfg().pre) kk.replays++;
   kkPlay(kkSrc(), 1, function () {});
 }
@@ -4988,7 +5020,7 @@ function kkResult() {
     '<div class="kiki-done">できました</div>' +
     '<div class="kk-sub"><b style="font-size:30px;color:var(--action);">' + kk.correct + '</b>／' + kk.total + '問 聞き取れました</div>' +
     kkStairsHtml(best, 0, best > before ? [before, best] : null) +
-    '<div class="kiki-pill">' + (best > before ? '新しく ' + best + '段（' + kkStepName(best) + '）まで昇りました' : (best > 0 ? best + '段（' + kkStepName(best) + '）まで昇っています' : 'じっくり聞きました。次もこの続きから')) + '</div>' +
+    '<div class="kiki-pill">' + (best > before ? '新しく レベル' + best + '（' + kkStepName(best) + '）まで上がりました' : (best > 0 ? 'レベル' + best + '（' + kkStepName(best) + '）まで上がっています' : 'じっくり聞きました。次もこの続きから')) + '</div>' +
     '<div class="msg">' + sakuraIconHtml(34) + SKIN.name.replace('みんなの', '') + 'が 1' + SKIN.unit + ' ' + SKIN.verb + '</div>' +
     '<div class="kiki-btnrow">' +
     '<div class="btn btn-primary" style="margin:0;padding:17px 52px;font-size:27px;" onclick="kkIntro()">もう一回</div>' +
@@ -18253,7 +18285,7 @@ function ntDoorSync() {
   var el = document.getElementById('door-nt-st'); if (!el) return;
   ensureCourse();
   var n = course.items.filter(function (x) { return x.done; }).length, h = '';
-  if (sessM() && skillData) { var t = ntSumDan(); if (t.s) h += '<span class="dr-num">7つの力　合計 <b>' + t.s + '</b>段</span>'; }
+  if (sessM() && skillData) { var t = ntSumDan(); if (t.s) h += '<span class="dr-num">7つの力　合計レベル <b>' + t.s + '</b></span>'; }
   h += course.finished ? '<span class="dr-pill ok">今日の脳トレ　できました ✓</span>'
     : (n ? '<span class="dr-pill go">今日の脳トレ　あと' + (4 - n) + 'つ</span>' : '<span class="dr-pill go">今日の脳トレ　4つ・約7分</span>');
   el.innerHTML = h;
@@ -18264,8 +18296,8 @@ function ntHubSync() {
   var t = ntSumDan(), mem = !!sessM();
   a.innerHTML = (mem && t.s ? ntRadar(300, true) : '<span class="hub-ic">' + ntChip({ chip: '#E3F2F0', ink: '#0B4F42', ic: 'ic-target' }, 84, 48) + '</span>') +
     '<span class="hub-tx"><b>7つの力の記録</b>' +
-    (mem ? (t.s ? '<span>合計 <em>' + t.s + '段</em></span>' + (t.f && t.s > t.f ? '<span>はじめから +' + (t.s - t.f) + '段</span>' : '') : '<span>種目をすると、段がつきます</span>')
-         : '<span>会員証ではじめると、段が記録に残ります</span>') +
+    (mem ? (t.s ? '<span>合計 <em>レベル' + t.s + '</em></span>' + (t.f && t.s > t.f ? '<span>はじめから +' + (t.s - t.f) + '</span>' : '') : '<span>種目をすると、レベルがつきます</span>')
+         : '<span>会員証ではじめると、レベルが記録に残ります</span>') +
     '<i>くわしく見る ›</i></span>';
   var gs7 = ['kiki', 'yomu', 'kioku', 'tile', 'otsuri', 'kami'];
   p.innerHTML = '<span class="hub-chips">' + gs7.map(function (g) { var x = ACT[g]; return x ? ntChip({ chip: x.chip, ink: x.ink, ic: x.ic }, 50, 28) : ''; }).join('') + '</span>' +
@@ -18299,6 +18331,60 @@ setTimeout(ntFitInfo, 300);
 (function () {
   var _cb = courseBarSync;
   courseBarSync = function () { _cb(); try { var bar = document.getElementById('course-bar'); document.body.classList.toggle('in-course', !!(bar && bar.style.display !== 'none')); } catch (e) {} };
+})();
+
+
+/* ===== v1.40 脳トレのしくみ（オリエンテーション・4枚） ===== */
+var NT_USE = {
+  kiku: '電話や窓口の説明を、一度で聞き取る',
+  yomu: 'お知らせや説明書きを、読んで分かる',
+  oboeru: '順番や場所を、少しのあいだ覚えておく',
+  mitsukeru: 'たくさんの中から、目当てのものを探す',
+  kazu: '買い物の計算を、頭の中でする',
+  kotoba: '知っていることを、すっと思い出す',
+  handan: '押す・押さないを、とっさに決める'
+};
+var ntGuideP = 0, ntGuideBack = 'scr-nt', ntGuideGuestSeen = false;
+function ntGuideKey() { return 'kokosuma_guide_seen_' + (sessM() || 'guest'); }
+function ntGuideSeen() { if (!sessM()) return ntGuideGuestSeen; try { return !!storeGet(ntGuideKey()); } catch (e) { return true; } }
+function ntGuideMark() { if (!sessM()) { ntGuideGuestSeen = true; return; } try { storeSet(ntGuideKey(), '1'); } catch (e) {} }
+function ntGuide(p, back) { ntGuideP = p || 0; ntGuideBack = back || 'scr-nt'; ntGuideRender(); show('scr-guide'); }
+function ntGuidePages() {
+  var powers = BRAIN.map(function (b) {
+    return '<div class="gd-pw">' + ntChip(b, 56, 32) + '<div class="gd-pwt">' + ntLabelB(b, 24) + '<span>' + NT_USE[b.d] + '</span></div></div>';
+  }).join('');
+  var steps = [['1', '準備体操', '見きわめる力で、頭と指を動かし始めます'], ['2', '伸ばしたい力', 'いま、レベルがいちばん低い力'], ['3', '間があいた力', '前回から、いちばん日がたっている力'], ['4', '得意な力', '最後は得意な力で、気持ちよく締めくくります']]
+    .map(function (x) { return '<div class="gd-st"><span class="gd-n">' + x[0] + '</span><b>' + x[1] + '</b><span>' + x[2] + '</span></div>'; }).join('');
+  var demo = '';
+  for (var i = 1; i <= 10; i++) demo += '<i style="height:' + (10 + i * 7) + 'px;" class="' + (i <= 6 ? 'on' : '') + '"></i>';
+  return [
+    { t: '脳トレとは', b: '<div class="gd-lead">暮らしの中で使う<b>7つの力</b>を、<br>短い時間で、少しずつ。</div>' +
+        '<div class="gd-pts"><div><b>約7分</b><span>1回の来店で「今日の脳トレ」4つ</span></div><div><b>10の種目</b><span>自分で選んで、好きなだけ</span></div><div><b>レベル1〜10</b><span>力ごとに、レベルで記録します</span></div></div>' +
+        '<div class="gd-note">点数や順位を、ほかの人と比べることはありません。比べるのは、前の自分です。</div>' },
+    { t: '7つの力', b: '<div class="gd-sub">脳トレの10の種目は、暮らしの中で使う7つの力に分けてあります。</div><div class="gd-pws">' + powers + '</div>' },
+    { t: '今日の脳トレ', b: '<div class="gd-sub">来店のたびに、その日の4つを組み立てます。続けて流れるので、「次へ」を押すだけです。</div><div class="gd-sts">' + steps + '</div>' +
+        '<div class="gd-note">途中でやめても大丈夫です。できたところまで記録します。<br>終わると「ふりかえり」で、今日使った力と前回との比べが出ます。</div>' },
+    { t: 'レベルのしくみ', b: '<div class="gd-dan"><div class="gd-bars">' + demo + '</div><div class="gd-dtx">' +
+        '<p>力ごとに<b>レベル1からレベル10</b>まであります。</p><p>種目の出来からレベルがつきます。<b>レベルは下がりません。</b></p><p>いまのレベルは「<b>7つの力の記録</b>」で、いつでも見られます。</p></div></div>' +
+        '<div class="gd-note">会員証ではじめると、どのタブレットでも同じ記録が続きます。</div>' }
+  ];
+}
+function ntGuideRender() {
+  var pg = ntGuidePages(), p = pg[ntGuideP], last = ntGuideP === pg.length - 1;
+  var dots = pg.map(function (x, i) { return '<i class="' + (i === ntGuideP ? 'on' : '') + '"></i>'; }).join('');
+  document.getElementById('gd-body').innerHTML =
+    '<div class="gd-hd"><span class="gd-k">脳トレのしくみ　' + (ntGuideP + 1) + '／' + pg.length + '</span><b>' + p.t + '</b></div>' +
+    '<div class="gd-main">' + p.b + '</div>' +
+    '<div class="gd-foot"><div class="gd-dots">' + dots + '</div><div class="gd-btns">' +
+    (ntGuideP ? '<div class="btn-outline" style="padding:10px 34px;font-size:22px;" onclick="ntGuideGo(-1)">もどる</div>' : '<div class="gd-skip" onclick="ntGuideDone()">とばす</div>') +
+    '<div class="btn btn-primary" style="margin:0;padding:13px 50px;font-size:24px;" onclick="' + (last ? 'ntGuideDone()' : 'ntGuideGo(1)') + '">' + (last ? 'はじめる' : '次へ') + '</div></div></div>';
+}
+function ntGuideGo(d) { ntGuideP = Math.max(0, Math.min(3, ntGuideP + d)); ntGuideRender(); }
+function ntGuideDone() { ntGuideMark(); if (ntGuideBack === 'scr-nt') showNt(); else show(ntGuideBack); }
+/* 脳トレの部屋に、はじめて入ったときだけ自動で出す */
+(function () {
+  var _sn = showNt;
+  showNt = function () { if (!ntGuideSeen()) { renderReco(); ntGuide(0, 'scr-nt'); return; } _sn(); };
 })();
 
 </script>
