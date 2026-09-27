@@ -1368,6 +1368,27 @@
   .drl-b em.new { color: #6B7773; background: rgba(31,42,40,.06); font-weight: 400; }
   @media (orientation: portrait) { .drl-row { grid-template-columns: 190px minmax(0, 1fr); gap: 10px; padding: 12px 12px; } .drl-rg .chip { width: 42px; height: 42px; } .drl-rg b { font-size: 19px; }
     .drl-btns { grid-template-columns: 1fr; gap: 8px; } .drl-b { padding: 12px 16px; } }
+  /* ===== v1.48 基本練習（数字を聞き取る・場所を覚える・頭の文字から） ===== */
+  .drl-nbc .q-choice { font-size: 30px !important; }
+  .drl-basho { display: grid; gap: 12px; } .drl-basho.c3 { grid-template-columns: repeat(3, 120px); } .drl-basho.c4 { grid-template-columns: repeat(4, 104px); }
+  .drl-bc { aspect-ratio: 1 / 1.1; border-radius: 16px; background: var(--season-pale); border: 1px solid rgba(31,42,40,.10); box-shadow: 0 4px 12px rgba(24,48,42,.08); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .drl-bc svg { width: 64%; height: 64%; visibility: hidden; }
+  .drl-basho.show .drl-bc { background: #FFFFFF; } .drl-basho.show .drl-bc svg { visibility: visible; }
+  .drl-bc.ok { box-shadow: 0 0 0 4px #11866D; } .drl-bc.ng { box-shadow: 0 0 0 4px #E3A57A; }
+  .drl-ask { display: inline-flex; align-items: center; gap: 10px; font-size: 26px; color: #1F2A28; font-weight: 700; } .drl-ask svg { width: 52px; height: 52px; background: #fff; border-radius: 12px; padding: 4px; }
+  .drl-ksq { display: flex; align-items: baseline; gap: 10px; font-size: 28px; font-weight: 700; } .drl-ksq b { font-size: 46px; color: #0B4F42; }
+  .drl-basho.c3 { grid-template-columns: repeat(3, 150px); } .drl-basho.c4 { grid-template-columns: repeat(4, 128px); }
+  @media (orientation: landscape) { #scr-drl .drl-basho.c4 { grid-template-columns: repeat(4, 118px); } #scr-drl .drl-basho .drl-bc { aspect-ratio: 1 / 0.86; } }
+  /* 一覧：種目ごとの札を2列に（13になって1行ずつでは入らないため） */
+  #drl-list { display: grid !important; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .drl-row { grid-template-columns: 1fr !important; gap: 8px !important; padding: 10px 14px 12px !important; }
+  .drl-rg { gap: 10px; } .drl-rg .chip { width: 38px !important; height: 38px !important; } .drl-rg .chip svg { width: 22px; height: 22px; }
+  .drl-rg > span:last-child { flex-direction: row-reverse !important; justify-content: flex-end; align-items: baseline; gap: 2px; } .drl-rg b { font-size: 20px !important; } .drl-rg .drl-of { font-size: 16px !important; }
+  .drl-btns { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+  .drl-b { padding: 10px 12px !important; gap: 6px !important; } .drl-b b { font-size: 20px !important; } .drl-b em { font-size: 13px !important; padding: 2px 8px !important; }
+  @media (orientation: portrait) { #drl-list { grid-template-columns: 1fr 1fr; gap: 10px; } .drl-btns { grid-template-columns: 1fr !important; } .drl-rg b { font-size: 18px !important; } .drl-rg .drl-of { font-size: 14px !important; } }
+  .drl-b em.new { display: none; }
+  .drl-b b { white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -1701,7 +1722,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.47(ここスマ自習システム・白とガラス・基本練習10)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.48(ここスマ自習システム・白とガラス・基本練習13)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -1847,7 +1868,7 @@
       </div>
       <div class="gcard drl-door" onclick="drList()">
         <span class="chip" style="background:#E3F2EE; color:#0B4F42;"><svg viewBox="0 0 24 24"><use href="#ic-gauge"></use></svg></span>
-        <div class="tx"><b>基本練習</b><span>種目を分けた、1分ほどの短い練習</span><span class="drl-mini"><i>一瞬で読む</i><i>光ったマス</i><i>千円のお釣り</i><i>ほか7つ</i></span></div>
+        <div class="tx"><b>基本練習</b><span>種目を分けた、1分ほどの短い練習</span><span class="drl-mini"><i>数字を聞き取る</i><i>光ったマス</i><i>千円のお釣り</i><i>ほか10</i></span></div>
       </div>
     </div>
   </div>
@@ -20157,6 +20178,140 @@ drList = function () {
       }).join('') + '</div></div>';
   }).join('');
   show('scr-drill');
+};
+/* ===== v1.48 基本練習を13に（数字を聞き取る・場所を覚える・頭の文字から） ===== */
+DRL.splice(0, 0,
+  { id: 'nb', g: 'kiki', n: '数字を聞き取る', d: '短いお知らせを聞いて、数字だけを聞き取ります。',
+    lines: ['窓口や電話のような、短いお知らせが流れます。', '中に出てくる数字（番号・時刻・金額など）を、4つの中から選びます。レベルが上がると、長く・速くなります。'], meta: ['8問・約2分', '2問続けて正解で、レベルが1つ上'], cd: false });
+DRL.splice(DRL.findIndex(function (x) { return x.id === 'lr'; }) + 1, 0,
+  { id: 'basho', g: 'cards', n: '場所を覚える', d: '絵が少しのあいだ見えます。言われた絵があった場所を押します。',
+    lines: ['札が表になって、少しのあいだ絵が見えます。', '札が裏返ったあと、言われた絵がどこにあったか、その札を押します。'], meta: ['8回・約1分半', '2回続けて正解で、札が増えたり、見える時間が短くなったりします'], cd: true });
+DRL.splice(DRL.findIndex(function (x) { return x.id === 'rt'; }), 0,
+  { id: 'kashira', g: 'kotowaza', n: '頭の文字から', d: '「くだもの」で「み」から始まるもの、のように、言葉を思い出します。',
+    lines: ['「なかま」と「はじめの文字」が出ます。（たとえば、くだもので「み」から始まるもの）', '当てはまる言葉を、4つの中から選びます。時間の帯がなくなる前に選びます。'], meta: ['10問・約1分半', '2問続けて正解で、帯が短くなります'], cd: false });
+
+/* ---- 数字を聞き取る（音声は kiki_audio/kurashi/nbXX_vN.mp3） ---- */
+var NB = [
+  { id: 'nb01', L: 1, q: '何番の窓口？', c: ['3番', '8番', '13番', '30番'] }, { id: 'nb02', L: 1, q: 'お会計は？', c: ['720円', '702円', '760円', '1720円'] },
+  { id: 'nb03', L: 1, q: 'バスが出るのは？', c: ['10時15分', '10時50分', '12時15分', '10時5分'] }, { id: 'nb04', L: 1, q: '何階？', c: ['4階', '7階', '1階', '14階'] },
+  { id: 'nb05', L: 1, q: '次の診察は何日？', c: ['12日', '2日', '20日', '11日'] }, { id: 'nb06', L: 1, q: '呼ばれたのは何番？', c: ['180番', '118番', '108番', '190番'] },
+  { id: 'nb07', L: 1, q: '集合は？', c: ['午後1時半', '午後7時半', '午前1時半', '午後1時'] }, { id: 'nb08', L: 1, q: '一日に何回？', c: ['2回', '3回', '1回', '4回'] },
+  { id: 'nb09', L: 2, q: 'お会計は？', c: ['3,480円', '3,840円', '4,380円', '3,408円'] }, { id: 'nb10', L: 2, q: '予約は何時何分から？', c: ['11時40分', '11時14分', '1時40分', '11時4分'] },
+  { id: 'nb11', L: 2, q: '会員番号は？', c: ['5628番', '5268番', '6528番', '5682番'] }, { id: 'nb12', L: 2, q: 'しめきりは？', c: ['27日の午前9時', '17日の午前9時', '27日の午前7時', '20日の午前9時'] },
+  { id: 'nb13', L: 2, q: '部屋の番号は？', c: ['312号室', '321号室', '302号室', '213号室'] }, { id: 'nb14', L: 2, q: '送料は？', c: ['650円', '560円', '615円', '1650円'] },
+  { id: 'nb15', L: 2, q: '次の電車は何時何分発？', c: ['8時26分', '8時62分', '6時26分', '8時16分'] }, { id: 'nb16', L: 2, q: '受付番号は？', c: ['38052番', '38025番', '30852番', '38502番'] },
+  { id: 'nb17', L: 3, q: '電話番号は？', c: ['072-953-4186', '072-935-4186', '072-953-4168', '072-593-4186'] }, { id: 'nb18', L: 3, q: '折り返しの番号は？', c: ['090-2748-6135', '090-2784-6135', '090-2748-6153', '090-7248-6135'] },
+  { id: 'nb19', L: 3, q: 'お釣りは？', c: ['7,400円', '7,600円', '8,400円', '6,400円'] }, { id: 'nb20', L: 3, q: '郵便番号は？', c: ['583-0027', '583-0072', '538-0027', '583-2007'] },
+  { id: 'nb21', L: 3, q: '次回の日にちは？', c: ['11月18日', '11月8日', '10月18日', '11月28日'] }, { id: 'nb22', L: 3, q: 'ポイントの合計は？', c: ['1,860ポイント', '1,680ポイント', '240ポイント', '1,806ポイント'] },
+  { id: 'nb23', L: 3, q: '電話番号は？', c: ['06-6789-0243', '06-6798-0243', '06-6789-0234', '06-6789-2043'] }, { id: 'nb24', L: 3, q: '自分の整理券は何番？', c: ['235番', '218番', '253番', '228番'] }
+];
+/* レベル＝[長さ, 速さ(0ゆっくり〜3とても速い), もう一度聞ける] */
+var NB_LV = [null, [1, 0, 1], [1, 1, 1], [2, 1, 1], [2, 2, 1], [3, 1, 1], [3, 2, 1], [2, 3, 0], [3, 2, 0], [3, 3, 1], [3, 3, 0]];
+var NB_LEN = ['', '短い', 'ふつう', '長い'], NB_SPD = ['ゆっくり', 'ふつう', '速い', 'とても速い'];
+DRL_RUN.nb = function () {
+  drl.adapt = true; var N = 8, used = {};
+  function q() {
+    try { kkStop(); } catch (e) {}
+    if (drl.k >= N) { var c = Math.max(1, drl.cleared), L = NB_LV[c]; return drlEnd(c, NB_LEN[L[0]] + 'お知らせを「' + NB_SPD[L[1]] + '」で'); }
+    var L = NB_LV[drl.lv], pool = NB.filter(function (x) { return x.L === L[0] && !used[x.id]; }); if (!pool.length) pool = NB.filter(function (x) { return x.L === L[0]; });
+    var it = pool[Math.floor(Math.random() * pool.length)], order = shuffle([0, 1, 2, 3]), played = 0; used[it.id] = 1; drl.ans = it.c[0];
+    var src = KK_DIR + 'kurashi/' + it.id + '_v' + L[1] + '.mp3';
+    drlArea(N, '<div class="chk-listen"><svg viewBox="0 0 24 24"><use href="#ic-ear"></use></svg><b>' + NB_SPD[L[1]] + '</b><span class="chk-msg" id="drl-msg">よく聞いてください</span></div>');
+    function ask(err) {
+      drlArea(N, (err ? '<div class="chk-msg">音声を読み込めませんでした。わかる範囲で答えてください</div>' : '') + '<div class="kiki-q">' + ntEsc(it.q) + '</div>' +
+        '<div class="otsuri-choices drl-nbc" id="drl-ch">' + order.map(function (i) { return '<div class="q-choice" data-i="' + i + '">' + ntEsc(it.c[i]) + '</div>'; }).join('') + '</div>' +
+        (L[2] && played < 2 ? '<div class="btn btn-white" style="margin:0;padding:10px 30px;font-size:21px;" id="drl-re">もう一度聞く</div>' : ''));
+      var re = document.getElementById('drl-re');
+      if (re) re.onclick = function () { played++; re.textContent = '再生中…'; kkPlay(src, 1, function () { if (re) re.remove(); }); };
+      Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .q-choice'), function (b) {
+        b.onclick = function () {
+          if (drl.lock) return; drl.lock = true; try { kkStop(); } catch (e) {} var ok = b.getAttribute('data-i') === '0'; drl.k++;
+          Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .q-choice'), function (e) { e.classList.add(e.getAttribute('data-i') === '0' ? 'correct' : 'dim'); });
+          var r = document.getElementById('drl-re'); if (r) r.remove();
+          drlAdapt(ok); drlFlashOk(ok, function () { drl.lock = false; q(); });
+        };
+      });
+    }
+    function play() { played = 1; document.getElementById('drl-msg').textContent = 'よく聞いてください'; kkPlay(src, 1, function (err) { if (drl && !drl.dead) ask(err); }); }
+    if (!drl.unlocked) {
+      document.getElementById('drl-msg').innerHTML = '<span class="btn btn-primary" style="margin:0;padding:14px 50px;font-size:26px;" id="drl-play">聞く</span>';
+      document.getElementById('drl-play').onclick = function () { drl.unlocked = true; play(); };
+    } else drlLater(play, 500);
+  }
+  q();
+};
+(function () { var _q = drlQuit; drlQuit = function () { try { kkStop(); } catch (e) {} _q(); }; })();
+
+/* ---- 場所を覚える ---- */
+var BASHO_LV = [null, [3, 2, 3, 2500], [3, 2, 4, 2500], [3, 3, 4, 2000], [3, 3, 5, 2000], [4, 3, 5, 2000], [4, 3, 6, 2000], [4, 3, 6, 1500], [4, 3, 7, 1500], [4, 4, 8, 1500], [4, 4, 8, 1000]];
+DRL_RUN.basho = function () {
+  drl.adapt = true; var N = 8;
+  function q() {
+    if (drl.k >= N) { var c = Math.max(1, drl.cleared), L = BASHO_LV[c]; return drlEnd(c, (L[0] * L[1]) + '枚のうち ' + L[2] + '枚の絵を ' + drlSec(L[3]) + 'で'); }
+    var L = BASHO_LV[drl.lv], n = L[0] * L[1], pos = shuffle(Array.apply(null, { length: n }).map(function (x, i) { return i; })).slice(0, L[2]), fs = shuffle(FACES.slice()).slice(0, L[2]);
+    var tgt = Math.floor(Math.random() * L[2]), live = false; drl.ans = pos[tgt];
+    var cells = ''; for (var i = 0; i < n; i++) { var j = pos.indexOf(i); cells += '<span class="drl-bc' + (j >= 0 ? ' has' : '') + '" data-i="' + i + '">' + (j >= 0 ? '<svg viewBox="0 0 24 24"><use href="#ic-' + fs[j].id + '"></use></svg>' : '') + '</span>'; }
+    drlArea(N, '<div class="drl-basho c' + L[0] + '" id="drl-m">' + cells + '</div><div class="chk-msg" id="drl-msg">絵と場所を、よく見ていてください</div>');
+    var els = document.querySelectorAll('#drl-m .drl-bc');
+    drlLater(function () {
+      document.getElementById('drl-m').classList.add('show');
+      drlLater(function () {
+        document.getElementById('drl-m').classList.remove('show'); live = true;
+        document.getElementById('drl-msg').innerHTML = '<span class="drl-ask"><svg viewBox="0 0 24 24"><use href="#ic-' + fs[tgt].id + '"></use></svg>「' + fs[tgt].label + '」は、どこにありましたか？</span>';
+      }, L[3]);
+    }, 500);
+    Array.prototype.forEach.call(els, function (el) {
+      el.onclick = function () {
+        if (!live) return; live = false; var i = parseInt(el.getAttribute('data-i'), 10), ok = i === pos[tgt]; drl.k++;
+        document.getElementById('drl-m').classList.add('show'); els[pos[tgt]].classList.add('ok'); if (!ok) el.classList.add('ng');
+        drlAdapt(ok); drlFlashOk(ok, function () { drlLater(q, ok ? 200 : 700); });
+      };
+    });
+  }
+  q();
+};
+
+/* ---- 頭の文字から ---- */
+var KSR = {
+  'くだもの': ['みかん', 'りんご', 'ぶどう', 'もも', 'なし', 'かき', 'いちご', 'すいか', 'バナナ', 'メロン'],
+  'やさい': ['だいこん', 'にんじん', 'きゅうり', 'なす', 'たまねぎ', 'ごぼう', 'れんこん', 'かぼちゃ', 'ねぎ', 'キャベツ'],
+  'さかな': ['さば', 'さんま', 'あじ', 'いわし', 'たい', 'ぶり', 'まぐろ', 'かつお', 'さけ', 'ひらめ'],
+  'どうぶつ': ['いぬ', 'ねこ', 'うま', 'うし', 'さる', 'きつね', 'たぬき', 'くま', 'しか', 'うさぎ'],
+  'はな': ['さくら', 'うめ', 'きく', 'ばら', 'ゆり', 'ひまわり', 'あさがお', 'つばき', 'すみれ', 'ききょう'],
+  'のりもの': ['でんしゃ', 'バス', 'ふね', 'じてんしゃ', 'タクシー', 'ひこうき', 'くるま', 'しんかんせん', 'バイク', 'ロープウェイ']
+};
+function ksrHead(w) { var c = w.charAt(0), k = c.charCodeAt(0); if (k >= 0x30A1 && k <= 0x30F6) c = String.fromCharCode(k - 0x60); return c; }
+function ksrMake() {
+  var all = []; Object.keys(KSR).forEach(function (cat) { KSR[cat].forEach(function (w) { all.push({ w: w, cat: cat, h: ksrHead(w) }); }); });
+  for (var t = 0; t < 100; t++) {
+    var tg = all[Math.floor(Math.random() * all.length)];
+    if (all.filter(function (x) { return x.cat === tg.cat && x.h === tg.h; }).length !== 1) continue;
+    var sameHead = shuffle(all.filter(function (x) { return x.h === tg.h && x.cat !== tg.cat; }));
+    if (!sameHead.length) continue;
+    var sameCat = shuffle(all.filter(function (x) { return x.cat === tg.cat && x.h !== tg.h; }));
+    var ds = sameHead.slice(0, 2); while (ds.length < 3) ds.push(sameCat[ds.length]);
+    return { cat: tg.cat, h: tg.h, ans: tg.w, ch: shuffle([tg.w].concat(ds.map(function (x) { return x.w; }))) };
+  }
+  return null;
+}
+var KSR_LV = [null, 12, 10, 9, 8, 7, 6, 5, 4.5, 4, 3.5];
+DRL_RUN.kashira = function () {
+  drl.adapt = true; var N = 10, seen = {};
+  function q() {
+    if (drl.k >= N) { var c = Math.max(1, drl.cleared); return drlEnd(c, KSR_LV[c] + '秒以内に思い出せました'); }
+    var m, t = 0; do { m = ksrMake(); t++; } while (m && seen[m.ans] && t < 20); seen[m.ans] = 1; drl.ans = m.ans;
+    var secs = KSR_LV[drl.lv], done = false;
+    drlArea(N, '<div class="drl-ksq"><span>' + m.cat + 'で</span><b>「' + m.h + '」</b><span>から始まるのは？</span></div><div class="drl-timer"><i id="drl-tm" style="animation-duration:' + secs + 's"></i></div>' +
+      '<div class="otsuri-choices" id="drl-ch">' + m.ch.map(function (w) { return '<div class="q-choice" data-w="' + w + '">' + w + '</div>'; }).join('') + '</div>');
+    function fin(ok) {
+      if (done) return; done = true; drl.k++; var tm = document.getElementById('drl-tm'); if (tm) tm.style.animationPlayState = 'paused';
+      Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .q-choice'), function (e) { e.classList.add(e.getAttribute('data-w') === m.ans ? 'correct' : 'dim'); });
+      drlAdapt(ok); drlFlashOk(ok, q);
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('#drl-ch .q-choice'), function (el) { el.onclick = function () { fin(el.getAttribute('data-w') === m.ans); }; });
+    drlLater(function () { fin(false); }, secs * 1000);
+  }
+  q();
 };
 </script>
 </body>
