@@ -1389,6 +1389,20 @@
   @media (orientation: portrait) { #drl-list { grid-template-columns: 1fr 1fr; gap: 10px; } .drl-btns { grid-template-columns: 1fr !important; } .drl-rg b { font-size: 18px !important; } .drl-rg .drl-of { font-size: 14px !important; } }
   .drl-b em.new { display: none; }
   .drl-b b { white-space: nowrap; }
+  /* ===== v1.50 手ごたえ（押すと沈む・正解はふわっと・まちがいはそっと揺れる・レベルが上がると花びら） ===== */
+  .q-choice, .numbtn, .gcard, .hub-door, .catcard, .drl-b, .card, .kami-card, .chk-tile, .drl-mc, .drl-bc, .cs-step { transition: transform .12s ease, box-shadow .12s ease; }
+  .q-choice:active, .gcard:active, .hub-door:active, .catcard:active, .drl-b:active, .kami-card:active, .drl-bc:active, .drl-mc:active { transform: translateY(2px) scale(.985); }
+  .q-choice.correct, .kiki-choices .q-choice.ok, .drl-mc.ok, .drl-bc.ok { animation: fxPop .45s ease-out; }
+  .numbtn.done, .card.done, .kioku-tile.tapped { animation: fxPop .32s ease-out; }
+  .q-choice.picked, .q-choice.ng, .drl-mc.ng, .drl-bc.ng { animation: fxNudge .36s ease-in-out; }
+  @keyframes fxPop { 0% { transform: scale(1); } 35% { transform: scale(1.045); box-shadow: 0 0 0 6px rgba(17,134,109,.18), 0 12px 26px rgba(17,134,109,.18); } 100% { transform: scale(1); } }
+  @keyframes fxNudge { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+  .fx-burst { position: fixed; left: 50%; top: 42%; width: 0; height: 0; z-index: 90; pointer-events: none; }
+  .fx-burst i { position: absolute; left: -12px; top: -12px; width: 24px; height: 24px; border-radius: 60% 0 60% 0; background: var(--season-pale); box-shadow: inset 0 0 0 2px rgba(232,168,124,.55); opacity: 0; animation: fxFly 1.3s ease-out forwards; }
+  .fx-burst i:nth-child(3n) { background: #CFEFE6; box-shadow: inset 0 0 0 2px rgba(17,134,109,.35); } .fx-burst i:nth-child(3n+1) { background: #FBE3EC; }
+  @keyframes fxFly { 0% { opacity: 0; transform: translate(0, 0) rotate(0) scale(.6); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(220deg) scale(1); } }
+  .sfx-btn { display: inline-flex !important; align-items: center; gap: 6px; } .sfx-btn svg { width: 22px; height: 22px; } .sfx-btn.off { color: #8A9490 !important; } .sfx-btn.off svg { opacity: .5; }
+  @media (prefers-reduced-motion: reduce) { .fx-burst { display: none; } .q-choice.correct, .numbtn.done, .q-choice.picked { animation: none; } }
 </style>
 </head>
 <body>
@@ -1722,7 +1736,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.49(ここスマ自習システム・白とガラス・力だめしの物差しを見直し)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.50(ここスマ自習システム・白とガラス・効果音と手ごたえ)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -20385,6 +20399,108 @@ CHK_RUN.kiku = function () {
   }
   one();
 };
+/* ===== v1.50 効果音と手ごたえ（録音ファイルを使わず、その場で音を作る） ===== */
+var SFX = { ctx: null, on: true, vol: 0.55, last: null };
+try { SFX.on = storeGet('kokosuma_sound') !== '0'; } catch (e) {}
+function sfxCtx() {
+  if (!SFX.ctx) { var C = window.AudioContext || window.webkitAudioContext; if (!C) return null; try { SFX.ctx = new C(); } catch (e) { return null; } }
+  if (SFX.ctx.state === 'suspended') { try { SFX.ctx.resume(); } catch (e) {} }
+  return SFX.ctx;
+}
+function sfxTone(f, at, dur, type, g) {
+  var c = SFX.ctx; if (!c) return;
+  var t = c.currentTime + at, o = c.createOscillator(), v = c.createGain();
+  o.type = type || 'sine'; o.frequency.setValueAtTime(f, t);
+  v.gain.setValueAtTime(0.0001, t); v.gain.exponentialRampToValueAtTime(Math.max(0.0002, g * SFX.vol), t + 0.008);
+  v.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  o.connect(v); v.connect(c.destination); o.start(t); o.stop(t + dur + 0.02);
+}
+var SFX_SET = {
+  tap: function () { sfxTone(880, 0, 0.06, 'triangle', 0.05); },
+  pop: function () { sfxTone(1319, 0, 0.08, 'triangle', 0.08); },
+  ok: function () { sfxTone(1047, 0, 0.14, 'triangle', 0.16); sfxTone(1568, 0.09, 0.26, 'triangle', 0.14); },
+  ng: function () { sfxTone(392, 0, 0.18, 'sine', 0.13); sfxTone(330, 0.13, 0.24, 'sine', 0.11); },
+  tick: function () { sfxTone(660, 0, 0.09, 'sine', 0.11); },
+  go: function () { sfxTone(988, 0, 0.2, 'triangle', 0.14); },
+  up: function () { [784, 988, 1175, 1568].forEach(function (f, i) { sfxTone(f, i * 0.09, 0.22 + (i === 3 ? 0.2 : 0), 'triangle', 0.13); }); },
+  fin: function () { [1047, 1319, 1568].forEach(function (f, i) { sfxTone(f, i * 0.12, 0.5, 'sine', 0.11); }); }
+};
+function sfx(name) { if (!SFX.on || !SFX_SET[name]) return; if (!sfxCtx()) return; try { SFX_SET[name](); } catch (e) {} }
+/* iPadは、はじめに一度さわったときに音の準備をする */
+document.addEventListener('pointerdown', function () { if (SFX.on) sfxCtx(); }, { capture: true, passive: true });
+
+/* ---- 押したとき：小さく「ポン」＋あとで正解・まちがいを判定 ---- */
+var SFX_TAP = '.btn, .btn-white, .btn-outline, .q-choice, .numbtn, .gcard, .hub-door, .catcard, .drl-b, .card, .kami-card, .kioku-tile, .chk-tile, .drl-mc, .drl-bc, .drl-k, .cs-step, .cs-len span, .map-cell, .rec-tab, .sub-tab, .endbtn, .sekibtn';
+document.addEventListener('pointerdown', function (e) {
+  var el = e.target && e.target.closest ? e.target.closest(SFX_TAP) : null; if (!el) return;
+  SFX.last = { el: el, t: Date.now(), done: false };
+  sfx('tap');
+}, { capture: true, passive: true });
+var SFX_OK = ['correct', 'ok'], SFX_POP = ['done', 'tapped'], SFX_NG = ['ng', 'picked', 'miss'];
+new MutationObserver(function (ms) {
+  var L = SFX.last; if (!L || L.done || Date.now() - L.t > 900) return;
+  if (curScreen === 'scr-chk' || curScreen === 'scr-drl') return;   /* 力だめしは音で正誤を知らせない・基本練習は別に鳴らす */
+  for (var i = 0; i < ms.length; i++) {
+    var m = ms[i], tg = m.target; if (!tg.classList) continue;
+    var old = ' ' + (m.oldValue || '') + ' ', add = Array.prototype.filter.call(tg.classList, function (c) { return old.indexOf(' ' + c + ' ') < 0; });
+    if (!add.length) continue;
+    var mine = tg === L.el || L.el.contains(tg) || tg.contains(L.el);
+    function has(list) { return add.some(function (c) { return list.indexOf(c) >= 0; }); }
+    if (mine && has(SFX_OK)) { L.done = true; return sfx('ok'); }
+    if (mine && has(SFX_NG)) { L.done = true; return sfx('ng'); }
+    if (mine && has(SFX_POP)) { L.done = true; return sfx(tg.classList.contains('card') ? 'ok' : 'pop'); }
+    if (!mine && add.indexOf('correct') >= 0 && L.el.classList.contains('q-choice')) { L.done = true; return sfx('ng'); }
+  }
+}).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'], attributeOldValue: true });
+
+/* ---- 種目ごとの合図（クラスでは分からないもの） ---- */
+(function () {
+  if (typeof hdMsg === 'function') { var _hm = hdMsg; hdMsg = function (t, good) { sfx(good ? 'pop' : 'ng'); return _hm.apply(this, arguments); }; }
+  if (typeof kiokuStatus === 'function') { var _ks = kiokuStatus; kiokuStatus = function (kind, t) { if (kind === 'oops') sfx('ng'); else if (/その調子/.test(t || '')) sfx('ok'); return _ks.apply(this, arguments); }; }
+  var _df = drlFlashOk; drlFlashOk = function (ok, cb) { sfx(ok ? 'ok' : 'ng'); return _df(ok, cb); };
+  var _ls = lvStep; lvStep = function () { var r = _ls.apply(this, arguments); if (r === 'up') setTimeout(function () { sfx('up'); fxBurst(); }, 350); return r; };
+  var _kc = showKenteiCert; showKenteiCert = function () { var r = _kc.apply(this, arguments); if (!(course && course.active)) { sfx('up'); fxBurst(); } return r; };
+  var _cr = courseReview; courseReview = function () { sfx('fin'); return _cr.apply(this, arguments); };
+  var _ce = chkEnd; chkEnd = function () { sfx('fin'); return _ce.apply(this, arguments); };
+  var _de = drlEnd; drlEnd = function () { sfx('fin'); return _de.apply(this, arguments); };
+})();
+/* 3・2・1 に音 */
+ntCountdown = function (cb) {
+  var el = document.getElementById('nt-cd'), n = 3;
+  el.style.display = 'flex';
+  function tick() {
+    if (n === 0) { el.style.display = 'none'; sfx('go'); cb(); return; }
+    el.innerHTML = '<div class="cd-ring"><b>' + n + '</b></div><div class="cd-tx">まん中を見て、準備してください</div>';
+    sfx('tick'); n--; setTimeout(tick, 750);
+  }
+  tick();
+};
+/* レベルが上がったとき：花びらが少し舞う */
+function fxBurst() {
+  var box = document.createElement('div'); box.className = 'fx-burst';
+  for (var i = 0; i < 14; i++) {
+    var s = document.createElement('i'), a = (i / 14) * Math.PI * 2, r = 120 + Math.random() * 90;
+    s.style.setProperty('--dx', Math.round(Math.cos(a) * r) + 'px'); s.style.setProperty('--dy', Math.round(Math.sin(a) * r * 0.8 - 40) + 'px');
+    s.style.animationDelay = (Math.random() * 0.12) + 's'; box.appendChild(s);
+  }
+  document.body.appendChild(box); setTimeout(function () { box.remove(); }, 1600);
+}
+/* ---- 音の切り替え（店のタブレットごとに覚える） ---- */
+function sfxToggle() {
+  SFX.on = !SFX.on; try { storeSet('kokosuma_sound', SFX.on ? '1' : '0'); } catch (e) {}
+  sfxSync(); if (SFX.on) { sfxCtx(); sfx('ok'); }
+}
+function sfxSync() {
+  Array.prototype.forEach.call(document.querySelectorAll('.sfx-btn'), function (b) {
+    b.classList.toggle('off', !SFX.on);
+    b.innerHTML = '<svg viewBox="0 0 24 24"><use href="#ic-spk"></use></svg><span>' + (SFX.on ? '音あり' : '音なし') + '</span>';
+  });
+}
+(function () {
+  var how = document.querySelector('#scr-nt .nt-howto');
+  if (how) { var b = document.createElement('div'); b.className = 'btn btn-white nt-howto sfx-btn'; b.onclick = sfxToggle; how.parentNode.insertBefore(b, how.nextSibling); }
+  sfxSync();
+})();
 </script>
 </body>
 </html>
