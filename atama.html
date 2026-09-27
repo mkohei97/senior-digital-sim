@@ -1403,6 +1403,21 @@
   @keyframes fxFly { 0% { opacity: 0; transform: translate(0, 0) rotate(0) scale(.6); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(220deg) scale(1); } }
   .sfx-btn { display: inline-flex !important; align-items: center; gap: 6px; } .sfx-btn svg { width: 22px; height: 22px; } .sfx-btn.off { color: #8A9490 !important; } .sfx-btn.off svg { opacity: .5; }
   @media (prefers-reduced-motion: reduce) { .fx-burst { display: none; } .q-choice.correct, .numbtn.done, .q-choice.picked { animation: none; } }
+  /* ===== v1.51 しくみ動画 ===== */
+  #scr-gv .pad { display: flex; flex-direction: column; gap: 12px; height: 100%; }
+  .gv-hd { display: flex; align-items: center; gap: 14px; } .gv-hd > b { font-size: 30px; } .gv-hd .sp { flex: 1; }
+  .gv-link { font-size: 21px; color: #0B4F42; text-decoration: underline; cursor: pointer; padding: 8px 12px; }
+  .gv-box { position: relative; flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; }
+  .gv-frame { position: relative; height: 100%; max-height: 100%; aspect-ratio: 4 / 3; max-width: 100%; border-radius: 26px; overflow: hidden; background: #F2F5F4; box-shadow: 0 16px 40px rgba(24,48,42,.14); }
+  #gv-video { width: 100%; height: 100%; object-fit: contain; display: block; background: #F2F5F4; }
+  #gv-big, #gv-end { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 18px; background: rgba(246,248,247,.55); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+  #gv-big .btn, #gv-end .btn { margin: 0; }
+  .gv-ctl { display: flex; align-items: center; gap: 14px; }
+  .gv-ctl .btn { margin: 0; padding: 12px 30px; font-size: 22px; }
+  .gv-track { flex: 1; height: 10px; border-radius: 999px; background: rgba(31,42,40,.08); overflow: hidden; } #gv-bar { height: 100%; width: 0; background: linear-gradient(90deg, #1A9B7F, #0F7A63); }
+  #gv-mute { display: inline-flex; align-items: center; gap: 6px; } #gv-mute svg { width: 22px; height: 22px; }
+  .gd-hd { position: relative; } .gd-tovid { position: absolute; right: 0; top: 4px; font-size: 21px; color: #0B4F42; text-decoration: underline; cursor: pointer; padding: 6px 10px; }
+  @media (orientation: portrait) { .gv-box { align-items: flex-start; padding-top: 40px; } .gv-frame { height: auto; width: 100%; } }
 </style>
 </head>
 <body>
@@ -1736,7 +1751,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.50(ここスマ自習システム・白とガラス・効果音と手ごたえ)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.51(ここスマ自習システム・白とガラス・しくみを動画で)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -1795,6 +1810,17 @@
     </div>
   </div>
 </div>
+
+<!-- v1.51 しくみ動画 -->
+<div class="screen nt-wide" id="scr-gv"><div class="pad">
+  <div class="gv-hd"><b>脳トレのしくみ</b><span class="sp"></span><span class="gv-link" onclick="gvText()">文字で見る</span><div class="btn btn-white nt-howto" onclick="gvDone()">とばす</div></div>
+  <div class="gv-box"><div class="gv-frame">
+    <video id="gv-video" playsinline preload="metadata"></video>
+    <div id="gv-big"><div class="btn btn-primary" style="padding:18px 70px;font-size:30px;" onclick="gvToggle()">再生する</div></div>
+    <div id="gv-end"><div class="btn btn-primary" style="padding:18px 70px;font-size:30px;" onclick="gvDone()">はじめる</div><div class="btn btn-white" style="padding:12px 40px;font-size:22px;" onclick="gvReplay()">もう一度見る</div></div>
+  </div></div>
+  <div class="gv-ctl"><div class="btn btn-white" id="gv-play" onclick="gvToggle()">一時停止</div><div class="gv-track"><div id="gv-bar"></div></div><div class="btn btn-white" id="gv-mute" onclick="gvMute()"></div></div>
+</div></div>
 
 <!-- v1.40 脳トレのしくみ -->
 <div class="screen nt-wide" id="scr-guide"><div class="pad"><div class="gd-body" id="gd-body"></div></div></div>
@@ -20500,6 +20526,45 @@ function sfxSync() {
   var how = document.querySelector('#scr-nt .nt-howto');
   if (how) { var b = document.createElement('div'); b.className = 'btn btn-white nt-howto sfx-btn'; b.onclick = sfxToggle; how.parentNode.insertBefore(b, how.nextSibling); }
   sfxSync();
+})();
+/* ===== v1.51 脳トレのしくみを動画で（約75秒・声と字幕つき）。「文字で見る」でいままでの3枚 ===== */
+var GV_SRC = (location.protocol === 'file:' ? 'https://mkohei97.github.io/senior-digital-sim/' : '') + 'shikumi.mp4';
+var gvBack = 'scr-nt';
+function gvEl() { return document.getElementById('gv-video'); }
+function gvOpen(back) {
+  gvBack = back || 'scr-nt';
+  var v = gvEl(); if (!v.getAttribute('src')) v.setAttribute('src', GV_SRC);
+  v.muted = !SFX.on; gvSync();
+  document.getElementById('gv-end').style.display = 'none';
+  show('scr-gv');
+  try { v.currentTime = 0; } catch (e) {}
+  var p = v.play(); if (p && p.catch) p.catch(function () { gvSync(); });
+  gvSync();
+}
+function gvToggle() { var v = gvEl(); if (v.paused) { v.play(); } else v.pause(); gvSync(); }
+function gvReplay() { var v = gvEl(); document.getElementById('gv-end').style.display = 'none'; v.currentTime = 0; v.play(); gvSync(); }
+function gvMute() { var v = gvEl(); v.muted = !v.muted; gvSync(); }
+function gvStop() { var v = gvEl(); try { v.pause(); } catch (e) {} }
+function gvText() { gvStop(); ntGuideP = 0; ntGuideBack = gvBack; ntGuideRender(); show('scr-guide'); }
+function gvDone() { gvStop(); ntGuideMark(); if (gvBack === 'scr-nt') showNt(); else show(gvBack); }
+function gvSync() {
+  var v = gvEl(), b = document.getElementById('gv-play'), m = document.getElementById('gv-mute');
+  if (b) b.textContent = v.paused ? '再生' : '一時停止';
+  if (m) m.innerHTML = '<svg viewBox="0 0 24 24"><use href="#ic-spk"></use></svg>' + (v.muted ? '音を出す' : '音あり');
+  document.getElementById('gv-big').style.display = v.paused && !v.ended && document.getElementById('gv-end').style.display === 'none' ? 'flex' : 'none';
+}
+(function () {
+  var v = gvEl();
+  v.addEventListener('play', gvSync); v.addEventListener('pause', gvSync);
+  v.addEventListener('ended', function () { document.getElementById('gv-end').style.display = 'flex'; gvSync(); });
+  v.addEventListener('timeupdate', function () { var f = document.getElementById('gv-bar'); if (f && v.duration) f.style.width = (v.currentTime / v.duration * 100) + '%'; });
+  /* 「脳トレのしくみ」は動画から。はじめての自動表示も動画 */
+  ntGuide = function (p, back) { if (p) { ntGuideP = p; ntGuideBack = back || 'scr-nt'; ntGuideRender(); show('scr-guide'); return; } gvOpen(back); };
+  /* 3枚の最後の「はじめる」はそのまま。1枚目の上に「動画で見る」を足す */
+  var _gr = ntGuideRender;
+  ntGuideRender = function () { _gr(); var h = document.querySelector('#gd-body .gd-hd'); if (h && !h.querySelector('.gd-tovid')) h.insertAdjacentHTML('beforeend', '<span class="gd-tovid" onclick="gvOpen(ntGuideBack)">動画で見る ›</span>'); };
+  /* 画面を離れたら止める */
+  var _sh = show; show = function (id) { if (id !== 'scr-gv') gvStop(); _sh(id); };
 })();
 </script>
 </body>
