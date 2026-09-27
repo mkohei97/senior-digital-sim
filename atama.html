@@ -1722,7 +1722,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.48(ここスマ自習システム・白とガラス・基本練習13)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.49(ここスマ自習システム・白とガラス・力だめしの物差しを見直し)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -19490,7 +19490,7 @@ function chkStep() {
   if (chk.i >= CHK_ORDER.length) return chkEnd();
   var d = CHK_ORDER[chk.i], inf = CHK_INFO[d];
   document.getElementById('chk-body').innerHTML = chkHead() +
-    (chk.i === 0 ? '<div class="chk-lead">7つの種目を、1つずつ短く測ります。全部で約4分です。</div>' : '') +
+    (chk.i === 0 ? '<div class="chk-lead">7つの種目を、1つずつ短く測ります。全部で約5分です。</div>' : '') +
     '<div class="panel chk-card"><div class="ex-lbl">' + ntEsc(ntB(d).n) + '　' + inf.n + '</div><div class="ex-rule"></div><div class="ex-tx">' + ntEsc(inf.t) + '</div>' + (CHK_SAMPLE[d] || '') + '</div>' +
     '<div class="ex-btns"><div class="btn btn-primary" style="margin:0;padding:18px 70px;font-size:28px;" onclick="chkGo()">はじめる</div></div>';
 }
@@ -19659,7 +19659,7 @@ function chkEnd() {
     var c = chkData().last, days = c ? chkDays(c.on) : 999;
     el.innerHTML = '<span class="hub-ic">' + ntChip({ chip: '#E3F2EE', ink: '#0B4F42', ic: 'ic-gauge' }, 64, 36) + '</span><span class="hub-tx"><b>力だめし</b>' +
       (c ? '<span>前回 ' + chkMD(c.on) + (c.cpm ? '　読む速さ 1分に' + Math.round(c.cpm) + '字' : '') + '</span>' + (days >= 28 ? '<em style="font-size:20px;color:#8A4B22;">そろそろ、ひと月です</em>' : '<i>もう一度 測る ›</i>')
-         : '<span>7つの力を、約4分で測ります</span><em style="font-size:20px;color:#8A4B22;">はじめに一度どうぞ</em>') + '</span>';
+         : '<span>7つの力を、約5分で測ります</span><em style="font-size:20px;color:#8A4B22;">はじめに一度どうぞ</em>') + '</span>';
   };
 })();
 (function () { var _lo = logoutMember; logoutMember = function (q) { chkGuest = null; return _lo(q); }; })();
@@ -20312,6 +20312,78 @@ DRL_RUN.kashira = function () {
     drlLater(function () { fin(false); }, secs * 1000);
   }
   q();
+};
+/* ===== v1.49 力だめしの物差しを見直し（上限に届きやすい3つ）＋ダウンロードしたHTMLでも音声 ===== */
+/* 1) 端末に保存したHTML（file://）から開いたときは、公開サイトの音声を使う */
+if (location.protocol === 'file:') KK_DIR = 'https://mkohei97.github.io/senior-digital-sim/kiki_audio/';
+/* 2) 今日の脳トレの帯は、力だめし・基本練習・しくみの画面では出さない */
+(function () {
+  var NO_BAR = ['scr-chk', 'scr-drill', 'scr-drl', 'scr-guide'];
+  var _cb = courseBarSync;
+  courseBarSync = function () { _cb(); if (NO_BAR.indexOf(curScreen) >= 0) { var b = document.getElementById('course-bar'); if (b) b.style.display = 'none'; document.body.classList.remove('in-course'); } };
+  var _sh = show;
+  show = function (id) { _sh(id); try { courseBarSync(); } catch (e) {} };
+})();
+/* 3) 物差し：「全問正解＝10」だったものを、解けた問題の難しさと速さで決める */
+CHK_INFO.kazu = { t: 'お釣りはいくらか、選びます。正解すると、次は難しい問題になります。時間の帯がなくなる前に選びます。', n: '6問' };
+CHK_INFO.kotoba = { t: 'ことわざの【？】に入る言葉や、「なかま」と「はじめの文字」に合う言葉を選びます。速く正しく答えるほど、レベルが上がります。', n: '6問' };
+CHK_INFO.kiku = { t: '短い話を聞いて、1問答えます。1つごとに、話す速さが上がります。', n: '3つ' };
+function chkTimer(secs) { return '<div class="drl-timer"><i id="chk-tm" style="animation-duration:' + secs + 's"></i></div>'; }
+function chkTimerStop() { var t = document.getElementById('chk-tm'); if (t) t.style.animationPlayState = 'paused'; }
+/* 計算する：お釣りのレベル3から。正解（20秒以内）で＋2（上のほうは＋1）、まちがい・時間切れで−1。結果＝正解できた一番むずかしいレベル−（それ以下のレベルでのまちがいの数） */
+CHK_RUN.kazu = function () {
+  var lv = 3, k = 0, best = 0, N = 6, SECS = 20, log = [];
+  function q() {
+    if (k >= N) { var miss = log.filter(function (x) { return !x.ok && x.lv <= best; }).length; return chkDone('kazu', Math.max(1, best - miss)); }
+    var qq = otsMake(lv), ans = otsAns(qq), names = qq.items.map(function (x) { return x[0] + ' ' + x[1] + '円'; }).join('、'), done = false, myLv = lv;
+    chkArea('<div class="kiki-q">' + ntEsc(names) + (qq.disc ? '（合計から1割引き）' : '') + '<br>' + ntEsc(qq.lb + (qq.extra ? 'と' + qq.extra + '円を出す' : 'で払う')) + '。お釣りは？</div>' + chkTimer(SECS) +
+      '<div class="otsuri-choices" id="chk-ch">' + otsChoicesQ(qq).map(function (v) { return '<div class="q-choice" data-v="' + v + '">' + v + '円</div>'; }).join('') + '</div><div class="chk-msg">' + (k + 1) + '／' + N + '問</div>');
+    function fin(ok) {
+      if (done) return; done = true; chkTimerStop(); k++;
+      log.push({ lv: myLv, ok: ok });
+      if (ok) { best = Math.max(best, myLv); lv = Math.min(10, lv + (lv >= 7 ? 1 : 2)); } else lv = Math.max(1, lv - 1);
+      chkLater(q, 250);
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('#chk-ch .q-choice'), function (el) { el.onclick = function () { fin(parseInt(el.getAttribute('data-v'), 10) === ans); }; });
+    chkLater(function () { fin(false); }, SECS * 1000);
+  }
+  q();
+};
+/* 思い出す：ことわざ3問＋頭の文字から3問。1問ごとに10秒の帯。点＝4秒以内1.7・7秒以内1.3・10秒以内1.0・まちがい0 → 合計を丸めてレベル */
+CHK_RUN.kotoba = function () {
+  var ko = shuffle(KOTOWAZA.slice()).slice(0, 3).map(function (it) { var o = shuffle(it.c.map(function (x, i) { return i; })); return { q: ntEsc(it.q), ch: o.map(function (i) { return it.c[i]; }), ans: it.c[it.a] }; });
+  var ks = [], seen = {}; while (ks.length < 3) { var m = ksrMake(); if (m && !seen[m.ans]) { seen[m.ans] = 1; ks.push({ q: m.cat + 'で「' + m.h + '」から始まるのは？', ch: m.ch, ans: m.ans }); } }
+  var qs = [ko[0], ks[0], ko[1], ks[1], ko[2], ks[2]], k = 0, pts = 0, SECS = 10;
+  function q() {
+    if (k >= qs.length) return chkDone('kotoba', Math.max(1, Math.min(10, Math.round(pts))));
+    var it = qs[k], t0 = Date.now(), done = false;
+    chkArea('<div class="kiki-q">' + it.q + '</div>' + chkTimer(SECS) + '<div class="kiki-choices" id="chk-ch">' + it.ch.map(function (c) { return '<div class="q-choice" data-c="' + ntEsc(c) + '">' + ntEsc(c) + '</div>'; }).join('') + '</div><div class="chk-msg">' + (k + 1) + '／' + qs.length + '問</div>');
+    function fin(ok) {
+      if (done) return; done = true; chkTimerStop(); k++;
+      var s = (Date.now() - t0) / 1000; if (ok) pts += s <= 4 ? 1.7 : (s <= 7 ? 1.3 : 1.0);
+      chkLater(q, 250);
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('#chk-ch .q-choice'), function (el) { el.onclick = function () { fin(el.getAttribute('data-c') === ntEsc(it.ans)); }; });
+    chkLater(function () { fin(false); }, SECS * 1000);
+  }
+  q();
+};
+/* 聞く：ふつう→速い→とても速い（3つめは少し長い話）。正解の数と速さで 2・4・7・10 */
+CHK_RUN.kiku = function () {
+  var l1 = shuffle(KURASHI.filter(function (x) { return x.L === 1 && x.kind === 'text'; })), l2 = shuffle(KURASHI.filter(function (x) { return x.L === 2 && x.kind === 'text'; }));
+  var pool = [l1[0], l1[1], l2[0] || l1[2]], sp = [1, 2, 3], SPN = ['ふつうの速さ', '速い', 'とても速い'], k = 0, hits = 0, top = -1;
+  function one() {
+    var it = pool[k];
+    chkArea('<div class="chk-listen"><svg viewBox="0 0 24 24"><use href="#ic-ear"></use></svg><b>' + (k + 1) + 'つ目　' + SPN[k] + '</b><span id="chk-msg">よく聞いてください</span></div>');
+    kkPlay(KK_DIR + 'kurashi/' + it.id + '_v' + sp[k] + '.mp3', 1, function (err) {
+      var qq = it.q[0], order = shuffle([0, 1, 2]);
+      chkArea((err ? '<div class="chk-msg">音声を読み込めませんでした。わかる範囲で答えてください</div>' : '') + '<div class="kiki-q">' + ntEsc(qq.q) + '</div><div class="kiki-choices" id="chk-ch">' + order.map(function (i) { return '<div class="q-choice" data-i="' + i + '">' + ntEsc(qq.c[i]) + '</div>'; }).join('') + '</div>');
+      Array.prototype.forEach.call(document.querySelectorAll('#chk-ch .q-choice'), function (el) {
+        el.onclick = function () { if (el.getAttribute('data-i') === '0') { hits++; top = k; } k++; if (k < pool.length) one(); else chkDone('kiku', [2, 4, 7, 10][hits] - (hits && top < 2 && hits < 3 ? 1 : 0)); };
+      });
+    });
+  }
+  one();
 };
 </script>
 </body>
