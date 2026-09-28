@@ -1418,6 +1418,25 @@
   #gv-mute { display: inline-flex; align-items: center; gap: 6px; } #gv-mute svg { width: 22px; height: 22px; }
   .gd-hd { position: relative; } .gd-tovid { position: absolute; right: 0; top: 4px; font-size: 21px; color: #0B4F42; text-decoration: underline; cursor: pointer; padding: 6px 10px; }
   @media (orientation: portrait) { .gv-box { align-items: flex-start; padding-top: 40px; } .gv-frame { height: auto; width: 100%; } }
+  /* ===== v1.52 後出しじゃんけん・BGM ===== */
+  .bgm-btn { display: inline-flex !important; align-items: center; gap: 6px; } .bgm-btn svg { width: 22px; height: 22px; } .bgm-btn.off { color: #8A9490 !important; } .bgm-btn.off svg { opacity: .5; }
+  #jk-body { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .jk-top { display: flex; align-items: center; gap: 22px; width: 100%; max-width: 760px; }
+  .jk-k { font-size: 22px; color: #5A6360; min-width: 70px; }
+  .jk-ord { flex: 1; text-align: center; font-size: 46px; font-weight: 700; border: 4px solid; border-radius: 999px; padding: 6px 20px; background: rgba(255,255,255,.95); opacity: .35; }
+  .jk-ord.on { opacity: 1; animation: fxPop .35s ease-out; }
+  .jk-tm { max-width: 760px; }
+  .jk-cpu { display: flex; align-items: center; gap: 24px; background: rgba(255,255,255,.9); border-radius: 30px; padding: 10px 50px; box-shadow: 0 12px 30px rgba(24,48,42,.08); }
+  .jk-who { font-size: 26px; color: #5A6360; font-weight: 700; }
+  .jk-hand { font-size: 110px; line-height: 1.15; min-width: 130px; text-align: center; color: #C9CFCD; font-family: "Apple Color Emoji","Noto Color Emoji",sans-serif; }
+  .jk-hand.on { color: inherit; animation: fxPop .35s ease-out; }
+  .jk-btns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; width: 100%; max-width: 760px; }
+  .jk-b { display: flex !important; flex-direction: column; align-items: center; gap: 2px; padding: 14px 10px !important; }
+  .jk-e { font-size: 72px; line-height: 1.1; font-family: "Apple Color Emoji","Noto Color Emoji",sans-serif; } .jk-n { font-size: 24px; font-weight: 700; }
+  .jk-msg { font-size: 22px; color: #5A6360; min-height: 32px; } .jk-msg.ok { color: #0B4F42; font-weight: 700; } .jk-msg.ng { color: #8A4B22; font-weight: 700; }
+  .jk-mid { margin-top: 80px; display: flex; flex-direction: column; align-items: center; gap: 16px; } .jk-mid b { font-size: 34px; } .jk-mid span { font-size: 24px; color: #5A6360; }
+  @media (orientation: landscape) { #scr-janken .jk-hand { font-size: 92px; } #scr-janken .jk-e { font-size: 60px; } #scr-janken .jk-b { padding: 10px !important; } }
+  .cat-menu .gcard.drl-door { grid-column: auto !important; } .cat-menu .gcard.drl-door .drl-mini { display: none; }
 </style>
 </head>
 <body>
@@ -1655,6 +1674,8 @@
   </defs>
   <symbol id="ic-book" viewBox="0 0 24 24"><path d="M3 5.5c3-1.2 6-1.2 9 1 3-2.2 6-2.2 9-1V19c-3-1.2-6-1.2-9 1-3-2.2-6-2.2-9-1z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></path><path d="M12 6.5V20" stroke="currentColor" stroke-width="1.5"></path></symbol>
   <symbol id="ic-gauge" viewBox="0 0 24 24"><path d="M3.8 16.5 A8.4 8.4 0 0 1 20.2 16.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M6 11.2 L7.1 12 M12 7.6 V9 M18 11.2 L16.9 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path><path d="M12 16.5 L15.6 11.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path><circle cx="12" cy="16.5" r="1.6" fill="currentColor"></circle></symbol>
+  <symbol id="ic-janken" viewBox="0 0 24 24"><circle cx="7" cy="17" r="2.6" fill="none" stroke="currentColor" stroke-width="1.5"></circle><circle cx="17" cy="17" r="2.6" fill="none" stroke="currentColor" stroke-width="1.5"></circle><path d="M8.8 15.2 L16 4 M15.2 15.2 L8 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></symbol>
+  <symbol id="ic-note" viewBox="0 0 24 24"><path d="M9 18 V6 L19 4 V16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path><ellipse cx="7" cy="18" rx="2.4" ry="1.9" fill="currentColor"></ellipse><ellipse cx="17" cy="16" rx="2.4" ry="1.9" fill="currentColor"></ellipse></symbol>
   <symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"></circle><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.5"></circle><circle cx="12" cy="12" r="1.4" fill="currentColor"></circle></symbol>
   <symbol id="ic-sakura-a" viewBox="0 0 24 24">
     <path d="M12 11.4 C9.8 10.3 8.8 7.9 9.6 5.5 C10.1 4.1 10.9 3 11.6 2.4 L12 4.2 L12.4 2.4 C13.1 3 13.9 4.1 14.4 5.5 C15.2 7.9 14.2 10.3 12 11.4 Z" fill="#E9A3C2" opacity="0.45" transform="rotate(11 12 12)"></path>
@@ -1751,7 +1772,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.51(ここスマ自習システム・白とガラス・しくみを動画で)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.52(ここスマ自習システム・白とガラス・後出しじゃんけん・BGM)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -1904,6 +1925,11 @@
       <div class="gcard" onclick="startHandan()">
         <span class="chip" style="background:#E3F2F0; color:#0B4F42;"><svg viewBox="0 0 24 24"><use href="#ic-target"></use></svg></span>
         <div class="tx"><b>とっさの判断</b><span>緑の丸は押す・赤い×は押さない<em class="abil">見きわめる</em></span></div>
+        <span class="goa" style="background:#E3F2F0; color:#0B4F42;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
+      </div>
+      <div class="gcard" onclick="startJanken()">
+        <span class="chip" style="background:#E3F2F0; color:#0B4F42;"><svg viewBox="0 0 24 24"><use href="#ic-janken"></use></svg></span>
+        <div class="tx"><b>後出しじゃんけん</b><span>指示どおりに勝つ・負ける・あいこ<em class="abil">見きわめる</em></span></div>
         <span class="goa" style="background:#E3F2F0; color:#0B4F42;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard drl-door" onclick="drList()">
@@ -2271,6 +2297,13 @@
 
 <!-- 桜の木 -->
 <!-- v1.36 脳トレ：見きわめる・読む・ふりかえり・7つの階段・種目を選ぶ -->
+<div class="screen" id="scr-janken">
+  <div class="pad">
+    <div class="appbar"><div class="left"><span class="icchip" style="background:#E3F2F0;color:#0B4F42;"><svg viewBox="0 0 24 24" style="width:34px;height:34px;"><use href="#ic-janken"></use></svg></span><span class="t">後出しじゃんけん</span></div><span class="badge" id="jk-badge">見きわめる</span></div>
+    <div class="kiki-body" id="jk-body"></div>
+    <div style="display:flex; justify-content:center;"><div class="btn btn-white" onclick="jkExit()">最初の画面に戻る</div></div>
+  </div>
+</div>
 <div class="screen" id="scr-handan">
   <div class="pad">
     <div class="appbar"><div class="left"><span class="icchip" style="background:#E3F2F0;color:#0B4F42;"><svg viewBox="0 0 24 24" style="width:34px;height:34px;"><use href="#ic-target"></use></svg></span><span class="t">とっさの判断</span></div><span class="badge">見きわめる</span></div>
@@ -20565,6 +20598,171 @@ function gvSync() {
   ntGuideRender = function () { _gr(); var h = document.querySelector('#gd-body .gd-hd'); if (h && !h.querySelector('.gd-tovid')) h.insertAdjacentHTML('beforeend', '<span class="gd-tovid" onclick="gvOpen(ntGuideBack)">動画で見る ›</span>'); };
   /* 画面を離れたら止める */
   var _sh = show; show = function (id) { if (id !== 'scr-gv') gvStop(); _sh(id); };
+})();
+/* ===== v1.52 後出しじゃんけん（見きわめる）＋ BGM ===== */
+/* ---------- 後出しじゃんけん ---------- */
+var JK_HAND = { g: { e: '✊', n: 'グー' }, c: { e: '✌️', n: 'チョキ' }, p: { e: '✋', n: 'パー' } };
+var JK_BEAT = { g: 'c', c: 'p', p: 'g' };            /* キー が 値 に勝つ */
+var JK_ORD = { win: { t: '勝って', col: '#11866D' }, lose: { t: '負けて', col: '#C0612B' }, draw: { t: 'あいこ', col: '#2F6FD6' } };
+/* レベル＝[指示の種類, 答える時間(秒), ボタンの並びを毎回入れ替える, 指示の色をなくす] */
+var JK_LV = [null, [['win'], 6, 0, 0], [['win', 'draw'], 6, 0, 0], [['win', 'lose', 'draw'], 6, 0, 0], [['win', 'lose', 'draw'], 4.5, 0, 0], [['win', 'lose', 'draw'], 3.5, 0, 0],
+  [['win', 'lose', 'draw'], 3.0, 1, 0], [['win', 'lose', 'draw'], 2.6, 1, 0], [['win', 'lose', 'draw'], 2.2, 1, 0], [['win', 'lose', 'draw'], 1.9, 1, 1], [['win', 'lose', 'draw'], 1.6, 1, 1]];
+var jk = null;
+function jkAnswer(cpu, ord) { if (ord === 'draw') return cpu; if (ord === 'lose') return JK_BEAT[cpu]; for (var k in JK_BEAT) if (JK_BEAT[k] === cpu) return k; }
+function startJanken() { gsMark('janken'); menuStartedGame = 'janken'; show('scr-janken'); jkBegin(); }
+function jkBegin() {
+  var s = lvBegin('janken');
+  jk = { block: 0, k: 0, ok: 0, blocksOk: 0, t: [], done: false, lock: false, prevOrd: null };
+  jkRound();
+}
+function jkClear() { if (jk) { jk.t.forEach(clearTimeout); jk.t = []; } }
+function jkLater(fn, ms) { var j = jk; j.t.push(setTimeout(function () { if (jk === j && !j.done) fn(); }, ms)); }
+function jkRound() {
+  jkClear();
+  if (jk.k >= 10) return jkBlockEnd();
+  var L = JK_LV[LVS.janken.lv], hs = ['g', 'c', 'p'], cpu = hs[Math.floor(Math.random() * 3)], ord;
+  do { ord = L[0][Math.floor(Math.random() * L[0].length)]; } while (L[0].length > 1 && ord === jk.prevOrd && Math.random() < 0.5);
+  jk.prevOrd = ord; jk.cur = { cpu: cpu, ord: ord, ans: jkAnswer(cpu, ord) }; jk.lock = true;
+  var order = L[2] ? shuffle(hs.slice()) : hs, O = JK_ORD[ord], col = L[3] ? '#1F2A28' : O.col;
+  document.getElementById('jk-badge').textContent = 'レベル' + LVS.janken.lv + '　' + (jk.block + 1) + '組目';
+  document.getElementById('jk-body').innerHTML =
+    '<div class="jk-top"><span class="jk-k">' + (jk.k + 1) + '／10</span><div class="jk-ord" id="jk-ord" style="color:' + col + ';border-color:' + col + '">？</div></div>' +
+    '<div class="drl-timer jk-tm"><i id="jk-tm" style="animation-duration:' + L[1] + 's;animation-play-state:paused"></i></div>' +
+    '<div class="jk-cpu"><span class="jk-who">相手</span><span class="jk-hand" id="jk-cpu">？</span></div>' +
+    '<div class="jk-btns" id="jk-btns">' + order.map(function (h) { return '<div class="q-choice jk-b" data-h="' + h + '"><span class="jk-e">' + JK_HAND[h].e + '</span><span class="jk-n">' + JK_HAND[h].n + '</span></div>'; }).join('') + '</div>' +
+    '<div class="jk-msg" id="jk-msg">出された手を見て、指示どおりに出します</div>';
+  Array.prototype.forEach.call(document.querySelectorAll('#jk-btns .jk-b'), function (el) { el.onclick = function () { jkPick(el.getAttribute('data-h'), el); }; });
+  jkLater(function () {
+    document.getElementById('jk-cpu').textContent = JK_HAND[cpu].e; document.getElementById('jk-cpu').classList.add('on');
+    var o = document.getElementById('jk-ord'); o.textContent = O.t + 'ください'; o.classList.add('on');
+    document.getElementById('jk-tm').style.animationPlayState = 'running';
+    jk.lock = false; jk.t0 = Date.now();
+    jkLater(function () { jkPick(null, null); }, L[1] * 1000);
+  }, 650);
+}
+function jkPick(h, el) {
+  if (!jk || jk.lock) return; jk.lock = true; jkClear();
+  var c = jk.cur, ok = h === c.ans, tm = document.getElementById('jk-tm'); if (tm) tm.style.animationPlayState = 'paused';
+  Array.prototype.forEach.call(document.querySelectorAll('#jk-btns .jk-b'), function (e) { var hh = e.getAttribute('data-h'); if (hh === c.ans) e.classList.add('correct'); else if (e !== el) e.classList.add('dim'); });
+  if (el && !ok) el.classList.add('ng');
+  if (!el) sfx('ng');
+  var msg = document.getElementById('jk-msg');
+  msg.textContent = ok ? 'できました' : (h ? JK_ORD[c.ord].t + 'なら「' + JK_HAND[c.ans].n + '」です' : '時間になりました。「' + JK_HAND[c.ans].n + '」です');
+  msg.className = 'jk-msg ' + (ok ? 'ok' : 'ng');
+  if (ok) jk.ok++; jk.k++;
+  jkLater(jkRound, ok ? 700 : 1500);
+}
+function jkBlockEnd() {
+  var pass = jk.ok >= 9, st = lvStep('janken', pass, 1); if (pass) jk.blocksOk++;
+  jk.block++;
+  if (jk.block >= 3) return jkEnd();
+  var s = LVS.janken;
+  document.getElementById('jk-body').innerHTML = '<div class="jk-mid"><b>' + (pass ? 'できました（10回中 ' + jk.ok + '回）' : '10回中 ' + jk.ok + '回できました') + '</b><span>' +
+    (st === 'up' ? '次はレベル' + s.lv + 'です' : (st === 'top' ? 'いちばん上のレベルです' : '次もレベル' + s.lv + 'です')) + '</span>' +
+    '<div class="btn btn-primary" style="margin:0;padding:16px 60px;font-size:27px;" onclick="jkNext()">次の組へ</div></div>';
+}
+function jkNext() { jk.k = 0; jk.ok = 0; jkRound(); }
+function jkEnd() {
+  jk.done = true; jkClear();
+  var s = LVS.janken; gameCompleted('janken', jk.blocksOk >= 3 ? 2 : (jk.blocksOk >= 1 ? 1 : 0)); lvEnd('janken');
+  document.getElementById('jk-badge').textContent = '';
+  document.getElementById('jk-body').innerHTML = '<div class="kiki-done">できました</div>' +
+    '<div class="kiki-result"><span class="a">今日の到達</span><span class="b">' + (s.best ? 'レベル' + s.best : '—') + '</span><span class="c">' + (s.best ? '指示どおりに出せました' : 'くり返すと、だんだん速くなります') + '</span></div>' +
+    '<div class="kiki-btnrow"><div class="btn btn-primary" style="margin:0;padding:17px 52px;font-size:27px;" onclick="startJanken()">もう一回</div>' +
+    '<div class="btn-outline" style="padding:14px 44px;font-size:27px;" onclick="ntExitGame()">脳トレへ</div></div>';
+}
+function jkExit() { if (jk) { jk.done = true; jkClear(); } ntExitGame(); }
+/* 種目に加える（見きわめる） */
+ACT.janken = { n: '後出しじゃんけん', fn: 'startJanken', chip: '#E3F2F0', ink: '#0B4F42', ic: 'ic-janken', desc: '「勝って」「負けて」「あいこ」の指示どおりに出す' };
+(function () { var b = ntB('handan'); if (b && b.games.indexOf('janken') < 0) b.games.push('janken'); })();
+LV_GAMES.push('janken'); NT_REAL_LABEL.janken = '到達したレベル';
+EXPLAIN.janken = { lines: ['相手が手を出し、「勝って」「負けて」「あいこ」の指示が出ます。', '指示どおりになる手を、下の3つから選んで押します。'], meta: ['10回×3組・約2分', '1組で9回できたら、レベルが1つ上'], cd: true };
+DEMO_GAMES.push('janken');
+DEMO.janken = function () {
+  function s(cpu, ord, pick) {
+    return '<div class="dm-read" style="font-weight:700;color:' + JK_ORD[ord].col + '">' + JK_ORD[ord].t + 'ください</div><div style="font-size:64px;line-height:1">' + JK_HAND[cpu].e + '</div>' +
+      '<div class="dm-grid g3">' + ['g', 'c', 'p'].map(function (h) { return '<span class="dm-ch' + (h === pick ? ' ok' : '') + '" style="height:70px;font-size:36px;position:relative">' + JK_HAND[h].e + (h === pick ? '<i class="dm-tap"></i>' : '') + '</span>'; }).join('') + '</div>';
+  }
+  return [[s('g', 'win', null), '相手はグー。「勝って」なら…', 1400], [s('g', 'win', 'p'), 'パーを押します', 1400], [s('c', 'draw', null), '相手はチョキ。「あいこ」なら…', 1400], [s('c', 'draw', 'c'), 'チョキを押します', 1400], [s('p', 'lose', null), '相手はパー。「負けて」なら…', 1400], [s('p', 'lose', 'g'), 'グーを押します', 1600]];
+};
+(function () {
+  var fn = window.startJanken, start = function () { fn(); };
+  window.startJanken = function () {
+    var recent = ntExplainLast.janken && Date.now() - ntExplainLast.janken < 15 * 60 * 1000 && curScreen !== 'scr-cat-asobi' && curScreen !== 'scr-pick' && !(course && course.active);
+    if (recent) { ntExplainLast.janken = Date.now(); ntCountdown(start); return; }
+    ntExplain('janken', start);
+  };
+  var _s = ntStopGames; ntStopGames = function () { _s(); try { if (jk) { jk.done = true; jkClear(); } } catch (e) {} };
+})();
+
+/* ---------- BGM（主張しない音楽。場面で3曲を切り替える） ---------- */
+var BGM = { on: true, vol: 0.16, buf: {}, loading: {}, cur: null, want: null, src: null, g: null, duck: false };
+try { BGM.on = storeGet('kokosuma_bgm') !== '0'; } catch (e) {}
+var BGM_DIR = location.protocol === 'file:' ? 'https://mkohei97.github.io/senior-digital-sim/' : '';
+var BGM_FILE = { home: 'bgm_home.mp3', train: 'bgm_train.mp3', review: 'bgm_review.mp3' };
+/* 場面ごとの曲。null＝流さない（聞き取り・動画・力だめしの「聞く」など、声を聞く場面） */
+var BGM_TRAIN = ['scr-quiz', 'scr-kotoba', 'scr-kami', 'scr-cards', 'scr-nums', 'scr-otsuri', 'scr-kioku', 'scr-handan', 'scr-yomu', 'scr-janken', 'scr-drl', 'scr-chk'];
+var BGM_SILENT = ['scr-kiki', 'scr-gv'];
+var BGM_HOME = ['scr-home', 'scr-nt', 'scr-cat-asobi', 'scr-cat-quiz', 'scr-drill', 'scr-brain', 'scr-guide', 'scr-explain', 'scr-rest', 'scr-pick', 'scr-tree', 'scr-seki'];
+function bgmSceneOf(id) {
+  if (BGM_SILENT.indexOf(id) >= 0) return null;
+  if (id === 'scr-drl' && drl && drl.id === 'nb') return null;
+  if (id === 'scr-chk' && chk && CHK_ORDER[chk.i] === 'kiku') return null;
+  if (id === 'scr-review' || id === 'scr-summary') return 'review';
+  if (BGM_TRAIN.indexOf(id) >= 0) return 'train';
+  return BGM_HOME.indexOf(id) >= 0 ? 'home' : null;
+}
+function bgmLoad(name, cb) {
+  if (BGM.buf[name]) return cb(BGM.buf[name]);
+  var c = sfxCtx(); if (!c || BGM.loading[name]) return;
+  BGM.loading[name] = true;
+  fetch(BGM_DIR + BGM_FILE[name]).then(function (r) { return r.arrayBuffer(); }).then(function (a) {
+    return new Promise(function (ok, ng) { c.decodeAudioData(a, ok, ng); });
+  }).then(function (b) { BGM.buf[name] = b; BGM.loading[name] = false; cb(b); }).catch(function () { BGM.loading[name] = false; });
+}
+function bgmTarget() { return BGM.on && SFX.on && !BGM.duck ? BGM.vol : 0; }
+function bgmSet(name) {
+  BGM.want = name;
+  var c = sfxCtx(); if (!c) return;
+  if (!name || !BGM.on || !SFX.on) { bgmFade(0, 1.0, true); BGM.cur = null; return; }
+  if (BGM.cur === name && BGM.src) { bgmFade(bgmTarget(), 0.8); return; }
+  bgmLoad(name, function (b) {
+    if (BGM.want !== name) return;
+    bgmFade(0, 1.0, true);
+    var g = c.createGain(), s = c.createBufferSource(); g.gain.value = 0.0001; s.buffer = b; s.loop = true; s.connect(g); g.connect(c.destination);
+    s.start(0, Math.random() * Math.max(0, b.duration - 20));
+    BGM.src = s; BGM.g = g; BGM.cur = name;
+    g.gain.setValueAtTime(0.0001, c.currentTime); g.gain.exponentialRampToValueAtTime(Math.max(0.0002, bgmTarget()), c.currentTime + 2.0);
+  });
+}
+function bgmFade(v, sec, stop) {
+  var c = SFX.ctx, g = BGM.g, s = BGM.src; if (!c || !g) return;
+  var t = c.currentTime; g.gain.cancelScheduledValues(t); g.gain.setValueAtTime(Math.max(0.0001, g.gain.value), t); g.gain.exponentialRampToValueAtTime(Math.max(0.0001, v), t + sec);
+  if (stop) { BGM.src = null; BGM.g = null; setTimeout(function () { try { s.stop(); } catch (e) {} try { g.disconnect(); } catch (e) {} }, sec * 1000 + 100); }
+}
+function bgmSync() { bgmSet(bgmSceneOf(curScreen)); }
+function bgmDuck(on) { BGM.duck = on; if (BGM.g) bgmFade(bgmTarget(), on ? 0.4 : 1.2); }
+(function () {
+  var _sh = show; show = function (id) { _sh(id); try { bgmSync(); } catch (e) {} };
+  /* 声を聞くとき（聞き取りの音声）はBGMを下げる */
+  var _kp = kkPlay; kkPlay = function (src, rate, onEnd, onTime) { bgmDuck(true); return _kp(src, rate, function (err) { bgmDuck(false); if (onEnd) onEnd(err); }, onTime); };
+  var _ks = kkStop; kkStop = function () { var r = _ks.apply(this, arguments); if (BGM.duck) bgmDuck(false); return r; };
+  /* 力だめしの「聞く」・数字を聞き取るに入ったら止める */
+  var _cs = chkStep; chkStep = function () { var r = _cs.apply(this, arguments); try { bgmSync(); } catch (e) {} return r; };
+  var _dr = drlRun; drlRun = function (id) { var r = _dr(id); try { bgmSync(); } catch (e) {} return r; };
+  /* はじめて触ったときに流し始める（iPadは触るまで音を出せない） */
+  document.addEventListener('pointerdown', function once() { document.removeEventListener('pointerdown', once, true); setTimeout(bgmSync, 50); }, true);
+  /* 音の切り替えにBGMも従う */
+  var _st = sfxToggle; sfxToggle = function () { _st(); bgmSync(); };
+})();
+function bgmToggle() { BGM.on = !BGM.on; try { storeSet('kokosuma_bgm', BGM.on ? '1' : '0'); } catch (e) {} bgmBtnSync(); bgmSync(); }
+function bgmBtnSync() {
+  Array.prototype.forEach.call(document.querySelectorAll('.bgm-btn'), function (b) { b.classList.toggle('off', !BGM.on); b.innerHTML = '<svg viewBox="0 0 24 24"><use href="#ic-note"></use></svg><span>' + (BGM.on ? 'BGMあり' : 'BGMなし') + '</span>'; });
+}
+(function () {
+  var s = document.querySelector('#scr-nt .sfx-btn');
+  if (s) { var b = document.createElement('div'); b.className = 'btn btn-white nt-howto bgm-btn'; b.onclick = bgmToggle; s.parentNode.insertBefore(b, s.nextSibling); }
+  bgmBtnSync();
 })();
 </script>
 </body>
