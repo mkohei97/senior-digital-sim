@@ -1437,6 +1437,33 @@
   .jk-mid { margin-top: 80px; display: flex; flex-direction: column; align-items: center; gap: 16px; } .jk-mid b { font-size: 34px; } .jk-mid span { font-size: 24px; color: #5A6360; }
   @media (orientation: landscape) { #scr-janken .jk-hand { font-size: 92px; } #scr-janken .jk-e { font-size: 60px; } #scr-janken .jk-b { padding: 10px !important; } }
   .cat-menu .gcard.drl-door { grid-column: auto !important; } .cat-menu .gcard.drl-door .drl-mini { display: none; }
+/* ===== v1.53 旅のスタンプ（わたしの記録）・お誕生日 ===== */
+.rec-tabs { grid-template-columns: repeat(4, 1fr) !important; gap: 10px !important; }
+.rec-tab { font-size: 20px !important; }
+.rec-tab svg { width: 24px; height: 24px; }
+.tabi-panel { width: 100%; flex: 1; min-height: 0; overflow: auto; background: linear-gradient(180deg, #FFFDF8 0%, #FDF9F0 100%); border: 1px solid #E8DFC9; border-radius: 28px;
+  box-shadow: 0 10px 26px rgba(60, 48, 36, 0.10); padding: 18px 26px; box-sizing: border-box; flex-direction: column; gap: 10px; }
+.tp-hd { display: flex; align-items: flex-end; gap: 16px; border-bottom: 3px solid #C8412F; padding-bottom: 8px; }
+.tp-hd .jn { font-size: 19px; color: #7A6A5E; }
+.tp-hd .now { font-size: 22px; color: #555; } .tp-hd .now b { font-size: 34px; color: #333A38; margin: 0 4px; } .tp-hd .now rt { font-size: 14px; color: #8A7A6E; font-weight: 400; }
+.tp-hd .cnt { margin-left: auto; font-size: 22px; } .tp-hd .cnt b { font-size: 38px; color: #C8412F; margin: 0 3px; }
+.tp-route { position: relative; height: 58px; margin: 6px 14px 0; }
+.tp-route .ln { position: absolute; left: 0; right: 0; top: 12px; height: 8px; border-radius: 99px; background: #EFE7DD; overflow: hidden; }
+.tp-route .ln i { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, #E8A08F, #C8412F); }
+.tp-route .me { position: absolute; top: 1px; width: 30px; height: 30px; margin-left: -15px; border-radius: 50%; background: #fff; border: 3px solid #C8412F; box-shadow: 0 2px 6px rgba(0,0,0,.18); }
+.tp-route .pt { position: absolute; top: 34px; transform: translateX(-50%); font-size: 15px; color: #7A6A5E; white-space: nowrap; }
+.tp-route .pt::before { content: ''; position: absolute; left: 50%; top: -18px; width: 2px; height: 10px; background: #D2C4B6; }
+.tp-route .pt.first { transform: none; left: -6px !important; } .tp-route .pt.last { transform: none; left: auto !important; right: -6px; }
+.tp-route .pt.first::before, .tp-route .pt.last::before { display: none; }
+.tp-next { font-size: 20px; color: #555; }
+.tp-grid { display: grid; grid-template-columns: repeat(11, 1fr); gap: 6px 4px; }
+.tp-grid .tb-c { display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.tp-grid .sl { width: 100%; max-width: 74px; height: auto; aspect-ratio: 1; }
+.tp-grid .nm { font-size: 14px; color: #7A746A; }
+.tp-grid .nx .ring { stroke: #11866D; stroke-width: 3; stroke-dasharray: 5 4; } .tp-grid .nx .nm { color: #0B4F42; font-weight: 700; }
+.tp-note { font-size: 18px; color: #666; text-align: center; }
+.tp-empty { font-size: 22px; color: #555; text-align: center; padding: 30px 0; line-height: 1.7; }
+#ovl-bday .l1 b { color: #8A3A48; }
 </style>
 </head>
 <body>
@@ -1525,6 +1552,7 @@
     <path d="M10.8 5.2 H13.2"></path>
     <path d="M10.5 18.4 H13.5"></path>
   </symbol>
+  <symbol id="ic-tabi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 14 L8 6.5 L11 10 L13.8 7.2 L21.5 14 Z"></path><path d="M9.5 21 C9.5 18 15.5 17.6 15.5 14.6 C15.5 13.4 14.4 12.8 13.2 12.8"></path><circle cx="12.4" cy="12.8" r="1.1" fill="currentColor" stroke="none"></circle></symbol>
   <symbol id="ic-stamp" viewBox="0 0 24 24">
     <path d="M9.5 4.5 C9.5 3.4 10.6 2.5 12 2.5 C13.4 2.5 14.5 3.4 14.5 4.5 C14.5 5.6 13.8 6.3 13.6 7.4 L13.4 9 L10.6 9 L10.4 7.4 C10.2 6.3 9.5 5.6 9.5 4.5 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
     <path d="M9 9 L15 9 C16.1 9 17 9.9 17 11 L17 13.5 L7 13.5 L7 11 C7 9.9 7.9 9 9 9 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path>
@@ -1772,7 +1800,7 @@
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.52(ここスマ自習システム・白とガラス・後出しじゃんけん・BGM)<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.53(ここスマ自習システム・白とガラス・旅のスタンプ・お誕生日)<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -2035,9 +2063,13 @@
       <div class="rec-tab" id="tab-manabi" onclick="switchRecTab('manabi')">
         <svg viewBox="0 0 24 24"><use href="#ic-tanzaku"></use></svg>記録帳
       </div>
+      <div class="rec-tab" id="tab-tabi" onclick="switchRecTab('tabi')">
+        <svg viewBox="0 0 24 24"><use href="#ic-tabi"></use></svg>旅のスタンプ
+      </div>
     </div>
     <div class="map-panel" id="map-panel" style="display:none;"></div>
     <div class="log-panel" id="manabi-panel" style="display:none;"></div>
+    <div class="tabi-panel" id="tabi-panel" style="display:none;"></div>
     <div class="seki-book" id="seki-panel">
       <div class="seki-month"><span class="m" id="seki-month"></span><span class="c">の帳面</span></div>
       <div class="seki-wk"><span class="sun">日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span class="sat">土</span></div>
@@ -5689,6 +5721,11 @@ updateHome();
 
 
 <!-- ウェルカム/お見送り(v1.3) -->
+<div class="ovl" id="ovl-bday">
+  <svg class="bigflo" viewBox="0 0 24 24"><use class="skin-use" href="#ic-sakura-a"></use></svg>
+  <div class="l1" id="bday-tx"><b>おめでとうございます</b></div>
+  <div class="l2" id="bday-l2"></div>
+</div>
 <div class="ovl" id="ovl-welcome">
   <svg class="bigflo" viewBox="0 0 24 24"><use class="skin-use" href="#ic-sakura-a"></use></svg>
   <div class="l1" id="welcome-tx"><b>ようこそ</b></div>
@@ -20603,7 +20640,7 @@ function gvSync() {
 /* ---------- 後出しじゃんけん ---------- */
 var JK_HAND = { g: { e: '✊', n: 'グー' }, c: { e: '✌️', n: 'チョキ' }, p: { e: '✋', n: 'パー' } };
 var JK_BEAT = { g: 'c', c: 'p', p: 'g' };            /* キー が 値 に勝つ */
-var JK_ORD = { win: { t: '勝って', col: '#11866D' }, lose: { t: '負けて', col: '#C0612B' }, draw: { t: 'あいこ', col: '#2F6FD6' } };
+var JK_ORD = { win: { t: '勝って', cmd: '勝ってください', hand: '勝つ手', col: '#11866D' }, lose: { t: '負けて', cmd: '負けてください', hand: '負ける手', col: '#C0612B' }, draw: { t: 'あいこ', cmd: 'あいこにしてください', hand: 'あいこになる手', col: '#2F6FD6' } };
 /* レベル＝[指示の種類, 答える時間(秒), ボタンの並びを毎回入れ替える, 指示の色をなくす] */
 var JK_LV = [null, [['win'], 6, 0, 0], [['win', 'draw'], 6, 0, 0], [['win', 'lose', 'draw'], 6, 0, 0], [['win', 'lose', 'draw'], 4.5, 0, 0], [['win', 'lose', 'draw'], 3.5, 0, 0],
   [['win', 'lose', 'draw'], 3.0, 1, 0], [['win', 'lose', 'draw'], 2.6, 1, 0], [['win', 'lose', 'draw'], 2.2, 1, 0], [['win', 'lose', 'draw'], 1.9, 1, 1], [['win', 'lose', 'draw'], 1.6, 1, 1]];
@@ -20634,7 +20671,7 @@ function jkRound() {
   Array.prototype.forEach.call(document.querySelectorAll('#jk-btns .jk-b'), function (el) { el.onclick = function () { jkPick(el.getAttribute('data-h'), el); }; });
   jkLater(function () {
     document.getElementById('jk-cpu').textContent = JK_HAND[cpu].e; document.getElementById('jk-cpu').classList.add('on');
-    var o = document.getElementById('jk-ord'); o.textContent = O.t + 'ください'; o.classList.add('on');
+    var o = document.getElementById('jk-ord'); o.textContent = O.cmd; o.classList.add('on');
     document.getElementById('jk-tm').style.animationPlayState = 'running';
     jk.lock = false; jk.t0 = Date.now();
     jkLater(function () { jkPick(null, null); }, L[1] * 1000);
@@ -20647,7 +20684,7 @@ function jkPick(h, el) {
   if (el && !ok) el.classList.add('ng');
   if (!el) sfx('ng');
   var msg = document.getElementById('jk-msg');
-  msg.textContent = ok ? 'できました' : (h ? JK_ORD[c.ord].t + 'なら「' + JK_HAND[c.ans].n + '」です' : '時間になりました。「' + JK_HAND[c.ans].n + '」です');
+  msg.textContent = ok ? 'できました' : (h ? JK_ORD[c.ord].hand + 'は「' + JK_HAND[c.ans].n + '」です' : '時間になりました。' + JK_ORD[c.ord].hand + 'は「' + JK_HAND[c.ans].n + '」です');
   msg.className = 'jk-msg ' + (ok ? 'ok' : 'ng');
   if (ok) jk.ok++; jk.k++;
   jkLater(jkRound, ok ? 700 : 1500);
@@ -20673,17 +20710,17 @@ function jkEnd() {
 }
 function jkExit() { if (jk) { jk.done = true; jkClear(); } ntExitGame(); }
 /* 種目に加える（見きわめる） */
-ACT.janken = { n: '後出しじゃんけん', fn: 'startJanken', chip: '#E3F2F0', ink: '#0B4F42', ic: 'ic-janken', desc: '「勝って」「負けて」「あいこ」の指示どおりに出す' };
+ACT.janken = { n: '後出しじゃんけん', fn: 'startJanken', chip: '#E3F2F0', ink: '#0B4F42', ic: 'ic-janken', desc: '指示どおりに、勝つ・負ける・あいこの手を出す' };
 (function () { var b = ntB('handan'); if (b && b.games.indexOf('janken') < 0) b.games.push('janken'); })();
 LV_GAMES.push('janken'); NT_REAL_LABEL.janken = '到達したレベル';
-EXPLAIN.janken = { lines: ['相手が手を出し、「勝って」「負けて」「あいこ」の指示が出ます。', '指示どおりになる手を、下の3つから選んで押します。'], meta: ['10回×3組・約2分', '1組で9回できたら、レベルが1つ上'], cd: true };
+EXPLAIN.janken = { lines: ['相手が手を出すと、「勝ってください」「負けてください」「あいこにしてください」のどれかが出ます。', '指示どおりになる手を、下の3つから選んで押します。'], meta: ['10回×3組・約2分', '1組で9回できたら、レベルが1つ上'], cd: true };
 DEMO_GAMES.push('janken');
 DEMO.janken = function () {
   function s(cpu, ord, pick) {
-    return '<div class="dm-read" style="font-weight:700;color:' + JK_ORD[ord].col + '">' + JK_ORD[ord].t + 'ください</div><div style="font-size:64px;line-height:1">' + JK_HAND[cpu].e + '</div>' +
+    return '<div class="dm-read" style="font-weight:700;color:' + JK_ORD[ord].col + '">' + JK_ORD[ord].cmd + '</div><div style="font-size:64px;line-height:1">' + JK_HAND[cpu].e + '</div>' +
       '<div class="dm-grid g3">' + ['g', 'c', 'p'].map(function (h) { return '<span class="dm-ch' + (h === pick ? ' ok' : '') + '" style="height:70px;font-size:36px;position:relative">' + JK_HAND[h].e + (h === pick ? '<i class="dm-tap"></i>' : '') + '</span>'; }).join('') + '</div>';
   }
-  return [[s('g', 'win', null), '相手はグー。「勝って」なら…', 1400], [s('g', 'win', 'p'), 'パーを押します', 1400], [s('c', 'draw', null), '相手はチョキ。「あいこ」なら…', 1400], [s('c', 'draw', 'c'), 'チョキを押します', 1400], [s('p', 'lose', null), '相手はパー。「負けて」なら…', 1400], [s('p', 'lose', 'g'), 'グーを押します', 1600]];
+  return [[s('g', 'win', null), '相手はグー。勝つには…', 1400], [s('g', 'win', 'p'), 'パーを押します', 1400], [s('c', 'draw', null), '相手はチョキ。あいこにするには…', 1400], [s('c', 'draw', 'c'), 'チョキを押します', 1400], [s('p', 'lose', null), '相手はパー。負けるには…', 1400], [s('p', 'lose', 'g'), 'グーを押します', 1600]];
 };
 (function () {
   var fn = window.startJanken, start = function () { fn(); };
@@ -20763,6 +20800,114 @@ function bgmBtnSync() {
   var s = document.querySelector('#scr-nt .sfx-btn');
   if (s) { var b = document.createElement('div'); b.className = 'btn btn-white nt-howto bgm-btn'; b.onclick = bgmToggle; s.parentNode.insertBefore(b, s.nextSibling); }
   bgmBtnSync();
+})();
+var TABI = [{ id: 'tokaido', n: '東海道五十三次', from: '日本橋', to: '京都', pts: [["日本橋","にほんばし","東京都","お江戸日本橋から、京都をめざす旅のはじまりです"],["品川","しながわ","東京都"],["川崎","かわさき","神奈川県"],["神奈川","かながわ","神奈川県"],["保土ヶ谷","ほどがや","神奈川県"],["戸塚","とつか","神奈川県"],["藤沢","ふじさわ","神奈川県"],["平塚","ひらつか","神奈川県"],["大磯","おおいそ","神奈川県"],["小田原","おだわら","神奈川県"],["箱根","はこね","神奈川県","天下の険、箱根の山を越えます"],["三島","みしま","静岡県","静岡県に入りました。富士山が見えてきます"],["沼津","ぬまづ","静岡県"],["原","はら","静岡県"],["吉原","よしわら","静岡県"],["蒲原","かんばら","静岡県"],["由比","ゆい","静岡県"],["興津","おきつ","静岡県"],["江尻","えじり","静岡県"],["府中","ふちゅう","静岡県"],["丸子","まりこ","静岡県"],["岡部","おかべ","静岡県"],["藤枝","ふじえだ","静岡県"],["島田","しまだ","静岡県"],["金谷","かなや","静岡県"],["日坂","にっさか","静岡県"],["掛川","かけがわ","静岡県"],["袋井","ふくろい","静岡県","ここが東海道のどまん中です"],["見付","みつけ","静岡県"],["浜松","はままつ","静岡県"],["舞阪","まいさか","静岡県"],["新居","あらい","静岡県"],["白須賀","しらすか","静岡県"],["二川","ふたがわ","愛知県","愛知県に入りました"],["吉田","よしだ","愛知県"],["御油","ごゆ","愛知県"],["赤坂","あかさか","愛知県"],["藤川","ふじかわ","愛知県"],["岡崎","おかざき","愛知県"],["池鯉鮒","ちりゅう","愛知県"],["鳴海","なるみ","愛知県"],["宮","みや","愛知県","七里の渡し。ここから舟で桑名へ向かいます"],["桑名","くわな","三重県","三重県に入りました"],["四日市","よっかいち","三重県"],["石薬師","いしやくし","三重県"],["庄野","しょうの","三重県"],["亀山","かめやま","三重県"],["関","せき","三重県"],["坂下","さかのした","三重県"],["土山","つちやま","滋賀県","滋賀県に入りました"],["水口","みなくち","滋賀県"],["石部","いしべ","滋賀県"],["草津","くさつ","滋賀県"],["大津","おおつ","滋賀県","琵琶湖のほとり。京都はもうすぐです"],["三条大橋","さんじょうおおはし","京都府","東海道五十三次を、歩ききりました。おめでとうございます"]] }];
+/* ---- 旅のスタンプ（共通部品：会員証・自習システム・スタッフ画面で同じもの） ---- */
+function tabiLabel(i) { var P = TABI[0].pts; i = Math.max(0, Math.min(P.length - 1, i)); return (i === 0 || i === P.length - 1) ? P[i][0] : P[i][0] + '宿'; }
+function tabiAt(n) { var L = TABI[0].pts.length, i = Math.min(n, L) - 1; return { n: n, i: i, L: L, done: n >= L, pct: i <= 0 ? 0 : Math.round(i / (L - 1) * 1000) / 10 }; }
+function tabiNextText(n) {
+  var P = TABI[0].pts; if (n >= P.length) return '';
+  var t = '次は ' + tabiLabel(n);
+  for (var j = n + 1; j < P.length; j++) if (P[j][3]) { t += '・あと' + (j + 1 - n) + 'こで ' + tabiLabel(j); break; }
+  return t;
+}
+function tabiSeal(name, sub, empty, rot) {
+  var len = name.length, fs = len <= 1 ? 36 : len === 2 ? 30 : len === 3 ? 24 : 19;
+  var e = String(name).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
+  if (empty) return '<svg class="sl" viewBox="0 0 100 100"><circle class="ring" cx="50" cy="50" r="44" fill="none" stroke="#D9CFC4" stroke-width="2" stroke-dasharray="4 5"></circle>' +
+    '<text x="50" y="' + (50 + fs * 0.36) + '" text-anchor="middle" font-size="' + fs + '" font-weight="700" fill="#B3A89C">' + e + '</text></svg>';
+  var ty = sub ? 50 + fs * 0.2 : 50 + fs * 0.36;
+  return '<svg class="sl" viewBox="0 0 100 100"><g transform="rotate(' + (rot || -6) + ' 50 50)"><circle cx="50" cy="50" r="45" fill="#FFF8F4" stroke="#C8412F" stroke-width="5"></circle>' +
+    '<circle cx="50" cy="50" r="37" fill="none" stroke="#C8412F" stroke-width="1.6"></circle>' +
+    '<text x="50" y="' + ty + '" text-anchor="middle" font-size="' + fs + '" font-weight="800" fill="#C8412F" font-family="Hiragino Mincho ProN, Yu Mincho, serif">' + e + '</text>' +
+    (sub ? '<text x="50" y="' + (ty + 18) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#C8412F">' + sub + '</text>' : '') + '</g></svg>';
+}
+/* スタンプ1つ目＝日本橋を出発。n こ目の知らせ */
+function tabiPonText(n) {
+  var P = TABI[0].pts, L = P.length, o = { big: n % 10 === 0 || n === L, n: n + 'こ目のスタンプ' + (n % 10 === 0 ? '！' : '') };
+  if (n > L) { o.t = '京都に着いたあとも、スタンプは数えています'; o.s = '次の旅を準備しています。お楽しみに。'; o.seal = '京都'; return o; }
+  var p = P[n - 1];
+  o.t = n === 1 ? '日本橋を出発しました' : n === L ? '京都・三条大橋に着きました' : tabiLabel(n - 1) + 'に着きました';
+  o.s = p[3] || (n % 10 === 0 ? n + '回、教室に来てくださいました。' : '');
+  if (p[3] && n % 10 === 0 && n !== L) o.s = n + '回、教室に来てくださいました。' + p[3];
+  o.seal = p[0];
+  return o;
+}
+function tabiMd(d) { var a = String(d || '').split('-'); return a.length === 3 ? parseInt(a[1], 10) + '/' + parseInt(a[2], 10) : ''; }
+/* ===== v1.53 後出しじゃんけんの言い回し・旅のスタンプ（わたしの記録）・お誕生日 ===== */
+var TP = { data: null };
+function tpKey() { return 'kokosuma_stamps_' + session.m; }
+function tpLoad() {
+  try { TP.data = JSON.parse(storeGet(tpKey()) || 'null'); } catch (e) { TP.data = null; }
+  if (!session.t) return Promise.resolve(TP.data);
+  return sbRpc('my_stamps', { p_token: session.t }).then(function (r) {
+    if (r && r.ok) { TP.data = r; storeSet(tpKey(), JSON.stringify(r)); }
+    return TP.data;
+  }).catch(function () { return TP.data; });
+}
+function tpRender() {
+  var el = document.getElementById('tabi-panel'); if (!el) return;
+  var D = TP.data;
+  if (!D) { el.innerHTML = '<div class="tp-empty">教室の日に、会員証で読み取ったスタンプが、ここに並びます。<br>日本橋から京都まで、東海道五十三次の旅です。</div>'; return; }
+  var P = TABI[0].pts, n = D.total || 0, a = tabiAt(n), list = D.list || [];
+  var now = n === 0 ? 'スタート地点 <b>日本橋</b>' : (a.done ? 'ゴール' : 'いまは') + '<b><ruby>' + tabiLabel(a.i) + '<rt>' + P[a.i][1] + '</rt></ruby></b>（' + P[a.i][2] + '）';
+  var marks = [[0, '日本橋', 'first'], [10, '箱根', ''], [27, '袋井（どまん中）', ''], [41, '宮', ''], [P.length - 1, '京都', 'last']];
+  var h = '<div class="tp-hd"><div><div class="jn">旅のスタンプ帳・東海道五十三次</div><div class="now">' + now + '</div></div><div class="cnt">スタンプ<b>' + n + '</b>こ</div></div>' +
+    '<div class="tp-route"><i class="ln"><i style="width:' + a.pct + '%"></i></i>' +
+    marks.map(function (m) { return '<span class="pt ' + m[2] + '" style="left:' + (m[0] / (P.length - 1) * 100) + '%">' + m[1] + '</span>'; }).join('') +
+    '<em class="me" style="left:' + a.pct + '%"></em></div>' +
+    '<div class="tp-next">' + (a.done ? '東海道を歩ききりました。次の旅を準備しています' : tabiNextText(n)) + '</div><div class="tp-grid">';
+  for (var i = 0; i < P.length; i++) {
+    var got = i < n, it = list[i] || {};
+    h += '<div class="tb-c' + (got ? '' : (i === n ? ' nx' : '')) + '">' + tabiSeal(P[i][0], got ? tabiMd(it.d) : '', !got, ((i * 7) % 11) - 5) + '<span class="nm">' + (i === n ? 'つぎ' : (i + 1)) + '</span></div>';
+  }
+  el.innerHTML = h + '</div><div class="tp-note">教室の日に、講師のQRコードを会員証で読み取ると、1つ進みます（1日1つ）</div>';
+}
+(function () {
+  var _sw = switchRecTab;
+  switchRecTab = function (t) {
+    if (t !== 'tabi') { _sw(t); document.getElementById('tab-tabi').classList.remove('on'); document.getElementById('tabi-panel').style.display = 'none'; return; }
+    _sw('seki');
+    recTab = 'tabi';
+    document.getElementById('tab-seki').classList.remove('on'); document.getElementById('seki-panel').style.display = 'none';
+    document.getElementById('tab-tabi').classList.add('on'); document.getElementById('tabi-panel').style.display = 'flex';
+    tpRender(); tpLoad().then(function () { if (recTab === 'tabi') tpRender(); });
+  };
+  var _ss = showSeki;
+  showSeki = function (tab) { if (tab === 'tabi') { _ss('seki'); switchRecTab('tabi'); } else _ss(tab); };
+})();
+
+/* ---- お誕生日：入店したとき、当日〜6日あとまでに1回だけお祝い ---- */
+function bdayDaysAfter(md) {
+  if (!md) return -1;
+  var t = new Date(todayStr() + 'T00:00:00'), p = md.split('-');
+  var d = new Date(t.getFullYear(), parseInt(p[0], 10) - 1, parseInt(p[1], 10));
+  if (d > t) d = new Date(t.getFullYear() - 1, parseInt(p[0], 10) - 1, parseInt(p[1], 10));
+  return Math.round((t - d) / 86400000);
+}
+var bdayHold = 0;
+function bdayCheck(D, m) {
+  if (!D || !D.birth_md || session.m !== m) return;
+  var k = bdayDaysAfter(D.birth_md); if (k < 0 || k > 6) return;
+  var key = 'kokosuma_bday_' + m; if (storeGet(key) === todayStr()) return;
+  storeSet(key, todayStr());
+  var p = D.birth_md.split('-');
+  document.getElementById('bday-l2').textContent = (k === 0 ? '今日は、お誕生日ですね。' : parseInt(p[0], 10) + '月' + parseInt(p[1], 10) + '日は、お誕生日でしたね。') + 'すてきな一年になりますように。';
+  document.getElementById('bday-tx').innerHTML = '<b>' + memberLabel() + '</b>、おめでとうございます';
+  bdayHold = Date.now() + 3600;
+  sprinklePetals('ovl-bday');
+  showOverlay('ovl-bday', 3400);
+  try { sfx('fin'); } catch (e) {}
+}
+(function () {
+  var _lm = loginMember;
+  loginMember = function (m, n, t) {
+    var t0 = Date.now(), r = _lm.apply(this, arguments);
+    tpLoad().then(function (D) { setTimeout(function () { bdayCheck(D, m); }, Math.max(0, 2300 - (Date.now() - t0))); });
+    return r;
+  };
+  var _mc = showMilestoneCert;
+  showMilestoneCert = function (c) { var w = bdayHold - Date.now(); if (w > 0) { setTimeout(function () { _mc(c); }, w); return; } return _mc(c); };
 })();
 </script>
 </body>

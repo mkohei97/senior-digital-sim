@@ -113,6 +113,66 @@
 
   @keyframes petalFloat { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(16px) rotate(9deg); } }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  /* ===== v0.7 旅のスタンプ帳・お誕生日 ===== */
+  .tabi { background: rgba(255, 255, 255, 0.95); border: 1px solid var(--season-border); border-radius: 28px;
+    box-shadow: 0 10px 26px rgba(196, 88, 128, 0.12); padding: 16px 20px 14px; display: flex; flex-direction: column; gap: 10px; }
+  .tb-cap { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; color: var(--accent-deep); }
+  .tb-cap svg { width: 26px; height: 26px; }
+  .tb-cap span { margin-left: auto; font-size: 17px; font-weight: 400; color: #7A6A5E; }
+  .tb-now { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .tb-now small { font-size: 19px; color: #555555; }
+  .tb-now b { font-size: 34px; line-height: 1.25; color: #333A38; }
+  .tb-now rt { font-size: 13px; color: #8A7A6E; font-weight: 400; }
+  .tb-now span { font-size: 18px; color: #7A6A5E; }
+  .tb-route { position: relative; height: 54px; margin: 2px 6px 0; }
+  .tb-line { position: absolute; left: 0; right: 0; top: 14px; height: 8px; border-radius: 99px; background: #EFE7DD; overflow: hidden; }
+  .tb-line i { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, #E8A08F, #C8412F); border-radius: 99px; }
+  .tb-me { position: absolute; top: 3px; width: 30px; height: 30px; margin-left: -15px; border-radius: 50%; background: #FFFFFF;
+    border: 3px solid #C8412F; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18); }
+  .tb-route .a, .tb-route .b { position: absolute; top: 34px; font-size: 15px; color: #7A6A5E; }
+  .tb-route .a { left: -4px; } .tb-route .b { right: -4px; }
+  .tb-cnt { font-size: 20px; color: #333A38; line-height: 1.5; }
+  .tb-cnt b { font-size: 28px; color: #C8412F; margin: 0 2px; }
+  .tb-cnt .nx { display: block; font-size: 18px; color: #555555; }
+  .tb-note { font-size: 17px; color: #666666; line-height: 1.5; }
+  .tb-open { align-self: center; font-size: 19px; font-weight: 700; color: var(--accent-deep); padding: 4px 12px; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+  .btn.done { background: #E9E4DC; color: #6D655C; box-shadow: none; }
+  .tb-book { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px 4px; padding-top: 6px; border-top: 1px dashed #E3D6CB; }
+  .tb-c { display: flex; flex-direction: column; align-items: center; gap: 1px; min-width: 0; }
+  .tb-c .sl { width: 60px; height: 60px; }
+  .tb-c .nm { font-size: 14px; color: #555555; white-space: nowrap; }
+  .tb-c.no .sl { opacity: 0.9; }
+  .tb-c.nx .ring { stroke: var(--action); stroke-width: 3; stroke-dasharray: 5 4; }
+  .tb-c.nx .nm { color: var(--accent-deep); font-weight: 700; }
+  .tb-msg { font-size: 19px; line-height: 1.6; color: #8A3A2A; background: #FBEDE8; border-radius: 16px; padding: 10px 14px; }
+  .bday { background: linear-gradient(135deg, #FFF6EC, #FDE7EC); border: 1px solid #F1D2C8; border-radius: 28px; padding: 16px 20px;
+    display: flex; align-items: center; gap: 14px; box-shadow: 0 10px 26px rgba(196, 88, 128, 0.12); }
+  .bday svg { width: 52px; height: 52px; flex-shrink: 0; }
+  .bday b { display: block; font-size: 22px; line-height: 1.4; color: #8A3A48; }
+  .bday span { font-size: 19px; color: #555555; }
+  /* 読み取り */
+  .scan { position: fixed; inset: 0; z-index: 50; background: rgba(20, 24, 23, 0.94); display: none; flex-direction: column; align-items: center;
+    justify-content: center; gap: 18px; padding: 24px; }
+  .scan.on { display: flex; }
+  .sc-box { position: relative; width: min(84vw, 380px); aspect-ratio: 1; border-radius: 24px; overflow: hidden; background: #000000; }
+  .sc-box video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .sc-frame { position: absolute; inset: 14%; border: 4px solid #FFFFFF; border-radius: 18px; box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.28); }
+  .sc-msg { color: #FFFFFF; font-size: 22px; font-weight: 700; text-align: center; line-height: 1.6; }
+  .scan .btn { flex: none; min-width: 200px; }
+  /* 押したとき */
+  .pon { position: fixed; inset: 0; z-index: 60; background: rgba(51, 42, 36, 0.55); display: none; align-items: center; justify-content: center; padding: 20px; }
+  .pon.on { display: flex; }
+  .pon-card { width: 100%; max-width: 420px; background: #FFFDF8; border-radius: 28px; padding: 22px 22px 18px; display: flex; flex-direction: column;
+    align-items: center; gap: 6px; text-align: center; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25); }
+  .pon-seal { width: 170px; height: 170px; }
+  .pon.on .pon-seal { animation: ponIn 0.55s cubic-bezier(.2, 1.6, .4, 1) both; }
+  @keyframes ponIn { 0% { transform: scale(2.2) rotate(-14deg); opacity: 0; } 60% { opacity: 1; } 100% { transform: scale(1) rotate(-6deg); opacity: 1; } }
+  .pon-n { font-size: 21px; font-weight: 700; color: #C8412F; }
+  .pon-n.big { font-size: 30px; }
+  .pon-t { font-size: 27px; font-weight: 700; line-height: 1.45; }
+  .pon-s { font-size: 20px; color: #555555; line-height: 1.6; }
+  .pon-by { font-size: 17px; color: #7A6A5E; }
+  .pon-card .btn { margin-top: 10px; width: 100%; flex: none; }
 </style>
 </head>
 <body>
@@ -185,6 +245,11 @@
     <path d="M9.6 6.8 C9.6 5.9 10.4 5.6 10.4 4.8"></path>
     <path d="M13.6 6.8 C13.6 5.9 14.4 5.6 14.4 4.8"></path>
   </symbol>
+  <symbol id="ic-tabi" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M2.5 14 L8 6.5 L11 10 L13.8 7.2 L21.5 14 Z" fill="#F6DCD3"></path>
+    <path d="M9.5 21 C9.5 18 15.5 17.6 15.5 14.6 C15.5 13.4 14.4 12.8 13.2 12.8"></path>
+    <circle cx="12.4" cy="12.8" r="1.1" fill="#C8412F" stroke="none"></circle>
+  </symbol>
 </svg>
 
 <div class="petals" id="petals" aria-hidden="true"></div>
@@ -207,6 +272,23 @@
     </div>
   </div>
 
+  <!-- v0.7 お誕生日（当日だけ） -->
+  <div class="bday" id="bday" style="display:none;">
+    <svg viewBox="0 0 24 24"><use class="skin-use" href="#ic-sakura-a"></use></svg>
+    <div><b id="bday-t">お誕生日おめでとうございます</b><span>すてきな一年になりますように。</span></div>
+  </div>
+  <!-- v0.7 旅のスタンプ帳（教室の日に1日1つ） -->
+  <div class="tabi" id="tabi" style="display:none;">
+    <div class="tb-cap"><svg viewBox="0 0 24 24"><use href="#ic-tabi"></use></svg>旅のスタンプ帳<span id="tb-jn">東海道五十三次</span></div>
+    <div class="tb-now"><small id="tb-lead">いまは</small><b id="tb-where">日本橋</b><span id="tb-pref"></span></div>
+    <div class="tb-route"><i class="tb-line"><i id="tb-fill" style="width:0%"></i></i><em class="tb-me" id="tb-me" style="left:0%"></em><span class="a" id="tb-a">日本橋</span><span class="b" id="tb-b">京都</span></div>
+    <div class="tb-cnt">スタンプ<b id="tb-n">0</b>こ<span class="nx" id="tb-next"></span></div>
+    <div class="tb-msg" id="tb-msg" style="display:none;"></div>
+    <button class="btn btn-primary" id="tb-get" onclick="stampScan()">スタンプをもらう</button>
+    <div class="tb-note">教室の日に、講師が見せるQRコードを読み取ると、1つ押せます（1日1つ）。</div>
+    <div class="tb-open" id="tb-open" onclick="tabiBook()">スタンプ帳をひらく</div>
+    <div class="tb-book" id="tb-book" style="display:none;"></div>
+  </div>
   <!-- 呼び名の初回確認(未登録時のみ) -->
   <div class="askname" id="askname" style="display:none;">
     <div class="q">なんとお呼びすれば、よいですか?</div>
@@ -251,7 +333,7 @@
     <svg viewBox="0 0 24 24"><use href="#ic-yunomi"></use></svg>
     練習の記録は、お店のカルテにも残ります。
   </div>
-  <div class="footer">ここスマ・会員証 試作版 v0.6</div>
+  <div class="footer">ここスマ・会員証 試作版 v0.7</div>
 </div>
 
 <script>
@@ -2698,6 +2780,242 @@ function skipName() {
   var s = (m >= 3 && m <= 5) ? 'spring' : (m >= 6 && m <= 8) ? 'summer' : (m >= 9 && m <= 11) ? 'autumn' : 'winter';
   document.body.setAttribute('data-season', (typeof SEASON !== 'undefined') ? SEASON : s);
 })();
+</script>
+<!-- v0.7 スタンプの読み取り -->
+<div class="scan" id="scan">
+  <div class="sc-box"><video id="sc-v" playsinline muted autoplay></video><i class="sc-frame"></i></div>
+  <div class="sc-msg" id="sc-msg">講師のQRコードを、<br>白い四角の中に映してください</div>
+  <button class="btn btn-white" onclick="scanStop()">やめる</button>
+  <canvas id="sc-c" style="display:none;"></canvas>
+</div>
+<!-- v0.7 押したとき -->
+<div class="pon" id="pon">
+  <div class="pon-card">
+    <div class="pon-seal" id="pon-seal"></div>
+    <div class="pon-n" id="pon-n"></div>
+    <div class="pon-t" id="pon-t"></div>
+    <div class="pon-s" id="pon-s"></div>
+    <div class="pon-by" id="pon-by"></div>
+    <button class="btn btn-primary" onclick="ponClose()">とじる</button>
+  </div>
+</div>
+<script>
+var TABI = [{ id: 'tokaido', n: '東海道五十三次', from: '日本橋', to: '京都', pts: [["日本橋","にほんばし","東京都","お江戸日本橋から、京都をめざす旅のはじまりです"],["品川","しながわ","東京都"],["川崎","かわさき","神奈川県"],["神奈川","かながわ","神奈川県"],["保土ヶ谷","ほどがや","神奈川県"],["戸塚","とつか","神奈川県"],["藤沢","ふじさわ","神奈川県"],["平塚","ひらつか","神奈川県"],["大磯","おおいそ","神奈川県"],["小田原","おだわら","神奈川県"],["箱根","はこね","神奈川県","天下の険、箱根の山を越えます"],["三島","みしま","静岡県","静岡県に入りました。富士山が見えてきます"],["沼津","ぬまづ","静岡県"],["原","はら","静岡県"],["吉原","よしわら","静岡県"],["蒲原","かんばら","静岡県"],["由比","ゆい","静岡県"],["興津","おきつ","静岡県"],["江尻","えじり","静岡県"],["府中","ふちゅう","静岡県"],["丸子","まりこ","静岡県"],["岡部","おかべ","静岡県"],["藤枝","ふじえだ","静岡県"],["島田","しまだ","静岡県"],["金谷","かなや","静岡県"],["日坂","にっさか","静岡県"],["掛川","かけがわ","静岡県"],["袋井","ふくろい","静岡県","ここが東海道のどまん中です"],["見付","みつけ","静岡県"],["浜松","はままつ","静岡県"],["舞阪","まいさか","静岡県"],["新居","あらい","静岡県"],["白須賀","しらすか","静岡県"],["二川","ふたがわ","愛知県","愛知県に入りました"],["吉田","よしだ","愛知県"],["御油","ごゆ","愛知県"],["赤坂","あかさか","愛知県"],["藤川","ふじかわ","愛知県"],["岡崎","おかざき","愛知県"],["池鯉鮒","ちりゅう","愛知県"],["鳴海","なるみ","愛知県"],["宮","みや","愛知県","七里の渡し。ここから舟で桑名へ向かいます"],["桑名","くわな","三重県","三重県に入りました"],["四日市","よっかいち","三重県"],["石薬師","いしやくし","三重県"],["庄野","しょうの","三重県"],["亀山","かめやま","三重県"],["関","せき","三重県"],["坂下","さかのした","三重県"],["土山","つちやま","滋賀県","滋賀県に入りました"],["水口","みなくち","滋賀県"],["石部","いしべ","滋賀県"],["草津","くさつ","滋賀県"],["大津","おおつ","滋賀県","琵琶湖のほとり。京都はもうすぐです"],["三条大橋","さんじょうおおはし","京都府","東海道五十三次を、歩ききりました。おめでとうございます"]] }];
+/* ---- 旅のスタンプ（共通部品：会員証・自習システム・スタッフ画面で同じもの） ---- */
+function tabiLabel(i) { var P = TABI[0].pts; i = Math.max(0, Math.min(P.length - 1, i)); return (i === 0 || i === P.length - 1) ? P[i][0] : P[i][0] + '宿'; }
+function tabiAt(n) { var L = TABI[0].pts.length, i = Math.min(n, L) - 1; return { n: n, i: i, L: L, done: n >= L, pct: i <= 0 ? 0 : Math.round(i / (L - 1) * 1000) / 10 }; }
+function tabiNextText(n) {
+  var P = TABI[0].pts; if (n >= P.length) return '';
+  var t = '次は ' + tabiLabel(n);
+  for (var j = n + 1; j < P.length; j++) if (P[j][3]) { t += '・あと' + (j + 1 - n) + 'こで ' + tabiLabel(j); break; }
+  return t;
+}
+function tabiSeal(name, sub, empty, rot) {
+  var len = name.length, fs = len <= 1 ? 36 : len === 2 ? 30 : len === 3 ? 24 : 19;
+  var e = String(name).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
+  if (empty) return '<svg class="sl" viewBox="0 0 100 100"><circle class="ring" cx="50" cy="50" r="44" fill="none" stroke="#D9CFC4" stroke-width="2" stroke-dasharray="4 5"></circle>' +
+    '<text x="50" y="' + (50 + fs * 0.36) + '" text-anchor="middle" font-size="' + fs + '" font-weight="700" fill="#B3A89C">' + e + '</text></svg>';
+  var ty = sub ? 50 + fs * 0.2 : 50 + fs * 0.36;
+  return '<svg class="sl" viewBox="0 0 100 100"><g transform="rotate(' + (rot || -6) + ' 50 50)"><circle cx="50" cy="50" r="45" fill="#FFF8F4" stroke="#C8412F" stroke-width="5"></circle>' +
+    '<circle cx="50" cy="50" r="37" fill="none" stroke="#C8412F" stroke-width="1.6"></circle>' +
+    '<text x="50" y="' + ty + '" text-anchor="middle" font-size="' + fs + '" font-weight="800" fill="#C8412F" font-family="Hiragino Mincho ProN, Yu Mincho, serif">' + e + '</text>' +
+    (sub ? '<text x="50" y="' + (ty + 18) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#C8412F">' + sub + '</text>' : '') + '</g></svg>';
+}
+/* スタンプ1つ目＝日本橋を出発。n こ目の知らせ */
+function tabiPonText(n) {
+  var P = TABI[0].pts, L = P.length, o = { big: n % 10 === 0 || n === L, n: n + 'こ目のスタンプ' + (n % 10 === 0 ? '！' : '') };
+  if (n > L) { o.t = '京都に着いたあとも、スタンプは数えています'; o.s = '次の旅を準備しています。お楽しみに。'; o.seal = '京都'; return o; }
+  var p = P[n - 1];
+  o.t = n === 1 ? '日本橋を出発しました' : n === L ? '京都・三条大橋に着きました' : tabiLabel(n - 1) + 'に着きました';
+  o.s = p[3] || (n % 10 === 0 ? n + '回、教室に来てくださいました。' : '');
+  if (p[3] && n % 10 === 0 && n !== L) o.s = n + '回、教室に来てくださいました。' + p[3];
+  o.seal = p[0];
+  return o;
+}
+function tabiMd(d) { var a = String(d || '').split('-'); return a.length === 3 ? parseInt(a[1], 10) + '/' + parseInt(a[2], 10) : ''; }
+/* ===================== v0.7 旅のスタンプ帳・お誕生日 ===================== */
+var SUPA_URL = 'https://kravngifhbxywmpoydur.supabase.co';
+var SUPA_KEY = 'sb_publishable_kxqrgfxUIyZk-pQmU8Jpbw_r9lmxb1E';
+var SITE = 'https://mkohei97.github.io/senior-digital-sim/';
+function sbRpc(fn, args) {
+  return fetch(SUPA_URL + '/rest/v1/rpc/' + fn, {
+    method: 'POST', headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY }, body: JSON.stringify(args || {})
+  }).then(function (r) { return r.json(); });
+}
+var ST = null;   /* {total, today, list:[{d,by}], birth_md} */
+try { ST = JSON.parse(storeGet('kokosuma_stamps') || 'null'); } catch (e) {}
+function todayYmd() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+
+function tabiRender() {
+  var box = document.getElementById('tabi');
+  if (!memberToken || !ST) { box.style.display = 'none'; return; }
+  box.style.display = 'flex';
+  var n = ST.total || 0, a = tabiAt(n), P = TABI[0].pts;
+  var where = document.getElementById('tb-where');
+  if (n === 0) { document.getElementById('tb-lead').textContent = 'スタート地点'; where.innerHTML = '日本橋'; document.getElementById('tb-pref').textContent = '（東京都）'; }
+  else {
+    var p = P[a.i];
+    document.getElementById('tb-lead').textContent = a.done ? 'ゴール' : 'いまは';
+    where.innerHTML = '<ruby>' + tabiLabel(a.i) + '<rt>' + p[1] + '</rt></ruby>';
+    document.getElementById('tb-pref').textContent = '（' + p[2] + '）';
+  }
+  document.getElementById('tb-fill').style.width = a.pct + '%';
+  document.getElementById('tb-me').style.left = a.pct + '%';
+  document.getElementById('tb-n').textContent = n;
+  document.getElementById('tb-next').textContent = a.done ? '東海道を歩ききりました。次の旅を準備しています' : tabiNextText(n);
+  var b = document.getElementById('tb-get');
+  var today = ST.today && (ST._live || ST.day === todayYmd());
+  b.classList.toggle('done', !!today);
+  b.textContent = today ? '今日の分は押しました' : 'スタンプをもらう';
+  if (document.getElementById('tb-book').style.display !== 'none') tabiBookRender();
+}
+function tabiBook() {
+  var bk = document.getElementById('tb-book'), open = bk.style.display === 'none';
+  bk.style.display = open ? 'grid' : 'none';
+  document.getElementById('tb-open').textContent = open ? 'スタンプ帳をとじる' : 'スタンプ帳をひらく';
+  if (open) tabiBookRender();
+}
+function tabiBookRender() {
+  var P = TABI[0].pts, n = ST ? ST.total : 0, list = (ST && ST.list) || [], h = '';
+  for (var i = 0; i < P.length; i++) {
+    var got = i < n, it = list[i] || {};
+    h += '<div class="tb-c' + (got ? '' : (i === n ? ' nx' : ' no')) + '">' +
+      tabiSeal(P[i][0], got ? tabiMd(it.d) : '', !got, ((i * 7) % 11) - 5) +
+      '<span class="nm">' + (i === n ? 'つぎ' : (i + 1)) + '</span></div>';
+  }
+  document.getElementById('tb-book').innerHTML = h;
+}
+function tabiMsg(t) { var m = document.getElementById('tb-msg'); m.style.display = t ? 'block' : 'none'; m.textContent = t || ''; }
+function stampsLoad() {
+  if (!memberToken) return Promise.resolve();
+  return sbRpc('my_stamps', { p_token: memberToken }).then(function (r) {
+    if (r && r.ok) { ST = r; storeSet('kokosuma_stamps', JSON.stringify(r)); ST._live = true; }
+    else if (r && r.error === 'bad_token') { ST = null; storeSet('kokosuma_stamps', ''); }
+    /* 準備中（DBの更新前）は、控えがなければ欄を出さない */
+    tabiRender(); bdayRender();
+  }).catch(function () { tabiRender(); bdayRender(); });
+}
+function bdayRender() {
+  var el = document.getElementById('bday');
+  var md = ST && ST.birth_md, t = todayYmd().slice(5);
+  if (md && md === t) {
+    document.getElementById('bday-t').textContent = (memberName ? memberName + 'さん、' : '') + 'お誕生日おめでとうございます';
+    el.style.display = 'flex';
+  } else el.style.display = 'none';
+}
+
+/* ---- 押す ---- */
+var stampBusy = false;
+function stampPress(code, by) {
+  if (stampBusy) return; stampBusy = true;
+  tabiMsg('');
+  sbRpc('stamp_press', { p_token: memberToken, p_code: code, p_by: by || '' }).then(function (r) {
+    stampBusy = false;
+    if (r && r.ok) {
+      if (!r.new_today) { tabiMsg('今日のスタンプは、もう押してあります。また次の教室で。'); stampsLoad(); return; }
+      stampsLoad().then(function () { ponShow(r.total, by); });
+      return;
+    }
+    var e = r && r.error;
+    tabiMsg(e === 'old_code' ? 'このQRコードは、前の日のものです。講師に、今日のQRコードを見せてもらってください。' :
+      e === 'bad_code' ? 'このQRコードでは押せませんでした。講師にお声がけください。' :
+      e === 'bad_token' ? 'この会員証では押せませんでした。お店でお声がけください。' :
+      'ただいま準備中です。講師にお声がけください。');
+  }).catch(function () { stampBusy = false; tabiMsg('通信できませんでした。電波のよいところで、もう一度読み取ってください。'); });
+}
+function ponShow(n, by) {
+  var o = tabiPonText(n);
+  document.getElementById('pon-seal').innerHTML = tabiSeal(o.seal, tabiMd(todayYmd()), false, -6);
+  var nn = document.getElementById('pon-n'); nn.textContent = o.n; nn.classList.toggle('big', !!o.big);
+  document.getElementById('pon-t').textContent = o.t;
+  document.getElementById('pon-s').textContent = o.s || '';
+  document.getElementById('pon-by').textContent = by ? by + 'さんが押しました' : '';
+  document.getElementById('pon').classList.add('on');
+  try { if (navigator.vibrate) navigator.vibrate(o.big ? [40, 60, 40] : 40); } catch (e) {}
+}
+function ponClose() { document.getElementById('pon').classList.remove('on'); }
+function parseStamp(text) {
+  try { var u = new URL(text); var c = u.searchParams.get('stamp'); if (c && /^[0-9A-Za-z]{6,16}$/.test(c)) return { code: c, by: (u.searchParams.get('by') || '').slice(0, 12) }; } catch (e) {}
+  return null;
+}
+
+/* ---- 読み取り（カメラ）：使える端末は内蔵の読み取り、ほかは jsQR を読み込む ---- */
+var scanSt = null, scanRAF = null, scanDet = null;
+function loadJsQR() {
+  if (window.jsQR) return Promise.resolve();
+  return new Promise(function (ok, ng) {
+    var s = document.createElement('script');
+    s.src = (location.protocol === 'file:' ? SITE : '') + 'jsqr.js';
+    s.onload = ok; s.onerror = ng; document.head.appendChild(s);
+  });
+}
+function stampScan() {
+  if (!memberToken) { tabiMsg('お店で会員証を登録すると、スタンプを集められます。'); return; }
+  if (ST && ST.today && (ST._live || ST.day === todayYmd())) { tabiMsg('今日のスタンプは、もう押してあります。また次の教室で。'); return; }
+  tabiMsg('');
+  var msg = document.getElementById('sc-msg');
+  msg.innerHTML = '講師のQRコードを、<br>白い四角の中に映してください';
+  document.getElementById('scan').classList.add('on');
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { msg.textContent = 'この画面ではカメラが使えません。講師にお声がけください。'; return; }
+  var prep = ('BarcodeDetector' in window) ? Promise.resolve().then(function () { try { scanDet = new BarcodeDetector({ formats: ['qr_code'] }); } catch (e) { scanDet = null; return loadJsQR(); } }) : loadJsQR();
+  prep.then(function () {
+    return navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+  }).then(function (st) {
+    if (!document.getElementById('scan').classList.contains('on')) { st.getTracks().forEach(function (t) { t.stop(); }); return; }
+    scanSt = st; var v = document.getElementById('sc-v'); v.srcObject = st; v.play(); scanLoop();
+  }).catch(function () { msg.textContent = 'カメラが使えませんでした。設定でカメラを許可するか、講師にお声がけください。'; });
+}
+function scanStop() {
+  if (scanRAF) cancelAnimationFrame(scanRAF); scanRAF = null;
+  if (scanSt) { scanSt.getTracks().forEach(function (t) { t.stop(); }); scanSt = null; }
+  var v = document.getElementById('sc-v'); if (v) v.srcObject = null;
+  document.getElementById('scan').classList.remove('on');
+}
+function scanFound(text) {
+  var s = parseStamp(text);
+  if (!s) { document.getElementById('sc-msg').textContent = 'これはスタンプのQRコードではないようです'; return false; }
+  scanStop(); stampPress(s.code, s.by); return true;
+}
+function scanLoop() {
+  var v = document.getElementById('sc-v'), c = document.getElementById('sc-c'), busy = false;
+  function tick() {
+    if (!scanSt) return;
+    if (v.readyState >= 2 && v.videoWidth > 0 && !busy) {
+      if (scanDet) {
+        busy = true;
+        scanDet.detect(v).then(function (cs) { busy = false; if (cs && cs[0] && scanFound(cs[0].rawValue)) return; }).catch(function () { busy = false; });
+      } else if (window.jsQR) {
+        var w = Math.min(720, v.videoWidth), h = Math.round(v.videoHeight * w / v.videoWidth);
+        c.width = w; c.height = h;
+        var ctx = c.getContext('2d', { willReadFrequently: true }); ctx.drawImage(v, 0, 0, w, h);
+        try { var img = ctx.getImageData(0, 0, w, h), code = jsQR(img.data, w, h, { inversionAttempts: 'dontInvert' }); if (code && code.data && scanFound(code.data)) return; } catch (e) {}
+      }
+    }
+    scanRAF = requestAnimationFrame(tick);
+  }
+  scanRAF = requestAnimationFrame(tick);
+}
+
+/* ---- 標準のカメラでQRを読んで、この画面が開いたとき（?stamp=…） ---- */
+(function () {
+  var s = parseStamp(location.href);
+  if (!s) return;
+  try { history.replaceState(null, '', location.pathname); } catch (e) {}
+  if (!memberToken) {
+    window.__stampNoCard = true;
+    return;
+  }
+  window.__stampPending = s;
+})();
+tabiRender(); bdayRender();
+stampsLoad().then(function () {
+  if (window.__stampPending) { var s = window.__stampPending; window.__stampPending = null; stampPress(s.code, s.by); }
+});
+if (window.__stampNoCard) {
+  var nc = document.createElement('div'); nc.className = 'tb-msg';
+  nc.textContent = 'この画面では、スタンプを押せませんでした。ホーム画面の「ここスマ会員証」を開いて、「スタンプをもらう」から読み取ってください。';
+  var idc = document.getElementById('idcard'); idc.parentNode.insertBefore(nc, idc.nextSibling);
+}
 </script>
 </body>
 </html>
