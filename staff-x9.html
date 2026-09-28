@@ -278,7 +278,7 @@
     </div>
 
     <div class="sec">
-      <div class="t">旅のスタンプ（東海道五十三次・教室の日に1日1つ）</div>
+      <div class="t">スタンプカード（教室の日に1日1つ・10こで1枚・東海道五十三次の旅）</div>
       <div id="d-stamp" style="font-size:15px;margin-bottom:8px;"></div>
       <button class="btn ghost" id="d-stampbtn" onclick="doStamp()">今日のスタンプを押す（読み取れないとき）</button>
     </div>
@@ -3238,6 +3238,44 @@ function tabiPonText(n) {
   return o;
 }
 function tabiMd(d) { var a = String(d || '').split('-'); return a.length === 3 ? parseInt(a[1], 10) + '/' + parseInt(a[2], 10) : ''; }
+/* ---- スタンプカード（10こで1枚）：キリのよい数で達成感を出す ---- */
+var CARD_N = 10;
+function tabiCard(n) { return { k: Math.floor(n / CARD_N) + 1, got: n % CARD_N, full: Math.floor(n / CARD_N) }; }
+function tabiSlotName(num) { var P = TABI[0].pts; return num <= P.length ? P[num - 1][0] : '印'; }
+/* カード1枚を描く：k枚目、list=押した日の一覧、n=通算 */
+function tabiCardHtml(k, n, list) {
+  var h = '';
+  for (var j = 1; j <= CARD_N; j++) {
+    var num = (k - 1) * CARD_N + j, got = num <= n, it = list[num - 1] || {};
+    h += '<div class="cd-s' + (got ? ' got' : (num === n + 1 ? ' nx' : '')) + '">' +
+      tabiSeal(tabiSlotName(num), got ? tabiMd(it.d) : '', !got, ((num * 7) % 11) - 5) + '<span>' + (num === n + 1 ? 'つぎ' : num) + '</span></div>';
+  }
+  return h;
+}
+function tabiCardLeft(n) { var c = tabiCard(n); return CARD_N - c.got; }
+/* 押したときの知らせ（10こごとに「カード満了」） */
+tabiPonText = function (n) {
+  var P = TABI[0].pts, L = P.length, c = tabiCard(n), o = {};
+  var place = n > L ? '' : (n === 1 ? '日本橋を出発しました' : n === L ? '京都・三条大橋に着きました' : tabiLabel(n - 1) + 'に着きました');
+  var hl = n <= L ? (P[n - 1][3] || '') : '';
+  o.seal = n > L ? '印' : P[n - 1][0];
+  if (n % CARD_N === 0) {
+    o.big = true; o.card = true;
+    o.n = 'カード' + c.full + '枚目、満了！';
+    o.t = n + '回、教室に来てくださいました';
+    o.s = (place ? place + '。' : '') + (hl || '次のカードも、いっしょに進みましょう。');
+  } else {
+    o.big = n === L;
+    o.n = 'カード' + c.k + '枚目・' + c.got + 'こ目';
+    o.t = place || n + 'こ目のスタンプ';
+    o.s = hl || (c.got === 5 ? '折り返しです。あと5こで、カードが1枚たまります。' : 'あと' + (CARD_N - c.got) + 'こで、カードが1枚たまります。');
+  }
+  if (n === L) o.s = hl;
+  return o;
+};
+/* 見せるカード：ちょうど満了したときは、次の空のカードではなく満了したカードを見せる */
+function tabiShowCard(n) { var c = tabiCard(n); return (c.got === 0 && c.full > 0) ? { k: c.full, got: CARD_N, done: true, full: c.full } : { k: c.k, got: c.got, done: false, full: c.full }; }
+function tabiManSeal(k) { return '<div class="cd-man">' + tabiSeal('満了', k + '枚目', false, -12) + '</div>'; }
 /* ===== 2026-09-28 教室の旅スタンプ・お誕生日（patch15） ===== */
 function stpBy() { return storeGet('kokosuma_stamp_by') || '神崎'; }
 function stpNamesRender() {
@@ -3274,7 +3312,8 @@ function stpDetail() {
   if (!el || !cur) return;
   if (typeof cur.stamp_total === 'undefined') { el.textContent = 'まだ使えません(データベースの準備=patch15の前です)。'; b.disabled = true; bdSelect(null); return; }
   var n = cur.stamp_total, a = tabiAt(n);
-  el.textContent = '通算 ' + n + 'こ・' + (n === 0 ? 'まだ日本橋（スタート前）' : (a.done ? '京都に到着ずみ' : 'いまは ' + tabiLabel(a.i) + '（' + TABI[0].pts[a.i][2] + '）')) + (n > 0 && !a.done ? '・' + tabiNextText(n) : '');
+  var cc = tabiCard(n);
+  el.textContent = '通算 ' + n + 'こ（' + cc.k + '枚目のカード ' + cc.got + '/10・たまったカード ' + cc.full + '枚）・' + (n === 0 ? 'まだ日本橋（スタート前）' : (a.done ? '京都に到着ずみ' : 'いまは ' + tabiLabel(a.i) + '（' + TABI[0].pts[a.i][2] + '）')) + (n > 0 && !a.done ? '・' + tabiNextText(n) : '');
   b.disabled = !!cur.stamped_today || cur.status !== 'active';
   b.textContent = cur.stamped_today ? '今日のスタンプは押してあります' : '今日のスタンプを押す（読み取れないとき）';
   bdSelect(cur.birth_md);

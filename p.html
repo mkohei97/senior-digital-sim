@@ -118,7 +118,7 @@
     box-shadow: 0 10px 26px rgba(196, 88, 128, 0.12); padding: 16px 20px 14px; display: flex; flex-direction: column; gap: 10px; }
   .tb-cap { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; color: var(--accent-deep); }
   .tb-cap svg { width: 26px; height: 26px; }
-  .tb-cap span { margin-left: auto; font-size: 17px; font-weight: 400; color: #7A6A5E; }
+  .tb-cap span { margin-left: auto; white-space: nowrap; font-size: 16px; font-weight: 400; color: #7A6A5E; }
   .tb-now { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
   .tb-now small { font-size: 19px; color: #555555; }
   .tb-now b { font-size: 34px; line-height: 1.25; color: #333A38; }
@@ -173,6 +173,29 @@
   .pon-s { font-size: 20px; color: #555555; line-height: 1.6; }
   .pon-by { font-size: 17px; color: #7A6A5E; }
   .pon-card .btn { margin-top: 10px; width: 100%; flex: none; }
+  /* v0.8 スタンプカード */
+  .cd-hd { display: flex; align-items: baseline; gap: 10px; }
+  .cd-hd b { font-size: 26px; }
+  .cd-cnt { margin-left: auto; white-space: nowrap; font-size: 20px; color: #555; } .cd-cnt b { font-size: 34px; color: #C8412F; }
+  .cd-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px 4px; background: #FFFBF6; border: 2px solid #F0DCCF; border-radius: 20px; padding: 12px 8px 8px; }
+  .cd-s { display: flex; flex-direction: column; align-items: center; min-width: 0; }
+  .cd-s .sl { width: 100%; max-width: 64px; height: auto; aspect-ratio: 1; }
+  .cd-s span { font-size: 14px; color: #8A7A6E; }
+  .cd-s.nx .ring { stroke: var(--action); stroke-width: 3; stroke-dasharray: 5 4; } .cd-s.nx span { color: var(--accent-deep); font-weight: 700; }
+  .cd-left { font-size: 20px; font-weight: 700; color: #8A3A2A; text-align: center; }
+  .cd-done { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: 17px; color: #555; }
+  .cd-done i { font-style: normal; display: inline-flex; align-items: center; gap: 4px; background: #FBEDE8; color: #8A3A2A; border: 1px solid #F0CFC4; border-radius: 999px; padding: 3px 12px; font-weight: 700; font-size: 16px; }
+  .tb-map { border-top: 1px dashed #E3D6CB; padding-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+  .tb-map .tb-now b { font-size: 28px; }
+  .tb-map .tb-cnt b { font-size: 24px; }
+  .pon-ten { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; width: 100%; max-width: 300px; margin-top: 4px; }
+  .pon-ten .sl { width: 100%; height: auto; aspect-ratio: 1; }
+  .pon-seal.ten { width: 100%; height: auto; display: flex; flex-direction: column; align-items: center; }
+  .pon-seal.ten > .sl { width: 120px; height: 120px; }
+  .cd-grid { position: relative; }
+  .cd-man { position: absolute; left: 50%; top: 50%; width: 46%; transform: translate(-50%, -50%); pointer-events: none; filter: drop-shadow(0 4px 10px rgba(200, 65, 47, .25)); }
+  .cd-man .sl { width: 100%; height: auto; }
+  .cd-man circle:first-child { fill: rgba(255, 248, 244, .88); }
 </style>
 </head>
 <body>
@@ -277,16 +300,22 @@
     <svg viewBox="0 0 24 24"><use class="skin-use" href="#ic-sakura-a"></use></svg>
     <div><b id="bday-t">お誕生日おめでとうございます</b><span>すてきな一年になりますように。</span></div>
   </div>
-  <!-- v0.7 旅のスタンプ帳（教室の日に1日1つ） -->
+  <!-- v0.8 スタンプカード（教室の日に1日1つ・10こで1枚）＋旅の地図 -->
   <div class="tabi" id="tabi" style="display:none;">
-    <div class="tb-cap"><svg viewBox="0 0 24 24"><use href="#ic-tabi"></use></svg>旅のスタンプ帳<span id="tb-jn">東海道五十三次</span></div>
-    <div class="tb-now"><small id="tb-lead">いまは</small><b id="tb-where">日本橋</b><span id="tb-pref"></span></div>
-    <div class="tb-route"><i class="tb-line"><i id="tb-fill" style="width:0%"></i></i><em class="tb-me" id="tb-me" style="left:0%"></em><span class="a" id="tb-a">日本橋</span><span class="b" id="tb-b">京都</span></div>
-    <div class="tb-cnt">スタンプ<b id="tb-n">0</b>こ<span class="nx" id="tb-next"></span></div>
+    <div class="tb-cap"><svg viewBox="0 0 24 24"><use href="#ic-tabi"></use></svg>スタンプカード<span id="tb-jn">東海道の旅</span></div>
+    <div class="cd-hd"><b id="cd-k">1枚目</b><span class="cd-cnt"><b id="cd-got">0</b> / 10</span></div>
+    <div class="cd-grid" id="cd-grid"></div>
+    <div class="cd-left" id="cd-left"></div>
     <div class="tb-msg" id="tb-msg" style="display:none;"></div>
     <button class="btn btn-primary" id="tb-get" onclick="stampScan()">スタンプをもらう</button>
     <div class="tb-note">教室の日に、講師が見せるQRコードを読み取ると、1つ押せます（1日1つ）。</div>
-    <div class="tb-open" id="tb-open" onclick="tabiBook()">スタンプ帳をひらく</div>
+    <div class="cd-done" id="cd-done" style="display:none;"></div>
+    <div class="tb-map">
+      <div class="tb-now"><small id="tb-lead">いまは</small><b id="tb-where">日本橋</b><span id="tb-pref"></span></div>
+      <div class="tb-route"><i class="tb-line"><i id="tb-fill" style="width:0%"></i></i><em class="tb-me" id="tb-me" style="left:0%"></em><span class="a" id="tb-a">日本橋</span><span class="b" id="tb-b">京都</span></div>
+      <div class="tb-cnt">通算<b id="tb-n">0</b>こ<span class="nx" id="tb-next"></span></div>
+    </div>
+    <div class="tb-open" id="tb-open" onclick="tabiBook()">旅の地図（53の宿場）をひらく</div>
     <div class="tb-book" id="tb-book" style="display:none;"></div>
   </div>
   <!-- 呼び名の初回確認(未登録時のみ) -->
@@ -333,7 +362,7 @@
     <svg viewBox="0 0 24 24"><use href="#ic-yunomi"></use></svg>
     練習の記録は、お店のカルテにも残ります。
   </div>
-  <div class="footer">ここスマ・会員証 試作版 v0.7</div>
+  <div class="footer">ここスマ・会員証 試作版 v0.8</div>
 </div>
 
 <script>
@@ -2833,6 +2862,44 @@ function tabiPonText(n) {
   return o;
 }
 function tabiMd(d) { var a = String(d || '').split('-'); return a.length === 3 ? parseInt(a[1], 10) + '/' + parseInt(a[2], 10) : ''; }
+/* ---- スタンプカード（10こで1枚）：キリのよい数で達成感を出す ---- */
+var CARD_N = 10;
+function tabiCard(n) { return { k: Math.floor(n / CARD_N) + 1, got: n % CARD_N, full: Math.floor(n / CARD_N) }; }
+function tabiSlotName(num) { var P = TABI[0].pts; return num <= P.length ? P[num - 1][0] : '印'; }
+/* カード1枚を描く：k枚目、list=押した日の一覧、n=通算 */
+function tabiCardHtml(k, n, list) {
+  var h = '';
+  for (var j = 1; j <= CARD_N; j++) {
+    var num = (k - 1) * CARD_N + j, got = num <= n, it = list[num - 1] || {};
+    h += '<div class="cd-s' + (got ? ' got' : (num === n + 1 ? ' nx' : '')) + '">' +
+      tabiSeal(tabiSlotName(num), got ? tabiMd(it.d) : '', !got, ((num * 7) % 11) - 5) + '<span>' + (num === n + 1 ? 'つぎ' : num) + '</span></div>';
+  }
+  return h;
+}
+function tabiCardLeft(n) { var c = tabiCard(n); return CARD_N - c.got; }
+/* 押したときの知らせ（10こごとに「カード満了」） */
+tabiPonText = function (n) {
+  var P = TABI[0].pts, L = P.length, c = tabiCard(n), o = {};
+  var place = n > L ? '' : (n === 1 ? '日本橋を出発しました' : n === L ? '京都・三条大橋に着きました' : tabiLabel(n - 1) + 'に着きました');
+  var hl = n <= L ? (P[n - 1][3] || '') : '';
+  o.seal = n > L ? '印' : P[n - 1][0];
+  if (n % CARD_N === 0) {
+    o.big = true; o.card = true;
+    o.n = 'カード' + c.full + '枚目、満了！';
+    o.t = n + '回、教室に来てくださいました';
+    o.s = (place ? place + '。' : '') + (hl || '次のカードも、いっしょに進みましょう。');
+  } else {
+    o.big = n === L;
+    o.n = 'カード' + c.k + '枚目・' + c.got + 'こ目';
+    o.t = place || n + 'こ目のスタンプ';
+    o.s = hl || (c.got === 5 ? '折り返しです。あと5こで、カードが1枚たまります。' : 'あと' + (CARD_N - c.got) + 'こで、カードが1枚たまります。');
+  }
+  if (n === L) o.s = hl;
+  return o;
+};
+/* 見せるカード：ちょうど満了したときは、次の空のカードではなく満了したカードを見せる */
+function tabiShowCard(n) { var c = tabiCard(n); return (c.got === 0 && c.full > 0) ? { k: c.full, got: CARD_N, done: true, full: c.full } : { k: c.k, got: c.got, done: false, full: c.full }; }
+function tabiManSeal(k) { return '<div class="cd-man">' + tabiSeal('満了', k + '枚目', false, -12) + '</div>'; }
 /* ===================== v0.7 旅のスタンプ帳・お誕生日 ===================== */
 var SUPA_URL = 'https://kravngifhbxywmpoydur.supabase.co';
 var SUPA_KEY = 'sb_publishable_kxqrgfxUIyZk-pQmU8Jpbw_r9lmxb1E';
@@ -2850,7 +2917,20 @@ function tabiRender() {
   var box = document.getElementById('tabi');
   if (!memberToken || !ST) { box.style.display = 'none'; return; }
   box.style.display = 'flex';
-  var n = ST.total || 0, a = tabiAt(n), P = TABI[0].pts;
+  var n = ST.total || 0, a = tabiAt(n), P = TABI[0].pts, c = tabiCard(n), list = ST.list || [];
+  /* いまのカード（10こで1枚） */
+  var sc = tabiShowCard(n);
+  document.getElementById('cd-k').textContent = sc.k + '枚目のカード';
+  document.getElementById('cd-got').textContent = sc.got;
+  document.getElementById('cd-grid').innerHTML = tabiCardHtml(sc.k, n, list) + (sc.done ? tabiManSeal(sc.k) : '');
+  document.getElementById('cd-left').textContent = sc.done ? 'カードが' + sc.full + '枚たまりました。次の教室から' + (sc.k + 1) + '枚目です' : 'あと' + (CARD_N - c.got) + 'こで、カードが1枚たまります';
+  var dn = document.getElementById('cd-done');
+  if (c.full > 0) {
+    var h = 'ためたカード ';
+    for (var i = 1; i <= c.full; i++) { var it = list[i * CARD_N - 1] || {}; h += '<i>' + i + '枚目' + (it.d ? '・' + tabiMd(it.d) : '') + '</i>'; }
+    dn.innerHTML = h; dn.style.display = 'flex';
+  } else dn.style.display = 'none';
+  /* 旅の地図 */
   var where = document.getElementById('tb-where');
   if (n === 0) { document.getElementById('tb-lead').textContent = 'スタート地点'; where.innerHTML = '日本橋'; document.getElementById('tb-pref').textContent = '（東京都）'; }
   else {
@@ -2872,7 +2952,7 @@ function tabiRender() {
 function tabiBook() {
   var bk = document.getElementById('tb-book'), open = bk.style.display === 'none';
   bk.style.display = open ? 'grid' : 'none';
-  document.getElementById('tb-open').textContent = open ? 'スタンプ帳をとじる' : 'スタンプ帳をひらく';
+  document.getElementById('tb-open').textContent = open ? '旅の地図をとじる' : '旅の地図（53の宿場）をひらく';
   if (open) tabiBookRender();
 }
 function tabiBookRender() {
@@ -2924,14 +3004,17 @@ function stampPress(code, by) {
   }).catch(function () { stampBusy = false; tabiMsg('通信できませんでした。電波のよいところで、もう一度読み取ってください。'); });
 }
 function ponShow(n, by) {
-  var o = tabiPonText(n);
-  document.getElementById('pon-seal').innerHTML = tabiSeal(o.seal, tabiMd(todayYmd()), false, -6);
+  var o = tabiPonText(n), list = (ST && ST.list) || [];
+  var seal = o.card ? tabiSeal('満了', (n / CARD_N) + '枚目', false, -6) + '<div class="pon-ten">' + tabiCardHtml(n / CARD_N, n, list).replace(/<span>[^<]*<\/span>/g, '') + '</div>'
+                    : tabiSeal(o.seal, tabiMd(todayYmd()), false, -6);
+  document.getElementById('pon-seal').innerHTML = seal;
+  document.getElementById('pon-seal').classList.toggle('ten', !!o.card);
   var nn = document.getElementById('pon-n'); nn.textContent = o.n; nn.classList.toggle('big', !!o.big);
   document.getElementById('pon-t').textContent = o.t;
   document.getElementById('pon-s').textContent = o.s || '';
   document.getElementById('pon-by').textContent = by ? by + 'さんが押しました' : '';
   document.getElementById('pon').classList.add('on');
-  try { if (navigator.vibrate) navigator.vibrate(o.big ? [40, 60, 40] : 40); } catch (e) {}
+  try { if (navigator.vibrate) navigator.vibrate(o.big ? [40, 60, 40, 60, 80] : 40); } catch (e) {}
 }
 function ponClose() { document.getElementById('pon').classList.remove('on'); }
 function parseStamp(text) {
