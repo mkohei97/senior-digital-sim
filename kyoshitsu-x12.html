@@ -291,6 +291,10 @@ var NETA = {
       return sl;
     }
   },
+  purinto: {
+    n: '今日のプリント', ic: '🖨️', how: '最後の5分に配る紙。押すと印刷の画面が別に開く（A4・両面・裏に答え）。同じ日は同じ問題',
+    link: 'purinto-x13.html'
+  },
   stamp: {
     n: '教室スタンプ', ic: '🔖', how: '終わりに映す。会員証の「スタンプをもらう」で読み取り（スタッフ画面にログインした端末だけ）',
     make: function () { return ['<div id="qrbox" class="hint">用意しています…</div>']; },
@@ -306,7 +310,7 @@ var YUBI = [
   ['チョキ・パー', '✌️ ✋', '右手はチョキ、左手はパー。<br>合図で入れかえます。慣れたら、グーもまぜて。'],
   ['手拍子とひざ', '👏', '手を2回たたいて、ひざを1回。<br>「パン・パン・ポン」のリズムで、10回。']
 ];
-var ORDER = ['janken', 'iro', 'kotowaza', 'anzan', 'furusato', 'wadai', 'yubi', 'kazoe', 'stamp'];
+var ORDER = ['janken', 'iro', 'kotowaza', 'anzan', 'furusato', 'wadai', 'yubi', 'kazoe', 'purinto', 'stamp'];
 /* 今週の話題：wadai.json（週に1回入れかえる） */
 var WADAI = null;
 (function () {
@@ -336,7 +340,9 @@ function render() {
   document.getElementById('prog').textContent = N.list ? (cur.i + 1) + ' / ' + cur.slides.length : (cur.k === 'stamp' ? '' : cur.n + '問目');
   if (N.after) N.after();
 }
-function open1(k) { clockStart(); cur = { k: k, slides: NETA[k].make(), i: 0, n: 1 }; render(); }
+function open1(k) { if (NETA[k].link) { window.open((location.protocol === 'file:' ? 'https://mkohei97.github.io/senior-digital-sim/' : '') + NETA[k].link, '_blank'); return; }
+  openNeta(k); }
+function openNeta(k) { clockStart(); cur = { k: k, slides: NETA[k].make(), i: 0, n: 1 }; render(); }
 function setLv(i) { LV[cur.k] = i; storeSet('minna_lv', JSON.stringify(LV)); cur.slides = NETA[cur.k].make(); cur.i = 0; render(); }
 function next() {
   cdStop();

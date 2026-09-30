@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>今日の脳トレプリント</title>
+<style>
+  @page { size: A4 portrait; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Noto Sans CJK JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif; color: #1F2A28; background: #E9ECEA; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  /* 画面だけの操作帯 */
+  .bar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: #fff; border-bottom: 1px solid #E3DFD2; font-size: 15px; flex-wrap: wrap; }
+  .bar b { font-size: 17px; }
+  .bar button { font-family: inherit; font-size: 15px; font-weight: 700; border: 1px solid #E3DFD2; background: #fff; border-radius: 99px; padding: 8px 16px; cursor: pointer; color: #0B4F42; }
+  .bar button.go { background: #11866D; border-color: #11866D; color: #fff; }
+  .bar .note { color: #5A6360; font-size: 13px; }
+  /* A4 */
+  .page { width: 210mm; height: 297mm; margin: 14px auto; background: #fff; padding: 11mm 14mm 9mm; position: relative; box-shadow: 0 4px 18px rgba(0,0,0,.12); overflow: hidden; display: flex; flex-direction: column; gap: 3.4mm; }
+  @media print { body { background: #fff; } .bar { display: none; } .page { margin: 0; box-shadow: none; page-break-after: always; break-after: page; } }
+  .hd { display: flex; align-items: flex-end; gap: 6mm; border-bottom: 1.2mm solid #11866D; padding-bottom: 2.4mm; }
+  .hd .t { white-space: nowrap; font-size: 20pt; font-weight: 800; letter-spacing: .04em; }
+  .hd .t small { font-size: 11pt; font-weight: 700; color: #0B4F42; margin-right: 3mm; letter-spacing: .1em; }
+  .hd .d { font-size: 12.5pt; font-weight: 700; margin-left: auto; white-space: nowrap; }
+  .hd .nm { font-size: 10.5pt; color: #5A6360; border-bottom: .3mm solid #9AA39F; width: 42mm; margin-left: 4mm; padding-bottom: 1mm; }
+  .sec { border: .35mm solid #E3DFD2; border-radius: 3mm; padding: 2.4mm 4.5mm 2.8mm; }
+  .sec h2 { font-size: 13.5pt; font-weight: 800; display: flex; align-items: center; gap: 2.4mm; margin-bottom: 1.4mm; }
+  .sec h2 i { font-style: normal; display: inline-flex; width: 7.4mm; height: 7.4mm; border-radius: 50%; background: #11866D; color: #fff; align-items: center; justify-content: center; font-size: 12pt; }
+  .sec h2 span { font-size: 10.5pt; font-weight: 400; color: #5A6360; }
+  .q { font-size: 13.5pt; line-height: 1.55; }
+  .q table { width: 100%; border-collapse: collapse; }
+  .q td { padding: .8mm 0; vertical-align: top; }
+  .box { display: inline-block; min-width: 26mm; border-bottom: .35mm solid #1F2A28; text-align: center; margin: 0 1mm; }
+  .ch { font-size: 12.5pt; color: #3C4643; }
+  .ch span { margin-right: 5mm; }
+  .ch span::before { content: '○'; margin-right: 1mm; color: #9AA39F; }
+  .dots { position: relative; height: 54mm; border-radius: 2mm; background: #FBFAF7; }
+  .dots b { position: absolute; width: 10mm; height: 10mm; margin: -5mm 0 0 -5mm; border-radius: 50%; border: .45mm solid #1F2A28; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 12.5pt; font-weight: 800; }
+  .dots b.s { background: #11866D; color: #fff; border-color: #11866D; }
+  .dots svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .lines { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2mm 5mm; margin-top: 1mm; }
+  .lines div { border-bottom: .35mm solid #9AA39F; height: 8mm; }
+  .yomi { display: grid; grid-template-columns: 1fr 1fr; gap: 1mm 8mm; }
+  .yomi div { font-size: 15pt; font-weight: 700; display: flex; align-items: center; gap: 3mm; }
+  .yomi div span { flex: 1; border-bottom: .35mm solid #9AA39F; height: 8mm; }
+  .ft { margin-top: auto; font-size: 9.5pt; color: #7A817E; display: flex; justify-content: space-between; }
+  /* 答え */
+  .ans { color: #0F7A5A; font-weight: 800; }
+  .ansq { font-size: 13pt; line-height: 1.7; }
+  .ansq .ex { color: #5A6360; font-size: 11pt; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <b>今日の脳トレプリント</b>
+  <button onclick="shift(-1)">◀ 前の日</button><span id="bar-d"></span><button onclick="shift(1)">次の日 ▶</button>
+  <button class="go" onclick="window.print()">印刷する</button>
+  <span class="note">A4・<b>両面印刷（長辺とじ）</b>で、表に問題・裏に答え。同じ日は、だれが印刷しても同じ問題です。</span>
+</div>
+<div id="sheet"></div>
+<script>
+/* ============================================================
+   今日の脳トレプリント v0.1（2026-09-30 ここスマ）
+   日付から問題を決める（同じ日＝同じ紙）。表＝問題、裏＝答え。点数欄は作らない。
+   ============================================================ */
+var KOTOWAZA = [
+  { q: '猿も木から 【？】', c: ['落ちる', '滑る', '転げる'], a: 0, t: 'その道の名人でも、時には失敗することがある、というたとえです。' },
+  { q: '石の上にも 【？】', c: ['三年', '五年', '十年'], a: 0, t: '冷たい石も三年座れば温まる。辛抱強く続ければ必ず実を結ぶ、という意味です。' },
+  { q: '急がば 【？】', c: ['回れ', '走れ', '戻れ'], a: 0, t: '急ぐときこそ、遠回りでも安全で確実な道を選ぶほうがよい、という教えです。' },
+  { q: '犬も歩けば 【？】に当たる', c: ['棒', '塀', '石'], a: 0, t: 'もとは「出歩くと災難にあう」、今は「思いがけない幸運に出会う」の意味でも使われます。' },
+  { q: '七転び 【？】', c: ['八起き', '七起き', '九起き'], a: 0, t: '何度失敗しても、くじけずに立ち上がることのたとえです。' },
+  { q: '花より 【？】', c: ['団子', '餅', '煎餅'], a: 0, t: '風流を眺めるより、実際に役に立つもののほうがよい、という意味です。' },
+  { q: '塵も積もれば 【？】となる', c: ['山', '川', '岩'], a: 0, t: 'わずかなものでも、積み重なれば大きなものになる、というたとえです。' },
+  { q: '早起きは三文の 【？】', c: ['徳', '損', '宝'], a: 0, t: '朝早く起きると、何かしら良いことがあるものだ、という意味です。' },
+  { q: '出る杭は 【？】', c: ['打たれる', '抜かれる', '折られる'], a: 0, t: '才能があって目立つ人は、とかく人から非難されがちだ、というたとえです。' },
+  { q: '猫に 【？】', c: ['小判', '大判', '小銭'], a: 0, t: '価値のわからない者には、どんな貴重なものも役に立たない、という意味です。' },
+  { q: '二階から 【？】', c: ['目薬', 'うちわ', '水'], a: 0, t: '思うように届かず、もどかしいこと。回りくどくて効き目がないことのたとえです。' },
+  { q: '論より 【？】', c: ['証拠', '理屈', '実物'], a: 0, t: 'あれこれ議論するより、証拠を示すほうが物事は早く明らかになる、という意味です。' },
+  { q: '善は 【？】', c: ['急げ', '待て', '進め'], a: 0, t: '良いと思ったことは、ためらわずすぐに実行するのがよい、という教えです。' },
+  { q: '情けは人の 【？】ならず', c: ['ため', '恥', '情け'], a: 0, t: '人への親切は、めぐりめぐって自分のためになる、という意味です。' },
+  { q: '弘法にも 【？】の誤り', c: ['筆', '墨', '紙'], a: 0, t: '書の名人・弘法大師でも書き損じることがある。名人も失敗する、というたとえです。' },
+  { q: '河童の 【？】', c: ['川流れ', '山登り', '水遊び'], a: 0, t: '泳ぎの得意な河童も川に流されることがある。名人も失敗する、という意味です。' },
+  { q: '馬の耳に 【？】', c: ['念仏', '説教', '祝詞'], a: 0, t: 'いくら意見をしても、まったく効き目がないことのたとえです。' },
+  { q: '石橋を 【？】て渡る', c: ['叩い', '眺め', '数え'], a: 0, t: '固い石橋でも叩いて確かめてから渡る。用心の上にも用心を重ねることです。' },
+  { q: '百聞は 【？】にしかず', c: ['一見', '一言', '一読'], a: 0, t: '百回聞くより、一度自分の目で見るほうが確かだ、という意味です。' },
+  { q: '灯台 【？】暗し', c: ['下', '上', '横'], a: 0, t: '身近なことは、かえって気がつきにくいものだ、というたとえです。' },
+  { q: '良薬は口に 【？】', c: ['苦し', '甘し', '渋し'], a: 0, t: 'よく効く薬が苦いように、ためになる忠告は聞くのがつらいものだ、という意味です。' },
+  { q: '笑う門には 【？】来る', c: ['福', '春', '客'], a: 0, t: 'いつも明るく笑いのある家には、自然と幸運がやってくる、という意味です。' },
+  { q: '千里の道も 【？】から', c: ['一歩', '一里', '一日'], a: 0, t: 'どんな大きな事業も、まず手近なことから始まる、というたとえです。' },
+  { q: '蛙の子は 【？】', c: ['蛙', '蛇', '亀'], a: 0, t: '子は親に似るものだ、平凡な親からは平凡な子が育つ、という意味で使われます。' }
+];
+var QUIZ = [
+  { region: '藤井寺・羽曳野', q: '藤井寺市の名前のもとになったお寺「葛井寺」。なんと読むでしょう?', c: ['ふじいでら', 'くずいでら', 'かつらいでら'], a: 0, t: '西国三十三所の第五番札所。国宝の千手観音さまで有名です。' },
+  { region: '藤井寺・羽曳野', q: '古市古墳群が世界遺産に登録されたのは、いつでしょう?', c: ['2019年(令和元年)', '1999年(平成11年)', '2009年(平成21年)'], a: 0, t: '「百舌鳥・古市古墳群」として大阪府初の世界遺産になりました。' },
+  { region: '藤井寺・羽曳野', q: '羽曳野市の特産のくだものは、どちらでしょう?', c: ['いちじく', 'みかん', 'さくらんぼ'], a: 0, t: 'いちじくとぶどうが特産。市の「いちじくMap」もあるほどです。' },
+  { region: '藤井寺・羽曳野', q: 'かつて藤井寺球場を本拠地にしていたプロ野球チームは?', c: ['近鉄バファローズ', '阪急ブレーブス', '阪神タイガース'], a: 0, t: '藤井寺球場は2005年に閉鎖。1997年に大阪ドームへ移るまで、多くのファンで賑わいました。' },
+  { region: '藤井寺・羽曳野', q: '羽曳野市に古墳が残る「白鳥伝説」の主人公は、だれでしょう?', c: ['ヤマトタケル', '聖徳太子', 'オオクニヌシ'], a: 0, t: '白鳥になって羽を曳くように飛んだ姿が「羽曳野」の地名の由来と伝わります。' },
+  { region: '藤井寺・羽曳野', q: '全国で2番目に大きい古墳「応神天皇陵古墳」があるのは?', c: ['羽曳野市', '堺市', '藤井寺市'], a: 0, t: '誉田(こんだ)にあります。1番大きい仁徳天皇陵古墳は堺市です。' },
+  { region: '藤井寺・羽曳野', q: '羽曳野市の駒ヶ谷地区で、ぶどうから作られている飲みものは?', c: ['ワイン', '日本酒', 'ビール'], a: 0, t: '羽曳野は「ぶどうとワインの街」。河内ワインで知られています。' },
+  { region: '藤井寺・羽曳野', q: '「道明寺粉」から作る、関西でおなじみの和菓子は?', c: ['さくらもち', 'かしわもち', 'くずもち'], a: 0, t: '道明寺粉の名前は藤井寺市の道明寺に由来すると言われています。' },
+  { region: '大阪', q: '1970年の大阪万博のシンボル「太陽の塔」を作ったのは?', c: ['岡本太郎', '手塚治虫', '棟方志功'], a: 0, t: '「芸術は爆発だ!」の岡本太郎さん。今も万博記念公園に立っています。' },
+  { region: '大阪', q: '通天閣にいる、足の裏をなでると願いが叶うという神様は?', c: ['ビリケンさん', 'えべっさん', 'おたふくさん'], a: 0, t: 'アメリカ生まれの幸運の神様。大阪に来て100年以上になります。' },
+  { region: '大阪', q: '大阪城を最初に築いたのは、だれでしょう?', c: ['豊臣秀吉', '徳川家康', '織田信長'], a: 0, t: '天下統一の拠点として築きました。今の天守閣は昭和6年の再建です。' },
+  { region: '大阪', q: '江戸時代、大阪はなんと呼ばれていたでしょう?', c: ['天下の台所', '天下の玄関', '天下の米蔵'], a: 0, t: '全国の米や物産が集まる商業の中心地だったことに由来します。' },
+  { region: '関西', q: '奈良の大仏さまがあるお寺は、どちらでしょう?', c: ['東大寺', '法隆寺', '興福寺'], a: 0, t: '高さ約15メートル。奈良時代に聖武天皇の願いで作られました。' },
+  { region: '関西', q: '金閣寺があるのは、どちらの都市でしょう?', c: ['京都', '神戸', '奈良'], a: 0, t: '正式には鹿苑寺。足利義満が建てたことで知られます。' },
+  { region: '関西', q: '甲子園球場があるのは、なに県でしょう?', c: ['兵庫県', '大阪府', '京都府'], a: 0, t: '兵庫県西宮市にあります。大正13年(1924年)生まれの歴史ある球場です。' },
+  { region: '関西', q: '日本一大きい湖・琵琶湖があるのは、なに県でしょう?', c: ['滋賀県', '奈良県', '三重県'], a: 0, t: '滋賀県の面積の約6分の1が琵琶湖です。' },
+  { region: '日本', q: '日本一高い山は、どちらでしょう?', c: ['富士山', '立山', '御嶽山'], a: 0, t: '高さ3776メートル。2013年に世界文化遺産になりました。' },
+  { region: '日本', q: '東京タワーと東京スカイツリー、高いのはどれでしょう?', c: ['スカイツリー', '東京タワー', '同じ高さ'], a: 0, t: 'スカイツリーは634メートル、東京タワーは333メートルです。' },
+  { region: '日本', q: '新幹線が日本で最初に走った区間は、どちらでしょう?', c: ['東京〜新大阪', '東京〜博多', '東京〜名古屋'], a: 0, t: '昭和39年(1964年)、東京オリンピックの年に開業しました。' },
+  { region: '日本', q: '日本でいちばん面積が大きい都道府県は、どちらでしょう?', c: ['北海道', '岩手県', '福島県'], a: 0, t: '北海道は日本の面積の約2割をしめています。' }
+];
+
+
+var WEEK = ['日', '月', '火', '水', '木', '金', '土'];
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+function ymd(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+function rng(seed) { return function () { seed |= 0; seed = seed + 0x6D2B79F5 | 0; var t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+var R;
+function ri(a, b) { return a + Math.floor(R() * (b - a + 1)); }
+function pick(a) { return a[Math.floor(R() * a.length)]; }
+function shuf(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(R() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function yen(n) { return n.toLocaleString('ja-JP') + '円'; }
+
+/* ① 暮らしの計算 */
+var ITEMS = [['パン', 120, 180], ['牛乳', 180, 240], ['卵', 220, 280], ['お茶', 130, 160], ['りんご', 150, 230], ['新聞', 150, 180], ['はがき', 85, 85], ['豆腐', 90, 140], ['コーヒー', 140, 200]];
+function keisan() {
+  var out = [];
+  var a = pick(ITEMS), p = ri(a[1] / 10, a[2] / 10) * 10;
+  var b = pick(ITEMS.filter(function (x) { return x !== a; })), q = ri(b[1] / 10, b[2] / 10) * 10;
+  var tot = p + q;
+  out.push({ q: esc(a[0]) + '（' + yen(p) + '）と ' + esc(b[0]) + '（' + yen(q) + '）を買って、1,000円札で払いました。お釣りは？', a: yen(1000 - tot) });
+  var c = pick(ITEMS), cp = ri(c[1] / 10, c[2] / 10) * 10, n = ri(3, 5);
+  out.push({ q: esc(c[0]) + '（1つ ' + yen(cp) + '）を ' + n + 'つ買うと、ぜんぶでいくら？', a: yen(cp * n) });
+  var base = ri(6, 30) * 100, off = pick([10, 20, 30]);
+  out.push({ q: yen(base) + 'の品物が、' + (off / 10) + '割引き。いくらになる？', a: yen(base * (100 - off) / 100) });
+  return out;
+}
+/* ③ 数字を順につなぐ（点が重ならないように置く） */
+function tsunagu(N) {
+  /* 次の数は、前の数の近くに置く（線が込み入りすぎないように）。点どうしは重ねない */
+  for (var attempt = 0; attempt < 200; attempt++) {
+    var pts = [[8 + R() * 84, 12 + R() * 76]], ok = true;
+    for (var n = 1; n < N && ok; n++) {
+      var placed = false;
+      for (var t = 0; t < 120 && !placed; t++) {
+        var p0 = pts[pts.length - 1], ang = R() * Math.PI * 2, d = 14 + R() * 12;
+        var x = p0[0] + Math.cos(ang) * d, y = p0[1] + Math.sin(ang) * d * 1.9;
+        if (x < 6 || x > 94 || y < 10 || y > 90) continue;
+        var clear = true;
+        for (var i = 0; i < pts.length; i++) { var dx = (pts[i][0] - x) * 1.9, dy = pts[i][1] - y; if (dx * dx + dy * dy < 17 * 17) { clear = false; break; } }
+        if (clear) { pts.push([x, y]); placed = true; }
+      }
+      if (!placed) ok = false;
+    }
+    if (ok) return pts;
+  }
+  return pts;
+}
+function dotsHtml(pts, ans) {
+  var h = '<div class="dots">';
+  if (ans) h += '<svg viewBox="0 0 100 100" preserveAspectRatio="none"><polyline fill="none" stroke="#0F7A5A" stroke-width=".6" vector-effect="non-scaling-stroke" style="stroke-width:1.2mm" points="' + pts.map(function (p) { return p[0].toFixed(1) + ',' + p[1].toFixed(1); }).join(' ') + '"></polyline></svg>';
+  pts.forEach(function (p, i) { h += '<b class="' + (i === 0 ? 's' : '') + '" style="left:' + p[0] + '%;top:' + p[1] + '%">' + (i + 1) + '</b>'; });
+  return h + '</div>';
+}
+/* ④ 頭の文字から（例の答えつき） */
+var KASHIRA = [
+  ['食べもの', 'か', 'かぼちゃ・からあげ・かまぼこ'], ['食べもの', 'さ', 'さんま・さつまいも・さしみ'], ['食べもの', 'た', 'たまご・たこやき・たけのこ'],
+  ['食べもの', 'な', 'なす・なっとう・なし'], ['食べもの', 'み', 'みかん・みそしる・みずな'], ['花', 'さ', 'さくら・さざんか・さつき'],
+  ['花', 'つ', 'つばき・つつじ'], ['花', 'き', 'きく・ききょう・きんもくせい'], ['動物', 'う', 'うさぎ・うし・うま'],
+  ['動物', 'き', 'きつね・きりん'], ['動物', 'た', 'たぬき・たか'], ['乗りもの', 'じ', 'じてんしゃ・じどうしゃ'],
+  ['国の名前', 'イ', 'イギリス・イタリア・インド'], ['都道府県', 'お', 'おおさか・おかやま・おきなわ'], ['都道府県', 'か', 'かがわ・かごしま・かながわ'],
+  ['野菜', 'に', 'にんじん・にら・にんにく'], ['くだもの', 'か', 'かき・かりん'], ['魚', 'さ', 'さば・さけ・さんま']
+];
+/* ⑤ 漢字の読み（ご当地） */
+var YOMI = [['葛井寺', 'ふじいでら'], ['誉田', 'こんだ'], ['野中寺', 'やちゅうじ'], ['道明寺', 'どうみょうじ'], ['羽曳野', 'はびきの'], ['百舌鳥', 'もず'],
+  ['古市', 'ふるいち'], ['竹内街道', 'たけのうちかいどう'], ['橘', 'たちばな'], ['修羅', 'しゅら'], ['井真成', 'いのまなり'], ['応神天皇', 'おうじんてんのう'], ['近つ飛鳥', 'ちかつあすか'], ['菅原道真', 'すがわらのみちざね']];
+
+var day = new Date();
+(function () { var m = /[?&]d=(\d{4}-\d{2}-\d{2})/.exec(location.search); if (m) { var p = m[1].split('-'); day = new Date(+p[0], +p[1] - 1, +p[2]); } })();
+function shift(n) { day = new Date(day.getFullYear(), day.getMonth(), day.getDate() + n); render(); }
+function render() {
+  var key = ymd(day); R = rng(parseInt(key.replace(/-/g, ''), 10));
+  document.getElementById('bar-d').textContent = (day.getMonth() + 1) + '月' + day.getDate() + '日（' + WEEK[day.getDay()] + '）';
+  var dstr = day.getFullYear() + '年' + (day.getMonth() + 1) + '月' + day.getDate() + '日（' + WEEK[day.getDay()] + '）';
+  var k = keisan();
+  var kw = shuf(KOTOWAZA).slice(0, 3).map(function (it) { return { parts: it.q.split('【？】'), c: shuf(it.c), a: it.c[it.a] }; });
+  var pts = tsunagu(15);
+  var ks = shuf(KASHIRA).slice(0, 2);
+  var ym = shuf(YOMI).slice(0, 4);
+  function head(t, nm) { return '<div class="hd"><div class="t"><small>ここスマ</small>' + t + '</div>' + (nm ? '<div class="nm">お名前</div>' : '') + '<div class="d">' + dstr + '</div></div>'; }
+  function sec(n, t, sub, body) { return '<div class="sec"><h2><i>' + n + '</i>' + t + (sub ? '<span>' + sub + '</span>' : '') + '</h2>' + body + '</div>'; }
+  var p1 = head('脳トレプリント', true) +
+    sec(1, '暮らしの計算', '頭の中で。書いてもかまいません', '<div class="q"><table><colgroup><col style="width:7mm"><col></colgroup>' + k.map(function (x, i) { return '<tr><td>(' + (i + 1) + ')</td><td>' + x.q + '　<span class="box">&nbsp;</span></td></tr>'; }).join('') + '</table></div>') +
+    sec(2, 'ことわざ', '（　）に入る言葉に ○ をつけましょう', '<div class="q"><table><colgroup><col style="width:7mm"><col></colgroup>' + kw.map(function (x, i) { return '<tr><td>(' + (i + 1) + ')</td><td>' + esc(x.parts[0]) + '（　　　　）' + esc(x.parts[1] || '') + '　<span class="ch">' + x.c.map(function (c) { return '<span>' + esc(c) + '</span>'; }).join('') + '</span></td></tr>'; }).join('') + '</table></div>') +
+    sec(3, '数字を順につなぐ', '1から15まで、順に線でつなぎましょう', dotsHtml(pts, false)) +
+    sec(4, '頭の文字から', 'できるだけたくさん書きましょう', ks.map(function (x) { return '<div class="q">「<b>' + x[1] + '</b>」ではじまる<b>' + x[0] + '</b></div><div class="lines"><div></div><div></div><div></div></div>'; }).join('')) +
+    sec(5, '漢字の読み', '藤井寺・羽曳野のまわりの言葉です', '<div class="yomi">' + ym.map(function (x) { return '<div>' + x[0] + '<span></span></div>'; }).join('') + '</div>') +
+    '<div class="ft"><span>答えは、うらにあります</span><span>' + key + '</span></div>';
+  var p2 = head('こたえ') +
+    sec(1, '暮らしの計算', '', '<div class="ansq">' + k.map(function (x, i) { return '(' + (i + 1) + ') <span class="ans">' + x.a + '</span>'; }).join('　　') + '</div>') +
+    sec(2, 'ことわざ', '', '<div class="ansq">' + kw.map(function (x, i) { var full = KOTOWAZA.filter(function (it) { return it.q.split('【？】')[0] === x.parts[0]; })[0]; return '(' + (i + 1) + ') ' + esc(x.parts[0]) + '<span class="ans">' + esc(x.a) + '</span>' + esc(x.parts[1] || '') + (full ? '<br><span class="ex">' + esc(full.t) + '</span>' : ''); }).join('<br>') + '</div>') +
+    sec(3, '数字を順につなぐ', '', dotsHtml(pts, true)) +
+    sec(4, '頭の文字から', 'たとえば', '<div class="ansq">' + ks.map(function (x) { return '「' + x[1] + '」ではじまる' + x[0] + '：<span class="ans">' + x[2] + '</span>'; }).join('<br>') + '<br><span class="ex">ほかにも、たくさんあります。思い出せたものは、みんな正解です。</span></div>') +
+    sec(5, '漢字の読み', '', '<div class="ansq">' + ym.map(function (x) { return '<span style="white-space:nowrap;margin-right:6mm">' + x[0] + '＝<span class="ans">' + x[1] + '</span></span>'; }).join(' ') + '</div>') +
+    '<div class="ft"><span>ここスマ</span><span>' + key + '</span></div>';
+  document.getElementById('sheet').innerHTML = '<div class="page">' + p1 + '</div><div class="page">' + p2 + '</div>';
+}
+render();
+</script>
+</body>
+</html>
