@@ -18,7 +18,7 @@
   .top .logo { font-size: 2.2vh; font-weight: 700; color: var(--deep); letter-spacing: .08em; }
   .top .ttl { font-size: 3vh; font-weight: 700; }
   .top .clock { margin-left: auto; font-size: 2.4vh; color: var(--sub); cursor: pointer; font-variant-numeric: tabular-nums; }
-  .top .clock b { font-size: 3vh; color: var(--ink); }
+  .top .clock { font-size: 2.8vh; } .top .clock b { font-size: 3.4vh; color: var(--ink); margin-left: .6vw; }
   /* 舞台 */
   .stage { position: fixed; left: 0; right: 0; top: 7vh; bottom: 11vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3vh; padding: 0 4vw; text-align: center; }
   .hint { font-size: 3.4vh; color: var(--sub); font-weight: 700; }
@@ -84,6 +84,7 @@
   .ctl button.go { background: var(--action); color: #fff; padding: 1.6vh 3.6vw; font-size: 2.8vh; }
   .ctl button:active { transform: translateY(2px); }
   .ctl.hide { display: none; }
+  body.home #b10, body.home #go, body.home .inq { display: none; }
   .prog { position: fixed; left: 2.4vw; bottom: 3vh; font-size: 2.2vh; color: var(--sub); z-index: 6; }
   /* 10秒 */
   .cd { position: fixed; right: 2.4vw; top: 8vh; width: 12vh; height: 12vh; z-index: 6; display: none; }
@@ -97,15 +98,15 @@
 <body>
 <div class="top">
   <span class="logo">ここスマ</span><span class="ttl" id="ttl">みんなで脳トレ</span>
-  <span class="clock" id="clock" onclick="clockReset()" title="押すと0にもどる">はじめてから <b id="clock-t">0:00</b></span>
+  <span class="clock" id="clock"><span id="clock-d"></span> <b id="clock-t"></b></span>
 </div>
 <div class="cd" id="cd"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="rgba(255,255,255,.9)" stroke="#E3DFD2" stroke-width="4"></circle><circle id="cd-r" cx="20" cy="20" r="17" fill="none" stroke="#11866D" stroke-width="4" stroke-dasharray="106.8" stroke-dashoffset="0" stroke-linecap="round"></circle></svg><b id="cd-n">10</b></div>
 <div class="stage" id="stage"></div>
 <div class="prog" id="prog"></div>
 <div class="ctl" id="ctl">
-  <button onclick="goMenu()">一覧</button>
-  <button onclick="back()">◀ もどる</button>
-  <button onclick="cdStart(10)">10秒</button>
+  <button class="inq" onclick="goMenu()">一覧</button>
+  <button class="inq" onclick="back()">◀ もどる</button>
+  <button id="b10" onclick="cdStart(10)">10秒</button>
   <button class="go" id="go" onclick="next()">次へ ▶</button>
   <button onclick="fullToggle()">全画面</button>
 </div>
@@ -257,11 +258,11 @@ var NETA = {
     }
   },
   wadai: {
-    n: '今週の話題', ic: '📰', how: 'ニュースや季節の話題から三択。週に1回、新しい5問に入れかわる',
+    n: '時事クイズ', ic: '📰', how: '今週のニュースや季節の話題から三択5問。週に1回、新しい問題に入れかわる',
     list: true,
     make: function () {
       if (!WADAI) return ['<div class="mid">話題を読みこんでいます…</div><div class="sm">うまくいかないときは、インターネットにつながっているか確かめてください</div>'];
-      var sl = ['<div class="welcome fade-in">今週の話題<small>' + esc(WADAI.week) + '・' + WADAI.items.length + '問</small></div><div class="hint"><span class="emo">🙋</span> 番号で手を挙げてください</div>'];
+      var sl = ['<div class="welcome fade-in">時事クイズ<small>' + esc(WADAI.week) + '・' + WADAI.items.length + '問</small></div><div class="hint"><span class="emo">🙋</span> 番号で手を挙げてください</div>'];
       WADAI.items.forEach(function (it, n) {
         var ord = shuffle([0, 1, 2]);
         function ch(rev) { return '<div class="qz-c">' + ord.map(function (i, k) { return '<div class="' + (rev ? (i === it.a ? 'ok pop' : 'dim') : '') + '"><i>' + (k + 1) + '</i>' + esc(it.c[i]) + '</div>'; }).join('') + '</div>'; }
@@ -316,12 +317,14 @@ function render() {
   var st = document.getElementById('stage');
   if (!cur) {
     document.getElementById('ttl').textContent = 'みんなで脳トレ';
-    st.innerHTML = '<div class="welcome fade-in">みんなで脳トレ<small>好きな順に選べます。答えは講師が出します</small></div><div class="menu">' + ORDER.map(function (k) { var N = NETA[k]; return '<div class="mc glass" onclick="open1(\'' + k + '\')"><span class="ic emo">' + N.ic + '</span><b>' + N.n + (k === 'wadai' && WADAI ? '<small style="font-size:2vh;color:var(--sub);font-weight:400">（' + esc(WADAI.week) + '）</small>' : '') + '</b><span>' + N.how + '</span></div>'; }).join('') + '</div>';
+    st.innerHTML = '<div class="welcome fade-in">みんなで脳トレ</div><div class="menu">' + ORDER.map(function (k) { var N = NETA[k]; return '<div class="mc glass" onclick="open1(\'' + k + '\')"><span class="ic emo">' + N.ic + '</span><b>' + N.n + '</b><span>' + (k === 'wadai' && WADAI ? '<b style="font-size:2.1vh;color:var(--deep)">' + esc(WADAI.week) + '</b>　' : '') + N.how + '</span></div>'; }).join('') + '</div>';
     document.getElementById('prog').textContent = '';
     document.getElementById('go').textContent = '次へ ▶';
+    document.body.classList.add('home');
     return;
   }
   var N = NETA[cur.k];
+  document.body.classList.remove('home');
   document.getElementById('ttl').textContent = N.n;
   var lv = N.lv ? '<div class="lv">' + N.lv.map(function (t, i) { return '<span class="' + ((LV[cur.k] || 0) === i ? 'on' : '') + '" onclick="setLv(' + i + ')">' + t + '</span>'; }).join('') + '</div>' : '';
   st.innerHTML = cur.slides[cur.i] + (cur.i === 0 && lv ? lv : '');
@@ -343,11 +346,11 @@ function back() { cdStop(); if (!cur) return; if (cur.i > 0) { cur.i--; render()
 function goMenu() { cdStop(); cur = null; render(); }
 try { LV = JSON.parse(storeGet('minna_lv') || '{}') || {}; } catch (e) { LV = {}; }
 
-/* ---------- はじめてからの時間（講師が時間を見るため） ---------- */
-var clk = { t0: 0, iv: null };
-function clockStart() { if (clk.t0) return; clk.t0 = Date.now(); clk.iv = setInterval(clockTick, 1000); clockTick(); }
-function clockTick() { var s = clk.t0 ? Math.floor((Date.now() - clk.t0) / 1000) : 0; document.getElementById('clock-t').textContent = Math.floor(s / 60) + ':' + ('0' + s % 60).slice(-2); }
-function clockReset() { clk.t0 = 0; clearInterval(clk.iv); clockTick(); }
+/* ---------- 日付と時刻（右上） ---------- */
+var WEEK = ['日', '月', '火', '水', '木', '金', '土'];
+function clockTick() { var d = new Date(); document.getElementById('clock-d').textContent = (d.getMonth() + 1) + '月' + d.getDate() + '日（' + WEEK[d.getDay()] + '）'; document.getElementById('clock-t').textContent = d.getHours() + ':' + ('0' + d.getMinutes()).slice(-2); }
+function clockStart() {}
+clockTick(); setInterval(clockTick, 10000);
 
 /* ---------- 10秒（使うかどうかは講師しだい） ---------- */
 var cdv = { iv: null };
