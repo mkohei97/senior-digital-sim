@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>みんなで脳トレ（教室の大画面）</title>
 <style>
-  :root { --ink: #1F2A28; --sub: #5A6360; --brand: #0F766E; --action: #11866D; --deep: #0B4F42; --red: #C8412F; --line: #E3DFD2; }
+  :root { --ink: #1F2A28; --sub: #5A6360; --brand: #0F766E; --action: #11866D; --deep: #0B4F42; --red: #C8412F; --ansc: #0F7A5A; --clap: #C8761E; --line: #E3DFD2; }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; overflow: hidden; }
   body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans CJK JP", "Yu Gothic", Meiryo, sans-serif; color: var(--ink);
@@ -44,7 +44,8 @@
   .mid { font-size: 7vh; font-weight: 800; line-height: 1.35; }
   .sm { font-size: 3.4vh; color: var(--sub); line-height: 1.6; }
   .order { display: inline-block; font-size: 8vh; font-weight: 800; border: .7vh solid; border-radius: 99px; padding: .6vh 5vh; background: rgba(255,255,255,.95); }
-  .ans { color: var(--red); }
+  .ans { color: var(--ansc); }
+  ruby rt { font-size: .42em; color: var(--sub); font-weight: 500; letter-spacing: 0; }
   .lv { display: flex; gap: 1vw; }
   .lv span { font-size: 2.4vh; padding: .8vh 2vh; border-radius: 99px; border: 2px solid var(--line); background: #fff; cursor: pointer; color: var(--sub); font-weight: 700; }
   .lv span.on { background: var(--deep); border-color: var(--deep); color: #fff; }
@@ -68,7 +69,7 @@
   .qz-c { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw; width: 100%; max-width: 160vh; }
   .qz-c div { font-size: 5vh; font-weight: 800; padding: 3vh 2vw; border-radius: 3vh; background: #fff; border: .5vh solid var(--line); display: flex; align-items: center; justify-content: center; gap: 1.4vw; }
   .qz-c div i { font-style: normal; font-size: 4vh; width: 6.4vh; height: 6.4vh; border-radius: 50%; background: #EEF2F0; display: inline-flex; align-items: center; justify-content: center; color: var(--sub); flex-shrink: 0; }
-  .qz-c div.ok { border-color: var(--red); background: #FFF3EF; color: var(--red); } .qz-c div.ok i { background: var(--red); color: #fff; }
+  .qz-c div.ok { border-color: var(--ansc); background: #EAF6F0; color: var(--ansc); box-shadow: 0 0 0 .5vh rgba(15,122,90,.15); } .qz-c div.ok i { background: var(--ansc); color: #fff; }
   .qz-c div.dim { opacity: .35; }
   .qz-t { font-size: 3.4vh; color: var(--sub); line-height: 1.6; max-width: 150vh; }
   /* 指の体操 */
@@ -77,7 +78,7 @@
   .yb-s { font-size: 4.2vh; line-height: 1.7; max-width: 140vh; }
   /* 数える */
   .kz-n { font-size: 34vh; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
-  .kz-n.clap { color: var(--red); }
+  .kz-n.clap { color: var(--clap); }
   /* 操作（講師） */
   .ctl { position: fixed; right: 2vw; bottom: 2vh; display: flex; gap: .8vw; z-index: 6; }
   .ctl button { font-family: inherit; font-size: 2.4vh; font-weight: 700; border: none; border-radius: 99px; padding: 1.6vh 2.4vw; background: rgba(255,255,255,.9); color: var(--sub); box-shadow: 0 .6vh 1.6vh rgba(0,0,0,.08); cursor: pointer; }
@@ -170,6 +171,8 @@ var HAND = { g: { e: '✊', n: 'グー' }, c: { e: '✌️', n: 'チョキ' }, p
 var BEAT = { g: 'c', c: 'p', p: 'g' };   /* g は c に勝つ */
 function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
 function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+/* ふりがな：{漢字|よみ} → ルビ */
+function rb(s) { return esc(s).replace(/\{([^|{}]+)\|([^{}]+)\}/g, '<ruby>$1<rt>$2</rt></ruby>'); }
 function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 var memStore = {};
 function storeGet(k) { try { var v = localStorage.getItem(k); return v !== null ? v : (memStore[k] || null); } catch (e) { return memStore[k] || null; } }
@@ -250,10 +253,10 @@ var NETA = {
     make: function () {
       var L = LV.furusato || 0, pool = QUIZ.concat(GOTOCHI).filter(function (q) { return L === 2 || q.region === ['藤井寺・羽曳野', '大阪'][L]; });
       var it = pick(pool), ord = shuffle([0, 1, 2]);
-      function ch(rev) { return '<div class="qz-c">' + ord.map(function (i, k) { return '<div class="' + (rev ? (i === it.a ? 'ok pop' : 'dim') : '') + '"><i>' + (k + 1) + '</i>' + esc(it.c[i]) + '</div>'; }).join('') + '</div>'; }
+      function ch(rev) { return '<div class="qz-c">' + ord.map(function (i, k) { return '<div class="' + (rev ? (i === it.a ? 'ok pop' : 'dim') : '') + '"><i>' + (k + 1) + '</i>' + rb(it.c[i]) + '</div>'; }).join('') + '</div>'; }
       return [
-        '<div class="qz-q fade-in">' + esc(it.q.replace(/\?$/, '？')) + '</div>' + ch(false) + '<div class="hint"><span class="emo">🙋</span> 番号で手を挙げてください</div>',
-        '<div class="qz-q">' + esc(it.q.replace(/\?$/, '？')) + '</div>' + ch(true) + '<div class="qz-t fade-in">' + esc(it.t) + (it.src ? '<br><small style="font-size:2.2vh">出どころ：' + esc(it.src) + '</small>' : '') + '</div>'
+        '<div class="qz-q fade-in">' + rb(it.q.replace(/\?$/, '？')) + '</div>' + ch(false) + '<div class="hint"><span class="emo">🙋</span> 番号で手を挙げてください</div>',
+        '<div class="qz-q">' + rb(it.q.replace(/\?$/, '？')) + '</div>' + ch(true) + '<div class="qz-t fade-in">' + rb(it.t) + (it.src ? '<br><small style="font-size:2.2vh">出どころ：' + esc(it.src) + '</small>' : '') + '</div>'
       ];
     }
   },
@@ -265,10 +268,10 @@ var NETA = {
       var sl = ['<div class="welcome fade-in">時事クイズ<small>' + esc(WADAI.week) + '・' + WADAI.items.length + '問</small></div><div class="hint"><span class="emo">🙋</span> 番号で手を挙げてください</div>'];
       WADAI.items.forEach(function (it, n) {
         var ord = shuffle([0, 1, 2]);
-        function ch(rev) { return '<div class="qz-c">' + ord.map(function (i, k) { return '<div class="' + (rev ? (i === it.a ? 'ok pop' : 'dim') : '') + '"><i>' + (k + 1) + '</i>' + esc(it.c[i]) + '</div>'; }).join('') + '</div>'; }
-        var q = '<div class="hint">' + (n + 1) + '問目</div><div class="qz-q fade-in">' + esc(it.q) + '</div>';
+        function ch(rev) { return '<div class="qz-c">' + ord.map(function (i, k) { return '<div class="' + (rev ? (i === it.a ? 'ok pop' : 'dim') : '') + '"><i>' + (k + 1) + '</i>' + rb(it.c[i]) + '</div>'; }).join('') + '</div>'; }
+        var q = '<div class="hint">' + (n + 1) + '問目</div><div class="qz-q fade-in">' + rb(it.q) + '</div>';
         sl.push(q + ch(false));
-        sl.push(q + ch(true) + '<div class="qz-t fade-in">' + esc(it.t) + '<br><small style="font-size:2.2vh">出どころ：' + esc(it.src) + '</small></div>');
+        sl.push(q + ch(true) + '<div class="qz-t fade-in">' + rb(it.t) + '<br><small style="font-size:2.2vh">出どころ：' + esc(it.src) + '</small></div>');
       });
       return sl;
     }
@@ -283,7 +286,7 @@ var NETA = {
     lv: ['3で手拍子', '4で手拍子'], list: true,
     make: function () {
       var d = LV.kazoe === 1 ? 4 : 3, sl = [];
-      sl.push('<div class="mid fade-in">1から順に、声に出して数えます</div><div class="sm">' + d + 'のつく数と、' + d + 'の倍数のときは<br><b style="color:var(--red)">声を出さずに、手を1回たたきます</b></div><div class="hint"><span class="emo">👏</span> 次へ で1から</div>');
+      sl.push('<div class="mid fade-in">1から順に、声に出して数えます</div><div class="sm">' + d + 'のつく数と、' + d + 'の倍数のときは<br><b style="color:var(--clap)">声を出さずに、手を1回たたきます</b></div><div class="hint"><span class="emo">👏</span> 次へ で1から</div>');
       for (var i = 1; i <= 30; i++) { var clap = i % d === 0 || String(i).indexOf(String(d)) >= 0; sl.push('<div class="kz-n pop' + (clap ? ' clap' : '') + '">' + (clap ? '<span class="emo" style="font-size:24vh">👏</span>' : i) + '</div><div class="hint">' + (clap ? i + '　手拍子' : '&nbsp;') + '</div>'); }
       return sl;
     }
@@ -393,19 +396,19 @@ function stampQr() {
 }
 /* ご当地クイズ（2026-09-30 追加・一次情報で確認。src＝出どころ） */
 var GOTOCHI = [
-  { region: '藤井寺・羽曳野', q: '藤井寺市の「市の木」は、どれでしょう?', c: ['梅', '松', '桜'], a: 0, t: '昭和46年に決まりました。藤井寺ゆかりの菅原道真が梅を愛したことにちなみます。', src: '藤井寺市「市の木・市の花」' },
+  { region: '藤井寺・羽曳野', q: '藤井寺市の「市の木」は、どれでしょう?', c: ['梅', '松', '桜'], a: 0, t: '昭和46年に決まりました。藤井寺ゆかりの{菅原道真|すがわらのみちざね}が梅を愛したことにちなみます。', src: '藤井寺市「市の木・市の花」' },
   { region: '藤井寺・羽曳野', q: '藤井寺市の「市の花」は、どれでしょう?', c: ['菊', '藤', 'ばら'], a: 0, t: '市の木の梅と同じ、昭和46年に決まりました。「藤」ではないのが意外ですね。', src: '藤井寺市「市の木・市の花」' },
   { region: '藤井寺・羽曳野', q: '羽曳野市の「市の花」は、どれでしょう?', c: ['桃', '梅', '桜'], a: 0, t: '市の中ほどにある羽曳山のまわりが、桃の産地として有名だったことから選ばれました。', src: '羽曳野市「市章・市の花・市の木」' },
-  { region: '藤井寺・羽曳野', q: '羽曳野市の「市の木」は、どれでしょう?', c: ['橘（たちばな）', '松', 'くすのき'], a: 0, t: '白い小さな花が咲くミカンのなかま。奈良時代のはじめ、羽曳野のあたりにたくさん植えられていたそうです。', src: '羽曳野市「市章・市の花・市の木」' },
-  { region: '藤井寺・羽曳野', q: '藤井寺市の公式キャラクター「まなりくん」。もとになったのは、どんな人でしょう?', c: ['唐へ学びに行った留学生', '古墳を造った大王', '江戸時代のお坊さん'], a: 0, t: '奈良時代に唐（今の中国）へ渡った留学生「井真成（いのまなり）」がもと。まなりくんの誕生日は10月10日です。', src: '藤井寺市「まなりくん」プロフィール' },
-  { region: '藤井寺・羽曳野', q: '井真成（いのまなり）のお墓の石（墓誌）が見つかった国は、どこでしょう?', c: ['中国', '韓国', '日本'], a: 0, t: '2004年に中国の西安で見つかりました。36歳で亡くなったと刻まれています。', src: '藤井寺市「遣唐留学生 井真成について」・JST' },
-  { region: '藤井寺・羽曳野', q: '1978年、藤井寺の古墳から見つかった「修羅（しゅら）」。何に使う道具でしょう?', c: ['大きな石を運ぶそり', '田んぼを耕す道具', '魚をとる舟'], a: 0, t: '大きいほうは長さ約8.8メートル。大は大阪府立近つ飛鳥博物館、小は藤井寺市立図書館にあります。', src: '道明寺天満宮「修羅」' },
-  { region: '藤井寺・羽曳野', q: '道明寺天満宮にまつられている、学問の神様はだれでしょう?', c: ['菅原道真', '聖徳太子', '小野小町'], a: 0, t: '梅を愛したことで知られます。藤井寺市の「市の木」が梅なのも、このご縁です。', src: '藤井寺市「市の木・市の花」' },
-  { region: '藤井寺・羽曳野', q: '道明寺天満宮の梅園には、梅がおよそ何本あるでしょう?', c: ['約800本', '約80本', '約8,000本'], a: 0, t: '約80種・800本。毎年2月から3月に「梅まつり」が開かれます。', src: '道明寺天満宮「梅園」' },
-  { region: '藤井寺・羽曳野', q: '羽曳野市を東西に通り、「日本最古の官道」と呼ばれる道は、どれでしょう?', c: ['竹内街道', '熊野街道', '中山道'], a: 0, t: '大阪と奈良を結ぶ道。平成29年に、大阪府で初めての「日本遺産」になりました。', src: '羽曳野市「竹内街道」' },
-  { region: '藤井寺・羽曳野', q: '羽曳野市の誉田八幡宮（こんだはちまんぐう）。何と呼ばれているでしょう?', c: ['日本最古の八幡宮', '日本一大きい八幡宮', '日本一新しい八幡宮'], a: 0, t: '応神天皇陵古墳のそばにあります。毎年9月15日に秋の大祭が開かれます。', src: '羽曳野市「誉田八幡宮」' },
-  { region: '藤井寺・羽曳野', q: '羽曳野市のお寺「野中寺」。なんと読むでしょう?', c: ['やちゅうじ', 'のなかでら', 'のちゅうじ'], a: 0, t: '「中の太子」とも呼ばれ、聖徳太子が建てたと伝わるお寺です。', src: '大阪観光局 OSAKA-INFO' },
-  { region: '藤井寺・羽曳野', q: '世界遺産「百舌鳥・古市古墳群」は、いくつの古墳でできているでしょう?', c: ['49', '19', '99'], a: 0, t: '2019年7月6日に登録。堺市と、羽曳野市・藤井寺市の古墳でできています。', src: 'nippon.com（2019）' }
+  { region: '藤井寺・羽曳野', q: '羽曳野市の「市の木」は、どれでしょう?', c: ['{橘|たちばな}', '松', 'くすのき'], a: 0, t: '白い小さな花が咲くミカンのなかま。奈良時代のはじめ、羽曳野のあたりにたくさん植えられていたそうです。', src: '羽曳野市「市章・市の花・市の木」' },
+  { region: '藤井寺・羽曳野', q: '藤井寺市の公式キャラクター「まなりくん」。もとになったのは、どんな人でしょう?', c: ['{唐|とう}へ学びに行った留学生', '古墳を造った大王', '江戸時代のお坊さん'], a: 0, t: '奈良時代に{唐|とう}（今の中国）へ渡った留学生「{井真成|いのまなり}」がもと。まなりくんの誕生日は10月10日です。', src: '藤井寺市「まなりくん」プロフィール' },
+  { region: '藤井寺・羽曳野', q: '{井真成|いのまなり}のお墓の石（{墓誌|ぼし}）が見つかった国は、どこでしょう?', c: ['中国', '韓国', '日本'], a: 0, t: '2004年に中国の{西安|せいあん}で見つかりました。36歳で亡くなったと刻まれています。', src: '藤井寺市「遣唐留学生 井真成について」・JST' },
+  { region: '藤井寺・羽曳野', q: '1978年、藤井寺の古墳から見つかった「{修羅|しゅら}」。何に使う道具でしょう?', c: ['大きな石を運ぶそり', '田んぼを耕す道具', '魚をとる舟'], a: 0, t: '大きいほうは長さ約8.8メートル。大は大阪府立{近つ飛鳥|ちかつあすか}博物館、小は藤井寺市立図書館にあります。', src: '道明寺天満宮「修羅」' },
+  { region: '藤井寺・羽曳野', q: '{道明寺天満宮|どうみょうじてんまんぐう}にまつられている、学問の神様はだれでしょう?', c: ['{菅原道真|すがわらのみちざね}', '{聖徳太子|しょうとくたいし}', '{小野小町|おののこまち}'], a: 0, t: '梅を愛したことで知られます。藤井寺市の「市の木」が梅なのも、このご縁です。', src: '藤井寺市「市の木・市の花」' },
+  { region: '藤井寺・羽曳野', q: '{道明寺天満宮|どうみょうじてんまんぐう}の梅園には、梅がおよそ何本あるでしょう?', c: ['約800本', '約80本', '約8,000本'], a: 0, t: '約80種・800本。毎年2月から3月に「梅まつり」が開かれます。', src: '道明寺天満宮「梅園」' },
+  { region: '藤井寺・羽曳野', q: '羽曳野市を東西に通り、「日本最古の{官道|かんどう}」と呼ばれる道は、どれでしょう?', c: ['{竹内街道|たけのうちかいどう}', '{熊野街道|くまのかいどう}', '{中山道|なかせんどう}'], a: 0, t: '大阪と奈良を結ぶ道。平成29年に、大阪府で初めての「日本遺産」になりました。', src: '羽曳野市「竹内街道」' },
+  { region: '藤井寺・羽曳野', q: '羽曳野市の{誉田八幡宮|こんだはちまんぐう}。何と呼ばれているでしょう?', c: ['日本最古の八幡宮', '日本一大きい八幡宮', '日本一新しい八幡宮'], a: 0, t: '{応神|おうじん}天皇陵古墳のそばにあります。毎年9月15日に秋の大祭が開かれます。', src: '羽曳野市「誉田八幡宮」' },
+  { region: '藤井寺・羽曳野', q: '羽曳野市のお寺「野中寺」。なんと読むでしょう?', c: ['やちゅうじ', 'のなかでら', 'のちゅうじ'], a: 0, t: '「中の太子」とも呼ばれ、{聖徳太子|しょうとくたいし}が建てたと伝わるお寺です。', src: '大阪観光局 OSAKA-INFO' },
+  { region: '藤井寺・羽曳野', q: '世界遺産「{百舌鳥|もず}・{古市|ふるいち}古墳群」は、いくつの古墳でできているでしょう?', c: ['49', '19', '99'], a: 0, t: '2019年7月6日に登録。堺市と、羽曳野市・藤井寺市の古墳でできています。', src: 'nippon.com（2019）' }
 ];
 
 /* ===================== QRコード生成ライブラリ(qrcode-generator v1.4.4 / MIT) ===================== */
