@@ -52,6 +52,7 @@
 </head>
 <body>
 <div class="bar">
+  <button onclick="goBack()">◀ みんなで脳トレへ戻る</button>
   <b>今日の脳トレプリント</b>
   <button onclick="shift(-1)">◀ 前の日</button><span id="bar-d"></span><button onclick="shift(1)">次の日 ▶</button>
   <button class="go" onclick="window.print()">印刷する</button>
@@ -179,6 +180,7 @@ var YOMI = [['葛井寺', 'ふじいでら'], ['誉田', 'こんだ'], ['野中�
 
 var day = new Date();
 (function () { var m = /[?&]d=(\d{4}-\d{2}-\d{2})/.exec(location.search); if (m) { var p = m[1].split('-'); day = new Date(+p[0], +p[1] - 1, +p[2]); } })();
+function goBack() { location.href = (location.protocol === 'file:' ? 'https://mkohei97.github.io/senior-digital-sim/' : '') + 'kyoshitsu-x12.html'; }
 function shift(n) { day = new Date(day.getFullYear(), day.getMonth(), day.getDate() + n); render(); }
 function render() {
   var key = ymd(day); R = rng(parseInt(key.replace(/-/g, ''), 10));

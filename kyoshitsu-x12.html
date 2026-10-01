@@ -292,7 +292,7 @@ var NETA = {
     }
   },
   purinto: {
-    n: '今日のプリント', ic: '🖨️', how: '最後の5分に配る紙。押すと印刷の画面が別に開く（A4・両面・裏に答え）。同じ日は同じ問題',
+    n: '今日のプリント', ic: '🖨️', how: '最後の5分に配る紙。押すと印刷の画面に変わる（A4・両面・裏に答え）。印刷の画面の左上から戻れる。同じ日は同じ問題',
     link: 'purinto-x13.html'
   },
   stamp: {
@@ -340,7 +340,7 @@ function render() {
   document.getElementById('prog').textContent = N.list ? (cur.i + 1) + ' / ' + cur.slides.length : (cur.k === 'stamp' ? '' : cur.n + '問目');
   if (N.after) N.after();
 }
-function open1(k) { if (NETA[k].link) { window.open((location.protocol === 'file:' ? 'https://mkohei97.github.io/senior-digital-sim/' : '') + NETA[k].link, '_blank'); return; }
+function open1(k) { if (NETA[k].link) { location.href = (location.protocol === 'file:' ? 'https://mkohei97.github.io/senior-digital-sim/' : '') + NETA[k].link; return; }
   openNeta(k); }
 function openNeta(k) { clockStart(); cur = { k: k, slides: NETA[k].make(), i: 0, n: 1 }; render(); }
 function setLv(i) { LV[cur.k] = i; storeSet('minna_lv', JSON.stringify(LV)); cur.slides = NETA[cur.k].make(); cur.i = 0; render(); }
