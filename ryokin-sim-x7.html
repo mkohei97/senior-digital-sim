@@ -4,7 +4,10 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ここスマ 料金シミュレーション v1.1</title>
+<title>ここスマ 料金シミュレーション v1.2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@500;600;700&display=swap">
 <style>
   :root {
     --ink: #16181D; --sub: #6E7379; --faint: #6F747A;
@@ -243,59 +246,147 @@
 </style>
 
 <style>
-/* ===== Modernist Teal skin(v3案の黒・朱色→ここスマ色 置換版) ===== */
-:root {
-  --ink: #26241E; --sub: #5C594F; --faint: #6E6B60;
-  --line: #C9C4B6; --line-soft: #DAD5C7; --bg: #EFECE5; --soft: #E5E1D4;
-  --acc: #0F766E; --acc-ink: #0B4F42; --acc-soft: #E3F2F0; --acc-line: #8FBFB8;
-  --save: #0F766E; --cost: #B4632C; --brand: #0F766E;
+/* ===== 神崎さん共有用フォーマット skin（`27s`共有版v1.0の型を写したもの・2026-10-13 v1.2）=====
+   白地・節ごとの差し色（STEP1=若草／STEP2=山吹＝購入／STEP3=空色）・角丸カード・やわらかい影。
+   塗りの状態（選択中チップ・ボタン）は文字の濃い色（--acc-ink）で塗る＝白文字のコントラストを確保。
+   v0.5〜v1.1の「モダニスト・ティール」skinはこのブロックで置き換えた。 */
+:root{
+  --ink:#17322A; --body:#3B4A43; --sub:#5E6A64; --faint:#6F7A74;
+  --line:#E4EAE5; --line-soft:#EEF2EF; --bg:#FFFFFF; --soft:#F7F9F6; --deep:#1E4D3E;
+  --leaf:#2E9E6B; --leaf-soft:#E9F6EF; --leaf-ink:#1C7149;
+  --sun:#F2AE3A; --sun-soft:#FFF5E0; --sun-ink:#8E5A06;
+  --sky:#3B8CC4; --sky-soft:#E8F2FA; --sky-ink:#1F628F;
+  --coral:#E7795F; --coral-soft:#FDEEE9; --coral-ink:#A9452F;
+  --acc:var(--leaf); --acc-ink:var(--leaf-ink); --acc-soft:var(--leaf-soft); --acc-line:#A9DCC1;
+  --save:var(--leaf-ink); --cost:var(--coral-ink); --brand:var(--deep);
+  --shadow:0 1px 2px rgba(23,50,42,.06),0 8px 24px -12px rgba(23,50,42,.18);
+  --display:'Zen Kaku Gothic New','Hiragino Sans','Yu Gothic',system-ui,sans-serif;
+  --sans:'Noto Sans JP','Hiragino Kaku Gothic ProN','Yu Gothic',system-ui,sans-serif;
+  --numf:'Outfit','Noto Sans JP',system-ui,sans-serif;
+  color-scheme:light;
 }
-body { background: var(--bg); }
-.card, .pcard, .tot, .holist, table.cmp, .prow, .horow, .chip, .badge, .sw, .sw::after,
-.manbox input, #manualDev input, .inline-in, .printbtn, .hochip, .assump, .notebox, .tot.fut { border-radius: 0 !important; }
-.card, .pcard, .tot { background: #F7F4EB; border-color: #A8A292; }
-.tot.fut { background: #F1F6F1; border-color: var(--acc); }
-.prow { background: #FCFAF3; border-color: #BDB8A8; }
-.prow:hover { border-color: var(--acc); }
-.prow.on { border-color: var(--acc-ink); box-shadow: 0 0 0 1px var(--acc-ink); background: #EAF3EF; }
-.prow .dot { border-radius: 0; border-color: #A8A292; }
-.prow.on .dot { border: 2px solid var(--acc-ink); background: var(--acc); }
-.chip { border-color: #8F8A7A; background: #FCFAF3; }
-.chip:hover { border-color: var(--acc); }
-.chip.on { background: var(--acc-ink); border-color: var(--acc-ink); color: #FFF; }
-.badge.now { background: #E5E1D4; border-color: #A8A292; color: #5C594F; }
-.badge.fut { background: var(--acc-soft); border-color: var(--acc); color: var(--acc-ink); }
-.step-tag { background: var(--acc-soft); color: var(--acc-ink); display: inline-block; padding: 3px 12px; letter-spacing: .22em; }
-.hero { text-align: left; padding: 48px 0 34px; }
-.hero h1 { font-size: 40px; line-height: 1.3; max-width: 700px; }
-.hero h1 .nb { display: inline-block; }
-@media (max-width: 640px) { .hero h1 { font-size: 27px; line-height: 1.35; } }
-.hero p { margin: 10px 0 0; max-width: 560px; }
-#demoRow { justify-content: flex-start; }
-.diffhero { text-align: left; border-left: 6px solid var(--acc); padding-left: 20px; }
-.holist { background: #FCFAF3; border-color: #A8A292; }
-.horow { border-color: var(--line-soft); }
-.hochip.ok { background: var(--acc-soft); color: var(--acc-ink); }
-.hochip.ng { background: #E5E1D4; color: #6E6B60; }
-table.cmp th, table.cmp td, table.cmp thead th { background: #FCFAF3; }
-table.cmp tr.ysel td, table.cmp tr.ysel th.rh { background: #EAF3EF; }
-table.cmp tr.sep th, table.cmp tr.sep td { background: #E5E1D4; }
-.assump { background: #E9E5D8; color: #55524A; }
-#calcBasis { background: #E3F2F0 !important; }
-.stick { background: rgba(247,244,235,.96); border-top: 2px solid var(--acc-ink); }
-.printbtn { background: var(--acc-ink); }
-.printbtn:hover { background: #08382F; }
-header.top { background: rgba(239,236,229,.94); border-bottom: 1px solid #C9C4B6; }
-.plistwrap::after { background: linear-gradient(rgba(252,250,243,0), #FCFAF3); }
-.sw { background: #B8B2A0; } .sw.on { background: var(--acc); }
-@media print { #printCond { background: #E3F2F0 !important; } }
+#s1{--acc:var(--leaf);--acc-ink:var(--leaf-ink);--acc-soft:var(--leaf-soft);--acc-line:#A9DCC1}
+#s2{--acc:var(--sun);--acc-ink:var(--sun-ink);--acc-soft:var(--sun-soft);--acc-line:#F5D79A}
+#s3{--acc:var(--sky);--acc-ink:var(--sky-ink);--acc-soft:var(--sky-soft);--acc-line:#A9CDE7}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.7;line-break:strict}
+h1,h2,h3{font-family:var(--display);color:var(--ink)}
+.num,.v,.mo,.big,.yen,.pcard .foot .v{font-family:var(--numf);font-variant-numeric:tabular-nums}
+
+/* ヘッダー */
+header.top{background:rgba(255,255,255,.88);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--line)}
+.logo{font-family:var(--display);font-weight:900;color:var(--deep);letter-spacing:.04em;display:inline-flex;align-items:center;gap:8px}
+.logo::before{content:"";width:22px;height:22px;border-radius:7px;background:var(--leaf)}
+.ttl{font-family:var(--display)}
+.ttl small{background:var(--surface,#F7F9F6);border:1px solid var(--line);border-radius:999px;padding:0 9px;font-family:var(--numf);font-weight:600;color:var(--sub)}
+
+/* 表紙 */
+.hero{position:relative;text-align:left;padding:clamp(36px,6vw,72px) 0 clamp(24px,4vw,40px);isolation:isolate}
+.hero::before{content:"";position:absolute;z-index:-1;right:-60px;top:-80px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#DDF3E6,rgba(221,243,230,0) 70%)}
+.hero::after{content:"";position:absolute;z-index:-1;right:240px;top:80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,#FFF1D3,rgba(255,241,211,0) 70%)}
+.hero h1{font-size:clamp(30px,4.6vw,56px);font-weight:900;line-height:1.22;color:var(--deep);letter-spacing:.01em;max-width:760px}
+.hero h1 .nb{display:inline-block}
+.hero p{margin:14px 0 0;max-width:600px;color:var(--body);font-size:16.5px}
+#demoRow{justify-content:flex-start}
+
+/* 節の見出し＝色つきパネル */
+.step{margin-top:clamp(40px,6vw,80px)}
+.step-tag{display:inline-flex;align-items:center;gap:10px;background:none;padding:0;font-family:var(--numf);font-weight:600;font-size:13px;letter-spacing:.3em;color:var(--acc-ink)}
+.step-tag::before{content:"";width:28px;height:2px;border-radius:2px;background:currentColor}
+section.step > h2{position:relative;overflow:hidden;margin:10px 0 24px;background:var(--acc-soft);border-radius:24px;padding:clamp(18px,2.4vw,28px) clamp(20px,2.8vw,34px);font-size:clamp(26px,3.4vw,40px);font-weight:900;line-height:1.25}
+section.step > h2::after{content:"";position:absolute;right:-40px;top:-60px;width:200px;height:200px;border-radius:50%;background:var(--acc);opacity:.10}
+h3{font-weight:700}
+
+/* カード */
+.card,.pcard,.tot{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.tot.fut{background:#fff;border:2px solid var(--acc)}
+.pcard .foot{border-top:1px dashed var(--line)}
+.pcard .foot .v{font-weight:700}
+.tot .mo{font-weight:700}
+.tot .lines,.tot .ln.total{border-color:var(--line)}
+
+/* 選ぶ部品 */
+.chip{border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:999px}
+.chip:hover{border-color:var(--acc)}
+.chip.on{background:var(--acc-ink);border-color:var(--acc-ink);color:#fff}
+.prow{background:#fff;border:1.5px solid var(--line);border-radius:12px}
+.prow:hover{border-color:var(--acc)}
+.prow.on{background:var(--acc-soft);border-color:var(--acc-ink);box-shadow:0 0 0 1px var(--acc-ink)}
+.prow .dot{border-radius:999px;border-color:#C5CFC9;background:#fff}
+.prow.on .dot{border:6px solid var(--acc-ink);background:#fff}
+.prow.free{border-style:dashed}
+.badge{border-radius:999px}
+.badge.now{background:var(--soft);border:1px solid var(--line);color:var(--sub)}
+.badge.fut{background:var(--acc-soft);border:1px solid var(--acc-line);color:var(--acc-ink)}
+.coltag.fut{background:var(--acc-soft);border-color:var(--acc-line);color:var(--acc-ink)}
+.colmark{color:var(--acc-ink)}
+.manbox input,#manualDev input{border:1.5px dashed #C5CFC9;border-radius:12px}
+.inline-in{border:1px solid var(--line);border-radius:8px}
+.sw{background:#C9D2CD}.sw.on{background:var(--acc-ink)}
+.plistwrap::after{background:linear-gradient(rgba(255,255,255,0),#fff)}
+
+/* 差額 */
+.diffhero{text-align:center;border:none;padding:30px 0 6px}
+.diffhero .v{font-weight:700}
+.step3diff{background:var(--acc-soft);border-radius:24px;padding:22px 20px 18px}
+.step3diff .big{font-weight:700}
+.rule{border-top:1px solid var(--line)}
+
+/* 表 */
+table.cmp{border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+table.cmp th,table.cmp td,table.cmp thead th{background:#fff}
+table.cmp tr.ysel td,table.cmp tr.ysel th.rh{background:var(--acc-soft)}
+table.cmp td.refc,table.cmp th.refc{background:#FBFCFB}
+table.cmp tr.sep th,table.cmp tr.sep td{background:var(--soft)}
+.assump{background:var(--soft);color:var(--sub);border-radius:12px}
+#calcBasis,#printCond{background:var(--acc-soft) !important}
+
+/* 補償リスト */
+.holist{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.hochip.ok{background:var(--leaf-soft);color:var(--leaf-ink)}
+.hochip.ng{background:var(--soft);color:var(--faint)}
+
+/* 下の帯・ボタン */
+.stick{background:rgba(255,255,255,.94);border-top:none;box-shadow:0 -8px 24px -16px rgba(23,50,42,.25)}
+.stick::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--leaf),var(--sun) 40%,var(--sky) 70%,var(--coral))}
+.stick .v{font-weight:700}
+.printbtn{background:var(--deep);border-radius:999px}
+.printbtn:hover{background:#163A2F}
+footer.foot{border-top:1px solid var(--line)}
+
+/* スマホ幅 */
+@media (max-width:640px){
+  .hero h1{font-size:26px;line-height:1.35}
+  section.step > h2{font-size:24px}
+  .stick-in{gap:12px;padding:10px 12px}
+  .stick .k{font-size:10.5px}
+  .stick .v{font-size:16px;white-space:nowrap}
+  .stick .cell[style]{margin-left:4px !important}
+}
+
+/* 印刷（お渡し用A4縦1枚）＝影・色面を落とす */
+@media print{
+  body{background:#fff;font-family:"Noto Sans CJK JP",var(--sans);font-size:10px;line-height:1.6}
+  .hero{padding:2px 0 0} .step{margin-top:5px} .step-tag{font-size:9px} .diffhero{padding:2px 0 0}
+  .hero h1{line-height:1.3}
+  *{box-shadow:none !important}
+  .hero::before,.hero::after,section.step > h2::after,.step-tag::before,.stick::before,.logo::before{display:none !important}
+  .hero h1{font-size:14px;color:var(--ink)}
+  section.step > h2{background:none;padding:0;margin:1px 0 4px;border-radius:0;font-size:12px}
+  .card,.pcard,.tot,.holist,table.cmp{border-radius:6px}
+  .tot.fut{border-width:1px}
+  .step3diff{background:none;padding:0}
+  #printCond{background:#E9F6EF !important}
+}
+
+/* 2026-10-17 02_料金シミュレーション: 見出し・ヒーローの飾り(::before/::after)がスマホ幅で横にはみ出し、ページが42px横に動いたため切り落とす */
+html, body { overflow-x: clip; }
 </style>
 </head>
 <body>
 
 <header class="top"><div class="top-in">
   <span class="logo">ここスマ</span>
-  <span class="ttl">料金シミュレーション<small>v1.1</small></span>
+  <span class="ttl">料金シミュレーション<small>v1.2</small></span>
   <span class="meta">試験公開中(仮ページ)|料金取得日 2026年10月10日(ドコモの端末は9月27日)|金額は税込の目安・各社公式サイトで要確認</span>
 </div></header>
 
@@ -431,6 +522,7 @@ header.top { background: rgba(239,236,229,.94); border-bottom: 1px solid #C9C4B6
     出典: 各社公式サイト(詳細は 22_料金プラン調査_2026-08 v2.0 / 02_調査_3キャリア店頭費用)。料金取得日 2026年10月10日(ドコモの端末は9月27日)。ご契約前に必ず当日の各社公式ページでご確認ください。<br>
     返却プログラムの実質負担は「残価=端末価格の45%(楽天は48回払い・25か月目返却で50%)」と仮定した概算です。機種・時期・査定条件により変わります。頭金は店舗独自(5,000〜22,000円)のため仮の金額です。iPhone 17e のドコモ・au価格は二次情報照合の概算。<br>
     v0.4(2026-08-08): 3ステップ構成に再設計(通信プラン現状/将来→買い方比較→トータル)/楽天モバイルを端末比較に追加/頭金・設定サポートの内訳を明示/デザイン=Claude Design「ここスマ料金シミュレーション設計」(白基調ミニマル・v0.4)/同日データ更新: 日本通信SIMを4プラン(シンプル290・みんなの20GB・50GB・ネットだけ)に拡充(公式サイト2026-08-08確認)/頭金を02調査の実務値19,800円に統一・C列にここスマ ネット購入サポート19,800円を標準計上・積み重なる費用の計算根拠を表下に明示/端末の補償サービス比較を追加(キャリア4社・AppleCare+/Pixel Care+・@nifty安心メールパック・モバイル保険。2026-08-08公式調べ・選択でSTEP3に反映)/補償は選択中の機種ごとの確定額で表示(ドコモ補償料金検索・au公式・SB公式・楽天価格帯区分で裏取り)/ドコモMAX系に「家族間通話無料」注記(5分通話はオプション880円を公式確認)・上位カード(dカードGOLD−550/PayPayゴールドSB−550/Y!m−770⚠)トグル追加・プラン一覧を会社名ファースト表示に/印刷をお客様お渡し用に(前提条件・免責事項・発行日を印字、A4縦1枚)/22fレビュー全21項目を反映(買い方「買わない」追加・乗換手数料の店頭統合・公式ストア×キャリア補償の警告・手入力の分解入力・例ボタン・データ専用警告・スマホ幅対応・注記コントラストAA・印刷A4縦1枚要約・チップ✓/aria対応ほか)<br>
+    v1.2(2026-10-13): <b>デザインを「神崎さん共有用フォーマット」(`27s`共有版v1.0の型)に変更</b>(松田さん)。白地・STEPごとの差し色(1=若草/2=山吹/3=空色)・角丸カード・やわらかい影・見出しは色つきパネル。選択中の塗りは濃い色(白文字のコントラスト確保)。印刷(お渡し用A4縦1枚)は影と色面を落とす。計算・データ・文面は変更なし(02_ネット購入サポート窓で作業)<br>
     v1.1(2026-10-11): <b>10/10の月次価格点検を反映</b>。<b>端末の10月値上げ</b>=iPhone 17(au 186,800/SB 199,440/楽天 176,800円)・iPhone 17e(au 144,800/SB 149,904/楽天 133,400円)・iPhone 16(楽天 156,700円〜)・<b>Pixel 10aのGoogleストア 92,800円</b>(79,900円から)。この3社のiPhone 17/17eは公式で確かめたので⚠を外した。<b>AppleCare+はApple Storeで盗難・紛失プランしか選べなくなった</b>=iPhone 17 月1,540円(年15,400円)・17e 1,340円・Air 1,940円(補償の表で盗難○・紛失○と出るように直した)。ドコモminiの増量キャンペーンは11/30終了と公表。プランの料金と割引額は全社で変更なし(10/10確認)。<b>ドコモの端末価格は10/10に取得できず9/27の値のまま</b>(Pixel 10aも上がっている可能性あり)<br>
     v1.0(2026-09-27): <b>ドコモの2026-09-25改定を反映</b>。<b>ahamoは現行30GB 2,970円(11/30まで)と、12/1からの40GB 3,135円/60GB 4,125円/120GB 5,115円を並べて表示</b>(使った量で決まる3段階制。上限設定オプション(無料)で40GB/60GBに止められ、今のahamo利用者は40GB上限が自動設定される)。<b>ドコモ miniは新規受付11/30終了の注記を付け、12/1開始のmini2(6GB 3,278円/12GB 4,598円)を追加</b>(家族割=みんなドコモ割2回線以上550円、60歳以上かけ放題990円。ドコモでんきセット割110円は含めない)。ドコモMAXの60歳以上割(10/1〜最大3か月・月最大2,970円)は期間限定のため月額に入れず注記のみ。eximo等+550円・irumo+110〜330円の12/1改定は本表に行が無いため対象外。<b>ドコモの端末価格を更新</b>=iPhone 17 199,793円(9/17〜)・iPhone 17e 158,345円(9/28〜)・iPhone 16 166,210円(9/28〜)・Pixel 10a 95,513円(6/1〜。従来の88,440円は4月時点の額)。iPhone 18 Proのドコモ補償1,720円を追加。楽天のauローミング終了日を「2026年9月30日」に訂正。<b>★ここスマの料金を40 v1.15§1-3に追随</b>=ネット購入サポート19,800→<b>15,800円</b>・購入＋SIM移行のセット29,800円は<b>廃止=15,800＋12,800の足し算28,600円</b>(2026-09-13裁定。v0.8〜v0.9で追随漏れ)<br>
     v0.9(2026-09-22): <b>買い方に「D キャリアのオンラインショップ」を新設</b>(2026-09-17の購入先ルールの裁定を反映)。<b>回線契約をしない端末だけの購入</b>として、各社オンラインショップの単体購入価格で計算する(頭金・事務手数料・設定サポートは0円)。CとDの違いは値段の出どころだけ=Cはメーカー直販・Dはキャリアの単体購入価格。<b>キャリアでしか売っていない機種はCに値段がなくDだけで比べられる</b>(arrows We3=ドコモ22,000円/SIMフリー42,000円など)。<b>のりかえ割・一括1円など回線契約を条件とする値引きは比較に入れない</b>(入れると「どの携帯会社にも属していない」が成り立たなくなるため)。ここスマ ネット購入サポートのトグルはC・Dの両方に効く。キャリア補償の警告もDに適用<br>
@@ -511,7 +603,7 @@ var PLANS = [
 /* @@DEVICES_BEGIN@@ */
 /* ↑↓この間は自動生成です。手で直さないこと。
    正本 = 22h_端末データ_devices.csv / 生成 = python3 22i_build_devices.py
-   取得日 = 2026-09-12・2026-09-27・2026-10-10 */
+   取得日 = 2026-09-12・2026-10-16・2026-10-17 */
 var DEVICES = [
  {
   "id": "ip17",
@@ -530,6 +622,22 @@ var DEVICES = [
   "note": "Apple公式は2026-09-10に142800→159800へ改定。auは据え置き。ドコモは2026-09-17に178552→199793へ値上げ。au 168300→186800・SB 180720→199440・楽天 159800→176800(10月の値上げ・各社公式で確認2026-10-10)"
  },
  {
+  "id": "ip17_512",
+  "name": "iPhone 17 512GB",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "512GB",
+  "official": 194800,
+  "carrier": {
+   "d": 230560,
+   "a": null,
+   "s": 241200,
+   "r": null
+  },
+  "est": [],
+  "note": "2026-10-17追加(全容量の裁定10/17)。Apple・ドコモ・SBは公式。auは記事で215800/236300と食い違い・楽天は記事226000＝公式未確認のため空欄"
+ },
+ {
   "id": "ip17e",
   "name": "iPhone 17e",
   "os": "iphone",
@@ -546,6 +654,22 @@ var DEVICES = [
   "note": "Apple公式は2026-09-10に107800→124800へ改定。楽天の値上げで補償が1380→1580円の区分に。ドコモは2026-09-28に139810→158345へ値上げ。au 127900→144800・SB 133200→149904・楽天 117200→133400(10月の値上げ・各社公式で確認2026-10-10。楽天補償は10万円超の区分のまま1580円)"
  },
  {
+  "id": "ip17e512",
+  "name": "iPhone 17e 512GB",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "512GB",
+  "official": 159800,
+  "carrier": {
+   "d": 187550,
+   "a": null,
+   "s": 199440,
+   "r": 155600
+  },
+  "est": [],
+  "note": "2026-10-17追加。Apple・ドコモ・SB・楽天(キャンペーンページ)は公式。auは記事186800で公式未確認のため空欄"
+ },
+ {
   "id": "px10a",
   "name": "Pixel 10a",
   "os": "android",
@@ -555,11 +679,118 @@ var DEVICES = [
   "carrier": {
    "d": 95513,
    "a": 89800,
-   "s": 93600,
+   "s": 108720,
    "r": 89760
   },
   "est": [],
-  "note": "ドコモ補償=公式検索で990円を再確認(2026-09-12)。ドコモは2026-06-01から95513(88440は4月時点の額)。Google公式は10/1に79900→92800(256GB=107800)。ドコモ128GBも上がった可能性(256GBは10/9〜116930)=要確認"
+  "note": "ドコモ補償=公式検索で990円を再確認(2026-09-12)。ドコモは2026-06-01から95513(88440は4月時点の額)。Google公式は10/1に79900→92800(256GB=107800)。ドコモ128GBも上がった可能性(256GBは10/9〜116930)=要確認／2026-10-15: ドコモ128GBは10/9時点で95513据え置き(ITmedia 10/9・値上げは256GBのみ105050→116930)／2026-10-16 見張り: ソフトバンク 93,600→108,720（https://www.softbank.jp/mobile/products/google-pixel/google-pixel-10a/）"
+ },
+ {
+  "id": "px10a256",
+  "name": "Pixel 10a 256GB",
+  "os": "android",
+  "tier": "B",
+  "cap": "256GB",
+  "official": 107800,
+  "carrier": {
+   "d": 116930,
+   "a": 105800,
+   "s": 126000,
+   "r": 108240
+  },
+  "est": [],
+  "note": "2026-10-15追加(02_ネット購入サポート・松田さん「256GBを買う人も多い」)。Googleストアは10/1に94900→107800(gazlog 10/1)。ドコモは10/9に105050→116930(ITmedia 10/9)。au/SB/楽天は9月下旬の額(gazlog 10/1)で10月の改定は未確認。補償は未取得／2026-10-16 見張り: ソフトバンク 110,880→126,000（https://www.softbank.jp/mobile/products/google-pixel/google-pixel-10a/）"
+ },
+ {
+  "id": "ga57",
+  "name": "Galaxy A57 5G",
+  "os": "android",
+  "tier": "B",
+  "cap": "128GB",
+  "official": 79800,
+  "carrier": {
+   "d": 95480,
+   "a": null,
+   "s": 93600,
+   "r": null
+  },
+  "est": [
+   "s"
+  ],
+  "note": "2026-10-15追加(02_ネット購入サポート・5〜10万円の層)。Samsung公式79800・ドコモ/ahamo 95480・SB 93600（セレクトラ 10/9更新）。au・楽天は取扱なし。補償は未取得"
+ },
+ {
+  "id": "sense10",
+  "name": "AQUOS sense10",
+  "os": "android",
+  "tier": "B",
+  "cap": "6GB/128GB",
+  "official": 62700,
+  "carrier": {
+   "d": 73370,
+   "a": 71800,
+   "s": 69840,
+   "r": 59900
+  },
+  "est": [
+   "s"
+  ],
+  "note": "2026-10-15追加(02_ネット購入サポート・5〜10万円の層)。公式=SHARP公式(SIMフリー)62700・ドコモ73370・au/UQ 71800・SB 69840(在庫なし)・楽天59900（economical 10/15時点の記事）。キャリアは公式ページで要確認。補償は未取得／2026-10-17: SHARP直販62700・ドコモ73370・au71800・楽天59900を公式で確認。SBは未確認"
+ },
+ {
+  "id": "sense10_256",
+  "name": "AQUOS sense10 8GB/256GB",
+  "os": "android",
+  "tier": "B",
+  "cap": "8GB/256GB",
+  "official": 69300,
+  "carrier": {
+   "d": null,
+   "a": null,
+   "s": null,
+   "r": 65890
+  },
+  "est": [
+   "r"
+  ],
+  "note": "2026-10-17追加。SHARP直販(COCORO STORE)は公式。楽天は発表時(2025-10-31)の公式価格。ドコモ・au・SBは128GBのみ"
+ },
+ {
+  "id": "alpha2",
+  "name": "arrows Alpha2",
+  "os": "android",
+  "tier": "B",
+  "cap": "8GB/256GB",
+  "official": 94900,
+  "carrier": {
+   "d": 116600,
+   "a": 94900,
+   "s": 94896,
+   "r": 85900
+  },
+  "est": [
+   "a",
+   "s"
+  ],
+  "note": "2026-10-15追加(02_ネット購入サポート・松田さん)。公式=SIMフリー市場想定価格94900(FCNT直販の価格は記事に無し)。ドコモ116600・au(Flex Style)94900・SB/Y!mobile 94896・楽天85900（ケータイWatch 2026-08-19・発売前の価格）。キャリアは公式ページで要確認。補償は未取得／2026-10-17: ドコモ116600・楽天85900を公式で確認。auはFlex Style(SIMフリー売り場)・SBはFree Style＝公式に価格なし"
+ },
+ {
+  "id": "alpha2_512",
+  "name": "arrows Alpha2 12GB/512GB",
+  "os": "android",
+  "tier": "B",
+  "cap": "12GB/512GB",
+  "official": 118800,
+  "carrier": {
+   "d": null,
+   "a": null,
+   "s": null,
+   "r": 109990
+  },
+  "est": [
+   "r"
+  ],
+  "note": "2026-10-17追加。公式欄はSIMフリー市場想定価格(ケータイWatch 8/19・FCNT直販なし)。楽天は発表時(8/18)の公式価格・Web限定"
  },
  {
   "id": "px11",
@@ -575,9 +806,27 @@ var DEVICES = [
    "r": 139900
   },
   "est": [
-   "a"
+   "s"
   ],
-  "note": "2026-08-20発売。ドコモ補償=公式検索で1100円を再確認"
+  "note": "2026-08-20発売。ドコモ補償=公式検索で1100円を再確認／2026-10-17: ドコモ152680・au156800・楽天139900を公式で確認。SBは公式の価格欄が読めず未確認"
+ },
+ {
+  "id": "px11_512",
+  "name": "Pixel 11 512GB",
+  "os": "android",
+  "tier": "B",
+  "cap": "512GB",
+  "official": 156800,
+  "carrier": {
+   "d": null,
+   "a": null,
+   "s": null,
+   "r": 164910
+  },
+  "est": [
+   "r"
+  ],
+  "note": "2026-10-17追加。Googleストアは公式。楽天は発表時(8/13)の公式価格。ドコモは256GBのみの扱い。au(記事178800)・SB(記事190080)は公式未確認のため空欄"
  },
  {
   "id": "ip18pro",
@@ -596,6 +845,54 @@ var DEVICES = [
   "note": "2026-09-18発売・9/12予約開始。ドコモはMNPで-22000=241230円。ドコモ補償1720円=公式検索で確認(2026-09-27)。au/SBの補償は未取得"
  },
  {
+  "id": "ip18pro512",
+  "name": "iPhone 18 Pro 512GB",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "512GB",
+  "official": 254800,
+  "carrier": {
+   "d": 309870,
+   "a": 315800,
+   "s": 315360,
+   "r": 307600
+  },
+  "est": [],
+  "note": "2026-10-17追加。5社とも公式(auは9/16の公式PDF)"
+ },
+ {
+  "id": "ip18pro1t",
+  "name": "iPhone 18 Pro 1TB",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "1TB",
+  "official": 324800,
+  "carrier": {
+   "d": 395230,
+   "a": 402800,
+   "s": 402480,
+   "r": 391200
+  },
+  "est": [],
+  "note": "2026-10-17追加。同上"
+ },
+ {
+  "id": "ip18pro2t",
+  "name": "iPhone 18 Pro 2TB",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "2TB",
+  "official": 429800,
+  "carrier": {
+   "d": 518980,
+   "a": 519800,
+   "s": 532800,
+   "r": 505600
+  },
+  "est": [],
+  "note": "2026-10-17追加。同上"
+ },
+ {
   "id": "ip17pro",
   "name": "iPhone 17 Pro",
   "os": "iphone",
@@ -605,16 +902,47 @@ var DEVICES = [
   "carrier": {
    "d": 230340,
    "a": 232800,
-   "s": 229680,
+   "s": 238320,
    "r": 222900
   },
+  "est": [],
+  "note": "Apple公式は2026-09に販売終了(改定前は194800円)。キャリアは在庫分／2026-10-17 容量の取り直し: SB 229680(推定)→238320(公式の価格比較ページ)。ドコモ・au・楽天は公式で同額を確認"
+ },
+ {
+  "id": "ip17pro512",
+  "name": "iPhone 17 Pro 512GB",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "512GB",
+  "official": null,
+  "carrier": {
+   "d": 282260,
+   "a": 285800,
+   "s": 285120,
+   "r": 274800
+  },
   "est": [
-   "d",
-   "a",
-   "s",
-   "r"
+   "a"
   ],
-  "note": "Apple公式は2026-09に販売終了(改定前は194800円)。キャリアは在庫分"
+  "note": "2026-10-17追加。Apple公式は販売終了。auは日付のない公式PDF(8月版)の値"
+ },
+ {
+  "id": "ip17pro1t",
+  "name": "iPhone 17 Pro 1TB",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "1TB",
+  "official": null,
+  "carrier": {
+   "d": 325270,
+   "a": 329300,
+   "s": 328320,
+   "r": 300800
+  },
+  "est": [
+   "a"
+  ],
+  "note": "2026-10-17追加。同上"
  },
  {
   "id": "ipair",
@@ -626,16 +954,47 @@ var DEVICES = [
   "carrier": {
    "d": 212300,
    "a": 193900,
-   "s": 200160,
+   "s": 229680,
    "r": 185900
   },
+  "est": [],
+  "note": "Apple公式は2026-09-10に177800→189800へ改定／2026-10-15(02_ネット購入サポート): SBは2026-10-01に200160→229680へ値上げ(セレクトラ 2026-10-14)／2026-10-17: Apple189800・ドコモ212300(機種変更でも5G WELCOME割-22,000表示あり)・au193900・SB229680・楽天185900を公式で確認"
+ },
+ {
+  "id": "ipair512",
+  "name": "iPhone Air 512GB",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "512GB",
+  "official": 224800,
+  "carrier": {
+   "d": 255310,
+   "a": 236900,
+   "s": 278640,
+   "r": 231800
+  },
   "est": [
-   "d",
-   "a",
-   "s",
-   "r"
+   "a"
   ],
-  "note": "Apple公式は2026-09-10に177800→189800へ改定"
+  "note": "2026-10-17追加。ドコモ・SB・楽天(価格比較)・Appleは公式。auは日付のない公式PDF(8月版)の値"
+ },
+ {
+  "id": "ipair1t",
+  "name": "iPhone Air 1TB",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "1TB",
+  "official": 294800,
+  "carrier": {
+   "d": 298210,
+   "a": 279900,
+   "s": 365040,
+   "r": 277800
+  },
+  "est": [
+   "a"
+  ],
+  "note": "2026-10-17追加。同上"
  },
  {
   "id": "ip16",
@@ -650,10 +1009,8 @@ var DEVICES = [
    "s": null,
    "r": 156700
   },
-  "est": [
-   "d"
-  ],
-  "note": "Apple公式は2026-09-10に124800→139800へ改定。auは取扱終了・SBは在庫切れ。ドコモは2026-09-28に156266→166210へ値上げ。楽天 141700→156700〜(公式2026-10-10)"
+  "est": [],
+  "note": "Apple公式は2026-09-10に124800→139800へ改定。auは取扱終了・SBは在庫切れ。ドコモは2026-09-28に156266→166210へ値上げ。楽天 141700→156700〜(公式2026-10-10)／2026-10-17: Apple公式は128GBのみ販売。ドコモ166210・楽天156700を公式で確認。auは販売終了"
  },
  {
   "id": "gs26",
@@ -661,15 +1018,17 @@ var DEVICES = [
   "os": "android",
   "tier": "B",
   "cap": "256GB",
-  "official": 136400,
+  "official": 155800,
   "carrier": {
    "d": 152790,
    "a": 152900,
    "s": 159840,
-   "r": null
+   "r": 136800
   },
-  "est": [],
-  "note": "公式=Samsungオンラインショップ。楽天は未取扱/未取得。au補償はAndroid一律726円の規則"
+  "est": [
+   "s"
+  ],
+  "note": "公式=Samsungオンラインショップ。楽天は未取扱/未取得。au補償はAndroid一律726円の規則／2026-10-15(02_ネット購入サポート): Samsung公式は2026-10-01に136400→155800(gazlog 10/1・Amazon.co.jp販売も155800)。ドコモ・au・SBは10/1時点で据え置き(gazlog)。ドコモ152790はオンラインショップ画面で確認(10/15・松田さん)。楽天136800(据え置き・mobasai 10/2)／2026-10-17: ドコモ152790(機種変更でオンライン割引-16,500＝136,290)・au152900・楽天136800を公式で確認。SB・Samsung公式は価格欄が読めず未確認"
  },
  {
   "id": "we3",
@@ -684,11 +1043,24 @@ var DEVICES = [
    "s": null,
    "r": 34980
   },
-  "est": [
-   "a",
-   "r"
-  ],
-  "note": "公式=SIMフリー(IIJmio/Amazon)。ドコモF-52Gが最安22000円。ドコモ補償は490円(公式検索)"
+  "est": [],
+  "note": "公式=SIMフリー(IIJmio/Amazon)。ドコモF-52Gが最安22000円。ドコモ補償は490円(公式検索)／2026-10-17: au33000・楽天34980を公式で確認。SB・Y!mobileは取扱なし"
+ },
+ {
+  "id": "we3_128",
+  "name": "arrows We3 8GB/128GB",
+  "os": "android",
+  "tier": "B",
+  "cap": "8GB/128GB",
+  "official": 56800,
+  "carrier": {
+   "d": null,
+   "a": null,
+   "s": null,
+   "r": null
+  },
+  "est": [],
+  "note": "2026-10-17追加。SIMフリー版だけの構成。公式欄は市場想定価格(記事・FCNT直販なし)。キャリアの取扱なし"
  },
  {
   "id": "ga25",
@@ -701,14 +1073,12 @@ var DEVICES = [
    "d": 22000,
    "a": 22001,
    "s": 21888,
-   "r": null
+   "r": 22001
   },
   "est": [
-   "d",
-   "a",
    "s"
   ],
-  "note": "公式=Samsungオンラインショップ。キャリア価格は2025-02発売時の額で要確認。楽天は未取扱/未取得"
+  "note": "公式=Samsungオンラインショップ。キャリア価格は2025-02発売時の額で要確認。楽天は未取扱/未取得／2026-10-17 見張り: ドコモ22,000を確認（https://www.docomo.ne.jp/product/sc53f/ 「Xiから5Gの契約変更と同時に購入する場合の価格」と注記あり）／2026-10-17: au22001・楽天22001を公式で確認。Samsung公式は販売終了(64GB)。SB(Y!mobile)は公式の価格欄が読めず未確認"
  },
  {
   "id": "a5",
@@ -716,18 +1086,17 @@ var DEVICES = [
   "os": "android",
   "tier": "B",
   "cap": "128GB",
-  "official": 32800,
+  "official": 36800,
   "carrier": {
    "d": null,
    "a": 22001,
-   "s": 26640,
-   "r": 26990
+   "s": 21888,
+   "r": 22001
   },
   "est": [
-   "s",
-   "r"
+   "s"
   ],
-  "note": "公式=OPPO直販。ドコモは取扱なし。SBはワイモバイル扱い26640円"
+  "note": "公式=OPPO直販。ドコモは取扱なし。SBはワイモバイル扱い26640円／2026-10-17 見張り: 楽天 26,990(推定)→22,001（https://network.mobile.rakuten.co.jp/product/smartphone/a5-5g/ 製品価格・一括払い。注記で現金販売価格と同額）／2026-10-17: OPPO公式の通常価格36800(SOLD OUT・発売時32800)。au22001を公式で確認。楽天は公式内で22001/26990/31990が混在＝購入画面で要確認。Y!mobileは9/15に26640→21888へ値下げ(記事・公式未確認)"
  },
  {
   "id": "manual",
@@ -780,6 +1149,15 @@ var HOSHO = {
    "loss": "Apple Storeで選べるのは盗難・紛失プランのみ(2026-10確認・63§2-9)"
   }
  },
+ "ip17_512": {
+  "mk": {
+   "nm": "Apple AppleCare+ 盗難・紛失プラン",
+   "m": 1540,
+   "sub": "年払い 15400円(2年一括なし)",
+   "ded": "画面 3700円/その他 12900円",
+   "loss": "Apple Storeで選べるのは盗難・紛失プランのみ(2026-10確認・63§2-9)"
+  }
+ },
  "ip17e": {
   "d": {
    "nm": "ドコモ smartあんしん補償",
@@ -805,6 +1183,15 @@ var HOSHO = {
    "sub": "",
    "ded": "交換 6,600円/12,900円"
   },
+  "mk": {
+   "nm": "Apple AppleCare+ 盗難・紛失プラン",
+   "m": 1340,
+   "sub": "月払い(年払いの額は公式で要確認)",
+   "ded": "画面 3700円/その他 12900円",
+   "loss": "Apple Storeで選べるのは盗難・紛失プランのみ(2026-10確認・63§2-9)"
+  }
+ },
+ "ip17e512": {
   "mk": {
    "nm": "Apple AppleCare+ 盗難・紛失プラン",
    "m": 1340,
@@ -846,6 +1233,12 @@ var HOSHO = {
    "loss": "紛失・盗難プランは 880円/月"
   }
  },
+ "px10a256": {},
+ "ga57": {},
+ "sense10": {},
+ "sense10_256": {},
+ "alpha2": {},
+ "alpha2_512": {},
  "px11": {
   "d": {
    "nm": "ドコモ smartあんしん補償",
@@ -879,6 +1272,7 @@ var HOSHO = {
    "loss": "紛失・盗難プランは 1380円/月"
   }
  },
+ "px11_512": {},
  "ip18pro": {
   "d": {
    "nm": "ドコモ smartあんしん補償",
@@ -892,6 +1286,33 @@ var HOSHO = {
    "sub": "",
    "ded": "交換 6,600円/12,900円"
   },
+  "mk": {
+   "nm": "Apple AppleCare+ 盗難・紛失プラン",
+   "m": 1940,
+   "sub": "年払い 19400円(月払いの10か月分)",
+   "ded": "画面 3700円/その他 12900円",
+   "loss": "この機種はApple公式に盗難・紛失プランのみ掲載"
+  }
+ },
+ "ip18pro512": {
+  "mk": {
+   "nm": "Apple AppleCare+ 盗難・紛失プラン",
+   "m": 1940,
+   "sub": "年払い 19400円(月払いの10か月分)",
+   "ded": "画面 3700円/その他 12900円",
+   "loss": "この機種はApple公式に盗難・紛失プランのみ掲載"
+  }
+ },
+ "ip18pro1t": {
+  "mk": {
+   "nm": "Apple AppleCare+ 盗難・紛失プラン",
+   "m": 1940,
+   "sub": "年払い 19400円(月払いの10か月分)",
+   "ded": "画面 3700円/その他 12900円",
+   "loss": "この機種はApple公式に盗難・紛失プランのみ掲載"
+  }
+ },
+ "ip18pro2t": {
   "mk": {
    "nm": "Apple AppleCare+ 盗難・紛失プラン",
    "m": 1940,
@@ -914,6 +1335,8 @@ var HOSHO = {
    "ded": "交換 6,600円/12,900円"
   }
  },
+ "ip17pro512": {},
+ "ip17pro1t": {},
  "ipair": {
   "d": {
    "nm": "ドコモ smartあんしん補償",
@@ -927,6 +1350,24 @@ var HOSHO = {
    "sub": "",
    "ded": "交換 6,600円/12,900円"
   },
+  "mk": {
+   "nm": "Apple AppleCare+ 盗難・紛失プラン",
+   "m": 1940,
+   "sub": "月払い",
+   "ded": "画面 3700円/その他 12900円",
+   "loss": "Apple Storeで選べるのは盗難・紛失プランのみ(2026-10確認・63§2-9)"
+  }
+ },
+ "ipair512": {
+  "mk": {
+   "nm": "Apple AppleCare+ 盗難・紛失プラン",
+   "m": 1940,
+   "sub": "月払い",
+   "ded": "画面 3700円/その他 12900円",
+   "loss": "Apple Storeで選べるのは盗難・紛失プランのみ(2026-10確認・63§2-9)"
+  }
+ },
+ "ipair1t": {
   "mk": {
    "nm": "Apple AppleCare+ 盗難・紛失プラン",
    "m": 1940,
@@ -983,6 +1424,7 @@ var HOSHO = {
    "ded": "交換 6,600円/12,900円"
   }
  },
+ "we3_128": {},
  "ga25": {},
  "a5": {
   "a": {
