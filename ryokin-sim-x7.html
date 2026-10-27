@@ -604,7 +604,7 @@ var PLANS = [
 /* @@DEVICES_BEGIN@@ */
 /* ↑↓この間は自動生成です。手で直さないこと。
    正本 = 22h_端末データ_devices.csv / 生成 = python3 22i_build_devices.py
-   取得日 = 2026-09-12・2026-10-16・2026-10-17・2026-10-19・2026-10-20 */
+   取得日 = 2026-09-12・2026-10-17・2026-10-21・2026-10-24・2026-10-26 */
 var DEVICES = [
  {
   "id": "ip17",
@@ -642,6 +642,12 @@ var DEVICES = [
      "amount": 16500,
      "scope": "plan",
      "cond": "au回線の機種変更（4か月目以上）＋au PAY ゴールドカード（年会費11000円）。オンラインはau PAY残高で還元"
+    },
+    {
+     "name": "au Online Shop お得割",
+     "amount": 39600,
+     "scope": "mnp",
+     "cond": "他社からauへのりかえ（MNP）でau Online Shopで購入（スマホミニプラン＋・povo1.0からの乗りかえは対象外・ページ表示は最大額・細かい条件は公式で要確認）"
     }
    ]
   }
@@ -655,12 +661,12 @@ var DEVICES = [
   "official": 194800,
   "carrier": {
    "d": 230560,
-   "a": null,
+   "a": 236300,
    "s": 241200,
    "r": null
   },
   "est": [],
-  "note": "2026-10-17追加(全容量の裁定10/17)。Apple・ドコモ・SBは公式。auは記事で215800/236300と食い違い・楽天は記事226000＝公式未確認のため空欄",
+  "note": "2026-10-17追加(全容量の裁定10/17)。Apple・ドコモ・SBは公式。auは記事で215800/236300と食い違い・楽天は記事226000＝公式未確認のため空欄／2026-10-26 見張り: au 空欄→236300（https://www.au.com/iphone/product/iphone-17/ 512GB）",
   "dsc": {
    "d": [
     {
@@ -668,6 +674,14 @@ var DEVICES = [
      "amount": 22000,
      "scope": "mnp",
      "cond": "他社からドコモへのりかえ（MNP）で購入（ページ表示は最大額・細かい条件は公式で要確認）。機種変更・新規契約の表示は割引なし"
+    }
+   ],
+   "a": [
+    {
+     "name": "au Online Shop お得割",
+     "amount": 22000,
+     "scope": "mnp",
+     "cond": "他社からauへのりかえ（MNP）でau Online Shopで購入（スマホミニプラン＋・povo1.0からの乗りかえは対象外・ページ表示は最大額・細かい条件は公式で要確認）"
     }
    ]
   }
@@ -708,6 +722,12 @@ var DEVICES = [
      "amount": 16500,
      "scope": "plan",
      "cond": "au回線の機種変更（4か月目以上）＋au PAY ゴールドカード（年会費11000円）。オンラインはau PAY残高で還元"
+    },
+    {
+     "name": "au Online Shop お得割",
+     "amount": 44000,
+     "scope": "mnp",
+     "cond": "他社からauへのりかえ（MNP）でau Online Shopで購入（スマホミニプラン＋・povo1.0からの乗りかえは対象外・ページ表示は最大額・細かい条件は公式で要確認）"
     }
    ]
   }
@@ -721,12 +741,12 @@ var DEVICES = [
   "official": 159800,
   "carrier": {
    "d": 187550,
-   "a": null,
+   "a": 186800,
    "s": 199440,
    "r": 155600
   },
   "est": [],
-  "note": "2026-10-17追加。Apple・ドコモ・SB・楽天(キャンペーンページ)は公式。auは記事186800で公式未確認のため空欄",
+  "note": "2026-10-17追加。Apple・ドコモ・SB・楽天(キャンペーンページ)は公式。auは記事186800で公式未確認のため空欄／2026-10-26 見張り: au 空欄→186800（https://www.au.com/iphone/product/iphone-17e/ 512GB）",
   "dsc": {
    "d": [
     {
@@ -734,6 +754,14 @@ var DEVICES = [
      "amount": 44000,
      "scope": "mnp",
      "cond": "他社からドコモへのりかえ（MNP）で購入（ページ表示は最大額・細かい条件は公式で要確認）。機種変更・新規契約の表示は割引なし"
+    }
+   ],
+   "a": [
+    {
+     "name": "au Online Shop お得割",
+     "amount": 44000,
+     "scope": "mnp",
+     "cond": "他社からauへのりかえ（MNP）でau Online Shopで購入（スマホミニプラン＋・povo1.0からの乗りかえは対象外・ページ表示は最大額・細かい条件は公式で要確認）"
     }
    ]
   }
@@ -761,6 +789,26 @@ var DEVICES = [
      "scope": "mnp",
      "cond": "他社からドコモへのりかえ（MNP）で購入（ページ表示は最大額・細かい条件は公式で要確認）。機種変更・新規契約の表示は割引なし"
     }
+   ],
+   "a": [
+    {
+     "name": "5G機種変更おトク割",
+     "amount": 5500,
+     "scope": "plan",
+     "cond": "au回線の機種変更（直近の購入機種を12カ月目以上）＋対象の料金プラン＋故障紛失サポート（有料）に加入（au Online Shop・ページ表示は最大額）"
+    },
+    {
+     "name": "au Online Shop お得割",
+     "amount": 22000,
+     "scope": "shinki",
+     "cond": "auで新規契約しau Online Shopで購入（スマホミニプラン＋は対象外・ページ表示は最大額・細かい条件は公式で要確認）"
+    },
+    {
+     "name": "au Online Shop お得割",
+     "amount": 22000,
+     "scope": "mnp",
+     "cond": "他社からauへのりかえ（MNP）でau Online Shopで購入（スマホミニプラン＋・povo1.0からの乗りかえは対象外・ページ表示は最大額・細かい条件は公式で要確認）"
+    }
    ]
   }
  },
@@ -779,7 +827,22 @@ var DEVICES = [
   },
   "est": [],
   "note": "2026-10-15追加(02_機種購入サポート・松田さん「256GBを買う人も多い」)。Googleストアは10/1に94900→107800(gazlog 10/1)。ドコモは10/9に105050→116930(ITmedia 10/9)。au/SB/楽天は9月下旬の額(gazlog 10/1)で10月の改定は未確認。補償は未取得／2026-10-16 見張り: ソフトバンク 110,880→126,000（https://www.softbank.jp/mobile/products/google-pixel/google-pixel-10a/）",
-  "dsc": {}
+  "dsc": {
+   "a": [
+    {
+     "name": "5G機種変更おトク割",
+     "amount": 5500,
+     "scope": "plan",
+     "cond": "au回線の機種変更（直近の購入機種を12カ月目以上）＋対象の料金プラン＋故障紛失サポート（有料）に加入（au Online Shop・ページ表示は最大額）"
+    },
+    {
+     "name": "au Online Shop お得割",
+     "amount": 16500,
+     "scope": "mnp",
+     "cond": "他社からauへのりかえ（MNP）でau Online Shopで購入（スマホミニプラン＋・povo1.0からの乗りかえは対象外・ページ表示は最大額・細かい条件は公式で要確認）"
+    }
+   ]
+  }
  },
  {
   "id": "ga57",
@@ -904,6 +967,18 @@ var DEVICES = [
      "amount": 33000,
      "scope": "plan",
      "cond": "au回線の機種変更（最大額・細かい条件は公式で要確認・2026-08-20〜10-31）"
+    },
+    {
+     "name": "au Online Shop お得割",
+     "amount": 33000,
+     "scope": "shinki",
+     "cond": "auで新規契約しau Online Shopで購入（スマホミニプラン＋は対象外・ページ表示は最大額・細かい条件は公式で要確認）"
+    },
+    {
+     "name": "au Online Shop お得割",
+     "amount": 44000,
+     "scope": "mnp",
+     "cond": "他社からauへのりかえ（MNP）でau Online Shopで購入（スマホミニプラン＋・povo1.0からの乗りかえは対象外・ページ表示は最大額・細かい条件は公式で要確認）"
     }
    ]
   }
@@ -949,6 +1024,12 @@ var DEVICES = [
      "amount": 16500,
      "scope": "plan",
      "cond": "au回線の機種変更（4か月目以上）＋au PAY ゴールドカード（年会費11000円）。オンラインはau PAY残高で還元"
+    },
+    {
+     "name": "au Online Shop お得割",
+     "amount": 44000,
+     "scope": "mnp",
+     "cond": "他社からauへのりかえ（MNP）でau Online Shopで購入（スマホミニプラン＋・povo1.0からの乗りかえは対象外・ページ表示は最大額・細かい条件は公式で要確認）"
     }
    ],
    "d": [
@@ -1038,6 +1119,76 @@ var DEVICES = [
     }
    ]
   }
+ },
+ {
+  "id": "ipduo",
+  "name": "iPhone Duo",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "256GB",
+  "official": 364800,
+  "carrier": {
+   "d": 436370,
+   "a": 419800,
+   "s": 419760,
+   "r": 433000
+  },
+  "est": [
+   "r"
+  ],
+  "note": "2026-10-23発売・2026-10-27追加(新機種枠＝04 10/24)。2026-10-24価格点検§1の公式(ドコモ=10/14掲載PDFの支払総額・au=10/14公式PDF・SB=価格比較ページ10/20基準・楽天=製品ページの最低価格)。Apple=10-10票。楽天は「433,000〜」の最低価格を256GBとみなした。補償は未取得",
+  "dsc": {}
+ },
+ {
+  "id": "ipduo512",
+  "name": "iPhone Duo 512GB",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "512GB",
+  "official": 399800,
+  "carrier": {
+   "d": 477950,
+   "a": 459800,
+   "s": null,
+   "r": null
+  },
+  "est": [],
+  "note": "2026-10-27追加。SB・楽天は公式で未確認のため空欄(記事の目安 SB 460,080/楽天 474,800は使わない)",
+  "dsc": {}
+ },
+ {
+  "id": "ipduo1t",
+  "name": "iPhone Duo 1TB",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "1TB",
+  "official": 469800,
+  "carrier": {
+   "d": 563310,
+   "a": 534800,
+   "s": null,
+   "r": null
+  },
+  "est": [],
+  "note": "2026-10-27追加。同上(目安 SB 540,720/楽天 547,400)",
+  "dsc": {}
+ },
+ {
+  "id": "ipduo2t",
+  "name": "iPhone Duo 2TB",
+  "os": "iphone",
+  "tier": "B",
+  "cap": "2TB",
+  "official": 574800,
+  "carrier": {
+   "d": 677160,
+   "a": 649800,
+   "s": null,
+   "r": null
+  },
+  "est": [],
+  "note": "2026-10-27追加。同上(目安 SB 661,680/楽天 659,600)",
+  "dsc": {}
  },
  {
   "id": "ip17pro",
@@ -1165,6 +1316,18 @@ var DEVICES = [
      "amount": 16500,
      "scope": "plan",
      "cond": "au回線の機種変更（4か月目以上）＋au PAY ゴールドカード（年会費11000円）。オンラインはau PAY残高で還元"
+    },
+    {
+     "name": "スペシャルセール",
+     "amount": 27500,
+     "scope": "plan",
+     "cond": "au回線の機種変更（直近の購入機種を12カ月目以上・iPhone Airへは30カ月目以上）＋対象の料金プラン＋故障紛失サポート（有料）に加入（au Online Shop スペシャルセール・ページ表示は最大額）"
+    },
+    {
+     "name": "au Online Shop お得割",
+     "amount": 44000,
+     "scope": "mnp",
+     "cond": "他社からauへのりかえ（MNP）でau Online Shopで購入（スマホミニプラン＋・povo1.0からの乗りかえは対象外・ページ表示は最大額・細かい条件は公式で要確認）"
     }
    ]
   }
@@ -1198,6 +1361,20 @@ var DEVICES = [
      "scope": "mnp",
      "cond": "他社からドコモへのりかえ（MNP）で購入（ページ表示は最大額・細かい条件は公式で要確認）。機種変更は別行（22,000）・新規契約は割引なし"
     }
+   ],
+   "a": [
+    {
+     "name": "スペシャルセール",
+     "amount": 27500,
+     "scope": "plan",
+     "cond": "au回線の機種変更（直近の購入機種を12カ月目以上・iPhone Airへは30カ月目以上）＋対象の料金プラン＋故障紛失サポート（有料）に加入（au Online Shop スペシャルセール・ページ表示は最大額）"
+    },
+    {
+     "name": "au Online Shop お得割",
+     "amount": 22000,
+     "scope": "mnp",
+     "cond": "他社からauへのりかえ（MNP）でau Online Shopで購入（スマホミニプラン＋・povo1.0からの乗りかえは対象外・ページ表示は最大額・細かい条件は公式で要確認）"
+    }
    ]
   }
  },
@@ -1229,6 +1406,20 @@ var DEVICES = [
      "amount": 44000,
      "scope": "mnp",
      "cond": "他社からドコモへのりかえ（MNP）で購入（ページ表示は最大額・細かい条件は公式で要確認）。機種変更は別行（22,000）・新規契約は割引なし"
+    }
+   ],
+   "a": [
+    {
+     "name": "スペシャルセール",
+     "amount": 33000,
+     "scope": "plan",
+     "cond": "au回線の機種変更（直近の購入機種を12カ月目以上・iPhone Airへは30カ月目以上）＋対象の料金プラン＋故障紛失サポート（有料）に加入（au Online Shop スペシャルセール・ページ表示は最大額）"
+    },
+    {
+     "name": "au Online Shop お得割",
+     "amount": 22000,
+     "scope": "mnp",
+     "cond": "他社からauへのりかえ（MNP）でau Online Shopで購入（スマホミニプラン＋・povo1.0からの乗りかえは対象外・ページ表示は最大額・細かい条件は公式で要確認）"
     }
    ]
   }
@@ -1295,6 +1486,26 @@ var DEVICES = [
      "amount": 36900,
      "scope": "mnp",
      "cond": "他社から楽天モバイルへのりかえ（MNP）で申し込んで購入（申し込み内容・支払い方法で適用キャンペーンが異なる・細かい条件は公式で要確認）"
+    }
+   ],
+   "a": [
+    {
+     "name": "5G機種変更おトク割",
+     "amount": 5500,
+     "scope": "plan",
+     "cond": "au回線の機種変更（直近の購入機種を12カ月目以上）＋対象の料金プラン＋故障紛失サポート（有料）に加入（au Online Shop・ページ表示は最大額）"
+    },
+    {
+     "name": "au Online Shop お得割",
+     "amount": 11000,
+     "scope": "shinki",
+     "cond": "auで新規契約しau Online Shopで購入（スマホミニプラン＋は対象外・ページ表示は最大額・細かい条件は公式で要確認）"
+    },
+    {
+     "name": "au Online Shop お得割",
+     "amount": 44000,
+     "scope": "mnp",
+     "cond": "他社からauへのりかえ（MNP）でau Online Shopで購入（スマホミニプラン＋・povo1.0からの乗りかえは対象外・ページ表示は最大額・細かい条件は公式で要確認）"
     }
    ]
   }
@@ -1593,6 +1804,10 @@ var HOSHO = {
    "loss": "この機種はApple公式に盗難・紛失プランのみ掲載"
   }
  },
+ "ipduo": {},
+ "ipduo512": {},
+ "ipduo1t": {},
+ "ipduo2t": {},
  "ip17pro": {
   "d": {
    "nm": "ドコモ smartあんしん補償",
