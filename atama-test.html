@@ -1805,6 +1805,60 @@ body.sh-guest .sh-mem-only { display: none !important; }
 #scr-seki .pad { width: 100%; box-sizing: border-box; }
 #manabi-panel .log-row .gimg { width: 48px; height: 48px; flex-shrink: 0; }
 .sh-door b { white-space: nowrap; font-size: 24px !important; }
+/* ===== v1.66 iPadのSafari（横幅1024・アドレスとタブで高さ680ほど）でも崩れないように
+   ①高さは見えている範囲（dvh）で計る ②力の名前と熟語は2行に分ける ③扉の文字は幅に合わせて縮める
+   ④高さが足りない画面では、今日のメニューを詰める ===== */
+.screen { min-height: calc(100dvh - 88px) !important; }
+#scr-home { height: calc(100dvh - 88px); }
+#scr-brain .pad, #scr-qr .pad { height: calc(100dvh - 88px); }
+#scr-nums .numgrid { width: min(100%, calc(100dvh - 290px)) !important; }
+#scr-cards .cardgrid { width: min(100%, calc((100dvh - 280px) * 1.25)) !important; }
+#ex-body { min-height: calc(100dvh - 88px - 104px - 60px); }
+#sh-course .cs-step .nt-lb { display: flex; flex-direction: column; align-items: center; gap: 0; line-height: 1.25; }
+#sh-course .cs-step .nt-lb b { font-size: clamp(19px, 2.1vw, 23px) !important; white-space: nowrap; }
+#sh-course .cs-step .nt-lb i { font-size: 15px !important; font-style: normal; color: #6B7572; }
+#sh-course .cs-stx { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; }
+.sh-door { min-width: 0; padding: 14px 18px; gap: 14px; }
+.sh-door > span:last-child { min-width: 0; }
+.sh-door b { white-space: normal !important; font-size: clamp(19px, 2.05vw, 24px) !important; line-height: 1.3; }
+.sh-door span.s { font-size: clamp(15px, 1.6vw, 18px); line-height: 1.45; }
+@media (max-width: 1100px) { .sh-door .imgs .gimg { width: 40px; height: 40px; } .sh-door .gimg.door { width: 52px; height: 52px; } #sh-course .cs-step .gimg { width: 72px; height: 72px; } }
+@media (max-height: 760px) {
+  #sh-menu { gap: 10px !important; }
+  .sh-greet { font-size: 20px; } .sh-greet b { font-size: 22px; }
+  #sh-course .course-card { padding: 16px 22px 16px !important; gap: 8px !important; }
+  #sh-course .cs-hd b { font-size: 28px; } #sh-course .cs-aim { font-size: 19px; }
+  #sh-course .cs-step { padding: 8px 6px !important; gap: 2px; }
+  #sh-course .cs-step .gimg { width: 60px; height: 60px; }
+  #sh-course .cs-step .cs-g { font-size: 15px; }
+  #sh-course .cs-foot .btn { height: 60px; font-size: 24px !important; }
+  #sh-course .cs-note { font-size: 15px; }
+  .sh-door { padding: 8px 16px; } .sh-door span.s { font-size: 15px; }
+  .sh-door .gimg.door { width: 44px; height: 44px; } .sh-door .imgs .gimg { width: 34px; height: 34px; }
+  #sh-menu .sh-col { gap: 10px !important; }
+}
+@media (max-width: 1260px) { .sh-door .imgs .gimg + .gimg { display: none; } }
+@media (max-height: 760px) {
+  #scr-cat-asobi .gcard { padding-top: 8px !important; padding-bottom: 8px !important; min-height: 0 !important; gap: 4px !important; }
+  #scr-cat-asobi .gcard .gimg { width: 70px !important; height: 70px !important; }
+  #scr-brain .pad { padding-top: 12px !important; padding-bottom: 112px !important; gap: 10px !important; }
+  #scr-brain .bt-hd p { font-size: 22px; } #scr-brain .bt-hd span { font-size: 15px; }
+  #scr-brain .bt { padding: 6px 8px 8px; } #scr-brain .bt .gimg { width: 44px; height: 44px; }
+  #scr-brain .bt-n { font-size: 20px; } #scr-brain .bt-lv b { font-size: 38px; } #scr-brain .bt-lv small { font-size: 16px; }
+  #scr-brain .bt-up { font-size: 15px; padding: 1px 10px; } #scr-brain .bt-sub { font-size: 14px; }
+  #scr-brain .bt.rec .sh-pbtn { height: 46px; font-size: 19px; margin-top: 4px; }
+}
+#br-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 14px; }
+@media (max-height: 760px) {
+  #br-body { gap: 8px; }
+  #sum-stamp { padding: 16px 20px !important; gap: 8px !important; }
+  #sum-stamp .cell { transform: scale(.8); transform-origin: left top; margin-bottom: -14px; }
+  #sum-stamp .tx .b { font-size: 24px !important; } #sum-stamp .tx .c, #sum-stamp .tx .a { font-size: 17px !important; }
+  .sh-dots { gap: 6px; max-width: 220px; }
+  #sh-sum-hd b { font-size: 30px; }
+  #done-panel { padding: 14px 20px !important; } #done-panel .done-row { padding: 6px 0 !important; }
+  #sum-memo { padding: 12px 18px !important; }
+}
 </style>
 </head>
 <body>
@@ -2141,7 +2195,7 @@ body.sh-guest .sh-mem-only { display: none !important; }
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.65（ここスマ自習システム・共通の型＋中身の画面＋同じ形の結果＋ご褒美の整理＋スタンプ＝ご来店＋7つの力は大きな数字＋見た目の統一＋スマホの練習の整理＋呼び名の総点検）<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.66（ここスマ自習システム・共通の型＋中身の画面＋同じ形の結果＋ご褒美の整理＋スタンプ＝ご来店＋7つの力は大きな数字＋見た目の統一＋スマホの練習の整理＋呼び名の総点検＋iPadのSafari対応）<span id="fit-info"></span></div>
   </div>
 </div>
 
