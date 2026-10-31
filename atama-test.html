@@ -1859,6 +1859,10 @@ body.sh-guest .sh-mem-only { display: none !important; }
   #done-panel { padding: 14px 20px !important; } #done-panel .done-row { padding: 6px 0 !important; }
   #sum-memo { padding: 12px 18px !important; }
 }
+/* v1.67 「スタッフへのひとこと」は出さない（2026-10-31 松田さん裁定・声かけはスタッフがその場で） */
+#sum-memo { display: none !important; }
+#scr-summary .pad { grid-template-areas: "hd hd" "last last" "done stamp" "note note" !important; }
+#scr-summary:not(.sh-mid) .staffnote { display: none !important; }
 </style>
 </head>
 <body>
@@ -2195,7 +2199,7 @@ body.sh-guest .sh-mem-only { display: none !important; }
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.66（ここスマ自習システム・共通の型＋中身の画面＋同じ形の結果＋ご褒美の整理＋スタンプ＝ご来店＋7つの力は大きな数字＋見た目の統一＋スマホの練習の整理＋呼び名の総点検＋iPadのSafari対応）<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.67（ここスマ自習システム・共通の型＋中身の画面＋同じ形の結果＋ご褒美の整理＋スタンプ＝ご来店＋7つの力は大きな数字＋見た目の統一＋スマホの練習の整理＋呼び名の総点検＋iPadのSafari対応＋ひとことを外す）<span id="fit-info"></span></div>
   </div>
 </div>
 
