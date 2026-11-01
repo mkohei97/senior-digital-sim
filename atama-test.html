@@ -1924,6 +1924,73 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
 #scr-brain .bt .gimg { width: 60px !important; height: 60px !important; }
 .kioku-tile .num { background: var(--c-acc) !important; }
 @media (max-height: 760px) { #sh-course .cs-step .gimg { width: 68px !important; height: 68px !important; } #scr-brain .bt .gimg { width: 50px !important; height: 50px !important; } }
+
+/* ===== v1.69 文字を減らして主役を大きく・余白を整える ===== */
+/* 消す補足 */
+#sh-greet, #sh-course .cs-aim, #sh-course .cs-note, .sh-door span.s, .sh-big p, #sh-course .cs-step .nt-lb i,
+#sh-sum-hd span, #sum-stamp .tx .a, #scr-summary .staffnote, .bt-hd span, #scr-brain .bt:not(.rec) .bt-sub,
+.rs-tx span, #renshu-hint, #renshu-qr .alt, #lead-steps .lead-step .tx span, .tp-note, .drl-intro,
+#manabi-panel .log-note, #manabi-panel .ln, .rs-hd span:empty { display: none !important; }
+.tabi-panel .side > div[style*="font-size:17px"] { display: none !important; }
+/* 今日のメニュー：①〜④＝絵・種目名・力の札 */
+#sh-menu { gap: 0 !important; }
+#sh-course .course-card { gap: 20px !important; padding: 26px 28px 28px !important; }
+#sh-course .cs-hd b { font-size: 38px !important; }
+#sh-course .cs-steps { gap: 16px !important; margin-top: 0 !important; }
+#sh-course .cs-step { position: relative; justify-content: center !important; gap: 12px !important; padding: 22px 8px 18px !important; }
+#sh-course .cs-step .cs-n { position: absolute; top: 12px !important; left: 12px !important; width: 32px !important; height: 32px !important; font-size: 17px !important; }
+#sh-course .cs-step .gimg { width: 104px !important; height: 104px !important; }
+#sh-course .cs-stx { gap: 8px !important; }
+#sh-course .cs-step .cs-g { order: -1; font-family: var(--f-disp); font-size: 24px !important; font-weight: 700 !important; color: var(--c-ink) !important; line-height: 1.3; text-align: center; }
+#sh-course .cs-step .nt-lb { display: block !important; }
+#sh-course .cs-step .nt-lb b.sh-pw { display: inline-block; padding: 3px 14px; border-radius: 999px; background: var(--pw-bg); color: var(--pw-ink) !important; font-size: 18px !important; font-weight: 700; }
+#sh-course .cs-foot .btn { height: 72px !important; font-size: 28px !important; }
+/* 扉：絵と名前だけ、名前を大きく */
+.sh-door { gap: 20px !important; padding: 16px 22px !important; }
+.sh-door b { font-family: var(--f-disp); font-size: 26px !important; white-space: nowrap !important; }
+.sh-door .imgs .gimg, .sh-door .gimg.door { width: 76px !important; height: 76px !important; }
+/* 最初の画面：見出しを大きく */
+.sh-big { gap: 40px !important; }
+.sh-big h1 { font-family: var(--f-disp); font-size: 46px !important; line-height: 1.3 !important; }
+.sh-big .sh-pbtn { height: 80px; font-size: 28px; padding: 0 52px; }
+/* 7つの力：数字をもう一段大きく */
+#scr-brain .bt { gap: 6px !important; }
+#scr-brain .bt-n { font-size: 24px !important; }
+#scr-brain .bt-lv b { font-size: 56px !important; }
+#scr-brain .bt .gimg { width: 68px !important; height: 68px !important; }
+#scr-brain .bt-up { font-size: 17px !important; }
+/* スマホの練習：名前を大きく */
+.rs-tx b { font-size: 28px !important; }
+.rs-t .gimg { width: 120px !important; height: 120px !important; }
+.rs-t { min-height: 0 !important; }
+.rs-hd span { color: var(--c-ink) !important; font-weight: 700; }
+/* QR：手順は太字の1行だけ */
+#lead-steps .lead-step { padding: 18px 22px !important; } #lead-steps .lead-step .tx b { font-size: 26px !important; }
+/* 結果：補足は本文の濃さで */
+.sh-res > div > span:not(:first-child) { color: var(--c-ink) !important; }
+@media (max-height: 760px) {
+  #sh-course .course-card { gap: 14px !important; padding: 18px 22px 20px !important; }
+  #sh-course .cs-hd b { font-size: 32px !important; }
+  #sh-course .cs-step { padding: 14px 6px 12px !important; gap: 8px !important; }
+  #sh-course .cs-step .gimg { width: 80px !important; height: 80px !important; }
+  #sh-course .cs-step .cs-g { font-size: 21px !important; }
+  #sh-course .cs-step .nt-lb b.sh-pw { font-size: 16px !important; padding: 2px 12px; }
+  #sh-course .cs-foot .btn { height: 60px !important; font-size: 25px !important; }
+  .sh-door { padding: 10px 18px !important; } .sh-door b { font-size: 23px !important; }
+  .sh-door .imgs .gimg, .sh-door .gimg.door { width: 60px !important; height: 60px !important; }
+  #scr-brain .bt-lv b { font-size: 44px !important; } #scr-brain .bt .gimg { width: 54px !important; height: 54px !important; }
+  .rs-t .gimg { width: 96px !important; height: 96px !important; }
+  .sh-big h1 { font-size: 40px !important; }
+}
+#sh-homebar .note { display: none !important; }
+.sh-res .leaf i { display: none !important; }
+.sh-res i { color: var(--c-ink) !important; font-style: normal; }
+.sh-res > div > span { color: var(--c-ink) !important; font-weight: 700; }
+#sh-course .cs-step .cs-g { white-space: nowrap; font-size: clamp(18px, 2vw, 24px) !important; }
+.sh-big .sh-pbtn { white-space: nowrap; padding: 0 36px !important; }
+@media (max-width: 1100px) { .sh-big h1 { font-size: 38px !important; } .sh-big { gap: 28px !important; padding: 32px 34px !important; } }
+.rs-tx b { font-size: clamp(22px, 2.4vw, 28px) !important; }
+#scr-brain .bt.rec .gimg { width: 56px !important; height: 56px !important; }
 </style>
 </head>
 <body>
@@ -2260,7 +2327,7 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.68（ここスマ自習システム・共通の型＋中身の画面＋同じ形の結果＋ご褒美の整理＋スタンプ＝ご来店＋7つの力は大きな数字＋見た目の統一＋スマホの練習の整理＋呼び名の総点検＋iPadのSafari対応＋ひとことを外す＋デザインの仕上げ）<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.69（ここスマ自習システム・共通の型＋中身の画面＋同じ形の結果＋ご褒美の整理＋スタンプ＝ご来店＋7つの力は大きな数字＋見た目の統一＋スマホの練習の整理＋呼び名の総点検＋iPadのSafari対応＋ひとことを外す＋デザインの仕上げ＋文字を減らす）<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -21463,7 +21530,7 @@ function shBuild() {
         '<div class="sh-phone"><svg width="140" height="226" viewBox="0 0 150 240" fill="none" stroke="#0B4F42" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="会員証を表示したスマホ"><rect x="10" y="6" width="130" height="228" rx="20" fill="#FFFFFF"/><path d="M60 22h30"/><rect x="35" y="70" width="80" height="80" rx="6"/><rect x="47" y="82" width="20" height="20"/><rect x="83" y="82" width="20" height="20"/><rect x="47" y="118" width="20" height="20"/><path d="M83 118h8v8M99 126v12h-16"/><path d="M45 180h60M55 198h40"/></svg></div>' +
       '</section>' +
       '<div class="sh-col">' +
-        '<section class="sh-card" style="flex:1;padding:30px;display:flex;flex-direction:column;gap:12px;"><b style="font-size:28px;">会員証なしで使う</b><span style="font-size:20px;line-height:1.7;color:#3F4A47;">体験の方はこちら。記録は残りません。</span>' +
+        '<section class="sh-card" style="flex:1;padding:30px;display:flex;flex-direction:column;gap:12px;"><b style="font-size:28px;">会員証なしで使う</b><span style="font-size:20px;line-height:1.7;color:#3F4A47;">記録は残りません</span>' +
           '<button type="button" class="sh-sbtn" style="margin-top:auto;" onclick="shStartGuest()">このまま使う</button></section>' +
         '<div class="sh-card sh-tree" onclick="showTree()"><span class="ic"><svg viewBox="0 0 24 24"><use class="skin-use" href="#ic-sakura-a"></use></svg></span><div><span class="sh-tree-name">みんなの紅葉</span><b class="sh-tree-line"></b></div></div>' +
       '</div>' +
@@ -21808,7 +21875,7 @@ function shSync() {
           return '<section class="rs-sec"><div class="rs-hd"><span class="gimg gi-' + ic + '" aria-hidden="true"></span><div><b>' + ttl + '</b><span>' + note + '</span></div></div>' +
             TOP.filter(function (x) { return x.sec === k; }).map(function (x) { return tile(RENSHU_MENU[x.i], x.i, x.img, x.d); }).join('') + '</section>';
         };
-        list.innerHTML = '<div class="rs-grid">' + sec('tab', 'このタブレットで練習', 'そのまま画面を押して始められます', 'tablet') + sec('own', 'ご自分のスマホで練習', 'スマホを出してください。QRコードで開きます', 'qr') + '</div>';
+        list.innerHTML = '<div class="rs-grid">' + sec('tab', 'このタブレットで練習', '', 'tablet') + sec('own', 'ご自分のスマホで練習', 'スマホを出してください', 'qr') + '</div>';
         greet.textContent = who + '練習を選んでください。';
       } else {
         list.innerHTML = '<div class="rs-moji">' + RENSHU_MOJI.map(function (r, i) { return tile(r, i, MOJI_IMG[i] || 'moji', r.desc); }).join('') + '</div><span style="display:none" onclick="renshuExit()"></span>';
@@ -21840,6 +21907,27 @@ function shSync() {
         var name = b.textContent.trim(), key = null; for (var k in LOG_NAME) if (LOG_NAME[k] === name) key = k;
         if (key && GK[key]) { var sp = document.createElement('span'); sp.className = 'gimg gi-' + GK[key]; sp.setAttribute('aria-hidden', 'true'); ch.parentNode.replaceChild(sp, ch); }
       });
+    } catch (e) {} };
+  } catch (e) {}
+})();
+</script>
+<script>
+/* ===== v1.69 文字を減らして、主役を大きく（2026-11-01 松田さん）
+   決まり＝薄い字の補足は原則なし。操作に必要なことだけ、本文と同じ濃さで1行。
+   今日の脳トレの①〜④＝絵＋種目名（太字）＋力の名前（力の色の札）。 ===== */
+(function () {
+  try {
+    var _rc2 = renderCourseCard;
+    renderCourseCard = function () { _rc2.apply(this, arguments); try {
+      var st = document.querySelectorAll('#course-card .cs-step');
+      course.items.forEach(function (it, i) {
+        var b = BRAIN.filter(function (x) { return x.d === it.d; })[0], lb = st[i] && st[i].querySelector('.nt-lb b');
+        if (b && lb) { lb.style.setProperty('--pw-bg', b.chip); lb.style.setProperty('--pw-ink', b.ink); lb.classList.add('sh-pw'); }
+      });
+    } catch (e) {} };
+    var _rs3 = renderSeki;
+    renderSeki = function () { _rs3.apply(this, arguments); try {
+      var t = document.getElementById('rec-total'); if (t && t.parentNode) { var sp = t.parentNode; while (t.nextSibling) sp.removeChild(t.nextSibling); }
     } catch (e) {} };
   } catch (e) {}
 })();
