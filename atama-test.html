@@ -1991,6 +1991,8 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
 @media (max-width: 1100px) { .sh-big h1 { font-size: 38px !important; } .sh-big { gap: 28px !important; padding: 32px 34px !important; } }
 .rs-tx b { font-size: clamp(22px, 2.4vw, 28px) !important; }
 #scr-brain .bt.rec .gimg { width: 56px !important; height: 56px !important; }
+/* v1.70 左右の見出しをそろえる（スマホの練習） */
+.rs-hd { min-height: 64px; box-sizing: border-box; }
 </style>
 </head>
 <body>
@@ -2327,7 +2329,7 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.69（ここスマ自習システム・共通の型＋中身の画面＋同じ形の結果＋ご褒美の整理＋スタンプ＝ご来店＋7つの力は大きな数字＋見た目の統一＋スマホの練習の整理＋呼び名の総点検＋iPadのSafari対応＋ひとことを外す＋デザインの仕上げ＋文字を減らす）<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.70（ここスマ自習システム・共通の型＋中身の画面＋同じ形の結果＋ご褒美の整理＋スタンプ＝ご来店＋7つの力は大きな数字＋見た目の統一＋スマホの練習の整理＋呼び名の総点検＋iPadのSafari対応＋ひとことを外す＋デザインの仕上げ＋文字を減らす）<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -21875,7 +21877,7 @@ function shSync() {
           return '<section class="rs-sec"><div class="rs-hd"><span class="gimg gi-' + ic + '" aria-hidden="true"></span><div><b>' + ttl + '</b><span>' + note + '</span></div></div>' +
             TOP.filter(function (x) { return x.sec === k; }).map(function (x) { return tile(RENSHU_MENU[x.i], x.i, x.img, x.d); }).join('') + '</section>';
         };
-        list.innerHTML = '<div class="rs-grid">' + sec('tab', 'このタブレットで練習', '', 'tablet') + sec('own', 'ご自分のスマホで練習', 'スマホを出してください', 'qr') + '</div>';
+        list.innerHTML = '<div class="rs-grid">' + sec('tab', 'このタブレットで練習', '', 'tablet') + sec('own', 'ご自分のスマホで練習', '', 'qr') + '</div>';
         greet.textContent = who + '練習を選んでください。';
       } else {
         list.innerHTML = '<div class="rs-moji">' + RENSHU_MOJI.map(function (r, i) { return tile(r, i, MOJI_IMG[i] || 'moji', r.desc); }).join('') + '</div><span style="display:none" onclick="renshuExit()"></span>';
