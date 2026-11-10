@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>脳活クラブの進行（スタッフ用）</title>
+<style>
+:root{--bg:#ECEFED;--ink:#1F2A28;--sub:#3F4A47;--pri:#0F766E;--pri-d:#0B4F42;--card:#FFFFFF;--warn:#B45309;--warn-bg:#FDF0DC}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Noto Sans CJK JP",sans-serif;font-size:20px;line-height:1.6}
+main{max-width:1180px;margin:0 auto;padding:20px 24px 60px;display:flex;flex-direction:column;gap:18px}
+h1{margin:0;font-size:30px}
+.card{background:var(--card);border-radius:24px;box-shadow:0 10px 28px rgba(31,42,40,.08);padding:22px 26px}
+.row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+input[type=password]{font-size:24px;padding:12px 16px;border:2px solid #C9C3B3;border-radius:14px;width:220px}
+button{font-family:inherit;cursor:pointer}
+.go{height:68px;padding:0 44px;border-radius:999px;border:none;background:var(--pri);color:#fff;font-size:26px;font-weight:700}
+.sub{height:60px;padding:0 28px;border-radius:999px;border:2px solid var(--pri);background:#fff;color:var(--pri-d);font-size:22px;font-weight:700}
+.pw{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}
+.pw button{height:64px;border-radius:16px;border:2px solid #D9D4C7;background:#fff;font-size:21px;font-weight:700;color:var(--ink)}
+.pw button.on{border-color:var(--pri);background:#E6F2EF;color:var(--pri-d)}
+.ck{display:inline-flex;align-items:center;gap:10px;font-size:22px;font-weight:700}
+.ck input{width:28px;height:28px}
+.st{font-size:24px;font-weight:700}
+.st.on{color:var(--pri-d)}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.dv{background:#fff;border-radius:20px;box-shadow:0 6px 18px rgba(31,42,40,.07);padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.dv b{font-size:24px}
+.dots{display:flex;gap:6px}.dots i{flex:1;height:12px;border-radius:6px;background:#E3DFD2}.dots i.d{background:var(--pri)}
+.dv .g{font-size:19px;color:var(--sub)}
+.dv.warn{box-shadow:0 0 0 3px var(--warn)}.dv .w{color:var(--warn);font-weight:700;font-size:19px}
+.dv.done{opacity:.7}
+.msg{font-size:19px;color:var(--sub)}
+.grid .msg{grid-column:1/-1}
+.err{color:#B42318;font-weight:700}
+@media(max-width:900px){.pw{grid-template-columns:repeat(4,minmax(0,1fr))}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style></head><body><main>
+<h1>脳活クラブの進行</h1>
+<div class="card" id="login"><div class="row"><span>スタッフの合言葉</span><input type="password" id="pass" autocomplete="off"><button class="sub" onclick="enter()">開く</button><span id="lerr" class="err"></span></div></div>
+<div id="app" style="display:none;flex-direction:column;gap:18px">
+  <div class="card"><div class="row" style="justify-content:space-between"><span class="st" id="state">クラブは始まっていません</span><span class="row"><button class="go" id="bstart" onclick="start()">今日のクラブを始める</button><button class="sub" id="bend" onclick="end()" style="display:none">終える</button></span></div></div>
+  <div class="card" id="setup"><div style="margin-bottom:10px;font-weight:700">今週の力</div><div class="pw" id="pw"></div>
+    <div class="row" style="margin-top:14px"><label class="ck"><input type="checkbox" id="chk">チェック週間（全員に定期チェック）</label></div></div>
+  <div class="card"><div class="row" style="justify-content:space-between;margin-bottom:12px"><b>タブレットの進み具合</b><span class="msg" id="upd"></span></div><div class="grid" id="grid"><span class="msg">クラブを始めると、各タブレットの進み具合がここに出ます。</span></div></div>
+</div>
+</main>
+<script>
+var SUPA_URL = 'https://kravngifhbxywmpoydur.supabase.co', SUPA_KEY = 'sb_publishable_kxqrgfxUIyZk-pQmU8Jpbw_r9lmxb1E';
+var PW = [['kiku','聞き取り力'],['yomu','読解力'],['oboeru','記憶力'],['mitsukeru','注意力'],['kazu','計算力'],['kotoba','想起力'],['handan','判断力']];
+var GN = { kiki:'音読聞き取り', yomu:'文章読み取り', kioku:'順番記憶', cards:'絵合わせ', tile:'数字探し', otsuri:'お釣り暗算', kofun:'ふるさとクイズ', kotowaza:'ことわざクイズ', kami:'百人一首', handan:'とっさの判断', chk:'チェック' };
+var pass = '', power = 'oboeru', timer = null;
+function rpc(fn, args) { return fetch(SUPA_URL + '/rest/v1/rpc/' + fn, { method:'POST', headers:{'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}, body:JSON.stringify(args||{}) }).then(function (r) { return r.json(); }); }
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function pwRender(){ document.getElementById('pw').innerHTML = PW.map(function(p){ return '<button class="'+(p[0]===power?'on':'')+'" onclick="power=\''+p[0]+'\';pwRender()">'+p[1]+'</button>'; }).join(''); }
+function enter(){ pass = document.getElementById('pass').value.trim(); rpc('staff_club_status',{p_pass:pass}).then(function(r){ if(!r||!r.ok){ document.getElementById('lerr').textContent = (r&&r.error==='locked')?'しばらく待ってから':'合言葉が違います'; return; } try{sessionStorage.setItem('ccp',pass);}catch(e){} document.getElementById('login').style.display='none'; document.getElementById('app').style.display='flex'; pwRender(); paint(r); timer=setInterval(load,5000); }).catch(function(){ document.getElementById('lerr').textContent='つながりません'; }); }
+function load(){ rpc('staff_club_status',{p_pass:pass}).then(paint).catch(function(){ document.getElementById('upd').textContent='つながりません'; }); }
+function paint(r){
+  if(!r||!r.ok) return;
+  var on = !!r.on, name = on ? (PW.filter(function(p){return p[0]===r.power;})[0]||['',''])[1] : '';
+  document.getElementById('state').textContent = on ? ('クラブの最中です（今週は'+name+(r.check?'・チェック週間':'')+'）') : 'クラブは始まっていません';
+  document.getElementById('state').className = 'st' + (on?' on':'');
+  document.getElementById('bstart').style.display = on?'none':'inline-flex'; document.getElementById('bend').style.display = on?'inline-flex':'none';
+  document.getElementById('setup').style.display = on?'none':'block';
+  var g = document.getElementById('grid');
+  if(!on){ g.innerHTML='<span class="msg">クラブを始めると、各タブレットの進み具合がここに出ます。</span>'; document.getElementById('upd').textContent=''; return; }
+  var ds = (r.devices||[]).filter(function(d){ return d.seen_sec < 600; });
+  g.innerHTML = ds.length ? ds.map(function(d){
+    var idle = d.idle_sec >= 90 && !d.ended && d.step < d.total, dots=''; for(var i=0;i<d.total;i++) dots += '<i class="'+(i<d.step?'d':'')+'"></i>';
+    return '<div class="dv'+(idle?' warn':'')+(d.ended?' done':'')+'"><b>'+esc(d.nickname || (d.member_id? '会員'+d.member_id : '体験の方'))+'</b><div class="dots">'+dots+'</div><span class="g">'+(d.ended?'終わりました':(d.step>=d.total?'4本できました':(d.step+1)+'本目　'+esc(GN[d.game]||'')))+'</span>'+(idle?'<span class="w">手が止まっています（'+Math.round(d.idle_sec/60)+'分）</span>':'')+'</div>';
+  }).join('') : '<span class="msg">タブレットからの知らせを待っています。各タブレットで会員証をかざして始めてください。</span>';
+  var t=new Date(); document.getElementById('upd').textContent = t.getHours()+':'+('0'+t.getMinutes()).slice(-2)+':'+('0'+t.getSeconds()).slice(-2)+' 更新';
+}
+function start(){ rpc('staff_club_start',{p_pass:pass,p_power:power,p_check:document.getElementById('chk').checked}).then(function(r){ if(r&&r.ok) load(); }); }
+function end(){ rpc('staff_club_end',{p_pass:pass}).then(function(){ load(); }); }
+try{ var sp=sessionStorage.getItem('ccp'); if(sp){ document.getElementById('pass').value=sp; enter(); } }catch(e){}
+document.getElementById('pass').addEventListener('keydown',function(e){ if(e.key==='Enter') enter(); });
+</script></body></html>

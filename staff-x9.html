@@ -174,7 +174,7 @@
     <!-- 今日の教室(講師画面) -->
     <div id="pane-kyoshitsu" class="hidden">
       <div class="card">
-        <b style="font-size:18px;">教室スタンプ</b><span style="font-size:14px;color:var(--sub);margin-left:8px;">会員証で読み取ると、旅のスタンプが1つ進みます（1日1つ）</span>
+        <b style="font-size:18px;">スタンプのQR（教室で）</b><span style="font-size:14px;color:var(--sub);margin-left:8px;">会員証で読み取ると、スタンプが1つ押されます（お店に来た日に1日1つ。タブレットでかざした日と同じ1つ）</span>
         <div class="row" style="margin-top:10px;"><span style="font-size:14px;color:var(--sub);">押す人</span><span class="row" id="stp-names"></span><input type="text" id="stp-by" maxlength="8" placeholder="名前" style="max-width:150px;"></div>
         <div class="row right" style="margin-top:10px;"><button class="btn" onclick="stampQrShow()">スタンプのQRを出す</button></div>
         <div class="msg" id="stp-msg"></div>
@@ -232,7 +232,7 @@
         <div class="lk-item"><div><b>受付・記録</b><small>受付・予約・進行中・お客さまの記録・ひかえ印刷（v3.0）。@cocosuma.jp でログイン</small></div><a class="btn small ghost" href="https://script.google.com/a/macros/cocosuma.jp/s/AKfycbwJdP6fZbUAtamQUjhKTSkWVkEUo6OGB34jk53EhoSMg2OyJ0KcwC86JiDl_W5sarALIg/exec" target="_blank" rel="noopener">開く</a></div>
         <div class="lk-item"><div><b>サービスのご案内（タブレット）</b><small>メニューと各サービスの「含まれるもの／含まれないもの」。申込み前にお客さまと一緒に見る</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/annai-x11.html" target="_blank" rel="noopener">開く</a></div>
         <div class="lk-item"><div><b>料金シミュレーション</b><small>プラン・買い方・総費用をならべる。印刷でお渡し1枚</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/ryokin-sim-x7.html" target="_blank" rel="noopener">開く</a></div>
-        <div class="lk-item"><div><b>みんなで脳トレ（教室の大画面）</b><small>教室の冒頭に、テレビに映して掛け合いで。今週の話題・ご当地クイズ・教室スタンプのQRも</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/kyoshitsu-x12.html" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>みんなで脳トレ（教室の大画面）</b><small>教室の冒頭に、テレビに映して掛け合いで。今週の話題・ご当地クイズ・スタンプのQRも</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/kyoshitsu-x12.html" target="_blank" rel="noopener">開く</a></div>
         <div class="lk-item"><div><b>教材ボード</b><small>出張教室の単元・カリキュラム・テキストの状態。編集はclaude.aiで</small></div><a class="btn small ghost" href="https://claude.ai/code/artifact/c1c6a17a-3773-4063-9e9d-aa8001c6a9a7" target="_blank" rel="noopener">開く</a></div>
         <div class="lk-item"><div><b>営業リスト（電話台帳）</b><small>出張教室の営業先5市。記録は端末内→区切りで書き出す</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/eigyo-x6.html" target="_blank" rel="noopener">開く</a></div>
         <div class="lk-item"><div><b>思い出ムービー・検品</b><small>預かった写真と動画の確認。試作</small></div><a class="btn small ghost" href="https://omoide-movie.mk0907.workers.dev/admin.html" target="_blank" rel="noopener">開く</a></div>
@@ -279,7 +279,7 @@
     </div>
 
     <div class="sec">
-      <div class="t">スタンプカード（教室の日に1日1つ・10こで1枚・東海道五十三次の旅）</div>
+      <div class="t">スタンプカード（お店に来た日に1日1つ・10こで1枚・東海道五十三次の旅）</div>
       <div id="d-stamp" style="font-size:15px;margin-bottom:8px;"></div>
       <button class="btn ghost" id="d-stampbtn" onclick="doStamp()">今日のスタンプを押す（読み取れないとき）</button>
     </div>
@@ -305,7 +305,7 @@
 
 <!-- 教室スタンプのQR（大きく） -->
 <div class="ovl" id="ovl-stq" onclick="stampQrHide()">
-  <div class="t1">旅のスタンプ</div>
+  <div class="t1">スタンプカード</div>
   <div id="stq-img"></div>
   <div class="t2">会員証の「スタンプをもらう」で、読み取ってください</div>
   <div class="t2" id="stq-by"></div>
@@ -2855,8 +2855,8 @@ function renderQrInto(boxId, id, name, token) {
 
 /* ---- 自習のようす(2026-09-25・patch13・19ya) ---- */
 /* v1.36(19ya v0.3§5c): 7分野＝動詞＋熟語 */
-var J_DOM = [['kiku', '聞く（聴覚）', 'kiki', '聞き取りチャレンジ'], ['yomu', '読む（読解）', 'yomu', '読むチャレンジ'], ['oboeru', '覚える（記憶）', 'kioku', '記憶の順番'], ['mitsukeru', '見つける（注意）', 'tile', '順番タップ'], ['kazu', '計算する（数的処理）', 'otsuri', 'お釣り計算'], ['kotoba', '思い出す（想起）', 'kotowaza', 'ことわざクイズ'], ['handan', '見きわめる（判断）', 'handan', 'とっさの判断']];
-var J_ACTS = [['', '(おすすめなし)'], ['kiki', '聞き取りチャレンジ'], ['yomu', '読むチャレンジ'], ['handan', 'とっさの判断'], ['kioku', '記憶の順番'], ['cards', 'カード合わせ'], ['tile', '順番タップ'], ['otsuri', 'お釣り計算'], ['kotowaza', 'ことわざクイズ'], ['kofun', 'ふるさとクイズ'], ['kami', '上の句・下の句'], ['line', 'LINEの練習'], ['sagi', 'あやしいメッセージ'], ['odai', 'スマホでやってみる']];
+var J_DOM = [['kiku', '聞き取り力', 'kiki', '音読聞き取り'], ['yomu', '読解力', 'yomu', '文章読み取り'], ['oboeru', '記憶力', 'kioku', '順番記憶'], ['mitsukeru', '注意力', 'tile', '数字探し'], ['kazu', '計算力', 'otsuri', 'お釣り暗算'], ['kotoba', '想起力', 'kotowaza', 'ことわざクイズ'], ['handan', '判断力', 'handan', 'とっさの判断']];
+var J_ACTS = [['', '(おすすめなし)'], ['kiki', '音読聞き取り'], ['yomu', '文章読み取り'], ['handan', 'とっさの判断'], ['kioku', '順番記憶'], ['cards', '絵合わせ'], ['tile', '数字探し'], ['otsuri', 'お釣り暗算'], ['kotowaza', 'ことわざクイズ'], ['kofun', 'ふるさとクイズ'], ['kami', '百人一首'], ['line', 'LINEの練習'], ['sagi', '怪しいメッセージを見分ける'], ['odai', 'お題カード']];
 function jDays(d) { if (!d) return 999; return Math.round((new Date(todayStr() + 'T00:00:00') - new Date(String(d).slice(0, 10) + 'T00:00:00')) / 86400000); }
 function loadJishu(id) {
   var el = document.getElementById('j-body');
@@ -3233,8 +3233,8 @@ function tabiPonText(n) {
   if (n > L) { o.t = '京都に着いたあとも、スタンプは数えています'; o.s = '次の旅を準備しています。お楽しみに。'; o.seal = '京都'; return o; }
   var p = P[n - 1];
   o.t = n === 1 ? '日本橋を出発しました' : n === L ? '京都・三条大橋に着きました' : tabiLabel(n - 1) + 'に着きました';
-  o.s = p[3] || (n % 10 === 0 ? n + '回、教室に来てくださいました。' : '');
-  if (p[3] && n % 10 === 0 && n !== L) o.s = n + '回、教室に来てくださいました。' + p[3];
+  o.s = p[3] || (n % 10 === 0 ? n + '回、お店に来てくださいました。' : '');
+  if (p[3] && n % 10 === 0 && n !== L) o.s = n + '回、お店に来てくださいました。' + p[3];
   o.seal = p[0];
   return o;
 }
@@ -3263,7 +3263,7 @@ tabiPonText = function (n) {
   if (n % CARD_N === 0) {
     o.big = true; o.card = true;
     o.n = 'カード' + c.full + '枚目、満了！';
-    o.t = n + '回、教室に来てくださいました';
+    o.t = n + '回、お店に来てくださいました';
     o.s = (place ? place + '。' : '') + (hl || '次のカードも、いっしょに進みましょう。');
   } else {
     o.big = n === L;
