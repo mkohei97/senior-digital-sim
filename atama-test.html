@@ -26,7 +26,7 @@
   window.addEventListener('resize', fit);
 })();
 </script>
-<title>【試験版】ここスマ自習システム</title>
+<title>【試験版】ここスマ 会員メニュー</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -2046,6 +2046,19 @@ body.club-on .club-hide { display: none !important; }
   .club-in h3 { font-size: 30px; }
 }
 
+/* ===== v1.73 進み具合の帯が下のボタン・種目の一覧に重ならないように（総点検 19ym A1・A2） ===== */
+@media (max-width: 1100px) {
+  .course-bar b { display: none !important; }
+  .course-bar i { width: 22px !important; }
+  .course-bar { gap: 6px !important; padding: 8px 14px !important; left: 20px !important; }
+}
+@media (max-width: 1300px) { body.club-on .course-bar b { display: none !important; } }
+body.club-on #scr-cat-asobi .pad { padding-top: 10px !important; }
+@media (max-height: 760px) {
+  body.club-on #scr-cat-asobi .gcard .gimg { width: 84px !important; height: 84px !important; }
+  body.club-on #club-pick-note { margin-top: 8px; padding: 10px 20px; font-size: 22px; }
+}
+
 </style>
 </head>
 <body>
@@ -2332,7 +2345,7 @@ body.club-on .club-hide { display: none !important; }
       <div class="home-head-row">
         <div class="home-head-tx">
           <div class="date" id="home-date"></div>
-          <h1 id="app-name">ここスマ自習システム</h1>
+          <h1 id="app-name">ここスマ 会員メニュー</h1>
           <div class="greet" id="home-greet">こんにちは。今日も、ゆっくりどうぞ。</div>
         </div>
         <div class="member-row">
@@ -2382,7 +2395,7 @@ body.club-on .club-hide { display: none !important; }
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.72（ここスマ自習システム・共通の型＋中身の画面＋同じ形の結果＋ご褒美の整理＋スタンプ＝ご来店＋7つの力は大きな数字＋見た目の統一＋スマホの練習の整理＋呼び名の総点検＋iPadのSafari対応＋ひとことを外す＋デザインの仕上げ＋文字を減らす）<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.73（ここスマ 会員メニュー・共通の型＋中身の画面＋同じ形の結果＋ご褒美の整理＋スタンプ＝ご来店＋7つの力は大きな数字＋見た目の統一＋スマホの練習の整理＋呼び名の総点検＋iPadのSafari対応＋ひとことを外す＋デザインの仕上げ＋文字を減らす）<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -5833,7 +5846,7 @@ function kikiRenderStart() {
   var ep = mkEpisode('melos'), st = kkStartStep();
   var epTx = ep > 10 ? '聞き終えました（もう一度も聞けます）' : (ep > 1 ? '第' + ep + '回から（全10回）' : '全10回・1回およそ1〜4分');
   document.getElementById('kiki-body').innerHTML =
-    '<div style="font-size:34px;font-weight:700;">耳の体操</div>' +
+    '<div style="font-size:34px;font-weight:700;">音読聞き取り</div>' +
     '<div class="kk-modes">' +
     '<div class="kk-mode" onclick="kkIntro()"><span class="kk-mi gimg gi-talk" aria-hidden="true"></span><span class="kk-mt"><b>暮らしの会話</b><span>電話・駅のアナウンス・お店での会話など。' +
     (st > 1 ? '前回の続き＝「' + kkStepName(st) + '」から' : '短い文から、少しずつ長く・速く') + '</span></span></div>' +
@@ -6052,7 +6065,7 @@ function kkResult() {
     '<div class="msg">' + sakuraIconHtml(34) + SKIN.name.replace('みんなの', '') + 'が 1' + SKIN.unit + ' ' + SKIN.verb + '</div>' +
     '<div class="kiki-btnrow">' +
     '<div class="btn btn-primary" style="margin:0;padding:17px 52px;font-size:27px;" onclick="kkIntro()">もう一回</div>' +
-    '<div class="btn-outline" style="padding:14px 52px;font-size:27px;" onclick="kikiRenderStart()">耳の体操へ</div></div>';
+    '<div class="btn-outline" style="padding:14px 52px;font-size:27px;" onclick="kikiRenderStart()">音読聞き取りへ</div></div>';
 }
 
 /* ---- 名作を聞く（しおり＝会員は種目ごとの記録のresult、ゲストは端末） ---- */
@@ -6273,7 +6286,7 @@ function kikiRenderResult() {
   var prev = prevRaw ? parseFloat(prevRaw) : null;
   storeSet('kokosuma_kiki_last', String(top));
   var pill;
-  if (prev === null) pill = '耳の体操、初めの一歩です';
+  if (prev === null) pill = '音読聞き取り、初めの一歩です';
   else if (top > prev) pill = '前回の自分より速くなりました';
   else if (top === prev) pill = '前回と同じ速さで聞けました';
   else pill = '今日はゆっくり確かめました';
@@ -21640,7 +21653,7 @@ function shSync() {
   document.body.classList.toggle('sh-on-home', home);
   document.body.classList.toggle('sh-guest', !sessM());
   var t = SH_TITLE[id];
-  if (home) t = (sessM() || shStarted) ? '今日のメニュー' : 'ここスマ自習システム';
+  if (home) t = (sessM() || shStarted) ? '今日のメニュー' : 'ここスマ 会員メニュー';
   if (!t) { var at = scr.querySelector('.appbar .t'); t = at ? at.textContent.trim() : ''; }
   if (id === 'scr-explain') { var eb = scr.querySelector('.ex-hd b'); if (eb) t = eb.textContent.trim(); }
   shSet(document.getElementById('sh-title'), t, 1);
@@ -21664,7 +21677,7 @@ function shSync() {
   dt.style.display = shBackEl ? 'none' : 'inline'; try { shSet(dt, dateLabel(), 1); } catch (e) {}
   var w = document.getElementById('sh-who');
   if (sessM()) { w.className = 'mem'; shSet(w, SH_ICON.user + shEsc(memberLabel())); }
-  else { w.className = 'guest'; shSet(w, SH_ICON.user + (shStarted ? '会員証なしで使っています' : 'まだ会員証をかざしていません')); }
+  else { w.className = 'guest'; shSet(w, SH_ICON.user + '会員証なし'); }
   if (home) shHomeRender();
 }
 (function () {
@@ -21895,7 +21908,7 @@ function shSync() {
       var w = document.getElementById('sh-who');
       if (w) Array.prototype.forEach.call(w.childNodes, function (n) { if (n.nodeType !== 3) return;
         if (t && n.nodeValue.indexOf('会員証なしで使っています') >= 0) n.nodeValue = n.nodeValue.replace('会員証なしで使っています', '会員証なし');
-        else if (!t && /会員証なし$/.test(n.nodeValue.trim())) n.nodeValue = n.nodeValue.replace('会員証なし', '会員証なしで使っています'); });
+        else if (!t && /会員証なし$/.test(n.nodeValue.trim())) { } });
     } catch (e) {} }, 400);
   } catch (e) {}
 })();
@@ -22085,7 +22098,7 @@ function shSync() {
   var _cb = courseBarSync; courseBarSync = function () {
     _cb();
     var bar = document.getElementById('course-bar'); if (!bar || !(course && course.club)) return;
-    if (curScreen === 'scr-club') { bar.style.display = 'none'; return; }
+    if (curScreen === 'scr-club' || curScreen === 'scr-cat-asobi') { bar.style.display = 'none'; return; }
     if (bar.style.display === 'none') return;
     var b = bar.querySelector('b'); if (b) b.textContent = '脳活トレーニング';
     if (course.c0) bar.insertAdjacentHTML('beforeend', '<span class="club-tm">残り約' + left() + '分</span>');
@@ -22118,6 +22131,7 @@ function shSync() {
   function clubPick() {
     var sc = document.getElementById('scr-cat-asobi');
     if (sc && !document.getElementById('club-pick-note')) sc.insertAdjacentHTML('afterbegin', '<div id="club-pick-note">好きな種目を1つ選んでください</div>');
+    var nt = document.getElementById('club-pick-note'); if (nt) nt.textContent = '好きな種目を1つ選んでください' + (course && course.club && course.c0 ? '　残り約' + left() + '分' : '');
     markHide(); show('scr-cat-asobi');
   }
 
