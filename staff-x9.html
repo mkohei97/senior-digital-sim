@@ -27,7 +27,8 @@
   .btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--brand-edge); }
   .btn.ghost { background: #fff; color: var(--deep); border: 1.5px solid var(--line); box-shadow: 0 3px 0 var(--line); }
   .btn.warn { background: #fff; color: var(--warn); border: 1.5px solid #E5C0B8; box-shadow: 0 3px 0 #E5C0B8; }
-  .btn.small { font-size: 14px; padding: 8px 13px; border-radius: 10px; }
+  .btn.small { font-size: 15px; padding: 8px 13px; border-radius: 10px; min-height: 44px; }
+.addrow select, .addrow input { min-height: 44px; } /* 総点検19ym B7：押す所は40px以上 */
   .btn:disabled { opacity: 0.45; pointer-events: none; }
   input[type="text"], input[type="password"], input[type="number"] {
     width: 100%; font-size: 18px; font-family: inherit; padding: 12px 14px; border: 1.5px solid var(--line);
@@ -224,7 +225,7 @@
       <div class="card lk">
         <div class="lk-head"><span class="chip today">お客さま</span><b>お客さまが見る画面</b><span class="hint">動作チェック用。お客さまはQRやホーム画面のアイコンから開く</span></div>
         <div class="lk-item"><div><b>会員証・玄関ページ</b><small>会員の入口。予約・練習もここから</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/p.html" target="_blank" rel="noopener">開く</a></div>
-        <div class="lk-item"><div><b>ここスマ自習システム</b><small>店内タブレット用。スマホ習得と脳トレ（文字入力の練習を含む）</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/atama.html" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>ここスマ 会員メニュー（店内タブレット）</b><small>店内タブレット用。スマホ習得と脳トレ（文字入力の練習を含む）</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/atama.html" target="_blank" rel="noopener">開く</a></div>
         <div class="lk-item"><div><b>思い出ムービー・受付</b><small>お客さまが写真を送る画面。試作（課金なし）</small></div><a class="btn small ghost" href="https://omoide-movie.mk0907.workers.dev" target="_blank" rel="noopener">開く</a></div>
       </div>
       <div class="card lk">
@@ -232,7 +233,9 @@
         <div class="lk-item"><div><b>受付・記録</b><small>受付・予約・進行中・お客さまの記録・ひかえ印刷（v3.0）。@cocosuma.jp でログイン</small></div><a class="btn small ghost" href="https://script.google.com/a/macros/cocosuma.jp/s/AKfycbwJdP6fZbUAtamQUjhKTSkWVkEUo6OGB34jk53EhoSMg2OyJ0KcwC86JiDl_W5sarALIg/exec" target="_blank" rel="noopener">開く</a></div>
         <div class="lk-item"><div><b>サービスのご案内（タブレット）</b><small>メニューと各サービスの「含まれるもの／含まれないもの」。申込み前にお客さまと一緒に見る</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/annai-x11.html" target="_blank" rel="noopener">開く</a></div>
         <div class="lk-item"><div><b>料金シミュレーション</b><small>プラン・買い方・総費用をならべる。印刷でお渡し1枚</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/ryokin-sim-x7.html" target="_blank" rel="noopener">開く</a></div>
-        <div class="lk-item"><div><b>みんなで脳トレ（教室の大画面）</b><small>教室の冒頭に、テレビに映して掛け合いで。今週の話題・ご当地クイズ・スタンプのQRも</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/kyoshitsu-x12.html" target="_blank" rel="noopener">開く</a></div>
+        <div class="lk-item"><div><b>みんなで脳活（教室の大画面）</b><small>クラブの最初の10分に、テレビに映して掛け合いで。今週の話題・ご当地クイズ・スタンプのQRも</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/kyoshitsu-x12.html" target="_blank" rel="noopener">開く</a></div>
+<div class="lk-item"><div><b>脳活クラブの進行（講師の画面）</b><small>今週の力を選んでクラブを始める・各タブレットの進み具合を見る・終える</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/club-x15.html" target="_blank" rel="noopener">開く</a></div>
+<div class="lk-item"><div><b>教室の予定（だれでも見られるページ）</b><small>今月と来月の時刻・講座名・空きあり／満席。お客様への案内に</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/calendar.html" target="_blank" rel="noopener">開く</a></div>
         <div class="lk-item"><div><b>教材ボード</b><small>出張教室の単元・カリキュラム・テキストの状態。編集はclaude.aiで</small></div><a class="btn small ghost" href="https://claude.ai/code/artifact/c1c6a17a-3773-4063-9e9d-aa8001c6a9a7" target="_blank" rel="noopener">開く</a></div>
         <div class="lk-item"><div><b>営業リスト（電話台帳）</b><small>出張教室の営業先5市。記録は端末内→区切りで書き出す</small></div><a class="btn small ghost" href="https://mkohei97.github.io/senior-digital-sim/eigyo-x6.html" target="_blank" rel="noopener">開く</a></div>
         <div class="lk-item"><div><b>思い出ムービー・検品</b><small>預かった写真と動画の確認。試作</small></div><a class="btn small ghost" href="https://omoide-movie.mk0907.workers.dev/admin.html" target="_blank" rel="noopener">開く</a></div>
@@ -307,7 +310,7 @@
 <div class="ovl" id="ovl-stq" onclick="stampQrHide()">
   <div class="t1">スタンプカード</div>
   <div id="stq-img"></div>
-  <div class="t2">会員証の「スタンプをもらう」で、読み取ってください</div>
+  <div class="t2">会員証の「スタンプを押す」で、読み取ってください</div>
   <div class="t2" id="stq-by"></div>
   <div class="t3" id="stq-day"></div>
   <button class="btn ghost" onclick="stampQrHide()">とじる</button>

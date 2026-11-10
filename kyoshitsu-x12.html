@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>みんなで脳トレ（教室の大画面）</title>
+<title>みんなで脳活（教室の大画面）</title>
 <style>
   :root { --ink: #1F2A28; --sub: #5A6360; --brand: #0F766E; --action: #11866D; --deep: #0B4F42; --red: #C8412F; --ansc: #0F7A5A; --clap: #C8761E; --line: #E3DFD2; }
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -98,7 +98,7 @@
 </head>
 <body>
 <div class="top">
-  <span class="logo">ここスマ</span><span class="ttl" id="ttl">みんなで脳トレ</span>
+  <span class="logo">ここスマ</span><span class="ttl" id="ttl">みんなで脳活</span>
   <span class="clock" id="clock"><span id="clock-d"></span> <b id="clock-t"></b></span>
 </div>
 <div class="cd" id="cd"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" fill="rgba(255,255,255,.9)" stroke="#E3DFD2" stroke-width="4"></circle><circle id="cd-r" cx="20" cy="20" r="17" fill="none" stroke="#11866D" stroke-width="4" stroke-dasharray="106.8" stroke-dashoffset="0" stroke-linecap="round"></circle></svg><b id="cd-n">10</b></div>
@@ -113,7 +113,7 @@
 </div>
 <script>
 /* ============================================================
-   みんなで脳トレ（教室の大画面）v0.1 — 2026-09-30 ここスマ
+   みんなで脳活（教室の大画面）v0.2 — 2026-09-30 ここスマ
    講師がモニターに映し、掛け合いで進める。点数は出さない。答えは講師が出す。
    操作：次へ＝→・スペース・Enter・PageDown（プレゼン用リモコン可）／もどる＝←・PageUp／一覧＝Esc／全画面＝F
    問題データ（ことわざ・ふるさと）は自習システム（atama.html）と同じものを使う
@@ -292,11 +292,11 @@ var NETA = {
     }
   },
   purinto: {
-    n: '今日のプリント', ic: '🖨️', how: '最後の5分に配る紙。押すと印刷の画面に変わる（A4・両面・裏に答え）。印刷の画面の左上から戻れる。同じ日は同じ問題',
+    n: '脳活プリント', ic: '🖨️', how: '最後の5分に配る紙。押すと印刷の画面に変わる（A4・両面・裏に答え）。印刷の画面の左上から戻れる。同じ日は同じ問題',
     link: 'purinto-x13.html'
   },
   stamp: {
-    n: '教室スタンプ', ic: '🔖', how: '終わりに映す。会員証の「スタンプをもらう」で読み取り（スタッフ画面にログインした端末だけ）',
+    n: 'スタンプ', ic: '🔖', how: '終わりに映す。会員証の「スタンプを押す」で読み取り（スタッフ画面にログインした端末だけ）',
     make: function () { return ['<div id="qrbox" class="hint">用意しています…</div>']; },
     after: function () { stampQr(); }
   }
@@ -312,10 +312,12 @@ var YUBI = [
 ];
 var ORDER = ['janken', 'iro', 'kotowaza', 'anzan', 'furusato', 'wadai', 'yubi', 'kazoe', 'purinto', 'stamp'];
 /* 今週の話題：wadai.json（週に1回入れかえる） */
-var WADAI = null;
+var WADAI = null, WADAI_OFF = false;
+/* v0.2: 作った日から7日を過ぎた週は出さない（古い話題を映さない＝`04` 2026-11-10） */
+function wadaiOld(j) { try { var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(j && j.made || ''); if (!m) return false; var made = new Date(+m[1], +m[2] - 1, +m[3]); var t = new Date(); t = new Date(t.getFullYear(), t.getMonth(), t.getDate()); return (t - made) / 86400000 > 7; } catch (e) { return false; } }
 (function () {
   var base = location.protocol === 'file:' ? 'https://mkohei97.github.io/senior-digital-sim/' : '';
-  fetch(base + 'wadai.json?v=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) { WADAI = j; if (!cur) render(); else if (cur.k === 'wadai') { cur.slides = NETA.wadai.make(); render(); } }).catch(function () {});
+  fetch(base + 'wadai.json?v=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (j) { if (wadaiOld(j)) { WADAI = null; WADAI_OFF = true; } else WADAI = j; if (!cur) render(); else if (cur.k === 'wadai') { cur.slides = NETA.wadai.make(); render(); } }).catch(function () {});
 })();
 
 /* ---------- 進め方 ---------- */
@@ -323,8 +325,8 @@ var cur = null;   /* { k, slides, i, n } n=何問目 */
 function render() {
   var st = document.getElementById('stage');
   if (!cur) {
-    document.getElementById('ttl').textContent = 'みんなで脳トレ';
-    st.innerHTML = '<div class="welcome fade-in">みんなで脳トレ</div><div class="menu">' + ORDER.map(function (k) { var N = NETA[k]; return '<div class="mc glass" onclick="open1(\'' + k + '\')"><span class="ic emo">' + N.ic + '</span><b>' + N.n + '</b><span>' + (k === 'wadai' && WADAI ? '<b style="font-size:2.1vh;color:var(--deep)">' + esc(WADAI.week) + '</b>　' : '') + N.how + '</span></div>'; }).join('') + '</div>';
+    document.getElementById('ttl').textContent = 'みんなで脳活';
+    st.innerHTML = '<div class="welcome fade-in">みんなで脳活</div><div class="menu">' + ORDER.filter(function (k) { return !(k === 'wadai' && WADAI_OFF); }).map(function (k) { var N = NETA[k]; return '<div class="mc glass" onclick="open1(\'' + k + '\')"><span class="ic emo">' + N.ic + '</span><b>' + N.n + '</b><span>' + (k === 'wadai' && WADAI ? '<b style="font-size:2.1vh;color:var(--deep)">' + esc(WADAI.week) + '</b>　' : '') + N.how + '</span></div>'; }).join('') + '</div>';
     document.getElementById('prog').textContent = '';
     document.getElementById('go').textContent = '次へ ▶';
     document.body.classList.add('home');
@@ -388,7 +390,7 @@ document.addEventListener('keydown', function (e) {
   else if (k === 'h' || k === 'H') document.getElementById('ctl').classList.toggle('hide');
 });
 
-/* ---------- 教室スタンプのQR（スタッフ画面と同じパスコードをこの端末が覚えているときだけ） ---------- */
+/* ---------- スタンプのQR（スタッフ画面と同じパスコードをこの端末が覚えているときだけ） ---------- */
 var SUPA_URL = 'https://kravngifhbxywmpoydur.supabase.co', SUPA_KEY = 'sb_publishable_kxqrgfxUIyZk-pQmU8Jpbw_r9lmxb1E', PORTAL_URL = 'https://mkohei97.github.io/senior-digital-sim/p.html';
 function stampQr() {
   var box = document.getElementById('qrbox'), pass = storeGet('kokosuma_staff_pass') || '', by = storeGet('kokosuma_stamp_by') || '神崎';
@@ -397,7 +399,7 @@ function stampQr() {
     .then(function (r) { return r.json(); }).then(function (r) {
       if (!(r && r.ok)) { box.textContent = 'QRを用意できませんでした。スタッフ画面から出してください。'; return; }
       var qr = qrcode(0, 'M'); qr.addData(PORTAL_URL + '?stamp=' + r.code + '&by=' + encodeURIComponent(by)); qr.make();
-      box.outerHTML = '<div class="mid" style="color:var(--red)">今日のスタンプ</div><div class="qr glass" style="padding:2vh">' + qr.createImgTag(8, 8) + '</div><div class="hint">会員証の「スタンプをもらう」で読み取ってください（' + esc(by) + 'が押します）</div>';
+      box.outerHTML = '<div class="mid" style="color:var(--red)">今日のスタンプ</div><div class="qr glass" style="padding:2vh">' + qr.createImgTag(8, 8) + '</div><div class="hint">会員証の「スタンプを押す」で読み取ってください（' + esc(by) + 'が押します）</div>';
     }).catch(function () { box.textContent = '通信できませんでした。'; });
 }
 /* ご当地クイズ（2026-09-30 追加・一次情報で確認。src＝出どころ） */

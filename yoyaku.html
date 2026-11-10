@@ -63,8 +63,8 @@ button{font-family:inherit}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .cell{position:relative;min-height:104px;border-radius:14px;display:flex;flex-direction:column;
   align-items:center;justify-content:center;text-align:center;padding:8px 6px;font-size:18px;font-weight:700;
-  line-height:1.3;cursor:pointer;border:2px dashed #C9D6D3;background:#fff;color:#8A9A96}
-.cell .st{font-size:15px;font-weight:700;margin-bottom:4px;color:#8A9A96}
+  line-height:1.3;cursor:pointer;border:2px dashed #9FB0AC;background:#fff;color:var(--ink)}
+.cell .st{font-size:16px;font-weight:700;margin-bottom:4px;color:var(--ink-soft)}
 .cell.prac{border:2px solid var(--c);background:color-mix(in srgb,var(--c) 7%,#fff);color:var(--c)}
 .cell.prac .st,.cell.got .st{color:var(--c)}
 .cell.up{border:2px solid #0071E3;background:#E4F0FC;color:#0B4F8C} .cell.up .st{color:#0071E3}
@@ -85,9 +85,9 @@ button{font-family:inherit}
 .row .big{font-size:24px;font-weight:800}
 .row .sub{font-size:18px;color:var(--ink-soft);font-weight:700}
 .row .arw{margin-left:auto;color:var(--action);font-size:26px;font-weight:800;flex:none}
-.row.full{opacity:.5}
-.row .seat{font-size:17px;font-weight:800;color:var(--ok);flex:none}
-.row.full .seat{color:var(--ink-faint)}
+.row.full{background:#F1F4F3;color:var(--ink-soft)}
+.row .seat{font-size:17px;font-weight:800;color:var(--accent-deep);flex:none}
+.row.full .seat{color:var(--ink-soft)}
 .row.mine{border-color:var(--season-border);background:var(--season-pale)}
 .row.mine .seat{color:var(--season-deep)}
 
@@ -114,7 +114,37 @@ button{font-family:inherit}
 .state.done{background:#E7F4EC;color:var(--ok-edge)}
 
 .center{padding:60px 10px;text-align:center;font-size:23px;font-weight:700;color:var(--ink-soft);line-height:1.9}
-.foot{margin:34px 0 10px;text-align:center;font-size:14px;color:var(--ink-faint)}
+/* v0.3 総点検19ym：区切りのよい所で改行・今月の受講回数・追加の印・完了の絵文字を出さない・できることの文字を濃く */
+.nb{display:inline-block}
+.quota{font-size:21px;font-weight:700;line-height:1.6;color:var(--ink);background:#EEF4F2;border-radius:14px;padding:12px 16px;margin:0 0 16px}
+.quota:empty{display:none}
+.quota b{font-size:26px;color:var(--accent-deep);margin:0 2px}
+.xchip{display:inline-block;font-size:16px;font-weight:800;color:#7A3E12;background:#FBEBDD;border-radius:8px;padding:2px 9px;margin-top:4px}
+.done-big .mk{display:none}
+.cell.prac,.cell.got,.cell.prac .st,.cell.got .st{color:var(--ink)}
+.cell.up,.cell.up .st{color:#0B3F73}
+.grid{grid-template-columns:repeat(2,1fr)}
+.row .big,.cell span,.what{word-break:keep-all;overflow-wrap:anywhere}
+.foot{margin:34px 0 10px;text-align:center;font-size:16px;color:var(--ink-soft)}
+</style>
+<style>
+/* 季節の意匠をやめる（2026-11-10 松田さん）＝地は一年じゅう無地・立体のボタンをやめる・緑は1色。脳トレ（10/31〜）と同じ値 */
+html, body, html[data-season], body[data-season] {
+  --season-bg1: #ECEFED; --season-bg2: #ECEFED; --season-bg3: #ECEFED; --season-border: #DDE3E0; --season-pale: #EEF4F2; --season-light: #DDE3E0; --season-deep: #0B4F42; --season-deep-bg1: #0F766E; --season-deep-bg2: #0F766E;
+  --action: #0F766E; --ok: #0F766E; --ok-edge: #0B4F42;
+}
+html body { background: #ECEFED !important; }
+.btn, .btn-primary, .gcard, .row, .back { box-shadow: none !important; }
+.btn-primary:active, .btn:active { transform: scale(.98) !important; }
+.menu, .renshu, .step { box-shadow: 0 4px 14px rgba(28, 40, 36, 0.07) !important; }
+.petals, svg.skin-use, .skin-use, .lastline svg { display: none !important; }
+.renshu .go, .menu .go { background: #0F766E !important; }
+</style>
+<style>
+.btn { border-bottom: 0 !important; }
+.btn.sub { border: 2px solid var(--action) !important; }
+.btn.quiet { border: 2px solid var(--line) !important; }
+.row, .back, .card { border-bottom-width: 2px !important; }
 </style>
 </head>
 <body>
@@ -137,46 +167,49 @@ button{font-family:inherit}
   </header>
 
   <div class="card">
+    <div class="quota" id="h-quota"></div>
     <h2><span class="bar"></span>これからのご予約</h2>
     <div id="resv-list"></div>
-    <button class="btn" onclick="go('s-book')">＋ 予約する</button>
+    <button class="btn" onclick="go('s-bydate')">予約する</button>
   </div>
 
   <div class="card">
-    <h2><span class="bar"></span>できる地図</h2>
-    <div class="sumline">できるようになったこと <b id="sum-done">0</b> 個</div>
+    <h2><span class="bar"></span>できること</h2>
+    <div class="sumline"><span class="nb">できるようになったこと</span> <span class="nb"><b id="sum-done">0</b> 個</span></div>
     <div class="sumsub" id="sum-sub"></div>
-    <button class="btn sub" onclick="go('s-card')">できる地図を見る</button>
+    <button class="btn sub" onclick="go('s-card')">できることを見る</button>
   </div>
 
-  <div class="foot">ここスマ 会員ページ v0.2</div>
+  <div class="foot">ここスマ 会員ページ v0.3</div>
 </section>
 
 <!-- ========== 予約の入口 ========== -->
 <section id="s-book" class="screen">
-  <div class="top"><button class="back" onclick="go('s-home')">もどる</button><div class="title">予約する</div></div>
+  <div class="top"><button class="back" onclick="go('s-home')">戻る</button><div class="title">予約する</div></div>
   <div class="card">
     <h2><span class="bar"></span>どちらから選びますか</h2>
-    <button class="btn" onclick="go('s-bydate')">日にちから選ぶ</button>
-    <button class="btn sub" onclick="go('s-bycourse')">習いたいことから選ぶ</button>
+    <button class="btn" onclick="go('s-bydate')">日付から選ぶ</button>
+    <button class="btn sub" onclick="go('s-bycourse')">講座から選ぶ</button>
   </div>
 </section>
 
 <!-- ========== 日にちから ========== -->
 <section id="s-bydate" class="screen">
-  <div class="top"><button class="back" onclick="go('s-book')">もどる</button><div class="title">日にちから</div></div>
+  <div class="top"><button class="back" onclick="go('s-home')">戻る</button><div class="title">予約する</div></div>
+  <div class="quota" id="d-quota"></div>
   <div id="date-list" style="margin-top:8px"></div>
+  <button class="btn sub" style="margin-top:14px" onclick="go('s-bycourse')">講座から選ぶ</button>
 </section>
 
 <!-- ========== 講座から ========== -->
 <section id="s-bycourse" class="screen">
-  <div class="top"><button class="back" onclick="go('s-book')">もどる</button><div class="title">習いたいこと</div></div>
+  <div class="top"><button class="back" onclick="go('s-bydate')">戻る</button><div class="title">講座から選ぶ</div></div>
   <div id="course-list" style="margin-top:8px"></div>
 </section>
 
 <!-- ========== 確認 ========== -->
 <section id="s-confirm" class="screen">
-  <div class="top"><button class="back" onclick="go(backTo)">もどる</button><div class="title">ご確認ください</div></div>
+  <div class="top"><button class="back" onclick="go(backTo)">戻る</button><div class="title">ご確認ください</div></div>
   <div class="card">
     <div id="cf-when" class="visits" style="font-size:23px"></div>
     <div id="cf-what" style="font-size:29px;font-weight:800;margin:6px 0 4px"></div>
@@ -185,7 +218,7 @@ button{font-family:inherit}
     <div id="cf-err"></div>
     <div style="height:8px"></div>
     <button class="btn ok" id="cf-btn" onclick="doBook()">この日で予約する</button>
-    <button class="btn quiet" onclick="go(backTo)">やめる</button>
+    <button class="btn quiet" onclick="go(backTo)">戻る</button>
   </div>
 </section>
 
@@ -200,26 +233,25 @@ button{font-family:inherit}
   </div>
   <div class="card">
     <div style="font-size:21px;line-height:1.7;margin-bottom:14px">
-      お忘れにならないよう、<b>スマホのカレンダーに入れておく</b>と安心です。
-      入れ方が分からないときは、お店でお声かけください。
+      ご予約の日時は<b>スマホのカレンダーに登録</b>できます。登録方法はお店でご案内します。
     </div>
-    <button class="btn sub" onclick="addToCalendar()">カレンダーに入れる</button>
-    <button class="btn" onclick="go('s-home')">ホームにもどる</button>
+    <button class="btn sub" onclick="addToCalendar()">カレンダーに登録する</button>
+    <button class="btn" onclick="go('s-home')">ホームに戻る</button>
   </div>
 </section>
 
-<!-- ========== できる地図(v0.2: お店のタブレットと同じ20テーマ・同じ段階) ========== -->
+<!-- ========== できること(v0.2: お店のタブレットと同じ20テーマ・同じ段階) ========== -->
 <section id="s-card" class="screen">
-  <div class="top"><button class="back" onclick="go('s-home')">もどる</button><div class="title">できる地図</div></div>
+  <div class="top"><button class="back" onclick="go('s-home')">戻る</button><div class="title">できること</div></div>
   <div class="card">
-    <div class="sumline">できるようになったこと <b id="sum-done2">0</b> 個</div>
+    <div class="sumline"><span class="nb">できるようになったこと</span> <span class="nb"><b id="sum-done2">0</b> 個</span></div>
     <div class="legend">
       <span><i style="border:2px dashed #C9D6D3;background:#fff"></i>これから</span>
       <span><i style="border:2px solid var(--brand);background:#fff"></i>習いました</span>
       <span><i style="border:2px solid var(--brand);background:#E9F3F1"></i>練習しました</span>
       <span><i style="border:3px solid var(--ok);background:#CFE9DA"></i>できるようになった</span>
     </div>
-    <div style="font-size:18px;color:var(--ink-soft);margin-top:8px">升を押すと、「できるようになりました」を押せます。</div>
+    <div style="font-size:18px;color:var(--ink-soft);margin-top:8px">講座名を押すと「できるようになりました」を記録できます。</div>
   </div>
   <div id="card-body"></div>
   <div style="height:20px"></div>
@@ -235,7 +267,7 @@ button{font-family:inherit}
     <div id="sh-state" class="state"></div>
     <div id="sh-btns"></div>
     <div style="height:10px"></div>
-    <button class="btn quiet" onclick="closeSheet()">とじる</button>
+    <button class="btn quiet" onclick="closeSheet()">閉じる</button>
   </div>
 </div>
 
@@ -247,13 +279,13 @@ button{font-family:inherit}
     <div id="cx-what" style="font-size:25px;font-weight:800;margin:4px 0 14px"></div>
     <div id="cx-err"></div>
     <button class="btn" id="cx-btn" onclick="doCancel()">はい、取り消す</button>
-    <button class="btn quiet" onclick="closeCancel()">やめる</button>
+    <button class="btn quiet" onclick="closeCancel()">戻る</button>
   </div>
 </div>
 
 <script>
 /* =====================================================================
-   ここスマ 会員ページ(予約・できる地図) v0.2  2026-09-24 (v0.1=2026-08-18)
+   ここスマ 会員ページ(予約・できること) v0.3  2026-11-10 (v0.2=2026-09-24・v0.1=2026-08-18)
    ・データは Supabase の RPC(yoyaku_data / reserve / cancel_reservation /
      mark_can_do)から。HTMLに入れてよいのは公開キーだけ(19r§9-7)
    ・空席は「空きあり/満席」の2値だけ表示(43§4-4。残り数は出さない)
@@ -293,7 +325,7 @@ var COURSES = [];      // {id,t,k,pre}
 var SESSIONS = [];     // {id,d,t,cid,title,k,full,mine,mineId,mineExtra,heldOn,startTime}
 var RESV = [];         // 自分の予約(SESSIONSの部分集合)
 var LEARNED = [], MARKED = [];
-/* v0.2(19z B6): お店のタブレット(19a)の「できる地図」と同じ20テーマ。IDは42のテーマID=講座ID */
+/* v0.2(19z B6): お店のタブレット(19a)の「できること」と同じ20テーマ。IDは42のテーマID=講座ID */
 var THEMES = [
   {id:101,t:'文字入力',up:true},{id:102,t:'電話'},{id:103,t:'あやしいメール・SMS'},{id:104,t:'見やすくする'},{id:105,t:'Wi-Fiとギガ'},
   {id:106,t:'スマホの基本操作'},{id:107,t:'パスワードと安全'},
@@ -341,7 +373,7 @@ function showLoad(html){
 }
 function loadData(){
   if(!TOKEN){
-    showLoad('この画面は、ここスマの<b>会員さま用</b>です。<br>お店でお渡しした<b>会員証(QRコード)</b>から<br>お開きください。<br><br><span style="font-size:19px">分からないときは、お店でお声かけください。<br>お電話でもご予約いただけます。</span>');
+    showLoad('この画面は、ここスマの<b>会員様用</b>です。<br>お店でお渡しした<b>会員証（QRコード）</b>から<br>お開きください。<br><br><span style="font-size:19px">分からないときは、お店でお声がけください。<br>お電話でもご予約いただけます。</span>');
     return Promise.resolve(false);
   }
   /* 練習の記録はお店のタブレットと同じところ(my_progress)から。届かなくても地図は出す */
@@ -353,9 +385,9 @@ function loadData(){
   return rpc('yoyaku_data', {p_token: TOKEN}).then(function(r){
     if(!r || !r.ok){
       if(r && r.error==='bad_token'){
-        showLoad('会員の確認ができませんでした。<br>お店でお渡しした<b>会員証(QRコード)</b>から<br>もう一度お開きください。<br><br><span style="font-size:19px">分からないときは、お店でお声かけください。</span>');
+        showLoad('会員の確認ができませんでした。<br>お店でお渡しした<b>会員証（QRコード）</b>から<br>もう一度お開きください。<br><br><span style="font-size:19px">分からないときは、お店でお声がけください。</span>');
       }else{
-        showLoad('うまくつながりませんでした。<br>電波のよいところで、もう一度お試しください。<br><br><button class="btn sub" onclick="boot()">もう一度</button>');
+        showLoad('通信できませんでした。<br>電波の良い場所でもう一度お試しください。<br><br><button class="btn sub" onclick="boot()">もう一度</button>');
       }
       return false;
     }
@@ -374,7 +406,7 @@ function loadData(){
     MARKED  = r.marked || [];
     return true;
   }).catch(function(){
-    showLoad('うまくつながりませんでした。<br>電波のよいところで、もう一度お試しください。<br><br><button class="btn sub" onclick="boot()">もう一度</button>');
+    showLoad('通信できませんでした。<br>電波の良い場所でもう一度お試しください。<br><br><button class="btn sub" onclick="boot()">もう一度</button>');
     return false;
   });
 }
@@ -395,6 +427,16 @@ function go(id){
   if(id==='s-card'){renderCard();}
 }
 
+/* ---------- 今月の受講回数（v0.3・総点検B1：確認の画面より前に出す。数字は yoyaku_data のもの） ---------- */
+function quotaHTML(ym){
+  if(!D || !D.limit_month) return '';
+  var used = ym===nextYm() ? D.used_next_month : D.used_this_month;
+  var h = '<span class="nb">今月の受講回数</span> <span class="nb"><b>'+D.limit_month+'</b>回のうち <b>'+used+'</b>回</span>';
+  if(used >= D.limit_month) h += '<br><span class="nb">次回から</span> <span class="nb">追加のご受講</span> <span class="nb">（1回 '+yen(D.extra_price)+'円）</span>';
+  return h;
+}
+function isExtra(s){ return !!(D && D.limit_month && usedFor(s.heldOn) >= D.limit_month); }
+
 /* ---------- ホーム ---------- */
 function stateOf(cid){
   if(MARKED.indexOf(cid)>=0) return 3;
@@ -405,7 +447,8 @@ function stateOf(cid){
 function renderHome(){
   document.getElementById('h-name').textContent = (D.nickname||'会員') + 'さん';
   document.getElementById('h-visits').textContent =
-    D.visits>0 ? 'これまで '+D.visits+'回 ご来店いただきました' : 'ようこそ、ここスマへ';
+    D.visits>0 ? 'ご来店 '+D.visits+'回' : 'ようこそ、ここスマへ';
+  document.getElementById('h-quota').innerHTML = quotaHTML(todayYm());
   var L=document.getElementById('resv-list');
   L.innerHTML = RESV.length===0
     ? '<div class="none">ご予約はまだありません。</div>'
@@ -447,19 +490,19 @@ function doCancel(){
       loadData().then(function(){ renderHome(); });
     }else{
       btn.disabled=false;
-      var msg = (r&&r.error==='too_late') ? 'この回は開始時刻を過ぎたため、取り消しできません。お店にお電話ください。'
-                                          : 'うまくいきませんでした。もう一度お試しください。';
+      var msg = (r&&r.error==='too_late') ? 'この日程は開始時刻を過ぎたため取り消しできません。お店にお電話ください。'
+                                          : '処理できませんでした。もう一度お試しください。';
       document.getElementById('cx-err').innerHTML = '<div class="notice">'+msg+'</div>';
     }
   }).catch(function(){
     btn.disabled=false;
-    document.getElementById('cx-err').innerHTML = '<div class="notice">うまくつながりませんでした。もう一度お試しください。</div>';
+    document.getElementById('cx-err').innerHTML = '<div class="notice">通信できませんでした。もう一度お試しください。</div>';
   });
 }
 
 /* ---------- 日にちから ---------- */
 function renderDates(){
-  var h = SESSIONS.length===0 ? '<div class="none" style="padding:14px 4px">いまは予約できる回がありません。<br>次の予定が決まりましたらご案内します。</div>' : '';
+  var h = SESSIONS.length===0 ? '<div class="none" style="padding:14px 4px">現在、予約できる日程はありません。<br>次の日程が決まりましたらご案内します。</div>' : '';
   h += SESSIONS.map(function(s,i){
     var mine = s.mine==='reserved';
     var dead = s.full && !mine;
@@ -467,22 +510,26 @@ function renderDates(){
     return '<button class="row '+(dead?'full':'')+(mine?' mine':'')+'" '
       + ((dead||mine)?'disabled':'onclick="pick('+i+',\'s-bydate\')"')+'>'
       + '<span><span class="big">'+s.d+' '+s.t+'</span><br>'
-      + '<span class="sub">'+esc(s.title||'教室')+'</span></span>'
+      + '<span class="sub">'+esc(s.title||'教室')+'</span>'+((!dead&&!mine&&isExtra(s))?'<br><span class="xchip">追加のご受講</span>':'')+'</span>'
       + '<span class="seat">'+seat+'</span>'
       + ((dead||mine)?'':'<span class="arw">›</span>')
       + '</button>';
   }).join('');
   document.getElementById('date-list').innerHTML = h;
+  document.getElementById('d-quota').innerHTML = quotaHTML(todayYm());
 }
 
 /* ---------- 講座から ---------- */
 function renderCourses(){
-  document.getElementById('course-list').innerHTML = COURSES.map(function(c){
+  var open = COURSES.filter(function(c){ return SESSIONS.some(function(s){return s.cid===c.id && !s.full && s.mine!=='reserved';}); });
+  document.getElementById('course-list').innerHTML = open.length===0
+    ? '<div class="none" style="padding:14px 4px">現在、予約できる日程はありません。<br>次の日程が決まりましたらご案内します。</div>'
+    : open.map(function(c){
     var idx = SESSIONS.findIndex(function(s){return s.cid===c.id && !s.full && s.mine!=='reserved';});
     var s = idx>=0 ? SESSIONS[idx] : null;
     return '<button class="row '+(s?'':'full')+'" '+(s?'onclick="pick('+idx+',\'s-bycourse\')"':'disabled')+'>'
       + '<span><span class="big">'+esc(c.t)+'</span><br>'
-      + '<span class="sub">'+CAT[c.k].name+(s?' ・ つぎは '+s.d+' '+s.t:' ・ いまは予約できる回がありません')+'</span></span>'
+      + '<span class="sub">'+CAT[c.k].name+(s?' ・ 次は '+s.d+' '+s.t:' ・ 今は予約できる回がありません')+'</span>'+((s&&isExtra(s))?'<br><span class="xchip">追加のご受講</span>':'')+'</span>'
       + (s?'<span class="arw">›</span>':'')
       + '</button>';
   }).join('');
@@ -504,14 +551,14 @@ function pick(i,from){
   var n='';
   /* 推奨前提はかならず1行だけ(44の約束) */
   if(c && c.pre && stateOf(c.pre)===0 && C(c.pre)){
-    n += '<div class="notice">「<b>'+esc(C(c.pre).t)+'</b>」がまだのようです。先にお受けになると分かりやすいですが、<b>このままでも大丈夫です。</b></div>';
+    n += '<div class="notice">「<b>'+esc(C(c.pre).t)+'</b>」が未受講です。先に受講すると理解しやすくなりますが、<b>このままでも受講できます。</b></div>';
   }
   /* 回数の超過(裁定①: 追加分と金額を明示。支払いはお店で) */
   var used = usedFor(pending.heldOn);
   if(used >= D.limit_month){
-    n += '<div class="notice">この月は <b>'+(used+1)+'回目</b> のご予約です。<br>'
-       + '月'+D.limit_month+'回をこえた分は <b>追加のご受講(1回 '+yen(D.extra_price)+'円)</b> になります。<br>'
-       + 'お支払いは、お店でお願いします。</div>';
+    n += '<div class="notice"><span class="nb">この月は <b>'+(used+1)+'回目</b>の</span><span class="nb">ご予約です。</span><br>'
+       + '<span class="nb">月'+D.limit_month+'回を超えた分は</span> <span class="nb"><b>追加のご受講</b></span><span class="nb"><b>（1回 '+yen(D.extra_price)+'円）</b>です。</span><br>'
+       + '<span class="nb">お支払いは</span><span class="nb">店頭でお願いします。</span></div>';
   }
   document.getElementById('cf-notice').innerHTML = n;
   document.getElementById('cf-err').innerHTML = '';
@@ -533,18 +580,18 @@ function doBook(){
       document.getElementById('dn-when').textContent = pending.d+' '+pending.t;
       document.getElementById('dn-what').textContent = pending.title||'教室';
       document.getElementById('dn-extra').innerHTML = r.extra
-        ? '<div class="notice" style="text-align:left">この分は <b>追加のご受講(1回 '+yen(r.extra_price)+'円)</b> です。<br>お支払いは、お店でお願いします。</div>' : '';
+        ? '<div class="notice" style="text-align:left">この分は <b>追加のご受講（1回 '+yen(r.extra_price)+'円）</b> です。<br><span class="nb">お支払いは</span><span class="nb">店頭でお願いします。</span></div>' : '';
       loadData().then(function(){ go('s-done'); });
     }else{
       var e = r ? r.error : '';
-      if(e==='full')          bookErr('申しわけありません。ひと足ちがいで<b>満席</b>になりました。ほかの回をお選びください。');
-      else if(e==='too_late') bookErr('この回は受付を終了しました。ほかの回をお選びください。');
-      else if(e==='already')  bookErr('この回は、すでにご予約いただいています。');
-      else if(e==='not_open_yet') bookErr('この回のご予約は、<b>'+(r.opens_on?fmtDate(r.opens_on):'前の月の20日')+'</b> から受付します。');
-      else if(e==='bad_token') bookErr('会員の確認ができませんでした。お店でお渡しした会員証(QRコード)からお開きください。');
-      else bookErr('うまくいきませんでした。もう一度お試しください。');
+      if(e==='full')          bookErr('申し訳ありません。先ほど<b>満席</b>になりました。ほかの日程をお選びください。');
+      else if(e==='too_late') bookErr('この日程は受付を終了しました。ほかの日程をお選びください。');
+      else if(e==='already')  bookErr('この日程はすでにご予約済みです。');
+      else if(e==='not_open_yet') bookErr('この日程のご予約は<b>'+(r.opens_on?fmtDate(r.opens_on):'前の月の20日')+'</b> から受付します。');
+      else if(e==='bad_token') bookErr('会員の確認ができませんでした。お店でお渡しした会員証（QRコード）からお開きください。');
+      else bookErr('処理できませんでした。もう一度お試しください。');
     }
-  }).catch(function(){ bookErr('うまくつながりませんでした。電波のよいところで、もう一度お試しください。'); });
+  }).catch(function(){ bookErr('通信できませんでした。電波の良い場所でもう一度お試しください。'); });
 }
 
 /* ---------- カレンダー(.icsファイル) ---------- */
@@ -565,7 +612,7 @@ function addToCalendar(){
   document.body.appendChild(a); a.click(); a.remove();
 }
 
-/* ---------- できる地図 ---------- */
+/* ---------- できること ---------- */
 function cellHTML(c){
   var st=stateOf(c.id);
   var up = c.up && st===2;
@@ -604,13 +651,13 @@ function openSheet(id){
   document.getElementById('sh-title').textContent=c.t;
   var S=document.getElementById('sh-state');
   var B=document.getElementById('sh-btns');
-  var book = bookable ? '<button class="btn sub" onclick="closeSheet();go(\'s-bycourse\')">'+(st===0?'この講座を予約する':'もう一度受ける')+'</button>' : '';
+  var book = bookable ? '<button class="btn sub" onclick="closeSheet();go(\'s-bycourse\')">'+(st===0?'この講座を予約する':'もう一度受講する')+'</button>' : '';
   if(st===0){
-    S.className='state yet'; S.textContent = bookable ? 'これから受けられます' : 'お店のタブレットの自習でも練習できます';
+    S.className='state yet'; S.textContent = bookable ? 'これから受講できます' : 'お店のタブレットでも練習できます';
     B.innerHTML = book;
   }else if(st===1 || st===2){
     S.className='state got'; S.textContent = st===2 ? '練習しました' : '習いました';
-    B.innerHTML='<button class="btn ok" onclick="markDone()">できるようになりました！</button>' + book;
+    B.innerHTML='<button class="btn ok" onclick="markDone()">できるようになりました</button>' + book;
   }else{
     S.className='state done'; S.textContent='✓ できるようになりました';
     B.innerHTML = book;

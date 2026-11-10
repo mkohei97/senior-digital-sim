@@ -134,12 +134,28 @@
   .step .t { font-size: 23px; font-weight: 700; line-height: 1.5; }
 
   .gentlemsg { font-size: 21px; font-weight: 700; color: #C25E00; text-align: center; min-height: 30px; }
-  .footer { padding: 4px 0 10px; font-size: 13px; color: #B08FA0; text-align: center; }
+  .footer { padding: 4px 0 10px; font-size: 16px; color: #555555; text-align: center; }
+  /* v0.10 総点検19ym：区切りのよい所で改行 */
+  .tx b { word-break: keep-all; overflow-wrap: anywhere; }
+  .tx span { word-break: keep-all; overflow-wrap: anywhere; }
 
   @keyframes petalFloat { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(16px) rotate(9deg); } }
   @keyframes bloomIn { 0% { transform: scale(0.05); opacity: 0; } 60% { transform: scale(1.12); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
   @keyframes gentlePulse { 0%, 100% { opacity: 0.25; } 50% { opacity: 0.7; } }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+<style>
+/* 季節の意匠をやめる（2026-11-10 松田さん）＝地は一年じゅう無地・立体のボタンをやめる・緑は1色。脳トレ（10/31〜）と同じ値 */
+html, body, html[data-season], body[data-season] {
+  --season-bg1: #ECEFED; --season-bg2: #ECEFED; --season-bg3: #ECEFED; --season-border: #DDE3E0; --season-pale: #EEF4F2; --season-light: #DDE3E0; --season-deep: #0B4F42; --season-deep-bg1: #0F766E; --season-deep-bg2: #0F766E;
+  --action: #0F766E; --ok: #0F766E; --ok-edge: #0B4F42;
+}
+html body { background: #ECEFED !important; }
+.btn, .btn-primary, .gcard, .row, .back { box-shadow: none !important; }
+.btn-primary:active, .btn:active { transform: scale(.98) !important; }
+.menu, .renshu, .step { box-shadow: 0 4px 14px rgba(28, 40, 36, 0.07) !important; }
+.petals, svg.skin-use, .skin-use, .lastline svg { display: none !important; }
+.renshu .go, .menu .go { background: #0F766E !important; }
 </style>
 </head>
 <body>
@@ -246,34 +262,34 @@
   <div class="pad">
     <div class="head">
       <h1>文字入力の練習</h1>
-      <div class="sub" id="select-greet">自分のペースで、どうぞ。</div>
+      <div class="sub" id="select-greet">ご自分のペースで進められます。</div>
     </div>
     <div class="renshu r-voice" onclick="openVoiceGuide()">
       <span class="icchip" style="background:var(--season-pale);"><svg viewBox="0 0 24 24"><use href="#ic-mic"></use></svg></span>
-      <div class="tx"><b>声で入れる</b><span>話しかけて、文にします</span></div>
+      <div class="tx"><b>音声入力</b><span>話した言葉が文章になります</span></div>
       <span class="go" style="background:var(--action);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
     </div>
     <div class="renshu r-fix" onclick="startPractice('fix')">
       <span class="icchip" style="background:#E4F0FC;"><svg viewBox="0 0 24 24"><use href="#ic-pen"></use></svg></span>
-      <div class="tx"><b>間違いを直す</b><span>消して、直す練習</span></div>
+      <div class="tx"><b>間違いの修正</b><span>削除と修正の練習</span></div>
       <span class="go" style="background:#0071E3;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
     </div>
     <div class="renshu r-type" onclick="startPractice('type')">
       <span class="icchip" style="background:#E7F3E8;"><svg viewBox="0 0 24 24"><use href="#ic-keys"></use></svg></span>
-      <div class="tx"><b>打ってみる</b><span>見て、同じ文を打ちます</span></div>
+      <div class="tx"><b>お手本の入力</b><span>お手本と同じ文を入力します</span></div>
       <span class="go" style="background:var(--ok);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
     </div>
     <div class="renshu r-hard" onclick="startPractice('hard')">
       <span class="icchip" style="background:#E7E2F5;"><svg viewBox="0 0 24 24"><use href="#ic-tile"></use></svg></span>
-      <div class="tx"><b>英字・数字・記号</b><span>小さい「っ」「ゃ」も練習</span></div>
+      <div class="tx"><b>英字・数字・記号</b><span>小さい「っ」「ゃ」の入力も練習</span></div>
       <span class="go" style="background:#7C6BB8;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg></span>
     </div>
     <div class="lastline" id="last-line" style="display:none;">
       <svg viewBox="0 0 24 24"><use href="#ic-sakura-a"></use></svg>
       <span id="last-line-tx"></span>
     </div>
-    <div class="quietlink" onclick="location.href='p.html'">会員証・メニューにもどる</div>
-    <div class="footer">ここスマ・文字入力の練習 試作版 v0.9</div>
+    <div class="quietlink" onclick="location.href='p.html'">会員証・メニューに戻る</div>
+    <div class="footer">ここスマ・文字入力の練習 v0.10</div>
   </div>
 </div>
 
@@ -281,8 +297,8 @@
 <div class="screen" id="scr-voice">
   <div class="pad">
     <div class="head">
-      <h1>声で入れるには</h1>
-      <div class="sub">マイクの印は、ここにあります。</div>
+      <h1>音声入力の方法</h1>
+      <div class="sub">マイクの印はここにあります。</div>
     </div>
     <div class="phones">
       <div class="panel phonecard">
@@ -313,16 +329,16 @@
       </div>
     </div>
     <div class="steps">
-      <div class="step"><span class="n">1</span><span class="t">マイクの印を、押します</span></div>
-      <div class="step"><span class="n">2</span><span class="t">ゆっくり、話しかけます</span></div>
-      <div class="step"><span class="n">3</span><span class="t">文になったか、確かめます</span></div>
+      <div class="step"><span class="n">1</span><span class="t">マイクの印を押します</span></div>
+      <div class="step"><span class="n">2</span><span class="t">ゆっくり話しかけます</span></div>
+      <div class="step"><span class="n">3</span><span class="t">文章になったか確認します</span></div>
     </div>
     <div style="margin-top:auto; display:flex; flex-direction:column; gap:12px;">
       <div class="btn btn-primary" onclick="startPractice('voice')">
-        話しかけてみる
+        音声入力を試す
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg>
       </div>
-      <div class="quietlink" onclick="show('scr-select')">課題をえらび直す</div>
+      <div class="quietlink" onclick="show('scr-select')">課題を選び直す</div>
     </div>
   </div>
 </div>
@@ -331,10 +347,10 @@
 <div class="screen" id="scr-practice">
   <div class="pad">
     <div class="pbar">
-      <span class="t" id="p-title">打ってみる</span>
-      <span class="badge">れんしゅう中</span>
+      <span class="t" id="p-title">お手本の入力</span>
+      <span class="badge">練習中</span>
     </div>
-    <div class="pdirect" id="p-cap">下のお手本と同じ文を、打ちましょう。</div>
+    <div class="pdirect" id="p-cap">下のお手本と同じ文を入力しましょう。</div>
     <div class="panel task">
       <span class="tag" id="p-tag">お手本</span>
       <div class="tx" id="p-task"></div>
@@ -342,15 +358,15 @@
     <textarea class="inputbox" id="p-input" placeholder="ここに入ります" autocomplete="off" autocorrect="on"></textarea>
     <div class="measure" id="p-measure" style="visibility:hidden;">
       <span class="dot"></span>
-      <span>はかっています。ゆっくりで大丈夫です。</span>
+      <span>時間を計っています。ゆっくりで大丈夫です。</span>
     </div>
     <div class="gentlemsg" id="p-msg"></div>
     <div style="margin-top:auto; display:flex; flex-direction:column; gap:12px;">
       <div class="btn btn-primary" onclick="finishPractice()">
-        できた
+        完了
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5 L10 17.5 L19 7"></path></svg>
       </div>
-      <div class="quietlink" onclick="show('scr-select')">やめて、課題をえらび直す</div>
+      <div class="quietlink" onclick="show('scr-select')">中止して課題を選び直す</div>
     </div>
   </div>
 </div>
@@ -361,21 +377,21 @@
     <svg class="bigflower" width="104" height="104" viewBox="0 0 24 24" style="margin-top:12px;"><use class="skin-use" href="#ic-sakura-a"></use></svg>
     <div>
       <div class="dekita">できました</div>
-      <div class="dekisub" id="dekisub">この調子で、今度はお店の桜も咲かせましょう。</div>
+      <div class="dekisub" id="dekisub">お店のタブレットでも練習できます。</div>
     </div>
     <div class="panel stats">
       <div class="row"><span class="k">1分あたり</span><span class="v" id="r-cpm">-<small> 文字</small></span></div>
-      <div class="row"><span class="k">直した回数</span><span class="v" id="r-fix">-<small> 回</small></span></div>
+      <div class="row"><span class="k">修正した回数</span><span class="v" id="r-fix">-<small> 回</small></span></div>
     </div>
     <div class="compare" id="r-compare" style="display:none;"></div>
     <div style="margin-top:auto; display:flex; flex-direction:column; gap:12px; width:100%;">
       <div class="btn btn-primary" onclick="retry()">
-        もう一回
+        もう一度
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 L16 12 L9 19"></path></svg>
       </div>
       <div class="btn btn-white" onclick="endSession()">
         <svg class="ic" viewBox="0 0 24 24"><use href="#ic-yunomi"></use></svg>
-        おわる
+        終了
       </div>
     </div>
   </div>
@@ -415,8 +431,8 @@ var SEASON = detectSeason();
 var SEASON_SYM = SEASON_SYMS[SEASON];
 document.body.setAttribute('data-season', SEASON);
 (function () {
-  var t = { spring: 'この調子で、今度はお店の桜も咲かせましょう。', summer: 'この調子で、今度はお店の青葉も茂らせましょう。',
-    autumn: 'この調子で、今度はお店の紅葉も進めましょう。', winter: 'この調子で、今度はお店の椿も咲かせましょう。' };
+  var t = { spring: 'お店のタブレットでも練習できます。', summer: 'お店のタブレットでも練習できます。',
+    autumn: 'お店のタブレットでも練習できます。', winter: 'お店のタブレットでも練習できます。' };
   window.addEventListener('DOMContentLoaded', function () {
     var el = document.getElementById('dekisub'); if (el) el.textContent = t[SEASON];
     document.querySelectorAll('use.skin-use').forEach(function (u) { u.setAttribute('href', '#' + SEASON_SYM); });
@@ -515,17 +531,17 @@ var TASKS = {
     { wrong: '古市古墳群は、世界遺跡。', right: '古市古墳群は、世界遺産。' }
   ]
 };
-var COURSE_TITLES = { voice: '声で入れる', fix: '間違いを直す', type: '打ってみる', hard: '英字・数字・記号' };
+var COURSE_TITLES = { voice: '音声入力', fix: '間違いの修正', type: 'お手本の入力', hard: '英字・数字・記号' };
 TASKS.hard = [
   { kind: '英字(アルファベット)', text: 'OK' },
   { kind: '英字(アルファベット)', text: 'LINE' },
   { kind: '英字(アルファベット)', text: 'Wi-Fi' },
   { kind: '数字', text: '2026年8月' },
   { kind: '数字', text: '10時30分' },
-  { kind: '記号(まる・てん)', text: 'こんにちは。お元気ですか?' },
+  { kind: '記号（句点・読点）', text: 'こんにちは。お元気ですか?' },
   { kind: '小さい「っ」', text: 'きっぷを買った。' },
   { kind: '小さい「ゃ・ゅ・ょ」', text: 'ぎゅうにゅうと、おちゃ。' },
-  { kind: '小さい文字(カタカナ)', text: 'チョコレート' }
+  { kind: '小さい文字（カタカナ）', text: 'チョコレート' }
 ];
 
 // ------- 練習 -------
@@ -544,20 +560,20 @@ function startPractice(course) {
   if (course === 'fix') {
     var t = pool[idx];
     cur.target = t.right;
-    document.getElementById('p-cap').textContent = '入力欄の文のまちがいを直して、下の「めざす文」にしましょう。';
-    document.getElementById('p-tag').textContent = 'めざす文';
+    document.getElementById('p-cap').textContent = '入力欄の文の間違いを修正して、下の「完成の文」にしましょう。';
+    document.getElementById('p-tag').textContent = '完成の文';
     document.getElementById('p-task').textContent = t.right;
     input.value = t.wrong;
     cur.prevLen = t.wrong.length;
   } else if (course === 'hard') {
     var h = pool[idx];
     cur.target = h.text;
-    document.getElementById('p-cap').textContent = h.kind + 'の練習です。下のお手本を、そのまま打ちましょう。';
+    document.getElementById('p-cap').textContent = h.kind + 'の練習です。下のお手本をそのまま入力しましょう。';
     document.getElementById('p-tag').textContent = 'お手本';
     document.getElementById('p-task').textContent = h.text;
   } else {
     cur.target = pool[idx];
-    document.getElementById('p-cap').textContent = course === 'voice' ? '下のお手本の文を、声で入れましょう。' : '下のお手本と同じ文を、打ちましょう。';
+    document.getElementById('p-cap').textContent = course === 'voice' ? '下のお手本の文を音声で入力しましょう。' : '下のお手本と同じ文を入力しましょう。';
     document.getElementById('p-tag').textContent = 'お手本';
     document.getElementById('p-task').textContent = cur.target;
     input.value = '';
@@ -586,7 +602,7 @@ function finishPractice() {
   var input = document.getElementById('p-input');
   var entered = input.value;
   if (normalize(entered).length === 0) {
-    document.getElementById('p-msg').textContent = 'まずは1文字、入れてみましょう。';
+    document.getElementById('p-msg').textContent = 'まずは1文字入力してみましょう。';
     return;
   }
   var seconds = cur.started ? Math.max(1, (Date.now() - cur.startAt) / 1000) : 1;
@@ -598,12 +614,12 @@ function finishPractice() {
   document.getElementById('r-fix').innerHTML = cur.fixes + '<small> 回</small>';
   var cmp = document.getElementById('r-compare');
   if (prev && prev.cpm) {
-    if (cpm > prev.cpm) cmp.textContent = '前回の自分より、少し速くなりました。';
-    else if (cur.fixes < prev.fixes) cmp.textContent = '前回の自分より、直す回数が減りました。';
-    else cmp.textContent = '今日も、しっかり練習できました。';
+    if (cpm > prev.cpm) cmp.textContent = '前回より少し速くなりました。';
+    else if (cur.fixes < prev.fixes) cmp.textContent = '前回より修正の回数が減りました。';
+    else cmp.textContent = '今日もしっかり練習できました。';
     cmp.style.display = 'block';
   } else {
-    cmp.textContent = 'これが、あなたの最初の記録です。';
+    cmp.textContent = 'これが最初の記録です。';
     cmp.style.display = 'block';
   }
   log.last[cur.course] = { cpm: cpm, fixes: cur.fixes, at: new Date().toISOString().slice(0, 10) };
@@ -626,7 +642,7 @@ function endSession() { renderMethods(); show('scr-select'); }
   renderMethods();
   try {
     var nm2 = storeGet('kokosuma_name');
-    if (nm2) document.getElementById('select-greet').textContent = nm2 + 'さん、自分のペースで、どうぞ。';
+    if (nm2) document.getElementById('select-greet').textContent = nm2 + 'さん、ご自分のペースで進められます。';
     var c = new URLSearchParams(location.search).get('c');
     if (c === 'voice') openVoiceGuide();
     else if (c === 'fix' || c === 'type' || c === 'hard') startPractice(c);
