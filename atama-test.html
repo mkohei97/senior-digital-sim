@@ -135,7 +135,7 @@
   #scr-home .sakura-card svg.minitree { max-width: 175px; }
   .game-grid { flex: 1 1 auto; min-height: 0; max-height: 700px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 1fr minmax(84px, 96px); gap: 14px; }
   .gcard-wide { grid-column: 1 / -1; }
-  /* v1.16: お釣り計算（Claude Design「お釣り計算とホーム7種目」） */
+  /* v1.16: お釣り暗算（Claude Design「お釣り暗算とホーム7種目」） */
   .otsuri-scene { display: flex; align-items: center; justify-content: center; gap: 18px; margin-bottom: 10px; }
   .otsuri-buy { background: #F8F3E9; border: 1px solid #E3D9C2; border-radius: 14px; padding: 8px 18px 10px; text-align: center; }
   .otsuri-buy .cap2 { font-size: 18px; color: #8A6A3B; letter-spacing: 1px; }
@@ -165,7 +165,7 @@
   .otsuri-choices .q-choice.correct .tag { background: var(--accent-deep); color: #FFFFFF; }
   .otsuri-choices .q-choice.picked { border-color: #C98A3D; background: #FBF3E4; color: #7A5A28; }
   .otsuri-choices .q-choice.picked .tag { background: #C98A3D; color: #FFFFFF; }
-  /* v1.17: 2階層ホーム（Claude Design「記憶の順番とホーム8種目」2a-2c・松田さん裁定） */
+  /* v1.17: 2階層ホーム（Claude Design「順番記憶とホーム8種目」2a-2c・松田さん裁定） */
   .tree-compact { display: flex; align-items: center; gap: 18px; padding: 10px 22px; cursor: pointer; position: relative; flex-shrink: 0; }
   .tree-compact svg.minitree { width: 118px; height: 88px; flex-shrink: 0; }
   .tree-compact .info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
@@ -247,7 +247,7 @@
     display: flex; align-items: center; gap: 8px; }
   .cert-ovl .cert .ssn svg { width: 20px; height: 20px; }
   .cert-ovl .hint { font-size: 21px; color: var(--season-deep); opacity: 0.8; margin-top: 18px; }
-  /* v1.18: 上の句・下の句（Claude Design「上の句・下の句」） */
+  /* v1.18: 百人一首（Claude Design「百人一首」） */
   .kami-inst { background: var(--accent-deep); color: #FFFFFF; border-radius: 16px; padding: 14px 24px; text-align: center;
     font-size: 23px; font-weight: 700; letter-spacing: 0.5px; flex-shrink: 0; }
   .kami-heads { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; flex-shrink: 0; }
@@ -277,7 +277,7 @@
   .kami-msg .tx b { font-size: 23px; color: #333A38; }
   .kami-msg .tx span { font-size: 19px; color: #6B6455; }
   .kami-msg.ng .tx b { font-size: 22px; color: #7A5A28; }
-  /* v1.17: 記憶の順番（Claude Design「記憶の順番とホーム8種目」） */
+  /* v1.17: 順番記憶（Claude Design「順番記憶とホーム8種目」） */
   .kioku-status { align-self: center; background: #FFFFFF; border: 1px solid var(--season-border); border-radius: 999px;
     padding: 12px 26px; font-size: 24px; font-weight: 700; color: #333A38; display: flex; align-items: center; gap: 12px;
     box-shadow: 0 6px 16px rgba(60, 48, 36, 0.08); }
@@ -725,7 +725,7 @@
   .trivia .cap { font-size: 20px; color: #0071E3; font-weight: 700; }
   .trivia .tx { font-size: 23px; line-height: 1.7; }
 
-  /* カード合わせ */
+  /* 絵合わせ */
   .guide { font-size: 23px; text-align: center; color: #333A38; }
   .cardgrid { display: grid; gap: 14px; width: 100%; }
   .card { aspect-ratio: 3 / 3.6; border-radius: 20px; cursor: pointer;
@@ -741,7 +741,7 @@
   .subnote { font-size: 21px; color: #555555; text-align: center; }
   .subnote b { color: var(--accent-deep); font-size: 23px; }
 
-  /* 順番タップ */
+  /* 数字探し */
   .numgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; width: 100%; }
   .numgrid.wide { grid-template-columns: repeat(4, 1fr); gap: 13px; }
   .numgrid.wide .numbtn { aspect-ratio: 1 / 0.72; font-size: 44px; border-radius: 18px; }
@@ -1896,7 +1896,7 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
 .screen .q-choice, .kami-card { background: #FFFFFF !important; border: 2px solid transparent !important; box-shadow: var(--c-shadow-s) !important; border-radius: 20px !important; }
 .kami-card.sel { border-color: var(--c-acc) !important; }
 .kami-card.done { background: #F1F3F2 !important; box-shadow: none !important; color: #8A928F !important; }
-/* 記憶の順番：白い札＋丸い台の絵 */
+/* 順番記憶：白い札＋丸い台の絵 */
 .kioku-tile { background: #FFFFFF !important; border: 4px solid transparent !important; box-shadow: var(--c-shadow) !important; border-radius: 28px !important; }
 .kioku-tile .kio-img { width: 150px; height: 150px; border-radius: 50%; background-size: 80% !important; background-position: center !important; background-repeat: no-repeat !important; }
 #kio-tile-0 .kio-img { background-color: #FBE7EF; } #kio-tile-1 .kio-img { background-color: #FDF3D8; } #kio-tile-2 .kio-img { background-color: #E5F2E7; } #kio-tile-3 .kio-img { background-color: #DFEBFA; }
@@ -1993,6 +1993,59 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
 #scr-brain .bt.rec .gimg { width: 56px !important; height: 56px !important; }
 /* v1.70 左右の見出しをそろえる（スマホの練習） */
 .rs-hd { min-height: 64px; box-sizing: border-box; }
+/* ===== v1.72 クラブモード（大人の脳活クラブの20分・19y§4・97l v0.3） ===== */
+#scr-club { max-width: 1180px !important; }
+#scr-club .club-wrap { padding: 20px 36px 110px; box-sizing: border-box; display: flex; flex-direction: column; gap: 18px; min-height: calc(100dvh - 88px); }
+.club-hd { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.club-hd h2 { margin: 0; font-family: "Zen Kaku Gothic New", "Hiragino Sans", sans-serif; font-size: 34px; font-weight: 900; color: #1F2A28; letter-spacing: .02em; }
+.club-pill { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 20px; border-radius: 999px; font-size: 21px; font-weight: 700; white-space: nowrap; }
+.club-pill.wk { background: #E6F2EF; color: #0B4F42; }
+.club-pill.tm { background: #FFFFFF; color: #1F2A28; box-shadow: 0 6px 18px rgba(31,42,40,.08); margin-left: auto; }
+.club-who { font-size: 24px; color: #1F2A28; margin: 0; }
+.club-who b { font-size: 26px; }
+.club-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.club-step { position: relative; background: #FFFFFF; border-radius: 24px; box-shadow: 0 10px 28px rgba(31,42,40,.08); padding: 18px 14px 20px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; min-width: 0; }
+.club-step .no { position: absolute; top: 14px; left: 14px; width: 40px; height: 40px; border-radius: 50%; background: #0F766E; color: #FFFFFF; font-size: 22px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.club-step.done .no { background: #8FB9B0; }
+.club-step.cur { box-shadow: 0 0 0 4px #0F766E, 0 10px 28px rgba(31,42,40,.10); }
+.club-step .pic { width: 104px; height: 104px; border-radius: 50%; background: #E9EFEC; display: flex; align-items: center; justify-content: center; margin-top: 8px; }
+.club-step .pic .gimg { width: 84px; height: 84px; }
+.club-step .pic.free { background: #FFFFFF; border: 3px dashed #B9C9C4; font-size: 46px; font-weight: 900; color: #0F766E; box-sizing: border-box; }
+.club-step .nm { font-size: 25px; font-weight: 700; color: #1F2A28; line-height: 1.35; word-break: keep-all; }
+.club-step .pw { display: inline-block; padding: 3px 14px; border-radius: 999px; font-size: 19px; font-weight: 700; }
+.club-step .why { font-size: 19px; font-weight: 700; color: #0B4F42; }
+.club-step .why.fc { color: #A9436E; }
+.club-step .ck { position: absolute; top: 12px; right: 14px; font-size: 30px; color: #0F766E; font-weight: 900; }
+.club-step.done .pic, .club-step.done .nm { opacity: .55; }
+.club-foot { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
+.club-go { display: inline-flex; align-items: center; justify-content: center; height: 84px; padding: 0 64px; border-radius: 999px; background: #0F766E; color: #FFFFFF; font-size: 30px; font-weight: 700; border: none; cursor: pointer; font-family: inherit; }
+.club-sub { display: inline-flex; align-items: center; justify-content: center; height: 64px; padding: 0 30px; border-radius: 999px; border: 2px solid #0F766E; background: #FFFFFF; color: #0B4F42; font-size: 23px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.club-go:active, .club-sub:active { transform: translateY(2px) scale(.99); }
+.club-in { background: #FFFFFF; border-radius: 28px; box-shadow: 0 10px 28px rgba(31,42,40,.08); padding: 44px 40px; display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center; flex: 1; justify-content: center; }
+.club-in h3 { margin: 0; font-size: 34px; color: #1F2A28; }
+.club-in .club-steps { width: 100%; }
+#club-pick-note { display: none; margin: 14px 36px 0; padding: 16px 24px; border-radius: 18px; background: #E6F2EF; color: #0B4F42; font-size: 24px; font-weight: 700; text-align: center; }
+body.club-on #club-pick-note { display: block; }
+body.club-on .club-hide { display: none !important; }
+.club-sheet-tm { display: block; font-size: 20px; color: #0B4F42; font-weight: 700; }
+#course-bar .club-tm { margin-left: 10px; font-weight: 700; }
+.rv-stamp { display: inline-flex; align-items: center; gap: 10px; padding: 10px 22px; border-radius: 999px; background: #E6F2EF; color: #0B4F42; font-size: 22px; font-weight: 700; margin: 4px 0 6px; }
+@media (max-width: 1100px) {
+  #scr-club .club-wrap { padding: 14px 24px 100px; gap: 14px; }
+  .club-hd h2 { font-size: 30px; }
+  .club-steps { gap: 12px; }
+  .club-step .pic { width: 88px; height: 88px; }
+  .club-step .pic .gimg { width: 70px; height: 70px; }
+  .club-step .nm { font-size: 22px; }
+  .club-step .pw, .club-step .why { font-size: 18px; }
+  .club-go { height: 76px; font-size: 27px; padding: 0 52px; }
+}
+@media (max-height: 760px) {
+  .club-step { padding: 14px 10px 14px; gap: 8px; }
+  .club-in { padding: 28px 30px; gap: 16px; }
+  .club-in h3 { font-size: 30px; }
+}
+
 </style>
 </head>
 <body>
@@ -2329,7 +2382,7 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.70（ここスマ自習システム・共通の型＋中身の画面＋同じ形の結果＋ご褒美の整理＋スタンプ＝ご来店＋7つの力は大きな数字＋見た目の統一＋スマホの練習の整理＋呼び名の総点検＋iPadのSafari対応＋ひとことを外す＋デザインの仕上げ＋文字を減らす）<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.72（ここスマ自習システム・共通の型＋中身の画面＋同じ形の結果＋ご褒美の整理＋スタンプ＝ご来店＋7つの力は大きな数字＋見た目の統一＋スマホの練習の整理＋呼び名の総点検＋iPadのSafari対応＋ひとことを外す＋デザインの仕上げ＋文字を減らす）<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -2348,17 +2401,17 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
     <div class="cat-menu">
       <div class="gcard" onclick="startQuiz()">
         <span class="chip" style="background:#E7F3E8; color:#2E8B57;"><svg viewBox="0 0 24 24"><use href="#ic-kofun"></use></svg></span>
-        <div class="tx"><b>ふるさとクイズ</b><span>思い出をたどる三択<em class="abil">思い出す</em></span></div>
+        <div class="tx"><b>ふるさとクイズ</b><span>思い出をたどる三択<em class="abil">想起力</em></span></div>
         <span class="goa" style="background:#E7F3E8; color:#2E8B57;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startKotowaza()">
         <span class="chip" style="background:#F6E7EB; color:#963E52;"><svg viewBox="0 0 24 24"><use href="#ic-maki"></use></svg></span>
-        <div class="tx"><b>ことわざクイズ</b><span>続きを当てる・意味から当てる<em class="abil">思い出す</em></span></div>
+        <div class="tx"><b>ことわざクイズ</b><span>続きを当てる・意味から当てる<em class="abil">想起力</em></span></div>
         <span class="goa" style="background:#F6E7EB; color:#963E52;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startOtsuri()">
         <span class="chip" style="background:#F5EDD6; color:#9A7B2D;"><svg viewBox="0 0 24 24"><use href="#ic-coin"></use></svg></span>
-        <div class="tx"><b>お釣り計算</b><span>買い物のお釣りを当てる<em class="abil">計算する</em></span></div>
+        <div class="tx"><b>お釣り暗算</b><span>買い物のお釣りを当てる<em class="abil">計算力</em></span></div>
         <span class="goa" style="background:#F5EDD6; color:#9A7B2D;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
     </div>
@@ -2436,57 +2489,57 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
     <div class="cat-menu nt-two">
       <div class="gcard" onclick="startKiki()">
         <span class="gimg gi-kiki" aria-hidden="true"></span>
-        <div class="tx"><b>聞き取り</b><span>暮らしの会話・名作を聞く<em class="abil">聞く</em></span></div>
+        <div class="tx"><b>音読聞き取り</b><span>暮らしの会話・名作を聞く<em class="abil">聞き取り力</em></span></div>
         <span class="goa" style="background:#FBE9D6; color:#B96A2C;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startYomu()">
         <span class="gimg gi-yomu" aria-hidden="true"></span>
-        <div class="tx"><b>読み取り</b><span>声に出さずに読んで答える<em class="abil">読む</em></span></div>
+        <div class="tx"><b>文章読み取り</b><span>声に出さずに読んで答える<em class="abil">読解力</em></span></div>
         <span class="goa" style="background:#E6EEF9; color:#2F5E9E;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startKioku()">
         <span class="gimg gi-kioku" aria-hidden="true"></span>
-        <div class="tx"><b>記憶の順番</b><span>光った順に押す・前回の続きから<em class="abil">覚える</em></span></div>
+        <div class="tx"><b>順番記憶</b><span>光った順に押す・前回の続きから<em class="abil">記憶力</em></span></div>
         <span class="goa" style="background:#DFF2FA; color:#1E7A9C;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startCards()">
         <span class="gimg gi-cards" aria-hidden="true"></span>
-        <div class="tx"><b>カード合わせ</b><span>同じ絵柄を探す・3組から8組へ<em class="abil">覚える</em></span></div>
+        <div class="tx"><b>絵合わせ</b><span>同じ絵柄を探す・3組から8組へ<em class="abil">記憶力</em></span></div>
         <span class="goa" style="background:#E3EEF8; color:#2A6496;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startNums()">
         <span class="gimg gi-tile" aria-hidden="true"></span>
-        <div class="tx"><b>順番タップ</b><span>数字を順に押す・最後は数字とかなを交互に<em class="abil">見つける</em></span></div>
+        <div class="tx"><b>数字探し</b><span>数字を順に押す・最後は数字とかなを交互に<em class="abil">注意力</em></span></div>
         <span class="goa" style="background:#FBE7EF; color:#C22E63;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startOtsuri()">
         <span class="gimg gi-otsuri" aria-hidden="true"></span>
-        <div class="tx"><b>お釣り計算</b><span>買い物のお釣りを当てる<em class="abil">計算する</em></span></div>
+        <div class="tx"><b>お釣り暗算</b><span>買い物のお釣りを当てる<em class="abil">計算力</em></span></div>
         <span class="goa" style="background:#F5EDD6; color:#9A7B2D;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startQuiz()">
         <span class="gimg gi-quiz" aria-hidden="true"></span>
-        <div class="tx"><b>ふるさとクイズ</b><span>思い出をたどる三択<em class="abil">思い出す</em></span></div>
+        <div class="tx"><b>ふるさとクイズ</b><span>思い出をたどる三択<em class="abil">想起力</em></span></div>
         <span class="goa" style="background:#E7F3E8; color:#2E8B57;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startKotowaza()">
         <span class="gimg gi-kotowaza" aria-hidden="true"></span>
-        <div class="tx"><b>ことわざクイズ</b><span>続きを当てる・意味から当てる<em class="abil">思い出す</em></span></div>
+        <div class="tx"><b>ことわざクイズ</b><span>続きを当てる・意味から当てる<em class="abil">想起力</em></span></div>
         <span class="goa" style="background:#F6E7EB; color:#963E52;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startKami()">
         <span class="gimg gi-kami" aria-hidden="true"></span>
-        <div class="tx"><b>上の句・下の句</b><span>上の句と下の句を合わせる・逆向きの回も<em class="abil">思い出す</em></span></div>
+        <div class="tx"><b>百人一首</b><span>上の句と下の句を合わせる・逆向きの回も<em class="abil">想起力</em></span></div>
         <span class="goa" style="background:#F0F2DF; color:#5F6B2B;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startHandan()">
         <span class="gimg gi-handan" aria-hidden="true"></span>
-        <div class="tx"><b>とっさの判断</b><span>緑の丸は押す・赤い×は押さない<em class="abil">見極める</em></span></div>
+        <div class="tx"><b>とっさの判断</b><span>緑の丸は押す・赤い×は押さない<em class="abil">判断力</em></span></div>
         <span class="goa" style="background:#E3F2F0; color:#0B4F42;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard" onclick="startJanken()">
         <span class="gimg gi-janken" aria-hidden="true"></span>
-        <div class="tx"><b>後出しじゃんけん</b><span>指示どおりに勝つ・負ける・あいこ<em class="abil">見極める</em></span></div>
+        <div class="tx"><b>後出しじゃんけん</b><span>指示どおりに勝つ・負ける・あいこ<em class="abil">判断力</em></span></div>
         <span class="goa" style="background:#E3F2F0; color:#0B4F42;"><svg width="22" height="22" viewBox="0 0 24 24"><use href="#ic-arrow-go"></use></svg></span>
       </div>
       <div class="gcard drl-door" onclick="drList()">
@@ -2527,13 +2580,13 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
   </div>
 </div>
 
-<!-- カード合わせ -->
+<!-- 絵合わせ -->
 <div class="screen" id="scr-cards">
   <div class="pad">
     <div class="appbar">
       <div class="left">
         <span class="icchip" style="background:#E4F0FC;"><svg viewBox="0 0 24 24"><use href="#ic-cards"></use></svg></span>
-        <span class="t">カード合わせ</span>
+        <span class="t">絵合わせ</span>
       </div>
       <span class="badge" id="cards-progress"></span>
     </div>
@@ -2546,13 +2599,13 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
   </div>
 </div>
 
-<!-- 順番タップ -->
+<!-- 数字探し -->
 <div class="screen" id="scr-nums">
   <div class="pad">
     <div class="appbar">
       <div class="left">
         <span class="icchip" style="background:var(--season-pale);"><svg viewBox="0 0 24 24"><use href="#ic-tile"></use></svg></span>
-        <span class="t">順番タップ</span>
+        <span class="t">数字探し</span>
       </div>
       <span class="badge" id="nums-progress"></span>
     </div>
@@ -2759,13 +2812,13 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
   </div>
 </div>
 
-<!-- お釣り計算(v1.16) -->
+<!-- お釣り暗算(v1.16) -->
 <div class="screen" id="scr-otsuri">
   <div class="pad">
     <div class="appbar">
       <div class="left">
         <span class="icchip" style="background:#F5EDD6;"><svg viewBox="0 0 24 24" style="color:#8A6A3B;"><use href="#ic-coin"></use></svg></span>
-        <span class="t">お釣り計算</span>
+        <span class="t">お釣り暗算</span>
       </div>
       <span class="badge" id="ots-progress"></span>
     </div>
@@ -2793,13 +2846,13 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
   </div>
 </div>
 
-<!-- 上の句・下の句(v1.18) -->
+<!-- 百人一首(v1.18) -->
 <div class="screen" id="scr-kami">
   <div class="pad">
     <div class="appbar">
       <div class="left">
         <span class="icchip" style="background:#F0F2DF;"><svg viewBox="0 0 24 24" style="color:#5F6B2B;"><use href="#ic-tanzaku"></use></svg></span>
-        <span class="t">上の句・下の句</span>
+        <span class="t">百人一首</span>
       </div>
       <span class="badge" id="kami-badge"></span>
     </div>
@@ -2818,13 +2871,13 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
   </div>
 </div>
 
-<!-- 記憶の順番(v1.17) -->
+<!-- 順番記憶(v1.17) -->
 <div class="screen" id="scr-kioku">
   <div class="pad">
     <div class="appbar">
       <div class="left">
         <span class="icchip" style="background:#DFF2FA;"><svg viewBox="0 0 24 24" style="color:#1E7A9C;"><use href="#ic-spark"></use></svg></span>
-        <span class="t">記憶の順番</span>
+        <span class="t">順番記憶</span>
       </div>
       <span class="badge" id="kio-badge"></span>
     </div>
@@ -2845,7 +2898,7 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
     <div class="appbar">
       <div class="left">
         <span class="icchip kiki-earchip"><svg viewBox="0 0 24 24" style="width:37px;height:37px;"><use href="#ic-ear"></use></svg></span>
-        <span class="t">聞き取り</span>
+        <span class="t">音読聞き取り</span>
       </div>
       <span class="badge" id="kiki-badge" style="display:none;"></span>
     </div>
@@ -2860,25 +2913,26 @@ body { background: var(--c-ground) !important; color: var(--c-ink); }
 <!-- v1.36 脳トレ：見極める・読む・ふりかえり・7つの階段・種目を選ぶ -->
 <div class="screen" id="scr-janken">
   <div class="pad">
-    <div class="appbar"><div class="left"><span class="icchip" style="background:#E3F2F0;color:#0B4F42;"><svg viewBox="0 0 24 24" style="width:34px;height:34px;"><use href="#ic-janken"></use></svg></span><span class="t">後出しじゃんけん</span></div><span class="badge" id="jk-badge">見極める</span></div>
+    <div class="appbar"><div class="left"><span class="icchip" style="background:#E3F2F0;color:#0B4F42;"><svg viewBox="0 0 24 24" style="width:34px;height:34px;"><use href="#ic-janken"></use></svg></span><span class="t">後出しじゃんけん</span></div><span class="badge" id="jk-badge">判断力</span></div>
     <div class="kiki-body" id="jk-body"></div>
     <div style="display:flex; justify-content:center;"><div class="btn btn-white" onclick="jkExit()">最初の画面に戻る</div></div>
   </div>
 </div>
 <div class="screen" id="scr-handan">
   <div class="pad">
-    <div class="appbar"><div class="left"><span class="icchip" style="background:#E3F2F0;color:#0B4F42;"><svg viewBox="0 0 24 24" style="width:34px;height:34px;"><use href="#ic-target"></use></svg></span><span class="t">とっさの判断</span></div><span class="badge">見極める</span></div>
+    <div class="appbar"><div class="left"><span class="icchip" style="background:#E3F2F0;color:#0B4F42;"><svg viewBox="0 0 24 24" style="width:34px;height:34px;"><use href="#ic-target"></use></svg></span><span class="t">とっさの判断</span></div><span class="badge">判断力</span></div>
     <div class="kiki-body" id="hd-body"></div>
     <div style="display:flex; justify-content:center;"><div class="btn btn-white" onclick="hdExit()">最初の画面に戻る</div></div>
   </div>
 </div>
 <div class="screen" id="scr-yomu">
   <div class="pad">
-    <div class="appbar"><div class="left"><span class="icchip" style="background:#E6EEF9;color:#2F5E9E;"><svg viewBox="0 0 24 24" style="width:34px;height:34px;"><use href="#ic-book"></use></svg></span><span class="t">読み取り</span></div><span class="badge" id="ym-badge" style="display:none;"></span></div>
+    <div class="appbar"><div class="left"><span class="icchip" style="background:#E6EEF9;color:#2F5E9E;"><svg viewBox="0 0 24 24" style="width:34px;height:34px;"><use href="#ic-book"></use></svg></span><span class="t">文章読み取り</span></div><span class="badge" id="ym-badge" style="display:none;"></span></div>
     <div class="kiki-body" id="ym-body"></div>
     <div style="display:flex; justify-content:center;"><div class="btn btn-white" onclick="ntExitGame()">最初の画面に戻る</div></div>
   </div>
 </div>
+<div class="screen" id="scr-club"><div class="club-wrap" id="club-body"></div></div>
 <div class="screen nt-wide" id="scr-review">
   <div class="pad"><div id="rv-body" class="rv-body"></div></div>
 </div>
@@ -3274,11 +3328,11 @@ var KENTEI_GAMES = {
   kofun: { name: 'ふるさと検定', icon: 'kofun', chip: '#E7F3E8', ink: '#2E8B57' },
   kotowaza: { name: 'ことわざ検定', icon: 'maki', chip: '#F6E7EB', ink: '#963E52' },
   otsuri: { name: 'お釣り検定', icon: 'coin', chip: '#F5EDD6', ink: '#9A7B2D' },
-  cards: { name: 'カード合わせ検定', icon: 'cards', chip: '#E3EEF8', ink: '#2A6496' },
-  tile: { name: '順番タップ検定', icon: 'tile', chip: '#FBE7EF', ink: '#C22E63' },
-  kioku: { name: '記憶の順番検定', icon: 'spark', chip: '#DFF2FA', ink: '#1E7A9C' },
-  kiki: { name: '聞き取り検定', icon: 'ear', chip: '#FBE9D6', ink: '#B96A2C' },
-  kami: { name: '上の句・下の句検定', icon: 'tanzaku', chip: '#F0F2DF', ink: '#5F6B2B' },
+  cards: { name: '絵合わせ検定', icon: 'cards', chip: '#E3EEF8', ink: '#2A6496' },
+  tile: { name: '数字探し検定', icon: 'tile', chip: '#FBE7EF', ink: '#C22E63' },
+  kioku: { name: '順番記憶検定', icon: 'spark', chip: '#DFF2FA', ink: '#1E7A9C' },
+  kiki: { name: '音読聞き取り検定', icon: 'ear', chip: '#FBE9D6', ink: '#B96A2C' },
+  kami: { name: '百人一首検定', icon: 'tanzaku', chip: '#F0F2DF', ink: '#5F6B2B' },
   sagi: { name: '見分け検定', icon: 'phone', chip: '#FDEBE7', ink: '#B0452F' },
   line: { name: 'LINE検定', icon: 'bubble', chip: '#E4F3E6', ink: '#1E8A46' },
   odai: { name: 'やってみた検定', icon: 'phone', chip: '#EEE8F6', ink: '#6B4FA1' }
@@ -3460,8 +3514,8 @@ function sparkSvg(vals, color) {
 var logCat = 'nokatsu';
 function setLogCat(k) { logCat = k; renderManabi(); }
 /* v1.28(19z B5): 種目ごとの記録の名前はメニューと同じにする */
-var LOG_NAME = { kiki: '聞き取り', tile: '順番タップ', kioku: '記憶の順番', otsuri: 'お釣り計算', kofun: 'ふるさとクイズ', kotowaza: 'ことわざクイズ',
-                 cards: 'カード合わせ', kami: '上の句・下の句', sagi: '怪しいメッセージを見分ける', line: 'LINEの練習', odai: 'お題カード', moji: '文字入力の練習' };
+var LOG_NAME = { kiki: '音読聞き取り', tile: '数字探し', kioku: '順番記憶', otsuri: 'お釣り暗算', kofun: 'ふるさとクイズ', kotowaza: 'ことわざクイズ',
+                 cards: '絵合わせ', kami: '百人一首', sagi: '怪しいメッセージを見分ける', line: 'LINEの練習', odai: 'お題カード', moji: '文字入力の練習' };
 function renderManabi() {
   var data = getKentei(session.m);
   var groups = { nokatsu: ['kiki', 'tile', 'kioku', 'otsuri', 'kofun', 'kotowaza', 'cards', 'kami'], sumaho: ['moji', 'sagi', 'line', 'odai'] };
@@ -3542,13 +3596,13 @@ var ODAI_THEME = { yoyaku: 311, manner: 102, moji: 104, shot: 106, photo: 202, a
 /* ===== v1.31 脳トレの分野の段・今日のメニュー（19ya v0.2・patch13） ===== */
 /* v1.36: 7分野。見出しは動詞＋熟語（19ya v0.3 §5c）。内部キーkiku〜kotobaは据え置き・yomu/handanを追加 */
 var BRAIN = [
-  { d: 'kiku', n: '聞く', j: '聴覚', ink: '#B96A2C', chip: '#FBE9D6', ic: 'ic-ear', games: ['kiki'] },
-  { d: 'yomu', n: '読む', j: '読解', ink: '#2F5E9E', chip: '#E6EEF9', ic: 'ic-book', games: ['yomu'] },
-  { d: 'oboeru', n: '覚える', j: '記憶', ink: '#7A4A9E', chip: '#F0E6F7', ic: 'ic-spark', games: ['kioku', 'cards'] },
-  { d: 'mitsukeru', n: '見つける', j: '注意', ink: '#A9436E', chip: '#FBE3EC', ic: 'ic-tile', games: ['tile'] },
-  { d: 'kazu', n: '計算する', j: '数的処理', ink: '#8A6D1F', chip: '#F4ECD9', ic: 'ic-coin', games: ['otsuri'] },
-  { d: 'kotoba', n: '思い出す', j: '想起', ink: '#2E7D4F', chip: '#E3F2E6', ic: 'ic-bubble', games: ['kotowaza', 'kofun', 'kami'] },
-  { d: 'handan', n: '見極める', j: '判断', ink: '#0B4F42', chip: '#E3F2F0', ic: 'ic-target', games: ['handan'] }
+  { d: 'kiku', n: '聞き取り力', j: '', ink: '#B96A2C', chip: '#FBE9D6', ic: 'ic-ear', games: ['kiki'] },
+  { d: 'yomu', n: '読解力', j: '', ink: '#2F5E9E', chip: '#E6EEF9', ic: 'ic-book', games: ['yomu'] },
+  { d: 'oboeru', n: '記憶力', j: '', ink: '#7A4A9E', chip: '#F0E6F7', ic: 'ic-spark', games: ['kioku', 'cards'] },
+  { d: 'mitsukeru', n: '注意力', j: '', ink: '#A9436E', chip: '#FBE3EC', ic: 'ic-tile', games: ['tile'] },
+  { d: 'kazu', n: '計算力', j: '', ink: '#8A6D1F', chip: '#F4ECD9', ic: 'ic-coin', games: ['otsuri'] },
+  { d: 'kotoba', n: '想起力', j: '', ink: '#2E7D4F', chip: '#E3F2E6', ic: 'ic-bubble', games: ['kotowaza', 'kofun', 'kami'] },
+  { d: 'handan', n: '判断力', j: '', ink: '#0B4F42', chip: '#E3F2F0', ic: 'ic-target', games: ['handan'] }
 ];
 function brainOf(game) { for (var i = 0; i < BRAIN.length; i++) if (BRAIN[i].games.indexOf(game) >= 0) return BRAIN[i].d; return null; }
 var skillData = null; // my_skill の返り値
@@ -3628,16 +3682,16 @@ function loadSkill() {
 
 /* ---- 今日のメニュー（3つ・約10分） ---- */
 var ACT = {
-  kiki: { n: '聞き取り', fn: 'startKiki', chip: '#FBE9D6', ink: '#B96A2C', ic: 'ic-ear', desc: '暮らしの会話・名作を聞く' },
-  yomu: { n: '読み取り', fn: 'startYomu', chip: '#E6EEF9', ink: '#2F5E9E', ic: 'ic-book', desc: '声に出さずに読んで中身を答える' },
+  kiki: { n: '音読聞き取り', fn: 'startKiki', chip: '#FBE9D6', ink: '#B96A2C', ic: 'ic-ear', desc: '暮らしの会話・名作を聞く' },
+  yomu: { n: '文章読み取り', fn: 'startYomu', chip: '#E6EEF9', ink: '#2F5E9E', ic: 'ic-book', desc: '声に出さずに読んで中身を答える' },
   handan: { n: 'とっさの判断', fn: 'startHandan', chip: '#E3F2F0', ink: '#0B4F42', ic: 'ic-target', desc: '緑の丸は押す・赤い×は押さない' },
-  kioku: { n: '記憶の順番', fn: 'startKioku', chip: '#DFF2FA', ink: '#1E7A9C', ic: 'ic-spark', desc: '光った順に押す' },
-  cards: { n: 'カード合わせ', fn: 'startCards', chip: '#E3EEF8', ink: '#2A6496', ic: 'ic-cards', desc: '同じ絵柄を探す' },
-  tile: { n: '順番タップ', fn: 'startNums', chip: '#FBE7EF', ink: '#C22E63', ic: 'ic-tile', desc: '数字を順に押す' },
-  otsuri: { n: 'お釣り計算', fn: 'startOtsuri', chip: '#F5EDD6', ink: '#9A7B2D', ic: 'ic-coin', desc: '買い物のお釣りを当てる' },
+  kioku: { n: '順番記憶', fn: 'startKioku', chip: '#DFF2FA', ink: '#1E7A9C', ic: 'ic-spark', desc: '光った順に押す' },
+  cards: { n: '絵合わせ', fn: 'startCards', chip: '#E3EEF8', ink: '#2A6496', ic: 'ic-cards', desc: '同じ絵柄を探す' },
+  tile: { n: '数字探し', fn: 'startNums', chip: '#FBE7EF', ink: '#C22E63', ic: 'ic-tile', desc: '数字を順に押す' },
+  otsuri: { n: 'お釣り暗算', fn: 'startOtsuri', chip: '#F5EDD6', ink: '#9A7B2D', ic: 'ic-coin', desc: '買い物のお釣りを当てる' },
   kotowaza: { n: 'ことわざクイズ', fn: 'startKotowaza', chip: '#F6E7EB', ink: '#963E52', ic: 'ic-maki', desc: '続きを当てる' },
   kofun: { n: 'ふるさとクイズ', fn: 'startQuiz', chip: '#E7F3E8', ink: '#2E8B57', ic: 'ic-kofun', desc: '思い出をたどる三択' },
-  kami: { n: '上の句・下の句', fn: 'startKami', chip: '#F0F2DF', ink: '#5F6B2B', ic: 'ic-tanzaku', desc: '上の句と下の句を合わせる' },
+  kami: { n: '百人一首', fn: 'startKami', chip: '#F0F2DF', ink: '#5F6B2B', ic: 'ic-tanzaku', desc: '上の句と下の句を合わせる' },
   line: { n: 'LINEの練習', fn: 'startLine', chip: '#E4F3E6', ink: '#1E8A46', ic: 'ic-bubble', theme: 201 },
   sagi: { n: '怪しいメッセージ', fn: 'startSagi', chip: '#FDEBE7', ink: '#B0452F', ic: 'ic-phone', theme: 103 },
   odai: { n: 'お題カード', fn: 'startOdai', chip: '#EEE8F6', ink: '#6B4FA1', ic: 'ic-phone' }
@@ -3736,7 +3790,7 @@ function brainDanHtml() {
     '<div class="dan-note">薄い線＝始めたとき／濃い線＝今。レベルは下がりません。</div></div>';
 }
 
-/* v1.36 読み取りの文章（黙読）。L=1短め・2ふつう・3長め。q=[問い,[正解,ほか,ほか]]。文章はすべてここスマのオリジナル */
+/* v1.36 文章読み取りの文章（黙読）。L=1短め・2ふつう・3長め。q=[問い,[正解,ほか,ほか]]。文章はすべてここスマのオリジナル */
 var YOMU = [
  { id: 'y01', L: 1, title: '回覧板', text: '回覧板でお知らせします。今月の地域の清掃は、第二日曜日の朝八時からです。集合場所は、公民館の前です。軍手は各自でご用意ください。雨の場合は、翌週に延期します。',
    q: [['清掃はいつ？', ['第2日曜日の朝8時', '第1日曜日の朝8時', '第2土曜日の朝9時']], ['雨のときは？', ['翌週に延期', '中止', '午後に変更']]] },
@@ -3777,7 +3831,7 @@ function ntChip(b, s, i) { s = s || 48; i = i || 28; return '<span class="nt-chi
 /* 見出し A＝熟語を背景にずらして薄く（記録）／B＝右上に小さく字間を広く（ホーム・ふりかえり） */
 function ntLabelA(b, size) { size = size || 24; return '<span class="nt-la"><i style="font-size:' + Math.round(size * 0.95) + 'px;color:' + b.ink + ';">' + b.j + '</i><b style="font-size:' + size + 'px;">' + b.n + '</b></span>'; }
 function ntLabelB(b, size) { size = size || 22; return '<span class="nt-lb"><b style="font-size:' + size + 'px;">' + b.n + '</b><i style="font-size:' + Math.max(18, Math.round(size * 0.62)) + 'px;">' + b.j + '</i></span>'; }
-function ntPower(b) { return b.n + '力'; }
+function ntPower(b) { return /力$/.test(b.n) ? b.n : b.n + '力'; }
 
 /* ---- 実力の数字（1回ぶん）。v=比べる値・txt=見せる文・hi=大きいほど良い ---- */
 var KK_ON = [300, 360, 430, 500];
@@ -3892,7 +3946,7 @@ function hdEnd() {
 }
 function hdExit() { if (hd) { hd.done = true; clearTimeout(hd.timer); } ntExitGame(); }
 
-/* ================= 読む：読み取り（黙読） ================= */
+/* ================= 読む：文章読み取り（黙読） ================= */
 var ym = null, YM_PER = 3, YM_TH = [250, 300, 350, 400, 450, 500, 560, 620, 700];
 function ymKey(k) { return 'kokosuma_ym_' + k + '_' + (sessM() || 'guest'); }
 function ymChars(t) { return t.replace(/[、。「」『』！？!?,.\s・（）()]/g, '').length; }
@@ -4397,7 +4451,7 @@ function nextQuizQ() {
   }
 }
 
-// ------- カード合わせ（絵柄はオリジナルSVG・8種） -------
+// ------- 絵合わせ（絵柄はオリジナルSVG・8種） -------
 var FACES = [
   { id: 'sakura', label: 'さくら' },
   { id: 'mountain', label: 'やま' },
@@ -4496,7 +4550,7 @@ function cardRoundClear() {
   }
 }
 
-// ------- 順番タップ -------
+// ------- 数字探し -------
 var numRound = 0;
 var NUM_COUNTS = [6, 10, 15, 12]; // v1.27: 4回目は数字とかなを交互(1→あ→2→い…12個=6+6)
 var NUM_ALT_ROUND = 3;
@@ -4615,15 +4669,15 @@ function showSummary() {
     total += record.flowersByGame.kofun;
   }
   if (record.cardsRounds > 0) {
-    rows.push({ icon: 'cards', chip: '#E4F0FC', label: 'カード合わせ(' + record.cardsRounds + '回)', n: record.flowersByGame.cards, perfect: record.perfect.cards });
+    rows.push({ icon: 'cards', chip: '#E4F0FC', label: '絵合わせ(' + record.cardsRounds + '回)', n: record.flowersByGame.cards, perfect: record.perfect.cards });
     total += record.flowersByGame.cards;
   }
   if (record.numsMax > 0) {
-    rows.push({ icon: 'tile', chip: '#FBE7EF', label: '順番タップ(' + record.numsMax + 'まで)', n: record.flowersByGame.tile, perfect: record.perfect.tile });
+    rows.push({ icon: 'tile', chip: '#FBE7EF', label: '数字探し(' + record.numsMax + 'まで)', n: record.flowersByGame.tile, perfect: record.perfect.tile });
     total += record.flowersByGame.tile;
   }
   if (record.kikiSets > 0) {
-    rows.push({ icon: 'ear', chip: '#FBE9D6', label: '聞き取り(' + kikiTopLabel() + 'まで)', n: record.flowersByGame.kiki, perfect: record.perfect.kiki });
+    rows.push({ icon: 'ear', chip: '#FBE9D6', label: '音読聞き取り(' + kikiTopLabel() + 'まで)', n: record.flowersByGame.kiki, perfect: record.perfect.kiki });
     total += record.flowersByGame.kiki;
   }
   if (record.kotoAnswered > 0) {
@@ -4631,15 +4685,15 @@ function showSummary() {
     total += record.flowersByGame.kotowaza;
   }
   if (record.otsuriAnswered > 0) {
-    rows.push({ icon: 'coin', chip: '#F5EDD6', label: 'お釣り計算(' + record.otsuriCorrect + '/' + record.otsuriAnswered + '問)', n: record.flowersByGame.otsuri, perfect: record.perfect.otsuri });
+    rows.push({ icon: 'coin', chip: '#F5EDD6', label: 'お釣り暗算(' + record.otsuriCorrect + '/' + record.otsuriAnswered + '問)', n: record.flowersByGame.otsuri, perfect: record.perfect.otsuri });
     total += record.flowersByGame.otsuri;
   }
   if (record.kiokuBest > 0) {
-    rows.push({ icon: 'spark', chip: '#DDEEF7', label: '記憶の順番(' + record.kiokuBest + '個まで)', n: record.flowersByGame.kioku, perfect: record.perfect.kioku });
+    rows.push({ icon: 'spark', chip: '#DDEEF7', label: '順番記憶(' + record.kiokuBest + '個まで)', n: record.flowersByGame.kioku, perfect: record.perfect.kioku });
     total += record.flowersByGame.kioku;
   }
   if (record.kamiPairs > 0) {
-    rows.push({ icon: 'tanzaku', chip: '#EFE3EA', label: '上の句・下の句(' + record.kamiPairs + '組)', n: record.flowersByGame.kami, perfect: record.perfect.kami });
+    rows.push({ icon: 'tanzaku', chip: '#EFE3EA', label: '百人一首(' + record.kamiPairs + '組)', n: record.flowersByGame.kami, perfect: record.perfect.kami });
     total += record.flowersByGame.kami;
   }
   if (record.sagiAnswered > 0) {
@@ -5184,7 +5238,7 @@ function odaiDone() {
   renderOdaiList();
 }
 
-// ------- お釣り計算（v1.16・19k C-4: 買い物文脈・二択から四択へ） -------
+// ------- お釣り暗算（v1.16・19k C-4: 買い物文脈・二択から四択へ） -------
 // pk: 支払いの見た目(coin=硬貨/bill=お札) pv: 表示金額 pc: 枚数
 var OTSURI = [
   { lvl: 1, item: 'りんご', price: 100, pay: 500, payLabel: '500円玉', pk: 'coin', pv: 500, pc: 1 },
@@ -5351,7 +5405,7 @@ function nextOtsuriQ() {
   }
 }
 
-// ------- 上の句・下の句（v1.18・19k D-7: 開き札の対句合わせ） -------
+// ------- 百人一首（v1.18・19k D-7: 開き札の対句合わせ） -------
 var KAMI = [
   { a: '春すぎて 夏来にけらし 白妙の', b: '衣ほすてふ 天の香具山', src: '持統天皇（百人一首）' },
   { a: '秋の田の かりほの庵の 苫をあらみ', b: 'わが衣手は 露にぬれつつ', src: '天智天皇（百人一首）' },
@@ -5471,7 +5525,7 @@ function finishKami() {
   gameCompleted('kami', qualityByMiss(record.kamiMiss, 2));
 }
 
-// ------- 記憶の順番（v1.17・19k C-5: サイモン式・2個から5個へ） -------
+// ------- 順番記憶（v1.17・19k C-5: サイモン式・2個から5個へ） -------
 var KIOKU_TILES = [
   { sym: 'ic-sakura', name: 'さくら', bg: '#FBE7EF', ink: '#C2537B' },
   { sym: 'ic-moon', name: 'つき', bg: '#FBF3DC', ink: '#A8842C' },
@@ -5817,7 +5871,7 @@ function kkStairsHtml(best, mark, fresh) {
     h += '<line x1="' + a + '" y1="' + (base + 8) + '" x2="' + b + '" y2="' + (base + 8) + '" stroke="#E3DFD2" stroke-width="2"></line>' +
       '<text x="' + ((a + b) / 2) + '" y="' + (base + 30) + '" text-anchor="middle" font-size="17" fill="#555555">' + g[2] + '</text>';
   });
-  return '<svg class="kk-stairs" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="聞き取りのレベル ' + best + 'まで">' + h + '</svg>';
+  return '<svg class="kk-stairs" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="音読聞き取りのレベル ' + best + 'まで">' + h + '</svg>';
 }
 function kkIntro() {
   kikiBadge(''); kkStop();
@@ -18695,13 +18749,13 @@ var KIROKU_KEYS = { m: 'entry.576526930', course: 'entry.193744536', method: 'en
 function buildSessionSummary() {
   var parts = [];
   if (record.quizAnswered > 0) parts.push('クイズ' + record.quizCorrect + '/' + record.quizAnswered + '問');
-  if (record.cardsRounds > 0) parts.push('カード合わせ' + record.cardsRounds + '回');
-  if (record.numsMax > 0) parts.push('順番タップ' + record.numsMax + 'まで');
-  if (record.kikiSets > 0) parts.push('聞き取り' + kikiTopLabel() + 'まで');
+  if (record.cardsRounds > 0) parts.push('絵合わせ' + record.cardsRounds + '回');
+  if (record.numsMax > 0) parts.push('数字探し' + record.numsMax + 'まで');
+  if (record.kikiSets > 0) parts.push('音読聞き取り' + kikiTopLabel() + 'まで');
   if (record.kotoAnswered > 0) parts.push('ことわざ' + record.kotoCorrect + '/' + record.kotoAnswered + '問');
-  if (record.otsuriAnswered > 0) parts.push('お釣り計算' + record.otsuriCorrect + '/' + record.otsuriAnswered + '問');
-  if (record.kiokuBest > 0) parts.push('記憶の順番' + record.kiokuBest + '個まで');
-  if (record.kamiPairs > 0) parts.push('上の句・下の句' + record.kamiPairs + '組');
+  if (record.otsuriAnswered > 0) parts.push('お釣り暗算' + record.otsuriCorrect + '/' + record.otsuriAnswered + '問');
+  if (record.kiokuBest > 0) parts.push('順番記憶' + record.kiokuBest + '個まで');
+  if (record.kamiPairs > 0) parts.push('百人一首' + record.kamiPairs + '組');
   if (record.sagiAnswered > 0) parts.push('見分け' + record.sagiCorrect + '/' + record.sagiAnswered + '問');
   if (record.lineAnswered > 0) parts.push('LINE練習' + record.lineCorrect + '/' + record.lineAnswered + '問');
   if (record.odaiDone.length > 0) parts.push('やってみた:' + record.odaiDone.join('・'));
@@ -18788,7 +18842,7 @@ function sprinklePetals(id) {
    正本はSupabase・localStorageはキャッシュ。HTMLに入れてよいのは公開キーだけ(19r§9-7)。 */
 var SUPA_URL = 'https://kravngifhbxywmpoydur.supabase.co';
 var SUPA_KEY = 'sb_publishable_kxqrgfxUIyZk-pQmU8Jpbw_r9lmxb1E';
-function sbRpc(fn, args) { if (["checkin", "kentei_add", "result_add", "practice_add", "tree_add", "study_start", "study_end", "study_log", "member_register"].indexOf(fn) >= 0) return Promise.resolve({ ok: false, error: "test_mode" });
+function sbRpc(fn, args) { if (["checkin", "club_ping", "kentei_add", "result_add", "practice_add", "tree_add", "study_start", "study_end", "study_log", "member_register"].indexOf(fn) >= 0) return Promise.resolve({ ok: false, error: "test_mode" });
   return fetch(SUPA_URL + '/rest/v1/rpc/' + fn, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY },
@@ -19103,7 +19157,7 @@ var RENSHU_MOJI = [
       ['スマホに向かって、ゆっくり話す', '普段の声の大きさで大丈夫です'],
       ['表示された文を確認して「できた」を押す', '違っていたらもう一度話せます']
     ], kotsu: '「まる」「てん」と言うと、句読点が入ります。' },
-  { c: 'fix', name: '打ち直しの練習', desc: '間違えた1文字を消して、正しく直す', abil: '指・見つける', icon: 'ic-pen', chip: '#E4F0FC', go: '#0071E3',
+  { c: 'fix', name: '打ち直しの練習', desc: '間違えた1文字を消して、正しく直す', abil: '指・注意力', icon: 'ic-pen', chip: '#E4F0FC', go: '#0071E3',
     steps: [
       ['お手本と見くらべて、間違いを探す', '文の中に違う字がひとつあります'],
       ['消す印（バツや矢印）で間違いを消す', '押すたびに後ろから1文字消えます'],
@@ -19332,7 +19386,7 @@ function ntGuidePages() {
   var powers = BRAIN.map(function (b) {
     return '<div class="gd-pw">' + ntChip(b, 56, 32) + '<div class="gd-pwt">' + ntLabelB(b, 24) + '<span>' + NT_USE[b.d] + '</span></div></div>';
   }).join('');
-  var steps = [['1', '準備体操', '見極める力で頭と指を動かし始めます'], ['2', '伸ばしたい力', '今、レベルが一番低い力'], ['3', '間があいた力', '前回から、一番日がたっている力'], ['4', '得意な力', '最後は得意な力で気持ちよく締めくくります']]
+  var steps = [['1', '準備体操', '判断力で頭と指を動かし始めます'], ['2', '伸ばしたい力', '今、レベルが一番低い力'], ['3', '間があいた力', '前回から、一番日がたっている力'], ['4', '得意な力', '最後は得意な力で気持ちよく締めくくります']]
     .map(function (x) { return '<div class="gd-st"><span class="gd-n">' + x[0] + '</span><b>' + x[1] + '</b><span>' + x[2] + '</span></div>'; }).join('');
   var demo = '';
   for (var i = 1; i <= 10; i++) demo += '<i style="height:' + (10 + i * 7) + 'px;" class="' + (i <= 6 ? 'on' : '') + '"></i>';
@@ -19367,7 +19421,7 @@ function ntGuideDone() { ntGuideMark(); if (ntGuideBack === 'scr-nt') showNt(); 
 })();
 
 
-/* ===== v1.41 レベル1〜10（体を動かす5種目：お釣り・順番タップ・カード合わせ・とっさの判断・記憶の順番）＝19ya §15 ===== */
+/* ===== v1.41 レベル1〜10（体を動かす5種目：お釣り・数字探し・絵合わせ・とっさの判断・順番記憶）＝19ya §15 ===== */
 var LV_GAMES = ['otsuri', 'tile', 'cards', 'handan'];
 var LVS = {}; // 種目ごとの今回の状態 { lv, before, best, active }
 function lvKey(g) { return 'kokosuma_lvl_' + (sessM() || 'guest') + '_' + g; }
@@ -19422,7 +19476,7 @@ function lvEnd(g) { if (LVS[g]) setTimeout(function () { if (LVS[g]) LVS[g].acti
 })();
 NT_REAL_LABEL.tile = '到達したレベル'; NT_REAL_LABEL.cards = '到達したレベル'; NT_REAL_LABEL.otsuri = '到達したレベル'; NT_REAL_LABEL.handan = '到達したレベル';
 
-/* ================= 順番タップ ================= */
+/* ================= 数字探し ================= */
 var NUM_KANA12 = ['あ', 'い', 'う', 'え', 'お', 'か', 'き', 'く', 'け', 'こ', 'さ', 'し'];
 var TILE_LV = [null,
   { n: 9, slots: 9, t: '1から9まで' }, { n: 12, slots: 16, t: '1から12まで' }, { n: 16, slots: 16, t: '1から16まで' },
@@ -19468,7 +19522,7 @@ numRoundClear = function () {
   }
 };
 
-/* ================= カード合わせ ================= */
+/* ================= 絵合わせ ================= */
 var CARD_LV = [null, { p: 3, m: 3 }, { p: 4, m: 4 }, { p: 5, m: 5 }, { p: 6, m: 6 }, { p: 8, m: 8 }, { p: 8, m: 6 },
   { p: 8, m: 4, pv: 5 }, { p: 8, m: 3, pv: 4 }, { p: 8, m: 2, pv: 3 }, { p: 8, m: 1, pv: 2 }];
 var CARD_ROUNDS = 3, cardMiss0 = 0;
@@ -19608,7 +19662,7 @@ hdEnd = function () {
     '<div class="btn-outline" style="padding:14px 44px;font-size:27px;" onclick="ntExitGame()">ほかの種目へ</div></div>';
 };
 
-/* ================= お釣り計算 ================= */
+/* ================= お釣り暗算 ================= */
 var OTS_ITEMS = [['りんご', 120], ['食パン', 200], ['牛乳', 230], ['お茶', 150], ['おにぎり', 130], ['たまご', 250], ['お豆腐', 120], ['みかん', 380],
   ['せんべい', 340], ['お弁当', 550], ['コロッケ', 80], ['ケーキ', 460], ['ぶどう', 680], ['お惣菜', 730], ['コーヒー', 450], ['バナナ', 190], ['納豆', 90], ['トマト', 270]];
 var OTS_BIG = [['うなぎ弁当', 1280], ['お刺身の盛り合わせ', 1580], ['すき焼き肉', 2380], ['メロン', 1800], ['お寿司', 1450], ['洗剤', 980], ['タオル', 1200], ['お米', 2480]];
@@ -19711,7 +19765,7 @@ nextOtsuriQ = function () {
   showSummary();
 };
 
-/* ================= 記憶の順番（レベル＝個数−2・3個〜12個） ================= */
+/* ================= 順番記憶（レベル＝個数−2・3個〜12個） ================= */
 KIOKU_GOAL = 12;
 kiokuStartLevel = function () {
   var prev = lastResultValue('kioku', 'count');
@@ -20059,7 +20113,7 @@ function ymfEnd() {
     '<div class="btn-outline" style="padding:14px 44px;font-size:27px;" onclick="ntExitGame()">ほかの種目へ</div></div>';
 }
 /* 説明とお手本を「流れる文字」に合わせる */
-ACT.yomu.n = '読み取り'; ACT.yomu.desc = '流れる文字を目で追って読み、中身を答える';
+ACT.yomu.n = '文章読み取り'; ACT.yomu.desc = '流れる文字を目で追って読み、中身を答える';
 EXPLAIN.yomu = { lines: ['文章が一定の速さで現れます。', '色が付いたところを目で追って読み、読み終えたら中身について2問答えます。'], meta: ['3つの文章・約3分', '2問とも正解でレベルが1つ上（速くなります）'], cd: true };
 DEMO.yomu = function () {
   var c = ['回覧板で', 'お知らせします。', '今月の清掃は、', '第二日曜日の', '朝八時からです。'];
@@ -21651,7 +21705,7 @@ function shSync() {
   gameCompleted = function () { var r = _gc.apply(this, arguments); try { setTimeout(function () { sfx('fin'); }, 120); } catch (e) {} return r; };
   var SH_GNAME = null;
   function shGameKeyByLabel(t) {
-    if (!SH_GNAME) { SH_GNAME = []; for (var k in ACT) if (ACT[k] && ACT[k].n) SH_GNAME.push([ACT[k].n, k]); SH_GNAME.push(['後出しじゃんけん', 'janken'], ['聞き取り', 'kiki']); SH_GNAME.sort(function (a, b) { return b[0].length - a[0].length; }); }
+    if (!SH_GNAME) { SH_GNAME = []; for (var k in ACT) if (ACT[k] && ACT[k].n) SH_GNAME.push([ACT[k].n, k]); SH_GNAME.push(['後出しじゃんけん', 'janken'], ['音読聞き取り', 'kiki']); SH_GNAME.sort(function (a, b) { return b[0].length - a[0].length; }); }
     for (var i = 0; i < SH_GNAME.length; i++) if (t.indexOf(SH_GNAME[i][0]) === 0) return SH_GNAME[i][1];
     return '';
   }
@@ -21933,6 +21987,223 @@ function shSync() {
     } catch (e) {} };
   } catch (e) {}
 })();
+</script>
+<script>
+/* ===== v1.72 クラブモード（大人の脳活クラブの20分）＝19y§4・97l v0.3・裁定04 2026-11-09 =====
+   ・店側（講師）が「今日のクラブを始める」→ 各台が club_now を読んでクラブモードに入る（patch17で用意。無ければ何も起きない）
+   ・試すとき＝URLに ?club=1（&power=oboeru など・&check=1 でチェック週間）
+   ・今日の4本＝①今週の力A ②今週の力B（1種目の力なら隣の力）③あなたの注力 ④好きなメニュー。初回の方・チェック週間は①がチェック
+   ・後出しじゃんけんはクラブのメニューに出さない（04 11/09） */
+(function () {
+  var CLUB = { on: false, src: '', power: null, check: false, sid: null, ending: false };
+  var clubGuest = false, clubTouch = Date.now();
+  var PW = ['kiku', 'yomu', 'oboeru', 'mitsukeru', 'kazu', 'kotoba', 'handan'];
+  var LIMIT = 20 * 60;
+  function qp(n) { var m = new RegExp('[?&]' + n + '=([^&]*)').exec(location.search); return m ? decodeURIComponent(m[1]) : null; }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function clubKey() { return 'kokosuma_club_' + (sessM() || 'guest') + '_' + mDay(); }
+  function gamesOf(d) { var b = ntB(d); return b ? b.games.filter(function (g) { return g !== 'janken' && ACT[g]; }) : []; }
+  function weekNo() { var d = new Date(), j = new Date(d.getFullYear(), 0, 1); return Math.floor((d - j) / 604800000); }
+  function defaultPower() { return PW[weekNo() % 7]; } /* 仮：店側が今週の力を渡さないとき */
+  function chkInfo() { try { return chkData(); } catch (e) { return null; } }
+  function hasFirstCheck() { var c = chkInfo(); return !!(c && c.first); }
+  function focusPower(used) {
+    var cand = PW.filter(function (d) { return !used[d]; });
+    var c = chkInfo(), last = c && c.last;
+    if (last) { var lo = cand.slice().sort(function (a, b) { return (last[a] || 0) - (last[b] || 0); })[0]; if (lo && last[lo]) return lo; }
+    var hasSkill = false, best = cand.slice().sort(function (a, b) { var ra = skillRow(a), rb = skillRow(b); if (ra || rb) hasSkill = true; return (ra ? ra.dan : 0) - (rb ? rb.dan : 0); })[0];
+    return hasSkill ? best : cand[weekNo() % cand.length];
+  }
+  function clubBuild() {
+    var p = CLUB.power || defaultPower(), items = [], used = {}, rot = weekNo(), gs = gamesOf(p);
+    if (sessM() && (CLUB.check || !hasFirstCheck())) items.push({ chk: true, d: null, g: 'chk', why: CLUB.check ? '定期チェック' : '初回チェック', done: false });
+    items.push({ d: p, g: gs[rot % gs.length], why: '今週の力', done: false }); used[p] = true;
+    if (gs.length > 1) items.push({ d: p, g: gs[(rot + 1) % gs.length], why: '今週の力', done: false });
+    else { var nb = PW[(PW.indexOf(p) + 1) % 7], ng = gamesOf(nb); items.push({ d: nb, g: ng[rot % ng.length], why: 'となりの力', done: false }); used[nb] = true; }
+    var f = focusPower(used), fg = gamesOf(f); items.push({ d: f, g: fg[rot % fg.length], why: 'あなたの注力', focus: true, done: false });
+    if (items.length < 4) items.push({ free: true, d: null, g: null, why: '好きなメニュー', done: false });
+    return { day: mDay(), club: true, power: p, items: items.slice(0, 4), aim: p, i: 0, t0: 0, c0: 0, secs: 0, res: [], active: false, finished: false };
+  }
+  function elapsed() { return (course && course.club && course.c0) ? Math.round((Date.now() - course.c0) / 1000) : 0; }
+  function left() { return Math.max(0, Math.ceil((LIMIT - elapsed()) / 60)); }
+  function dev() { var d = storeGet('kokosuma_club_dev'); if (!d) { d = 't' + Math.random().toString(36).slice(2, 8); storeSet('kokosuma_club_dev', d); } return d; }
+  function ping(end) {
+    if (CLUB.src !== 'server') return;
+    var c = (course && course.club) ? course : null, it = c && c.items.filter(function (x) { return !x.done; })[0];
+    try {
+      sbRpc('club_ping', { p_dev: dev(), p_sid: CLUB.sid, p_m: sessM() ? +sessM() : null,
+        p_step: c ? c.items.filter(function (x) { return x.done; }).length : 0, p_total: c ? c.items.length : 4,
+        p_game: (it && it.g) || null, p_idle: Math.round((Date.now() - clubTouch) / 1000), p_end: !!end }).catch(function () {});
+    } catch (e) {}
+  }
+  document.addEventListener('pointerdown', function () { clubTouch = Date.now(); }, true);
+
+  /* ---- 今日の脳トレの仕組み（course）をクラブに使う ---- */
+  var _ck = courseKey; courseKey = function () { return (course && course.club) ? clubKey() : _ck(); };
+  var _ens = ensureCourse; ensureCourse = function () {
+    if (!CLUB.on) { if (course && course.club && !course.active) course = null; return course && course.club ? course : _ens(); }
+    var c = null; try { c = JSON.parse(storeGet(clubKey()) || 'null'); } catch (e) {}
+    if (c && c.club && c.day === mDay() && c.items && c.items.length) { course = c; return course; }
+    course = clubBuild(); courseSave(); return course;
+  };
+  var _rcc = renderCourseCard; renderCourseCard = function () { if (CLUB.on || (course && course.club)) return; return _rcc.apply(this, arguments); };
+  var _cs = courseStart; courseStart = function () {
+    var club = CLUB.on; _cs();
+    if (club && course && course.club && !course.c0) { course.c0 = Date.now(); courseSave(); }
+    ping();
+  };
+  var _cr = courseRun; courseRun = function () {
+    if (course && course.club) {
+      var it = course.items[course.i]; if (!it) return courseReview();
+      ping();
+      if (it.chk) { SH_TITLE['scr-chk'] = it.why; chkStart(); courseBarSync(); return; }
+      if (it.free && !it.g) { clubPick(); courseBarSync(); return; }
+    }
+    return _cr();
+  };
+  function clubChkItem() { var it = course && course.club && course.active && course.items[course.i]; return it && it.chk ? it : null; }
+  var _chh = chkHead; chkHead = function () { var h = _chh.apply(this, arguments), it = clubChkItem(); return it ? h.replace('<b>力だめし</b>', '<b>' + it.why + '</b>') : h; };
+  var _ce = chkEnd; chkEnd = function () {
+    var ci = clubChkItem();
+    var r = _ce.apply(this, arguments);
+    if (ci) { var cb = document.getElementById('chk-body'); if (cb) cb.innerHTML = cb.innerHTML.replace('力だめしの結果', ci.why + 'の結果'); SH_TITLE['scr-chk'] = '力だめし'; }
+    if (course && course.club && course.active) { var it = course.items[course.i]; if (it && it.chk && !it.done) { it.done = true; courseSave(); setTimeout(courseSheet, 500); } }
+    return r;
+  };
+  var _csh = courseSheet; courseSheet = function () {
+    if (!(course && course.club)) return _csh();
+    var el = document.getElementById('course-sheet'); if (!el) return;
+    var n = course.items.filter(function (x) { return x.done; }).length, nx = course.items[course.i + 1], tot = course.items.length;
+    var nxl = !nx ? '' : (nx.chk ? nx.why : (nx.free && !nx.g) ? '好きなメニュー' : (ACT[nx.g] ? ACT[nx.g].n : ''));
+    var B = 'style="margin:0;padding:12px 40px;font-size:24px;"', h = '<div class="csh-in"><div class="csh-tx"><b>✓ できました（' + n + '／' + tot + '）</b>';
+    if (CLUB.ending) h += '<span>クラブの時間は終わりです</span></div><div class="btn btn-primary" ' + B + ' onclick="courseQuit()">今日の記録を見る</div>';
+    else if (elapsed() >= LIMIT && nx) h += '<span>20分になりました</span></div><div class="btn btn-primary" ' + B + ' onclick="courseQuit()">今日の記録を見る</div>';
+    else if (nx) h += '<span>次は ' + esc(nxl) + '</span><span class="club-sheet-tm">残り約' + left() + '分</span></div><div class="btn btn-primary" ' + B + ' onclick="courseNext()">次へ</div><div class="csh-quit" onclick="courseQuit()">今日はここまで</div>';
+    else h += '<span>' + tot + '本、できました</span></div><div class="btn btn-primary" ' + B + ' onclick="courseNext()">今日の記録を見る</div>';
+    el.innerHTML = h + '</div>'; el.style.display = 'flex'; ping();
+  };
+  var _cb = courseBarSync; courseBarSync = function () {
+    _cb();
+    var bar = document.getElementById('course-bar'); if (!bar || !(course && course.club)) return;
+    if (curScreen === 'scr-club') { bar.style.display = 'none'; return; }
+    if (bar.style.display === 'none') return;
+    var b = bar.querySelector('b'); if (b) b.textContent = '脳活トレーニング';
+    if (course.c0) bar.insertAdjacentHTML('beforeend', '<span class="club-tm">残り約' + left() + '分</span>');
+  };
+  var _cv = courseReview; courseReview = function () {
+    var club = !!(course && course.club); _cv(); if (!club) return;
+    var body = document.getElementById('rv-body'); if (!body) return;
+    var hd = body.querySelector('.rv-hd b'); if (hd) hd.textContent = '脳活トレーニング、' + (course.finished ? 'できました' : 'ここまでできました');
+    var stamped = false; try { stamped = !!sessM() && getStamps(sessM()).indexOf(mDay()) >= 0; } catch (e) {}
+    var h = body.querySelector('.rv-hd'); if (h && stamped) h.insertAdjacentHTML('afterend', '<div class="rv-stamp">今日のスタンプ　1こ ✓</div>');
+    var bt = body.querySelector('.rv-btns');
+    if (bt) bt.innerHTML = (sessM() ? '<div class="btn btn-primary" style="margin:0;padding:13px 44px;font-size:24px;" onclick="showBrain()">私の記録を見る</div>' : '') +
+      '<div class="btn-outline" style="padding:10px 40px;font-size:24px;" onclick="clubDone()">終わる</div>';
+    ping(true);
+  };
+  /* 好きなメニュー：種目を始めた時点で④に入れる */
+  Object.keys(ACT).forEach(function (k) {
+    var fn = ACT[k].fn, orig = window[fn]; if (typeof orig !== 'function') return;
+    window[fn] = function () {
+      if (course && course.club && course.active) {
+        var it = course.items[course.i];
+        if (it && it.free && !it.g && k !== 'janken' && brainOf(k)) { it.g = k; it.d = brainOf(k); courseSave(); }
+      }
+      return orig.apply(this, arguments);
+    };
+  });
+  function markHide() {
+    document.querySelectorAll('#scr-cat-asobi .gcard').forEach(function (c) { var oc = c.getAttribute('onclick') || ''; if (/startJanken|drList/.test(oc)) c.classList.add('club-hide'); });
+  }
+  function clubPick() {
+    var sc = document.getElementById('scr-cat-asobi');
+    if (sc && !document.getElementById('club-pick-note')) sc.insertAdjacentHTML('afterbegin', '<div id="club-pick-note">好きな種目を1つ選んでください</div>');
+    markHide(); show('scr-cat-asobi');
+  }
+
+  /* ---- 画面 ---- */
+  function stepHtml(it, i) {
+    var cur = course.active && i === course.i && !it.done, pic, nm, pw = '', why;
+    if (it.chk) { pic = '<span class="pic">' + ntChip({ chip: '#E3F2F0', ink: '#0B4F42', ic: 'ic-target' }, 88, 46) + '</span>'; nm = it.why; pw = '<span class="pw" style="background:#E3F2F0;color:#0B4F42;">7つの力</span>'; why = '約5分'; }
+    else if (it.free && !it.g) { pic = '<span class="pic free">？</span>'; nm = '好きなメニュー'; why = '選べます・約5分'; }
+    else { var a = ACT[it.g] || { n: '' }, bb = ntB(it.d); pic = '<span class="pic"><span class="gimg gi-' + it.g + '" aria-hidden="true"></span></span>'; nm = a.n; pw = '<span class="pw" style="background:' + bb.chip + ';color:' + bb.ink + ';">' + esc(bb.n) + '</span>'; why = it.why + '・約5分'; }
+    return '<div class="club-step' + (it.done ? ' done' : '') + (cur ? ' cur' : '') + '"><span class="no">' + (i + 1) + '</span>' + (it.done ? '<span class="ck">✓</span>' : '') + pic +
+      '<span class="nm">' + esc(nm) + '</span>' + pw + '<span class="why' + (it.focus ? ' fc' : '') + '">' + esc(why) + '</span></div>';
+  }
+  function tmText() { return (course && course.club && course.c0) ? '残り約' + left() + '分' : '20分'; }
+  window.renderClub = function () {
+    var el = document.getElementById('club-body'); if (!el) return;
+    var b = ntB(CLUB.power || defaultPower());
+    var hd = '<div class="club-hd"><h2>タブレットで脳活トレーニング</h2><span class="club-pill wk">今週は ' + esc(b.n) + '</span>' + (CLUB.check ? '<span class="club-pill wk">チェック週間</span>' : '') + '<span class="club-pill tm" id="club-tm">' + (sessM() || clubGuest ? tmText() : '20分') + '</span></div>';
+    if (!sessM() && !clubGuest) {
+      el.innerHTML = hd + '<div class="club-in"><h3>会員証をかざして始めましょう</h3><div class="club-foot"><button type="button" class="club-go" onclick="showLogin()">会員証をかざす</button><button type="button" class="club-sub" onclick="clubGuestStart()">体験の方はこちら</button></div></div>';
+      return;
+    }
+    ensureCourse();
+    var doneN = course.items.filter(function (x) { return x.done; }).length, tot = course.items.length;
+    var who = '<p class="club-who">' + (sessM() ? '<b>' + esc(memberLabel()) + '</b>の今日の' + tot + '本' : '今日の' + tot + '本（体験）') + '</p>';
+    var btn = course.finished || doneN >= tot
+      ? '<button type="button" class="club-go" onclick="courseReview()">今日の記録を見る</button><button type="button" class="club-sub" onclick="clubDone()">終わる</button>'
+      : '<button type="button" class="club-go" onclick="courseStart()">' + (doneN ? '続きから（' + (doneN + 1) + '／' + tot + '）' : '始める') + '</button><button type="button" class="club-sub" onclick="clubDone()">今日はここまで</button>';
+    el.innerHTML = hd + who + '<div class="club-steps">' + course.items.map(stepHtml).join('') + '</div><div class="club-foot">' + btn + '</div>';
+  };
+  window.clubGuestStart = function () { clubGuest = true; course = null; renderClub(); };
+  window.clubDone = function () {
+    try { courseSheetHide(); } catch (e) {}
+    if (course && course.club && course.active) { course.active = false; courseSave(); }
+    ping(true);
+    clubGuest = false; course = null;
+    if (sessM()) logoutMember(true);
+    if (CLUB.ending || !CLUB.on) { clubOff(); return; }
+    show('scr-home');
+  };
+  function clubOff() {
+    CLUB.on = false; CLUB.ending = false; clubGuest = false;
+    document.body.classList.remove('club-on');
+    SH_TITLE['scr-review'] = 'ふりかえり';
+    if (course && course.club) course = null;
+    goHome();
+  }
+  function apply(st, src) {
+    var was = CLUB.on, on = !!(st && st.on);
+    CLUB.src = src;
+    if (on) {
+      CLUB.on = true; CLUB.ending = false; CLUB.power = (st.power && ntB(st.power)) ? st.power : null; CLUB.check = !!st.check; CLUB.sid = st.sid || null;
+      document.body.classList.add('club-on'); SH_TITLE['scr-review'] = '今日の記録';
+      if (!was && ['scr-home', 'scr-login', 'scr-club'].indexOf(curScreen) >= 0) show('scr-home');
+    } else if (was) {
+      var playing = course && course.club && course.active && ['scr-club', 'scr-home', 'scr-review'].indexOf(curScreen) < 0;
+      if (playing) { CLUB.ending = true; } else clubOff();
+    }
+  }
+  window.clubOn = function () { return CLUB.on; };
+  function poll() {
+    if (CLUB.src === 'demo') return;
+    try { sbRpc('club_now', { p_dev: dev() }).then(function (r) { if (r && typeof r.on === 'boolean') apply(r, 'server'); }).catch(function () {}); } catch (e) {}
+  }
+  function tick() {
+    if (!CLUB.on && !CLUB.ending) return;
+    var t = document.getElementById('club-tm'); if (t && (sessM() || clubGuest)) t.textContent = tmText();
+    try { courseBarSync(); } catch (e) {}
+    ping();
+  }
+
+  /* 画面の切り替え：クラブの間は「ホーム」がクラブの画面になる */
+  if (typeof SH_TITLE !== 'undefined') SH_TITLE['scr-club'] = '脳活クラブ';
+  if (typeof SH_NOBACK !== 'undefined') SH_NOBACK.push('scr-club');
+  var _show = show; show = function (id) {
+    if (CLUB.on && (id === 'scr-home' || id === 'scr-nt')) { renderClub(); id = 'scr-club'; }
+    _show(id);
+  };
+  var _nt = ntPower; ntPower = function (b) { return /力$/.test(b.n) ? b.n : _nt(b); };
+
+  /* 入り方 */
+  if (qp('club') === '1') apply({ on: true, power: qp('power'), check: qp('check') === '1' }, 'demo');
+  else { setTimeout(poll, 1500); setInterval(poll, 20000); }
+  setInterval(tick, 20000);
+  if (CLUB.on && (curScreen === 'scr-home' || !curScreen)) setTimeout(function () { show('scr-home'); }, 300);
+})();
+
 </script>
 <div style="position:fixed;top:4px;left:50%;transform:translateX(-50%);z-index:9999;background:#FFE7A8;color:#6B4A00;font:700 13px/1.6 sans-serif;padding:2px 12px;border-radius:999px;pointer-events:none;">試験版・記録は保存しません</div>
 </body>
