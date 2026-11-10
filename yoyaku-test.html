@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>ここスマ｜会員ページ</title>
+<style>
+/* ============ 意匠は 44_会員スマホ画面_仕様プロト_v0.1 の確定トークン ============ */
+:root{
+  --brand:#0F766E; --action:#11866D; --action-edge:#0A6350; --accent-deep:#0B4F42;
+  --ok:#2E8B57; --ok-edge:#1E5E3A;
+  --ink:#1B2B28; --ink-soft:#4A5C58; --ink-faint:#8A9A96;
+  --line:#D8E2E0; --card:#FFFFFF;
+  --cat-kihon:#3B6EA5; --cat-ouyou:#7A5BA6; --cat-katsuyo:#C2703D; --cat-event:#B04A63;
+}
+html[data-season="spring"]{--season-border:#F3D8E2;--season-pale:#FBE7EF;--season-light:#F3A9C7;--season-deep:#A9436E}
+html[data-season="summer"]{--season-border:#CDE4EC;--season-pale:#E3F2F8;--season-light:#A5D3A0;--season-deep:#2A6E8F}
+html[data-season="autumn"]{--season-border:#F0D8BE;--season-pale:#FAECD9;--season-light:#F2B879;--season-deep:#9E4E22}
+html[data-season="winter"]{--season-border:#DBE5EF;--season-pale:#EAF1F7;--season-light:#C4D4CA;--season-deep:#8A3A48}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;font-size:20px;line-height:1.7;color:var(--ink);
+  font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",system-ui,sans-serif;
+  background:linear-gradient(180deg,var(--season-pale) 0%,#FFFFFF 42%);
+  min-height:100vh;-webkit-font-smoothing:antialiased;
+}
+.phone{max-width:430px;margin:0 auto;padding:0 18px 120px}
+
+header{padding:22px 0 10px}
+.shop{display:flex;align-items:center;gap:9px;font-size:19px;color:var(--brand);font-weight:800;letter-spacing:.04em}
+.shop .dot{width:12px;height:12px;border-radius:50%;background:var(--brand);flex:none}
+.hello{margin:16px 0 4px;font-size:30px;font-weight:800;letter-spacing:.01em}
+.hello small{font-size:22px;font-weight:700;color:var(--ink-soft)}
+.visits{font-size:22px;color:var(--season-deep);font-weight:700}
+
+.card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:20px 18px;margin:18px 0;
+  box-shadow:0 2px 0 rgba(15,118,110,.04)}
+.card h2{margin:0 0 14px;font-size:24px;font-weight:800;display:flex;align-items:center;gap:10px}
+.card h2 .bar{width:6px;height:24px;border-radius:3px;background:var(--brand);flex:none}
+
+.resv{border:2px solid var(--season-border);background:var(--season-pale);border-radius:16px;padding:16px;margin-bottom:12px}
+.resv .when{font-size:23px;font-weight:800;color:var(--season-deep)}
+.resv .what{font-size:25px;font-weight:800;margin:4px 0 12px}
+.resv .cat{display:inline-block;font-size:17px;font-weight:800;color:#fff;border-radius:999px;padding:3px 12px;margin-bottom:6px}
+.resv .extra-chip{display:inline-block;font-size:16px;font-weight:800;color:var(--season-deep);
+  border:2px solid var(--season-border);background:#fff;border-radius:999px;padding:2px 10px;margin-left:8px}
+.none{color:var(--ink-soft);font-size:21px;padding:6px 2px 12px}
+
+button{font-family:inherit}
+.btn{display:block;width:100%;min-height:68px;border:none;border-radius:16px;background:var(--action);
+  border-bottom:5px solid var(--action-edge);color:#fff;font-size:26px;font-weight:800;cursor:pointer;padding:14px}
+.btn:active{transform:translateY(2px);border-bottom-width:3px}
+.btn.sub{background:#fff;color:var(--action);border:2px solid var(--action);border-bottom:5px solid var(--action-edge);}
+.btn.quiet{background:#fff;color:var(--ink-soft);border:2px solid var(--line);border-bottom:5px solid var(--line)}
+.btn.ok{background:var(--ok);border-bottom-color:var(--ok-edge)}
+.btn:disabled{opacity:.5;pointer-events:none}
+.btn+.btn{margin-top:12px}
+
+.sumline{font-size:23px;font-weight:700;margin:2px 0 14px;color:var(--ink-soft)}
+.sumline b{font-size:34px;color:var(--brand);font-weight:800;margin:0 4px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cell{position:relative;min-height:104px;border-radius:14px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:8px 6px;font-size:18px;font-weight:700;
+  line-height:1.3;cursor:pointer;border:2px dashed #9FB0AC;background:#fff;color:var(--ink)}
+.cell .st{font-size:16px;font-weight:700;margin-bottom:4px;color:var(--ink-soft)}
+.cell.prac{border:2px solid var(--c);background:color-mix(in srgb,var(--c) 7%,#fff);color:var(--c)}
+.cell.prac .st,.cell.got .st{color:var(--c)}
+.cell.up{border:2px solid #0071E3;background:#E4F0FC;color:#0B4F8C} .cell.up .st{color:#0071E3}
+.sumsub{font-size:20px;font-weight:700;color:var(--ink-soft);margin:-6px 0 14px}
+.cell.got{border:2px solid var(--c);background:color-mix(in srgb,var(--c) 12%,#fff);color:var(--c)}
+.cell.done{border:3px solid var(--c);background:color-mix(in srgb,var(--c) 26%,#fff);color:#14231F}
+.cell .mark{font-size:24px;line-height:1;margin-bottom:4px}
+.cell.done .mark{color:var(--c)}
+.cat-head{display:flex;align-items:center;gap:9px;margin:22px 0 10px;font-size:21px;font-weight:800}
+.cat-head .chip{width:16px;height:16px;border-radius:5px;background:var(--c)}
+.cat-head .cnt{margin-left:auto;font-size:19px;color:var(--ink-soft);font-weight:700}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:17px;color:var(--ink-soft);margin:14px 0 4px;font-weight:700}
+.legend i{display:inline-block;width:20px;height:20px;border-radius:6px;vertical-align:-4px;margin-right:6px}
+
+.row{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:#fff;border:2px solid var(--line);
+  border-bottom:4px solid var(--line);border-radius:16px;padding:16px;font-size:22px;font-weight:700;margin-bottom:12px;cursor:pointer;color:var(--ink)}
+.row:active{transform:translateY(2px)}
+.row .big{font-size:24px;font-weight:800}
+.row .sub{font-size:18px;color:var(--ink-soft);font-weight:700}
+.row .arw{margin-left:auto;color:var(--action);font-size:26px;font-weight:800;flex:none}
+.row.full{background:#F1F4F3;color:var(--ink-soft)}
+.row .seat{font-size:17px;font-weight:800;color:var(--accent-deep);flex:none}
+.row.full .seat{color:var(--ink-soft)}
+.row.mine{border-color:var(--season-border);background:var(--season-pale)}
+.row.mine .seat{color:var(--season-deep)}
+
+.screen{display:none}.screen.on{display:block}
+.top{display:flex;align-items:center;gap:12px;padding:18px 0 6px}
+.back{border:2px solid var(--line);border-bottom:4px solid var(--line);background:#fff;border-radius:14px;
+  min-height:56px;padding:8px 18px;font-size:21px;font-weight:800;color:var(--ink-soft);cursor:pointer}
+.title{font-size:26px;font-weight:800}
+
+.notice{border:2px solid var(--season-border);background:var(--season-pale);border-radius:16px;padding:16px;margin:16px 0;font-size:21px;line-height:1.65}
+.notice b{color:var(--season-deep)}
+.done-big{text-align:center;padding:26px 10px}
+.done-big .mk{font-size:64px;line-height:1}
+.done-big h3{font-size:30px;margin:12px 0 6px;font-weight:800}
+
+.sheet{position:fixed;inset:0;background:rgba(20,35,31,.45);display:none;align-items:flex-end;z-index:50}
+.sheet.on{display:flex}
+.sheet .inner{background:#fff;width:100%;max-width:430px;margin:0 auto;border-radius:24px 24px 0 0;padding:24px 20px 30px}
+.sheet h3{margin:0 0 6px;font-size:27px;font-weight:800}
+.cat2{display:inline-block;font-size:17px;font-weight:800;color:#fff;border-radius:999px;padding:3px 12px;margin-bottom:12px}
+.state{font-size:21px;font-weight:800;padding:12px 14px;border-radius:14px;margin:12px 0 18px}
+.state.yet{background:#F3F6F5;color:var(--ink-soft)}
+.state.got{background:#E9F3F1;color:var(--brand)}
+.state.done{background:#E7F4EC;color:var(--ok-edge)}
+
+.center{padding:60px 10px;text-align:center;font-size:23px;font-weight:700;color:var(--ink-soft);line-height:1.9}
+/* v0.3 総点検19ym：区切りのよい所で改行・今月の受講回数・追加の印・完了の絵文字を出さない・できることの文字を濃く */
+.nb{display:inline-block}
+.quota{font-size:21px;font-weight:700;line-height:1.6;color:var(--ink);background:#EEF4F2;border-radius:14px;padding:12px 16px;margin:0 0 16px}
+.quota:empty{display:none}
+.quota b{font-size:26px;color:var(--accent-deep);margin:0 2px}
+.xchip{display:inline-block;font-size:16px;font-weight:800;color:#7A3E12;background:#FBEBDD;border-radius:8px;padding:2px 9px;margin-top:4px}
+.done-big .mk{display:none}
+.cell.prac,.cell.got,.cell.prac .st,.cell.got .st{color:var(--ink)}
+.cell.up,.cell.up .st{color:#0B3F73}
+.grid{grid-template-columns:repeat(2,1fr)}
+.row .big,.cell span,.what{word-break:keep-all;overflow-wrap:anywhere}
+.foot{margin:34px 0 10px;text-align:center;font-size:16px;color:var(--ink-soft)}
+</style>
+<style>
+/* 季節の意匠をやめる（2026-11-10 松田さん）＝地は一年じゅう無地・立体のボタンをやめる・緑は1色。脳トレ（10/31〜）と同じ値 */
+html, body, html[data-season], body[data-season] {
+  --season-bg1: #ECEFED; --season-bg2: #ECEFED; --season-bg3: #ECEFED; --season-border: #DDE3E0; --season-pale: #EEF4F2; --season-light: #DDE3E0; --season-deep: #0B4F42; --season-deep-bg1: #0F766E; --season-deep-bg2: #0F766E;
+  --action: #0F766E; --ok: #0F766E; --ok-edge: #0B4F42;
+}
+html body { background: #ECEFED !important; }
+.btn, .btn-primary, .gcard, .row, .back { box-shadow: none !important; }
+.btn-primary:active, .btn:active { transform: scale(.98) !important; }
+.menu, .renshu, .step { box-shadow: 0 4px 14px rgba(28, 40, 36, 0.07) !important; }
+.petals, svg.skin-use, .skin-use, .lastline svg { display: none !important; }
+.renshu .go, .menu .go { background: #0F766E !important; }
+</style>
+<style>
+.btn { border-bottom: 0 !important; }
+.btn.sub { border: 2px solid var(--action) !important; }
+.btn.quiet { border: 2px solid var(--line) !important; }
+.row, .back, .card { border-bottom-width: 2px !important; }
+</style>
+<style>
+/* v0.4a/v0.5：できることの見出し（基本・応用・活用）が2行に割れないようにする */
+.cat-head { flex-wrap: wrap; row-gap: 2px; }
+.cat-head .cnt { white-space: nowrap; font-size: 17px; }
+</style>
+<style>
+/* 案B（2026-11-10 裁定）＝白い地・ネイビーの文字と主ボタン・罫線で区切る。ロゴのエメラルドは印だけ。作りと文字の大きさは変えない */
+html, body, html[data-season], body[data-season] {
+  --brand: #1C003C; --action: #1C003C; --action-edge: #1C003C; --accent-deep: #1C003C;
+  --ok: #008F6D; --ok-edge: #00785C;
+  --ink: #1C003C; --ink-soft: #4B3B63; --ink-faint: #6A6078; --line: #E3DFD2;
+  --season-border: #E3DFD2; --season-pale: #F5F4F0; --season-light: #E3DFD2; --season-deep: #1C003C;
+  --cat-katsuyo: #9C5326;
+}
+html body { background: #FFFFFF !important; color: #1C003C; }
+.shop .dot { background: #008F6D; }
+.card { background: transparent; border: 0 !important; border-top: 2px solid #1C003C !important; border-radius: 0; padding: 20px 0 8px; margin: 22px 0; box-shadow: none; }
+.card h2 .bar { display: none; }
+.done-big { border-top: 0 !important; }
+.btn { border-radius: 8px !important; background: #1C003C; color: #FFFFFF; }
+.btn.sub { background: #FFFFFF; color: #1C003C; border: 2px solid #1C003C !important; }
+.btn.quiet { background: #FFFFFF; color: #1C003C; border: 1.5px solid #6A6078 !important; }
+.btn.ok { background: #1C003C; }
+.back { border: 1.5px solid #1C003C !important; border-radius: 8px; color: #1C003C; background: #FFFFFF; }
+#date-list, #course-list { border-top: 2px solid #1C003C; }
+.row { border: 0 !important; border-bottom: 1px solid #E3DFD2 !important; border-radius: 0; margin-bottom: 0; padding: 16px 6px; background: #FFFFFF; }
+.row .seat { color: #00785C; }
+.row .arw { color: #1C003C; }
+.row.full { background: #F5F4F0; color: #4B3B63; }
+.row.full .seat { color: #8A3B12; }
+.row.mine { background: #E6F4EF; }
+.row.mine .seat { color: #00785C; }
+.quota { background: transparent; border-radius: 0; border-top: 1px solid #E3DFD2; border-bottom: 1px solid #E3DFD2; padding: 12px 0; }
+.card .quota { border-top: 0; padding-top: 0; }
+.resv { border: 0; background: #F5F4F0; border-radius: 8px; }
+.notice { border: 0; border-radius: 8px; background: #F5F4F0; }
+.cat, .cat2 { border-radius: 6px !important; }
+.cell { border-radius: 8px; }
+.cell:not(.prac):not(.got):not(.done):not(.up) { border-color: #6A6078; }
+.state { border-radius: 8px; }
+.state.yet, .state.got { background: #F5F4F0; color: #1C003C; }
+.state.done { background: #E6F4EF; color: #00785C; }
+.sheet .inner { border-radius: 16px 16px 0 0; }
+</style>
+<style>
+.testbar { background: #F5F4F0; color: #1C003C; font-size: 16px; font-weight: 700; text-align: center; padding: 8px 12px; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="testbar">試験版（予約は記録されません）</div>
+<div class="phone">
+
+<!-- ========== 読み込み・ご案内 ========== -->
+<section id="s-load" class="screen on">
+  <header>
+    <div class="shop"><span class="dot"></span>ここスマ</div>
+  </header>
+  <div id="load-body" class="center">読み込んでいます…</div>
+</section>
+
+<!-- ========== ホーム ========== -->
+<section id="s-home" class="screen">
+  <header>
+    <div class="shop"><span class="dot"></span>ここスマ</div>
+    <div class="hello"><span id="h-name"></span><small>、こんにちは</small></div>
+    <div class="visits" id="h-visits"></div>
+  </header>
+
+  <div class="card">
+    <div class="quota" id="h-quota"></div>
+    <h2><span class="bar"></span>これからのご予約</h2>
+    <div id="resv-list"></div>
+    <button class="btn" onclick="go('s-bydate')">予約する</button>
+  </div>
+
+  <div class="card">
+    <h2><span class="bar"></span>できること</h2>
+    <div class="sumline"><span class="nb">習得したこと</span> <span class="nb"><b id="sum-done">0</b> 個</span></div>
+    <div class="sumsub" id="sum-sub"></div>
+    <button class="btn sub" onclick="go('s-card')">できることを見る</button>
+  </div>
+
+  <div class="foot">ここスマ 会員ページ 試験版 v0.5</div>
+</section>
+
+<!-- ========== 予約の入口 ========== -->
+<section id="s-book" class="screen">
+  <div class="top"><button class="back" onclick="go('s-home')">戻る</button><div class="title">予約する</div></div>
+  <div class="card">
+    <h2><span class="bar"></span>どちらから選びますか</h2>
+    <button class="btn" onclick="go('s-bydate')">日付から選ぶ</button>
+    <button class="btn sub" onclick="go('s-bycourse')">講座から選ぶ</button>
+  </div>
+</section>
+
+<!-- ========== 日にちから ========== -->
+<section id="s-bydate" class="screen">
+  <div class="top"><button class="back" onclick="go('s-home')">戻る</button><div class="title">予約する</div></div>
+  <div class="quota" id="d-quota"></div>
+  <div id="date-list" style="margin-top:8px"></div>
+  <button class="btn sub" style="margin-top:14px" onclick="go('s-bycourse')">講座から選ぶ</button>
+</section>
+
+<!-- ========== 講座から ========== -->
+<section id="s-bycourse" class="screen">
+  <div class="top"><button class="back" onclick="go('s-bydate')">戻る</button><div class="title">講座から選ぶ</div></div>
+  <div id="course-list" style="margin-top:8px"></div>
+</section>
+
+<!-- ========== 確認 ========== -->
+<section id="s-confirm" class="screen">
+  <div class="top"><button class="back" onclick="go(backTo)">戻る</button><div class="title">ご確認ください</div></div>
+  <div class="card">
+    <div id="cf-when" class="visits" style="font-size:23px"></div>
+    <div id="cf-what" style="font-size:29px;font-weight:800;margin:6px 0 4px"></div>
+    <div id="cf-cat"></div>
+    <div id="cf-notice"></div>
+    <div id="cf-err"></div>
+    <div style="height:8px"></div>
+    <button class="btn ok" id="cf-btn" onclick="doBook()">この日で予約する</button>
+    <button class="btn quiet" onclick="go(backTo)">戻る</button>
+  </div>
+</section>
+
+<!-- ========== 完了 ========== -->
+<section id="s-done" class="screen">
+  <div class="card done-big">
+    <div class="mk" id="dn-mk">🌸</div>
+    <h3>ご予約しました</h3>
+    <div id="dn-when" style="font-size:23px;font-weight:800;color:var(--season-deep)"></div>
+    <div id="dn-what" style="font-size:26px;font-weight:800;margin-top:4px"></div>
+    <div id="dn-extra"></div>
+  </div>
+  <div class="card">
+    <div style="font-size:21px;line-height:1.7;margin-bottom:14px">
+      ご予約の日時は<b>スマホのカレンダーに登録</b>できます。登録方法はお店でご案内します。
+    </div>
+    <button class="btn sub" onclick="addToCalendar()">カレンダーに登録する</button>
+    <button class="btn" onclick="go('s-home')">ホームに戻る</button>
+  </div>
+</section>
+
+<!-- ========== できること(v0.2: お店のタブレットと同じ20テーマ・同じ段階) ========== -->
+<section id="s-card" class="screen">
+  <div class="top"><button class="back" onclick="go('s-home')">戻る</button><div class="title">できること</div></div>
+  <div class="card">
+    <div class="sumline"><span class="nb">習得したこと</span> <span class="nb"><b id="sum-done2">0</b> 個</span></div>
+    <div class="legend">
+      <span><i style="border:2px dashed #C9D6D3;background:#fff"></i>未受講</span>
+      <span><i style="border:2px solid var(--brand);background:#fff"></i>受講済み</span>
+      <span><i style="border:2px solid var(--brand);background:#E9F3F1"></i>練習済み</span>
+      <span><i style="border:3px solid var(--ok);background:#CFE9DA"></i>習得</span>
+    </div>
+    <div style="font-size:18px;color:var(--ink-soft);margin-top:8px">講座名を押すと「できるようになりました」を記録できます。</div>
+  </div>
+  <div id="card-body"></div>
+  <div style="height:20px"></div>
+</section>
+
+</div>
+
+<!-- ========== 講座の詳細シート ========== -->
+<div class="sheet" id="sheet" onclick="if(event.target.id==='sheet')closeSheet()">
+  <div class="inner">
+    <div id="sh-cat"></div>
+    <h3 id="sh-title"></h3>
+    <div id="sh-state" class="state"></div>
+    <div id="sh-btns"></div>
+    <div style="height:10px"></div>
+    <button class="btn quiet" onclick="closeSheet()">閉じる</button>
+  </div>
+</div>
+
+<!-- ========== 取消の確認シート ========== -->
+<div class="sheet" id="cxl" onclick="if(event.target.id==='cxl')closeCancel()">
+  <div class="inner">
+    <h3>ご予約の取り消し</h3>
+    <div id="cx-when" style="font-size:23px;font-weight:800;color:var(--season-deep)"></div>
+    <div id="cx-what" style="font-size:25px;font-weight:800;margin:4px 0 14px"></div>
+    <div id="cx-err"></div>
+    <button class="btn" id="cx-btn" onclick="doCancel()">はい、取り消す</button>
+    <button class="btn quiet" onclick="closeCancel()">戻る</button>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   ここスマ 会員ページ(予約・できること) v0.4  2026-11-10 (v0.3=同日・v0.2=2026-09-24・v0.1=2026-08-18)
+   ・データは Supabase の RPC(yoyaku_data / reserve / cancel_reservation /
+     mark_can_do)から。HTMLに入れてよいのは公開キーだけ(19r§9-7)
+   ・空席は「空きあり/満席」の2値だけ表示(43§4-4。残り数は出さない)
+   ・回数超過は追加のご受講として金額を明示(裁定①)。支払いはお店で
+   ・取消は開始時刻まで(裁定③)
+   ===================================================================== */
+var SUPA_URL = 'https://kravngifhbxywmpoydur.supabase.co';
+var SUPA_KEY = 'sb_publishable_kxqrgfxUIyZk-pQmU8Jpbw_r9lmxb1E';
+
+/* ---------- 保存(localStorageが使えない環境でも動くように) ---------- */
+var memStore = {};
+function storeGet(k){ try{var v=localStorage.getItem(k);return v!==null?v:(memStore[k]||null);}catch(e){return memStore[k]||null;} }
+function storeSet(k,v){ memStore[k]=v; try{localStorage.setItem(k,v);}catch(e){} }
+
+/* ---------- トークン(p.htmlと同じ約束: ?t=…→保存) ---------- */
+var TOKEN = '';
+(function(){
+  try{
+    var t = new URLSearchParams(location.search).get('t') || '';
+    if(t && /^[0-9a-fA-F-]{36}$/.test(t)){ TOKEN=t; storeSet('kokosuma_token',t); }
+    else { TOKEN = storeGet('kokosuma_token') || ''; }
+  }catch(e){ TOKEN = storeGet('kokosuma_token') || ''; }
+})();
+
+/* ---------- RPC ---------- */
+/* ===== 試験版：予約・取り消し・「できるようになりました」はデータベースに書かない。?demo=1 は見本のデータ ===== */
+var DEMO = /[?&]demo=1/.test(location.search);
+if (DEMO) { TOKEN = 'demo'; }
+var FAKE = { add: {}, del: {} };
+function rpcReal(fn, body){
+  return fetch(SUPA_URL + '/rest/v1/rpc/' + fn, {
+    method:'POST',
+    headers:{'Content-Type':'application/json','apikey':SUPA_KEY},
+    body: JSON.stringify(body)
+  }).then(function(r){ return r.json(); });
+}
+function demoDays(){
+  var out = [], d = new Date(); d.setDate(d.getDate() + 1);
+  while (out.length < 3) {
+    var w = d.getDay();
+    if (w !== 3 && w !== 4) out.push(d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2));
+    d.setDate(d.getDate() + 1);
+  }
+  return out;
+}
+function demoData(){
+  var dd = demoDays();
+  return { ok: true, nickname: 'さくら', visits: 16, limit_month: 4, used_this_month: 1, used_next_month: 0, extra_price: 0,
+    courses: [ {id:101,title:'文字入力',prereq:null}, {id:103,title:'あやしいメール・SMS',prereq:null}, {id:201,title:'LINEの基本',prereq:101},
+               {id:202,title:'カメラと写真',prereq:null}, {id:203,title:'マップ',prereq:201} ],
+    sessions: [ {id:1,held_on:dd[0],start_time:'10:30',course_id:201,title:'LINEの基本',remaining:3,mine:'reserved',mine_id:9001,mine_extra:false},
+                {id:2,held_on:dd[0],start_time:'13:30',course_id:103,title:'あやしいメール・SMS',remaining:2,mine:null,mine_id:null,mine_extra:false},
+                {id:3,held_on:dd[1],start_time:'10:30',course_id:202,title:'カメラと写真',remaining:0,mine:null,mine_id:null,mine_extra:false},
+                {id:4,held_on:dd[1],start_time:'13:30',course_id:203,title:'マップ',remaining:5,mine:null,mine_id:null,mine_extra:false},
+                {id:5,held_on:dd[2],start_time:'10:30',course_id:101,title:'文字入力',remaining:4,mine:null,mine_id:null,mine_extra:false} ],
+    learned: [101, 106], marked: [102] };
+}
+function rpc(fn, body){
+  if (fn === 'reserve') {
+    FAKE.add[body.p_session] = true;
+    var ex = false; try { ex = !!(pending && isExtra(pending)); } catch (e) {}
+    return Promise.resolve({ ok: true, extra: ex, extra_price: D ? D.extra_price : null, reservation_id: -body.p_session });
+  }
+  if (fn === 'cancel_reservation') {
+    if (body.p_reservation < 0) { delete FAKE.add[-body.p_reservation]; } else { FAKE.del[body.p_reservation] = true; }
+    return Promise.resolve({ ok: true });
+  }
+  if (fn === 'mark_can_do') { return Promise.resolve({ ok: true }); }
+  var p = DEMO
+    ? Promise.resolve(fn === 'yoyaku_data' ? demoData() : { ok: true, practice: [ {theme_id:101,times:3}, {theme_id:104,times:1} ] })
+    : rpcReal(fn, body);
+  if (fn !== 'yoyaku_data') return p;
+  return p.then(function(r){
+    if (r && r.ok && r.sessions) {
+      var ym = todayYm();
+      r.sessions.forEach(function(x){
+        if (x.mine_id != null && FAKE.del[x.mine_id]) {
+          if (x.mine === 'reserved' && !x.mine_extra && String(x.held_on).slice(0,7) === ym) r.used_this_month = Math.max(0, (r.used_this_month || 0) - 1);
+          x.mine = null; x.mine_id = null; x.mine_extra = false;
+        }
+        if (FAKE.add[x.id] && x.mine !== 'reserved') {
+          x.mine = 'reserved'; x.mine_id = -x.id;
+          if (String(x.held_on).slice(0,7) === ym) r.used_this_month = (r.used_this_month || 0) + 1;
+        }
+      });
+    }
+    return r;
+  });
+}
+
+/* ---------- データ ---------- */
+var D = null;          // yoyaku_data の結果
+var COURSES = [];      // {id,t,k,pre}
+var SESSIONS = [];     // {id,d,t,cid,title,k,full,mine,mineId,mineExtra,heldOn,startTime}
+var RESV = [];         // 自分の予約(SESSIONSの部分集合)
+var LEARNED = [], MARKED = [];
+/* v0.2(19z B6): お店のタブレット(19a)の「できること」と同じ20テーマ。IDは42のテーマID=講座ID */
+var THEMES = [
+  {id:101,t:'文字入力',up:true},{id:102,t:'電話'},{id:103,t:'あやしいメール・SMS'},{id:104,t:'見やすくする'},{id:105,t:'Wi-Fiとギガ'},
+  {id:106,t:'スマホの基本操作'},{id:107,t:'パスワードと安全'},
+  {id:201,t:'LINEの基本'},{id:202,t:'カメラと写真'},{id:203,t:'マップ'},{id:204,t:'スマホの困りごと'},{id:205,t:'キャッシュレス'},{id:206,t:'検索とAIに聞く'},
+  {id:301,t:'孫とビデオ通話'},{id:302,t:'家族グループ'},{id:304,t:'緊急連絡先'},{id:305,t:'スマホ代の見直し'},{id:306,t:'災害への備え'},
+  {id:307,t:'昔の写真の残し方'},{id:311,t:'予約を取る'}
+];
+THEMES.forEach(function(x){ x.k = catKey(x.id); });
+var PRACTICE = {};   // テーマID → 練習した回数(my_progress)
+function T(id){ return THEMES.find(function(x){return x.id===id;}) || C(id); }
+
+var CAT = {
+  kihon:{name:"基本",     c:"var(--cat-kihon)"},
+  ouyou:{name:"応用",     c:"var(--cat-ouyou)"},
+  katsu:{name:"活用",     c:"var(--cat-katsuyo)"},
+  event:{name:"季節の講座",c:"var(--cat-event)"}
+};
+function catKey(id){ return id>=400?'event':id>=300?'katsu':id>=200?'ouyou':'kihon'; }
+var C = function(id){ return COURSES.find(function(x){return x.id===id;}); };
+var catStyle = function(k){ return 'style="background:'+CAT[k].c+'"'; };
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+
+var YOBI = ['日','月','火','水','木','金','土'];
+function fmtDate(iso){  // '2026-08-24' → '8/24(月)'
+  var p = iso.split('-');
+  var dt = new Date(Number(p[0]), Number(p[1])-1, Number(p[2]));
+  return Number(p[1]) + '/' + Number(p[2]) + '（' + YOBI[dt.getDay()] + '）';
+}
+function ymOf(iso){ return iso.slice(0,7); }
+function todayYm(){
+  var n = new Date();
+  return n.getFullYear() + '-' + ('0'+(n.getMonth()+1)).slice(-2);
+}
+function nextYm(){
+  var n = new Date(); n.setDate(1); n.setMonth(n.getMonth()+1);
+  return n.getFullYear() + '-' + ('0'+(n.getMonth()+1)).slice(-2);
+}
+function yen(n){ return (n==null?'':Number(n).toLocaleString('ja-JP')); }
+
+/* ---------- 読み込み ---------- */
+function showLoad(html){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on');});
+  document.getElementById('s-load').classList.add('on');
+  document.getElementById('load-body').innerHTML = html;
+}
+function loadData(){
+  if(!TOKEN){
+    showLoad('この画面は、ここスマの<b>会員様用</b>です。<br>お店でお渡しした<b>会員証（QRコード）</b>から<br>お開きください。<br><br><span style="font-size:19px">分からないときは、お店でお声がけください。<br>お電話でもご予約いただけます。</span>');
+    return Promise.resolve(false);
+  }
+  /* 練習の記録はお店のタブレットと同じところ(my_progress)から。届かなくても地図は出す */
+  rpc('my_progress', {p_token: TOKEN}).then(function(p){
+    PRACTICE = {};
+    if (p && p.ok && p.practice) p.practice.forEach(function(x){ PRACTICE[x.theme_id] = x.times; });
+    renderHomeSafe(); if (document.getElementById('s-card').classList.contains('on')) renderCard();
+  }).catch(function(){});
+  return rpc('yoyaku_data', {p_token: TOKEN}).then(function(r){
+    if(!r || !r.ok){
+      if(r && r.error==='bad_token'){
+        showLoad('会員の確認ができませんでした。<br>お店でお渡しした<b>会員証（QRコード）</b>から<br>もう一度お開きください。<br><br><span style="font-size:19px">分からないときは、お店でお声がけください。</span>');
+      }else{
+        showLoad('通信できませんでした。<br>電波の良い場所でもう一度お試しください。<br><br><button class="btn sub" onclick="boot()">もう一度</button>');
+      }
+      return false;
+    }
+    D = r;
+    COURSES = (r.courses||[]).map(function(c){
+      return {id:c.id, t:c.title, k:catKey(c.id), pre:c.prereq};
+    });
+    SESSIONS = (r.sessions||[]).map(function(s){
+      return {id:s.id, d:fmtDate(s.held_on), t:s.start_time, cid:s.course_id,
+              title:s.title, k:s.course_id?catKey(s.course_id):'kihon',
+              full:(s.remaining<=0), mine:s.mine, mineId:s.mine_id,
+              mineExtra:s.mine_extra, heldOn:s.held_on, startTime:s.start_time};
+    });
+    RESV = SESSIONS.filter(function(s){ return s.mine==='reserved'; });
+    LEARNED = r.learned || [];
+    MARKED  = r.marked || [];
+    return true;
+  }).catch(function(){
+    showLoad('通信できませんでした。<br>電波の良い場所でもう一度お試しください。<br><br><button class="btn sub" onclick="boot()">もう一度</button>');
+    return false;
+  });
+}
+function boot(){
+  showLoad('読み込んでいます…');
+  loadData().then(function(ok){ if(ok) go(location.hash==='#map' ? 's-card' : 's-home'); });
+}
+
+/* ---------- 画面遷移 ---------- */
+var backTo='s-book', pending=null, lastBooked=null;
+function go(id){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on');});
+  document.getElementById(id).classList.add('on');
+  window.scrollTo(0,0);
+  if(id==='s-home'){renderHome();}
+  if(id==='s-bydate'){renderDates();}
+  if(id==='s-bycourse'){renderCourses();}
+  if(id==='s-card'){renderCard();}
+}
+
+/* ---------- 今月の受講回数（v0.3・総点検B1：確認の画面より前に出す。数字は yoyaku_data のもの） ---------- */
+function quotaHTML(ym){
+  if(!D || !D.limit_month) return '';
+  var used = ym===nextYm() ? D.used_next_month : D.used_this_month;
+  var h = '<span class="nb">今月の受講回数</span> <span class="nb"><b>'+D.limit_month+'</b>回のうち <b>'+used+'</b>回</span>';
+  if(used >= D.limit_month) h += '<br><span class="nb">次回から</span> <span class="nb">追加のご受講</span> <span class="nb">（1回 '+yen(D.extra_price)+'円）</span>';
+  return h;
+}
+function isExtra(s){ return !!(D && D.limit_month && usedFor(s.heldOn) >= D.limit_month); }
+
+/* ---------- ホーム ---------- */
+function stateOf(cid){
+  if(MARKED.indexOf(cid)>=0) return 3;
+  if(PRACTICE[cid]) return 2;
+  if(LEARNED.indexOf(cid)>=0) return 1;
+  return 0;
+}
+function renderHome(){
+  document.getElementById('h-name').textContent = (D.nickname||'会員') + 'さん';
+  document.getElementById('h-visits').textContent =
+    D.visits>0 ? 'ご来店 '+D.visits+'回' : 'ようこそ、ここスマへ';
+  document.getElementById('h-quota').innerHTML = quotaHTML(todayYm());
+  var L=document.getElementById('resv-list');
+  L.innerHTML = RESV.length===0
+    ? '<div class="none">ご予約はまだありません。</div>'
+    : RESV.map(function(s){
+        var c=s.cid?C(s.cid):null;
+        return '<div class="resv">'
+          + (c?'<span class="cat" '+catStyle(c.k)+'>'+CAT[c.k].name+'</span>':'')
+          + (s.mineExtra?'<span class="extra-chip">追加のご受講</span>':'')
+          + '<div class="when">'+s.d+' '+s.t+'</div>'
+          + '<div class="what">'+esc(s.title||'教室')+'</div>'
+          + '<button class="btn quiet" style="min-height:56px;font-size:21px" onclick="openCancel('+s.id+')">取り消す</button>'
+          + '</div>';
+      }).join('');
+  var done = THEMES.filter(function(x){return stateOf(x.id)===3;}).length;
+  var prac = THEMES.filter(function(x){return stateOf(x.id)===2;}).length;
+  var got  = THEMES.filter(function(x){return stateOf(x.id)===1;}).length;
+  document.getElementById('sum-done').textContent = done;
+  document.getElementById('sum-sub').textContent = '練習済み ' + prac + '・受講済み ' + got;
+}
+
+/* ---------- 取消 ---------- */
+var cxTarget=null;
+function openCancel(sid){
+  cxTarget = SESSIONS.find(function(s){return s.id===sid;});
+  if(!cxTarget) return;
+  document.getElementById('cx-when').textContent = cxTarget.d+' '+cxTarget.t;
+  document.getElementById('cx-what').textContent = '「'+(cxTarget.title||'教室')+'」のご予約を取り消します。よろしいですか？';
+  document.getElementById('cx-err').innerHTML='';
+  document.getElementById('cx-btn').disabled=false;
+  document.getElementById('cxl').classList.add('on');
+}
+function closeCancel(){ document.getElementById('cxl').classList.remove('on'); cxTarget=null; }
+function doCancel(){
+  if(!cxTarget) return;
+  var btn=document.getElementById('cx-btn'); btn.disabled=true;
+  rpc('cancel_reservation', {p_token:TOKEN, p_reservation:cxTarget.mineId}).then(function(r){
+    if(r && r.ok){
+      closeCancel();
+      loadData().then(function(){ renderHome(); });
+    }else{
+      btn.disabled=false;
+      var msg = (r&&r.error==='too_late') ? 'この日程は開始時刻を過ぎたため取り消しできません。お店にお電話ください。'
+                                          : '処理できませんでした。もう一度お試しください。';
+      document.getElementById('cx-err').innerHTML = '<div class="notice">'+msg+'</div>';
+    }
+  }).catch(function(){
+    btn.disabled=false;
+    document.getElementById('cx-err').innerHTML = '<div class="notice">通信できませんでした。もう一度お試しください。</div>';
+  });
+}
+
+/* ---------- 日にちから ---------- */
+function renderDates(){
+  var h = SESSIONS.length===0 ? '<div class="none" style="padding:14px 4px">現在、予約できる日程はありません。<br>次の日程が決まりましたらご案内します。</div>' : '';
+  h += SESSIONS.map(function(s,i){
+    var mine = s.mine==='reserved';
+    var dead = s.full && !mine;
+    var seat = mine ? 'ご予約済み' : (s.full ? '満席' : '空きあり');
+    return '<button class="row '+(dead?'full':'')+(mine?' mine':'')+'" '
+      + ((dead||mine)?'disabled':'onclick="pick('+i+',\'s-bydate\')"')+'>'
+      + '<span><span class="big">'+s.d+' '+s.t+'</span><br>'
+      + '<span class="sub">'+esc(s.title||'教室')+'</span>'+((!dead&&!mine&&isExtra(s))?'<br><span class="xchip">追加のご受講</span>':'')+'</span>'
+      + '<span class="seat">'+seat+'</span>'
+      + ((dead||mine)?'':'<span class="arw">›</span>')
+      + '</button>';
+  }).join('');
+  document.getElementById('date-list').innerHTML = h;
+  document.getElementById('d-quota').innerHTML = quotaHTML(todayYm());
+}
+
+/* ---------- 講座から ---------- */
+function renderCourses(){
+  var open = COURSES.filter(function(c){ return SESSIONS.some(function(s){return s.cid===c.id && !s.full && s.mine!=='reserved';}); });
+  document.getElementById('course-list').innerHTML = open.length===0
+    ? '<div class="none" style="padding:14px 4px">現在、予約できる日程はありません。<br>次の日程が決まりましたらご案内します。</div>'
+    : open.map(function(c){
+    var idx = SESSIONS.findIndex(function(s){return s.cid===c.id && !s.full && s.mine!=='reserved';});
+    var s = idx>=0 ? SESSIONS[idx] : null;
+    return '<button class="row '+(s?'':'full')+'" '+(s?'onclick="pick('+idx+',\'s-bycourse\')"':'disabled')+'>'
+      + '<span><span class="big">'+esc(c.t)+'</span><br>'
+      + '<span class="sub">'+CAT[c.k].name+(s?' ・ 次は '+s.d+' '+s.t:' ・ 今は予約できる回がありません')+'</span>'+((s&&isExtra(s))?'<br><span class="xchip">追加のご受講</span>':'')+'</span>'
+      + (s?'<span class="arw">›</span>':'')
+      + '</button>';
+  }).join('');
+}
+
+/* ---------- 確認 ---------- */
+function usedFor(heldOn){
+  var ym = ymOf(heldOn);
+  if(ym===todayYm()) return D.used_this_month;
+  if(ym===nextYm())  return D.used_next_month;
+  return 0;
+}
+function pick(i,from){
+  pending=SESSIONS[i]; backTo=from;
+  var c = pending.cid ? C(pending.cid) : null;
+  document.getElementById('cf-when').textContent = pending.d+' '+pending.t;
+  document.getElementById('cf-what').textContent = pending.title||'教室';
+  document.getElementById('cf-cat').innerHTML = c ? '<span class="cat2" '+catStyle(c.k)+'>'+CAT[c.k].name+'</span>' : '';
+  var n='';
+  /* 推奨前提はかならず1行だけ(44の約束) */
+  if(c && c.pre && stateOf(c.pre)===0 && C(c.pre)){
+    n += '<div class="notice">「<b>'+esc(C(c.pre).t)+'</b>」が未受講です。先に受講すると理解しやすくなりますが、<b>このままでも受講できます。</b></div>';
+  }
+  /* 回数の超過(裁定①: 追加分と金額を明示。支払いはお店で) */
+  var used = usedFor(pending.heldOn);
+  if(used >= D.limit_month){
+    n += '<div class="notice"><span class="nb">この月は <b>'+(used+1)+'回目</b>の</span><span class="nb">ご予約です。</span><br>'
+       + '<span class="nb">月'+D.limit_month+'回を超えた分は</span> <span class="nb"><b>追加のご受講</b></span><span class="nb"><b>（1回 '+yen(D.extra_price)+'円）</b>です。</span><br>'
+       + '<span class="nb">お支払いは</span><span class="nb">店頭でお願いします。</span></div>';
+  }
+  document.getElementById('cf-notice').innerHTML = n;
+  document.getElementById('cf-err').innerHTML = '';
+  document.getElementById('cf-btn').disabled = false;
+  go('s-confirm');
+}
+function bookErr(msg){
+  document.getElementById('cf-err').innerHTML = '<div class="notice">'+msg+'</div>';
+  document.getElementById('cf-btn').disabled = false;
+}
+function doBook(){
+  if(!pending) return;
+  document.getElementById('cf-btn').disabled = true;
+  rpc('reserve', {p_token:TOKEN, p_session:pending.id}).then(function(r){
+    if(r && r.ok){
+      lastBooked = {heldOn:pending.heldOn, startTime:pending.startTime,
+                    d:pending.d, t:pending.t, title:pending.title||'教室',
+                    extra:r.extra, price:r.extra_price, rid:r.reservation_id};
+      document.getElementById('dn-when').textContent = pending.d+' '+pending.t;
+      document.getElementById('dn-what').textContent = pending.title||'教室';
+      document.getElementById('dn-extra').innerHTML = r.extra
+        ? '<div class="notice" style="text-align:left">この分は <b>追加のご受講（1回 '+yen(r.extra_price)+'円）</b> です。<br><span class="nb">お支払いは</span><span class="nb">店頭でお願いします。</span></div>' : '';
+      loadData().then(function(){ go('s-done'); });
+    }else{
+      var e = r ? r.error : '';
+      if(e==='full')          bookErr('申し訳ありません。先ほど<b>満席</b>になりました。ほかの日程をお選びください。');
+      else if(e==='too_late') bookErr('この日程は受付を終了しました。ほかの日程をお選びください。');
+      else if(e==='already')  bookErr('この日程はすでにご予約済みです。');
+      else if(e==='not_open_yet') bookErr('この日程のご予約は<b>'+(r.opens_on?fmtDate(r.opens_on):'前の月の20日')+'</b> から受付します。');
+      else if(e==='bad_token') bookErr('会員の確認ができませんでした。お店でお渡しした会員証（QRコード）からお開きください。');
+      else bookErr('処理できませんでした。もう一度お試しください。');
+    }
+  }).catch(function(){ bookErr('通信できませんでした。電波の良い場所でもう一度お試しください。'); });
+}
+
+/* ---------- カレンダー(.icsファイル) ---------- */
+function addToCalendar(){
+  if(!lastBooked) return;
+  var p = lastBooked.heldOn.split('-'), tm = lastBooked.startTime.split(':');
+  var start = new Date(Date.UTC(+p[0], +p[1]-1, +p[2], +tm[0]-9, +tm[1]));  // JST→UTC
+  var end   = new Date(start.getTime() + 60*60*1000);
+  function z(d){ return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,''); }
+  var ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//kokosuma//yoyaku//JP',
+    'BEGIN:VEVENT','UID:kokosuma-'+(lastBooked.rid||Date.now())+'@kokosuma',
+    'DTSTAMP:'+z(new Date()),'DTSTART:'+z(start),'DTEND:'+z(end),
+    'SUMMARY:ここスマ教室 '+lastBooked.title,'LOCATION:ここスマ',
+    'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  var a=document.createElement('a');
+  a.href='data:text/calendar;charset=utf-8,'+encodeURIComponent(ics);
+  a.download='kokosuma_yoyaku.ics';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+
+/* ---------- できること ---------- */
+function cellHTML(c){
+  var st=stateOf(c.id);
+  var up = c.up && st===2;
+  var cls = st===3?'done':(up?'up':(st===2?'prac':(st===1?'got':'')));
+  var lab = st===3?'✓ 習得':(up?'練習中 '+PRACTICE[c.id]+'回':(st===2?'練習済み':(st===1?'受講済み':'未受講')));
+  return '<div class="cell '+cls+'" style="--c:'+CAT[c.k].c+'" onclick="openSheet('+c.id+')">'
+       + '<span class="st">'+lab+'</span><span>'+esc(c.t)+'</span></div>';
+}
+function renderCard(){
+  THEMES.forEach(function(x){ x.k = catKey(x.id); });
+  var all = THEMES.concat(COURSES.filter(function(c){ return c.k==='event' && !THEMES.some(function(x){return x.id===c.id;}); }));
+  document.getElementById('sum-done2').textContent = all.filter(function(c){return stateOf(c.id)===3;}).length;
+  var h='';
+  ['kihon','ouyou','katsu','event'].forEach(function(k){
+    var list=all.filter(function(c){return c.k===k;});
+    if(list.length===0) return;
+    var d=list.filter(function(c){return stateOf(c.id)===3;}).length;
+    var p=list.filter(function(c){return stateOf(c.id)===2;}).length;
+    var g=list.filter(function(c){return stateOf(c.id)===1;}).length;
+    h += '<div class="cat-head" style="--c:'+CAT[k].c+'">'
+       + '<span class="chip"></span>'+CAT[k].name
+       + '<span class="cnt">習得 '+d+'・練習済み '+p+'・受講済み '+g+'</span></div>'
+       + '<div class="grid">'+list.map(function(c){return cellHTML(c);}).join('')+'</div>';
+  });
+  document.getElementById('card-body').innerHTML = h;
+}
+
+/* ---------- 講座の詳細シート ---------- */
+var shId=null;
+function openSheet(id){
+  shId=id; var c=T(id); if(!c) return;
+  c.k = c.k || catKey(id);
+  var st=stateOf(id);
+  var bookable = !!C(id);   // 予約できる講座(公開中)か
+  document.getElementById('sh-cat').innerHTML='<span class="cat2" '+catStyle(c.k)+'>'+CAT[c.k].name+'</span>';
+  document.getElementById('sh-title').textContent=c.t;
+  var S=document.getElementById('sh-state');
+  var B=document.getElementById('sh-btns');
+  var book = bookable ? '<button class="btn sub" onclick="closeSheet();go(\'s-bycourse\')">'+(st===0?'この講座を予約する':'もう一度受講する')+'</button>' : '';
+  if(st===0){
+    S.className='state yet'; S.textContent = bookable ? 'これから受講できます' : 'お店のタブレットでも練習できます';
+    B.innerHTML = book;
+  }else if(st===1 || st===2){
+    S.className='state got'; S.textContent = st===2 ? '練習済み' : '受講済み';
+    B.innerHTML='<button class="btn ok" onclick="markDone()">できるようになりました</button>' + book;
+  }else{
+    S.className='state done'; S.textContent='✓ 習得';
+    B.innerHTML = book;
+  }
+  document.getElementById('sheet').classList.add('on');
+}
+function markDone(){
+  var id=shId;
+  closeSheet();
+  if(MARKED.indexOf(id)<0) MARKED.push(id);   // 先に画面へ反映
+  renderCard(); renderHomeSafe();
+  rpc('mark_can_do',{p_token:TOKEN,p_course:id,p_on:true}).then(function(r){
+    if(r && r.ok===false){   // まだ講座の一覧に無いテーマ(patch10の前)なら、元に戻す
+      MARKED = MARKED.filter(function(x){return x!==id;});
+      renderCard(); renderHomeSafe();
+    }
+  }).catch(function(){});
+}
+function renderHomeSafe(){ try{ if(D) renderHome(); }catch(e){} }
+function closeSheet(){ document.getElementById('sheet').classList.remove('on'); }
+
+/* ---------- 季節の自動判定(19j§4) ---------- */
+(function(){
+  var m=new Date().getMonth()+1;
+  var s=(m>=3&&m<=5)?'spring':(m>=6&&m<=8)?'summer':(m>=9&&m<=11)?'autumn':'winter';
+  document.documentElement.dataset.season=s;
+  var mk={spring:'🌸',summer:'🎋',autumn:'🍁',winter:'⛄'}[s];
+  var el=document.getElementById('dn-mk'); if(el) el.textContent=mk;
+})();
+
+boot();
+</script>
+</body>
+</html>
