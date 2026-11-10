@@ -29,7 +29,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="ここスマ自習">
+<meta name="apple-mobile-web-app-title" content="ここスマ">
 <style>
   :root {
     /* ①ブランド（不変） */
@@ -2394,7 +2394,7 @@ body.club-on #scr-cat-asobi .pad { padding-top: 10px !important; }
         今日はここまでにする
       </div>
     </div>
-    <div class="footer">試作版 v1.73（ここスマ 会員メニュー・共通の型＋中身の画面＋同じ形の結果＋ご褒美の整理＋スタンプ＝ご来店＋7つの力は大きな数字＋見た目の統一＋スマホの練習の整理＋呼び名の総点検＋iPadのSafari対応＋ひとことを外す＋デザインの仕上げ＋文字を減らす）<span id="fit-info"></span></div>
+    <div class="footer">試作版 v1.74（ここスマ 会員メニュー・共通の型＋中身の画面＋同じ形の結果＋ご褒美の整理＋スタンプ＝ご来店＋7つの力は大きな数字＋見た目の統一＋スマホの練習の整理＋呼び名の総点検＋iPadのSafari対応＋ひとことを外す＋デザインの仕上げ＋文字を減らす）<span id="fit-info"></span></div>
   </div>
 </div>
 
@@ -2456,7 +2456,7 @@ body.club-on #scr-cat-asobi .pad { padding-top: 10px !important; }
 
 <!-- v1.51 しくみ動画 -->
 <div class="screen nt-wide" id="scr-gv"><div class="pad">
-  <div class="gv-hd"><b>使い方</b><span class="sp"></span><span class="gv-link" onclick="gvText()">文字で見る</span><div class="btn btn-white nt-howto" onclick="gvDone()">とばす</div></div>
+  <div class="gv-hd"><b>使い方</b><span class="sp"></span><span class="gv-link" onclick="gvText()">文字で見る</span><div class="btn btn-white nt-howto" onclick="gvDone()">飛ばす</div></div>
   <div class="gv-box"><div class="gv-frame">
     <video id="gv-video" playsinline preload="metadata"></video>
     <div id="gv-big"><div class="btn btn-primary" style="padding:18px 70px;font-size:30px;" onclick="gvToggle()">再生する</div></div>
@@ -2797,7 +2797,7 @@ body.club-on #scr-cat-asobi .pad { padding-top: 10px !important; }
       <span class="badge" id="odai-badge" style="display:none;"></span>
     </div>
     <div id="odai-list-wrap" style="display:flex; flex-direction:column; gap:14px;">
-      <div style="font-size:23px;">お題をひとつ選んでご自分のスマホでやってみましょう。</div>
+      <div style="font-size:23px;">お題を1つ選んでご自分のスマホで試しましょう。</div>
       <div class="odai-grid" id="odai-grid"></div>
     </div>
     <div id="odai-task-wrap" style="display:none; flex-direction:column; gap:14px; flex:1; min-height:0;">
@@ -3176,19 +3176,19 @@ var SEASON_SKINS = {
   spring: { sym: 'ic-sakura-a', puff: ['#FBEFF3', '#F9E3EB', '#F5D3DF', '#F0C2D3', '#EBB2C7'], bud: '#C97F9E', ground: '#F0DBE4', groundBits: '#F6C8DB',
     name: 'みんなの桜', unit: '輪', verb: '咲きました', doneLabel: '咲いた桜', sealSym: 'seal-sakura', sealName: '春の印・桜', mark: '桜', hint: '80輪で満開です',
     stages: ['つぼみ', '咲き始め', '一分咲き', '三分咲き', '五分咲き', '七分咲き', '九分咲き', '満開'],
-    fullMsg: '満開です。皆さんの力で咲きました。', restMsg: '満開まであと{n}輪です。', emptyMsg: 'まだつぼみです。遊ぶと咲きます' },
+    fullMsg: '満開です。皆さんの力で咲きました。', restMsg: '満開まであと{n}輪です。', emptyMsg: 'まだつぼみです。練習すると咲きます' },
   summer: { sym: 'ic-leaf-a', accentSym: 'ic-asagao-a', puff: ['#EAF6E8', '#D9EED6', '#BFE3B9', '#A5D3A0', '#8CC487'], bud: '#7FA06B', ground: '#DDEBD9', groundBits: '#A5D3A0',
     name: 'みんなの青葉', unit: '枚', verb: '茂りました', doneLabel: '茂った青葉', sealSym: 'seal-asagao', sealName: '夏の印・朝顔', mark: '葉', hint: '80枚で盛りです',
     stages: ['芽吹き前', '芽吹き', '一分', '三分', '五分', '七分', '九分', '青葉の盛り'],
-    fullMsg: '青葉の盛りです。皆さんの力で茂りました。朝顔も咲きました。', restMsg: '盛りまであと{n}枚です。', emptyMsg: 'まだ芽吹き前です。遊ぶと茂ります' },
+    fullMsg: '青葉の盛りです。皆さんの力で茂りました。朝顔も咲きました。', restMsg: '盛りまであと{n}枚です。', emptyMsg: 'まだ芽吹き前です。練習すると茂ります' },
   autumn: { sym: 'ic-momiji-a', puff: ['#FAE6C8', '#F6D5A8', '#F2B879', '#EFA95F', '#E08A45'], bud: '#B5713C', ground: '#F0DFC8', groundBits: '#E8B47E',
     name: 'みんなの紅葉', unit: '枚', verb: '色づきました', doneLabel: '色づいた紅葉', sealSym: 'seal-momiji', sealName: '秋の印・紅葉', mark: '紅葉', hint: '80枚で盛りです',
     stages: ['色づき前', '色づき始め', '一分', '三分', '五分', '七分', '九分', '紅葉の盛り'],
-    fullMsg: '紅葉の盛りです。皆さんの力で色づきました。', restMsg: '盛りまであと{n}枚です。', emptyMsg: 'まだ色づき前です。遊ぶと色づきます' },
+    fullMsg: '紅葉の盛りです。皆さんの力で色づきました。', restMsg: '盛りまであと{n}枚です。', emptyMsg: 'まだ色づき前です。練習すると色づきます' },
   winter: { sym: 'ic-tsubaki-a', puff: ['#FFFFFF', '#F4F8FB', '#E6EEF3', '#D5E2DB', '#C4D4CA'], bud: '#9AAFA3', ground: '#E9F0F6', groundBits: '#FFFFFF',
     name: 'みんなの椿', unit: '輪', verb: '咲きました', doneLabel: '咲いた椿', sealSym: 'seal-tsubaki', sealName: '冬の印・椿', mark: '椿', hint: '80輪で満開です',
     stages: ['つぼみ', '咲き始め', '一分咲き', '三分咲き', '五分咲き', '七分咲き', '九分咲き', '満開'],
-    fullMsg: '椿が満開です。雪の中、皆さんの力で咲きました。', restMsg: '満開まであと{n}輪です。', emptyMsg: 'まだつぼみです。遊ぶと咲きます' }
+    fullMsg: '椿が満開です。雪の中、皆さんの力で咲きました。', restMsg: '満開まであと{n}輪です。', emptyMsg: 'まだつぼみです。練習すると咲きます' }
 };
 function detectSeason() {
   try {
@@ -3347,7 +3347,7 @@ var KENTEI_GAMES = {
   kami: { name: '百人一首検定', icon: 'tanzaku', chip: '#F0F2DF', ink: '#5F6B2B' },
   sagi: { name: '見分け検定', icon: 'phone', chip: '#FDEBE7', ink: '#B0452F' },
   line: { name: 'LINE検定', icon: 'bubble', chip: '#E4F3E6', ink: '#1E8A46' },
-  odai: { name: 'やってみた検定', icon: 'phone', chip: '#EEE8F6', ink: '#6B4FA1' }
+  odai: { name: 'お題カード検定', icon: 'phone', chip: '#EEE8F6', ink: '#6B4FA1' }
 };
 function kenteiLevelOf(pts) {
   var lv = 0;
@@ -3487,8 +3487,8 @@ function renderMap() {
     byCat[t.k].push({ t: t, st: st });
   });
   /* v1.28: 区分ごとにタブで切り替え=スクロールなしで1画面に収める(19z B1)。数え方は上の集計と同じ3段階(19z A3) */
-  var h = '<div class="map-sum"><div class="n">できるようになったこと <b>' + done + '</b> 個</div>' +
-    '<div class="sub">練習しました ' + prac + '　・　習いました ' + learn + '</div></div>';
+  var h = '<div class="map-sum"><div class="n">習得したこと <b>' + done + '</b> 個</div>' +
+    '<div class="sub">練習済み ' + prac + '　・　受講済み ' + learn + '</div></div>';
   h += '<div class="sub-tabs">';
   ['kihon', 'ouyou', 'katsu'].forEach(function (k) {
     var list = byCat[k];
@@ -3501,15 +3501,15 @@ function renderMap() {
   var cd = cur.filter(function (x) { return x.st.s === 3; }).length;
   var cp = cur.filter(function (x) { return x.st.s === 2 || x.st.s === 'up'; }).length;
   var cl = cur.filter(function (x) { return x.st.s === 1; }).length;
-  h += '<div class="map-head">' + THEME_CATS[mapCat].name + 'のテーマ<span class="cnt">できるように ' + cd + '・練習しました ' + cp + '・習いました ' + cl + '</span></div><div class="map-grid">';
+  h += '<div class="map-head">' + THEME_CATS[mapCat].name + 'のテーマ<span class="cnt">習得 ' + cd + '・練習済み ' + cp + '・受講済み ' + cl + '</span></div><div class="map-grid">';
   cur.forEach(function (x) {
     var cls = x.st.s === 'up' ? 'up' : (x.st.s ? 's' + x.st.s : '');
-    var st = x.st.s === 3 ? '✓ できる' : x.st.s === 2 ? '練習しました' : x.st.s === 1 ? '習いました' : x.st.s === 'up' ? '練習中 ' + x.st.times + '回' : 'これから';
+    var st = x.st.s === 3 ? '✓ 習得' : x.st.s === 2 ? '練習済み' : x.st.s === 1 ? '受講済み' : x.st.s === 'up' ? '練習中 ' + x.st.times + '回' : '未受講';
     var fn = THEME_START[x.t.id] || '';
     h += '<div class="map-cell ' + cls + '"' + (fn ? ' onclick="' + fn + '()"' : '') + '><span class="st">' + st + '</span><span class="nm">' + x.t.n + '</span></div>';
   });
   h += '</div>';
-  h += '<div class="map-note">升を押すと、その練習を始められます。<br>「できるようになった」は、ご自分のスマホの「できること」で押せます。</div>';
+  h += '<div class="map-note">講座名を押すとその練習を始められます。<br>「習得」はご自分のスマホの「できること」で記録できます。</div>';
   el.innerHTML = h;
 }
 /* 種目ごとの記録: 級（既存） + 前回の自分 + 伸びの線 */
@@ -3572,10 +3572,10 @@ function renderManabi() {
     var badge;
     if (k === 'moji') {
       var pr = practice.filter(function (x) { return x.theme_id === 101; })[0];
-      badge = pr ? '<span class="rank" style="background:' + g.chip + '; color:' + g.ink + ';">練習 ' + pr.times + '回</span>' : '<span class="rank none">これから</span>';
+      badge = pr ? '<span class="rank" style="background:' + g.chip + '; color:' + g.ink + ';">練習 ' + pr.times + '回</span>' : '<span class="rank none">未実施</span>';
       if (!line) line = pr ? 'ご自分のスマホで練習しています' : 'ご自分のスマホで練習できます';
     } else {
-      badge = lv === 0 ? '<span class="rank none">これから</span>' : '<span class="rank" style="background:' + g.chip + '; color:' + g.ink + ';">' + KENTEI_RANKS[lv] + '</span>';
+      badge = lv === 0 ? '<span class="rank none">未実施</span>' : '<span class="rank" style="background:' + g.chip + '; color:' + g.ink + ';">' + KENTEI_RANKS[lv] + '</span>';
       if (!line) line = lv === 0 ? (two ? '' : '始めると記録が残ります') : '続けています';
     }
     var chip = '<span class="chip" style="background:' + g.chip + '; color:' + g.ink + ';"><svg viewBox="0 0 24 24"><use href="#ic-' + g.icon + '"></use></svg></span>';
@@ -3588,7 +3588,7 @@ function renderManabi() {
     }
   });
   html += '</div>';
-  html += '<div class="log-note">順位や平均は出しません。くらべるのは、前回のあなただけです。</div>';
+  html += '<div class="log-note">順位や平均は出しません。比べるのは前回のご自身だけです。</div>';
   document.getElementById('manabi-panel').innerHTML = html;
 }
 /* 結果と練習の送信（既存RPCは変更なし。patch8の新RPCが無い環境では静かに失敗→キューへ） */
@@ -3749,9 +3749,9 @@ function buildMenu() {
     var th = ACT[g].theme, d = th && skillData.last_theme ? skillData.last_theme[th] : lastPlayed(g);
     return { g: g, last: daysSince(d) };
   }).sort(function (a, b) { return b.last - a.last; })[0];
-  if (sm) add(sm.g, sm.last >= 99 ? 'スマホの練習をひとつ' : 'しばらくやっていない練習');
+  if (sm) add(sm.g, sm.last >= 99 ? 'スマホの練習を1つ' : 'しばらくやっていない練習');
   // 足りなければ埋める
-  ['kiki', 'otsuri', 'kioku', 'sagi', 'line'].forEach(function (g) { if (items.length < 3) add(g, 'もうひとつ'); });
+  ['kiki', 'otsuri', 'kioku', 'sagi', 'line'].forEach(function (g) { if (items.length < 3) add(g, 'もう1つ'); });
   return items.slice(0, 3);
 }
 function menuMarkDone(game) {
@@ -3795,10 +3795,10 @@ function brainDanHtml() {
     var r = skillRow(b.d);
     var dan = r ? r.dan : 0, first = r ? r.first : 0;
     var bar = '<span class="dbar"><i class="f" style="width:' + (first * 10) + '%;"></i><i class="n" style="width:' + (dan * 10) + '%;"></i></span>';
-    return '<div class="drow"><b>' + b.n + '</b>' + bar + '<span class="dv">' + (dan ? 'レベル' + dan + (r._up ? '<em>UP</em>' : '') : '<span class="none">これから</span>') + '</span></div>';
+    return '<div class="drow"><b>' + b.n + '</b>' + bar + '<span class="dv">' + (dan ? 'レベル' + dan + (r._up ? '<em>UP</em>' : '') : '<span class="none">未実施</span>') + '</span></div>';
   }).join('');
   var sum = BRAIN.reduce(function (s, b) { var r = skillRow(b.d); return s + (r ? r.dan : 0); }, 0);
-  return '<div class="dan-box"><div class="dan-hd">脳トレのレベル <span>' + BRAIN.length + 'つの力で あわせて ' + sum + '</span></div>' + rows +
+  return '<div class="dan-box"><div class="dan-hd">脳トレのレベル <span>' + BRAIN.length + 'つの力で 合計 ' + sum + '</span></div>' + rows +
     '<div class="dan-note">薄い線＝始めたとき／濃い線＝今。レベルは下がりません。</div></div>';
 }
 
@@ -4068,7 +4068,7 @@ function buildCourse() {
     var best = doms.filter(function (x) { return !used[x.b.d]; }).sort(function (a, b) { return b.dan - a.dan; })[0];
     if (best && items.length < 4) add(best.b.d, best.dan ? '締めくくりは得意な力で' : '締めくくり');
   }
-  ['kiku', 'oboeru', 'kazu', 'mitsukeru'].forEach(function (d) { if (items.length < 4) add(d, 'もうひとつ'); });
+  ['kiku', 'oboeru', 'kazu', 'mitsukeru'].forEach(function (d) { if (items.length < 4) add(d, 'もう1つ'); });
   return { day: mDay(), items: items.slice(0, 4), aim: aim || items[1].d, i: 0, t0: 0, secs: 0, res: [], active: false, finished: false };
 }
 function ensureCourse() {
@@ -4625,7 +4625,7 @@ function tapNum(el, lb) {
     numMistakes++;
     record.numsMiss++;
     if (numMistakes >= 3) {
-      setMsg('nums-msg', 'つぎは ' + numSeq[nextNum - 1] + ' です。ゆっくりで大丈夫。', true);
+      setMsg('nums-msg', 'つぎは ' + numSeq[nextNum - 1] + ' です。ゆっくりで大丈夫です。', true);
     } else {
       setMsg('nums-msg', '今は ' + numSeq[nextNum - 1] + ' を探しましょう。', true);
     }
@@ -4653,7 +4653,7 @@ function setMsg(id, text, gentle) {
   el.style.color = gentle ? '#C25E00' : '#333A38';
 }
 
-var MEMO_CHOICES = ['楽しかった', 'ちょうどよい', '少し難しかった', 'また遊びたい'];
+var MEMO_CHOICES = ['楽しかった', 'ちょうどよい', '少し難しかった', 'また挑戦したい'];
 
 function showSummary() {
   document.getElementById('sum-date').textContent = dateLabel();
@@ -4689,7 +4689,7 @@ function showSummary() {
     total += record.flowersByGame.tile;
   }
   if (record.kikiSets > 0) {
-    rows.push({ icon: 'ear', chip: '#FBE9D6', label: '音読聞き取り(' + kikiTopLabel() + 'まで)', n: record.flowersByGame.kiki, perfect: record.perfect.kiki });
+    rows.push({ icon: 'ear', chip: '#FBE9D6', label: '音読聞き取り（' + kikiTopLabel() + 'まで）', n: record.flowersByGame.kiki, perfect: record.perfect.kiki });
     total += record.flowersByGame.kiki;
   }
   if (record.kotoAnswered > 0) {
@@ -4717,7 +4717,7 @@ function showSummary() {
     total += record.flowersByGame.line;
   }
   if (record.odaiDone.length > 0) {
-    rows.push({ icon: 'phone', chip: '#EEE8F6', label: 'スマホでやってみた(' + record.odaiDone.length + '個)', n: record.flowersByGame.odai, perfect: false });
+    rows.push({ icon: 'phone', chip: '#EEE8F6', label: 'お題カード（' + record.odaiDone.length + '個）', n: record.flowersByGame.odai, perfect: false });
     total += record.flowersByGame.odai;
   }
   var html = '';
@@ -4731,7 +4731,7 @@ function showSummary() {
         '<span class="wa">' + sakuraIconHtml(30) + r.n + SKIN.unit + '</span></div>';
     });
   }
-  html += '<div class="done-total"><span>' + SKIN.doneLabel + '</span><b>あわせて ' + total + SKIN.unit + '</b></div>';
+  html += '<div class="done-total"><span>' + SKIN.doneLabel + '</span><b>合計 ' + total + SKIN.unit + '</b></div>';
   document.getElementById('done-panel').innerHTML = html;
 
   var chips = document.getElementById('memo-chips');
@@ -5053,7 +5053,7 @@ var LINEQ = [
     t: '山の絵のマークを押すと、スマホの写真が並びます。選んで送るだけです。孫の運動会の写真も、ここから送れます。' },
   { mock: true, q: 'ハナさんと音声通話したい。押すのはどれですか？',
     c: ['④ 受話器のマーク', '① 「＋」', '③ 顔のマーク'], a: 0,
-    t: 'LINEどうしの通話は通話料がかかりません(そのかわりギガ=通信量を使います)。Wi-Fiのある場所なら、時間を気にせず話せます。' },
+    t: 'LINEどうしの通話は通話料がかかりません（その代わりギガ＝通信量を使います）。Wi-Fiのある場所なら、時間を気にせず話せます。' },
   { mock: false, sc: '送ったメッセージに「既読」と付きました。',
     q: 'どういう意味ですか？',
     c: ['相手がメッセージを読んだ、という印', 'まだ相手に届いていない、という印', '相手が怒っている、という印'], a: 0,
@@ -5070,10 +5070,10 @@ var LINEQ = [
     q: '一番確実な方法はどれですか？',
     c: ['自分のQRコードを見せて、読み取ってもらう', '電話番号を大きな声で伝える', '相手のスマホを借りて、自分で操作する'], a: 0,
     t: '目の前の相手とは、QRコードの見せ合いが一番確実で安全です。QRの出し方は、お店で一緒に練習できます。' },
-  { mock: false, sc: 'LINEのメッセージに知らないリンク(URL)が付いていました。',
+  { mock: false, sc: 'LINEのメッセージに知らないリンク（URL）が付いていました。',
     q: 'どうしますか？',
     c: ['心当たりがなければ、開かない', 'とりあえず開いて確かめる', 'お友だち全員に転送して知らせる'], a: 0,
-    t: 'LINEでも合言葉は同じ、「急がせる・お金の話・リンク」です。「怪しいメッセージを見分ける」の練習も、あわせてどうぞ。' },
+    t: 'LINEでも合言葉は同じ、「急がせる・お金の話・リンク」です。「怪しいメッセージを見分ける」の練習も合わせてどうぞ。' },
   { mock: false, sc: 'グループトーク（家族みんなのLINE）にメッセージを送ります。',
     q: 'だれに届きますか？',
     c: ['グループの全員に届く', '選んだ一人にだけ届く', 'だれにも届かない'], a: 0,
@@ -5181,7 +5181,7 @@ var ODAI = [
     kotsu: '撮った写真は消えていません。探し方さえ覚えれば、いつでも会えます。' },
   { id: 'ai', name: '音声で調べる', desc: '明日の天気を聞く', icon: 'ic-mic', chip: 'var(--season-pale)', ink: 'var(--action)',
     task: 'ご自分のスマホに向かって、「明日の藤井寺の天気は?」と音声で質問してみましょう。',
-    steps: [['マイクのマークか、音声の呼び出しを使う', '検索の画面にもマイクがあります'], ['ゆっくり、普段の声で聞く', ''], ['表示された答えを確認', '']],
+    steps: [['マイクのマークか、音声の呼び出しを使う', '検索の画面にもマイクがあります'], ['ゆっくり普段の声で質問する', ''], ['表示された答えを確認', '']],
     kotsu: '文字を打たなくても調べられます。「近くの郵便局は?」など、聞き方は自由です。' }
 ];
 var odaiCurrent = null;
@@ -5601,7 +5601,7 @@ function kiokuStatus(mode, tx) {
   document.getElementById('kio-status-tx').textContent = tx;
 }
 function kiokuBadgeUpdate() {
-  document.getElementById('kio-badge').textContent = 'いま' + kioku.level + '個 → 目標' + KIOKU_GOAL + '個';
+  document.getElementById('kio-badge').textContent = '今' + kioku.level + '個 → 目標' + KIOKU_GOAL + '個';
 }
 function kiokuOrderRender(fill, mode) {
   var box = document.getElementById('kio-order');
@@ -5851,7 +5851,7 @@ function kikiRenderStart() {
     (st > 1 ? '前回の続き＝「' + kkStepName(st) + '」から' : '短い文から、少しずつ長く・速く') + '</span></span></div>' +
     '<div class="kk-mode" onclick="mkShelf()"><span class="kk-mi gimg gi-meisaku" aria-hidden="true"></span><span class="kk-mt"><b>名作を聞く</b><span>太宰治「走れメロス」を朗読で。' + epTx + '</span></span></div>' +
     '</div>' +
-    '<div class="kiki-note"><svg viewBox="0 0 24 24"><use href="#ic-spk"></use></svg>音が出ます。まわりの音量にご注意ください。</div>';
+    '<div class="kiki-note"><svg viewBox="0 0 24 24"><use href="#ic-spk"></use></svg>音声が流れます。周りの音量にご注意ください。</div>';
 }
 
 /* ---- 暮らしの会話：段のはしご ---- */
@@ -6266,7 +6266,7 @@ function kikiAnswer(idx, el) {
     record.kikiCorrect++;
     if (kiki.speedIdx > kiki.topOkIdx) kiki.topOkIdx = kiki.speedIdx;
   } else {
-    msg.textContent = '正解は「' + kiki.task.c[kiki.task.a] + '」でした。同じ速さでもう一問どうぞ';
+    msg.textContent = '正解は「' + kiki.task.c[kiki.task.a] + '」でした。同じ速さでもう1問どうぞ';
     msg.style.color = '#C25E00';
   }
   var last = (kiki.qNum >= KIKI_QUESTIONS);
@@ -6343,7 +6343,7 @@ updateHome();
 <div class="ovl" id="ovl-bye">
   <svg class="bigflo" viewBox="0 0 24 24"><use class="skin-use" href="#ic-sakura-a"></use></svg>
   <div class="l1" id="bye-tx">お疲れさまでした</div>
-  <div class="l2">また来てくださいね</div>
+  <div class="l2">またのご来店をお待ちしています</div>
 </div>
 <script>
 /* qrcode-generator v1.4.4 (MIT) */
@@ -18770,7 +18770,7 @@ function buildSessionSummary() {
   if (record.kamiPairs > 0) parts.push('百人一首' + record.kamiPairs + '組');
   if (record.sagiAnswered > 0) parts.push('見分け' + record.sagiCorrect + '/' + record.sagiAnswered + '問');
   if (record.lineAnswered > 0) parts.push('LINE練習' + record.lineCorrect + '/' + record.lineAnswered + '問');
-  if (record.odaiDone.length > 0) parts.push('やってみた:' + record.odaiDone.join('・'));
+  if (record.odaiDone.length > 0) parts.push('お題カード:' + record.odaiDone.join('・'));
   var mig = Object.keys(record.perfect || {});
   if (mig.length > 0) parts.push('みごと' + mig.length + '種目');
   record.shoukyu.forEach(function (s) { parts.push(s); });
@@ -18786,7 +18786,7 @@ function sendTabletKiroku(mid) {
   if (!summary) return;
   try {
     var body = KIROKU_KEYS.m + '=' + encodeURIComponent(mid) +
-      '&' + KIROKU_KEYS.course + '=' + encodeURIComponent('自習システム: ' + summary + '(来店' + getStamps(mid).length + '回目)') +
+      '&' + KIROKU_KEYS.course + '=' + encodeURIComponent('会員メニュー: ' + summary + '(来店' + getStamps(mid).length + '回目)') +
       '&' + KIROKU_KEYS.method + '=' + encodeURIComponent('タブレット');
     fetch(KIROKU_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body }).catch(function () {});
   } catch (e) {}
@@ -19171,7 +19171,7 @@ var RENSHU_MOJI = [
     ], kotsu: '「まる」「てん」と言うと、句読点が入ります。' },
   { c: 'fix', name: '打ち直しの練習', desc: '間違えた1文字を消して、正しく直す', abil: '指・注意力', icon: 'ic-pen', chip: '#E4F0FC', go: '#0071E3',
     steps: [
-      ['お手本と見くらべて、間違いを探す', '文の中に違う字がひとつあります'],
+      ['お手本と見比べて間違いを探す', '文の中に違う字がひとつあります'],
       ['消す印（バツや矢印）で間違いを消す', '押すたびに後ろから1文字消えます'],
       ['正しい字を打ち直して「できた」を押す', '直せたらそれで合格です']
     ], kotsu: '消しすぎても大丈夫。何度でもやり直せます。' },
@@ -19384,7 +19384,7 @@ var NT_USE = {
   kiku: '電話や窓口の説明を一度で聞き取る',
   yomu: 'お知らせや説明書きを読んで分かる',
   oboeru: '順番や場所を少しの間覚えておく',
-  mitsukeru: 'たくさんの中から、目当てのものを探す',
+  mitsukeru: '多くの中から目当てのものを探す',
   kazu: '買い物の計算を頭の中でする',
   kotoba: '知っていることをすぐに思い出す',
   handan: '押す・押さないをとっさに決める'
@@ -19421,7 +19421,7 @@ function ntGuideRender() {
     '<div class="gd-hd"><span class="gd-k">使い方　' + (ntGuideP + 1) + '／' + pg.length + '</span><b>' + p.t + '</b></div>' +
     '<div class="gd-main">' + p.b + '</div>' +
     '<div class="gd-foot"><div class="gd-dots">' + dots + '</div><div class="gd-btns">' +
-    (ntGuideP ? '<div class="btn-outline" style="padding:10px 34px;font-size:22px;" onclick="ntGuideGo(-1)">戻る</div>' : '<div class="gd-skip" onclick="ntGuideDone()">とばす</div>') +
+    (ntGuideP ? '<div class="btn-outline" style="padding:10px 34px;font-size:22px;" onclick="ntGuideGo(-1)">戻る</div>' : '<div class="gd-skip" onclick="ntGuideDone()">飛ばす</div>') +
     '<div class="btn btn-primary" style="margin:0;padding:13px 50px;font-size:24px;" onclick="' + (last ? 'ntGuideDone()' : 'ntGuideGo(1)') + '">' + (last ? '始める' : '次へ') + '</div></div></div>';
 }
 function ntGuideGo(d) { ntGuideP = Math.max(0, Math.min(3, ntGuideP + d)); ntGuideRender(); }
@@ -19524,7 +19524,7 @@ numRoundClear = function () {
   var st = lvStep('tile', ok, 1);
   tileR++;
   if (tileR < TILE_ROUNDS && !(st === 'top')) {
-    setMsg('nums-msg', ok ? (st === 'up' ? 'できました。次はレベル' + s.lv + 'です。' : 'できました。') : 'もう一度やってみましょう。ゆっくりで大丈夫です。', !ok);
+    setMsg('nums-msg', ok ? (st === 'up' ? 'できました。次はレベル' + s.lv + 'です。' : 'できました。') : 'もう一度挑戦しましょう。ゆっくりで大丈夫です。', !ok);
     setTimeout(nextNumRound, 1800);
   } else {
     var tq = qualityByMiss(record.numsMiss - (record._tileMiss0 || 0), 3);
@@ -19655,7 +19655,7 @@ function hdBlockEnd() {
   if (hd.block < HD_BLOCKS && st !== 'top') {
     var c = HD_LV[s.lv];
     document.getElementById('hd-body').innerHTML =
-      '<div class="kiki-done" style="font-size:34px;">' + (ok ? (st === 'up' ? 'できました。次はレベル' + s.lv + 'です' : 'できました') : 'もう一度、同じ組をやってみましょう') + '</div>' +
+      '<div class="kiki-done" style="font-size:34px;">' + (ok ? (st === 'up' ? 'できました。次はレベル' + s.lv + 'です' : 'できました') : 'もう一度同じ組に挑戦しましょう') + '</div>' +
       '<div class="nt-lead" style="font-size:24px;">' + hdRule(c).replace('。', '。<br>') + '</div>' + hdDemo(c) +
       '<div class="btn btn-primary" style="margin:0;padding:15px 56px;font-size:26px;" onclick="hdStart()">次の組へ</div>';
   } else hdEnd();
@@ -20714,7 +20714,7 @@ var NT_LIFE = {
   kiku: ['電話や窓口の説明を一度で聞き取る', '留守番電話・薬の飲み方の説明'],
   yomu: ['お知らせや説明書きを読んで分かる', '回覧板・スマホのお知らせ'],
   oboeru: ['用事や番号を少しの間覚えておく', '買う物のメモ・暗証番号'],
-  mitsukeru: ['たくさんの中から、目当てのものを探す', 'お店の棚・スマホのアプリ'],
+  mitsukeru: ['多くの中から目当てのものを探す', 'お店の棚・スマホのアプリ'],
   kazu: ['買い物の合計やお釣りを頭の中で出す', 'レジでの支払い・割引の値段'],
   kotoba: ['名前や言葉をすぐに思い出す', '知り合いの名前・昔の出来事'],
   handan: ['進む・止まるをとっさに決める', '信号・怪しいメッセージ']
@@ -20731,7 +20731,7 @@ ntGuidePages = function () {
     { t: 'ここスマの脳トレ', b:
         '<div class="gd-lead">暮らしを支える<b>7つの力</b>を、<br>楽しみながら養う、頭と指の体操です。</div>' +
         '<div class="gd-c7s">' + chips + '</div>' +
-        '<div class="gd-sub gd-center">大切なのは、7つの力をまんべんなく使い、続けていくこと。<br>ここスマは、その積み重ねを一緒に見守り、いきいきとした毎日を応援します。</div>' +
+        '<div class="gd-sub gd-center">大切なのは、7つの力をバランス良く使い、続けていくことです。</div>' +
         '' },
     { t: '短く、選んで、いつでも見える', b:
         '<div class="gd-3c">' +
@@ -20753,8 +20753,8 @@ DRL.splice(DRL.findIndex(function (x) { return x.id === 'kazu'; }) + 1, 0,
   { id: 'masu', g: 'kioku', n: '光ったマス', d: 'いくつかのマスが一度に光ります。光った場所を押します。',
     lines: ['いくつかのマスが一度に光って消えます。', '光ったマスを順番は気にせず、全部押します。'], meta: ['8回・約1分半', '2回続けて正解でマスや数が増えます'], cd: true });
 DRL.splice(DRL.findIndex(function (x) { return x.id === 'ou'; }) + 1, 0,
-  { id: 'hiro', g: 'tile', n: 'まわりも見る', d: '真ん中を見たまま、まわりに一瞬出る数字を読みます。',
-    lines: ['真ん中の＋を見ていてください。まわりのどこかに数字が一瞬だけ表示されます。', '出た数字を下の数字ボタンで押します。レベルが上がると、外側に・速くなります。'], meta: ['10回・約1分', '2回続けて正解でレベルが1つ上'], cd: true });
+  { id: 'hiro', g: 'tile', n: '周りも見る', d: '真ん中を見たまま、周りに一瞬表示される数字を読みます。',
+    lines: ['真ん中の＋を見ていてください。周りのどこかに数字が一瞬だけ表示されます。', '出た数字を下の数字ボタンで押します。レベルが上がると、外側に・速くなります。'], meta: ['10回・約1分', '2回続けて正解でレベルが1つ上'], cd: true });
 DRL.splice(DRL.findIndex(function (x) { return x.id === 'fl'; }) + 1, 0,
   { id: 'sagasu', g: 'yomu', n: '探し読み', d: '並んだ行の中から、言われた言葉がある行を探します。',
     lines: ['短い文が何行か並びます。上に出た言葉が入っている行を1つ探して押します。', '時間の帯がなくなる前に押します。レベルが上がると、行が増えて、帯が短くなります。'], meta: ['10問・約1分半', '2問続けて正解でレベルが1つ上'], cd: false });
@@ -21409,7 +21409,7 @@ function tabiAt(n) { var L = TABI[0].pts.length, i = Math.min(n, L) - 1; return 
 function tabiNextText(n) {
   var P = TABI[0].pts; if (n >= P.length) return '';
   var t = '次は ' + tabiLabel(n);
-  for (var j = n + 1; j < P.length; j++) if (P[j][3]) { t += '・あと' + (j + 1 - n) + 'こで ' + tabiLabel(j); break; }
+  for (var j = n + 1; j < P.length; j++) if (P[j][3]) { t += '・あと' + (j + 1 - n) + '個で ' + tabiLabel(j); break; }
   return t;
 }
 function tabiSeal(name, sub, empty, rot) {
@@ -21425,7 +21425,7 @@ function tabiSeal(name, sub, empty, rot) {
 }
 /* スタンプ1つ目＝日本橋を出発。n こ目の知らせ */
 function tabiPonText(n) {
-  var P = TABI[0].pts, L = P.length, o = { big: n % 10 === 0 || n === L, n: n + 'こ目のスタンプ' + (n % 10 === 0 ? '！' : '') };
+  var P = TABI[0].pts, L = P.length, o = { big: n % 10 === 0 || n === L, n: n + '個目のスタンプ' + '' };
   if (n > L) { o.t = '京都に着いたあとも、スタンプは数えています'; o.s = '次の旅を準備しています。お楽しみに。'; o.seal = '京都'; return o; }
   var p = P[n - 1];
   o.t = n === 1 ? '日本橋を出発しました' : n === L ? '京都・三条大橋に着きました' : tabiLabel(n - 1) + 'に着きました';
@@ -21453,7 +21453,7 @@ function tpRender() {
   var P = TABI[0].pts, n = D.total || 0, a = tabiAt(n), list = D.list || [];
   var now = n === 0 ? 'スタート地点 <b>日本橋</b>' : (a.done ? 'ゴール' : '今は') + '<b><ruby>' + tabiLabel(a.i) + '<rt>' + P[a.i][1] + '</rt></ruby></b>（' + P[a.i][2] + '）';
   var marks = [[0, '日本橋', 'first'], [10, '箱根', ''], [27, '袋井（ど真ん中）', ''], [41, '宮', ''], [P.length - 1, '京都', 'last']];
-  var h = '<div class="tp-hd"><div><div class="jn">旅のスタンプ帳・東海道五十三次</div><div class="now">' + now + '</div></div><div class="cnt">スタンプ<b>' + n + '</b>こ</div></div>' +
+  var h = '<div class="tp-hd"><div><div class="jn">旅のスタンプ帳・東海道五十三次</div><div class="now">' + now + '</div></div><div class="cnt">スタンプ<b>' + n + '</b>個</div></div>' +
     '<div class="tp-route"><i class="ln"><i style="width:' + a.pct + '%"></i></i>' +
     marks.map(function (m) { return '<span class="pt ' + m[2] + '" style="left:' + (m[0] / (P.length - 1) * 100) + '%">' + m[1] + '</span>'; }).join('') +
     '<em class="me" style="left:' + a.pct + '%"></em></div>' +
@@ -21533,14 +21533,14 @@ tabiPonText = function (n) {
   o.seal = n > L ? '印' : P[n - 1][0];
   if (n % CARD_N === 0) {
     o.big = true; o.card = true;
-    o.n = 'カード' + c.full + '枚目、満了！';
+    o.n = 'カード' + c.full + '枚目、満了';
     o.t = n + '回、お店に来てくださいました';
     o.s = (place ? place + '。' : '') + (hl || '次のカードも、一緒に進みましょう。');
   } else {
     o.big = n === L;
-    o.n = 'カード' + c.k + '枚目・' + c.got + 'こ目';
-    o.t = place || n + 'こ目のスタンプ';
-    o.s = hl || (c.got === 5 ? '折り返しです。あと5こでカードが1枚たまります。' : 'あと' + (CARD_N - c.got) + 'こでカードが1枚たまります。');
+    o.n = 'カード' + c.k + '枚目・' + c.got + '個目';
+    o.t = place || n + '個目のスタンプ';
+    o.s = hl || (c.got === 5 ? '折り返しです。あと5こでカードが1枚たまります。' : 'あと' + (CARD_N - c.got) + '個でカードが1枚たまります。');
   }
   if (n === L) o.s = hl;
   return o;
@@ -21559,7 +21559,7 @@ function tabiManSeal(k) { return '<div class="cd-man">' + tabiSeal('満了', k +
     if (c.full > 0) { done = '<div class="done">ためたカード'; for (var i = 1; i <= c.full; i++) { var it = list[i * CARD_N - 1] || {}; done += '<i>' + i + '枚目' + (it.d ? '・' + tabiMd(it.d) : '') + '</i>'; } done += '</div>'; }
     var sc = tabiShowCard(n);
     var card = '<div class="tp-card"><div class="cd"><div class="cd-t">' + sc.k + '枚目のカード' + '<span><b>' + sc.got + '</b> / 10</span></div><div class="cd-g">' + tabiCardHtml(sc.k, n, list) + (sc.done ? tabiManSeal(sc.k) : '') + '</div></div>' +
-      '<div class="side"><div class="left">' + (sc.done ? 'カードが' + sc.full + '枚たまりました。<br>次の教室から' + (sc.k + 1) + '枚目です' : 'あと' + (CARD_N - c.got) + 'こで、<br>カードが1枚たまります') + '</div>' + done +
+      '<div class="side"><div class="left">' + (sc.done ? 'カードが' + sc.full + '枚たまりました。<br>次の教室から' + (sc.k + 1) + '枚目です' : 'あと' + (CARD_N - c.got) + '個で<br>カードが1枚たまります') + '</div>' + done +
       '<div style="font-size:17px;color:#666;">10こで1枚。教室の日に1つずつ押せます</div></div></div><div class="tp-sub">旅の地図（東海道五十三次）</div>';
     var hd = el.querySelector('.tp-hd');
     if (hd) hd.insertAdjacentHTML('afterend', card);
@@ -21833,7 +21833,7 @@ function shSync() {
       var dots = band.querySelector('.sh-dots'); if (!dots) { dots = document.createElement('div'); dots.className = 'sh-dots'; band.querySelector('.tx').appendChild(dots); }
       var dh = ''; for (var i = 1; i <= CARD_N; i++) dh += '<span class="' + (i <= got ? 'on' : '') + (i === got && getStamps(mid).indexOf(todayStr()) >= 0 ? ' now' : '') + '"></span>';
       dots.innerHTML = dh;
-      if (c) c.textContent = (n > 0 && n % CARD_N === 0) ? 'カードが1枚たまりました（' + (n / CARD_N) + '枚目）' : 'あと' + left + 'こでカードが1枚たまります';
+      if (c) c.textContent = (n > 0 && n % CARD_N === 0) ? 'カードが1枚たまりました（' + (n / CARD_N) + '枚目）' : 'あと' + left + '個でカードが1枚たまります';
     } catch (e) {} return r; };
   } catch (e) {}
 })();
@@ -21859,13 +21859,13 @@ function shSync() {
         return '<button type="button" class="bt' + (x.dan ? '' : ' none') + '" onclick="ntPick(\'' + x.b.d + '\')" style="--ink:' + x.b.ink + ';--chip:' + x.b.chip + ';">' +
           '<span class="gimg gi-' + REP[x.b.d] + '" aria-hidden="true"></span>' +
           '<span class="bt-n">' + x.b.n + '</span>' +
-          (x.dan ? '<span class="bt-lv"><small>レベル</small><b>' + x.dan + '</b></span>' : '<span class="bt-lv none"><b>まだ</b></span>') + sub + '</button>';
+          (x.dan ? '<span class="bt-lv"><small>レベル</small><b>' + x.dan + '</b></span>' : '<span class="bt-lv none"><b>未実施</b></span>') + sub + '</button>';
       }).join('');
       var rec = rows.filter(function (x) { return !x.dan; })[0] || rows.slice().sort(function (a, c) { return c.last - a.last; })[0];
-      var why = !rec.dan ? 'まだやっていません' : (rec.last >= 99 ? 'しばらくやっていません' : (rec.last === 0 ? '今日もやりました' : rec.last + '日前にやりました'));
+      var why = !rec.dan ? '未実施' : (rec.last >= 99 ? 'しばらく実施していません' : (rec.last === 0 ? '今日もやりました' : rec.last + '日前にやりました'));
       tiles += '<div class="bt rec"><span class="bt-cap">次のおすすめ</span><span class="gimg gi-' + REP[rec.b.d] + '" aria-hidden="true"></span><span class="bt-n">' + rec.b.n + '</span><span class="bt-sub">' + why + '</span>' +
-        '<button type="button" class="sh-pbtn" onclick="ntPick(\'' + rec.b.d + '\')">やってみる</button></div>';
-      var lead = best ? 'いちばん伸びたのは<b>「' + best.b.n + '」</b>です（始めたときから ＋' + best.up + '）'
+        '<button type="button" class="sh-pbtn" onclick="ntPick(\'' + rec.b.d + '\')">始める</button></div>';
+      var lead = best ? '一番伸びたのは<b>「' + best.b.n + '」</b>です（始めたときから ＋' + best.up + '）'
         : (rows.some(function (x) { return x.dan; }) ? '種目をするたびに、力ごとのレベルがここに残ります' : '種目をすると、力ごとのレベルがここに残ります');
       document.getElementById('br-body').innerHTML =
         '<div class="bt-hd"><p>' + lead + '</p><span>レベルは1〜10。一番良かった回が残り、下がりません</span></div><div class="bt-grid">' + tiles + '</div>';
@@ -22107,7 +22107,7 @@ function shSync() {
     var body = document.getElementById('rv-body'); if (!body) return;
     var hd = body.querySelector('.rv-hd b'); if (hd) hd.textContent = '脳活トレーニング、' + (course.finished ? 'できました' : 'ここまでできました');
     var stamped = false; try { stamped = !!sessM() && getStamps(sessM()).indexOf(mDay()) >= 0; } catch (e) {}
-    var h = body.querySelector('.rv-hd'); if (h && stamped) h.insertAdjacentHTML('afterend', '<div class="rv-stamp">今日のスタンプ　1こ ✓</div>');
+    var h = body.querySelector('.rv-hd'); if (h && stamped) h.insertAdjacentHTML('afterend', '<div class="rv-stamp">今日のスタンプ　1個 ✓</div>');
     var bt = body.querySelector('.rv-btns');
     if (bt) bt.innerHTML = (sessM() ? '<div class="btn btn-primary" style="margin:0;padding:13px 44px;font-size:24px;" onclick="showBrain()">私の記録を見る</div>' : '') +
       '<div class="btn-outline" style="padding:10px 40px;font-size:24px;" onclick="clubDone()">終わる</div>';

@@ -175,12 +175,12 @@ html body { background: #ECEFED !important; }
 
   <div class="card">
     <h2><span class="bar"></span>できること</h2>
-    <div class="sumline"><span class="nb">できるようになったこと</span> <span class="nb"><b id="sum-done">0</b> 個</span></div>
+    <div class="sumline"><span class="nb">習得したこと</span> <span class="nb"><b id="sum-done">0</b> 個</span></div>
     <div class="sumsub" id="sum-sub"></div>
     <button class="btn sub" onclick="go('s-card')">できることを見る</button>
   </div>
 
-  <div class="foot">ここスマ 会員ページ v0.3</div>
+  <div class="foot">ここスマ 会員ページ v0.4</div>
 </section>
 
 <!-- ========== 予約の入口 ========== -->
@@ -244,12 +244,12 @@ html body { background: #ECEFED !important; }
 <section id="s-card" class="screen">
   <div class="top"><button class="back" onclick="go('s-home')">戻る</button><div class="title">できること</div></div>
   <div class="card">
-    <div class="sumline"><span class="nb">できるようになったこと</span> <span class="nb"><b id="sum-done2">0</b> 個</span></div>
+    <div class="sumline"><span class="nb">習得したこと</span> <span class="nb"><b id="sum-done2">0</b> 個</span></div>
     <div class="legend">
-      <span><i style="border:2px dashed #C9D6D3;background:#fff"></i>これから</span>
-      <span><i style="border:2px solid var(--brand);background:#fff"></i>習いました</span>
-      <span><i style="border:2px solid var(--brand);background:#E9F3F1"></i>練習しました</span>
-      <span><i style="border:3px solid var(--ok);background:#CFE9DA"></i>できるようになった</span>
+      <span><i style="border:2px dashed #C9D6D3;background:#fff"></i>未受講</span>
+      <span><i style="border:2px solid var(--brand);background:#fff"></i>受講済み</span>
+      <span><i style="border:2px solid var(--brand);background:#E9F3F1"></i>練習済み</span>
+      <span><i style="border:3px solid var(--ok);background:#CFE9DA"></i>習得</span>
     </div>
     <div style="font-size:18px;color:var(--ink-soft);margin-top:8px">講座名を押すと「できるようになりました」を記録できます。</div>
   </div>
@@ -285,7 +285,7 @@ html body { background: #ECEFED !important; }
 
 <script>
 /* =====================================================================
-   ここスマ 会員ページ(予約・できること) v0.3  2026-11-10 (v0.2=2026-09-24・v0.1=2026-08-18)
+   ここスマ 会員ページ(予約・できること) v0.4  2026-11-10 (v0.3=同日・v0.2=2026-09-24・v0.1=2026-08-18)
    ・データは Supabase の RPC(yoyaku_data / reserve / cancel_reservation /
      mark_can_do)から。HTMLに入れてよいのは公開キーだけ(19r§9-7)
    ・空席は「空きあり/満席」の2値だけ表示(43§4-4。残り数は出さない)
@@ -466,7 +466,7 @@ function renderHome(){
   var prac = THEMES.filter(function(x){return stateOf(x.id)===2;}).length;
   var got  = THEMES.filter(function(x){return stateOf(x.id)===1;}).length;
   document.getElementById('sum-done').textContent = done;
-  document.getElementById('sum-sub').textContent = '練習しました ' + prac + '・習いました ' + got;
+  document.getElementById('sum-sub').textContent = '練習済み ' + prac + '・受講済み ' + got;
 }
 
 /* ---------- 取消 ---------- */
@@ -617,7 +617,7 @@ function cellHTML(c){
   var st=stateOf(c.id);
   var up = c.up && st===2;
   var cls = st===3?'done':(up?'up':(st===2?'prac':(st===1?'got':'')));
-  var lab = st===3?'✓ できる':(up?'練習中 '+PRACTICE[c.id]+'回':(st===2?'練習しました':(st===1?'習いました':'これから')));
+  var lab = st===3?'✓ 習得':(up?'練習中 '+PRACTICE[c.id]+'回':(st===2?'練習済み':(st===1?'受講済み':'未受講')));
   return '<div class="cell '+cls+'" style="--c:'+CAT[c.k].c+'" onclick="openSheet('+c.id+')">'
        + '<span class="st">'+lab+'</span><span>'+esc(c.t)+'</span></div>';
 }
@@ -634,7 +634,7 @@ function renderCard(){
     var g=list.filter(function(c){return stateOf(c.id)===1;}).length;
     h += '<div class="cat-head" style="--c:'+CAT[k].c+'">'
        + '<span class="chip"></span>'+CAT[k].name
-       + '<span class="cnt">できる '+d+'・練習 '+p+'・習った '+g+'</span></div>'
+       + '<span class="cnt">習得 '+d+'・練習済み '+p+'・受講済み '+g+'</span></div>'
        + '<div class="grid">'+list.map(function(c){return cellHTML(c);}).join('')+'</div>';
   });
   document.getElementById('card-body').innerHTML = h;
@@ -656,10 +656,10 @@ function openSheet(id){
     S.className='state yet'; S.textContent = bookable ? 'これから受講できます' : 'お店のタブレットでも練習できます';
     B.innerHTML = book;
   }else if(st===1 || st===2){
-    S.className='state got'; S.textContent = st===2 ? '練習しました' : '習いました';
+    S.className='state got'; S.textContent = st===2 ? '練習済み' : '受講済み';
     B.innerHTML='<button class="btn ok" onclick="markDone()">できるようになりました</button>' + book;
   }else{
-    S.className='state done'; S.textContent='✓ できるようになりました';
+    S.className='state done'; S.textContent='✓ 習得';
     B.innerHTML = book;
   }
   document.getElementById('sheet').classList.add('on');
