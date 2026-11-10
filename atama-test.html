@@ -3488,8 +3488,8 @@ function renderMap() {
     byCat[t.k].push({ t: t, st: st });
   });
   /* v1.28: 区分ごとにタブで切り替え=スクロールなしで1画面に収める(19z B1)。数え方は上の集計と同じ3段階(19z A3) */
-  var h = '<div class="map-sum"><div class="n">できるようになったこと <b>' + done + '</b> 個</div>' +
-    '<div class="sub">練習しました ' + prac + '　・　習いました ' + learn + '</div></div>';
+  var h = '<div class="map-sum"><div class="n">習得したこと <b>' + done + '</b> 個</div>' +
+    '<div class="sub">練習済み ' + prac + '　・　受講済み ' + learn + '</div></div>';
   h += '<div class="sub-tabs">';
   ['kihon', 'ouyou', 'katsu'].forEach(function (k) {
     var list = byCat[k];
@@ -3502,15 +3502,15 @@ function renderMap() {
   var cd = cur.filter(function (x) { return x.st.s === 3; }).length;
   var cp = cur.filter(function (x) { return x.st.s === 2 || x.st.s === 'up'; }).length;
   var cl = cur.filter(function (x) { return x.st.s === 1; }).length;
-  h += '<div class="map-head">' + THEME_CATS[mapCat].name + 'のテーマ<span class="cnt">できるように ' + cd + '・練習しました ' + cp + '・習いました ' + cl + '</span></div><div class="map-grid">';
+  h += '<div class="map-head">' + THEME_CATS[mapCat].name + 'のテーマ<span class="cnt">習得 ' + cd + '・練習済み ' + cp + '・受講済み ' + cl + '</span></div><div class="map-grid">';
   cur.forEach(function (x) {
     var cls = x.st.s === 'up' ? 'up' : (x.st.s ? 's' + x.st.s : '');
-    var st = x.st.s === 3 ? '✓ できる' : x.st.s === 2 ? '練習しました' : x.st.s === 1 ? '習いました' : x.st.s === 'up' ? '練習中 ' + x.st.times + '回' : 'これから';
+    var st = x.st.s === 3 ? '✓ 習得' : x.st.s === 2 ? '練習済み' : x.st.s === 1 ? '受講済み' : x.st.s === 'up' ? '練習中 ' + x.st.times + '回' : '未受講';
     var fn = THEME_START[x.t.id] || '';
     h += '<div class="map-cell ' + cls + '"' + (fn ? ' onclick="' + fn + '()"' : '') + '><span class="st">' + st + '</span><span class="nm">' + x.t.n + '</span></div>';
   });
   h += '</div>';
-  h += '<div class="map-note">升を押すと、その練習を始められます。<br>「できるようになった」は、ご自分のスマホの「できること」で押せます。</div>';
+  h += '<div class="map-note">講座名を押すとその練習を始められます。<br>「習得」はご自分のスマホの「できること」で記録できます。</div>';
   el.innerHTML = h;
 }
 /* 種目ごとの記録: 級（既存） + 前回の自分 + 伸びの線 */
@@ -3573,10 +3573,10 @@ function renderManabi() {
     var badge;
     if (k === 'moji') {
       var pr = practice.filter(function (x) { return x.theme_id === 101; })[0];
-      badge = pr ? '<span class="rank" style="background:' + g.chip + '; color:' + g.ink + ';">練習 ' + pr.times + '回</span>' : '<span class="rank none">これから</span>';
+      badge = pr ? '<span class="rank" style="background:' + g.chip + '; color:' + g.ink + ';">練習 ' + pr.times + '回</span>' : '<span class="rank none">未実施</span>';
       if (!line) line = pr ? 'ご自分のスマホで練習しています' : 'ご自分のスマホで練習できます';
     } else {
-      badge = lv === 0 ? '<span class="rank none">これから</span>' : '<span class="rank" style="background:' + g.chip + '; color:' + g.ink + ';">' + KENTEI_RANKS[lv] + '</span>';
+      badge = lv === 0 ? '<span class="rank none">未実施</span>' : '<span class="rank" style="background:' + g.chip + '; color:' + g.ink + ';">' + KENTEI_RANKS[lv] + '</span>';
       if (!line) line = lv === 0 ? (two ? '' : '始めると記録が残ります') : '続けています';
     }
     var chip = '<span class="chip" style="background:' + g.chip + '; color:' + g.ink + ';"><svg viewBox="0 0 24 24"><use href="#ic-' + g.icon + '"></use></svg></span>';
@@ -3796,7 +3796,7 @@ function brainDanHtml() {
     var r = skillRow(b.d);
     var dan = r ? r.dan : 0, first = r ? r.first : 0;
     var bar = '<span class="dbar"><i class="f" style="width:' + (first * 10) + '%;"></i><i class="n" style="width:' + (dan * 10) + '%;"></i></span>';
-    return '<div class="drow"><b>' + b.n + '</b>' + bar + '<span class="dv">' + (dan ? 'レベル' + dan + (r._up ? '<em>UP</em>' : '') : '<span class="none">これから</span>') + '</span></div>';
+    return '<div class="drow"><b>' + b.n + '</b>' + bar + '<span class="dv">' + (dan ? 'レベル' + dan + (r._up ? '<em>UP</em>' : '') : '<span class="none">未実施</span>') + '</span></div>';
   }).join('');
   var sum = BRAIN.reduce(function (s, b) { var r = skillRow(b.d); return s + (r ? r.dan : 0); }, 0);
   return '<div class="dan-box"><div class="dan-hd">脳トレのレベル <span>' + BRAIN.length + 'つの力で 合計 ' + sum + '</span></div>' + rows +
@@ -21860,13 +21860,13 @@ function shSync() {
         return '<button type="button" class="bt' + (x.dan ? '' : ' none') + '" onclick="ntPick(\'' + x.b.d + '\')" style="--ink:' + x.b.ink + ';--chip:' + x.b.chip + ';">' +
           '<span class="gimg gi-' + REP[x.b.d] + '" aria-hidden="true"></span>' +
           '<span class="bt-n">' + x.b.n + '</span>' +
-          (x.dan ? '<span class="bt-lv"><small>レベル</small><b>' + x.dan + '</b></span>' : '<span class="bt-lv none"><b>まだ</b></span>') + sub + '</button>';
+          (x.dan ? '<span class="bt-lv"><small>レベル</small><b>' + x.dan + '</b></span>' : '<span class="bt-lv none"><b>未実施</b></span>') + sub + '</button>';
       }).join('');
       var rec = rows.filter(function (x) { return !x.dan; })[0] || rows.slice().sort(function (a, c) { return c.last - a.last; })[0];
-      var why = !rec.dan ? 'まだやっていません' : (rec.last >= 99 ? 'しばらくやっていません' : (rec.last === 0 ? '今日もやりました' : rec.last + '日前にやりました'));
+      var why = !rec.dan ? '未実施' : (rec.last >= 99 ? 'しばらく実施していません' : (rec.last === 0 ? '今日もやりました' : rec.last + '日前にやりました'));
       tiles += '<div class="bt rec"><span class="bt-cap">次のおすすめ</span><span class="gimg gi-' + REP[rec.b.d] + '" aria-hidden="true"></span><span class="bt-n">' + rec.b.n + '</span><span class="bt-sub">' + why + '</span>' +
         '<button type="button" class="sh-pbtn" onclick="ntPick(\'' + rec.b.d + '\')">始める</button></div>';
-      var lead = best ? 'いちばん伸びたのは<b>「' + best.b.n + '」</b>です（始めたときから ＋' + best.up + '）'
+      var lead = best ? '一番伸びたのは<b>「' + best.b.n + '」</b>です（始めたときから ＋' + best.up + '）'
         : (rows.some(function (x) { return x.dan; }) ? '種目をするたびに、力ごとのレベルがここに残ります' : '種目をすると、力ごとのレベルがここに残ります');
       document.getElementById('br-body').innerHTML =
         '<div class="bt-hd"><p>' + lead + '</p><span>レベルは1〜10。一番良かった回が残り、下がりません</span></div><div class="bt-grid">' + tiles + '</div>';
