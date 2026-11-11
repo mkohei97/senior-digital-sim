@@ -172,6 +172,10 @@ html body { background: #FFFFFF !important; color: #1C003C; }
 .back { border: 1.5px solid #1C003C !important; border-radius: 8px; color: #1C003C; background: #FFFFFF; }
 #date-list, #course-list { border-top: 2px solid #1C003C; }
 .row { border: 0 !important; border-bottom: 1px solid #E3DFD2 !important; border-radius: 0; margin-bottom: 0; padding: 16px 6px; background: #FFFFFF; }
+.row .rt { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 2px; }
+.row .big { overflow-wrap: normal; }
+.row .l2 { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; column-gap: 12px; }
+.row .xchip { align-self: flex-start; }
 .row .seat { color: #00785C; }
 .row .arw { color: #1C003C; }
 .row.full { background: #F5F4F0; color: #4B3B63; }
@@ -228,7 +232,7 @@ html body { background: #FFFFFF !important; color: #1C003C; }
     <button class="btn sub" onclick="go('s-card')">できることを見る</button>
   </div>
 
-  <div class="foot">ここスマ 会員ページ 試験版 v0.5</div>
+  <div class="foot">ここスマ 会員ページ 試験版 v0.5a</div>
 </section>
 
 <!-- ========== 予約の入口 ========== -->
@@ -562,7 +566,7 @@ function renderHome(){
         return '<div class="resv">'
           + (c?'<span class="cat" '+catStyle(c.k)+'>'+CAT[c.k].name+'</span>':'')
           + (s.mineExtra?'<span class="extra-chip">追加のご受講</span>':'')
-          + '<div class="when">'+s.d+' '+s.t+'</div>'
+          + '<div class="when"><span class="nb">'+s.d+'</span> <span class="nb">'+s.t+'</span></div>'
           + '<div class="what">'+esc(s.title||'教室')+'</div>'
           + '<button class="btn quiet" style="min-height:56px;font-size:21px" onclick="openCancel('+s.id+')">取り消す</button>'
           + '</div>';
@@ -614,9 +618,9 @@ function renderDates(){
     var seat = mine ? 'ご予約済み' : (s.full ? '満席' : '空きあり');
     return '<button class="row '+(dead?'full':'')+(mine?' mine':'')+'" '
       + ((dead||mine)?'disabled':'onclick="pick('+i+',\'s-bydate\')"')+'>'
-      + '<span><span class="big">'+s.d+' '+s.t+'</span><br>'
-      + '<span class="sub">'+esc(s.title||'教室')+'</span>'+((!dead&&!mine&&isExtra(s))?'<br><span class="xchip">追加のご受講</span>':'')+'</span>'
-      + '<span class="seat">'+seat+'</span>'
+      + '<span class="rt"><span class="big"><span class="nb">'+s.d+'</span> <span class="nb">'+s.t+'</span></span>'
+      + '<span class="l2"><span class="sub">'+esc(s.title||'教室')+'</span><span class="seat">'+seat+'</span></span>'
+      + ((!dead&&!mine&&isExtra(s))?'<span class="xchip">追加のご受講</span>':'')+'</span>'
       + ((dead||mine)?'':'<span class="arw">›</span>')
       + '</button>';
   }).join('');
@@ -634,7 +638,7 @@ function renderCourses(){
     var s = idx>=0 ? SESSIONS[idx] : null;
     return '<button class="row '+(s?'':'full')+'" '+(s?'onclick="pick('+idx+',\'s-bycourse\')"':'disabled')+'>'
       + '<span><span class="big">'+esc(c.t)+'</span><br>'
-      + '<span class="sub">'+CAT[c.k].name+(s?' ・ 次は '+s.d+' '+s.t:' ・ 今は予約できる回がありません')+'</span>'+((s&&isExtra(s))?'<br><span class="xchip">追加のご受講</span>':'')+'</span>'
+      + '<span class="sub">'+CAT[c.k].name+(s?' ・ <span class="nb">次は '+s.d+'</span> <span class="nb">'+s.t+'</span>':' ・ 今は予約できる回がありません')+'</span>'+((s&&isExtra(s))?'<br><span class="xchip">追加のご受講</span>':'')+'</span>'
       + (s?'<span class="arw">›</span>':'')
       + '</button>';
   }).join('');
@@ -797,4 +801,3 @@ boot();
 </script>
 </body>
 </html>
-<!-- 試験版 v0.5（2026-11-10 上げ直し。中身は同じ） -->
