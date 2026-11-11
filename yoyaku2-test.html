@@ -4,7 +4,7 @@
 <title>ご予約｜ここスマ</title>
 <meta name="robots" content="noindex">
 <style>
-/* 予約 第2版 試作 v0.3（2026-11-11）＝入口は2つ（大人の脳活クラブ・スマホ教室／スマートフォンの各種相談）。案B（白い地・ネイビー・罫線）。
+/* 予約 第2版 試作 v0.4（2026-11-11）＝入口は2つ（大人の脳活クラブ・スマホ教室／スマートフォンの各種相談）。案B（白い地・ネイビー・罫線）。
    見本のデータだけで動く。どこにも送らない・書き込まない。
    各種相談＝30分単位の開始時刻を選ぶ→ご用件を選ぶ。ご用件ごとの必要時間は画面に表示せず、枠を押さえる計算にだけ使う（値は仮）。 */
 :root{--ink:#1C003C;--sub:#4B3B63;--dim:#6A6078;--line:#E3DFD2;--pale:#F5F4F0;--sel:#E6F4EF;--mark:#008F6D;--ok:#00785C;--full:#B42318}
@@ -117,7 +117,7 @@ h1{margin:10px 0 18px;font-size:28px;font-weight:800;line-height:1.5}
   <div id="e-doors"></div>
   <div class="gap"></div>
   <button type="button" class="btn sub" onclick="go('s-list')"><span class="nb">ご予約の確認・</span><span class="nb">取り消し</span></button>
-  <div class="foot">ここスマ ご予約 試作 v0.3</div>
+  <div class="foot">ここスマ ご予約 試作 v0.4</div>
 </section>
 
 <section id="s-trial" class="screen">
@@ -187,19 +187,19 @@ h1{margin:10px 0 18px;font-size:28px;font-weight:800;line-height:1.5}
 </div></div>
 
 <script>
-/* ===== 予約 第2版 試作 v0.3：見本のデータだけで動く（通信しない） ===== */
+/* ===== 予約 第2版 試作 v0.4：見本のデータだけで動く（通信しない） ===== */
 var MEMBER = !/[?&]guest=1/.test(location.search);
 var W = ['日','月','火','水','木','金','土'];
 /* ご用件。m＝枠を押さえるのに使う必要時間（分）。画面には表示しない。値は仮（各メニューの担当の回答で差し替える） */
 var SERVICES = [
-  {k:'buy',    n:'機種購入サポート', m:90},
-  {k:'plan',   n:'料金の見直し',     m:60},
-  {k:'sim',    n:'格安SIM移行',      m:60},
-  {k:'data',   n:'データ移行',       m:90},
-  {k:'ask',    n:'個別相談',         m:30},
-  {k:'movie',  n:'思い出ムービー',   m:30},
-  {k:'visit',  n:'訪問サポート',     m:90, visit:true, note:'詳しいご住所は、ご予約のあとお電話で伺います。'},
-  {k:'other',  n:'その他',           m:30, memo:true}
+  {k:'buy',    n:'機種の購入',               m:90},
+  {k:'plan',   n:'料金の見直し',             m:60},
+  {k:'sim',    n:'格安SIMへの乗り換え',      m:60},
+  {k:'data',   n:'データの移行',             m:90},
+  {k:'ask',    n:'操作や設定の相談',         m:30},
+  {k:'movie',  n:'写真や動画のムービー作成', m:30},
+  {k:'visit',  n:'自宅への訪問',             m:90, visit:true, note:'<span class="nb">詳しいご住所は、</span><span class="nb">ご予約のあと</span><span class="nb">お電話で伺います。</span>'},
+  {k:'other',  n:'その他',                   m:30, memo:true}
 ];
 var OPEN_H = 10, SLOTS = 16, DAYS_AHEAD = 30, CLOSED = {3:1, 4:1};   /* 10:00〜18:00・30分×16・水木は定休（仮） */
 var CITIES = ['藤井寺市','羽曳野市'];
@@ -284,7 +284,7 @@ function renderTrial(){
 }
 function pickTrial(i){
   var c=CLASSES[i];
-  pend={type:'trial', ci:i, d:c.d, key:c.d+' '+pad(parseInt(c.t,10))+c.t.slice(-3), label:'体験', course:c.n, when:dayLong(c.d)+' '+c.t, place:'ここスマ 店内'};
+  pend={type:'trial', ci:i, d:c.d, key:c.d+' '+pad(parseInt(c.t,10))+c.t.slice(-3), label:'体験', course:c.n, when:dayLong(c.d)+' '+c.t};
   backTo='s-trial'; renderConfirm(true); go('s-confirm');
 }
 
@@ -369,38 +369,33 @@ function checkFields(ids){
 function infoNext(){ if(checkFields(['name','kana','tel','city'])) toConfirm('s-info'); }
 function toConfirm(from){
   var s=SERVICES[selSvc];
-  pend={type:'appt', svc:s, d:selDay, i:selI, m:s.m, key:selDay+' '+pad(Math.floor((OPEN_H*60+selI*30)/60))+':'+pad((selI*30)%60), label:s.n, when:dayLong(selDay)+' '+hm(selI), place:s.visit?'ご自宅':'ここスマ 店内'};
+  pend={type:'appt', svc:s, d:selDay, i:selI, m:s.m, key:selDay+' '+pad(Math.floor((OPEN_H*60+selI*30)/60))+':'+pad((selI*30)%60), label:s.n, when:dayLong(selDay)+' '+hm(selI)};
   backTo=from; renderConfirm(false); go('s-confirm');
 }
 
 /* ---------- 確認と完了 ---------- */
 function cityText(){ return info.city==='other' ? '一覧にない（お電話で確認します）' : (info.city||''); }
 function sumHTML(p, extra){
-  var rows = p.type==='trial' ? [['ご予約','体験'],['講座',esc(p.course)]] : [['ご用件',esc(p.label)]];
+  var rows = [['日時', p.when.replace(/^(\S+）)\s*/,'$1<br>')]];
+  if(p.type==='trial') rows.push(['講座', esc(p.course)+'（体験）']); else rows.push(['ご用件', esc(p.label)]);
   if(p.type==='appt' && info.memo) rows.push(['ご相談の内容',esc(info.memo)]);
-  rows.push(['日時', p.when.replace(/^(\S+）)\s*/,'$1<br>')], ['場所', p.place]);
   if(p.type==='appt' && p.svc.visit) rows.push(['お住まいの市', esc(cityText())]);
   if(p.type==='appt' && !MEMBER) rows.push(['お名前', esc(info.name)], ['電話番号', esc(info.tel)]);
   if(extra) rows=rows.concat(extra);
   return rows.map(function(r){ return '<div><span class="k">'+r[0]+'</span><span class="v">'+r[1]+'</span></div>'; }).join('');
 }
-function notes(p, where){
+function notes(p){
   var n=[];
-  if(p.type==='appt'){
-    n.push('前のご案内の状況により、開始時刻が前後する場合があります。');
-    n.push('ご用件の内容によっては、当日中に完了しない場合があります。');
-    if(p.svc.note) n.push(p.svc.note);
-    n.push('取り消しは開始の2時間前まで、'+where+'からできます。以降はお電話ください。');
-  }else{
-    n.push('取り消しは開始時刻まで、'+where+'からできます。');
-  }
+  if(p.type==='appt') n.push('<span class="nb">前のご案内の状況により、</span><span class="nb">開始時刻が前後する</span><span class="nb">場合があります。</span>');
+  if(p.type==='appt' && p.svc.note) n.push(p.svc.note);
+  n.push('<span class="nb">ご予約の取り消しは、</span><span class="nb">必ずこのページまたは</span><span class="nb">お電話でお願いします。</span>');
   return n.map(function(x){return '<div>'+x+'</div>';}).join('');
 }
 function renderConfirm(withContact){
   document.getElementById('f-sum').innerHTML = sumHTML(pend);
   document.getElementById('i-fields').innerHTML = '';
   document.getElementById('f-fields').innerHTML = withContact ? '<div class="lab">ご連絡先</div>'+contactHTML() : '';
-  document.getElementById('f-note').innerHTML = notes(pend,'この画面');
+  document.getElementById('f-note').innerHTML = notes(pend);
 }
 function book(){
   var p=pend;
@@ -408,7 +403,7 @@ function book(){
   var no = 1000 + Math.floor(Math.random()*9000);
   BOOKS.push({no:no, type:p.type, ci:p.ci, d:p.d, i:p.i, m:p.m, key:p.key, label:p.type==='trial'?p.course+'（体験）':p.label, when:p.when});
   document.getElementById('d-sum').innerHTML = sumHTML(p, [['受付番号', String(no)]]);
-  document.getElementById('d-note').innerHTML = notes(p,'「ご予約の確認・取り消し」')+'<div>電話　［店の電話番号］</div>';
+  document.getElementById('d-note').innerHTML = notes(p)+'<div>電話　［店の電話番号］</div>';
   selI=null; go('s-done');
 }
 
@@ -423,7 +418,7 @@ function renderList(){
 }
 function openCx(i){
   cx=i; var o=BOOKS[i];
-  document.getElementById('x-sum').innerHTML = '<div><span class="k">'+(o.type==='trial'?'講座':'ご用件')+'</span><span class="v">'+esc(o.label)+'</span></div><div><span class="k">日時</span><span class="v">'+o.when.replace(/^(\S+）)\s*/,'$1<br>')+'</span></div>';
+  document.getElementById('x-sum').innerHTML = '<div><span class="k">日時</span><span class="v">'+o.when.replace(/^(\S+）)\s*/,'$1<br>')+'</span></div><div><span class="k">'+(o.type==='trial'?'講座':'ご用件')+'</span><span class="v">'+esc(o.label)+'</span></div>';
   document.getElementById('cxl').classList.add('on');
 }
 function closeCx(){ document.getElementById('cxl').classList.remove('on'); cx=null; }
