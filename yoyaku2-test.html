@@ -4,78 +4,89 @@
 <title>ご予約｜ここスマ</title>
 <meta name="robots" content="noindex">
 <style>
-/* 予約 第2版 試作 v0.1（2026-11-11）＝教室・クラブと、修理などの用件を1つの入口に。案B（白い地・ネイビー・罫線）。
-   見本のデータだけで動く。どこにも送らない・書き込まない。所要時間・営業時間・対応する市は仮の値。 */
+/* 予約 第2版 試作 v0.2（2026-11-11）＝入口は2つ（大人の脳活クラブ・スマホ教室／スマートフォンの各種相談）。案B（白い地・ネイビー・罫線）。
+   見本のデータだけで動く。どこにも送らない・書き込まない。
+   各種相談＝30分単位の開始時刻を選ぶ→ご用件を選ぶ。ご用件ごとの必要時間は画面に表示せず、枠を押さえる計算にだけ使う（値は仮）。 */
 :root{--ink:#1C003C;--sub:#4B3B63;--dim:#6A6078;--line:#E3DFD2;--pale:#F5F4F0;--sel:#E6F4EF;--mark:#008F6D;--ok:#00785C;--full:#B42318}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%;background:#FFFFFF}
 body{margin:0;background:#FFFFFF;color:var(--ink);font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Noto Sans CJK JP",system-ui,sans-serif;font-size:20px;line-height:1.7;-webkit-font-smoothing:antialiased}
-button,input,select{font-family:inherit;color:inherit}
+button,input,select,textarea{font-family:inherit;color:inherit}
 .testbar{background:var(--pale);font-size:16px;font-weight:700;text-align:center;padding:8px 12px;line-height:1.5}
 .testbar a{color:var(--ink);margin-left:10px;white-space:nowrap}
 .phone{max-width:430px;margin:0 auto;padding:0 18px 150px}
 .screen{display:none}.screen.on{display:block}
+.nb{display:inline-block}
+[hidden]{display:none !important}
 .shop{display:flex;align-items:center;gap:9px;font-size:19px;font-weight:800;letter-spacing:.04em;padding:22px 0 0}
 .shop .dot{width:12px;height:12px;border-radius:50%;background:var(--mark);flex:none}
-.top{display:flex;align-items:center;gap:12px;padding:18px 0 6px}
+.top{display:flex;align-items:center;gap:12px;padding:18px 0 14px}
 .back{flex:none;border:1.5px solid var(--ink);background:#FFFFFF;border-radius:8px;min-height:56px;padding:8px 18px;font-size:20px;font-weight:800;cursor:pointer}
-.title{font-size:26px;font-weight:800;line-height:1.4}
-h1{margin:12px 0 14px;font-size:26px;font-weight:800;line-height:1.5}
+.title{font-size:clamp(22px, 6.6vw, 26px);font-weight:800;line-height:1.4}
+h1{margin:10px 0 18px;font-size:28px;font-weight:800;line-height:1.5}
 .lab{margin:26px 0 8px;font-size:18px;font-weight:800;color:var(--sub)}
+/* 入口：2つの大きな扉 */
+.door{display:flex;align-items:center;gap:12px;width:100%;min-height:124px;padding:18px 14px 18px 18px;margin:0 0 14px;background:#FFFFFF;border:2px solid var(--ink);border-radius:8px;text-align:left;cursor:pointer;text-decoration:none;color:var(--ink)}
+.door .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.door .t1{font-size:24px;font-weight:800;line-height:1.4}
+.door .t2{font-size:18px;font-weight:700;line-height:1.5;color:var(--sub)}
+.arw{flex:none;width:12px;font-size:28px;font-weight:800;text-align:right;line-height:1}
+.strip{font-size:21px;font-weight:800;line-height:1.5;background:var(--pale);border-radius:8px;padding:10px 14px;margin:0 0 16px}
 .list{border-top:2px solid var(--ink)}
-.item{display:flex;align-items:center;gap:10px;width:100%;min-height:68px;padding:10px 4px 10px 10px;background:#FFFFFF;border:0;border-bottom:1px solid var(--line);text-align:left;font-size:20px;font-weight:800;cursor:pointer}
-.item .nm{flex:1;min-width:0;line-height:1.4}
-.item .nm small{display:block;font-size:17px;font-weight:700;color:var(--sub)}
-.item .dur{flex:none;font-size:17px;font-weight:700;white-space:nowrap}
-.arw{flex:none;width:10px;font-size:26px;font-weight:800;text-align:right;line-height:1}
-.quota{font-size:20px;font-weight:700;line-height:1.6;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;margin:6px 0 16px}
-.quota b{font-size:26px;margin:0 2px}
 .dayhead{margin:0;padding:8px 10px;background:var(--ink);color:#FFFFFF;font-size:20px;font-weight:800;line-height:1.5}
 .row{display:flex;align-items:center;gap:8px;width:100%;min-height:64px;padding:10px 4px 10px 10px;background:#FFFFFF;border:0;border-bottom:1px solid var(--line);text-align:left;cursor:pointer}
 .row[disabled]{cursor:default;color:var(--ink);opacity:1}
-.row.mine{background:var(--sel)}
 .row .tm{flex:none;min-width:66px;margin-right:6px;font-size:20px;font-weight:800;line-height:1.45;white-space:nowrap}
 .row .nm{flex:1;min-width:0;font-size:clamp(17px, calc((100vw - 214px) / 8.1), 20px);font-weight:800;line-height:1.4;text-wrap:balance;line-break:strict}
+.row .arw{width:10px;font-size:26px}
 .tag{display:inline-flex;align-items:center;justify-content:center;flex:none;width:60px;height:32px;border-radius:6px;background:#FFFFFF;border:1.5px solid currentColor;font-size:16px;font-weight:800;white-space:nowrap}
-.tag.open{color:var(--ok)}.tag.full{color:var(--full)}.tag.mine{color:var(--ink)}
-.week{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:6px 0 8px}
+.tag.open{color:var(--ok)}.tag.full{color:var(--full)}
+/* 日を選ぶ */
+.week{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px}
 .week button{flex:none;min-width:56px;min-height:48px;border:1.5px solid var(--ink);border-radius:8px;background:#FFFFFF;font-size:17px;font-weight:800;cursor:pointer;padding:4px 8px;white-space:nowrap}
 .week button[disabled]{border-color:var(--line);color:var(--dim);cursor:default}
 .week .rng{flex:1;min-width:0;text-align:center;font-size:clamp(16px, 4.7vw, 19px);font-weight:800;white-space:nowrap}
-.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;padding-bottom:14px;border-bottom:2px solid var(--ink)}
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;padding-bottom:14px}
 .day{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;min-height:76px;background:#FFFFFF;border:0;border-radius:8px;cursor:pointer}
 .day .w{font-size:16px;font-weight:700;line-height:1.3}
 .day .d{font-size:21px;font-weight:800;line-height:1.3}
 .day .s{font-size:16px;font-weight:700;line-height:1.2;color:var(--ok)}
 .day.on{background:var(--ink);color:#FFFFFF}.day.on .s{color:#FFFFFF}
 .day[disabled]{cursor:default;color:var(--dim)}.day[disabled] .s{color:var(--dim)}
-.times{border-top:0}
-.trow{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:60px;padding:8px 10px;background:#FFFFFF;border:0;border-bottom:1px solid var(--line);font-size:21px;font-weight:800;cursor:pointer;text-align:left}
-.trow.on{background:var(--sel)}
-.radio{flex:none;width:28px;height:28px;border-radius:50%;border:2px solid var(--dim);background:#FFFFFF;display:flex;align-items:center;justify-content:center}
-.trow.on .radio{border-color:var(--mark);background:var(--mark)}
-.trow.on .radio::after{content:"";width:12px;height:7px;border-left:3px solid #FFFFFF;border-bottom:3px solid #FFFFFF;transform:rotate(-45deg) translateY(-2px)}
+/* 開始時刻：30分単位の升 */
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:14px 0 4px}
+.slot{min-height:56px;border:1.5px solid var(--ink);border-radius:8px;background:#FFFFFF;font-size:clamp(18px, 5.2vw, 21px);font-weight:800;cursor:pointer;padding:0;white-space:nowrap}
+.slot.on{background:var(--ink);color:#FFFFFF}
+.slot[disabled]{border-color:var(--pale);background:var(--pale);color:var(--dim);font-weight:700;cursor:default}
 .none{padding:22px 6px;font-size:20px;font-weight:700;color:var(--sub);border-bottom:1px solid var(--line)}
+/* ご用件 */
+.opt{display:flex;align-items:center;gap:12px;width:100%;min-height:62px;padding:8px 10px;background:#FFFFFF;border:0;border-bottom:1px solid var(--line);font-size:21px;font-weight:800;cursor:pointer;text-align:left}
+.opt.on{background:var(--sel)}
+.radio{flex:none;width:28px;height:28px;border-radius:50%;border:2px solid var(--dim);background:#FFFFFF;display:flex;align-items:center;justify-content:center}
+.opt.on .radio{border-color:var(--mark);background:var(--mark)}
+.opt.on .radio::after{content:"";width:12px;height:7px;border-left:3px solid #FFFFFF;border-bottom:3px solid #FFFFFF;transform:rotate(-45deg) translateY(-2px)}
+.warn{margin:16px 0 0;border:2px solid var(--full);border-radius:8px;padding:14px 16px;font-size:19px;font-weight:700;line-height:1.7}
 .bar{position:fixed;left:0;right:0;bottom:0;background:#FFFFFF;border-top:2px solid var(--ink);padding:10px 18px 16px;display:none}
 .bar.on{display:block}
 .bar .in{max-width:394px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
-.bar .sel{font-size:18px;font-weight:800;line-height:1.4}
+.bar .sel{font-size:19px;font-weight:800;line-height:1.4}
 .btn{display:block;width:100%;min-height:64px;border:0;border-radius:8px;background:var(--ink);color:#FFFFFF;font-size:24px;font-weight:800;cursor:pointer;padding:12px;text-align:center;text-decoration:none;line-height:1.6}
 .btn.sub{background:#FFFFFF;color:var(--ink);border:2px solid var(--ink)}
 .btn[disabled]{background:#D9D5E0;color:#FFFFFF;cursor:default}
 .btn+.btn{margin-top:12px}
-.sum{border-top:2px solid var(--ink);margin:6px 0 0}
+.sum{border-top:2px solid var(--ink);margin:0}
 .sum div{display:flex;gap:14px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line)}
-.sum dt,.sum .k{flex:none;width:84px;font-size:18px;color:var(--sub);font-weight:700}
-.sum .v{font-size:21px;font-weight:800;line-height:1.5}
+.sum .k{flex:none;width:112px;font-size:18px;color:var(--sub);font-weight:700}
+.sum .v{min-width:0;font-size:21px;font-weight:800;line-height:1.5;overflow-wrap:anywhere}
 .field{display:flex;flex-direction:column;gap:6px;margin-top:16px}
 .field label{font-size:18px;font-weight:800}
 .field input,.field select{height:60px;padding:0 14px;background:#FFFFFF;border:1.5px solid var(--ink);border-radius:8px;font-size:21px}
-.field.err input,.field.err select{border-color:var(--full);border-width:2.5px}
+.field textarea{min-height:120px;padding:12px 14px;background:#FFFFFF;border:1.5px solid var(--ink);border-radius:8px;font-size:21px;line-height:1.6;resize:vertical}
+.field.err input,.field.err select,.field.err textarea{border-color:var(--full);border-width:2.5px}
 .field .e{display:none;font-size:17px;font-weight:700;color:var(--full)}
 .field.err .e{display:block}
-.note{margin-top:22px;background:var(--pale);border-radius:8px;padding:14px 16px;font-size:19px;line-height:1.7;display:flex;flex-direction:column;gap:8px}
-.done{text-align:center;padding:34px 0 8px}
+.note{margin-top:22px;background:var(--pale);border-radius:8px;padding:14px 16px;font-size:19px;line-height:1.7;display:flex;flex-direction:column;gap:10px}
+.done{text-align:center;padding:34px 0 20px}
 .done .ck{width:76px;height:76px;border-radius:50%;background:var(--mark);margin:0 auto 16px;display:flex;align-items:center;justify-content:center}
 .done .ck::after{content:"";width:30px;height:16px;border-left:6px solid #FFFFFF;border-bottom:6px solid #FFFFFF;transform:rotate(-45deg) translateY(-4px)}
 .done h2{margin:0;font-size:28px;font-weight:800;line-height:1.5}
@@ -83,12 +94,12 @@ h1{margin:12px 0 14px;font-size:26px;font-weight:800;line-height:1.5}
 .bk .when{font-size:21px;font-weight:800;line-height:1.4}
 .bk .l2{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .bk .what{font-size:20px;line-height:1.5}
-.bk .cx{flex:none;min-height:48px;padding:6px 16px;border:1.5px solid var(--ink);border-radius:8px;background:#FFFFFF;font-size:18px;font-weight:800;cursor:pointer}
+.bk .cx{flex:none;min-height:48px;padding:6px 16px;border:1.5px solid var(--ink);border-radius:8px;background:#FFFFFF;font-size:18px;font-weight:800;cursor:pointer;white-space:nowrap}
 .sheet{position:fixed;inset:0;background:rgba(28,0,60,.45);display:none;align-items:flex-end;z-index:50}
 .sheet.on{display:flex}
 .sheet .inner{background:#FFFFFF;width:100%;max-width:430px;margin:0 auto;border-radius:16px 16px 0 0;padding:22px 18px 28px}
-.sheet h3{margin:0 0 6px;font-size:25px;font-weight:800;line-height:1.5}
-.nb{display:inline-block}
+.sheet h3{margin:0 0 10px;font-size:25px;font-weight:800;line-height:1.5}
+.gap{height:22px}
 .foot{margin:34px 0 0;text-align:center;font-size:16px;color:var(--sub)}
 </style></head><body>
 <div class="testbar">試作（どこにも送られません）<a id="mode" href="?guest=1">会員でない方の画面</a></div>
@@ -96,27 +107,41 @@ h1{margin:12px 0 14px;font-size:26px;font-weight:800;line-height:1.5}
 
 <section id="s-entry" class="screen on">
   <div class="shop"><span class="dot"></span>ここスマ</div>
-  <h1>何のご予約ですか</h1>
-  <div id="e-class"></div>
-  <div class="lab">修理・サポート・ご相談</div>
-  <div class="list" id="e-svc"></div>
-  <div style="height:22px"></div>
+  <h1>ご予約</h1>
+  <div id="e-doors"></div>
+  <div class="gap"></div>
   <button type="button" class="btn sub" onclick="go('s-list')">ご予約の確認・取り消し</button>
-  <div class="foot">ここスマ ご予約 試作 v0.1</div>
+  <div class="foot">ここスマ ご予約 試作 v0.2</div>
 </section>
 
-<section id="s-class" class="screen">
-  <div class="top"><button type="button" class="back" onclick="go('s-entry')">戻る</button><div class="title" id="c-title">教室・クラブ</div></div>
-  <div class="quota" id="c-quota"></div>
+<section id="s-trial" class="screen">
+  <div class="top"><button type="button" class="back" onclick="go('s-entry')">戻る</button><div class="title">体験のご予約</div></div>
   <div class="list" id="c-list"></div>
 </section>
 
 <section id="s-when" class="screen">
-  <div class="top"><button type="button" class="back" onclick="go('s-entry')">戻る</button><div class="title" id="w-title"></div></div>
-  <div class="quota" id="w-dur" style="margin-bottom:10px"></div>
+  <div class="top"><button type="button" class="back" onclick="go('s-entry')">戻る</button><div class="title">日時の選択</div></div>
   <div class="week"><button type="button" id="w-prev" onclick="week(-1)">前の週</button><div class="rng" id="w-rng"></div><button type="button" id="w-next" onclick="week(1)">次の週</button></div>
   <div class="days" id="w-days"></div>
-  <div class="times" id="w-times"></div>
+  <div id="w-times"></div>
+</section>
+
+<section id="s-what" class="screen">
+  <div class="top"><button type="button" class="back" onclick="go('s-when')">戻る</button><div class="title">ご用件の選択</div></div>
+  <div class="strip" id="q-when"></div>
+  <div id="q-list"></div>
+  <div class="field" id="fw-memo" hidden><label for="f-memo">ご相談の内容</label><textarea id="f-memo" maxlength="200"></textarea><span class="e">ご相談の内容を入力してください</span></div>
+  <div class="warn" id="q-warn" hidden>この日時では、選んだご用件を承れません。<br>ほかの日時を選択してください。</div>
+  <div class="gap"></div>
+  <button type="button" class="btn" id="q-next" onclick="whatNext()" disabled>次へ進む</button>
+  <button type="button" class="btn sub" id="q-other" onclick="otherTime()" hidden>ほかの日時を選ぶ</button>
+</section>
+
+<section id="s-info" class="screen">
+  <div class="top"><button type="button" class="back" onclick="go('s-what')">戻る</button><div class="title">ご連絡先の入力</div></div>
+  <div id="i-fields"></div>
+  <div class="gap"></div>
+  <button type="button" class="btn" onclick="infoNext()">確認へ進む</button>
 </section>
 
 <section id="s-confirm" class="screen">
@@ -124,7 +149,7 @@ h1{margin:12px 0 14px;font-size:26px;font-weight:800;line-height:1.5}
   <div class="sum" id="f-sum"></div>
   <div id="f-fields"></div>
   <div class="note" id="f-note"></div>
-  <div style="height:22px"></div>
+  <div class="gap"></div>
   <button type="button" class="btn" onclick="book()">この内容で予約する</button>
 </section>
 
@@ -132,49 +157,47 @@ h1{margin:12px 0 14px;font-size:26px;font-weight:800;line-height:1.5}
   <div class="done"><div class="ck" aria-hidden="true"></div><h2>ご予約を<span class="nb">受け付けました</span></h2></div>
   <div class="sum" id="d-sum"></div>
   <div class="note" id="d-note"></div>
-  <div style="height:22px"></div>
+  <div class="gap"></div>
   <button type="button" class="btn sub" onclick="go('s-list')">ご予約の確認・取り消し</button>
-  <button type="button" class="btn" onclick="go('s-entry')">はじめの画面に戻る</button>
+  <button type="button" class="btn" onclick="go('s-entry')">初めの画面に戻る</button>
 </section>
 
 <section id="s-list" class="screen">
-  <div class="top"><button type="button" class="back" onclick="go('s-entry')">戻る</button><div class="title">ご予約</div></div>
-  <div class="quota" id="l-quota"></div>
+  <div class="top"><button type="button" class="back" onclick="go('s-entry')">戻る</button><div class="title">ご予約の確認</div></div>
   <div class="list" id="l-list"></div>
-  <div style="height:22px"></div>
-  <button type="button" class="btn" onclick="go('s-entry')">予約する</button>
+  <div id="l-class"></div>
 </section>
 
 </div>
 
-<div class="bar" id="bar"><div class="in"><div class="sel" id="bar-sel"></div><button type="button" class="btn" id="bar-btn" onclick="toConfirm()">確認へ進む</button></div></div>
+<div class="bar" id="bar"><div class="in"><div class="sel" id="bar-sel"></div><button type="button" class="btn" onclick="whenNext()">次へ進む</button></div></div>
 
 <div class="sheet" id="cxl" onclick="if(event.target.id==='cxl')closeCx()"><div class="inner">
   <h3>この予約を<span class="nb">取り消しますか</span></h3>
   <div class="sum" id="x-sum"></div>
-  <div class="note" id="x-note"></div>
-  <div style="height:18px"></div>
+  <div class="gap"></div>
   <button type="button" class="btn" onclick="doCx()">取り消す</button>
   <button type="button" class="btn sub" onclick="closeCx()">取り消さずに戻る</button>
 </div></div>
 
 <script>
-/* ===== 予約 第2版 試作：見本のデータだけで動く（通信しない） ===== */
+/* ===== 予約 第2版 試作 v0.2：見本のデータだけで動く（通信しない） ===== */
 var MEMBER = !/[?&]guest=1/.test(location.search);
 var W = ['日','月','火','水','木','金','土'];
-/* 仮の値：所要時間は各メニューの窓の回答待ち／営業時間・対応する市は未確定 */
+/* ご用件。m＝枠を押さえるのに使う必要時間（分）。画面には表示しない。値は仮（各メニューの担当の回答で差し替える） */
 var SERVICES = [
-  {k:'repair', n:'修理',            m:60, note:'部品の在庫を確認します。当日に修理できない場合は、お電話します。'},
+  {k:'repair', n:'修理',            m:60, note:'部品の在庫がない場合は、お電話でご連絡します。'},
   {k:'buy',    n:'機種購入サポート', m:90},
   {k:'sim',    n:'格安SIM移行',      m:60},
   {k:'data',   n:'データ移行',       m:90},
-  {k:'ask',    n:'ご相談',           m:30},
+  {k:'ask',    n:'個別相談',         m:30},
   {k:'movie',  n:'思い出ムービー',   m:30},
-  {k:'visit',  n:'訪問サポート',     m:90, visit:true, note:'詳しいご住所は、ご予約のあとお電話で伺います。'}
+  {k:'visit',  n:'訪問サポート',     m:90, visit:true, note:'詳しいご住所は、ご予約のあとお電話で伺います。'},
+  {k:'other',  n:'その他',           m:30, memo:true}
 ];
-var OPEN_H = 10, CLOSE_H = 18, DAYS_AHEAD = 30, CLOSED = {3:1, 4:1};
+var OPEN_H = 10, SLOTS = 16, DAYS_AHEAD = 30, CLOSED = {3:1, 4:1};   /* 10:00〜18:00・30分×16・水木は定休（仮） */
 var CITIES = ['藤井寺市','羽曳野市'];
-var QUOTA = {limit:4, used:1};
+var CLASS_URL = 'yoyaku-test.html?demo=1&from=yoyaku2';   /* 大人の脳活クラブ・スマホ教室＝これまでに作った予約の画面 */
 
 function pad(n){ return ('0'+n).slice(-2); }
 function iso(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
@@ -185,205 +208,226 @@ function hm(i){ var t=OPEN_H*60+i*30; return Math.floor(t/60)+':'+pad(t%60); }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
 var TODAY = new Date(); TODAY = new Date(TODAY.getFullYear(),TODAY.getMonth(),TODAY.getDate());
 
-/* 教室・クラブの見本（3日ぶん） */
+/* 体験で予約できる枠の見本（3日ぶん） */
 function shopDays(n){ var out=[], d=addDays(TODAY,1); while(out.length<n){ if(!CLOSED[d.getDay()]) out.push(iso(d)); d=addDays(d,1); } return out; }
 var SD = shopDays(3);
 var CLASSES = [
-  {id:1, d:SD[0], t:'10:30', n:'大人の脳活クラブ', full:false, mine:true},
-  {id:2, d:SD[0], t:'13:30', n:'あやしいメール',   full:false},
-  {id:3, d:SD[1], t:'10:30', n:'大人の脳活クラブ', full:true},
-  {id:4, d:SD[1], t:'13:30', n:'スマホの困りごと', full:false},
-  {id:5, d:SD[2], t:'10:30', n:'文字入力',         full:false}
+  {d:SD[0], t:'10:30', n:'大人の脳活クラブ', full:false},
+  {d:SD[0], t:'13:30', n:'あやしいメール',   full:false},
+  {d:SD[1], t:'10:30', n:'大人の脳活クラブ', full:true},
+  {d:SD[1], t:'13:30', n:'スマホの困りごと', full:false},
+  {d:SD[2], t:'10:30', n:'文字入力',         full:false}
 ];
-var APPTS = [];   /* 用件ごとの予約（この画面で入れたもの） */
+var BOOKS = [];   /* この画面で入れた予約（体験・各種相談） */
 
-/* その日のふさがっている升（見本：日付から決まる）。1日＝30分×16升（10:00〜18:00）・同時に受けるのは1件 */
+/* その日の埋まっている升（見本：日付から決まる）。同時に受けるのは1件 */
 function busy(s){
   var d=fromIso(s), seed=(d.getFullYear()*372+(d.getMonth()+1)*31+d.getDate()), b=[];
-  for(var i=0;i<16;i++) b.push(false);
-  function blk(a,n){ for(var j=a;j<a+n&&j<16;j++) b[j]=true; }
+  for(var i=0;i<SLOTS;i++) b.push(false);
+  function blk(a,n){ for(var j=a;j<a+n&&j<SLOTS;j++) b[j]=true; }
   blk(seed%5, 2+seed%3); blk(6+seed%4, 2); blk(11+seed%3, 1+seed%2);
-  if(seed%7===0) blk(0,16);
-  APPTS.forEach(function(a){ if(a.d===s) blk(a.i, a.m/30); });
+  if(seed%7===0) blk(0,SLOTS);
+  BOOKS.forEach(function(a){ if(a.type==='appt' && a.d===s) blk(a.i, a.m/30); });
   return b;
 }
-function starts(s, m){
-  var d=fromIso(s), out=[];
-  if(CLOSED[d.getDay()] || d<=TODAY || d>addDays(TODAY,DAYS_AHEAD)) return out;
-  var b=busy(s), n=m/30;
-  for(var i=0;i+n<=16;i++){ var ok=true; for(var j=i;j<i+n;j++) if(b[j]){ok=false;break;} if(ok) out.push(i); }
+function dayOpen(s){ var d=fromIso(s); return !CLOSED[d.getDay()] && d>TODAY && d<=addDays(TODAY,DAYS_AHEAD); }
+/* m分ぶん続けて空いている開始の升だけ true */
+function freeMap(s, m){
+  var out=[], b=dayOpen(s)?busy(s):null, n=m/30;
+  for(var i=0;i<SLOTS;i++){ var ok=!!b && i+n<=SLOTS; if(ok) for(var j=i;j<i+n;j++) if(b[j]){ok=false;break;} out.push(ok); }
   return out;
 }
+function fits(s,i,m){ return freeMap(s,m)[i]; }
+function freeCount(s,m){ return freeMap(s,m).filter(Boolean).length; }
 
 /* ---------- 画面の切り替え ---------- */
-var backTo='s-entry', svc=null, selDay=null, selI=null, weekStart=null, pend=null, trial=false;
+var backTo='s-entry', selDay=null, selI=null, selSvc=null, weekStart=null, pend=null, info={};
+function need(){ return selSvc!==null ? SERVICES[selSvc].m : 30; }   /* ご用件が決まる前は30分の空きで表示する */
 function go(id){
   document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('on'); });
   document.getElementById(id).classList.add('on');
   document.getElementById('bar').classList.toggle('on', id==='s-when' && selI!==null);
   window.scrollTo(0,0);
-  if(id==='s-entry') renderEntry();
-  if(id==='s-class') renderClass();
+  if(id==='s-entry'){ selDay=null; selI=null; selSvc=null; info={}; renderEntry(); }
+  if(id==='s-trial') renderTrial();
+  if(id==='s-when'){ if(selI!==null && !fits(selDay,selI,need())) selI=null; document.getElementById('bar').classList.toggle('on', selI!==null); renderWhen(); }
+  if(id==='s-info') renderInfo();
+  if(id==='s-what') renderWhat();
   if(id==='s-list') renderList();
 }
-function quotaHTML(){ return '<span class="nb">今月の受講回数</span> <span class="nb"><b>'+QUOTA.limit+'</b>回のうち <b>'+QUOTA.used+'</b>回</span>'; }
 
-/* ---------- 入口 ---------- */
+/* ---------- 入口（2つ） ---------- */
 function renderEntry(){
-  document.getElementById('e-class').innerHTML = MEMBER
-    ? '<div class="lab" style="margin-top:6px">教室・クラブ</div><div class="list"><button type="button" class="item" onclick="openClass(false)"><span class="nm">教室・クラブの予約<small>今月の受講回数 '+QUOTA.limit+'回のうち '+QUOTA.used+'回</small></span><span class="arw">›</span></button></div>'
-    : '<div class="lab" style="margin-top:6px">教室・クラブ</div><div class="list"><button type="button" class="item" onclick="openClass(true)"><span class="nm">教室の体験</span><span class="arw">›</span></button></div>';
-  document.getElementById('e-svc').innerHTML = SERVICES.map(function(s,i){
-    return '<button type="button" class="item" onclick="openSvc('+i+')"><span class="nm">'+esc(s.n)+'</span><span class="dur">約'+s.m+'分</span><span class="arw">›</span></button>';
-  }).join('');
+  var a = MEMBER
+    ? '<a class="door" href="'+CLASS_URL+'"><span class="tx"><span class="t1"><span class="nb">大人の脳活クラブ・</span><span class="nb">スマホ教室</span></span></span><span class="arw">›</span></a>'
+    : '<button type="button" class="door" onclick="go(\'s-trial\')"><span class="tx"><span class="t1"><span class="nb">大人の脳活クラブ・</span><span class="nb">スマホ教室</span></span><span class="t2">体験のご予約</span></span><span class="arw">›</span></button>';
+  var b = '<button type="button" class="door" onclick="openWhen()"><span class="tx"><span class="t1"><span class="nb">スマートフォンの</span><span class="nb">各種相談</span></span><span class="t2"><span class="nb">修理・機種購入サポート・</span><span class="nb">個別相談など</span></span></span><span class="arw">›</span></button>';
+  document.getElementById('e-doors').innerHTML = a + b;
 }
 
-/* ---------- 教室・クラブ（時間割の枠） ---------- */
-function openClass(isTrial){ trial=isTrial; go('s-class'); }
-function renderClass(){
-  document.getElementById('c-title').textContent = trial ? '教室の体験' : '教室・クラブ';
-  var q=document.getElementById('c-quota'); q.style.display = trial?'none':''; q.innerHTML = quotaHTML();
+/* ---------- 体験（会員でない方）：これまでの一覧と同じ形 ---------- */
+function renderTrial(){
   document.getElementById('c-list').innerHTML = CLASSES.map(function(c,i){
-    var mine=!!c.mine && !trial, dead=c.full && !mine;
-    var tag = mine ? '<span class="tag mine">予約済</span>' : (c.full ? '<span class="tag full">満席</span>' : '<span class="tag open">空席</span>');
+    var taken = BOOKS.some(function(x){ return x.type==='trial' && x.ci===i; });
+    var dead = c.full || taken;
+    var tag = c.full ? '<span class="tag full">満席</span>' : (taken ? '<span class="tag" style="color:#1C003C">予約済</span>' : '<span class="tag open">空席</span>');
     var head = (i===0 || CLASSES[i-1].d!==c.d) ? '<h3 class="dayhead">'+dayLong(c.d)+'</h3>' : '';
-    return head+'<button type="button" class="row'+(mine?' mine':'')+'" '+((dead||mine)?'disabled':'onclick="pickClass('+i+')"')+'>'
-      +'<span class="tm">'+c.t+'</span><span class="nm">'+esc(c.n)+'</span>'+tag+'<span class="arw">'+((dead||mine)?'':'›')+'</span></button>';
+    return head+'<button type="button" class="row" '+(dead?'disabled':'onclick="pickTrial('+i+')"')+(taken?' style="background:#E6F4EF"':'')+'>'
+      +'<span class="tm">'+c.t+'</span><span class="nm">'+esc(c.n)+'</span>'+tag+'<span class="arw">'+(dead?'':'›')+'</span></button>';
   }).join('');
 }
-function pickClass(i){
+function pickTrial(i){
   var c=CLASSES[i];
-  pend={type:'class', ci:i, d:c.d, label:c.n, when:dayLong(c.d)+' '+c.t, place:'ここスマ 店内', trial:trial};
-  backTo='s-class'; renderConfirm(); go('s-confirm');
+  pend={type:'trial', ci:i, d:c.d, key:c.d+' '+pad(parseInt(c.t,10))+c.t.slice(-3), label:'体験', course:c.n, when:dayLong(c.d)+' '+c.t, place:'ここスマ 店内'};
+  backTo='s-trial'; renderConfirm(true); go('s-confirm');
 }
 
-/* ---------- 用件ごとの時間（空いている時間から選ぶ） ---------- */
+/* ---------- 各種相談①：30分単位の開始時刻を選ぶ ---------- */
 function mondayOf(d){ var w=(d.getDay()+6)%7; return addDays(d,-w); }
-function openSvc(i){
-  svc=SERVICES[i]; selI=null; selDay=null;
-  var d=addDays(TODAY,1), last=addDays(TODAY,DAYS_AHEAD);
-  while(d<=last){ if(starts(iso(d),svc.m).length){ selDay=iso(d); break; } d=addDays(d,1); }
+function firstOpenFrom(d){ var last=addDays(TODAY,DAYS_AHEAD); while(d<=last){ if(freeCount(iso(d),need())) return iso(d); d=addDays(d,1); } return null; }
+function openWhen(){
+  if(!selDay) selDay=firstOpenFrom(addDays(TODAY,1));
   weekStart = mondayOf(selDay?fromIso(selDay):addDays(TODAY,1));
-  document.getElementById('w-title').textContent = svc.n;
-  document.getElementById('w-dur').innerHTML = '<span class="nb">所要時間</span> <span class="nb">約<b>'+svc.m+'</b>分</span>';
-  renderWhen(); go('s-when');
+  go('s-when');
 }
 function week(n){
-  weekStart=addDays(weekStart,7*n); selI=null;
-  var keep=false; for(var i=0;i<7;i++){ if(iso(addDays(weekStart,i))===selDay) keep=true; }
-  if(!keep){ selDay=null; for(var j=0;j<7;j++){ var s=iso(addDays(weekStart,j)); if(starts(s,svc.m).length){ selDay=s; break; } } }
+  weekStart=addDays(weekStart,7*n); selI=null; selDay=null;
+  for(var j=0;j<7;j++){ var s=iso(addDays(weekStart,j)); if(freeCount(s,need())){ selDay=s; break; } }
   renderWhen(); document.getElementById('bar').classList.remove('on');
 }
 function pickDay(s){ selDay=s; selI=null; renderWhen(); document.getElementById('bar').classList.remove('on'); }
 function pickTime(i){
+  if(!freeMap(selDay,need())[i]) return;
   selI=i; renderWhen();
-  document.getElementById('bar-sel').innerHTML = '<span class="nb">'+dayLong(selDay)+'</span> <span class="nb">'+hm(i)+'〜'+hm(i+svc.m/30)+'</span> <span class="nb">'+esc(svc.n)+'</span>';
+  document.getElementById('bar-sel').innerHTML = '<span class="nb">'+dayLong(selDay)+'</span> <span class="nb">'+hm(i)+'</span>';
   document.getElementById('bar').classList.add('on');
 }
 function renderWhen(){
-  var a=weekStart, b=addDays(weekStart,6), last=addDays(TODAY,DAYS_AHEAD);
+  var a=weekStart, b=addDays(weekStart,6), last=addDays(TODAY,DAYS_AHEAD), m=need();
   document.getElementById('w-rng').textContent = (a.getMonth()+1)+'月'+a.getDate()+'日〜'+(a.getMonth()===b.getMonth()?'':(b.getMonth()+1)+'月')+b.getDate()+'日';
   document.getElementById('w-prev').disabled = addDays(weekStart,-1) < TODAY;
   document.getElementById('w-next').disabled = addDays(weekStart,7) > last;
   var h='';
   for(var i=0;i<7;i++){
-    var d=addDays(weekStart,i), s=iso(d), closed=!!CLOSED[d.getDay()], out=(d<=TODAY||d>last), n=(closed||out)?0:starts(s,svc.m).length;
+    var d=addDays(weekStart,i), s=iso(d), closed=!!CLOSED[d.getDay()], out=(d<=TODAY||d>last), n=(closed||out)?0:freeCount(s,m);
     var st = closed ? '休' : (out ? '―' : (n ? '空' : '満'));
     var lab = (d.getMonth()+1)+'月'+d.getDate()+'日 '+W[d.getDay()]+'曜日 '+(closed?'定休日':out?'予約できません':n?'空きがあります':'空きがありません');
     h+='<button type="button" class="day'+(s===selDay?' on':'')+'" aria-label="'+lab+'" aria-pressed="'+(s===selDay)+'" '+(n?'onclick="pickDay(\''+s+'\')"':'disabled')+'><span class="w">'+W[d.getDay()]+'</span><span class="d">'+d.getDate()+'</span><span class="s">'+st+'</span></button>';
   }
   document.getElementById('w-days').innerHTML=h;
   var T=document.getElementById('w-times');
-  if(!selDay){ T.innerHTML='<div class="none">この週は、予約できる時間がありません。</div>'; return; }
-  var st2=starts(selDay,svc.m);
-  T.innerHTML = '<h3 class="dayhead">'+dayLong(selDay)+'</h3>' + st2.map(function(i){
-    return '<button type="button" class="trow'+(i===selI?' on':'')+'" aria-pressed="'+(i===selI)+'" onclick="pickTime('+i+')"><span>'+hm(i)+'〜'+hm(i+svc.m/30)+'</span><span class="radio" aria-hidden="true"></span></button>';
-  }).join('');
+  if(!selDay){ T.innerHTML='<div class="none">この週は、予約できる時刻がありません。</div>'; return; }
+  var fm=freeMap(selDay,m), g='';
+  for(var k=0;k<SLOTS;k++) g+='<button type="button" class="slot'+(k===selI?' on':'')+'" '+(fm[k]?'aria-pressed="'+(k===selI)+'" onclick="pickTime('+k+')"':'disabled aria-label="'+hm(k)+' 予約できません"')+'>'+hm(k)+'</button>';
+  T.innerHTML = '<h3 class="dayhead">'+dayLong(selDay)+'</h3><div class="grid">'+g+'</div>';
 }
-function toConfirm(){
-  if(selI===null) return;
-  pend={type:'appt', svc:svc, d:selDay, i:selI, m:svc.m, label:svc.n, when:dayLong(selDay)+' '+hm(selI)+'〜'+hm(selI+svc.m/30), place: svc.visit?'ご自宅':'ここスマ 店内'};
-  backTo='s-when'; renderConfirm(); go('s-confirm');
+function whenNext(){ if(selI===null) return; go('s-what'); }
+
+/* ---------- 各種相談②：ご用件を選ぶ（その他は内容を入力） ---------- */
+function renderWhat(){
+  document.getElementById('q-when').innerHTML = '<span class="nb">'+dayLong(selDay)+'</span> <span class="nb">'+hm(selI)+'</span>';
+  document.getElementById('q-list').innerHTML = '<div class="list">'+SERVICES.map(function(s,i){
+    return '<button type="button" class="opt'+(i===selSvc?' on':'')+'" aria-pressed="'+(i===selSvc)+'" onclick="pickSvc('+i+')"><span class="radio" aria-hidden="true"></span><span>'+esc(s.n)+'</span></button>';
+  }).join('')+'</div>';
+  var s = selSvc!==null ? SERVICES[selSvc] : null, ok = !s || fits(selDay, selI, s.m);
+  document.getElementById('fw-memo').hidden = !(s && s.memo);
+  document.getElementById('q-warn').hidden = ok;
+  document.getElementById('q-other').hidden = ok;
+  var nx=document.getElementById('q-next'); nx.hidden = !ok; nx.disabled = !s;
+}
+function pickSvc(i){ selSvc=i; document.getElementById('fw-memo').classList.remove('err'); renderWhat(); }
+function otherTime(){ selI=null; selDay=firstOpenFrom(fromIso(selDay)) || firstOpenFrom(addDays(TODAY,1)); weekStart=mondayOf(selDay?fromIso(selDay):addDays(TODAY,1)); go('s-when'); }
+function needInfo(){ return !MEMBER || SERVICES[selSvc].visit; }
+function whatNext(){
+  var s=SERVICES[selSvc];
+  if(s.memo){ var v=document.getElementById('f-memo').value.trim(), w=document.getElementById('fw-memo'); w.classList.toggle('err',!v); if(!v){ w.scrollIntoView({block:'center'}); return; } info.memo=v; } else info.memo='';
+  if(needInfo()) go('s-info'); else toConfirm('s-what');
 }
 
-/* ---------- 確認 ---------- */
+/* ---------- 各種相談③：ご連絡先（会員でない方・訪問サポート） ---------- */
+function field(id,label,type,extra){ return '<div class="field" id="fw-'+id+'"><label for="f-'+id+'">'+label+'</label><input id="f-'+id+'" type="'+type+'" value="'+esc(info[id]||'')+'" '+(extra||'')+'><span class="e">'+label+'を入力してください</span></div>'; }
+function contactHTML(){ return field('name','お名前','text','autocomplete="name"')+field('kana','フリガナ','text','')+field('tel','電話番号','tel','autocomplete="tel" inputmode="tel"'); }
+function renderInfo(){
+  var f='';
+  if(!MEMBER) f += contactHTML();
+  if(SERVICES[selSvc].visit) f += '<div class="field" id="fw-city"><label for="f-city">お住まいの市</label><select id="f-city"><option value="">選択してください</option>'+CITIES.map(function(c){return '<option'+(info.city===c?' selected':'')+'>'+c+'</option>';}).join('')+'<option value="other"'+(info.city==='other'?' selected':'')+'>一覧にない</option></select><span class="e">お住まいの市を選択してください</span></div>';
+  document.getElementById('f-fields').innerHTML = '';
+  document.getElementById('i-fields').innerHTML = f;
+}
+function val(id){ var e=document.getElementById('f-'+id); return e ? e.value.trim() : ''; }
+function checkFields(ids){
+  var bad=false;
+  ids.forEach(function(id){ var w=document.getElementById('fw-'+id); if(!w || w.offsetParent===null) return; var v=val(id); info[id]=v; w.classList.toggle('err',!v); if(!v&&!bad){ bad=true; w.scrollIntoView({block:'center'}); } });
+  return !bad;
+}
+function infoNext(){ if(checkFields(['name','kana','tel','city'])) toConfirm('s-info'); }
+function toConfirm(from){
+  var s=SERVICES[selSvc];
+  pend={type:'appt', svc:s, d:selDay, i:selI, m:s.m, key:selDay+' '+pad(Math.floor((OPEN_H*60+selI*30)/60))+':'+pad((selI*30)%60), label:s.n, when:dayLong(selDay)+' '+hm(selI), place:s.visit?'ご自宅':'ここスマ 店内'};
+  backTo=from; renderConfirm(false); go('s-confirm');
+}
+
+/* ---------- 確認と完了 ---------- */
+function cityText(){ return info.city==='other' ? '一覧にない（お電話で確認します）' : (info.city||''); }
 function sumHTML(p, extra){
-  var rows=[['用件', p.type==='class'?(p.trial?'教室の体験':'教室・クラブ'):p.label]];
-  if(p.type==='class') rows.push(['講座', p.label]);
+  var rows = p.type==='trial' ? [['ご予約','体験'],['講座',esc(p.course)]] : [['ご用件',esc(p.label)]];
+  if(p.type==='appt' && info.memo) rows.push(['ご相談の内容',esc(info.memo)]);
   rows.push(['日時', p.when.replace(/^(\S+）)\s*/,'$1<br>')], ['場所', p.place]);
+  if(p.type==='appt' && p.svc.visit) rows.push(['お住まいの市', esc(cityText())]);
+  if(p.type==='appt' && !MEMBER) rows.push(['お名前', esc(info.name)], ['電話番号', esc(info.tel)]);
   if(extra) rows=rows.concat(extra);
   return rows.map(function(r){ return '<div><span class="k">'+r[0]+'</span><span class="v">'+r[1]+'</span></div>'; }).join('');
 }
-function needContact(p){ return !MEMBER; }
-function needCity(p){ return p.type==='appt' && p.svc.visit; }
-function field(id,label,type,extra){ return '<div class="field" id="fw-'+id+'"><label for="f-'+id+'">'+label+'</label><input id="f-'+id+'" type="'+type+'" '+(extra||'')+'><span class="e">'+label+'を入力してください</span></div>'; }
-function renderConfirm(){
-  var p=pend;
-  document.getElementById('f-sum').innerHTML = sumHTML(p);
-  var f='';
-  if(needContact(p)) f += '<div class="lab">ご連絡先</div>'+field('name','お名前','text','autocomplete="name"')+field('kana','フリガナ','text','')+field('tel','電話番号','tel','autocomplete="tel" inputmode="tel"');
-  if(needCity(p)) f += '<div class="field" id="fw-city"><label for="f-city">お住まいの市</label><select id="f-city"><option value="">選んでください</option>'+CITIES.map(function(c){return '<option>'+c+'</option>';}).join('')+'<option value="other">一覧にない</option></select><span class="e">お住まいの市を選んでください</span></div>';
-  document.getElementById('f-fields').innerHTML = f;
+function notes(p, where){
   var n=[];
-  if(p.type==='class'){
-    if(!p.trial) n.push('取り消しは開始時刻まで、この画面からできます。<br>取り消しても、今月の受講回数は使いません。');
-    else n.push('取り消しは開始時刻まで、この画面からできます。');
-  }else{
+  if(p.type==='appt'){
+    n.push('前のご案内の状況により、開始時刻が前後する場合があります。');
+    n.push('ご用件の内容によっては、当日中に完了しない場合があります。');
     if(p.svc.note) n.push(p.svc.note);
-    n.push('取り消しは開始の2時間前まで、この画面からできます。<br>以降はお電話ください。');
+    n.push('取り消しは開始の2時間前まで、'+where+'からできます。以降はお電話ください。');
+  }else{
+    n.push('取り消しは開始時刻まで、'+where+'からできます。');
   }
-  document.getElementById('f-note').innerHTML = n.map(function(x){return '<div>'+x+'</div>';}).join('');
+  return n.map(function(x){return '<div>'+x+'</div>';}).join('');
 }
-function val(id){ var e=document.getElementById('f-'+id); return e ? e.value.trim() : ''; }
+function renderConfirm(withContact){
+  document.getElementById('f-sum').innerHTML = sumHTML(pend);
+  document.getElementById('i-fields').innerHTML = '';
+  document.getElementById('f-fields').innerHTML = withContact ? '<div class="lab">ご連絡先</div>'+contactHTML() : '';
+  document.getElementById('f-note').innerHTML = notes(pend,'この画面');
+}
 function book(){
-  var p=pend, bad=false;
-  ['name','kana','tel','city'].forEach(function(id){ var w=document.getElementById('fw-'+id); if(!w) return; var ng=!val(id); w.classList.toggle('err',ng); if(ng&&!bad){ bad=true; w.scrollIntoView({block:'center'}); } });
-  if(bad) return;
+  var p=pend;
+  if(p.type==='trial' && !checkFields(['name','kana','tel'])) return;
   var no = 1000 + Math.floor(Math.random()*9000);
-  var city = needCity(p) ? (val('city')==='other' ? '一覧にない（お電話で確認します）' : val('city')) : '';
-  if(p.type==='class'){ CLASSES[p.ci].mine=true; if(!p.trial) QUOTA.used++; else CLASSES[p.ci].trialNo=no; }
-  else APPTS.push({no:no, d:p.d, i:p.i, m:p.m, label:p.label, when:p.when, place:p.place, city:city});
-  var extra=[]; if(city) extra.push(['お住まいの市', esc(city)]);
-  if(p.type==='appt' || p.trial) extra.push(['受付番号', String(no)]);
-  document.getElementById('d-sum').innerHTML = sumHTML(p, extra);
-  var n=[];
-  if(p.type==='appt') n.push('取り消しは開始の2時間前まで、「ご予約の確認・取り消し」からできます。<br>以降はお電話ください。');
-  else n.push('取り消しは開始時刻まで、「ご予約の確認・取り消し」からできます。');
-  n.push('電話　［店の電話番号］');
-  document.getElementById('d-note').innerHTML = n.map(function(x){return '<div>'+x+'</div>';}).join('');
+  BOOKS.push({no:no, type:p.type, ci:p.ci, d:p.d, i:p.i, m:p.m, key:p.key, label:p.type==='trial'?p.course+'（体験）':p.label, when:p.when});
+  document.getElementById('d-sum').innerHTML = sumHTML(p, [['受付番号', String(no)]]);
+  document.getElementById('d-note').innerHTML = notes(p,'「ご予約の確認・取り消し」')+'<div>電話　［店の電話番号］</div>';
   selI=null; go('s-done');
 }
 
-/* ---------- ご予約の一覧と取り消し ---------- */
+/* ---------- ご予約の確認と取り消し ---------- */
 var cx=null;
 function renderList(){
-  var q=document.getElementById('l-quota'); q.style.display = MEMBER?'':'none'; q.innerHTML = quotaHTML();
-  var items=[];
-  CLASSES.forEach(function(c,i){ if(c.mine) items.push({k:c.d+' '+pad(parseInt(c.t,10))+c.t.slice(-3), when:dayLong(c.d)+' '+c.t, what:c.n, ref:'c'+i}); });
-  APPTS.forEach(function(a,i){ items.push({k:a.d+' '+pad(Math.floor((OPEN_H*60+a.i*30)/60))+':'+pad((a.i*30)%60), when:a.when, what:a.label, ref:'a'+i}); });
-  items.sort(function(x,y){ return x.k<y.k?-1:1; });
+  var items=BOOKS.map(function(a,i){ return {k:a.key, when:a.when, what:a.label, i:i}; }).sort(function(x,y){ return x.k<y.k?-1:1; });
   document.getElementById('l-list').innerHTML = items.length ? items.map(function(x){
-    return '<div class="bk"><div class="when">'+x.when+'</div><div class="l2"><div class="what">'+esc(x.what)+'</div><button type="button" class="cx" onclick="openCx(\''+x.ref+'\')">取り消す</button></div></div>';
-  }).join('') : '<div class="none">ご予約はまだありません。</div>';
+    return '<div class="bk"><div class="when">'+x.when+'</div><div class="l2"><div class="what">'+esc(x.what)+'</div><button type="button" class="cx" onclick="openCx('+x.i+')">取り消す</button></div></div>';
+  }).join('') : '<div class="none">'+(MEMBER?'スマートフォンの各種相談のご予約はありません。':'ご予約はありません。')+'</div>';
+  document.getElementById('l-class').innerHTML = MEMBER ? '<div class="gap"></div><a class="btn sub" href="'+CLASS_URL+'"><span class="nb">大人の脳活クラブ・</span><span class="nb">スマホ教室のご予約</span></a>' : '';
 }
-function openCx(ref){
-  cx=ref; var isC=ref.charAt(0)==='c', i=+ref.slice(1), o=isC?CLASSES[i]:APPTS[i];
-  document.getElementById('x-sum').innerHTML = '<div><span class="k">'+(isC?'講座':'用件')+'</span><span class="v">'+esc(isC?o.n:o.label)+'</span></div><div><span class="k">日時</span><span class="v">'+(isC?dayLong(o.d)+' '+o.t:o.when).replace(/^(\S+）)\s*/,'$1<br>')+'</span></div>';
-  document.getElementById('x-note').innerHTML = '<div>'+(isC ? (MEMBER?'取り消しても、<span class="nb">今月の受講回数は使いません。</span>':'取り消しは開始時刻までできます。') : '取り消しは開始の2時間前までできます。<br>以降はお電話ください。')+'</div>';
+function openCx(i){
+  cx=i; var o=BOOKS[i];
+  document.getElementById('x-sum').innerHTML = '<div><span class="k">'+(o.type==='trial'?'講座':'ご用件')+'</span><span class="v">'+esc(o.label)+'</span></div><div><span class="k">日時</span><span class="v">'+o.when.replace(/^(\S+）)\s*/,'$1<br>')+'</span></div>';
   document.getElementById('cxl').classList.add('on');
 }
 function closeCx(){ document.getElementById('cxl').classList.remove('on'); cx=null; }
-function doCx(){
-  if(!cx) return; var isC=cx.charAt(0)==='c', i=+cx.slice(1);
-  if(isC){ var c=CLASSES[i]; c.mine=false; if(MEMBER && !c.trialNo) QUOTA.used=Math.max(0,QUOTA.used-1); c.trialNo=null; } else APPTS.splice(i,1);
-  closeCx(); renderList();
-}
+function doCx(){ if(cx===null) return; BOOKS.splice(cx,1); closeCx(); renderList(); }
 
-/* ---------- はじめ ---------- */
+/* ---------- 初め ---------- */
 (function(){
   var m=document.getElementById('mode');
   if(MEMBER){ m.href='?guest=1'; m.textContent='会員でない方の画面'; }
-  else { m.href='?'; m.textContent='会員の画面'; CLASSES.forEach(function(c){ c.mine=false; }); }
+  else { m.href='?'; m.textContent='会員の画面'; }
   renderEntry();
 })();
 </script></body></html>
