@@ -172,10 +172,20 @@ html body { background: #FFFFFF !important; color: #1C003C; }
 .back { border: 1.5px solid #1C003C !important; border-radius: 8px; color: #1C003C; background: #FFFFFF; }
 #date-list, #course-list { border-top: 2px solid #1C003C; }
 .row { border: 0 !important; border-bottom: 1px solid #E3DFD2 !important; border-radius: 0; margin-bottom: 0; padding: 16px 6px; background: #FFFFFF; }
-.row .rt { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 2px; }
 .row .big { overflow-wrap: normal; }
-.row .l2 { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; column-gap: 12px; }
-.row .xchip { align-self: flex-start; }
+.dayhead { margin: 0; padding: 8px 12px; background: #F5F4F0; color: #1C003C; font-size: 20px; font-weight: 800; line-height: 1.5; }
+.row.slot { align-items: flex-start; gap: 12px; padding: 16px 6px 16px 12px; }
+.row.slot .tm { flex: none; min-width: 74px; font-size: 22px; font-weight: 800; line-height: 1.45; white-space: nowrap; }
+.row.slot .rt { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 8px; }
+.row.slot .nm { font-size: 21px; font-weight: 800; line-height: 1.5; word-break: keep-all; overflow-wrap: anywhere; }
+.row.slot .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag { display: inline-flex; align-items: center; height: 32px; box-sizing: border-box; padding: 0 12px; border-radius: 6px; font-size: 17px; font-weight: 800; white-space: nowrap; }
+.tag.open { border: 1.5px solid #00785C; color: #00785C; background: #FFFFFF; }
+.tag.full { background: #FBEBDD; color: #7A3E12; }
+.tag.mine { background: #1C003C; color: #FFFFFF; }
+.row.slot .xchip { margin-top: 0; height: 32px; display: inline-flex; align-items: center; border-radius: 6px; padding: 0 10px; }
+.row.slot .arw { flex: none; width: 14px; margin-left: 0; align-self: center; text-align: right; }
+.row.slot.full { background: #FFFFFF; color: #6A6078; }
 .row .seat { color: #00785C; }
 .row .arw { color: #1C003C; }
 .row.full { background: #F5F4F0; color: #4B3B63; }
@@ -232,7 +242,7 @@ html body { background: #FFFFFF !important; color: #1C003C; }
     <button class="btn sub" onclick="go('s-card')">できることを見る</button>
   </div>
 
-  <div class="foot">ここスマ 会員ページ 試験版 v0.5a</div>
+  <div class="foot">ここスマ 会員ページ 試験版 v0.5b</div>
 </section>
 
 <!-- ========== 予約の入口 ========== -->
@@ -464,6 +474,10 @@ function fmtDate(iso){  // '2026-08-24' → '8/24(月)'
   return Number(p[1]) + '/' + Number(p[2]) + '（' + YOBI[dt.getDay()] + '）';
 }
 function ymOf(iso){ return iso.slice(0,7); }
+function dayLong(iso){  // '2026-11-13' → '11月13日（金）'
+  var p = iso.split('-'); var dt = new Date(Number(p[0]), Number(p[1])-1, Number(p[2]));
+  return Number(p[1]) + '月' + Number(p[2]) + '日（' + YOBI[dt.getDay()] + '）';
+}
 function todayYm(){
   var n = new Date();
   return n.getFullYear() + '-' + ('0'+(n.getMonth()+1)).slice(-2);
@@ -615,13 +629,14 @@ function renderDates(){
   h += SESSIONS.map(function(s,i){
     var mine = s.mine==='reserved';
     var dead = s.full && !mine;
-    var seat = mine ? 'ご予約済み' : (s.full ? '満席' : '空きあり');
-    return '<button class="row '+(dead?'full':'')+(mine?' mine':'')+'" '
+    var tag = mine ? '<span class="tag mine">ご予約済み</span>' : (s.full ? '<span class="tag full">満席</span>' : '<span class="tag open">空きあり</span>');
+    var head = (i===0 || SESSIONS[i-1].heldOn!==s.heldOn) ? '<h3 class="dayhead">'+dayLong(s.heldOn)+'</h3>' : '';
+    return head + '<button class="row slot '+(dead?'full':'')+(mine?' mine':'')+'" '
       + ((dead||mine)?'disabled':'onclick="pick('+i+',\'s-bydate\')"')+'>'
-      + '<span class="rt"><span class="big"><span class="nb">'+s.d+'</span> <span class="nb">'+s.t+'</span></span>'
-      + '<span class="l2"><span class="sub">'+esc(s.title||'教室')+'</span><span class="seat">'+seat+'</span></span>'
-      + ((!dead&&!mine&&isExtra(s))?'<span class="xchip">追加のご受講</span>':'')+'</span>'
-      + ((dead||mine)?'':'<span class="arw">›</span>')
+      + '<span class="tm">'+s.t+'</span>'
+      + '<span class="rt"><span class="nm">'+esc(s.title||'教室')+'</span>'
+      + '<span class="tags">'+tag+((!dead&&!mine&&isExtra(s))?'<span class="xchip">追加のご受講</span>':'')+'</span></span>'
+      + '<span class="arw">'+((dead||mine)?'':'›')+'</span>'
       + '</button>';
   }).join('');
   document.getElementById('date-list').innerHTML = h;
