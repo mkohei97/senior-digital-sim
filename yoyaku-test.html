@@ -173,18 +173,19 @@ html body { background: #FFFFFF !important; color: #1C003C; }
 #date-list, #course-list { border-top: 2px solid #1C003C; }
 .row { border: 0 !important; border-bottom: 1px solid #E3DFD2 !important; border-radius: 0; margin-bottom: 0; padding: 16px 6px; background: #FFFFFF; }
 .row .big { overflow-wrap: normal; }
-.dayhead { margin: 0; padding: 8px 8px; background: #F5F4F0; color: #1C003C; font-size: 20px; font-weight: 800; line-height: 1.5; }
-.row.slot { align-items: center; gap: 8px; padding: 12px 6px 12px 8px; min-height: 68px; }
-.row.slot .tm { flex: none; min-width: 72px; font-size: 22px; font-weight: 800; line-height: 1.45; white-space: nowrap; }
+.dayhead { margin: 0; padding: 8px 10px; background: #1C003C; color: #FFFFFF; font-size: 20px; font-weight: 800; line-height: 1.5; }
+.row.slot { align-items: center; gap: 8px; padding: 12px 4px 12px 10px; min-height: 68px; }
+.row.slot, .row.slot.mine, .row.slot.full { background: #FFFFFF; color: #1C003C; }
+.row.slot .tm { flex: none; min-width: 72px; margin-right: 8px; font-size: 22px; font-weight: 800; line-height: 1.45; white-space: nowrap; }
 .row.slot .rt { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 4px; }
 .row.slot .nm { font-size: 20px; font-weight: 800; line-height: 1.4; text-wrap: balance; line-break: strict; }
-.tag { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 70px; height: 34px; box-sizing: border-box; padding: 0; border-radius: 6px; font-size: 17px; font-weight: 800; white-space: nowrap; }
-.tag.open { border: 1.5px solid #00785C; color: #00785C; background: #FFFFFF; }
-.tag.full { background: #FBEBDD; color: #7A3E12; }
-.tag.mine { background: #1C003C; color: #FFFFFF; }
+.tag { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 64px; height: 34px; box-sizing: border-box; padding: 0; border-radius: 6px; font-size: 17px; font-weight: 800; white-space: nowrap; }
+.tag { background: #FFFFFF; border: 1.5px solid currentColor; }
+.tag.open { color: #00785C; }
+.tag.full { color: #8A3B12; }
+.tag.mine { color: #1C003C; }
 .row.slot .xchip { margin-top: 0; align-self: flex-start; border-radius: 6px; padding: 2px 10px; }
-.row.slot .arw { flex: none; width: 10px; margin-left: 0; align-self: center; text-align: right; }
-.row.slot.full { background: #FFFFFF; color: #6A6078; }
+.row.slot .arw { flex: none; width: 10px; margin-left: -2px; align-self: center; text-align: right; }
 .row .seat { color: #00785C; }
 .row .arw { color: #1C003C; }
 .row.full { background: #F5F4F0; color: #4B3B63; }
@@ -241,7 +242,7 @@ html body { background: #FFFFFF !important; color: #1C003C; }
     <button class="btn sub" onclick="go('s-card')">できることを見る</button>
   </div>
 
-  <div class="foot">ここスマ 会員ページ 試験版 v0.5c</div>
+  <div class="foot">ここスマ 会員ページ 試験版 v0.5d</div>
 </section>
 
 <!-- ========== 予約の入口 ========== -->
@@ -628,7 +629,7 @@ function renderDates(){
   h += SESSIONS.map(function(s,i){
     var mine = s.mine==='reserved';
     var dead = s.full && !mine;
-    var tag = mine ? '<span class="tag mine">予約済</span>' : (s.full ? '<span class="tag full">満席</span>' : '<span class="tag open">空き有</span>');
+    var tag = mine ? '<span class="tag mine">予約済</span>' : (s.full ? '<span class="tag full">満席</span>' : '<span class="tag open">空席</span>');
     var head = (i===0 || SESSIONS[i-1].heldOn!==s.heldOn) ? '<h3 class="dayhead">'+dayLong(s.heldOn)+'</h3>' : '';
     return head + '<button class="row slot '+(dead?'full':'')+(mine?' mine':'')+'" '
       + ((dead||mine)?'disabled':'onclick="pick('+i+',\'s-bydate\')"')+'>'
