@@ -174,15 +174,16 @@ html body { background: #FFFFFF !important; color: #1C003C; }
 .row { border: 0 !important; border-bottom: 1px solid #E3DFD2 !important; border-radius: 0; margin-bottom: 0; padding: 16px 6px; background: #FFFFFF; }
 .row .big { overflow-wrap: normal; }
 .dayhead { margin: 0; padding: 8px 10px; background: #1C003C; color: #FFFFFF; font-size: 20px; font-weight: 800; line-height: 1.5; }
-.row.slot { align-items: center; gap: 8px; padding: 12px 4px 12px 10px; min-height: 68px; }
-.row.slot, .row.slot.mine, .row.slot.full { background: #FFFFFF; color: #1C003C; }
-.row.slot .tm { flex: none; min-width: 72px; margin-right: 8px; font-size: 22px; font-weight: 800; line-height: 1.45; white-space: nowrap; }
+.row.slot { align-items: center; gap: 8px; padding: 10px 4px 10px 10px; min-height: 64px; }
+.row.slot, .row.slot.full { background: #FFFFFF; color: #1C003C; }
+.row.slot.mine { background: #E6F4EF; color: #1C003C; }
+.row.slot .tm { flex: none; min-width: 66px; margin-right: 6px; font-size: 20px; font-weight: 800; line-height: 1.45; white-space: nowrap; }
 .row.slot .rt { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 4px; }
-.row.slot .nm { font-size: 20px; font-weight: 800; line-height: 1.4; text-wrap: balance; line-break: strict; }
-.tag { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 64px; height: 34px; box-sizing: border-box; padding: 0; border-radius: 6px; font-size: 17px; font-weight: 800; white-space: nowrap; }
+.row.slot .nm { font-size: clamp(17px, calc((100vw - 214px) / 8.1), 20px); font-weight: 800; line-height: 1.4; text-wrap: balance; line-break: strict; }
+.tag { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 60px; height: 32px; box-sizing: border-box; padding: 0; border-radius: 6px; font-size: 16px; font-weight: 800; white-space: nowrap; }
 .tag { background: #FFFFFF; border: 1.5px solid currentColor; }
 .tag.open { color: #00785C; }
-.tag.full { color: #8A3B12; }
+.tag.full { color: #B42318; }
 .tag.mine { color: #1C003C; }
 .row.slot .xchip { margin-top: 0; align-self: flex-start; border-radius: 6px; padding: 2px 10px; }
 .row.slot .arw { flex: none; width: 10px; margin-left: -2px; align-self: center; text-align: right; }
@@ -242,7 +243,7 @@ html body { background: #FFFFFF !important; color: #1C003C; }
     <button class="btn sub" onclick="go('s-card')">できることを見る</button>
   </div>
 
-  <div class="foot">ここスマ 会員ページ 試験版 v0.5d</div>
+  <div class="foot">ここスマ 会員ページ 試験版 v0.5e</div>
 </section>
 
 <!-- ========== 予約の入口 ========== -->
@@ -397,12 +398,13 @@ function demoData(){
   var dd = demoDays();
   return { ok: true, nickname: 'さくら', visits: 16, limit_month: 4, used_this_month: 1, used_next_month: 0, extra_price: 0,
     courses: [ {id:101,title:'文字入力',prereq:null}, {id:103,title:'あやしいメール・SMS',prereq:null}, {id:201,title:'LINEの基本',prereq:101},
-               {id:202,title:'カメラと写真',prereq:null}, {id:203,title:'マップ',prereq:201} ],
+               {id:202,title:'カメラと写真',prereq:null}, {id:203,title:'マップ',prereq:201}, {id:204,title:'スマホの困りごと',prereq:null} ],
     sessions: [ {id:1,held_on:dd[0],start_time:'10:30',course_id:201,title:'LINEの基本',remaining:3,mine:'reserved',mine_id:9001,mine_extra:false},
-                {id:2,held_on:dd[0],start_time:'13:30',course_id:103,title:'あやしいメール・SMS',remaining:2,mine:null,mine_id:null,mine_extra:false},
+                {id:2,held_on:dd[0],start_time:'13:30',course_id:103,title:'あやしいメール・SMS',short_title:'あやしいメール',remaining:2,mine:null,mine_id:null,mine_extra:false},
                 {id:3,held_on:dd[1],start_time:'10:30',course_id:202,title:'カメラと写真',remaining:0,mine:null,mine_id:null,mine_extra:false},
                 {id:4,held_on:dd[1],start_time:'13:30',course_id:203,title:'マップ',remaining:5,mine:null,mine_id:null,mine_extra:false},
-                {id:5,held_on:dd[2],start_time:'10:30',course_id:101,title:'文字入力',remaining:4,mine:null,mine_id:null,mine_extra:false} ],
+                {id:5,held_on:dd[2],start_time:'10:30',course_id:101,title:'文字入力',remaining:4,mine:null,mine_id:null,mine_extra:false},
+                {id:6,held_on:dd[2],start_time:'13:30',course_id:204,title:'スマホの困りごと',remaining:3,mine:null,mine_id:null,mine_extra:false} ],
     learned: [101, 106], marked: [102] };
 }
 function rpc(fn, body){
@@ -520,7 +522,7 @@ function loadData(){
     });
     SESSIONS = (r.sessions||[]).map(function(s){
       return {id:s.id, d:fmtDate(s.held_on), t:s.start_time, cid:s.course_id,
-              title:s.title, k:s.course_id?catKey(s.course_id):'kihon',
+              title:s.title, shortTitle:s.short_title, k:s.course_id?catKey(s.course_id):'kihon',
               full:(s.remaining<=0), mine:s.mine, mineId:s.mine_id,
               mineExtra:s.mine_extra, heldOn:s.held_on, startTime:s.start_time};
     });
@@ -634,7 +636,7 @@ function renderDates(){
     return head + '<button class="row slot '+(dead?'full':'')+(mine?' mine':'')+'" '
       + ((dead||mine)?'disabled':'onclick="pick('+i+',\'s-bydate\')"')+'>'
       + '<span class="tm">'+s.t+'</span>'
-      + '<span class="rt"><span class="nm">'+esc(s.title||'教室')+'</span>'+((!dead&&!mine&&isExtra(s))?'<span class="xchip">追加のご受講</span>':'')+'</span>'
+      + '<span class="rt"><span class="nm">'+esc(s.shortTitle||s.title||'教室')+'</span>'+((!dead&&!mine&&isExtra(s))?'<span class="xchip">追加のご受講</span>':'')+'</span>'
       + tag
       + '<span class="arw">'+((dead||mine)?'':'›')+'</span>'
       + '</button>';
