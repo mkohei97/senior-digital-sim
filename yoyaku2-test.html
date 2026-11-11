@@ -4,7 +4,7 @@
 <title>ご予約｜ここスマ</title>
 <meta name="robots" content="noindex">
 <style>
-/* 予約 第2版 試作 v0.5（2026-11-11）＝入口は2つ（大人の脳活クラブ・スマホ教室／スマートフォンの各種相談）。案B（白い地・ネイビー・罫線）。
+/* 予約 第2版 試作 v0.6（2026-11-11）＝入口は2つ（大人の脳活クラブ・スマホ教室／スマートフォンの各種相談）。案B（白い地・ネイビー・罫線）。
    見本のデータだけで動く。どこにも送らない・書き込まない。
    各種相談＝30分単位の開始時刻を選ぶ→ご用件を選ぶ。ご用件ごとの必要時間は画面に表示せず、枠を押さえる計算にだけ使う（値は仮）。 */
 :root{--ink:#1C003C;--sub:#4B3B63;--dim:#6A6078;--line:#E3DFD2;--pale:#F5F4F0;--sel:#E6F4EF;--mark:#008F6D;--ok:#00785C;--full:#B42318}
@@ -121,7 +121,7 @@ h1{margin:10px 0 18px;font-size:28px;font-weight:800;line-height:1.5}
   <div id="e-doors"></div>
   <div class="gap"></div>
   <button type="button" class="btn sub" onclick="go('s-list')"><span class="nb">ご予約の確認・</span><span class="nb">取り消し</span></button>
-  <div class="foot">ここスマ ご予約 試作 v0.5</div>
+  <div class="foot">ここスマ ご予約 試作 v0.6</div>
 </section>
 
 <section id="s-trial" class="screen">
@@ -134,7 +134,7 @@ h1{margin:10px 0 18px;font-size:28px;font-weight:800;line-height:1.5}
   <button type="button" class="btn" onclick="scanQR()"><span class="nb">会員証のQRコードを</span><span class="nb">読み取る</span></button>
   <div class="lab">会員番号でログイン</div>
   <div class="field" id="fw-mno" style="margin-top:0"><label for="f-mno">会員番号</label><input id="f-mno" type="text" inputmode="numeric" autocomplete="off"><span class="e">会員番号を入力してください</span></div>
-  <div class="field" id="fw-mpin"><label for="f-mpin">確認番号（会員証に記載の4桁）</label><input id="f-mpin" type="text" inputmode="numeric" autocomplete="off" maxlength="4"><span class="e">確認番号を入力してください</span></div>
+  <div class="field" id="fw-mpin"><label for="f-mpin">電話番号の下4桁</label><input id="f-mpin" type="text" inputmode="numeric" autocomplete="off" maxlength="4"><span class="e">電話番号の下4桁を入力してください</span></div>
   <div class="gap"></div>
   <button type="button" class="btn sub" onclick="loginByNo()">ログインする</button>
   <div id="lg-skip" hidden>
@@ -205,7 +205,7 @@ h1{margin:10px 0 18px;font-size:28px;font-weight:800;line-height:1.5}
 </div></div>
 
 <script>
-/* ===== 予約 第2版 試作 v0.5：見本のデータだけで動く（通信しない） ===== */
+/* ===== 予約 第2版 試作 v0.6：見本のデータだけで動く（通信しない） ===== */
 var MEMBER = /[?&]member=1/.test(location.search);   /* 会員証を開いたことのある端末＝ログイン済み。見本では ?member=1 */
 var MEMBER_NAME = 'さくら';
 var W = ['日','月','火','水','木','金','土'];
@@ -290,8 +290,8 @@ function renderEntry(){
   document.getElementById('who').innerHTML = MEMBER ? '<span class="who">'+esc(MEMBER_NAME)+'さん</span>' : '<button type="button" class="login-btn" onclick="openLogin(\'entry\')">ログイン</button>';
 }
 
-/* ---------- ログイン（会員証のQRコード、または会員番号と確認番号） ----------
-   見本：QRコードの読み取りは押すだけで成功。番号はどの値でもログインできる。本番＝QRはカメラで読み取り、番号は会員番号＋会員証に記載の確認番号を照合する */
+/* ---------- ログイン（会員証のQRコード、または会員番号と電話番号の下4桁） ----------
+   見本：QRコードの読み取りは押すだけで成功。番号はどの値でもログインできる。本番＝QRはカメラで読み取り、番号は会員番号＋ご登録の電話番号の下4桁を照合する */
 var loginAfter='entry', loginBack='s-entry';
 function openLogin(after){
   loginAfter=after; loginBack = after==='info' ? 's-info' : (after==='list' ? 's-list' : 's-entry');
@@ -314,8 +314,7 @@ function updateBar(){
   else { m.href='?member=1'; m.textContent='ログイン済みの状態にする'; }
 }
 
-/* ---------- ログインせずに予約（体験・単発参加・会員証が手元にない会員）：これまでの一覧と同じ形 ---------- */
-var KUBUN=['体験（初めての方）','単発参加（2回目以降の方）','会員（来店時に会員証を確認）'], KUBUN_S=['体験','単発参加','会員'];
+/* ---------- ログインせずに予約：これまでの一覧と同じ形。体験・単発参加・会員の別は聞かない（来店時に確認して結び付ける） ---------- */
 function renderTrial(){
   document.getElementById('c-list').innerHTML = CLASSES.map(function(c,i){
     var taken = BOOKS.some(function(x){ return x.type==='trial' && x.ci===i; });
@@ -329,7 +328,7 @@ function renderTrial(){
 function pickTrial(i){
   var c=CLASSES[i];
   pend={type:'trial', ci:i, d:c.d, key:c.d+' '+pad(parseInt(c.t,10))+c.t.slice(-3), course:c.n, when:dayLong(c.d)+' '+c.t};
-  info.kubun=null; backTo='s-trial'; renderConfirm(true); go('s-confirm');
+  backTo='s-trial'; renderConfirm(true); go('s-confirm');
 }
 
 /* ---------- 各種相談①：30分単位の開始時刻を選ぶ ---------- */
@@ -422,7 +421,7 @@ function toConfirm(from){
 function cityText(){ return info.city==='other' ? '一覧にない（お電話で確認します）' : (info.city||''); }
 function sumHTML(p, extra){
   var rows = [['日時', p.when.replace(/^(\S+）)\s*/,'$1<br>')]];
-  if(p.type==='trial') rows.push(['講座', esc(p.course)+(info.kubun!=null?'（'+KUBUN_S[info.kubun]+'）':'')]); else rows.push(['ご用件', esc(p.label)]);
+  if(p.type==='trial') rows.push(['講座', esc(p.course)]); else rows.push(['ご用件', esc(p.label)]);
   if(p.type==='appt' && info.memo) rows.push(['ご相談の内容',esc(info.memo)]);
   if(p.type==='appt' && p.svc.visit) rows.push(['お住まいの市', esc(cityText())]);
   if(p.type==='appt' && !MEMBER) rows.push(['お名前', esc(info.name)], ['電話番号', esc(info.tel)]);
@@ -433,32 +432,21 @@ function notes(p){
   var n=[];
   if(p.type==='appt') n.push('<span class="nb">前のご案内の状況により、</span><span class="nb">開始時刻が前後する</span><span class="nb">場合があります。</span>');
   if(p.type==='appt' && p.svc.note) n.push(p.svc.note);
-  if(p.type==='trial' && info.kubun===2) n.push('<span class="nb">ご来店のときに、</span><span class="nb">会員証をお持ちください。</span>');
+  if(p.type==='trial') n.push('<span class="nb">会員の方は、</span><span class="nb">ご来店のときに</span><span class="nb">会員証をお持ちください。</span>');
   n.push('<span class="nb">ご予約の取り消しは、</span><span class="nb">必ずこのページまたは</span><span class="nb">お電話でお願いします。</span>');
   return n.map(function(x){return '<div>'+x+'</div>';}).join('');
 }
 function renderConfirm(withContact){
   document.getElementById('f-sum').innerHTML = sumHTML(pend);
   document.getElementById('i-fields').innerHTML = '';
-  document.getElementById('f-fields').innerHTML = withContact ? kubunHTML()+'<div class="lab">ご連絡先</div><div style="margin-top:-8px">'+contactHTML()+'</div>' : '';
+  document.getElementById('f-fields').innerHTML = withContact ? '<div class="lab">ご連絡先</div><div style="margin-top:-8px">'+contactHTML()+'</div>' : '';
   document.getElementById('f-note').innerHTML = notes(pend);
 }
-function kubunHTML(){
-  return '<div class="lab">ご参加の区分</div><div class="list">'+KUBUN.map(function(t,i){
-    return '<button type="button" class="opt'+(info.kubun===i?' on':'')+'" aria-pressed="'+(info.kubun===i)+'" onclick="pickKubun('+i+')"><span class="radio" aria-hidden="true"></span><span>'+t+'</span></button>';
-  }).join('')+'</div><div class="field" id="fw-kubun" style="margin-top:6px"><span class="e">ご参加の区分を選択してください</span></div>';
-}
-function pickKubun(i){ keepContact(); info.kubun=i; renderConfirm(true); }
 function book(){
   var p=pend;
-  if(p.type==='trial'){
-    var kb=document.getElementById('fw-kubun'), noK=(info.kubun==null); kb.classList.toggle('err',noK);
-    var okF=checkFields(['name','kana','tel']);
-    if(noK){ kb.scrollIntoView({block:'center'}); return; }
-    if(!okF) return;
-  }
+  if(p.type==='trial' && !checkFields(['name','kana','tel'])) return;
   var no = 1000 + Math.floor(Math.random()*9000);
-  BOOKS.push({no:no, type:p.type, ci:p.ci, d:p.d, i:p.i, m:p.m, key:p.key, label:p.type==='trial'?p.course+'（'+KUBUN_S[info.kubun]+'）':p.label, when:p.when});
+  BOOKS.push({no:no, type:p.type, ci:p.ci, d:p.d, i:p.i, m:p.m, key:p.key, label:p.type==='trial'?p.course:p.label, when:p.when});
   document.getElementById('d-sum').innerHTML = sumHTML(p, [['受付番号', String(no)]]);
   document.getElementById('d-note').innerHTML = notes(p)+'<div>電話　［店の電話番号］</div>';
   selI=null; go('s-done');
