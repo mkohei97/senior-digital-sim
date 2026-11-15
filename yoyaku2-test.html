@@ -4,7 +4,7 @@
 <title>ご予約｜ここスマ</title>
 <meta name="robots" content="noindex">
 <style>
-/* 予約 第2版 試作 v0.6（2026-11-11）＝入口は2つ（大人の脳活クラブ・スマホ教室／スマートフォンの各種相談）。案B（白い地・ネイビー・罫線）。
+/* 予約 第2版 試作 v0.7（2026-11-15）＝入口は2つ（大人の脳活クラブ・スマホ教室／スマートフォンの各種相談）。案B（白い地・ネイビー・罫線）。
    見本のデータだけで動く。どこにも送らない・書き込まない。
    各種相談＝30分単位の開始時刻を選ぶ→ご用件を選ぶ。ご用件ごとの必要時間は画面に表示せず、枠を押さえる計算にだけ使う（値は仮）。 */
 :root{--ink:#1C003C;--sub:#4B3B63;--dim:#6A6078;--line:#E3DFD2;--pale:#F5F4F0;--sel:#E6F4EF;--mark:#008F6D;--ok:#00785C;--full:#B42318}
@@ -121,7 +121,7 @@ h1{margin:10px 0 18px;font-size:28px;font-weight:800;line-height:1.5}
   <div id="e-doors"></div>
   <div class="gap"></div>
   <button type="button" class="btn sub" onclick="go('s-list')"><span class="nb">ご予約の確認・</span><span class="nb">取り消し</span></button>
-  <div class="foot">ここスマ ご予約 試作 v0.6</div>
+  <div class="foot">ここスマ ご予約 試作 v0.7</div>
 </section>
 
 <section id="s-trial" class="screen">
@@ -205,7 +205,7 @@ h1{margin:10px 0 18px;font-size:28px;font-weight:800;line-height:1.5}
 </div></div>
 
 <script>
-/* ===== 予約 第2版 試作 v0.6：見本のデータだけで動く（通信しない） ===== */
+/* ===== 予約 第2版 試作 v0.7：見本のデータだけで動く（通信しない） ===== */
 var MEMBER = /[?&]member=1/.test(location.search);   /* 会員証を開いたことのある端末＝ログイン済み。見本では ?member=1 */
 var MEMBER_NAME = 'さくら';
 var W = ['日','月','火','水','木','金','土'];
@@ -213,14 +213,13 @@ var W = ['日','月','火','水','木','金','土'];
 var SERVICES = [
   {k:'buy',    n:'機種の購入',               m:90},
   {k:'plan',   n:'料金の見直し',             m:60},
-  {k:'sim',    n:'格安SIMへの乗り換え',      m:60},
+  {k:'sim',    n:'格安SIMへの乗り換え',      m:90},
   {k:'data',   n:'データの移行',             m:90},
   {k:'ask',    n:'操作や設定の相談',         m:30},
-  {k:'movie',  n:'写真や動画のムービー作成', m:30},
-  {k:'visit',  n:'自宅への訪問',             m:90, visit:true, note:'<span class="nb">詳しいご住所は、</span><span class="nb">ご予約のあと</span><span class="nb">お電話で伺います。</span>'},
+  {k:'film',   n:'フィルムの貼り付け・コーティング', m:30, h:'<span class="nb">フィルムの</span><span class="nb">貼り付け・</span><span class="nb">コーティング</span>'},
   {k:'other',  n:'その他',                   m:30, memo:true}
 ];
-var OPEN_H = 10, SLOTS = 16, DAYS_AHEAD = 30, CLOSED = {3:1, 4:1};   /* 10:00〜18:00・30分×16・水木は定休（仮） */
+var OPEN_H = 10, SLOTS = 16, DAYS_AHEAD = 45, CLOSED = {3:1, 4:1};   /* 10:00〜18:00・30分×16・水木は定休（仮） */
 var CITIES = ['藤井寺市','羽曳野市'];
 var CLASS_URL = 'yoyaku-test.html?demo=1&from=yoyaku2';   /* 大人の脳活クラブ・スマホ教室＝これまでに作った予約の画面 */
 
@@ -230,6 +229,10 @@ function fromIso(s){ var p=s.split('-'); return new Date(+p[0],+p[1]-1,+p[2]); }
 function addDays(d,n){ var x=new Date(d.getFullYear(),d.getMonth(),d.getDate()); x.setDate(x.getDate()+n); return x; }
 function dayLong(s){ var d=fromIso(s); return (d.getMonth()+1)+'月'+d.getDate()+'日（'+W[d.getDay()]+'）'; }
 function hm(i){ var t=OPEN_H*60+i*30; return Math.floor(t/60)+':'+pad(t%60); }
+/* 「・」でつないだ言葉は、「・」の後ろでだけ折り返す */
+function escNb(s){ var a=esc(s).split('・'); return a.length<2 ? a[0] : a.map(function(x,i){ return '<span class="nb">'+x+(i<a.length-1?'・':'')+'</span>'; }).join(''); }
+/* ご用件の名前を出す（折り返す位置を決めてあるものは、それを使う） */
+function svcHtml(t){ for(var i=0;i<SERVICES.length;i++){ if(SERVICES[i].n===t && SERVICES[i].h) return SERVICES[i].h; } return escNb(t); }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
 var TODAY = new Date(); TODAY = new Date(TODAY.getFullYear(),TODAY.getMonth(),TODAY.getDate());
 
@@ -376,7 +379,7 @@ function whenNext(){ if(selI===null) return; go('s-what'); }
 function renderWhat(){
   document.getElementById('q-when').innerHTML = '<span class="nb">'+dayLong(selDay)+'</span> <span class="nb">'+hm(selI)+'</span>';
   document.getElementById('q-list').innerHTML = '<div class="list">'+SERVICES.map(function(s,i){
-    return '<button type="button" class="opt'+(i===selSvc?' on':'')+'" aria-pressed="'+(i===selSvc)+'" onclick="pickSvc('+i+')"><span class="radio" aria-hidden="true"></span><span>'+esc(s.n)+'</span></button>';
+    return '<button type="button" class="opt'+(i===selSvc?' on':'')+'" aria-pressed="'+(i===selSvc)+'" onclick="pickSvc('+i+')"><span class="radio" aria-hidden="true"></span><span>'+svcHtml(s.n)+'</span></button>';
   }).join('')+'</div>';
   var s = selSvc!==null ? SERVICES[selSvc] : null, ok = !s || fits(selDay, selI, s.m);
   document.getElementById('fw-memo').hidden = !(s && s.memo);
@@ -421,7 +424,7 @@ function toConfirm(from){
 function cityText(){ return info.city==='other' ? '一覧にない（お電話で確認します）' : (info.city||''); }
 function sumHTML(p, extra){
   var rows = [['日時', p.when.replace(/^(\S+）)\s*/,'$1<br>')]];
-  if(p.type==='trial') rows.push(['講座', esc(p.course)]); else rows.push(['ご用件', esc(p.label)]);
+  if(p.type==='trial') rows.push(['講座', esc(p.course)]); else rows.push(['ご用件', svcHtml(p.label)]);
   if(p.type==='appt' && info.memo) rows.push(['ご相談の内容',esc(info.memo)]);
   if(p.type==='appt' && p.svc.visit) rows.push(['お住まいの市', esc(cityText())]);
   if(p.type==='appt' && !MEMBER) rows.push(['お名前', esc(info.name)], ['電話番号', esc(info.tel)]);
@@ -457,13 +460,13 @@ var cx=null;
 function renderList(){
   var items=BOOKS.map(function(a,i){ return {k:a.key, when:a.when, what:a.label, i:i}; }).sort(function(x,y){ return x.k<y.k?-1:1; });
   document.getElementById('l-list').innerHTML = items.length ? items.map(function(x){
-    return '<div class="bk"><div class="when">'+x.when+'</div><div class="l2"><div class="what">'+esc(x.what)+'</div><button type="button" class="cx" onclick="openCx('+x.i+')">取り消す</button></div></div>';
+    return '<div class="bk"><div class="when">'+x.when+'</div><div class="l2"><div class="what">'+svcHtml(x.what)+'</div><button type="button" class="cx" onclick="openCx('+x.i+')">取り消す</button></div></div>';
   }).join('') : '<div class="none">'+(MEMBER?'スマートフォンの各種相談のご予約はありません。':'ご予約はありません。')+'</div>';
   document.getElementById('l-class').innerHTML = '<div class="gap"></div>'+(MEMBER ? '<a class="btn sub" href="'+CLASS_URL+'"><span class="nb">大人の脳活クラブ・</span><span class="nb">スマホ教室のご予約</span></a>' : '<button type="button" class="btn sub" onclick="openLogin(\'list\')">会員の方はログイン</button>');
 }
 function openCx(i){
   cx=i; var o=BOOKS[i];
-  document.getElementById('x-sum').innerHTML = '<div><span class="k">日時</span><span class="v">'+o.when.replace(/^(\S+）)\s*/,'$1<br>')+'</span></div><div><span class="k">'+(o.type==='trial'?'講座':'ご用件')+'</span><span class="v">'+esc(o.label)+'</span></div>';
+  document.getElementById('x-sum').innerHTML = '<div><span class="k">日時</span><span class="v">'+o.when.replace(/^(\S+）)\s*/,'$1<br>')+'</span></div><div><span class="k">'+(o.type==='trial'?'講座':'ご用件')+'</span><span class="v">'+svcHtml(o.label)+'</span></div>';
   document.getElementById('cxl').classList.add('on');
 }
 function closeCx(){ document.getElementById('cxl').classList.remove('on'); cx=null; }

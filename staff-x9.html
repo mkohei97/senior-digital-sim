@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="ver" content="2026-11-14a">
 <title>ここスマ スタッフ画面</title>
 <style>
   :root {
@@ -217,6 +219,13 @@
         <div class="row right" style="margin-top:12px;"><button class="btn ghost" onclick="saveCourse()">講座を登録</button></div>
         <div class="msg" id="co-msg"></div>
         <div id="co-list" style="font-size:14px; color:var(--sub); margin-top:8px;"></div>
+        <b style="font-size:17px; display:block; margin-top:18px;">画面に出す短い名前</b>
+        <div class="formgrid" style="margin-top:10px;">
+          <div style="grid-column: span 2;"><label>講座</label><select id="cs-id" onchange="fillShort()"></select></div>
+          <div><label>短い名前(全角8文字まで)</label><input type="text" id="cs-short" maxlength="12" placeholder="例: 文字入力" autocomplete="off"></div>
+        </div>
+        <div class="row right" style="margin-top:12px;"><button class="btn small ghost" onclick="saveShort(true)">消す</button><button class="btn ghost" onclick="saveShort()">短い名前を保存</button></div>
+        <div class="msg" id="cs-msg"></div>
       </div>
     </div>
 
@@ -294,9 +303,24 @@
     </div>
 
     <div class="sec">
-      <div class="t">会員証QRの再発行(スマホの機種変更・紛失時)</div>
-      <button class="btn ghost" onclick="showQr()">QRを表示する</button>
+      <div class="t">会員証(QRと会員カード)</div>
+      <div class="row">
+        <button class="btn ghost" onclick="showQr()">QRを表示する</button>
+        <button class="btn ghost" id="d-card" onclick="printCard()">会員カードを印刷</button>
+      </div>
       <div id="qrbox"></div>
+      <div id="d-reissue" hidden style="margin-top:14px;">
+        <div class="t">QRの作り直し(会員カードをなくしたとき。今のQRと会員カードは使えなくなります)</div>
+        <button class="btn small warn" onclick="reissueQr()">QRを作り直す</button>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="t">会員番号でのログイン(電話番号の下4桁)<span id="d-tel4now" style="font-weight:400;margin-left:8px;"></span></div>
+      <div class="bdsel">
+        <input type="text" id="d-tel4" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="例: 1234" autocomplete="off" style="width:130px;">
+        <button class="btn small" onclick="saveTel4()">保存</button><button class="btn small ghost" onclick="saveTel4(true)">消す</button>
+      </div>
     </div>
 
     <div class="sec">
@@ -2664,6 +2688,9 @@ function errText(e) {
   if (e === 'not_found') return 'その番号の会員が見つかりません。';
   if (e === 'id_taken') return 'その番号は、たった今ほかの端末で使われました。一覧を更新したので、もう一度「登録してQRを出す」を押してください(番号は自動で入れ直します)。';
   if (e === 'bad_course') return 'コースを選び直してください。';
+  if (e === 'bad_tel4') return '数字4桁で入れてください。';
+  if (e === 'too_long') return '短い名前は全角8文字までにしてください。';
+  if (e === 'no_course') return 'その講座が見つかりません。';
   return '通信できませんでした。電波を確かめて「更新」を押してください。';
 }
 
@@ -2751,6 +2778,10 @@ function openDetail(id) {
   document.getElementById('d-msg').textContent = '';
   document.getElementById('d-msg').className = 'msg';
   document.getElementById('qrbox').innerHTML = '';
+  document.getElementById('d-card').disabled = cur.status !== 'active';
+  document.getElementById('d-tel4').value = '';
+  window.__reissueConfirm = null;
+  loadExtra(cur.id);
   loadJishu(cur.id);
   /* コース */
   var cb = document.getElementById('d-courses');
@@ -2846,8 +2877,75 @@ function showQr() {
     } else setDMsg(errText(r && r.error), false);
   }).catch(function () { setDMsg(errText(), false); });
 }
+/* ---- 会員カード・QRの作り直し・電話番号の下4桁(2026-11-14) ---- */
+var CARD_URL = 'kaiin-card-x16.html'; /* 印刷のページ(69l)。値は # の後ろで渡す＝サーバーへ送られない */
+function portalUrl(id, name, token) {
+  return PORTAL_URL + '?m=' + id + '&n=' + encodeURIComponent(name === ('No.' + id) ? '' : name) + '&t=' + token;
+}
+function cardUrl(r) {
+  var name = r.nickname === ('No.' + r.member_id) ? '' : r.nickname;
+  var since = cur && cur.id === r.member_id && cur.joined_on ? String(cur.joined_on).slice(0, 7) : '';
+  return CARD_URL + '#no=' + encodeURIComponent(pad4(r.member_id)) + '&name=' + encodeURIComponent(name) +
+    '&url=' + encodeURIComponent(portalUrl(r.member_id, r.nickname, r.token)) + (since ? '&since=' + encodeURIComponent(since) : '');
+}
+function printCard() {
+  if (!cur || cur.status !== 'active') { setDMsg('在籍の会員だけ印刷できます。', false); return; }
+  var w = null;
+  try { w = window.open('', '_blank'); } catch (e) {}
+  setDMsg('印刷のページを開いています…', true);
+  sbRpc('member_register', { p_pass: pass(), p_id: cur.id, p_nickname: '' }).then(function (r) {
+    if (r && r.ok) {
+      var u = cardUrl(r);
+      if (w && !w.closed) { w.location.replace(u); setDMsg('印刷のページを開きました。', true); }
+      else {
+        document.getElementById('qrbox').innerHTML = '<a class="btn" id="d-cardlink" target="_blank" rel="noopener" style="margin-top:12px;text-decoration:none;">印刷のページを開く</a>';
+        document.getElementById('d-cardlink').href = u;
+        setDMsg('下のボタンから印刷のページを開いてください。', true);
+      }
+    } else { if (w) w.close(); setDMsg(errText(r && r.error), false); }
+  }).catch(function () { if (w) w.close(); setDMsg(errText(), false); });
+}
+function loadExtra(id) {
+  var now = document.getElementById('d-tel4now'), re = document.getElementById('d-reissue');
+  now.textContent = '';
+  re.hidden = true;
+  sbRpc('staff_member_extra', { p_pass: pass(), p_member: id }).then(function (r) {
+    if (!(r && r.ok) || !cur || cur.id !== id) return; /* 関数がまだ無いときは、何も出さない */
+    now.textContent = r.has_tel4 ? '登録済み' : '未登録';
+    re.hidden = false;
+  }).catch(function () {});
+}
+function saveTel4(clear) {
+  var el = document.getElementById('d-tel4');
+  var v = clear ? '' : (el.value || '').replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); }).trim();
+  if (!clear && !/^[0-9]{4}$/.test(v)) { setDMsg(errText('bad_tel4'), false); return; }
+  setDMsg('保存しています…', true);
+  var id = cur.id;
+  sbRpc('staff_tel4_set', { p_pass: pass(), p_member: id, p_tel4: v }).then(function (r) {
+    if (r && r.ok) {
+      el.value = '';
+      setDMsg(r.has_tel4 ? '電話番号の下4桁を保存しました。' : '電話番号の下4桁を消しました。', true);
+      if (cur && cur.id === id) document.getElementById('d-tel4now').textContent = r.has_tel4 ? '登録済み' : '未登録';
+    } else setDMsg(errText(r && r.error), false);
+  }).catch(function () { setDMsg(errText(), false); });
+}
+function reissueQr() {
+  if (window.__reissueConfirm !== cur.id) {
+    window.__reissueConfirm = cur.id;
+    setDMsg('もう一度「QRを作り直す」を押すと確定します。今のQRと会員カードは使えなくなります。', false);
+    return;
+  }
+  window.__reissueConfirm = null;
+  setDMsg('作り直しています…', true);
+  sbRpc('staff_token_reissue', { p_pass: pass(), p_member: cur.id }).then(function (r) {
+    if (r && r.ok) {
+      setDMsg('新しいQRを出しました。ご本人のスマホで読み取り、会員カードも印刷し直してください。', true);
+      renderQrInto('qrbox', r.member_id, r.nickname, r.token);
+    } else setDMsg(errText(r && r.error), false);
+  }).catch(function () { setDMsg(errText(), false); });
+}
 function renderQrInto(boxId, id, name, token) {
-  var url = PORTAL_URL + '?m=' + id + '&n=' + encodeURIComponent(name === ('No.' + id) ? '' : name) + '&t=' + token;
+  var url = portalUrl(id, name, token);
   var qr = qrcode(0, 'M');
   qr.addData(url);
   qr.make();
@@ -3125,6 +3223,7 @@ function loadYotei() {
     courses = r.courses || [];
     renderCourseSelect();
     renderCourseList();
+    loadShorts();
     var el = document.getElementById('yt-list');
     if (!r.sessions.length) { el.innerHTML = '<div style="padding:14px 4px; color:var(--sub);">開催予定がまだありません。下のフォームから作れます。</div>'; return; }
     var html = '';
@@ -3153,10 +3252,54 @@ function renderCourseSelect() {
   sel.innerHTML = '<option value="">(講座未定)</option>' + courses.filter(function (c) { return c.active; })
     .map(function (c) { return '<option value="' + c.id + '">' + c.id + ' ' + esc(c.title) + '</option>'; }).join('');
 }
+var shortOf = null; /* 講座ID→短い名前。staff_courses が無い間は null(今の値は出せない) */
 function renderCourseList() {
   document.getElementById('co-list').textContent = courses.length
-    ? '登録済み: ' + courses.map(function (c) { return c.id + ' ' + c.title; }).join('/')
+    ? '登録済み: ' + courses.map(function (c) {
+        return c.id + ' ' + c.title + (shortOf && shortOf[c.id] ? '(短い名前: ' + shortOf[c.id] + ')' : '');
+      }).join('/')
     : '';
+  var sel = document.getElementById('cs-id'), keep = sel.value;
+  sel.innerHTML = courses.map(function (c) { return '<option value="' + c.id + '">' + c.id + ' ' + esc(c.title) + '</option>'; }).join('');
+  if (keep) sel.value = keep;
+  fillShort();
+}
+function loadShorts() {
+  sbRpc('staff_courses', { p_pass: pass() }).then(function (r) {
+    if (!(r && r.ok)) return; /* 関数がまだ無いときは、今までどおり */
+    shortOf = {};
+    (r.courses || []).forEach(function (c) { if (c.short_title) shortOf[c.id] = c.short_title; });
+    renderCourseList();
+  }).catch(function () {});
+}
+function fillShort() {
+  var id = parseInt(document.getElementById('cs-id').value, 10);
+  document.getElementById('cs-short').value = (shortOf && shortOf[id]) || '';
+}
+/* 全角を1、半角を0.5と数える */
+function zenLen(t) {
+  var n = 0;
+  for (var i = 0; i < t.length; i++) n += /[\x20-\x7E\uFF61-\uFF9F]/.test(t.charAt(i)) ? 0.5 : 1;
+  return n;
+}
+function saveShort(clear) {
+  var id = parseInt(document.getElementById('cs-id').value, 10);
+  var t = clear ? '' : (document.getElementById('cs-short').value || '').trim();
+  var msg = document.getElementById('cs-msg');
+  msg.className = 'msg';
+  if (!id) { msg.textContent = '講座を選んでください。'; return; }
+  if (!clear && !t) { msg.textContent = '短い名前を入れてください。'; return; }
+  if (zenLen(t) > 8) { msg.textContent = errText('too_long'); return; }
+  msg.textContent = '保存しています…';
+  sbRpc('staff_course_short', { p_pass: pass(), p_id: id, p_short: t }).then(function (r) {
+    if (r && r.ok) {
+      if (!shortOf) shortOf = {};
+      if (r.short_title) shortOf[id] = r.short_title; else delete shortOf[id];
+      msg.textContent = r.short_title ? '短い名前を保存しました。' : '短い名前を消しました。';
+      msg.className = 'msg ok-msg';
+      renderCourseList();
+    } else msg.textContent = errText(r && r.error);
+  }).catch(function () { msg.textContent = errText(); });
 }
 function fillSession(d, slot, start, courseId, cap, status) {
   document.getElementById('yt-date').value = d;
