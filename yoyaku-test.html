@@ -244,7 +244,7 @@ html body { background: #FFFFFF !important; color: #1C003C; }
     <button class="btn sub" onclick="go('s-card')">できることを見る</button>
   </div>
 
-  <div class="foot">ここスマ 会員ページ 試験版 v0.5f</div>
+  <div class="foot">ここスマ 会員ページ 試験版 v0.5g</div>
 </section>
 
 <!-- ========== 予約の入口 ========== -->
@@ -398,10 +398,10 @@ function demoDays(){
 function demoData(){
   var dd = demoDays();
   return { ok: true, nickname: 'さくら', visits: 16, limit_month: 4, used_this_month: 1, used_next_month: 0, extra_price: 0,
-    courses: [ {id:101,title:'文字入力',prereq:null}, {id:103,title:'あやしいメール・SMS',prereq:null}, {id:201,title:'LINEの基本',prereq:101},
+    courses: [ {id:101,title:'文字入力',prereq:null}, {id:103,title:'怪しいメール・SMS',prereq:null}, {id:201,title:'LINEの基本',prereq:101},
                {id:202,title:'カメラと写真',prereq:null}, {id:203,title:'マップ',prereq:201}, {id:204,title:'スマホの困りごと',prereq:null} ],
     sessions: [ {id:1,held_on:dd[0],start_time:'10:30',course_id:201,title:'LINEの基本',remaining:3,mine:'reserved',mine_id:9001,mine_extra:false},
-                {id:2,held_on:dd[0],start_time:'13:30',course_id:103,title:'あやしいメール・SMS',short_title:'あやしいメール',remaining:2,mine:null,mine_id:null,mine_extra:false},
+                {id:2,held_on:dd[0],start_time:'13:30',course_id:103,title:'怪しいメール・SMS',short_title:'怪しいメール対策',remaining:2,mine:null,mine_id:null,mine_extra:false},
                 {id:3,held_on:dd[1],start_time:'10:30',course_id:202,title:'カメラと写真',remaining:0,mine:null,mine_id:null,mine_extra:false},
                 {id:4,held_on:dd[1],start_time:'13:30',course_id:203,title:'マップ',remaining:5,mine:null,mine_id:null,mine_extra:false},
                 {id:5,held_on:dd[2],start_time:'10:30',course_id:101,title:'文字入力',remaining:4,mine:null,mine_id:null,mine_extra:false},
@@ -449,7 +449,7 @@ var RESV = [];         // 自分の予約(SESSIONSの部分集合)
 var LEARNED = [], MARKED = [];
 /* v0.2(19z B6): お店のタブレット(19a)の「できること」と同じ20テーマ。IDは42のテーマID=講座ID */
 var THEMES = [
-  {id:101,t:'文字入力',up:true},{id:102,t:'電話'},{id:103,t:'あやしいメール・SMS'},{id:104,t:'見やすくする'},{id:105,t:'Wi-Fiとギガ'},
+  {id:101,t:'文字入力',up:true},{id:102,t:'電話'},{id:103,t:'怪しいメール・SMS'},{id:104,t:'見やすくする'},{id:105,t:'Wi-Fiとギガ'},
   {id:106,t:'スマホの基本操作'},{id:107,t:'パスワードと安全'},
   {id:201,t:'LINEの基本'},{id:202,t:'カメラと写真'},{id:203,t:'マップ'},{id:204,t:'スマホの困りごと'},{id:205,t:'キャッシュレス'},{id:206,t:'検索とAIに聞く'},
   {id:301,t:'孫とビデオ通話'},{id:302,t:'家族グループ'},{id:304,t:'緊急連絡先'},{id:305,t:'スマホ代の見直し'},{id:306,t:'災害への備え'},

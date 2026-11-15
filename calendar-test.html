@@ -5,7 +5,7 @@
 <meta name="description" content="ここスマ（藤井寺）の教室の予定と空き状況です。">
 <meta name="robots" content="noindex">
 <style>
-/* 教室の予定 試験版 v0.3（2026-11-11）＝案B（白い地・ネイビー・罫線）。予約の日付の一覧（yoyaku 試験版 v0.5e）と同じ形：日付の帯｜時刻｜講座名｜空席・満席の札 */
+/* 教室の予定 試験版 v0.3a（2026-11-11）＝案B（白い地・ネイビー・罫線）。予約の日付の一覧（yoyaku 試験版 v0.5e）と同じ形：日付の帯｜時刻｜講座名｜空席・満席の札 */
 :root{--ink:#1C003C;--sub:#4B3B63;--line:#E3DFD2;--pale:#F5F4F0;--mark:#008F6D;--ok:#00785C;--full:#B42318}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%;background:#FFFFFF}
@@ -44,7 +44,7 @@ h1{margin:10px 0 8px;font-size:26px;font-weight:800;line-height:1.5}
     <div class="blk" id="f-member" hidden><b>会員の方</b><a class="btn" id="f-yoyaku" href="yoyaku-test.html">予約する</a></div>
     <div class="blk"><b>ご予約・お問い合わせ</b><p>LINEのトークでどうぞ。<span id="f-kaiin">会員の方は、会員証のページから予約できます。</span></p></div>
   </div>
-  <div class="ver">ここスマ 教室の予定 試験版 v0.3</div>
+  <div class="ver">ここスマ 教室の予定 試験版 v0.3a</div>
 </main>
 </div>
 <script>
@@ -55,7 +55,7 @@ var W=['日','月','火','水','木','金','土'], cur=0;
 function ymd(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
 function demoData(a){
   var out=[], d=new Date(); d.setDate(d.getDate()+1);
-  var names=[['10:30','LINEの基本','',false],['13:30','あやしいメール・SMS','あやしいメール',false],['10:30','カメラと写真','',true],['13:30','スマホの困りごと','',false],['10:30','文字入力','',false]];
+  var names=[['10:30','LINEの基本','',false],['13:30','怪しいメール・SMS','怪しいメール対策',false],['10:30','カメラと写真','',true],['13:30','スマホの困りごと','',false],['10:30','文字入力','',false]];
   var i=0;
   while(i<names.length){
     var w=d.getDay();

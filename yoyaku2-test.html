@@ -4,7 +4,7 @@
 <title>ご予約｜ここスマ</title>
 <meta name="robots" content="noindex">
 <style>
-/* 予約 第2版 試作 v0.7（2026-11-15）＝入口は2つ（大人の脳活クラブ・スマホ教室／スマートフォンの各種相談）。案B（白い地・ネイビー・罫線）。
+/* 予約 第2版 試作 v0.7a（2026-11-15）＝入口は2つ（大人の脳活クラブ・スマホ教室／スマートフォンの各種相談）。案B（白い地・ネイビー・罫線）。
    見本のデータだけで動く。どこにも送らない・書き込まない。
    各種相談＝30分単位の開始時刻を選ぶ→ご用件を選ぶ。ご用件ごとの必要時間は画面に表示せず、枠を押さえる計算にだけ使う（値は仮）。 */
 :root{--ink:#1C003C;--sub:#4B3B63;--dim:#6A6078;--line:#E3DFD2;--pale:#F5F4F0;--sel:#E6F4EF;--mark:#008F6D;--ok:#00785C;--full:#B42318}
@@ -121,7 +121,7 @@ h1{margin:10px 0 18px;font-size:28px;font-weight:800;line-height:1.5}
   <div id="e-doors"></div>
   <div class="gap"></div>
   <button type="button" class="btn sub" onclick="go('s-list')"><span class="nb">ご予約の確認・</span><span class="nb">取り消し</span></button>
-  <div class="foot">ここスマ ご予約 試作 v0.7</div>
+  <div class="foot">ここスマ ご予約 試作 v0.7a</div>
 </section>
 
 <section id="s-trial" class="screen">
@@ -205,7 +205,7 @@ h1{margin:10px 0 18px;font-size:28px;font-weight:800;line-height:1.5}
 </div></div>
 
 <script>
-/* ===== 予約 第2版 試作 v0.7：見本のデータだけで動く（通信しない） ===== */
+/* ===== 予約 第2版 試作 v0.7a：見本のデータだけで動く（通信しない） ===== */
 var MEMBER = /[?&]member=1/.test(location.search);   /* 会員証を開いたことのある端末＝ログイン済み。見本では ?member=1 */
 var MEMBER_NAME = 'さくら';
 var W = ['日','月','火','水','木','金','土'];
@@ -241,7 +241,7 @@ function shopDays(n){ var out=[], d=addDays(TODAY,1); while(out.length<n){ if(!C
 var SD = shopDays(3);
 var CLASSES = [
   {d:SD[0], t:'10:30', n:'大人の脳活クラブ', full:false},
-  {d:SD[0], t:'13:30', n:'あやしいメール',   full:false},
+  {d:SD[0], t:'13:30', n:'怪しいメール対策',   full:false},
   {d:SD[1], t:'10:30', n:'大人の脳活クラブ', full:true},
   {d:SD[1], t:'13:30', n:'スマホの困りごと', full:false},
   {d:SD[2], t:'10:30', n:'文字入力',         full:false}
