@@ -4,7 +4,7 @@
 <title>ご予約｜ここスマ</title>
 <meta name="robots" content="noindex">
 <style>
-/* 予約 第2版 試作 v0.7a（2026-11-15）＝入口は2つ（大人の脳活クラブ・スマホ教室／スマートフォンの各種相談）。案B（白い地・ネイビー・罫線）。
+/* 予約 第2版 試作 v0.8（2026-11-17）＝入口は2つ（大人の脳活クラブ・スマホ教室／スマートフォンの各種相談）。案B（白い地・ネイビー・罫線）。
    見本のデータだけで動く。どこにも送らない・書き込まない。
    各種相談＝30分単位の開始時刻を選ぶ→ご用件を選ぶ。ご用件ごとの必要時間は画面に表示せず、枠を押さえる計算にだけ使う（値は仮）。 */
 :root{--ink:#1C003C;--sub:#4B3B63;--dim:#6A6078;--line:#E3DFD2;--pale:#F5F4F0;--sel:#E6F4EF;--mark:#008F6D;--ok:#00785C;--full:#B42318}
@@ -121,30 +121,33 @@ h1{margin:10px 0 18px;font-size:28px;font-weight:800;line-height:1.5}
   <div id="e-doors"></div>
   <div class="gap"></div>
   <button type="button" class="btn sub" onclick="go('s-list')"><span class="nb">ご予約の確認・</span><span class="nb">取り消し</span></button>
-  <div class="foot">ここスマ ご予約 試作 v0.7a</div>
+  <div class="foot">ここスマ ご予約 試作 v0.8</div>
 </section>
 
 <section id="s-trial" class="screen">
-  <div class="top"><button type="button" class="back" onclick="go('s-login')">戻る</button><div class="title">日時の選択</div></div>
+  <div class="top"><button type="button" class="back" onclick="go('s-choice')">戻る</button><div class="title">日時の選択</div></div>
   <div class="list" id="c-list"></div>
 </section>
 
+<section id="s-choice" class="screen">
+  <div class="top"><button type="button" class="back" onclick="go('s-entry')">戻る</button><div class="title">ご予約</div></div>
+  <div class="strip" id="ch-title"></div>
+  <button type="button" class="door" onclick="openLogin(choiceFor)"><span class="tx"><span class="t1">ログインして予約する</span><span class="t2">会員の方</span></span><span class="arw">›</span></button>
+  <button type="button" class="door" onclick="choiceSkip()"><span class="tx"><span class="t1"><span class="nb">ログインせずに</span><span class="nb">予約する</span></span><span class="t2"><span class="nb">会員でない方、</span><span class="nb">会員証がお手元にない方</span></span></span><span class="arw">›</span></button>
+</section>
+
 <section id="s-login" class="screen">
-  <div class="top"><button type="button" class="back" onclick="go(loginBack)">戻る</button><div class="title">会員の方のログイン</div></div>
+  <div class="top"><button type="button" class="back" onclick="go(loginBack)">戻る</button><div class="title">ログイン</div></div>
   <button type="button" class="btn" onclick="scanQR()"><span class="nb">会員証のQRコードを</span><span class="nb">読み取る</span></button>
   <div class="lab">会員番号でログイン</div>
   <div class="field" id="fw-mno" style="margin-top:0"><label for="f-mno">会員番号</label><input id="f-mno" type="text" inputmode="numeric" autocomplete="off"><span class="e">会員番号を入力してください</span></div>
   <div class="field" id="fw-mpin"><label for="f-mpin">電話番号の下4桁</label><input id="f-mpin" type="text" inputmode="numeric" autocomplete="off" maxlength="4"><span class="e">電話番号の下4桁を入力してください</span></div>
   <div class="gap"></div>
   <button type="button" class="btn sub" onclick="loginByNo()">ログインする</button>
-  <div id="lg-skip" hidden>
-    <div class="lab" style="margin-top:36px"><span class="nb">会員でない方・</span><span class="nb">会員証がお手元にない方</span></div>
-    <button type="button" class="btn sub" onclick="go('s-trial')">ログインせずに予約する</button>
-  </div>
 </section>
 
 <section id="s-when" class="screen">
-  <div class="top"><button type="button" class="back" onclick="go('s-entry')">戻る</button><div class="title">日時の選択</div></div>
+  <div class="top"><button type="button" class="back" onclick="go(MEMBER?'s-entry':'s-choice')">戻る</button><div class="title">日時の選択</div></div>
   <div class="week"><button type="button" id="w-prev" onclick="week(-1)">前の週</button><div class="rng" id="w-rng"></div><button type="button" id="w-next" onclick="week(1)">次の週</button></div>
   <div class="days" id="w-days"></div>
   <div id="w-times"></div>
@@ -205,7 +208,7 @@ h1{margin:10px 0 18px;font-size:28px;font-weight:800;line-height:1.5}
 </div></div>
 
 <script>
-/* ===== 予約 第2版 試作 v0.7a：見本のデータだけで動く（通信しない） ===== */
+/* ===== 予約 第2版 試作 v0.8：見本のデータだけで動く（通信しない） ===== */
 var MEMBER = /[?&]member=1/.test(location.search);   /* 会員証を開いたことのある端末＝ログイン済み。見本では ?member=1 */
 var MEMBER_NAME = 'さくら';
 var W = ['日','月','火','水','木','金','土'];
@@ -287,18 +290,24 @@ function go(id){
 /* ---------- 入口（2つ） ---------- */
 function renderEntry(){
   var t1='<span class="tx"><span class="t1"><span class="nb">大人の脳活クラブ・</span><span class="nb">スマホ教室</span></span></span><span class="arw">›</span>';
-  var a = MEMBER ? '<a class="door" href="'+CLASS_URL+'">'+t1+'</a>' : '<button type="button" class="door" onclick="openLogin(\'class\')">'+t1+'</button>';
-  var b = '<button type="button" class="door" onclick="openWhen()"><span class="tx"><span class="t1"><span class="nb">スマートフォンの</span><span class="nb">各種相談</span></span><span class="t2"><span class="nb">機種購入、料金見直し、</span><span class="nb">各種お困りごとなど</span></span></span><span class="arw">›</span></button>';
+  var a = MEMBER ? '<a class="door" href="'+CLASS_URL+'">'+t1+'</a>' : '<button type="button" class="door" onclick="openChoice(\'class\')">'+t1+'</button>';
+  var b = '<button type="button" class="door" onclick="'+(MEMBER?'openWhen()':'openChoice(\'appt\')')+'"><span class="tx"><span class="t1"><span class="nb">スマートフォンの</span><span class="nb">各種相談</span></span><span class="t2"><span class="nb">機種購入、料金見直し、</span><span class="nb">各種お困りごとなど</span></span></span><span class="arw">›</span></button>';
   document.getElementById('e-doors').innerHTML = a + b;
   document.getElementById('who').innerHTML = MEMBER ? '<span class="who">'+esc(MEMBER_NAME)+'さん</span>' : '<button type="button" class="login-btn" onclick="openLogin(\'entry\')">ログイン</button>';
 }
 
 /* ---------- ログイン（会員証のQRコード、または会員番号と電話番号の下4桁） ----------
    見本：QRコードの読み取りは押すだけで成功。番号はどの値でもログインできる。本番＝QRはカメラで読み取り、番号は会員番号＋ご登録の電話番号の下4桁を照合する */
-var loginAfter='entry', loginBack='s-entry';
+var loginAfter='entry', loginBack='s-entry', choiceFor='class';
+/* v0.8：入口を押したら、まず「ログインして予約する／ログインせずに予約する」を選ぶ */
+function openChoice(f){
+  choiceFor=f;
+  document.getElementById('ch-title').innerHTML = f==='class' ? '<span class="nb">大人の脳活クラブ・</span><span class="nb">スマホ教室</span>' : '<span class="nb">スマートフォンの</span><span class="nb">各種相談</span>';
+  go('s-choice');
+}
+function choiceSkip(){ if(choiceFor==='class') go('s-trial'); else openWhen(); }
 function openLogin(after){
-  loginAfter=after; loginBack = after==='info' ? 's-info' : (after==='list' ? 's-list' : 's-entry');
-  document.getElementById('lg-skip').hidden = after!=='class';
+  loginAfter=after; loginBack = (after==='class'||after==='appt') ? 's-choice' : (after==='list' ? 's-list' : 's-entry');
   ['mno','mpin'].forEach(function(id){ document.getElementById('f-'+id).value=''; document.getElementById('fw-'+id).classList.remove('err'); });
   go('s-login');
 }
@@ -307,7 +316,7 @@ function loginByNo(){ if(checkFields(['mno','mpin'])) doLogin(); }
 function doLogin(){
   MEMBER=true; updateBar();
   if(loginAfter==='class'){ location.href=CLASS_URL; return; }
-  if(loginAfter==='info'){ if(SERVICES[selSvc].visit) go('s-info'); else toConfirm('s-what'); return; }
+  if(loginAfter==='appt'){ openWhen(); return; }
   if(loginAfter==='list'){ go('s-list'); return; }
   go('s-entry');
 }
@@ -401,7 +410,7 @@ function field(id,label,type,extra){ return '<div class="field" id="fw-'+id+'"><
 function contactHTML(){ return field('name','お名前','text','autocomplete="name"')+field('kana','フリガナ','text','')+field('tel','電話番号','tel','autocomplete="tel" inputmode="tel"'); }
 function renderInfo(){
   var f='';
-  if(!MEMBER) f += '<button type="button" class="btn sub" onclick="keepContact();openLogin(\'info\')">会員の方はログイン</button><div class="lab" style="margin-top:30px">ログインせずに予約する方</div><div style="margin-top:-8px">'+contactHTML()+'</div>';
+  if(!MEMBER) f += contactHTML();
   if(SERVICES[selSvc].visit) f += '<div class="field" id="fw-city"><label for="f-city">お住まいの市</label><select id="f-city"><option value="">選択してください</option>'+CITIES.map(function(c){return '<option'+(info.city===c?' selected':'')+'>'+c+'</option>';}).join('')+'<option value="other"'+(info.city==='other'?' selected':'')+'>一覧にない</option></select><span class="e">お住まいの市を選択してください</span></div>';
   document.getElementById('f-fields').innerHTML = '';
   document.getElementById('i-fields').innerHTML = f;
