@@ -244,7 +244,7 @@ html body { background: #FFFFFF !important; color: #1C003C; }
     <button class="btn sub" onclick="go('s-card')">できることを見る</button>
   </div>
 
-  <div class="foot">ここスマ 会員ページ 試験版 v0.5g</div>
+  <div class="foot">ここスマ 会員ページ 試験版 v0.5h</div>
 </section>
 
 <!-- ========== 予約の入口 ========== -->
@@ -353,7 +353,7 @@ html body { background: #FFFFFF !important; color: #1C003C; }
    ・データは Supabase の RPC(yoyaku_data / reserve / cancel_reservation /
      mark_can_do)から。HTMLに入れてよいのは公開キーだけ(19r§9-7)
    ・空席は「空きあり/満席」の2値だけ表示(43§4-4。残り数は出さない)
-   ・回数超過は追加のご受講として金額を明示(裁定①)。支払いはお店で
+   ・月の回数を超えた分は単発参加として金額を明示(裁定①・2026-11-17 単発に包含)。支払いはお店で
    ・取消は開始時刻まで(裁定③)
    ===================================================================== */
 var SUPA_URL = 'https://kravngifhbxywmpoydur.supabase.co';
@@ -558,7 +558,7 @@ function quotaHTML(ym){
   if(!D || !D.limit_month) return '';
   var used = ym===nextYm() ? D.used_next_month : D.used_this_month;
   var h = '<span class="nb">今月の受講回数</span> <span class="nb"><b>'+D.limit_month+'</b>回のうち <b>'+used+'</b>回</span>';
-  if(used >= D.limit_month) h += '<br><span class="nb">次回から</span> <span class="nb">追加のご受講</span> <span class="nb">（1回 '+yen(D.extra_price)+'円）</span>';
+  if(used >= D.limit_month) h += '<br><span class="nb">次回から</span> <span class="nb">単発参加</span> <span class="nb">（1回 '+yen(D.extra_price)+'円）</span>';
   return h;
 }
 function isExtra(s){ return !!(D && D.limit_month && usedFor(s.heldOn) >= D.limit_month); }
@@ -582,7 +582,7 @@ function renderHome(){
         var c=s.cid?C(s.cid):null;
         return '<div class="resv">'
           + (c?'<span class="cat" '+catStyle(c.k)+'>'+CAT[c.k].name+'</span>':'')
-          + (s.mineExtra?'<span class="extra-chip">追加のご受講</span>':'')
+          + (s.mineExtra?'<span class="extra-chip">単発参加</span>':'')
           + '<div class="when"><span class="nb">'+s.d+'</span> <span class="nb">'+s.t+'</span></div>'
           + '<div class="what">'+esc(s.title||'教室')+'</div>'
           + '<button class="btn quiet" style="min-height:56px;font-size:21px" onclick="openCancel('+s.id+')">取り消す</button>'
@@ -637,7 +637,7 @@ function renderDates(){
     return head + '<button class="row slot '+(dead?'full':'')+(mine?' mine':'')+'" '
       + ((dead||mine)?'disabled':'onclick="pick('+i+',\'s-bydate\')"')+'>'
       + '<span class="tm">'+s.t+'</span>'
-      + '<span class="rt"><span class="nm">'+esc(s.shortTitle||s.title||'教室')+'</span>'+((!dead&&!mine&&isExtra(s))?'<span class="xchip">追加のご受講</span>':'')+'</span>'
+      + '<span class="rt"><span class="nm">'+esc(s.shortTitle||s.title||'教室')+'</span>'+((!dead&&!mine&&isExtra(s))?'<span class="xchip">単発参加</span>':'')+'</span>'
       + tag
       + '<span class="arw">'+((dead||mine)?'':'›')+'</span>'
       + '</button>';
@@ -656,7 +656,7 @@ function renderCourses(){
     var s = idx>=0 ? SESSIONS[idx] : null;
     return '<button class="row '+(s?'':'full')+'" '+(s?'onclick="pick('+idx+',\'s-bycourse\')"':'disabled')+'>'
       + '<span><span class="big">'+esc(c.t)+'</span><br>'
-      + '<span class="sub">'+CAT[c.k].name+(s?' ・ <span class="nb">次は '+s.d+'</span> <span class="nb">'+s.t+'</span>':' ・ 今は予約できる回がありません')+'</span>'+((s&&isExtra(s))?'<br><span class="xchip">追加のご受講</span>':'')+'</span>'
+      + '<span class="sub">'+CAT[c.k].name+(s?' ・ <span class="nb">次は '+s.d+'</span> <span class="nb">'+s.t+'</span>':' ・ 今は予約できる回がありません')+'</span>'+((s&&isExtra(s))?'<br><span class="xchip">単発参加</span>':'')+'</span>'
       + (s?'<span class="arw">›</span>':'')
       + '</button>';
   }).join('');
@@ -680,11 +680,11 @@ function pick(i,from){
   if(c && c.pre && stateOf(c.pre)===0 && C(c.pre)){
     n += '<div class="notice">「<b>'+esc(C(c.pre).t)+'</b>」が未受講です。先に受講すると理解しやすくなりますが、<b>このままでも受講できます。</b></div>';
   }
-  /* 回数の超過(裁定①: 追加分と金額を明示。支払いはお店で) */
+  /* 月の回数を超えた分＝単発参加(裁定①: 金額を明示。支払いはお店で) */
   var used = usedFor(pending.heldOn);
   if(used >= D.limit_month){
     n += '<div class="notice"><span class="nb">この月は <b>'+(used+1)+'回目</b>の</span><span class="nb">ご予約です。</span><br>'
-       + '<span class="nb">月'+D.limit_month+'回を超えた分は</span> <span class="nb"><b>追加のご受講</b></span><span class="nb"><b>（1回 '+yen(D.extra_price)+'円）</b>です。</span><br>'
+       + '<span class="nb">月'+D.limit_month+'回を超えた分は</span> <span class="nb"><b>単発参加</b></span><span class="nb"><b>（1回 '+yen(D.extra_price)+'円）</b>です。</span><br>'
        + '<span class="nb">お支払いは</span><span class="nb">店頭でお願いします。</span></div>';
   }
   document.getElementById('cf-notice').innerHTML = n;
@@ -707,7 +707,7 @@ function doBook(){
       document.getElementById('dn-when').textContent = pending.d+' '+pending.t;
       document.getElementById('dn-what').textContent = pending.title||'教室';
       document.getElementById('dn-extra').innerHTML = r.extra
-        ? '<div class="notice" style="text-align:left">この分は <b>追加のご受講（1回 '+yen(r.extra_price)+'円）</b> です。<br><span class="nb">お支払いは</span><span class="nb">店頭でお願いします。</span></div>' : '';
+        ? '<div class="notice" style="text-align:left">この分は <b>単発参加（1回 '+yen(r.extra_price)+'円）</b> です。<br><span class="nb">お支払いは</span><span class="nb">店頭でお願いします。</span></div>' : '';
       loadData().then(function(){ go('s-done'); });
     }else{
       var e = r ? r.error : '';
