@@ -45,7 +45,7 @@ h1{margin:10px 0 8px;font-size:26px;font-weight:800;line-height:1.5}
     <div class="blk" id="f-member" hidden><b>会員の方</b><a class="btn" id="f-yoyaku" href="yoyaku-test.html">予約する</a></div>
     <div class="blk"><b>ご予約・お問い合わせ</b><p>お電話でどうぞ。<span id="f-kaiin">会員の方は、会員証のページから予約できます。</span></p><a class="btn tel" href="tel:09050859749">090-5085-9749</a></div>
   </div>
-  <div class="ver">ここスマ 教室の予定 試験版 v0.3b</div>
+  <div class="ver">ここスマ 教室の予定 試験版 v0.3c</div>
 </main>
 </div>
 <script>
@@ -56,7 +56,7 @@ var W=['日','月','火','水','木','金','土'], cur=0;
 function ymd(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
 function demoData(a){
   var out=[], d=new Date(); d.setDate(d.getDate()+1);
-  var names=[['10:30','LINEの基本','',false],['13:30','怪しいメール・SMS','怪しいメール対策',false],['10:30','カメラと写真','',true],['13:30','スマホの困りごと','',false],['10:30','文字入力','',false]];
+  var names=[['10:00','LINEの基本','',false],['13:00','怪しいメール・SMS','怪しいメール対策',false],['10:00','カメラと写真','',true],['13:00','スマホの困りごと','',false],['10:00','文字入力','',false]];
   var i=0;
   while(i<names.length){
     var w=d.getDay();

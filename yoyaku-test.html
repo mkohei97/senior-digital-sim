@@ -244,7 +244,7 @@ html body { background: #FFFFFF !important; color: #1C003C; }
     <button class="btn sub" onclick="go('s-card')">できることを見る</button>
   </div>
 
-  <div class="foot">ここスマ 会員ページ 試験版 v0.5h</div>
+  <div class="foot">ここスマ 会員ページ 試験版 v0.5i</div>
 </section>
 
 <!-- ========== 予約の入口 ========== -->
@@ -400,12 +400,12 @@ function demoData(){
   return { ok: true, nickname: 'さくら', visits: 16, limit_month: 4, used_this_month: 1, used_next_month: 0, extra_price: 0,
     courses: [ {id:101,title:'文字入力',prereq:null}, {id:103,title:'怪しいメール・SMS',prereq:null}, {id:201,title:'LINEの基本',prereq:101},
                {id:202,title:'カメラと写真',prereq:null}, {id:203,title:'マップ',prereq:201}, {id:204,title:'スマホの困りごと',prereq:null} ],
-    sessions: [ {id:1,held_on:dd[0],start_time:'10:30',course_id:201,title:'LINEの基本',remaining:3,mine:'reserved',mine_id:9001,mine_extra:false},
-                {id:2,held_on:dd[0],start_time:'13:30',course_id:103,title:'怪しいメール・SMS',short_title:'怪しいメール対策',remaining:2,mine:null,mine_id:null,mine_extra:false},
-                {id:3,held_on:dd[1],start_time:'10:30',course_id:202,title:'カメラと写真',remaining:0,mine:null,mine_id:null,mine_extra:false},
-                {id:4,held_on:dd[1],start_time:'13:30',course_id:203,title:'マップ',remaining:5,mine:null,mine_id:null,mine_extra:false},
-                {id:5,held_on:dd[2],start_time:'10:30',course_id:101,title:'文字入力',remaining:4,mine:null,mine_id:null,mine_extra:false},
-                {id:6,held_on:dd[2],start_time:'13:30',course_id:204,title:'スマホの困りごと',remaining:3,mine:null,mine_id:null,mine_extra:false} ],
+    sessions: [ {id:1,held_on:dd[0],start_time:'10:00',course_id:201,title:'LINEの基本',remaining:3,mine:'reserved',mine_id:9001,mine_extra:false},
+                {id:2,held_on:dd[0],start_time:'13:00',course_id:103,title:'怪しいメール・SMS',short_title:'怪しいメール対策',remaining:2,mine:null,mine_id:null,mine_extra:false},
+                {id:3,held_on:dd[1],start_time:'10:00',course_id:202,title:'カメラと写真',remaining:0,mine:null,mine_id:null,mine_extra:false},
+                {id:4,held_on:dd[1],start_time:'13:00',course_id:203,title:'マップ',remaining:5,mine:null,mine_id:null,mine_extra:false},
+                {id:5,held_on:dd[2],start_time:'10:00',course_id:101,title:'文字入力',remaining:4,mine:null,mine_id:null,mine_extra:false},
+                {id:6,held_on:dd[2],start_time:'13:00',course_id:204,title:'スマホの困りごと',remaining:3,mine:null,mine_id:null,mine_extra:false} ],
     learned: [101, 106], marked: [102] };
 }
 function rpc(fn, body){
